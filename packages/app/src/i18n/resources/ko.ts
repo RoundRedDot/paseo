@@ -234,6 +234,10 @@ export const ko: TranslationResources = {
     empty: "이 에이전트와 대화를 시작하세요...",
     scrollToBottom: "맨 아래로 스크롤",
     historyLoadFailed: "에이전트 기록을 로드할 수 없습니다.",
+    stickyPrompt: {
+      you: "나",
+      jump: "프롬프트로 이동: {{preview}}",
+    },
     messageCapped: "이 메시지는 길이 제한으로 잘렸습니다({{bytes}}바이트).",
     permission: {
       rejectedPlan: "거부된 계획",

@@ -230,6 +230,10 @@ export const en = {
     empty: "Start chatting with this agent...",
     scrollToBottom: "Scroll to bottom",
     historyLoadFailed: "Couldn't load agent history",
+    stickyPrompt: {
+      you: "You",
+      jump: "Jump to prompt: {{preview}}",
+    },
     messageCapped: "This message was capped ({{bytes}} bytes).",
     permission: {
       rejectedPlan: "Rejected plan",

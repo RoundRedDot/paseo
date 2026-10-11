@@ -1,7 +1,9 @@
 import {
+  createContext,
   Fragment,
   type ReactElement,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -11,6 +13,7 @@ import {
   FlatList,
   Platform,
   View,
+  type CellRendererProps,
   type LayoutChangeEvent,
   type ListRenderItemInfo,
   type NativeScrollEvent,
@@ -43,6 +46,9 @@ import {
   type HistoryStartPaginationTransition,
 } from "./history-start-pagination";
 import { useStreamTopOverlayInset } from "./top-overlay";
+import { getStreamItemMessageId } from "./presentation";
+import { PROMPT_JUMP_TOP_INSET_PX } from "./prompt-jump-settle";
+import { resolveInvertedReadingRow, type CellFrame } from "./reading-anchor";
 import {
   createHistoryStartSettleScheduler,
   type HistoryStartSettleScheduler,
@@ -65,8 +71,42 @@ const historyStartSlotStyle: ViewStyle = {
 };
 const HISTORY_START_SETTLE_FRAMES = 2;
 
+const SCROLL_TO_INDEX_MAX_STEPS = 20;
+const SCROLL_TO_INDEX_STEP_DELAY_MS = 50;
+
 function keyExtractor(item: { id: string }): string {
   return item.id;
+}
+
+type CellFrameListener = (cellKey: string, frame: CellFrame | null) => void;
+
+const CellFrameListenerContext = createContext<CellFrameListener | null>(null);
+
+// A cell's frame is in content coordinates, which FlatList keeps private. The reading
+// position needs it to find the row under the floating header, which viewability ignores.
+function StreamCell({
+  cellKey,
+  index: _index,
+  item: _item,
+  onLayout,
+  children,
+  ...viewProps
+}: CellRendererProps<StreamItem>) {
+  const onFrame = useContext(CellFrameListenerContext);
+  const handleLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      onLayout?.(event);
+      const { y, height } = event.nativeEvent.layout;
+      onFrame?.(cellKey, { y, height });
+    },
+    [cellKey, onFrame, onLayout],
+  );
+  useEffect(() => () => onFrame?.(cellKey, null), [cellKey, onFrame]);
+  return (
+    <View {...viewProps} onLayout={handleLayout}>
+      {children}
+    </View>
+  );
 }
 
 function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrategy }) {
@@ -82,6 +122,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     routeBottomAnchorRequest,
     isAuthoritativeHistoryReady,
     onNearBottomChange,
+    onReadingPositionChange,
     onNearHistoryStart,
     isLoadingOlderHistory,
     hasOlderHistory,
@@ -116,6 +157,11 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
   );
   const historyStartPaginationStateRef = useRef(historyStartPaginationState);
   const historyStartSettleSchedulerRef = useRef<HistoryStartSettleScheduler | null>(null);
+  const [cellFrames] = useState(() => new Map<string, CellFrame>());
+  const liveHeadHeightRef = useRef(0);
+  const readingPositionFrameIdRef = useRef<number | null>(null);
+  const scrollToIndexAttemptRef = useRef(0);
+  const scrollToIndexRetryRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const historyItems = useMemo(() => {
     if (segments.historyVirtualized.length === 0) {
@@ -341,8 +387,130 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     bottomAnchorController.prepareForStickyContentChange();
   }, [bottomAnchorController, historyRows, segments.liveHead]);
 
+  const reportReadingPosition = useStableEvent(() => {
+    if (!onReadingPositionChange) {
+      return;
+    }
+    const metrics = streamViewportMetricsRef.current;
+    const readingRow = resolveInvertedReadingRow({
+      frames: cellFrames,
+      offsetY: metrics.offsetY,
+      viewportHeight: metrics.viewportHeight,
+      topInset: topOverlayInset,
+    });
+    if (readingRow?.kind === "row") {
+      onReadingPositionChange(readingRow.id);
+      return;
+    }
+    if (readingRow?.kind === "live-head") {
+      // The live head is newest first, so its last row is the one at the visual top.
+      onReadingPositionChange(segments.liveHead.at(-1)?.id ?? historyRows[0]?.id ?? null);
+      return;
+    }
+    onReadingPositionChange(null);
+  });
+
+  const scheduleReadingPosition = useStableEvent(() => {
+    if (readingPositionFrameIdRef.current !== null) {
+      return;
+    }
+    readingPositionFrameIdRef.current = requestAnimationFrame(() => {
+      readingPositionFrameIdRef.current = null;
+      reportReadingPosition();
+    });
+  });
+
+  const handleCellFrame = useStableEvent((cellKey: string, frame: CellFrame | null) => {
+    if (frame) {
+      cellFrames.set(cellKey, frame);
+    } else {
+      cellFrames.delete(cellKey);
+    }
+    scheduleReadingPosition();
+  });
+
+  const clearScrollToIndexRetry = useStableEvent(() => {
+    if (scrollToIndexRetryRef.current !== null) {
+      clearTimeout(scrollToIndexRetryRef.current);
+      scrollToIndexRetryRef.current = null;
+    }
+  });
+
+  useEffect(
+    () => () => {
+      if (readingPositionFrameIdRef.current !== null) {
+        cancelAnimationFrame(readingPositionFrameIdRef.current);
+      }
+      clearScrollToIndexRetry();
+    },
+    [clearScrollToIndexRetry],
+  );
+
+  const handleLiveHeadLayout = useStableEvent((event: LayoutChangeEvent) => {
+    liveHeadHeightRef.current = event.nativeEvent.layout.height;
+  });
+
+  // Lands the message's top just below the visual top, like the web prompt jump. In the
+  // inverted list the visual top is the far end of the viewport, hence viewPosition 1.
+  const scrollToIndexAtTop = useStableEvent((index: number, animated: boolean) => {
+    flatListRef.current?.scrollToIndex({
+      index,
+      animated,
+      viewPosition: 1,
+      viewOffset: -(topOverlayInset + PROMPT_JUMP_TOP_INSET_PX),
+    });
+  });
+
+  const scrollToMessage = useStableEvent((messageId: string) => {
+    const index = historyRows.findIndex((item) => getStreamItemMessageId(item) === messageId);
+    const isInLiveHead = segments.liveHead.some(
+      (item) => getStreamItemMessageId(item) === messageId,
+    );
+    if (index < 0 && !isInLiveHead) {
+      return;
+    }
+    bottomAnchorController.detachByUser();
+    onNearBottomChange(false);
+    if (index >= 0) {
+      scrollToIndexAttemptRef.current = 0;
+      clearScrollToIndexRetry();
+      scrollToIndexAtTop(index, true);
+      return;
+    }
+    // Live rows live in the list header, at the start of the content.
+    const metrics = streamViewportMetricsRef.current;
+    flatListRef.current?.scrollToOffset({
+      offset: Math.max(
+        0,
+        liveHeadHeightRef.current -
+          metrics.viewportHeight +
+          topOverlayInset +
+          PROMPT_JUMP_TOP_INSET_PX,
+      ),
+      animated: true,
+    });
+  });
+
+  // Without getItemLayout FlatList cannot reach a cell it has never measured. Step to the
+  // furthest measured cell, which renders the cells past it, and retry once they have laid out.
+  const handleScrollToIndexFailed = useStableEvent(
+    (info: { index: number; highestMeasuredFrameIndex: number }) => {
+      if (scrollToIndexAttemptRef.current >= SCROLL_TO_INDEX_MAX_STEPS) {
+        return;
+      }
+      scrollToIndexAttemptRef.current += 1;
+      scrollToIndexAtTop(info.highestMeasuredFrameIndex, false);
+      clearScrollToIndexRetry();
+      scrollToIndexRetryRef.current = setTimeout(() => {
+        scrollToIndexRetryRef.current = null;
+        scrollToIndexAtTop(info.index, false);
+      }, SCROLL_TO_INDEX_STEP_DELAY_MS);
+    },
+  );
+
   useEffect(() => {
     const handle: StreamViewportHandle = {
+      scrollToMessage,
       scrollToBottom: (reason = "jump-to-bottom") => {
         bottomAnchorController.requestLocalAnchor({
           agentId,
@@ -360,7 +528,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
         viewportRef.current = null;
       }
     };
-  }, [agentId, bottomAnchorController, markNativeViewportSettling, viewportRef]);
+  }, [agentId, bottomAnchorController, markNativeViewportSettling, scrollToMessage, viewportRef]);
 
   const isScrollEventNearBottom = useStableEvent(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -393,6 +561,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
 
     const nearBottom = isScrollEventNearBottom(event);
     onNearBottomChange(nearBottom);
+    reportReadingPosition();
 
     evaluateHistoryStart();
 
@@ -413,6 +582,9 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
 
   const handleScrollBeginDrag = useStableEvent((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     clearPendingUserScrollEnd();
+    // The reader took over; a prompt jump still stepping toward its target gives up.
+    scrollToIndexAttemptRef.current = SCROLL_TO_INDEX_MAX_STEPS;
+    clearScrollToIndexRetry();
     isUserScrollActiveRef.current = true;
     scrollKeyboardDismiss.onScrollBeginDrag(event);
     bottomAnchorController.beginUserScroll();
@@ -480,6 +652,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
       previousViewportHeight,
       viewportHeight,
     });
+    scheduleReadingPosition();
     evaluateHistoryStart();
   });
 
@@ -539,13 +712,14 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
       return (listEmptyComponent ?? null) as ReactElement | null;
     }
     return (
-      <Fragment>
+      <View collapsable={false} onLayout={handleLiveHeadLayout}>
         {liveHeadRows}
         {liveAuxiliary}
-      </Fragment>
+      </View>
     );
   }, [
     boundary,
+    handleLiveHeadLayout,
     listEmptyComponent,
     liveHeadRowRevision,
     renderLiveAuxiliary,
@@ -569,35 +743,39 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
   // RN's FlatList strictMode keeps its internal renderItem wrapper stable when
   // data or the live header changes, preserving the row identities above.
   return (
-    <FlatList
-      {...listInsetProps}
-      ref={flatListRef}
-      data={historyRows}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
-      strictMode
-      testID="agent-chat-scroll"
-      nativeID="agent-chat-scroll-native-virtualized"
-      ListHeaderComponent={liveHeaderContent ?? undefined}
-      ListFooterComponent={historyFooterContent ?? undefined}
-      contentContainerStyle={listContentContainerStyle}
-      style={listStyle}
-      onLayout={handleListLayout}
-      onScroll={handleScroll}
-      onScrollBeginDrag={handleScrollBeginDrag}
-      onScrollEndDrag={handleScrollEndDrag}
-      onMomentumScrollBegin={handleMomentumScrollBegin}
-      onMomentumScrollEnd={handleMomentumScrollEnd}
-      scrollEventThrottle={16}
-      onContentSizeChange={handleContentSizeChange}
-      maintainVisibleContentPosition={maintainVisibleContentPosition}
-      initialNumToRender={12}
-      windowSize={10}
-      removeClippedSubviews={false}
-      scrollEnabled={scrollEnabled}
-      showsVerticalScrollIndicator
-      inverted
-    />
+    <CellFrameListenerContext.Provider value={handleCellFrame}>
+      <FlatList
+        {...listInsetProps}
+        ref={flatListRef}
+        data={historyRows}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        CellRendererComponent={StreamCell}
+        strictMode
+        testID="agent-chat-scroll"
+        nativeID="agent-chat-scroll-native-virtualized"
+        ListHeaderComponent={liveHeaderContent ?? undefined}
+        ListFooterComponent={historyFooterContent ?? undefined}
+        contentContainerStyle={listContentContainerStyle}
+        style={listStyle}
+        onLayout={handleListLayout}
+        onScroll={handleScroll}
+        onScrollBeginDrag={handleScrollBeginDrag}
+        onScrollEndDrag={handleScrollEndDrag}
+        onMomentumScrollBegin={handleMomentumScrollBegin}
+        onMomentumScrollEnd={handleMomentumScrollEnd}
+        scrollEventThrottle={16}
+        onContentSizeChange={handleContentSizeChange}
+        onScrollToIndexFailed={handleScrollToIndexFailed}
+        maintainVisibleContentPosition={maintainVisibleContentPosition}
+        initialNumToRender={12}
+        windowSize={10}
+        removeClippedSubviews={false}
+        scrollEnabled={scrollEnabled}
+        showsVerticalScrollIndicator
+        inverted
+      />
+    </CellFrameListenerContext.Provider>
   );
 }
 
