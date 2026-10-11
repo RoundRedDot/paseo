@@ -1,7 +1,7 @@
 import { QueryClient } from "@tanstack/react-query";
 import type { PluginThemeContribution } from "@getpaseo/plugin";
 import { describe, expect, it } from "vitest";
-import { darkTheme, lightTheme } from "@/styles/theme";
+import { darkTheme, lightTheme, type Theme } from "@/styles/theme";
 import { collectPluginThemes, rememberPluginThemeHost } from "./themes";
 import { toPluginTheme } from "./theme";
 import type { InstalledPlugin } from "./types";
@@ -83,6 +83,30 @@ describe("toPluginTheme", () => {
         statusWarning: lightTheme.colors.statusWarning,
         statusDanger: lightTheme.colors.statusDanger,
       },
+      typography: {
+        fontFamily: { ui: lightTheme.fontFamily.ui, mono: lightTheme.fontFamily.mono },
+        fontSize: {
+          ui: lightTheme.fontSize.base,
+          content: lightTheme.fontSize.content,
+          code: lightTheme.fontSize.code,
+        },
+        lineHeight: { code: lightTheme.lineHeight.diff },
+      },
+    });
+  });
+
+  it("carries changed appearance values into the plugin typography", () => {
+    const customized: Theme = {
+      ...darkTheme,
+      fontFamily: { ui: "Inter", mono: "JetBrains Mono" },
+      fontSize: { ...darkTheme.fontSize, base: 16, content: 18, code: 14 },
+      lineHeight: { ...darkTheme.lineHeight, diff: 21 },
+    };
+
+    expect(toPluginTheme(customized).typography).toEqual({
+      fontFamily: { ui: "Inter", mono: "JetBrains Mono" },
+      fontSize: { ui: 16, content: 18, code: 14 },
+      lineHeight: { code: 21 },
     });
   });
 });

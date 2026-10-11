@@ -15,6 +15,30 @@ export interface PluginTheme {
     readonly statusWarning: string;
     readonly statusDanger: string;
   };
+  /**
+   * The host's current font settings. Absent in hosts that predate it, so check before
+   * reading. Values follow the user's appearance settings and change with them.
+   */
+  readonly typography?: {
+    readonly fontFamily: {
+      /** UI font stack. */
+      readonly ui: string;
+      /** Monospace font stack for code, diffs, and terminal-style output. */
+      readonly mono: string;
+    };
+    readonly fontSize: {
+      /** Base size of interface text. */
+      readonly ui: number;
+      /** Size of message and document body text. */
+      readonly content: number;
+      /** Size of code and diffs. */
+      readonly code: number;
+    };
+    readonly lineHeight: {
+      /** Line height for code and diffs, in the same units as `fontSize`. */
+      readonly code: number;
+    };
+  };
 }
 
 export interface PluginWorkspaceSnapshot {

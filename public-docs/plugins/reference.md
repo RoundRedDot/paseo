@@ -1369,6 +1369,19 @@ Recreate styles when `theme` or `layout.compact` changes.
 
 Do not hardcode `#000`, `#fff`, or React Native's default text color. Primary copy uses `foreground`. Labels use `foregroundMuted`. Tighten padding when `layout.compact` is true.
 
+`theme.typography` carries the user's font settings. Older Paseo apps do not send it, so fall back to your own defaults when it is `undefined`.
+
+| Key                                 | Use it for                                    |
+| ----------------------------------- | --------------------------------------------- |
+| `theme.typography.fontFamily.ui`    | `fontFamily` of interface text                |
+| `theme.typography.fontFamily.mono`  | `fontFamily` of code, diffs, and shell output |
+| `theme.typography.fontSize.ui`      | Base size of interface text                   |
+| `theme.typography.fontSize.content` | Size of message and document text             |
+| `theme.typography.fontSize.code`    | Size of code and diffs                        |
+| `theme.typography.lineHeight.code`  | `lineHeight` of code and diffs                |
+
+The mono stack resolves on every platform, so use it instead of naming a font family. A web font you embed does not exist on iOS and Android, where text silently falls back to the proportional system font.
+
 Workspace and agent panels receive the same `theme`, `layout`, and optional `navigation` fields.
 
 ## Contribute a theme
