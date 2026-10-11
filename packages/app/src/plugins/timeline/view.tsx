@@ -6,6 +6,7 @@ import { Text } from "react-native";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import { useIsCompactFormFactor } from "@/constants/layout";
 import { useHostRuntimeClient, useHosts } from "@/runtime/host-runtime";
+import { TimelineStickyScope } from "@/agent-stream/sticky-header/scope";
 import type { Theme } from "@/styles/theme";
 import type { PluginTimelineStreamItem } from "@/types/stream";
 import { createPluginClientStateSource } from "../client-state/source";
@@ -80,13 +81,15 @@ function PluginTimelineItemBody({
     },
   };
   return (
-    <SurfaceErrorBoundary installation={plugin} resetKey={item.data} Surface={Component}>
-      <PluginInstallationProvider plugin={plugin}>
-        <PluginClientStateProvider source={stateSource}>
-          <Component {...props} />
-        </PluginClientStateProvider>
-      </PluginInstallationProvider>
-    </SurfaceErrorBoundary>
+    <TimelineStickyScope>
+      <SurfaceErrorBoundary installation={plugin} resetKey={item.data} Surface={Component}>
+        <PluginInstallationProvider plugin={plugin}>
+          <PluginClientStateProvider source={stateSource}>
+            <Component {...props} />
+          </PluginClientStateProvider>
+        </PluginInstallationProvider>
+      </SurfaceErrorBoundary>
+    </TimelineStickyScope>
   );
 }
 

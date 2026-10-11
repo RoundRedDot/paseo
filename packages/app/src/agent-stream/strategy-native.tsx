@@ -2,6 +2,7 @@ import {
   createContext,
   Fragment,
   type ReactElement,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -10,7 +11,8 @@ import {
   useState,
 } from "react";
 import {
-  FlatList,
+  Animated,
+  type FlatList,
   Platform,
   View,
   type CellRendererProps,
@@ -49,6 +51,16 @@ import { useStreamTopOverlayInset } from "./top-overlay";
 import { getStreamItemMessageId } from "./presentation";
 import { PROMPT_JUMP_TOP_INSET_PX } from "./prompt-jump-settle";
 import { resolveInvertedReadingRow, type CellFrame } from "./reading-anchor";
+import { useStickyCell } from "./sticky-header/cell";
+import {
+  createListenerSet,
+  StickyCellContext,
+  StickyViewportContext,
+  type StickyCell,
+  type StickyGeometry,
+  type StickyViewport,
+} from "./sticky-header/context";
+import { invertedStickyBase } from "./sticky-header/model";
 import {
   createHistoryStartSettleScheduler,
   type HistoryStartSettleScheduler,
@@ -83,7 +95,8 @@ type CellFrameListener = (cellKey: string, frame: CellFrame | null) => void;
 const CellFrameListenerContext = createContext<CellFrameListener | null>(null);
 
 // A cell's frame is in content coordinates, which FlatList keeps private. The reading
-// position needs it to find the row under the floating header, which viewability ignores.
+// position needs it to find the row under the floating header, which viewability ignores,
+// and sticky rows inside the cell measure against it.
 function StreamCell({
   cellKey,
   index: _index,
@@ -93,18 +106,45 @@ function StreamCell({
   ...viewProps
 }: CellRendererProps<StreamItem>) {
   const onFrame = useContext(CellFrameListenerContext);
+  const { cell, setFrame } = useStickyCell();
   const handleLayout = useCallback(
     (event: LayoutChangeEvent) => {
       onLayout?.(event);
       const { y, height } = event.nativeEvent.layout;
+      setFrame({ y, height });
       onFrame?.(cellKey, { y, height });
     },
-    [cellKey, onFrame, onLayout],
+    [cellKey, onFrame, onLayout, setFrame],
   );
   useEffect(() => () => onFrame?.(cellKey, null), [cellKey, onFrame]);
   return (
-    <View {...viewProps} onLayout={handleLayout}>
-      {children}
+    <View {...viewProps} ref={cell.node} onLayout={handleLayout}>
+      <StickyCellContext.Provider value={cell}>{children}</StickyCellContext.Provider>
+    </View>
+  );
+}
+
+// The live head renders in the list header, which sits at the very start of the content
+// (the content container has no vertical padding), so its frame starts at zero.
+function LiveHeadCell({
+  onHeightChange,
+  children,
+}: {
+  onHeightChange: (height: number) => void;
+  children: ReactNode;
+}) {
+  const { cell, setFrame } = useStickyCell();
+  const handleLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      const { height } = event.nativeEvent.layout;
+      setFrame({ y: 0, height });
+      onHeightChange(height);
+    },
+    [onHeightChange, setFrame],
+  );
+  return (
+    <View ref={cell.node} collapsable={false} onLayout={handleLayout}>
+      <StickyCellContext.Provider value={cell}>{children}</StickyCellContext.Provider>
     </View>
   );
 }
@@ -446,8 +486,49 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     [clearScrollToIndexRetry],
   );
 
-  const handleLiveHeadLayout = useStableEvent((event: LayoutChangeEvent) => {
-    liveHeadHeightRef.current = event.nativeEvent.layout.height;
+  const [scrollOffset] = useState(() => new Animated.Value(0));
+  const [stickyViewportListeners] = useState(createListenerSet);
+  const measureStickyRow = useStableEvent(
+    (target: View, cell: StickyCell | null, onMeasured: (geometry: StickyGeometry) => void) => {
+      const cellNode = cell?.node.current;
+      if (!cell || !cellNode) {
+        return;
+      }
+      // Layout events and this measurement both arrive asynchronously. Read the cell frame
+      // when the measurement lands so a result never pairs with an older frame.
+      target.measureLayout(cellNode, (_x, offsetInCell, _width, height) => {
+        const frame = cell.getFrame();
+        if (!frame) {
+          return;
+        }
+        onMeasured({
+          base: invertedStickyBase({
+            cellStart: frame.y,
+            cellLength: frame.height,
+            offsetInCell,
+            viewportHeight: streamViewportMetricsRef.current.viewportHeight,
+            topInset: topOverlayInset,
+          }),
+          height,
+        });
+      });
+    },
+  );
+  const stickyViewport = useMemo<StickyViewport>(
+    () => ({
+      orientation: "inverted",
+      scrollOffset,
+      measure: measureStickyRow,
+      subscribe: stickyViewportListeners.subscribe,
+    }),
+    [measureStickyRow, scrollOffset, stickyViewportListeners],
+  );
+  useEffect(() => {
+    stickyViewportListeners.notify();
+  }, [stickyViewportListeners, topOverlayInset]);
+
+  const handleLiveHeadHeight = useStableEvent((height: number) => {
+    liveHeadHeightRef.current = height;
   });
 
   // Lands the message's top just below the visual top, like the web prompt jump. In the
@@ -580,6 +661,17 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     }
   });
 
+  // Sticky rows follow the scroll offset on the native driver; the JS handler still sees
+  // every event for the bottom anchor and history pagination.
+  const handleAnimatedScroll = useMemo(
+    () =>
+      Animated.event([{ nativeEvent: { contentOffset: { y: scrollOffset } } }], {
+        useNativeDriver: true,
+        listener: handleScroll,
+      }),
+    [handleScroll, scrollOffset],
+  );
+
   const handleScrollBeginDrag = useStableEvent((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     clearPendingUserScrollEnd();
     // The reader took over; a prompt jump still stepping toward its target gives up.
@@ -653,6 +745,9 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
       viewportHeight,
     });
     scheduleReadingPosition();
+    if (previousViewportHeight !== viewportHeight) {
+      stickyViewportListeners.notify();
+    }
     evaluateHistoryStart();
   });
 
@@ -712,14 +807,14 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
       return (listEmptyComponent ?? null) as ReactElement | null;
     }
     return (
-      <View collapsable={false} onLayout={handleLiveHeadLayout}>
+      <LiveHeadCell onHeightChange={handleLiveHeadHeight}>
         {liveHeadRows}
         {liveAuxiliary}
-      </View>
+      </LiveHeadCell>
     );
   }, [
     boundary,
-    handleLiveHeadLayout,
+    handleLiveHeadHeight,
     listEmptyComponent,
     liveHeadRowRevision,
     renderLiveAuxiliary,
@@ -743,39 +838,41 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
   // RN's FlatList strictMode keeps its internal renderItem wrapper stable when
   // data or the live header changes, preserving the row identities above.
   return (
-    <CellFrameListenerContext.Provider value={handleCellFrame}>
-      <FlatList
-        {...listInsetProps}
-        ref={flatListRef}
-        data={historyRows}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        CellRendererComponent={StreamCell}
-        strictMode
-        testID="agent-chat-scroll"
-        nativeID="agent-chat-scroll-native-virtualized"
-        ListHeaderComponent={liveHeaderContent ?? undefined}
-        ListFooterComponent={historyFooterContent ?? undefined}
-        contentContainerStyle={listContentContainerStyle}
-        style={listStyle}
-        onLayout={handleListLayout}
-        onScroll={handleScroll}
-        onScrollBeginDrag={handleScrollBeginDrag}
-        onScrollEndDrag={handleScrollEndDrag}
-        onMomentumScrollBegin={handleMomentumScrollBegin}
-        onMomentumScrollEnd={handleMomentumScrollEnd}
-        scrollEventThrottle={16}
-        onContentSizeChange={handleContentSizeChange}
-        onScrollToIndexFailed={handleScrollToIndexFailed}
-        maintainVisibleContentPosition={maintainVisibleContentPosition}
-        initialNumToRender={12}
-        windowSize={10}
-        removeClippedSubviews={false}
-        scrollEnabled={scrollEnabled}
-        showsVerticalScrollIndicator
-        inverted
-      />
-    </CellFrameListenerContext.Provider>
+    <StickyViewportContext.Provider value={stickyViewport}>
+      <CellFrameListenerContext.Provider value={handleCellFrame}>
+        <Animated.FlatList
+          {...listInsetProps}
+          ref={flatListRef}
+          data={historyRows}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          CellRendererComponent={StreamCell}
+          strictMode
+          testID="agent-chat-scroll"
+          nativeID="agent-chat-scroll-native-virtualized"
+          ListHeaderComponent={liveHeaderContent ?? undefined}
+          ListFooterComponent={historyFooterContent ?? undefined}
+          contentContainerStyle={listContentContainerStyle}
+          style={listStyle}
+          onLayout={handleListLayout}
+          onScroll={handleAnimatedScroll}
+          onScrollBeginDrag={handleScrollBeginDrag}
+          onScrollEndDrag={handleScrollEndDrag}
+          onMomentumScrollBegin={handleMomentumScrollBegin}
+          onMomentumScrollEnd={handleMomentumScrollEnd}
+          scrollEventThrottle={16}
+          onContentSizeChange={handleContentSizeChange}
+          onScrollToIndexFailed={handleScrollToIndexFailed}
+          maintainVisibleContentPosition={maintainVisibleContentPosition}
+          initialNumToRender={12}
+          windowSize={10}
+          removeClippedSubviews={false}
+          scrollEnabled={scrollEnabled}
+          showsVerticalScrollIndicator
+          inverted
+        />
+      </CellFrameListenerContext.Provider>
+    </StickyViewportContext.Provider>
   );
 }
 

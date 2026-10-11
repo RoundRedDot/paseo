@@ -1313,6 +1313,60 @@ the source row, so updates to one streaming item do not remount its renderer. Us
 `useRevealedText(text, phase)` hook when a renderer should pace streaming text like Paseo's built-in
 assistant rows.
 
+### Sticky card headers
+
+A tall card can keep its header visible while the reader scrolls through it. Call
+`useTimelineStickyHeader` from a timeline renderer and apply the result to an `Animated.View` at the
+top of the card:
+
+```tsx
+import type { PluginTimelineItemProps } from "@getpaseo/plugin/client";
+import { useTimelineStickyHeader } from "@getpaseo/plugin/client/react-native";
+import { useState } from "react";
+import { Animated, Pressable, Text, View } from "react-native";
+
+const HEADER_HEIGHT = 36;
+
+function ToolCard({ item, theme }: PluginTimelineItemProps<{ title: string; output: string }>) {
+  const [expanded, setExpanded] = useState(false);
+  const translateY = useTimelineStickyHeader({ headerHeight: HEADER_HEIGHT, enabled: expanded });
+  return (
+    <View>
+      <Animated.View
+        style={{
+          height: HEADER_HEIGHT,
+          zIndex: 1,
+          backgroundColor: theme.colors.surface0,
+          transform: translateY ? [{ translateY }] : [],
+        }}
+      >
+        <Pressable onPress={() => setExpanded(!expanded)}>
+          <Text style={{ color: theme.colors.foreground }}>{item.data.title}</Text>
+        </Pressable>
+      </Animated.View>
+      {expanded ? <Text style={{ color: theme.colors.foreground }}>{item.data.output}</Text> : null}
+    </View>
+  );
+}
+```
+
+| Option         | Type      | Behavior                                                                      |
+| -------------- | --------- | ----------------------------------------------------------------------------- |
+| `headerHeight` | `number`  | The header's height in points. The header stops this far from the card's end. |
+| `enabled`      | `boolean` | Stick only while it helps, such as while the card is expanded.                |
+
+The header follows the top of the transcript, below Paseo's own pinned prompt, and the end of the card
+pushes it out, so it never leaves the card or covers the next one. The offset is measured from the top
+of the renderer's root view; a margin above the header shifts where it pins. Paseo drives the offset
+from the scroll position on the native driver, so the renderer does not re-render while scrolling.
+Give the header an opaque background and a `zIndex` so the card body scrolls underneath it.
+
+The hook returns `null` outside an agent timeline, for example when the same component renders in a
+panel. While `enabled` is false the value stays 0: keep the transform bound instead of removing it,
+because native views keep their last animated position when an animated transform is replaced by a
+static one. Paseo hosts before this API do not provide the hook. A plugin that supports them checks
+`typeof useTimelineStickyHeader === "function"` once and skips the call on those hosts.
+
 ### Append a timeline row from the daemon
 
 A server handler can add a plugin-owned row to canonical history:

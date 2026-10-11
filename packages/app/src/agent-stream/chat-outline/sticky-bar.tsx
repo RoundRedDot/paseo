@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { memo, useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
 import { Animated, Pressable, StyleSheet as RNStyleSheet, Text, View } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
@@ -7,13 +7,39 @@ import { useIsCompactFormFactor } from "@/constants/layout";
 import { isNative } from "@/constants/platform";
 import type { ChatOutlinePrompt, StickyPromptSource } from "./model";
 
-export const STICKY_PROMPT_BAR_HEIGHT = 36;
-export const COMPACT_STICKY_PROMPT_BAR_HEIGHT = 32;
+const STICKY_PROMPT_BAR_HEIGHT = 36;
+const COMPACT_STICKY_PROMPT_BAR_HEIGHT = 32;
 const FADE_DURATION_MS = 120;
 const EXPANDED_LINES = 3;
 
+function resolveStickyPromptBarHeight(isCompact: boolean): number {
+  return isCompact ? COMPACT_STICKY_PROMPT_BAR_HEIGHT : STICKY_PROMPT_BAR_HEIGHT;
+}
+
+export interface StickyPromptClearance {
+  visibility: Animated.Value;
+  /** The collapsed bar's height while shown, animated with its fade. */
+  inset: Animated.AnimatedInterpolation<number>;
+}
+
+export function useStickyPromptClearance(): StickyPromptClearance {
+  const isCompact = useIsCompactFormFactor();
+  const [visibility] = useState(() => new Animated.Value(0));
+  const inset = useMemo(
+    () =>
+      visibility.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, resolveStickyPromptBarHeight(isCompact)],
+      }),
+    [isCompact, visibility],
+  );
+  return { visibility, inset };
+}
+
 export interface StickyPromptBarProps {
   source: StickyPromptSource;
+  /** 0 hidden, 1 shown. The owner derives the bar's animated clearance from it. */
+  visibility: Animated.Value;
   onJumpToPrompt: (seq: number) => void;
   /** Visual-top clearance of an overlay already floating over the transcript. */
   topInset: number;
@@ -26,6 +52,7 @@ export interface StickyPromptBarProps {
  */
 export const StickyPromptBar = memo(function StickyPromptBar({
   source,
+  visibility,
   onJumpToPrompt,
   topInset,
 }: StickyPromptBarProps) {
@@ -36,7 +63,6 @@ export const StickyPromptBar = memo(function StickyPromptBar({
   // The bar keeps the last prompt while it fades out, rather than blanking first.
   const [shownPrompt, setShownPrompt] = useState<ChatOutlinePrompt | null>(prompt);
   const [expandedSeq, setExpandedSeq] = useState<number | null>(null);
-  const [visibility] = useState(() => new Animated.Value(prompt ? 1 : 0));
   const isVisible = prompt !== null;
 
   if (prompt !== null && prompt !== shownPrompt) {
@@ -64,7 +90,7 @@ export const StickyPromptBar = memo(function StickyPromptBar({
     return null;
   }
   const isExpanded = expandedSeq === shownPrompt.seq;
-  const barHeight = isCompact ? COMPACT_STICKY_PROMPT_BAR_HEIGHT : STICKY_PROMPT_BAR_HEIGHT;
+  const barHeight = resolveStickyPromptBarHeight(isCompact);
   const containerStyle = [positionStyles.container, { top: topInset, opacity: visibility }];
   const rowStyle = isExpanded
     ? [styles.column, styles.rowExpanded]

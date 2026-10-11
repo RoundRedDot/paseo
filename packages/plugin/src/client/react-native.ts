@@ -8,6 +8,7 @@ import type {
   Ref,
 } from "react";
 import type {
+  Animated,
   StyleProp,
   ViewStyle,
   ScrollView as NativeScrollView,
@@ -57,6 +58,32 @@ export declare const Icon: ComponentType<PluginIconProps>;
 export declare const Modal: ModalComponent;
 export declare function useToast(): ToastApi;
 export declare function useRevealedText(text: string, phase: "streaming" | "complete"): string;
+
+export interface TimelineStickyHeaderOptions {
+  /** Height of the header in points, measured by the renderer. */
+  headerHeight: number;
+  /** Stick only while it helps, for example while the card is expanded and taller than the screen. */
+  enabled: boolean;
+}
+
+/**
+ * Keeps a header at the top of a timeline renderer's card visible while the card scrolls
+ * past the top of the transcript. Apply the result as `transform: [{ translateY }]` on an
+ * `Animated.View` from `react-native` at the top of the renderer's root view. The header
+ * follows the top edge, below Paseo's own sticky prompt bar, and the end of its card pushes
+ * it out, so it never leaves the card. Paseo drives it from the scroll position on the
+ * native driver; the renderer does not re-render while scrolling.
+ *
+ * While `enabled` is false the value stays 0. Keep the transform bound rather than
+ * removing it: native views keep the last animated position when an animated transform is
+ * replaced by a static one.
+ *
+ * Returns `null` outside an agent timeline. Hosts before this API do not provide it; check
+ * `typeof useTimelineStickyHeader === "function"` when supporting them.
+ */
+export declare function useTimelineStickyHeader(
+  options: TimelineStickyHeaderOptions,
+): Animated.AnimatedInterpolation<number> | null;
 
 export type { PluginIconProps } from "./contracts.js";
 

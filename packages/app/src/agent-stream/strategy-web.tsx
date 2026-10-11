@@ -16,6 +16,7 @@ import {
   type Virtualizer,
 } from "@tanstack/react-virtual";
 import { flushSync } from "react-dom";
+import { Animated, type View } from "react-native";
 import { withUnistyles } from "react-native-unistyles";
 import { useRetainedPanelActive } from "@/components/retained-panel";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
@@ -26,6 +27,14 @@ import { WEB_SCROLLBAR_SIZE_PX } from "@/styles/web-scrollbar";
 import { DomOverlayScrollbar } from "@/components/ui/overlay-scrollbar/dom-overlay-scrollbar";
 import { estimateStreamItemHeight } from "./web-virtualization";
 import { createReadingAnchor } from "./reading-anchor";
+import {
+  createListenerSet,
+  StickyViewportContext,
+  type StickyCell,
+  type StickyGeometry,
+  type StickyViewport,
+} from "./sticky-header/context";
+import { forwardStickyBase } from "./sticky-header/model";
 import type { StreamRenderInput, StreamStrategy, StreamViewportHandle } from "./strategy";
 import { useRevisedHistoryRows } from "./history-row-revision";
 import { createStreamStrategy } from "./strategy";
@@ -358,6 +367,8 @@ function WebStreamViewport(props: StreamRenderInput & { isMobileBreakpoint: bool
   );
   const historyStartPaginationStateRef = useRef(historyStartPaginationState);
   const readingAnchor = useMemo(createReadingAnchor, []);
+  const [scrollOffset] = useState(() => new Animated.Value(0));
+  const [stickyViewportListeners] = useState(createListenerSet);
   const measuredRowHeights = useRef(new Map<string, { width: number; height: number }>());
   const historyStartSettleSchedulerRef = useRef<HistoryStartSettleScheduler | null>(null);
   const lastActiveFollowOutputLayoutRef = useRef<ActiveFollowOutputLayout | null>(null);
@@ -685,6 +696,35 @@ function WebStreamViewport(props: StreamRenderInput & { isMobileBreakpoint: bool
     scheduleStickToBottom();
   }, [cancelPendingStickToBottom, scheduleStickToBottom, scrollMessagesToBottom]);
 
+  // A row's DOM box already includes virtualizer transforms, so its offset from the content
+  // top is its content position.
+  const measureStickyRow = useStableEvent(
+    (target: View, _cell: StickyCell | null, onMeasured: (geometry: StickyGeometry) => void) => {
+      const node: unknown = target;
+      const content = contentRef.current;
+      if (!(node instanceof HTMLElement) || !content) {
+        return;
+      }
+      const bounds = node.getBoundingClientRect();
+      onMeasured({
+        base: forwardStickyBase({
+          contentTop: bounds.top - content.getBoundingClientRect().top,
+          topInset: 0,
+        }),
+        height: bounds.height,
+      });
+    },
+  );
+  const stickyViewport = useMemo<StickyViewport>(
+    () => ({
+      orientation: "forward",
+      scrollOffset,
+      measure: measureStickyRow,
+      subscribe: stickyViewportListeners.subscribe,
+    }),
+    [measureStickyRow, scrollOffset, stickyViewportListeners],
+  );
+
   // Rows are laid out in DOM order, virtualized block first, so the first row whose bottom
   // clears the reading line is the one the reader is looking at.
   const reportReadingPosition = useStableEvent(() => {
@@ -742,6 +782,8 @@ function WebStreamViewport(props: StreamRenderInput & { isMobileBreakpoint: bool
         return { id, top: bounds.top - viewportTop + scrollTop, height: bounds.height };
       },
     );
+    // Rows above a sticky row can move it without resizing it.
+    stickyViewportListeners.notify();
     const shouldAnchor = !followOutputRef.current && !isJumpSettling();
     if (!shouldAnchor) readingAnchor.reset();
     const correctedTop = readingAnchor.reconcile(container.scrollTop, rows);
@@ -806,6 +848,7 @@ function WebStreamViewport(props: StreamRenderInput & { isMobileBreakpoint: bool
     }
 
     lastKnownScrollTopRef.current = currentScrollTop;
+    scrollOffset.setValue(currentScrollTop);
     if (!followOutputRef.current && !isJumpSettling() && (scrolledUp || scrolledDown)) {
       readingAnchor.scroll(currentScrollTop);
     }
@@ -815,6 +858,7 @@ function WebStreamViewport(props: StreamRenderInput & { isMobileBreakpoint: bool
     evaluateHistoryStart,
     isJumpSettling,
     readingAnchor,
+    scrollOffset,
     stopFollowingOutputFromUserIntent,
     updateScrollMetrics,
   ]);
@@ -1295,54 +1339,56 @@ function WebStreamViewport(props: StreamRenderInput & { isMobileBreakpoint: bool
     !liveAuxiliary;
 
   return (
-    <div style={viewportStyle} data-window-content>
-      <div
-        ref={handleScrollContainerRef}
-        data-testid="agent-chat-scroll"
-        data-overlay-scrollbar={scrollEnabled && !isMobileBreakpoint ? "true" : undefined}
-        id={`agent-chat-scroll-${shouldUseVirtualizer ? "web-dom-virtualized" : "web-dom-scroll"}`}
-        style={scrollContainerStyle}
-      >
-        <div ref={handleContentRef} style={contentContainerStyle}>
-          {historyStartSlot}
-          <div style={streamRowsHostStyle}>
-            <div style={virtualRowsContainerStyle} />
-            {[
-              ...virtualRows.map((virtualRow) => {
-                const item = segments.historyVirtualized[virtualRow.index];
-                if (!item) return null;
-                return (
-                  <div
-                    key={virtualRow.key}
-                    data-index={virtualRow.index}
-                    data-history-row-id={item.id}
-                    data-message-id={getStreamItemMessageId(item)}
-                    ref={measureVirtualizedRowElement}
-                    style={renderVirtualRowStyle(virtualRow.start)}
-                  >
-                    <StreamRowContent
-                      item={item}
-                      index={virtualRow.index}
-                      items={segments.historyVirtualized}
-                      render={renderHistoryVirtualizedRow}
-                    />
-                  </div>
-                );
-              }),
-              ...mountedRows,
-            ]}
+    <StickyViewportContext.Provider value={stickyViewport}>
+      <div style={viewportStyle} data-window-content>
+        <div
+          ref={handleScrollContainerRef}
+          data-testid="agent-chat-scroll"
+          data-overlay-scrollbar={scrollEnabled && !isMobileBreakpoint ? "true" : undefined}
+          id={`agent-chat-scroll-${shouldUseVirtualizer ? "web-dom-virtualized" : "web-dom-scroll"}`}
+          style={scrollContainerStyle}
+        >
+          <div ref={handleContentRef} style={contentContainerStyle}>
+            {historyStartSlot}
+            <div style={streamRowsHostStyle}>
+              <div style={virtualRowsContainerStyle} />
+              {[
+                ...virtualRows.map((virtualRow) => {
+                  const item = segments.historyVirtualized[virtualRow.index];
+                  if (!item) return null;
+                  return (
+                    <div
+                      key={virtualRow.key}
+                      data-index={virtualRow.index}
+                      data-history-row-id={item.id}
+                      data-message-id={getStreamItemMessageId(item)}
+                      ref={measureVirtualizedRowElement}
+                      style={renderVirtualRowStyle(virtualRow.start)}
+                    >
+                      <StreamRowContent
+                        item={item}
+                        index={virtualRow.index}
+                        items={segments.historyVirtualized}
+                        render={renderHistoryVirtualizedRow}
+                      />
+                    </div>
+                  );
+                }),
+                ...mountedRows,
+              ]}
+            </div>
+            {liveAuxiliary}
+            {shouldRenderEmpty ? listEmptyComponent : null}
           </div>
-          {liveAuxiliary}
-          {shouldRenderEmpty ? listEmptyComponent : null}
         </div>
+        {scrollEnabled && !isMobileBreakpoint ? (
+          <DomOverlayScrollbar
+            scrollContainerRef={scrollContainerRef}
+            onUserScrollUp={stopFollowingOutputFromUserIntent}
+          />
+        ) : null}
       </div>
-      {scrollEnabled && !isMobileBreakpoint ? (
-        <DomOverlayScrollbar
-          scrollContainerRef={scrollContainerRef}
-          onUserScrollUp={stopFollowingOutputFromUserIntent}
-        />
-      ) : null}
-    </div>
+    </StickyViewportContext.Provider>
   );
 }
 

@@ -5,6 +5,7 @@ import { TextInput } from "./text-input";
 import { copyText } from "./clipboard";
 import { useToast } from "./toast";
 import { useRevealedText } from "@/hooks/use-revealed-text";
+import { useTimelineStickyHeader } from "@/agent-stream/sticky-header/scope";
 
 export const pluginReactNativeRuntime = {
   Icon,
@@ -14,5 +15,6 @@ export const pluginReactNativeRuntime = {
   TextInput,
   copyText,
   useRevealedText,
+  useTimelineStickyHeader,
   useToast,
 };

@@ -16,13 +16,28 @@ const PARAGRAPHS = 40;
 const WHEEL_STEP_PX = 240;
 const MAX_WHEEL_STEPS = 200;
 
-// Each assistant reply becomes one tall plugin card, so a turn is taller than the viewport.
+// Each assistant reply becomes one tall card whose header sticks while the card scrolls.
 const CLIENT_SOURCE = `import React from "react";
-import { Text, View } from "react-native";
+import { Animated, Text, View } from "react-native";
+import { useTimelineStickyHeader } from "@getpaseo/plugin/client/react-native";
 import { z } from "zod";
 
+const HEADER_HEIGHT = 40;
+
 function Card({ item, theme }) {
+  const translateY = useTimelineStickyHeader({ headerHeight: HEADER_HEIGHT, enabled: true });
   return <View testID="sticky-card" style={{ backgroundColor: theme.colors.surface1 }}>
+    <Animated.View
+      testID="sticky-card-header"
+      style={{
+        height: HEADER_HEIGHT,
+        zIndex: 1,
+        backgroundColor: theme.colors.surface2,
+        transform: translateY ? [{ translateY }] : [],
+      }}
+    >
+      <Text style={{ color: theme.colors.foreground }}>Sticky card header</Text>
+    </Animated.View>
     <Text style={{ color: theme.colors.foreground }}>{item.data.text}</Text>
   </View>;
 }
@@ -172,4 +187,39 @@ export async function scrollIntoReplyBefore(page: Page, prompt: string): Promise
 
 export async function jumpWithStickyPrompt(page: Page): Promise<void> {
   await stickyBar(page).click();
+}
+
+/**
+ * A pinned card header sits directly under the bar, never overlapping it, and stays inside
+ * its own card.
+ */
+export async function expectPinnedCardHeaderBelowBar(page: Page): Promise<void> {
+  const barBox = await stickyBar(page).boundingBox();
+  if (!barBox) throw new Error("The sticky prompt bar is not on screen");
+  const barBottom = barBox.y + barBox.height;
+  await expect
+    .poll(async () => {
+      const boxes = await timeline(page)
+        .getByTestId("sticky-card-header")
+        .evaluateAll((headers) =>
+          headers.map((header) => {
+            const card = header.closest('[data-testid="sticky-card"]');
+            const headerBox = header.getBoundingClientRect();
+            const cardBox = card?.getBoundingClientRect();
+            return {
+              top: headerBox.top,
+              bottom: headerBox.bottom,
+              cardTop: cardBox?.top ?? 0,
+              cardBottom: cardBox?.bottom ?? 0,
+            };
+          }),
+        );
+      const pinned = boxes.find((box) => box.cardTop < barBottom && box.cardBottom > barBottom);
+      if (!pinned) return "no card crosses the bar";
+      if (Math.abs(pinned.top - barBottom) > 1)
+        return `header top ${pinned.top} vs bar ${barBottom}`;
+      if (pinned.bottom > pinned.cardBottom + 0.5) return "header left its card";
+      return "pinned";
+    })
+    .toBe("pinned");
 }

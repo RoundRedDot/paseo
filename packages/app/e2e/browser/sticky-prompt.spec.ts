@@ -1,6 +1,7 @@
 import { test } from "../support/fixtures";
 import {
   STICKY_PROMPTS,
+  expectPinnedCardHeaderBelowBar,
   expectStickyPrompt,
   jumpWithStickyPrompt,
   scrollIntoReplyBefore,
@@ -43,6 +44,16 @@ for (const width of [1280, 390]) {
         await jumpWithStickyPrompt(page);
         await expectTimelinePromptLandedBelowTop(page, secondPrompt);
         await expectStickyPrompt(page, null);
+      });
+    });
+
+    test("keeps a sticky plugin header directly below the bar", async ({ page }, info) => {
+      await withStickyTimeline(page, info, async () => {
+        await expectStickyPrompt(page, thirdPrompt);
+        await expectPinnedCardHeaderBelowBar(page);
+
+        await scrollIntoReplyBefore(page, thirdPrompt);
+        await expectPinnedCardHeaderBelowBar(page);
       });
     });
   });
