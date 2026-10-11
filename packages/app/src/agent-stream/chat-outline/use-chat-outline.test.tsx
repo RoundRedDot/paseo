@@ -14,7 +14,6 @@ const runtime = vi.hoisted(() => ({
   }),
 }));
 
-vi.mock("@/constants/platform", () => ({ isWeb: true }));
 vi.mock("@/runtime/host-runtime", () => ({
   getHostRuntimeStore: () => ({
     getClient: () => runtime,
@@ -49,6 +48,7 @@ describe("useChatOutline", () => {
           tail: [],
           head: [],
           enabled: true,
+          supportsPromptIndex: true,
           viewportRef,
           onJumpError: vi.fn(),
         }),
@@ -81,6 +81,7 @@ describe("useChatOutline", () => {
           tail: [],
           head: [],
           enabled: true,
+          supportsPromptIndex: true,
           viewportRef,
           onJumpError: vi.fn(),
         }),
@@ -128,6 +129,7 @@ describe("useChatOutline", () => {
           tail,
           head: [],
           enabled: true,
+          supportsPromptIndex: true,
           viewportRef,
           onJumpError: vi.fn(),
         }),
@@ -177,6 +179,7 @@ describe("useChatOutline", () => {
           head,
           timelineEpoch,
           enabled,
+          supportsPromptIndex: true,
           viewportRef,
           visibleMessageIds: new Set(),
           onJumpError: vi.fn(),
@@ -245,6 +248,7 @@ describe("useChatOutline", () => {
         tail: [],
         head: [],
         enabled: true,
+        supportsPromptIndex: true,
         viewportRef,
         onJumpError,
       }),
@@ -286,6 +290,7 @@ describe("useChatOutline", () => {
           tail,
           head: [],
           enabled: true,
+          supportsPromptIndex: true,
           viewportRef,
           onJumpError: vi.fn(),
           visibleMessageIds,
@@ -335,6 +340,7 @@ describe("useChatOutline", () => {
           tail,
           head: [],
           enabled: true,
+          supportsPromptIndex: true,
           viewportRef,
           onJumpError: vi.fn(),
           visibleMessageIds,
@@ -390,6 +396,7 @@ describe("useChatOutline", () => {
         tail: [],
         head: [livePrompt],
         enabled: true,
+        supportsPromptIndex: true,
         viewportRef: { current: viewport },
         onJumpError: vi.fn(),
         visibleMessageIds: new Set([livePrompt.id]),
@@ -400,5 +407,67 @@ describe("useChatOutline", () => {
     await waitFor(() => expect(result.current.prompts).toHaveLength(1));
     await act(async () => result.current.jumpToPrompt(2));
     expect(scrollToMessage).toHaveBeenCalledWith("live-prompt");
+  });
+
+  it("pins loaded prompts when the host serves no prompt index", () => {
+    const loadedPrompt = (seq: number, text: string) => ({
+      id: `prompt-${seq}`,
+      kind: "user_message" as const,
+      text,
+      timestamp: new Date(seq),
+      timelineCursor: { epoch: "epoch-1", seq },
+    });
+    const { result } = renderHook(() =>
+      useChatOutline({
+        agentId: "agent-1",
+        serverId: "server-1",
+        timelineEpoch: "epoch-1",
+        tail: [loadedPrompt(2, "first prompt"), loadedPrompt(9, "second prompt")],
+        head: [],
+        enabled: true,
+        supportsPromptIndex: false,
+        viewportRef: createRef<StreamViewportHandle>(),
+        onJumpError: vi.fn(),
+      }),
+    );
+
+    expect(runtime.listAgentTimelinePrompts).not.toHaveBeenCalled();
+    expect(result.current.prompts).toEqual([]);
+
+    act(() => result.current.reportReadingPosition({ seq: 12, isPromptRow: false }));
+    expect(result.current.stickyPrompt.getPrompt()?.preview).toBe("second prompt");
+    expect(result.current.activePrompt.getActiveSeq()).toBe(9);
+
+    act(() => result.current.reportReadingPosition({ seq: 9, isPromptRow: true }));
+    expect(result.current.stickyPrompt.getPrompt()).toBeNull();
+    expect(result.current.activePrompt.getActiveSeq()).toBe(9);
+  });
+
+  it("pins nothing while the outline is turned off", () => {
+    const { result } = renderHook(() =>
+      useChatOutline({
+        agentId: "agent-1",
+        serverId: "server-1",
+        timelineEpoch: "epoch-1",
+        tail: [
+          {
+            id: "prompt",
+            kind: "user_message",
+            text: "prompt",
+            timestamp: new Date(2),
+            timelineCursor: { epoch: "epoch-1", seq: 2 },
+          },
+        ],
+        head: [],
+        enabled: false,
+        supportsPromptIndex: true,
+        viewportRef: createRef<StreamViewportHandle>(),
+        onJumpError: vi.fn(),
+      }),
+    );
+
+    act(() => result.current.reportReadingPosition({ seq: 5, isPromptRow: false }));
+    expect(result.current.stickyPrompt.getPrompt()).toBeNull();
+    expect(runtime.listAgentTimelinePrompts).not.toHaveBeenCalled();
   });
 });

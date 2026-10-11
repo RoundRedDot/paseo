@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import type { AgentTimelinePromptIndexPayload } from "@getpaseo/client/internal/daemon-client";
-import { isWeb } from "@/constants/platform";
 import { useStableEvent } from "@/hooks/use-stable-event";
 import { getHostRuntimeStore } from "@/runtime/host-runtime";
 import { planTimelinePromptJump } from "@/timeline/timeline-sync-plan";
@@ -8,10 +7,15 @@ import type { StreamItem } from "@/types/stream";
 import type { StreamViewportHandle } from "../strategy";
 import {
   createActivePromptPublisher,
+  createStickyPromptPublisher,
+  deriveLoadedPrompts,
   resolveActivePromptSeq,
+  resolveStickyPrompt,
   shouldAcceptPromptIndexEpoch,
   type ActivePromptSource,
   type ChatOutlinePrompt,
+  type ReadingPosition,
+  type StickyPromptSource,
 } from "./model";
 
 const NO_PROMPTS: ChatOutlinePrompt[] = [];
@@ -31,6 +35,8 @@ export interface UseChatOutlineInput {
   tail: StreamItem[];
   head: StreamItem[] | undefined;
   enabled: boolean;
+  /** The host serves `agent.timeline.list_prompts`. Without it only loaded prompts are known. */
+  supportsPromptIndex: boolean;
   viewportRef: RefObject<StreamViewportHandle | null>;
   onJumpError: () => void;
   visibleMessageIds?: ReadonlySet<string>;
@@ -40,8 +46,9 @@ export interface UseChatOutlineInput {
 export interface ChatOutline {
   prompts: ChatOutlinePrompt[];
   activePrompt: ActivePromptSource;
+  stickyPrompt: StickyPromptSource;
   jumpToPrompt: (seq: number) => void;
-  reportReadingPosition: (seq: number | null) => void;
+  reportReadingPosition: (position: ReadingPosition | null) => void;
 }
 
 export function useChatOutline({
@@ -51,6 +58,7 @@ export function useChatOutline({
   tail,
   head,
   enabled,
+  supportsPromptIndex,
   viewportRef,
   onJumpError,
   visibleMessageIds,
@@ -59,11 +67,18 @@ export function useChatOutline({
   const [index, setIndex] = useState<AgentTimelinePromptIndexPayload | null>(null);
   const [pendingJump, setPendingJump] = useState<PendingPromptJump | null>(null);
   const [activePrompt] = useState(createActivePromptPublisher);
-  const readingSeqRef = useRef<number | null>(null);
+  const [stickyPrompt] = useState(createStickyPromptPublisher);
+  const readingPositionRef = useRef<ReadingPosition | null>(null);
   const nextJumpRequestIdRef = useRef(0);
   const nextIndexRequestIdRef = useRef(0);
   const loadedItems = useMemo(() => [...tail, ...(head ?? NO_STREAM_ITEMS)], [head, tail]);
   const prompts = enabled ? (index?.prompts ?? NO_PROMPTS) : NO_PROMPTS;
+  // The rail draws only the complete index. The active and sticky prompts fall back to the
+  // loaded prompts so they work before the index arrives and against hosts without one.
+  const resolvablePrompts = useMemo(() => {
+    if (!enabled) return NO_PROMPTS;
+    return index?.prompts ?? deriveLoadedPrompts(loadedItems, timelineEpoch);
+  }, [enabled, index, loadedItems, timelineEpoch]);
 
   // The viewed timeline already owns live delivery and reconnect catch-up. Its complete
   // loaded items (including rows outside the mounted window) invalidate the prompt index.
@@ -75,12 +90,12 @@ export function useChatOutline({
     -1,
   );
 
-  useEffect(() => setIndex(null), [agentId, enabled, serverId, timelineEpoch]);
+  useEffect(() => setIndex(null), [agentId, enabled, serverId, supportsPromptIndex, timelineEpoch]);
 
   // Only a timeline the daemon has served can be indexed. A draft's optimistic stream has no
   // epoch, and its id names no agent the daemon knows.
   useEffect(() => {
-    if (!isWeb || !enabled || timelineEpoch === null) {
+    if (!enabled || !supportsPromptIndex || timelineEpoch === null) {
       setIndex(null);
       return;
     }
@@ -107,31 +122,34 @@ export function useChatOutline({
     return () => {
       active = false;
     };
-  }, [agentId, enabled, serverId, timelineEpoch, latestPromptSeq]);
+  }, [agentId, enabled, serverId, supportsPromptIndex, timelineEpoch, latestPromptSeq]);
 
   // The transcript resolves display rows (including Markdown blocks and plugin cards) to
   // timeline positions. The outline uses the complete index, including unloaded prompts.
   const publishActivePrompt = useStableEvent(() => {
-    activePrompt.publish(resolveActivePromptSeq(prompts, readingSeqRef.current));
+    const position = readingPositionRef.current;
+    activePrompt.publish(resolveActivePromptSeq(resolvablePrompts, position?.seq ?? null));
+    stickyPrompt.publish(resolveStickyPrompt({ prompts: resolvablePrompts, position }));
   });
 
-  const reportReadingPosition = useStableEvent((seq: number | null) => {
-    readingSeqRef.current = seq;
+  const reportReadingPosition = useStableEvent((position: ReadingPosition | null) => {
+    readingPositionRef.current = position;
     publishActivePrompt();
   });
 
   useEffect(() => {
     nextJumpRequestIdRef.current += 1;
     setPendingJump(null);
-    readingSeqRef.current = null;
+    readingPositionRef.current = null;
     activePrompt.publish(null);
-  }, [activePrompt, agentId, timelineEpoch]);
+    stickyPrompt.publish(null);
+  }, [activePrompt, agentId, stickyPrompt, timelineEpoch]);
 
   // The transcript reports its reading position long before the index arrives, and a reader
   // who never scrolls would otherwise sit on an unmarked rail.
   useEffect(() => {
     publishActivePrompt();
-  }, [prompts, publishActivePrompt]);
+  }, [resolvablePrompts, publishActivePrompt]);
 
   useEffect(() => {
     if (pendingJump === null) return;
@@ -185,5 +203,5 @@ export function useChatOutline({
     [agentId, index, loadedItems, onJumpError, revealLoadedMessage, serverId, viewportRef],
   );
 
-  return { prompts, activePrompt, jumpToPrompt, reportReadingPosition };
+  return { prompts, activePrompt, stickyPrompt, jumpToPrompt, reportReadingPosition };
 }
