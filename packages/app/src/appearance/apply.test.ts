@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { darkHighlightColors, resolveSyntaxColors } from "@getpaseo/highlight";
-import { DEFAULT_UI_FONT_STACK, REGISTERED_THEMES } from "@/styles/theme";
+import { DEFAULT_UI_FONT_STACK, REGISTERED_THEMES, darkTheme, type Theme } from "@/styles/theme";
+import { toPluginTheme } from "@/plugins/theme";
 import { applyAppearance, type AppearanceInput } from "./apply";
 
 // Override the global react-native-unistyles mock (vitest.setup.ts) so that
@@ -103,6 +104,25 @@ describe("applyAppearance", () => {
       "darkPureBlack",
       ...ALL_THEME_KEYS.filter((key) => key !== "darkPureBlack"),
     ]);
+  });
+
+  it("flows appearance values into the plugin typography", () => {
+    applyAppearance(
+      makeInput({
+        uiFontFamily: "Inter",
+        monoFontFamily: "JetBrains Mono",
+        uiBaseFontSize: 15,
+        contentFontSize: 17,
+        codeFontSize: 14,
+      }),
+    );
+
+    const updater = updateTheme.mock.calls[0]?.[1] as unknown as (theme: Theme) => Theme;
+    expect(toPluginTheme(updater(darkTheme)).typography).toEqual({
+      fontFamily: { ui: "Inter", mono: "JetBrains Mono" },
+      fontSize: { ui: 15, content: 17, code: 14 },
+      lineHeight: { code: 21 },
+    });
   });
 
   it("patches the content max width into the theme", () => {

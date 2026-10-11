@@ -16,5 +16,14 @@ export function toPluginTheme(theme: Theme): PluginTheme {
       statusWarning: theme.colors.statusWarning,
       statusDanger: theme.colors.statusDanger,
     },
+    typography: {
+      fontFamily: { ui: theme.fontFamily.ui, mono: theme.fontFamily.mono },
+      fontSize: {
+        ui: theme.fontSize.base,
+        content: theme.fontSize.content,
+        code: theme.fontSize.code,
+      },
+      lineHeight: { code: theme.lineHeight.diff },
+    },
   };
 }
