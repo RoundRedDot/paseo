@@ -24,10 +24,9 @@ export function PluginCatalogSync({
       pluginRegistry.removeHost(serverId);
       return;
     }
-    if (!connected) {
-      pluginRegistry.removeHost(serverId);
-      return;
-    }
+    // A dropped socket reconnects on the same client, so installed plugins keep rendering
+    // while offline. The catalog snapshot on reconnect keeps every unchanged bundle.
+    if (!connected) return;
     const refresh = (replacePluginId?: string) => {
       refreshQueue = refreshQueue.then(() =>
         client
