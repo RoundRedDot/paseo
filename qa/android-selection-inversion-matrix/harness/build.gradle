@@ -1,0 +1,26 @@
+plugins {
+  id 'com.android.application' version '8.10.1'
+  id 'org.jetbrains.kotlin.android' version '2.1.20'
+}
+android {
+  namespace 'sh.paseo.scroll.qa'
+  compileSdk 36
+  defaultConfig {
+    applicationId 'sh.paseo.scroll.qa'
+    minSdk 29
+    targetSdk 36
+    testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+  }
+  sourceSets {
+    main.java.srcDirs = ['src/main/java', '../../packages/app/modules/paseo-scroll/android/src/main/java']
+    androidTest.java.srcDirs = ['../../packages/app/modules/paseo-scroll/android/src/androidTest/java']
+  }
+  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+  kotlinOptions { jvmTarget = '17' }
+}
+dependencies {
+  implementation 'com.facebook.react:react-android:0.81.5'
+  implementation 'com.facebook.react:hermes-android:0.81.5'
+  androidTestImplementation 'androidx.test:runner:1.6.2'
+  androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+}
