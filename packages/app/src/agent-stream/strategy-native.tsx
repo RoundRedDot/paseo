@@ -47,6 +47,11 @@ import {
 } from "./history-start-pagination";
 import { useStreamTopOverlayInset } from "./top-overlay";
 import { getStreamItemMessageId } from "./presentation";
+import {
+  NATIVE_PROMPT_JUMP_APPROACH_BUDGET,
+  resolveMeasuredWindowRevealPosition,
+  stepInvertedPromptJump,
+} from "./prompt-jump-native";
 import { PROMPT_JUMP_TOP_INSET_PX } from "./prompt-jump-settle";
 import { resolveInvertedReadingRow, type CellFrame } from "./reading-anchor";
 import {
@@ -71,8 +76,20 @@ const historyStartSlotStyle: ViewStyle = {
 };
 const HISTORY_START_SETTLE_FRAMES = 2;
 
-const SCROLL_TO_INDEX_MAX_STEPS = 20;
-const SCROLL_TO_INDEX_STEP_DELAY_MS = 50;
+const PROMPT_JUMP_TICK_MS = 50;
+const NATIVE_STREAM_WINDOW_SIZE = 10;
+// VirtualizedList defaults are 10 cells per 50ms. A far jump needs a larger
+// batch to mount the unmeasured tail; reading and scrolling keep the defaults.
+const PROMPT_JUMP_MAX_TO_RENDER_PER_BATCH = 48;
+const PROMPT_JUMP_BATCH_PERIOD_MS = 16;
+
+interface NativePromptJump {
+  messageId: string;
+  sampled: number;
+  stable: number;
+  approachSteps: number;
+  timer: ReturnType<typeof setTimeout> | null;
+}
 
 function keyExtractor(item: { id: string }): string {
   return item.id;
@@ -160,8 +177,8 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
   const [cellFrames] = useState(() => new Map<string, CellFrame>());
   const liveHeadHeightRef = useRef(0);
   const readingPositionFrameIdRef = useRef<number | null>(null);
-  const scrollToIndexAttemptRef = useRef(0);
-  const scrollToIndexRetryRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const promptJumpRef = useRef<NativePromptJump | null>(null);
+  const [promptJumpBatch, setPromptJumpBatch] = useState(false);
 
   const historyItems = useMemo(() => {
     if (segments.historyVirtualized.length === 0) {
@@ -429,11 +446,19 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     scheduleReadingPosition();
   });
 
-  const clearScrollToIndexRetry = useStableEvent(() => {
-    if (scrollToIndexRetryRef.current !== null) {
-      clearTimeout(scrollToIndexRetryRef.current);
-      scrollToIndexRetryRef.current = null;
+  const cancelPromptJump = useStableEvent(() => {
+    const jump = promptJumpRef.current;
+    if (jump?.timer != null) {
+      clearTimeout(jump.timer);
     }
+    promptJumpRef.current = null;
+  });
+
+  // Drops the render batch back to the FlatList default. Unmount clears the
+  // timer only; setting state from the cleanup would update an unmounted list.
+  const endPromptJump = useStableEvent(() => {
+    cancelPromptJump();
+    setPromptJumpBatch(false);
   });
 
   useEffect(
@@ -441,17 +466,17 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
       if (readingPositionFrameIdRef.current !== null) {
         cancelAnimationFrame(readingPositionFrameIdRef.current);
       }
-      clearScrollToIndexRetry();
+      cancelPromptJump();
     },
-    [clearScrollToIndexRetry],
+    [cancelPromptJump],
   );
 
   const handleLiveHeadLayout = useStableEvent((event: LayoutChangeEvent) => {
     liveHeadHeightRef.current = event.nativeEvent.layout.height;
   });
 
-  // Lands the message's top just below the visual top, like the web prompt jump. In the
-  // inverted list the visual top is the far end of the viewport, hence viewPosition 1.
+  // First approach, and the landing scroll when FlatList already measured the row.
+  // viewPosition 1 plus a negative viewOffset puts the row's far edge just under the header.
   const scrollToIndexAtTop = useStableEvent((index: number, animated: boolean) => {
     flatListRef.current?.scrollToIndex({
       index,
@@ -459,6 +484,104 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
       viewPosition: 1,
       viewOffset: -(topOverlayInset + PROMPT_JUMP_TOP_INSET_PX),
     });
+  });
+
+  // A plugin row can be taller than the render overscan. Pinning that row's start
+  // never mounts the following row, so the measured index sticks. A short row still
+  // pins its start, which fills the viewport with the next rows.
+  const revealBeyondMeasuredIndex = useStableEvent((index: number) => {
+    const row = historyRows[index];
+    const frame = row ? cellFrames.get(row.id) : null;
+    flatListRef.current?.scrollToIndex({
+      index,
+      animated: false,
+      viewPosition: resolveMeasuredWindowRevealPosition({
+        frameHeight: frame?.height ?? 0,
+        viewportHeight: streamViewportMetricsRef.current.viewportHeight,
+        windowSize: NATIVE_STREAM_WINDOW_SIZE,
+      }),
+    });
+  });
+
+  const schedulePromptJumpTick = useStableEvent(() => {
+    const jump = promptJumpRef.current;
+    if (jump === null) return;
+    if (jump.timer !== null) {
+      clearTimeout(jump.timer);
+    }
+    jump.timer = setTimeout(() => {
+      const current = promptJumpRef.current;
+      if (current === null) return;
+      current.timer = null;
+      correctPromptJump();
+    }, PROMPT_JUMP_TICK_MS);
+  });
+
+  const correctPromptJump = useStableEvent(() => {
+    const jump = promptJumpRef.current;
+    if (jump === null) return;
+    if (isUserScrollActiveRef.current) {
+      endPromptJump();
+      return;
+    }
+    const index = historyRows.findIndex((item) => getStreamItemMessageId(item) === jump.messageId);
+    const row = index >= 0 ? historyRows[index] : undefined;
+    const frame = row ? (cellFrames.get(row.id) ?? null) : null;
+    const metrics = streamViewportMetricsRef.current;
+    const step = stepInvertedPromptJump({
+      frame,
+      offsetY: metrics.offsetY,
+      viewportHeight: metrics.viewportHeight,
+      contentHeight: metrics.contentHeight,
+      topInset: topOverlayInset,
+      sampled: jump.sampled,
+      stable: jump.stable,
+    });
+    if (step.kind === "settled" || step.kind === "stopped") {
+      endPromptJump();
+      return;
+    }
+    if (step.kind === "correct") {
+      jump.sampled = step.sampled;
+      jump.stable = step.stable;
+      flatListRef.current?.scrollToOffset({ offset: step.offset, animated: false });
+      schedulePromptJumpTick();
+      return;
+    }
+    if (step.kind === "hold") {
+      jump.sampled = step.sampled;
+      jump.stable = step.stable;
+      schedulePromptJumpTick();
+      return;
+    }
+    jump.approachSteps += 1;
+    if (jump.approachSteps > NATIVE_PROMPT_JUMP_APPROACH_BUDGET) {
+      endPromptJump();
+      return;
+    }
+    if (index >= 0) {
+      scrollToIndexAtTop(index, false);
+    }
+    schedulePromptJumpTick();
+  });
+
+  const beginPromptJump = useStableEvent((messageId: string) => {
+    cancelPromptJump();
+    const index = historyRows.findIndex((item) => getStreamItemMessageId(item) === messageId);
+    promptJumpRef.current = {
+      messageId,
+      sampled: 0,
+      stable: 0,
+      approachSteps: 0,
+      timer: null,
+    };
+    // The list reads the batch size on its next render-window update, so this
+    // applies to the batches after the synchronous first scroll.
+    setPromptJumpBatch(true);
+    if (index >= 0) {
+      scrollToIndexAtTop(index, false);
+    }
+    schedulePromptJumpTick();
   });
 
   const scrollToMessage = useStableEvent((messageId: string) => {
@@ -472,11 +595,10 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     bottomAnchorController.detachByUser();
     onNearBottomChange(false);
     if (index >= 0) {
-      scrollToIndexAttemptRef.current = 0;
-      clearScrollToIndexRetry();
-      scrollToIndexAtTop(index, true);
+      beginPromptJump(messageId);
       return;
     }
+    endPromptJump();
     // Live rows live in the list header, at the start of the content.
     const metrics = streamViewportMetricsRef.current;
     flatListRef.current?.scrollToOffset({
@@ -491,20 +613,19 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     });
   });
 
-  // Without getItemLayout FlatList cannot reach a cell it has never measured. Step to the
-  // furthest measured cell, which renders the cells past it, and retry once they have laid out.
+  // scrollToIndex bails without moving when the index is past the measured window, and it
+  // never retries a row it only estimated. The settle tick owns the retry. This handler
+  // only brings the next unmeasured rows on screen.
   const handleScrollToIndexFailed = useStableEvent(
     (info: { index: number; highestMeasuredFrameIndex: number }) => {
-      if (scrollToIndexAttemptRef.current >= SCROLL_TO_INDEX_MAX_STEPS) {
-        return;
-      }
-      scrollToIndexAttemptRef.current += 1;
-      scrollToIndexAtTop(info.highestMeasuredFrameIndex, false);
-      clearScrollToIndexRetry();
-      scrollToIndexRetryRef.current = setTimeout(() => {
-        scrollToIndexRetryRef.current = null;
-        scrollToIndexAtTop(info.index, false);
-      }, SCROLL_TO_INDEX_STEP_DELAY_MS);
+      const jump = promptJumpRef.current;
+      if (jump === null) return;
+      const targetIndex = historyRows.findIndex(
+        (item) => getStreamItemMessageId(item) === jump.messageId,
+      );
+      if (targetIndex < 0 || info.index !== targetIndex) return;
+      if (info.highestMeasuredFrameIndex < 0) return;
+      revealBeyondMeasuredIndex(info.highestMeasuredFrameIndex);
     },
   );
 
@@ -582,9 +703,8 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
 
   const handleScrollBeginDrag = useStableEvent((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     clearPendingUserScrollEnd();
-    // The reader took over; a prompt jump still stepping toward its target gives up.
-    scrollToIndexAttemptRef.current = SCROLL_TO_INDEX_MAX_STEPS;
-    clearScrollToIndexRetry();
+    // Non-animated scrollTo does not emit begin-drag, so this is the reader's finger.
+    endPromptJump();
     isUserScrollActiveRef.current = true;
     scrollKeyboardDismiss.onScrollBeginDrag(event);
     bottomAnchorController.beginUserScroll();
@@ -769,7 +889,12 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
         onScrollToIndexFailed={handleScrollToIndexFailed}
         maintainVisibleContentPosition={maintainVisibleContentPosition}
         initialNumToRender={12}
-        windowSize={10}
+        windowSize={NATIVE_STREAM_WINDOW_SIZE}
+        // Undefined keeps the list defaults (10 / 50ms) while the reader scrolls.
+        // Both props are read on every render-window update, so the larger
+        // batch applies only to the batches that run during a prompt jump.
+        maxToRenderPerBatch={promptJumpBatch ? PROMPT_JUMP_MAX_TO_RENDER_PER_BATCH : undefined}
+        updateCellsBatchingPeriod={promptJumpBatch ? PROMPT_JUMP_BATCH_PERIOD_MS : undefined}
         removeClippedSubviews={false}
         scrollEnabled={scrollEnabled}
         showsVerticalScrollIndicator
