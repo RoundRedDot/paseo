@@ -238,6 +238,10 @@ export const ko: TranslationResources = {
       you: "나",
       jump: "프롬프트로 이동: {{preview}}",
     },
+    chatOutline: {
+      label: "채팅 개요",
+      position: "{{index}} / {{count}}: {{preview}}",
+    },
     messageCapped: "이 메시지는 길이 제한으로 잘렸습니다({{bytes}}바이트).",
     permission: {
       rejectedPlan: "거부된 계획",

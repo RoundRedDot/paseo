@@ -239,6 +239,10 @@ export const ptBR: TranslationResources = {
       you: "Você",
       jump: "Ir para o prompt: {{preview}}",
     },
+    chatOutline: {
+      label: "Estrutura do chat",
+      position: "{{index}} de {{count}}: {{preview}}",
+    },
     messageCapped: "Esta mensagem foi truncada ({{bytes}} bytes).",
     permission: {
       rejectedPlan: "Plano rejeitado",

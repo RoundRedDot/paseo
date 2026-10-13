@@ -241,6 +241,10 @@ export const fr: TranslationResources = {
       you: "Vous",
       jump: "Aller au prompt : {{preview}}",
     },
+    chatOutline: {
+      label: "Plan de la discussion",
+      position: "{{index}} sur {{count}} : {{preview}}",
+    },
     messageCapped: "Ce message a été tronqué ({{bytes}} octets).",
     permission: {
       rejectedPlan: "Plan refusé",

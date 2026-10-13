@@ -240,6 +240,10 @@ export const ru: TranslationResources = {
       you: "Вы",
       jump: "Перейти к запросу: {{preview}}",
     },
+    chatOutline: {
+      label: "Оглавление чата",
+      position: "{{index}} из {{count}}: {{preview}}",
+    },
     messageCapped: "Это сообщение было обрезано ({{bytes}} байт).",
     permission: {
       rejectedPlan: "Отклонённый план",

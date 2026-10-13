@@ -234,6 +234,10 @@ export const en = {
       you: "You",
       jump: "Jump to prompt: {{preview}}",
     },
+    chatOutline: {
+      label: "Chat outline",
+      position: "{{index}} of {{count}}: {{preview}}",
+    },
     messageCapped: "This message was capped ({{bytes}} bytes).",
     permission: {
       rejectedPlan: "Rejected plan",

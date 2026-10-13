@@ -238,6 +238,10 @@ export const zhCN: TranslationResources = {
       you: "你",
       jump: "跳转到提示词：{{preview}}",
     },
+    chatOutline: {
+      label: "聊天大纲",
+      position: "{{index}} / {{count}}：{{preview}}",
+    },
     messageCapped: "此消息已被截断（{{bytes}} 字节）。",
     permission: {
       rejectedPlan: "已拒绝的计划",

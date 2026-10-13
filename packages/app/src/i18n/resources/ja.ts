@@ -240,6 +240,10 @@ export const ja: TranslationResources = {
       you: "あなた",
       jump: "プロンプトへ移動: {{preview}}",
     },
+    chatOutline: {
+      label: "チャットのアウトライン",
+      position: "{{index}} / {{count}}: {{preview}}",
+    },
     messageCapped: "このメッセージは上限で切り詰められました（{{bytes}}バイト）。",
     permission: {
       rejectedPlan: "却下されたプラン",

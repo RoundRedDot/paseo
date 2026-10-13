@@ -238,6 +238,10 @@ export const ar: TranslationResources = {
       you: "أنت",
       jump: "الانتقال إلى المطالبة: {{preview}}",
     },
+    chatOutline: {
+      label: "مخطط المحادثة",
+      position: "{{index}} من {{count}}: {{preview}}",
+    },
     messageCapped: "تم اقتطاع هذه الرسالة ({{bytes}} بايت).",
     permission: {
       rejectedPlan: "خطة مرفوضة",

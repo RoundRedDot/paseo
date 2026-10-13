@@ -240,6 +240,10 @@ export const es: TranslationResources = {
       you: "Tú",
       jump: "Ir a la instrucción: {{preview}}",
     },
+    chatOutline: {
+      label: "Esquema del chat",
+      position: "{{index}} de {{count}}: {{preview}}",
+    },
     messageCapped: "Este mensaje fue truncado ({{bytes}} bytes).",
     permission: {
       rejectedPlan: "Plan rechazado",
