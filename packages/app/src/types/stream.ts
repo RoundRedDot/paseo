@@ -1159,7 +1159,7 @@ function mergeAgentToolCallStatus(
 export function mergeAgentToolCallItem(
   existing: AgentToolCallItem,
   data: AgentToolCallData,
-  timestamp: Date,
+  _timestamp: Date,
   timelineCursor?: TimelinePosition,
 ): AgentToolCallItem {
   const mergedStatus = mergeAgentToolCallStatus(existing.payload.data.status, data.status);
@@ -1170,10 +1170,11 @@ export function mergeAgentToolCallItem(
   const mergedMetadata = mergeToolCallMetadata(existing.payload.data.metadata, data.metadata);
   const mergedDetail = mergeToolCallDetail(existing.payload.data.detail, data.detail);
 
+  // Lifecycle updates keep the row in place; its timestamp must keep the
+  // same arrival order for plugin renderers as for the native timeline.
   return {
     ...existing,
     ...(timelineCursor ? { timelineCursor } : {}),
-    timestamp,
     payload: {
       source: "agent",
       data: {

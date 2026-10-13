@@ -631,6 +631,54 @@ describe("stream reducer tool call idempotency", () => {
 });
 
 describe("stream reducer canonical tool calls", () => {
+  it.each([
+    ["first", "second"],
+    ["second", "first"],
+  ])("keeps tool arrival timestamps when %s completes before %s", (firstDone, lastDone) => {
+    let tail: StreamItem[] = [];
+    let head: StreamItem[] = [];
+    const updates: Parameters<typeof hydrateStreamState>[0] = [];
+    const applyTool = (callId: string, status: CanonicalToolStatus, at: number, seq: number) => {
+      const update = {
+        event: canonicalToolTimeline({
+          provider: "codex",
+          callId,
+          name: "read_file",
+          status,
+          detail: { type: "read", filePath: `/tmp/${callId}.png`, content: status },
+        }),
+        timestamp: new Date(at),
+        timelineCursor: { epoch: "tool-arrivals", seq },
+      };
+      updates.push(update);
+      const result = applyStreamEvent({ tail, head, ...update });
+      tail = result.tail;
+      head = result.head;
+    };
+    applyTool("first", "running", 1000, 1);
+    applyTool("second", "running", 1001, 2);
+    const arrivals = tail.map((item) => item.timestamp);
+    const ids = tail.map((item) => item.id);
+
+    applyTool(firstDone, "completed", 1002, 3);
+    expect(tail.map((item) => item.timestamp)).toEqual(arrivals);
+    expect(tail.map((item) => item.id)).toEqual(ids);
+    expect(findToolByCallId(tail, firstDone)).toMatchObject({
+      timelineCursor: { epoch: "tool-arrivals", seq: 3 },
+      payload: { data: { status: "completed", detail: { content: "completed" } } },
+    });
+
+    applyTool(lastDone, "completed", 1003, 4);
+    expect(tail.map((item) => item.timestamp)).toEqual(arrivals);
+    expect(tail.map((item) => item.id)).toEqual(ids);
+    expect(findToolByCallId(tail, lastDone)).toMatchObject({
+      timelineCursor: { epoch: "tool-arrivals", seq: 4 },
+      payload: { data: { status: "completed", detail: { content: "completed" } } },
+    });
+    expect(head).toEqual([]);
+    expect(hydrateStreamState(updates, { source: "canonical" })).toEqual(tail);
+  });
+
   it("keeps repeated call ids in different turns as distinct timeline rows", () => {
     const callId = "tool-reused-across-turns";
     const state = hydrateStreamState([
