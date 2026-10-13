@@ -695,6 +695,7 @@ describe("ClaudeAgentSession persisted subagent replay", () => {
           type: "sub_agent",
           subAgentType: "general-purpose",
           description: "Count files here",
+          prompt: "Run ls and reply with the number of entries.",
         },
       });
     },

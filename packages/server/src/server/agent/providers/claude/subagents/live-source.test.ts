@@ -111,6 +111,7 @@ describe("ClaudeTaskProtocolSource", () => {
       toolCallId: "toolu_original",
       title: "general-purpose",
       description: "Summarize hover and unistyles docs",
+      prompt: "First prompt",
     });
     expect(initial).toContainEqual({
       kind: "timeline",
@@ -171,6 +172,7 @@ describe("ClaudeTaskProtocolSource", () => {
         toolCallId: "toolu_second",
         title: "general-purpose",
         description: "Summarize hover and unistyles docs",
+        prompt: "Another child",
       },
       {
         kind: "timeline",

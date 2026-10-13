@@ -393,6 +393,9 @@ export class ClaudeTaskProtocolSource {
       ? "Workflow"
       : (readString(this.getToolInput(id)?.name) ?? readString(message.subagent_type));
     const description = readString(message.description);
+    // A workflow's prompt is its JavaScript source, not a user-authored task, so it stays off the
+    // card and out of the timeline below.
+    const taskPrompt = isWorkflow ? undefined : readString(message.prompt);
     const observations: SubagentObservation[] = [
       {
         kind: "declared",
@@ -400,6 +403,7 @@ export class ClaudeTaskProtocolSource {
         toolCallId: id,
         ...(title ? { title } : {}),
         ...(description ? { description } : {}),
+        ...(taskPrompt ? { prompt: taskPrompt } : {}),
         ...(parentSubagentId ? { parentSubagentId } : {}),
       },
     ];
@@ -410,9 +414,9 @@ export class ClaudeTaskProtocolSource {
 
     // Open the provider-subagent timeline with the task it was actually given. Without this the
     // pane starts mid-conversation, showing replies to a question the reader never sees.
-    // A workflow's prompt is its JavaScript source, not a user-authored task. Open its generic
-    // timeline with Claude's summary instead, so the pane is meaningful without exposing source.
-    const prompt = isWorkflow ? description : readString(message.prompt);
+    // A workflow opens its generic timeline with Claude's summary instead, so the pane is
+    // meaningful without exposing source.
+    const prompt = isWorkflow ? description : taskPrompt;
     if (prompt) {
       observations.push({ kind: "timeline", id, item: { type: "user_message", text: prompt } });
     }

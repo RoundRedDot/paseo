@@ -29,6 +29,7 @@ interface SubAgentActivityState {
   name?: string;
   subAgentType?: string;
   description?: string;
+  prompt?: string;
   actions: SubAgentActionEntry[];
   actionKeys: string[];
   nextActionIndex: number;
@@ -133,6 +134,7 @@ export class ClaudeSidechainTracker {
       type: "sub_agent",
       ...(state.subAgentType ? { subAgentType: state.subAgentType } : {}),
       ...(state.description ? { description: state.description } : {}),
+      ...(state.prompt ? { prompt: state.prompt } : {}),
       log: state.actions
         .map((action) =>
           action.summary ? `[${action.toolName}] ${action.summary}` : `[${action.toolName}]`,
@@ -320,6 +322,9 @@ export class ClaudeSidechainTracker {
     const nextName = this.normalizeSubAgentText(taskInput?.name);
     const nextSubAgentType = this.normalizeSubAgentText(taskInput?.subagent_type);
     const nextDescription = this.normalizeSubAgentText(taskInput?.description);
+    // The prompt is shown in full, so it keeps its line breaks and length. This card replaces the
+    // one built at declaration, so it has to carry the prompt too or the card loses it.
+    const nextPrompt = readTrimmedString(taskInput?.prompt);
 
     let changed = false;
     if (nextName && nextName !== state.name) {
@@ -332,6 +337,10 @@ export class ClaudeSidechainTracker {
     }
     if (nextDescription && nextDescription !== state.description) {
       state.description = nextDescription;
+      changed = true;
+    }
+    if (nextPrompt && nextPrompt !== state.prompt) {
+      state.prompt = nextPrompt;
       changed = true;
     }
     return changed;
