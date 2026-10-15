@@ -14,6 +14,8 @@ import { PluginInstallationProvider } from "../installation-provider";
 import { SurfaceErrorBoundary } from "../surface-error-boundary";
 import { toPluginTheme } from "../theme";
 import { resolvePluginPlatform } from "../platform";
+import { appendToDraft } from "@/composer/draft/text-append";
+import { buildDraftStoreKey } from "@/stores/draft-keys";
 
 const pluginThemeMapping = (theme: Theme) => ({ theme: toPluginTheme(theme) });
 
@@ -60,6 +62,14 @@ function PluginTimelineItemBody({
   const host = useMemo(() => ({ id: serverId, label: hostLabel }), [hostLabel, serverId]);
   const layout = useMemo(() => ({ compact, platform: resolvePluginPlatform() }), [compact]);
   const stateSource = useMemo(() => createPluginClientStateSource(serverId), [serverId]);
+  const composer = useMemo(
+    () => ({
+      appendText: (text: string) => {
+        return appendToDraft(buildDraftStoreKey({ serverId, agentId }), text);
+      },
+    }),
+    [agentId, serverId],
+  );
 
   if (!plugin || !renderer || !parsed || !client) {
     return <TimelineItemUnavailable />;
@@ -68,6 +78,7 @@ function PluginTimelineItemBody({
   const Component = renderer.Component as ComponentType<PluginTimelineItemProps>;
   const props: PluginTimelineItemProps = {
     agentId,
+    composer,
     theme,
     host,
     layout,

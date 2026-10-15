@@ -211,6 +211,10 @@ export type PluginTimelineTransformerContribution<
 
 export interface PluginTimelineItemProps<Data = unknown> extends PluginHostProps {
   agentId: string;
+  /** Appends to this agent's mounted draft and requests focus, without sending.
+   * Returns false when no editable composer is available. Absent on older hosts.
+   */
+  composer?: { appendText(text: string): boolean };
   item: {
     type: "plugin";
     kind: string;

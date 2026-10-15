@@ -1,4 +1,6 @@
 import type { ComposerTextSource } from "./text-source";
+import { bindDraftTextAppender } from "./draft/text-append";
+import { buildDraftStoreKey } from "@/stores/draft-keys";
 import { createStore, type StoreApi } from "zustand/vanilla";
 import { useStore } from "zustand";
 import { getHostRuntimeStore } from "@/runtime/host-runtime";
@@ -2317,6 +2319,15 @@ function ComposerContentImpl({
     isProcessing || isSubmitLoading || isUploadingFile || pendingNativeImagePastes > 0;
   const isSubmitDisabled =
     isSubmitLoadingVisible || (waitForForgeAutoAttachOnSubmit && isForgeResolving);
+
+  useEffect(() => {
+    if (readOnly || isSubmitDisabled || inputMode !== "chat" || commandDraft) return;
+    return bindDraftTextAppender(
+      buildDraftStoreKey({ serverId, agentId }),
+      () => messageInputRef.current,
+      () => focusMessageInputWithPlatformStrategy(messageInputRef),
+    );
+  }, [agentId, serverId, readOnly, isSubmitDisabled, inputMode, commandDraft]);
 
   // Disable drops while submitting/uploading: the submit path clears and restores attachments,
   // so a drop in that window would be lost or land on a locked draft. `disabled` hides the

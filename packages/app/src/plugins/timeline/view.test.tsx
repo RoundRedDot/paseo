@@ -38,6 +38,7 @@ vi.mock("../icons", () => ({
 
 import { pluginRegistry } from "../registry";
 import { PluginTimelineItemView } from "./view";
+import { registerDraftTextAppender } from "@/composer/draft/text-append";
 
 const audio = { play: async () => 0 };
 
@@ -118,6 +119,49 @@ afterEach(() => {
 });
 
 describe("PluginTimelineItemView", () => {
+  it("binds composer additions to the renderer's own host and agent", async () => {
+    const append = vi.fn(() => true);
+    const wrongAgent = vi.fn(() => true);
+    const wrongHost = vi.fn(() => true);
+    const release = [
+      registerDraftTextAppender("agent:host-1:agent-1", append),
+      registerDraftTextAppender("agent:host-1:other-agent", wrongAgent),
+      registerDraftTextAppender("agent:other-host:agent-1", wrongHost),
+    ];
+    const composerBundle = bundle.replace(
+      'React.createElement("span", null, props.item.data.label)',
+      'React.createElement("button", { onClick() { props.composer.appendText("> cell\\n\\n"); } }, props.item.data.label)',
+    );
+    try {
+      pluginRegistry.installCatalog(
+        "host-1",
+        [
+          {
+            id: "reports",
+            requirements: { paseo: `>=${appPackage.version}` },
+            clientBundle: composerBundle,
+          },
+        ],
+        { client: daemonClient, audio },
+      );
+      const container = document.createElement("div");
+      containers.push(container);
+      const root = createRoot(container);
+      roots.push(root);
+      await act(async () =>
+        root.render(
+          <PluginTimelineItemView serverId="host-1" agentId="agent-1" item={timelineItem} />,
+        ),
+      );
+      act(() => container.querySelector("button")!.click());
+      expect(append).toHaveBeenCalledExactlyOnceWith("> cell\n\n");
+      expect(wrongAgent).not.toHaveBeenCalled();
+      expect(wrongHost).not.toHaveBeenCalled();
+    } finally {
+      release.forEach((dispose) => dispose());
+    }
+  });
+
   it("validates and renders the matching plugin component", async () => {
     pluginRegistry.installCatalog(
       "host-1",
