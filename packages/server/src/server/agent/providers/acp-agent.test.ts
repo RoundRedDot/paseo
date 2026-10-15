@@ -1287,6 +1287,358 @@ describe("ACPAgentSession Zed parity", () => {
     });
   });
 
+  test("bridges Grok's native question extension over a real ACP connection", async () => {
+    const session = createSessionWithConfig({
+      provider: "grok",
+      featureValues: { auto_accept: true },
+    });
+    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
+    const clientToAgent = new TransformStream();
+    const agentToClient = new TransformStream();
+    const agentConnection = new AgentSideConnection(
+      () => ({
+        async initialize() {
+          return { protocolVersion: PROTOCOL_VERSION };
+        },
+        async newSession() {
+          return { sessionId: "session-1" };
+        },
+        async prompt() {
+          return { stopReason: "end_turn" };
+        },
+        async authenticate() {},
+        async cancel() {},
+      }),
+      ndJsonStream(agentToClient.writable, clientToAgent.readable),
+    );
+    const connection = new ClientSideConnection(
+      () => session,
+      ndJsonStream(clientToAgent.writable, agentToClient.readable),
+    );
+    const events: AgentStreamEvent[] = [];
+    session.subscribe((event) => {
+      events.push(event);
+      if (event.type === "permission_requested") {
+        void session.respondToPermission(event.request.id, {
+          behavior: "allow",
+          updatedInput: { answers: { "Question 1": "Web" } },
+        });
+      }
+    });
+    await expect(
+      agentConnection.extMethod("_x.ai/ask_user_question", {
+        sessionId: "session-1",
+        toolCallId: "question-1",
+        mode: "default",
+        questions: [
+          {
+            question: "Which platform?",
+            options: [{ label: "Web", description: "Browser" }],
+            multiSelect: false,
+          },
+        ],
+      }),
+    ).resolves.toEqual({ outcome: "accepted", answers: { "Which platform?": ["Web"] } });
+    expect(events).toContainEqual(
+      expect.objectContaining({
+        type: "permission_requested",
+        request: expect.objectContaining({
+          kind: "question",
+          name: "ask_user_question",
+          input: {
+            questions: [
+              expect.objectContaining({
+                question: "Which platform?",
+                options: [{ label: "Web", description: "Browser" }],
+                allowOther: true,
+              }),
+            ],
+          },
+        }),
+      }),
+    );
+    expect(session.getPendingPermissions()).toEqual([]);
+    expect(connection.signal.aborted).toBe(false);
+  });
+
+  test("Grok questions preserve multi-select labels, previews and custom notes", async () => {
+    const session = createSessionWithConfig({
+      provider: "grok",
+      featureValues: { auto_accept: true },
+    });
+    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
+    const result = session.extMethod("_x.ai/ask_user_question", {
+      sessionId: "session-1",
+      toolCallId: "q-1",
+      questions: [
+        {
+          question: "Platforms?",
+          multiSelect: true,
+          options: [{ label: "Red, Blue" }, { label: "Web" }],
+        },
+        { question: "Comments?", options: [] },
+        { question: "Preview?", options: [{ label: "A", preview: "<p>A</p>" }] },
+      ],
+    });
+    const request = session.getPendingPermissions()[0]!;
+    expect(request.input).toMatchObject({
+      questions: [{ multiSelect: true }, { allowOther: true }, {}],
+    });
+    await session.respondToPermission(request.id, {
+      behavior: "allow",
+      updatedInput: {
+        answers: {
+          "Question 1": "Web, Red, Blue, custom note",
+          "Question 2": "用户自定义回答",
+          "Question 3": "A",
+        },
+      },
+    });
+    await expect(result).resolves.toEqual({
+      outcome: "accepted",
+      answers: {
+        "Platforms?": ["Web", "Red, Blue"],
+        "Comments?": ["Other"],
+        "Preview?": ["A"],
+      },
+      annotations: {
+        "Platforms?": { notes: "custom note" },
+        "Comments?": { notes: "用户自定义回答" },
+        "Preview?": { preview: "<p>A</p>" },
+      },
+    });
+    expect(session.getPendingPermissions()).toEqual([]);
+  });
+
+  test.each(["deny", "close"])(
+    "Grok question %s returns the native cancellation response",
+    async (action) => {
+      const session = createSessionWithConfig({ provider: "grok" });
+      asInternals<ACPSessionInternals>(session).sessionId = "session-1";
+      const result = session.extMethod("_x.ai/ask_user_question", {
+        sessionId: "session-1",
+        toolCallId: "q-1",
+        questions: [{ question: "Continue?" }],
+      });
+      if (action === "deny")
+        await session.respondToPermission(session.getPendingPermissions()[0]!.id, {
+          behavior: "deny",
+        });
+      else await session.close();
+      await expect(result).resolves.toEqual({ outcome: "cancelled" });
+      expect(session.getPendingPermissions()).toEqual([]);
+    },
+  );
+
+  test("Grok questions remain pending after an invalid answer and accept a corrected submission", async () => {
+    const session = createSessionWithConfig({ provider: "grok" });
+    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
+    const result = session.extMethod("_x.ai/ask_user_question", {
+      sessionId: "session-1",
+      toolCallId: "q-1",
+      questions: [{ question: "Continue?" }],
+    });
+    const request = session.getPendingPermissions()[0]!;
+    await expect(
+      session.respondToPermission(request.id, { behavior: "allow", updatedInput: { answers: {} } }),
+    ).rejects.toThrow("Answer Question 1");
+    expect(session.getPendingPermissions()).toHaveLength(1);
+    await session.respondToPermission(request.id, {
+      behavior: "allow",
+      updatedInput: { answers: { "Question 1": "Yes" } },
+    });
+    await expect(result).resolves.toMatchObject({
+      outcome: "accepted",
+      annotations: { "Continue?": { notes: "Yes" } },
+    });
+  });
+
+  test("Grok question extensions reject unknown methods, malformed input and other sessions", async () => {
+    const session = createSessionWithConfig({ provider: "grok" });
+    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
+    await expect(session.extMethod("_other/method", {})).rejects.toMatchObject({ code: -32601 });
+    await expect(session.extMethod("_x.ai/ask_user_question", {})).rejects.toMatchObject({
+      code: -32602,
+    });
+    await expect(
+      session.extMethod("_x.ai/ask_user_question", {
+        sessionId: "different-session",
+        toolCallId: "q-1",
+        questions: [{ question: "Continue?" }],
+      }),
+    ).rejects.toMatchObject({ code: -32602 });
+    expect(session.getPendingPermissions()).toEqual([]);
+  });
+
+  test("bridges Cursor's documented question extension over a real ACP connection", async () => {
+    const session = createSessionWithConfig({
+      provider: "cursor",
+      featureValues: { auto_accept: true },
+    });
+    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
+    const clientToAgent = new TransformStream();
+    const agentToClient = new TransformStream();
+    const agentConnection = new AgentSideConnection(
+      () => ({
+        async initialize() {
+          return { protocolVersion: PROTOCOL_VERSION };
+        },
+        async newSession() {
+          return { sessionId: "session-1" };
+        },
+        async prompt() {
+          return { stopReason: "end_turn" };
+        },
+        async authenticate() {},
+        async cancel() {},
+      }),
+      ndJsonStream(agentToClient.writable, clientToAgent.readable),
+    );
+    const connection = new ClientSideConnection(
+      () => session,
+      ndJsonStream(clientToAgent.writable, agentToClient.readable),
+    );
+    const events: AgentStreamEvent[] = [];
+    session.subscribe((event) => {
+      events.push(event);
+      if (event.type === "permission_requested")
+        void session.respondToPermission(event.request.id, {
+          behavior: "allow",
+          updatedInput: { answers: { "Question 1": "Web" } },
+        });
+    });
+    await expect(
+      agentConnection.extMethod("cursor/ask_question", {
+        toolCallId: "question-1",
+        title: "Need input",
+        questions: [
+          {
+            id: "platform",
+            prompt: "Which platform?",
+            options: [{ id: "web-option", label: "Web" }],
+            allowMultiple: false,
+          },
+        ],
+      }),
+    ).resolves.toEqual({
+      outcome: {
+        outcome: "answered",
+        answers: [{ questionId: "platform", selectedOptionIds: ["web-option"] }],
+      },
+    });
+    expect(events).toContainEqual(
+      expect.objectContaining({
+        type: "permission_requested",
+        request: expect.objectContaining({
+          kind: "question",
+          name: "AskQuestion",
+          input: {
+            questions: [
+              expect.objectContaining({
+                question: "Which platform?",
+                allowOther: false,
+              }),
+            ],
+          },
+        }),
+      }),
+    );
+    expect(session.getPendingPermissions()).toEqual([]);
+    expect(connection.signal.aborted).toBe(false);
+  });
+
+  test("Cursor questions map multiple pages and comma-containing labels to native IDs", async () => {
+    const session = createSessionWithConfig({ provider: "cursor" });
+    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
+    const result = session.extMethod("cursor/ask_question", {
+      toolCallId: "q-1",
+      questions: [
+        {
+          id: "platform",
+          prompt: "Platforms?",
+          allowMultiple: true,
+          options: [
+            { id: "combined", label: "Red, Blue" },
+            { id: "web", label: "Web" },
+          ],
+        },
+        { id: "scope", prompt: "Scope?", options: [{ id: "ui", label: "UI" }] },
+      ],
+    });
+    const request = session.getPendingPermissions()[0]!;
+    expect(request.input).toMatchObject({
+      questions: [
+        { multiSelect: true, allowOther: false },
+        { multiSelect: false, allowOther: false },
+      ],
+    });
+    await session.respondToPermission(request.id, {
+      behavior: "allow",
+      updatedInput: {
+        answers: {
+          "Question 1": "Web, Red, Blue",
+          "Question 2": "UI",
+        },
+      },
+    });
+    await expect(result).resolves.toEqual({
+      outcome: {
+        outcome: "answered",
+        answers: [
+          { questionId: "platform", selectedOptionIds: ["web", "combined"] },
+          { questionId: "scope", selectedOptionIds: ["ui"] },
+        ],
+      },
+    });
+  });
+
+  test.each(["deny", "close"])(
+    "Cursor question %s returns the native cancellation envelope",
+    async (action) => {
+      const session = createSessionWithConfig({ provider: "cursor" });
+      asInternals<ACPSessionInternals>(session).sessionId = "session-1";
+      const result = session.extMethod("cursor/ask_question", {
+        toolCallId: "q-1",
+        questions: [{ id: "scope", prompt: "Scope?", options: [{ id: "ui", label: "UI" }] }],
+      });
+      if (action === "deny")
+        await session.respondToPermission(session.getPendingPermissions()[0]!.id, {
+          behavior: "deny",
+        });
+      else await session.close();
+      await expect(result).resolves.toEqual({ outcome: { outcome: "cancelled" } });
+      expect(session.getPendingPermissions()).toEqual([]);
+    },
+  );
+
+  test("Cursor questions reject unsupported free text without losing the pending question", async () => {
+    const session = createSessionWithConfig({ provider: "cursor" });
+    await expect(session.extMethod("cursor/ask_question", {})).rejects.toMatchObject({
+      code: -32602,
+    });
+    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
+    await expect(
+      session.extMethod("cursor/ask_question", { toolCallId: "q-1", questions: [] }),
+    ).rejects.toMatchObject({ code: -32602 });
+    const result = session.extMethod("cursor/ask_question", {
+      toolCallId: "q-1",
+      questions: [{ id: "scope", prompt: "Scope?", options: [{ id: "ui", label: "UI" }] }],
+    });
+    const request = session.getPendingPermissions()[0]!;
+    await expect(
+      session.respondToPermission(request.id, {
+        behavior: "allow",
+        updatedInput: { answers: { "Question 1": "Other custom input" } },
+      }),
+    ).rejects.toThrow("Select an option");
+    expect(session.getPendingPermissions()).toHaveLength(1);
+    await session.respondToPermission(request.id, {
+      behavior: "allow",
+      updatedInput: { answers: { "Question 1": "UI" } },
+    });
+    await expect(result).resolves.toMatchObject({ outcome: { outcome: "answered" } });
+  });
+
   test("passes generic ACP permission requests through to the user", async () => {
     const session = createSessionWithConfig({
       provider: "cursor-acp",
