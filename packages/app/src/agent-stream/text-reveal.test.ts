@@ -12,6 +12,7 @@ import {
   TEXT_REVEAL_FRAME_INTERVAL_MS,
   TEXT_REVEAL_HORIZON_MS,
   visibleRevealedText,
+  withholdPartialClosingFence,
 } from "./text-reveal";
 
 describe("computeRevealStep", () => {
@@ -273,5 +274,61 @@ describe("trailing fragments from arrival boundaries", () => {
   it("leaves ordinary trailing text alone", () => {
     const prose = "just some prose";
     expect(visibleRevealedText(beginTextReveal(prose), { streaming: true })).toBe(prose);
+  });
+});
+
+describe("a closing fence still being typed", () => {
+  const code = "Intro\n\n```ts\nconst a = 1;\n";
+
+  it("holds back one or two backticks that can only become the closing fence", () => {
+    expect(withholdPartialClosingFence(`${code}\``)).toBe(code);
+    expect(withholdPartialClosingFence(`${code}\`\``)).toBe(code);
+    expect(withholdPartialClosingFence(`${code}  \`\``)).toBe(code);
+  });
+
+  it("paints the fence once it closes the block", () => {
+    expect(withholdPartialClosingFence(`${code}\`\`\``)).toBe(`${code}\`\`\``);
+    expect(withholdPartialClosingFence(`${code}\`\`\`\n\nAfter`)).toBe(`${code}\`\`\`\n\nAfter`);
+  });
+
+  it("needs a run as long as the opener and of the same character", () => {
+    const long = "````md\nInside\n";
+    expect(withholdPartialClosingFence(`${long}\`\`\``)).toBe(long);
+    expect(withholdPartialClosingFence(`${long}\`\`\`\``)).toBe(`${long}\`\`\`\``);
+    const tilde = "~~~\ncode\n";
+    expect(withholdPartialClosingFence(`${tilde}~~`)).toBe(tilde);
+    expect(withholdPartialClosingFence(`${tilde}\``)).toBe(`${tilde}\``);
+  });
+
+  it("leaves backticks alone outside a code block", () => {
+    expect(withholdPartialClosingFence("Prose\n`")).toBe("Prose\n`");
+    const closed = "```\na\n```\n";
+    expect(withholdPartialClosingFence(`${closed}\``)).toBe(`${closed}\``);
+    expect(withholdPartialClosingFence("`` inline ``\n`")).toBe("`` inline ``\n`");
+  });
+
+  it("leaves a code line that only starts with backticks alone", () => {
+    expect(withholdPartialClosingFence(`${code}\`x`)).toBe(`${code}\`x`);
+  });
+
+  it("never paints a lone backtick line while a paced reveal crosses the closing fence", () => {
+    const full = `${code}\`\`\`\n\nAfter the block.`;
+    let state = retargetTextReveal(beginTextReveal(code), full);
+    const painted: string[] = [];
+    for (let frame = 0; frame < 120 && !isTextRevealSettled(state); frame += 1) {
+      state = advanceTextReveal(state, 16, 1_000);
+      painted.push(visibleRevealedText(state, { streaming: true }));
+    }
+    expect(painted.at(-1)).toBe(full);
+    for (const text of painted) {
+      expect(full.startsWith(text)).toBe(true);
+      expect(text.endsWith("\n`") || text.endsWith("\n``")).toBe(false);
+    }
+  });
+
+  it("holds the fence back when an arrival ends inside it, and paints it once the turn ends", () => {
+    const state = beginTextReveal(`${code}\``);
+    expect(visibleRevealedText(state, { streaming: true })).toBe(code);
+    expect(visibleRevealedText(state, { streaming: false })).toBe(`${code}\``);
   });
 });
