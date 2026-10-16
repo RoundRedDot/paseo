@@ -422,12 +422,12 @@ export function QuestionFormCard({ permission, onRespond, isResponding }: Questi
     setRespondingAction("submit");
     onRespond({
       behavior: "allow",
-      updatedInput: buildQuestionFormAnswerInput(
-        permission.request.input,
+      updatedInput: buildQuestionFormAnswerInput({
+        input: permission.request.input,
         questions,
         selections,
         otherTexts,
-      ),
+      }),
     });
   }, [
     questions,
@@ -445,12 +445,12 @@ export function QuestionFormCard({ permission, onRespond, isResponding }: Questi
     if (shouldSubmitEmptyOnDismiss(questions)) {
       onRespond({
         behavior: "allow",
-        updatedInput: buildQuestionFormAnswerInput(
-          permission.request.input,
+        updatedInput: buildQuestionFormAnswerInput({
+          input: permission.request.input,
           questions,
           selections,
           otherTexts,
-        ),
+        }),
       });
       return;
     }

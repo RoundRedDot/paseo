@@ -80,7 +80,12 @@ function questionFormResponse(
   if (!questions) throw new Error("Question form did not parse");
   const response = {
     behavior: "allow",
-    updatedInput: buildQuestionFormAnswerInput(request.input, questions, selections, otherTexts),
+    updatedInput: buildQuestionFormAnswerInput({
+      input: request.input,
+      questions,
+      selections,
+      otherTexts,
+    }),
   };
   return AgentPermissionResponseSchema.parse(JSON.parse(JSON.stringify(response)));
 }

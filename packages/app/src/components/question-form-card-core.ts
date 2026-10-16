@@ -139,12 +139,19 @@ export function buildQuestionFormAnswers(
   return answers;
 }
 
-export function buildQuestionFormAnswerInput(
-  input: Record<string, unknown> | undefined,
-  questions: QuestionFormQuestion[],
-  selections: QuestionSelections,
-  otherTexts: QuestionOtherTexts,
-): Record<string, unknown> {
+export interface QuestionFormAnswerInputOptions {
+  input: Record<string, unknown> | undefined;
+  questions: QuestionFormQuestion[];
+  selections: QuestionSelections;
+  otherTexts: QuestionOtherTexts;
+}
+
+export function buildQuestionFormAnswerInput({
+  input,
+  questions,
+  selections,
+  otherTexts,
+}: QuestionFormAnswerInputOptions): Record<string, unknown> {
   if (input?.answerFormat !== "structured") {
     return { ...input, answers: buildQuestionFormAnswers(questions, selections, otherTexts) };
   }

@@ -18,7 +18,14 @@ describe("question form card core", () => {
     };
     const questions = parseQuestionFormQuestions(input);
     if (!questions) throw new Error("questions did not parse");
-    expect(buildQuestionFormAnswerInput(input, questions, { 0: new Set([0]) }, {})).toEqual({
+    expect(
+      buildQuestionFormAnswerInput({
+        input,
+        questions,
+        selections: { 0: new Set([0]) },
+        otherTexts: {},
+      }),
+    ).toEqual({
       ...input,
       answers: { Colors: "Red" },
     });
@@ -47,7 +54,9 @@ describe("question form card core", () => {
       const questions = parseQuestionFormQuestions(input);
       if (!questions) throw new Error("questions did not parse");
       const selections = { 0: new Set(multiSelect ? [1, 2, 3] : [3]) };
-      expect(buildQuestionFormAnswerInput(input, questions, selections, {})).toEqual({
+      expect(
+        buildQuestionFormAnswerInput({ input, questions, selections, otherTexts: {} }),
+      ).toEqual({
         ...input,
         questionAnswers: {
           Colors: {
@@ -56,7 +65,12 @@ describe("question form card core", () => {
         },
       });
       expect(
-        buildQuestionFormAnswerInput(input, questions, selections, { 0: " Red, Blue " }),
+        buildQuestionFormAnswerInput({
+          input,
+          questions,
+          selections,
+          otherTexts: { 0: " Red, Blue " },
+        }),
       ).toEqual({
         ...input,
         questionAnswers: {
