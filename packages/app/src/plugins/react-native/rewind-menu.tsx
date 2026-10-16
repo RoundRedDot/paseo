@@ -4,15 +4,7 @@ import { useRewindAgentMutation } from "@/components/rewind/use-rewind-agent-mut
 import { useSessionStore } from "@/stores/session-store";
 import { selectPluginRewindCapabilities } from "./rewind-target";
 
-export interface PluginRewindMenuProps {
-  /** The host the agent runs on: `host.id` from the plugin's props. */
-  hostId: string;
-  agentId: string;
-  /** The prompt's message id; nothing is drawn without one. */
-  messageId?: string;
-  /** The prompt's text, put back in the composer after a conversation rewind. */
-  text: string;
-}
+export type PluginRewindMenuProps = import("@getpaseo/plugin/client/react-native").RewindMenuProps;
 
 /**
  * The host's own rewind menu for a prompt a plugin draws. The menu offers the
