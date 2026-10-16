@@ -1,3 +1,4 @@
+import type { BottomAnchorLocalRequest } from "./bottom-anchor-controller";
 import { PROMPT_JUMP_TOP_INSET_PX } from "./prompt-jump-settle";
 
 /** A measured row must sit this close to the landing offset before the jump holds still. */
@@ -19,11 +20,13 @@ export const NATIVE_PROMPT_JUMP_APPROACH_BUDGET = 80;
  * and the measured index stops. Pinning its far edge (`1`) puts the next row in the overscan.
  * A shorter row keeps `0`, which fills the viewport with the following rows.
  */
-export function resolveMeasuredWindowRevealPosition(input: {
+export interface MeasuredWindowRevealInput {
   frameHeight: number;
   viewportHeight: number;
   windowSize: number;
-}): 0 | 1 {
+}
+
+export function resolveMeasuredWindowRevealPosition(input: MeasuredWindowRevealInput): 0 | 1 {
   if (input.frameHeight <= 0 || input.viewportHeight <= 0 || input.windowSize <= 1) {
     return 1;
   }
@@ -121,4 +124,59 @@ export function stepInvertedPromptJump(
     return { kind: "hold", sampled, stable };
   }
   return { kind: "correct", offset, sampled, stable: 0 };
+}
+
+export interface NativePromptJump {
+  messageId: string;
+  sampled: number;
+  stable: number;
+  approachSteps: number;
+}
+
+export interface NativePromptJumpSessionPort {
+  schedule: (callback: () => void) => () => void;
+  setBatchActive: (active: boolean) => void;
+  requestBottomAnchor: (request: BottomAnchorLocalRequest) => void;
+}
+
+/** The landing loop owns one timer until navigation, a gesture, or reinitialization takes over. */
+export function createNativePromptJumpSession(port: NativePromptJumpSessionPort) {
+  let current: NativePromptJump | null = null;
+  let cancelTimer: (() => void) | null = null;
+
+  function cancel() {
+    cancelTimer?.();
+    cancelTimer = null;
+    current = null;
+  }
+
+  function endPromptJump() {
+    cancel();
+    port.setBatchActive(false);
+  }
+
+  return {
+    getCurrent: () => current,
+    begin(messageId: string) {
+      cancel();
+      current = { messageId, sampled: 0, stable: 0, approachSteps: 0 };
+      port.setBatchActive(true);
+    },
+    schedule(tick: () => void) {
+      const scheduledJump = current;
+      if (scheduledJump === null) return;
+      cancelTimer?.();
+      cancelTimer = port.schedule(() => {
+        if (current !== scheduledJump) return;
+        cancelTimer = null;
+        tick();
+      });
+    },
+    cancel,
+    end: endPromptJump,
+    requestBottomAnchor(request: BottomAnchorLocalRequest) {
+      endPromptJump();
+      port.requestBottomAnchor(request);
+    },
+  };
 }

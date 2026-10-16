@@ -84,6 +84,7 @@ export interface StreamRenderInput {
   // The row under the top of the viewport, for surfaces that mark where the reader is in
   // the transcript.
   onReadingPositionChange?: (rowId: string | null) => void;
+  onUserScrollStart?: () => void;
   onNearHistoryStart: () => boolean | Promise<boolean>;
   isLoadingOlderHistory: boolean;
   hasOlderHistory: boolean;

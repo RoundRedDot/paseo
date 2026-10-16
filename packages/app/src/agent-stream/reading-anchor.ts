@@ -58,12 +58,14 @@ export type InvertedReadingRow = { kind: "row"; id: string } | { kind: "live-hea
  * cell's `y` grows toward older rows. The reading line sits just below the visual top, under
  * any overlay that floats over the list there.
  */
-export function resolveInvertedReadingRow(input: {
+export interface InvertedReadingRowInput {
   frames: ReadonlyMap<string, CellFrame>;
   offsetY: number;
   viewportHeight: number;
   topInset: number;
-}): InvertedReadingRow {
+}
+
+export function resolveInvertedReadingRow(input: InvertedReadingRowInput): InvertedReadingRow {
   const readingLine =
     input.offsetY + input.viewportHeight - input.topInset - READING_POSITION_OFFSET_PX;
   let firstStart = Number.POSITIVE_INFINITY;

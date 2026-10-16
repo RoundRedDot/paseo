@@ -1118,6 +1118,7 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
                 isAuthoritativeHistoryReady,
                 onNearBottomChange: setIsNearBottom,
                 onReadingPositionChange: handleReadingPositionChange,
+                onUserScrollStart: chatOutline.cancelSelection,
                 onNearHistoryStart: loadOlder,
                 isLoadingOlderHistory: isLoadingOlder,
                 hasOlderHistory: hasOlder,
@@ -1133,6 +1134,8 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
               prompts={chatOutline.prompts}
               activePrompt={chatOutline.activePrompt}
               onJumpToPrompt={chatOutline.jumpToPrompt}
+              onStepToPrompt={chatOutline.stepToPrompt}
+              onScrubStart={chatOutline.cancelSelection}
             />
             {(!isNearBottom || isTimelineDetached) && (
               <View style={scrollToBottomContainerStyle} pointerEvents="box-none">

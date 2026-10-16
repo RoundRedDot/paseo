@@ -10,7 +10,6 @@ import { useStableEvent } from "@/hooks/use-stable-event";
 import { inlineUnistylesStyle } from "@/styles/unistyles-inline-style";
 import {
   promptTickMagnification,
-  resolveOutlineAccessibilityIndex,
   resolveOutlinePreviewTop,
   resolveOutlineScrubIntent,
   resolvePromptSlotAt,
@@ -23,6 +22,8 @@ export interface ChatOutlineRailProps {
   prompts: ChatOutlinePrompt[];
   activePrompt: ActivePromptSource;
   onJumpToPrompt: (seq: number) => void;
+  onStepToPrompt: (action: OutlineAccessibilityAction) => void;
+  onScrubStart: () => void;
 }
 
 // The touch strip covers only the transcript's left gutter (`listContentContainer` pads
@@ -57,9 +58,12 @@ export const ChatOutlineRail = memo(function ChatOutlineRail({
   prompts,
   activePrompt,
   onJumpToPrompt,
+  onStepToPrompt,
+  onScrubStart,
 }: ChatOutlineRailProps) {
   const { t } = useTranslation();
   const activeSeq = useSyncExternalStore(activePrompt.subscribe, activePrompt.getActiveSeq);
+  const requestedSeq = useSyncExternalStore(activePrompt.subscribe, activePrompt.getRequestedSeq);
   const prefersReducedMotion = useReducedMotion();
   const [scrubIndex, setScrubIndex] = useState<number | null>(null);
   const [railOffset, setRailOffset] = useState(0);
@@ -97,6 +101,10 @@ export const ChatOutlineRail = memo(function ChatOutlineRail({
   );
 
   // Slot changes cross to React. Frames in between stay on the UI thread.
+  const beginScrub = useStableEvent((index: number) => {
+    onScrubStart();
+    scrubTo(index);
+  });
   const scrubTo = useStableEvent((index: number) => {
     setScrubIndex((current) => (current === index ? current : index));
     void Haptics.selectionAsync().catch(() => {});
@@ -141,21 +149,21 @@ export const ChatOutlineRail = memo(function ChatOutlineRail({
           else stateManager.activate();
         })
         .onStart((event) => {
-          const index = resolvePromptSlotAt(
-            event.y - columnY.value,
-            columnHeight.value,
-            slotCount.value,
-          );
+          const index = resolvePromptSlotAt({
+            offsetY: event.y - columnY.value,
+            railHeight: columnHeight.value,
+            slotCount: slotCount.value,
+          });
           if (index === null) return;
           scrubIndexShared.value = index;
-          scheduleOnRN(scrubTo, index);
+          scheduleOnRN(beginScrub, index);
         })
         .onUpdate((event) => {
-          const index = resolvePromptSlotAt(
-            event.y - columnY.value,
-            columnHeight.value,
-            slotCount.value,
-          );
+          const index = resolvePromptSlotAt({
+            offsetY: event.y - columnY.value,
+            railHeight: columnHeight.value,
+            slotCount: slotCount.value,
+          });
           if (index === null || index === scrubIndexShared.value) return;
           scrubIndexShared.value = index;
           scheduleOnRN(scrubTo, index);
@@ -173,6 +181,7 @@ export const ChatOutlineRail = memo(function ChatOutlineRail({
           scheduleOnRN(endScrub);
         }),
     [
+      beginScrub,
       columnHeight,
       columnY,
       commitScrub,
@@ -187,20 +196,14 @@ export const ChatOutlineRail = memo(function ChatOutlineRail({
   );
 
   // Screen readers cannot drag the strip, so it adjusts one prompt at a time instead.
-  const activeIndex = prompts.findIndex((prompt) => prompt.seq === activeSeq);
+  const activeIndex = prompts.findIndex((prompt) => prompt.seq === (requestedSeq ?? activeSeq));
   const handleAccessibilityAction = useCallback(
     (event: AccessibilityActionEvent) => {
       const actionName = event.nativeEvent.actionName;
       if (!isOutlineAccessibilityAction(actionName)) return;
-      const index = resolveOutlineAccessibilityIndex({
-        activeIndex,
-        action: actionName,
-        count: prompts.length,
-      });
-      const prompt = index === null ? undefined : prompts[index];
-      if (prompt) onJumpToPrompt(prompt.seq);
+      onStepToPrompt(actionName);
     },
-    [activeIndex, onJumpToPrompt, prompts],
+    [onStepToPrompt],
   );
   const accessibilityValue = useMemo(() => {
     const prompt = prompts[activeIndex];
@@ -252,7 +255,7 @@ export const ChatOutlineRail = memo(function ChatOutlineRail({
                 key={prompt.seq}
                 isActive={prompt.seq === activeSeq}
                 hasAttention={index === scrubIndex}
-                magnification={tickMagnification(index, scrubIndex, prefersReducedMotion)}
+                magnification={tickMagnification({ index, scrubIndex, prefersReducedMotion })}
               />
             ))}
           </View>
@@ -320,11 +323,17 @@ function isOutlineAccessibilityAction(action: string): action is OutlineAccessib
   return action === "increment" || action === "decrement";
 }
 
-function tickMagnification(
-  index: number,
-  scrubIndex: number | null,
-  prefersReducedMotion: boolean,
-): number {
+interface TickMagnificationInput {
+  index: number;
+  scrubIndex: number | null;
+  prefersReducedMotion: boolean;
+}
+
+function tickMagnification({
+  index,
+  scrubIndex,
+  prefersReducedMotion,
+}: TickMagnificationInput): number {
   if (prefersReducedMotion || scrubIndex === null) return 0;
   return promptTickMagnification(index - scrubIndex);
 }

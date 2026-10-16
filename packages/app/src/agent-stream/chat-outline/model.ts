@@ -31,11 +31,17 @@ export function promptTickMagnification(slotDistance: number): number {
  * that slides past either end keeps the end slot, so scrubbing to the first or last prompt
  * does not demand a precise stop. Runs on the UI thread from the native scrubber.
  */
-export function resolvePromptSlotAt(
-  offsetY: number,
-  railHeight: number,
-  slotCount: number,
-): number | null {
+export interface PromptSlotInput {
+  offsetY: number;
+  railHeight: number;
+  slotCount: number;
+}
+
+export function resolvePromptSlotAt({
+  offsetY,
+  railHeight,
+  slotCount,
+}: PromptSlotInput): number | null {
   "worklet";
   if (!(railHeight > 0) || slotCount < 1 || !Number.isFinite(offsetY)) {
     return null;
@@ -157,10 +163,12 @@ export function resolveActivePromptSeq(
 export interface ActivePromptSource {
   subscribe: (listener: () => void) => () => void;
   getActiveSeq: () => number | null;
+  getRequestedSeq: () => number | null;
 }
 
 export interface ActivePromptPublisher extends ActivePromptSource {
   publish: (seq: number | null) => void;
+  request: (seq: number | null) => void;
 }
 
 /**
@@ -171,6 +179,7 @@ export interface ActivePromptPublisher extends ActivePromptSource {
 export function createActivePromptPublisher(): ActivePromptPublisher {
   const listeners = new Set<() => void>();
   let activeSeq: number | null = null;
+  let requestedSeq: number | null = null;
   return {
     subscribe(listener) {
       listeners.add(listener);
@@ -179,6 +188,12 @@ export function createActivePromptPublisher(): ActivePromptPublisher {
       };
     },
     getActiveSeq: () => activeSeq,
+    getRequestedSeq: () => requestedSeq,
+    request(seq) {
+      if (seq === requestedSeq) return;
+      requestedSeq = seq;
+      for (const listener of listeners) listener();
+    },
     publish(seq) {
       if (seq === activeSeq) {
         return;

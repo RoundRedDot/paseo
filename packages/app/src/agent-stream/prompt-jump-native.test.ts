@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { PROMPT_JUMP_TOP_INSET_PX } from "./prompt-jump-settle";
 import {
+  createNativePromptJumpSession,
   NATIVE_PROMPT_JUMP_SAMPLE_BUDGET,
   NATIVE_PROMPT_JUMP_TOLERANCE_PX,
   resolveInvertedPromptJumpOffset,
@@ -156,5 +157,88 @@ describe("stepInvertedPromptJump", () => {
     expect(
       stepInvertedPromptJump({ ...measured, sampled: NATIVE_PROMPT_JUMP_SAMPLE_BUDGET }),
     ).toEqual({ kind: "stopped" });
+  });
+});
+
+describe("native prompt jump ownership", () => {
+  function createSession() {
+    const scheduled: (() => void)[] = [];
+    const cancelled: number[] = [];
+    const events: string[] = [];
+    const session = createNativePromptJumpSession({
+      schedule(callback) {
+        const id = scheduled.length;
+        scheduled.push(callback);
+        return () => {
+          cancelled.push(id);
+        };
+      },
+      setBatchActive(active) {
+        events.push(`batch:${active}`);
+      },
+      requestBottomAnchor(request) {
+        events.push(request.reason);
+      },
+    });
+    return { session, scheduled, cancelled, events };
+  }
+
+  it("ends the jump before requesting the bottom anchor so a queued timer cannot undo navigation", () => {
+    const h = createSession();
+    h.session.begin("older");
+    h.session.schedule(() => {
+      h.events.push("scroll:older");
+    });
+    h.session.requestBottomAnchor({ agentId: "agent-1", reason: "jump-to-bottom" });
+    h.scheduled[0]!();
+    expect(h.events).toEqual(["batch:true", "batch:false", "jump-to-bottom"]);
+    expect(h.cancelled).toEqual([0]);
+    expect(h.session.getCurrent()).toBeNull();
+  });
+
+  it("cancels the landing loop and restores ordinary batches when a drag takes ownership", () => {
+    const h = createSession();
+    h.session.begin("older");
+    h.session.schedule(() => {
+      h.events.push("scroll:older");
+    });
+    h.session.end();
+    h.scheduled[0]!();
+    expect(h.events).toEqual(["batch:true", "batch:false"]);
+    expect(h.cancelled).toEqual([0]);
+  });
+
+  it("reinitializes a new agent's jump without accepting a previous timer or sample counters", () => {
+    const h = createSession();
+    h.session.begin("agent-1-prompt");
+    h.session.schedule(() => {
+      h.events.push("scroll:agent-1");
+    });
+    h.session.end();
+    h.session.begin("agent-2-prompt");
+    h.session.schedule(() => {
+      h.events.push("scroll:agent-2");
+    });
+    h.scheduled[0]!();
+    h.scheduled[1]!();
+    expect(h.events).toEqual(["batch:true", "batch:false", "batch:true", "scroll:agent-2"]);
+    expect(h.session.getCurrent()).toEqual({
+      messageId: "agent-2-prompt",
+      sampled: 0,
+      stable: 0,
+      approachSteps: 0,
+    });
+  });
+
+  it("cancels on unmount without requesting a React batch update", () => {
+    const h = createSession();
+    h.session.begin("older");
+    h.session.schedule(() => {
+      h.events.push("scroll:older");
+    });
+    h.session.cancel();
+    h.scheduled[0]!();
+    expect(h.events).toEqual(["batch:true"]);
+    expect(h.cancelled).toEqual([0]);
   });
 });

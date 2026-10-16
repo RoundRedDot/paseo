@@ -30,22 +30,22 @@ function prompt(seq: number): ChatOutlinePrompt {
 
 describe("resolvePromptSlotAt", () => {
   it("maps a touch to the slot under it, with slots tiling the rail", () => {
-    expect(resolvePromptSlotAt(0, 100, 4)).toBe(0);
-    expect(resolvePromptSlotAt(24.9, 100, 4)).toBe(0);
-    expect(resolvePromptSlotAt(25, 100, 4)).toBe(1);
-    expect(resolvePromptSlotAt(99.9, 100, 4)).toBe(3);
+    expect(resolvePromptSlotAt({ offsetY: 0, railHeight: 100, slotCount: 4 })).toBe(0);
+    expect(resolvePromptSlotAt({ offsetY: 24.9, railHeight: 100, slotCount: 4 })).toBe(0);
+    expect(resolvePromptSlotAt({ offsetY: 25, railHeight: 100, slotCount: 4 })).toBe(1);
+    expect(resolvePromptSlotAt({ offsetY: 99.9, railHeight: 100, slotCount: 4 })).toBe(3);
   });
 
   it("keeps the first and last slot while the finger slides past the rail", () => {
-    expect(resolvePromptSlotAt(-40, 100, 4)).toBe(0);
-    expect(resolvePromptSlotAt(100, 100, 4)).toBe(3);
-    expect(resolvePromptSlotAt(400, 100, 4)).toBe(3);
+    expect(resolvePromptSlotAt({ offsetY: -40, railHeight: 100, slotCount: 4 })).toBe(0);
+    expect(resolvePromptSlotAt({ offsetY: 100, railHeight: 100, slotCount: 4 })).toBe(3);
+    expect(resolvePromptSlotAt({ offsetY: 400, railHeight: 100, slotCount: 4 })).toBe(3);
   });
 
   it("has no slot before the rail is measured or when it is empty", () => {
-    expect(resolvePromptSlotAt(10, 0, 4)).toBeNull();
-    expect(resolvePromptSlotAt(10, 100, 0)).toBeNull();
-    expect(resolvePromptSlotAt(Number.NaN, 100, 4)).toBeNull();
+    expect(resolvePromptSlotAt({ offsetY: 10, railHeight: 0, slotCount: 4 })).toBeNull();
+    expect(resolvePromptSlotAt({ offsetY: 10, railHeight: 100, slotCount: 0 })).toBeNull();
+    expect(resolvePromptSlotAt({ offsetY: Number.NaN, railHeight: 100, slotCount: 4 })).toBeNull();
   });
 });
 

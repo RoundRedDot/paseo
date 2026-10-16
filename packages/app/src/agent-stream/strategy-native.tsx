@@ -27,7 +27,10 @@ import type { Theme } from "@/styles/theme";
 import { useStableEvent } from "@/hooks/use-stable-event";
 import { useKeyboardStreamInset } from "@/keyboard/shift";
 import { useRevisedHistoryRows } from "./history-row-revision";
-import { useBottomAnchorController } from "./bottom-anchor-controller";
+import {
+  useBottomAnchorController,
+  type BottomAnchorLocalRequest,
+} from "./bottom-anchor-controller";
 import { useScrollKeyboardDismiss } from "./scroll-keyboard-dismiss/use-scroll-keyboard-dismiss";
 import type { StreamRenderInput, StreamStrategy, StreamViewportHandle } from "./strategy";
 import {
@@ -48,6 +51,7 @@ import {
 import { useStreamTopOverlayInset } from "./top-overlay";
 import { getStreamItemMessageId } from "./presentation";
 import {
+  createNativePromptJumpSession,
   NATIVE_PROMPT_JUMP_APPROACH_BUDGET,
   resolveMeasuredWindowRevealPosition,
   stepInvertedPromptJump,
@@ -83,12 +87,9 @@ const NATIVE_STREAM_WINDOW_SIZE = 5;
 const PROMPT_JUMP_MAX_TO_RENDER_PER_BATCH = 48;
 const PROMPT_JUMP_BATCH_PERIOD_MS = 16;
 
-interface NativePromptJump {
-  messageId: string;
-  sampled: number;
-  stable: number;
-  approachSteps: number;
-  timer: ReturnType<typeof setTimeout> | null;
+interface ScrollToIndexAtTopInput {
+  index: number;
+  animated: boolean;
 }
 
 function keyExtractor(item: { id: string }): string {
@@ -140,6 +141,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     isAuthoritativeHistoryReady,
     onNearBottomChange,
     onReadingPositionChange,
+    onUserScrollStart,
     onNearHistoryStart,
     isLoadingOlderHistory,
     hasOlderHistory,
@@ -177,7 +179,6 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
   const [cellFrames] = useState(() => new Map<string, CellFrame>());
   const liveHeadHeightRef = useRef(0);
   const readingPositionFrameIdRef = useRef<number | null>(null);
-  const promptJumpRef = useRef<NativePromptJump | null>(null);
   const [promptJumpBatch, setPromptJumpBatch] = useState(false);
 
   const historyItems = useMemo(() => {
@@ -446,20 +447,22 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     scheduleReadingPosition();
   });
 
-  const cancelPromptJump = useStableEvent(() => {
-    const jump = promptJumpRef.current;
-    if (jump?.timer != null) {
-      clearTimeout(jump.timer);
-    }
-    promptJumpRef.current = null;
+  const requestBottomAnchor = useStableEvent((request: BottomAnchorLocalRequest) => {
+    onUserScrollStart?.();
+    bottomAnchorController.requestLocalAnchor(request);
   });
-
-  // Restores the bounded reading batch. Unmount clears the
-  // timer only; setting state from the cleanup would update an unmounted list.
-  const endPromptJump = useStableEvent(() => {
-    cancelPromptJump();
-    setPromptJumpBatch(false);
-  });
+  const [promptJump] = useState(() =>
+    createNativePromptJumpSession({
+      schedule: (callback) => {
+        const timer = setTimeout(callback, PROMPT_JUMP_TICK_MS);
+        return () => clearTimeout(timer);
+      },
+      setBatchActive: setPromptJumpBatch,
+      requestBottomAnchor,
+    }),
+  );
+  const cancelPromptJump = promptJump.cancel;
+  const endPromptJump = promptJump.end;
 
   useEffect(
     () => () => {
@@ -471,13 +474,17 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     [cancelPromptJump],
   );
 
+  useEffect(() => {
+    endPromptJump();
+  }, [agentId, endPromptJump]);
+
   const handleLiveHeadLayout = useStableEvent((event: LayoutChangeEvent) => {
     liveHeadHeightRef.current = event.nativeEvent.layout.height;
   });
 
   // First approach, and the landing scroll when FlatList already measured the row.
   // viewPosition 1 plus a negative viewOffset puts the row's far edge just under the header.
-  const scrollToIndexAtTop = useStableEvent((index: number, animated: boolean) => {
+  const scrollToIndexAtTop = useStableEvent(({ index, animated }: ScrollToIndexAtTopInput) => {
     flatListRef.current?.scrollToIndex({
       index,
       animated,
@@ -504,21 +511,11 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
   });
 
   const schedulePromptJumpTick = useStableEvent(() => {
-    const jump = promptJumpRef.current;
-    if (jump === null) return;
-    if (jump.timer !== null) {
-      clearTimeout(jump.timer);
-    }
-    jump.timer = setTimeout(() => {
-      const current = promptJumpRef.current;
-      if (current === null) return;
-      current.timer = null;
-      correctPromptJump();
-    }, PROMPT_JUMP_TICK_MS);
+    promptJump.schedule(correctPromptJump);
   });
 
   const correctPromptJump = useStableEvent(() => {
-    const jump = promptJumpRef.current;
+    const jump = promptJump.getCurrent();
     if (jump === null) return;
     if (isUserScrollActiveRef.current) {
       endPromptJump();
@@ -560,26 +557,17 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
       return;
     }
     if (index >= 0) {
-      scrollToIndexAtTop(index, false);
+      scrollToIndexAtTop({ index, animated: false });
     }
     schedulePromptJumpTick();
   });
 
   const beginPromptJump = useStableEvent((messageId: string) => {
-    cancelPromptJump();
     const index = historyRows.findIndex((item) => getStreamItemMessageId(item) === messageId);
-    promptJumpRef.current = {
-      messageId,
-      sampled: 0,
-      stable: 0,
-      approachSteps: 0,
-      timer: null,
-    };
-    // The list reads the batch size on its next render-window update, so this
-    // applies to the batches after the synchronous first scroll.
-    setPromptJumpBatch(true);
+    // The list reads the larger batch on its next render-window update.
+    promptJump.begin(messageId);
     if (index >= 0) {
-      scrollToIndexAtTop(index, false);
+      scrollToIndexAtTop({ index, animated: false });
     }
     schedulePromptJumpTick();
   });
@@ -618,7 +606,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
   // only brings the next unmeasured rows on screen.
   const handleScrollToIndexFailed = useStableEvent(
     (info: { index: number; highestMeasuredFrameIndex: number }) => {
-      const jump = promptJumpRef.current;
+      const jump = promptJump.getCurrent();
       if (jump === null) return;
       const targetIndex = historyRows.findIndex(
         (item) => getStreamItemMessageId(item) === jump.messageId,
@@ -633,7 +621,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     const handle: StreamViewportHandle = {
       scrollToMessage,
       scrollToBottom: (reason = "jump-to-bottom") => {
-        bottomAnchorController.requestLocalAnchor({
+        promptJump.requestBottomAnchor({
           agentId,
           reason,
         });
@@ -649,7 +637,14 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
         viewportRef.current = null;
       }
     };
-  }, [agentId, bottomAnchorController, markNativeViewportSettling, scrollToMessage, viewportRef]);
+  }, [
+    agentId,
+    bottomAnchorController,
+    promptJump,
+    markNativeViewportSettling,
+    scrollToMessage,
+    viewportRef,
+  ]);
 
   const isScrollEventNearBottom = useStableEvent(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -705,6 +700,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     clearPendingUserScrollEnd();
     // Non-animated scrollTo does not emit begin-drag, so this is the reader's finger.
     endPromptJump();
+    onUserScrollStart?.();
     isUserScrollActiveRef.current = true;
     scrollKeyboardDismiss.onScrollBeginDrag(event);
     bottomAnchorController.beginUserScroll();
