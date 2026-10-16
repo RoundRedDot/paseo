@@ -300,6 +300,23 @@ describe("a closing fence still being typed", () => {
     expect(withholdPartialClosingFence(`${tilde}\``)).toBe(`${tilde}\``);
   });
 
+  it.each([
+    { lineEnding: "LF", newline: "\n" },
+    { lineEnding: "CRLF", newline: "\r\n" },
+  ])("recognizes completed closers before a tilde block with $lineEnding", ({ newline }) => {
+    const backtickBlock = ["Intro", "```ts", "const a = 1;", "```", ""].join(newline);
+    const tildeBlock = backtickBlock + ["~~~md", "code", ""].join(newline);
+
+    expect(withholdPartialClosingFence(tildeBlock + "~~")).toBe(tildeBlock);
+    expect(withholdPartialClosingFence(tildeBlock + "~~~")).toBe(tildeBlock + "~~~");
+    expect(withholdPartialClosingFence(tildeBlock + "~~ not a closer")).toBe(
+      tildeBlock + "~~ not a closer",
+    );
+
+    const closedTildeBlock = tildeBlock + "~~~" + newline;
+    expect(withholdPartialClosingFence(closedTildeBlock + "`")).toBe(closedTildeBlock + "`");
+  });
+
   it("leaves backticks alone outside a code block", () => {
     expect(withholdPartialClosingFence("Prose\n`")).toBe("Prose\n`");
     const closed = "```\na\n```\n";

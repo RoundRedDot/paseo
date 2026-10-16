@@ -210,7 +210,8 @@ function trimIncompleteTrailingCluster(text: string): string {
 // A fence line: up to three spaces, then a run of three or more backticks or tildes.
 const FENCE_OPEN = /^ {0,3}(`{3,}|~{3,})/;
 // A line that is nothing but a run of one fence character, maybe indented.
-const FENCE_RUN = /^ {0,3}(`+|~+)[ \t]*$/;
+// Splitting CRLF text on LF leaves the CR at the end of each completed line.
+const FENCE_RUN = /^ {0,3}(`+|~+)[ \t]*\r?$/;
 
 /**
  * The fence a code block opened at the end of `text` and has not closed yet, if
