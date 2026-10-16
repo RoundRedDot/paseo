@@ -13,7 +13,7 @@ import type { EditingTextInputHandle } from "@/components/ui/text-input/types";
 import { ScrollableCodeSurface } from "@/components/ui/scrollable-code-surface";
 import {
   areQuestionsAnswered,
-  buildQuestionFormAnswers,
+  buildQuestionFormAnswerInput,
   isQuestionAnswered,
   parseQuestionFormQuestions,
   questionShowsTextInput,
@@ -422,10 +422,12 @@ export function QuestionFormCard({ permission, onRespond, isResponding }: Questi
     setRespondingAction("submit");
     onRespond({
       behavior: "allow",
-      updatedInput: {
-        ...permission.request.input,
-        answers: buildQuestionFormAnswers(questions, selections, otherTexts),
-      },
+      updatedInput: buildQuestionFormAnswerInput(
+        permission.request.input,
+        questions,
+        selections,
+        otherTexts,
+      ),
     });
   }, [
     questions,
@@ -443,10 +445,12 @@ export function QuestionFormCard({ permission, onRespond, isResponding }: Questi
     if (shouldSubmitEmptyOnDismiss(questions)) {
       onRespond({
         behavior: "allow",
-        updatedInput: {
-          ...permission.request.input,
-          answers: buildQuestionFormAnswers(questions, selections, otherTexts),
-        },
+        updatedInput: buildQuestionFormAnswerInput(
+          permission.request.input,
+          questions,
+          selections,
+          otherTexts,
+        ),
       });
       return;
     }
@@ -573,7 +577,7 @@ export function QuestionFormCard({ permission, onRespond, isResponding }: Questi
             <View style={styles.optionsWrap} {...optionsGroupAccessibility}>
               {activeQuestion.options.map((opt, optIndex) => (
                 <QuestionOptionRow
-                  key={opt.label}
+                  key={opt.id ?? opt.label}
                   qIndex={resolvedActiveQuestionIndex}
                   optIndex={optIndex}
                   option={opt}

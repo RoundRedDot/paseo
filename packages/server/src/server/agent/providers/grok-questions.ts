@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { RequestError } from "@agentclientprotocol/sdk";
 import { z } from "zod";
+import { QuestionAnswersSchema } from "@getpaseo/protocol/question-answers";
 import type {
   AgentPermissionRequest,
   AgentPermissionResponse,
@@ -38,25 +39,15 @@ interface PendingQuestion {
   resolve(value: Record<string, unknown>): void;
 }
 
-function answerParts(
-  answer: string,
-  question: Questions[number],
-): { labels: string[]; notes?: string } {
-  const labels: string[] = [];
-  let remaining = answer;
-  // The shared UI joins multi-select labels with commas; labels themselves may contain commas.
-  const options = [...question.options].sort((a, b) => b.label.length - a.label.length);
-  while (remaining) {
-    const option = options.find(
-      ({ label }) =>
-        !labels.includes(label) &&
-        (remaining === label || (question.multiSelect && remaining.startsWith(`${label}, `))),
-    );
-    if (!option) break;
-    labels.push(option.label);
-    remaining = remaining === option.label ? "" : remaining.slice(option.label.length + 2);
-  }
-  return { labels, ...(remaining ? { notes: remaining } : {}) };
+function resolveSelectedOptions(question: Questions[number], ids: string[]) {
+  const validSelection =
+    (question.multiSelect || ids.length <= 1) && new Set(ids).size === ids.length;
+  if (!validSelection) throw new Error(`Select valid options for '${question.question}'`);
+  return ids.map((optionId) => {
+    const option = question.options.find((_, index) => String(index) === optionId);
+    if (!option) throw new Error(`Select valid options for '${question.question}'`);
+    return option;
+  });
 }
 
 /** Bridge the native x.ai question request to the host's existing question permissions. */
@@ -85,10 +76,12 @@ export class GrokQuestions {
       kind: "question",
       title: questions[0]!.question,
       input: {
+        answerFormat: "structured",
         questions: questions.map((q, i) => ({
           question: q.question,
           header: `Question ${i + 1}`,
-          options: q.options,
+          // Grok has no option IDs; immutable request positions distinguish repeated labels.
+          options: q.options.map((option, index) => ({ ...option, id: String(index) })),
           multiSelect: q.multiSelect === true,
           allowOther: true,
         })),
@@ -119,17 +112,24 @@ export class GrokQuestions {
     if (!pending) throw new Error(`No pending question with id '${id}'`);
     let result: Record<string, unknown> = { outcome: "cancelled" };
     if (response.behavior === "allow") {
-      const input = z.record(z.string(), z.string()).parse(response.updatedInput?.answers);
+      const parsed = QuestionAnswersSchema.safeParse(response.updatedInput?.questionAnswers);
+      if (!parsed.success) throw new Error("Update the app to submit structured question answers");
+      const input = parsed.data;
       const answers: Record<string, string[]> = {};
       const annotations: Record<string, { notes?: string; preview?: string }> = {};
       for (const [index, question] of pending.questions.entries()) {
         const answer = input[`Question ${index + 1}`];
-        if (!answer?.trim()) throw new Error(`Answer Question ${index + 1} before submitting`);
-        const { labels, notes } = answerParts(answer, question);
-        answers[question.question] = labels.length ? labels : ["Other"];
+        if (!answer) throw new Error(`Answer Question ${index + 1} before submitting`);
+        const selectedOptions = resolveSelectedOptions(question, answer.selectedOptionIds);
+        const notes = answer.otherText?.trim();
+        if (!selectedOptions.length && !notes)
+          throw new Error(`Answer Question ${index + 1} before submitting`);
+        answers[question.question] = selectedOptions.length
+          ? selectedOptions.map((option) => option.label)
+          : ["Other"];
         const preview =
-          !question.multiSelect && labels.length === 1
-            ? question.options.find((q) => q.label === labels[0])?.preview
+          !question.multiSelect && selectedOptions.length === 1
+            ? selectedOptions[0]!.preview
             : undefined;
         if (notes || preview)
           annotations[question.question] = {

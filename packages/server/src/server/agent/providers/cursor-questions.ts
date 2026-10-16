@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { RequestError } from "@agentclientprotocol/sdk";
 import { z } from "zod";
+import { QuestionAnswersSchema, type QuestionAnswers } from "@getpaseo/protocol/question-answers";
 import type {
   AgentPermissionRequest,
   AgentPermissionResponse,
@@ -26,22 +27,21 @@ interface PendingQuestion {
   resolve(value: Record<string, unknown>): void;
 }
 
-function selectedIds(answer: string | undefined, question: z.infer<typeof Question>): string[] {
-  const selected: string[] = [];
-  let remaining = answer ?? "";
-  const options = [...question.options].sort((a, b) => b.label.length - a.label.length);
-  while (remaining) {
-    const option = options.find(
-      ({ id, label }) =>
-        !selected.includes(id) &&
-        (remaining === label || (question.allowMultiple && remaining.startsWith(`${label}, `))),
-    );
-    if (!option) throw new Error(`Select an option for '${question.prompt}'`);
-    selected.push(option.id);
-    remaining = remaining === option.label ? "" : remaining.slice(option.label.length + 2);
+function selectedIds(
+  answer: QuestionAnswers[string] | undefined,
+  question: z.infer<typeof Question>,
+): string[] {
+  if (!answer) throw new Error(`Select an option for '${question.prompt}'`);
+  const ids = answer.selectedOptionIds;
+  const validSelection =
+    ids.length > 0 &&
+    (question.allowMultiple || ids.length === 1) &&
+    new Set(ids).size === ids.length &&
+    ids.every((id) => question.options.some((option) => option.id === id));
+  if (!validSelection || answer.otherText !== undefined) {
+    throw new Error(`Select an option for '${question.prompt}'`);
   }
-  if (!selected.length) throw new Error(`Select an option for '${question.prompt}'`);
-  return selected;
+  return ids;
 }
 
 /** Cursor's native protocol returns option IDs and does not define free-text answers. */
@@ -67,11 +67,12 @@ export class CursorQuestions {
       kind: "question",
       title: parsed.data.title ?? questions[0]!.prompt,
       input: {
+        answerFormat: "structured",
         questions: questions.map((q, i) => ({
           id: q.id,
           question: q.prompt,
           header: `Question ${i + 1}`,
-          options: q.options.map(({ label }) => ({ label })),
+          options: q.options,
           multiSelect: q.allowMultiple === true,
           allowOther: false,
         })),
@@ -101,7 +102,9 @@ export class CursorQuestions {
     if (!pending) throw new Error(`No pending question with id '${id}'`);
     let outcome: Record<string, unknown> = { outcome: "cancelled" };
     if (response.behavior === "allow") {
-      const input = z.record(z.string(), z.string()).parse(response.updatedInput?.answers);
+      const parsed = QuestionAnswersSchema.safeParse(response.updatedInput?.questionAnswers);
+      if (!parsed.success) throw new Error("Update the app to submit structured question answers");
+      const input = parsed.data;
       outcome = {
         outcome: "answered",
         answers: pending.questions.map((question, i) => ({
