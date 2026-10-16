@@ -51,18 +51,10 @@ export const DEFAULT_THEME_PREFERENCE = "auto" satisfies ThemePreference;
 export const DEFAULT_TERMINAL_SCROLLBACK_LINES = 10_000;
 export const MIN_TERMINAL_SCROLLBACK_LINES = 0;
 export const MAX_TERMINAL_SCROLLBACK_LINES = 1_000_000;
-export function defaultUiBaseFontSize(native: boolean): number {
-  return native ? 15 : FONT_SIZE.base;
-}
-
-export const DEFAULT_UI_BASE_FONT_SIZE = defaultUiBaseFontSize(isNative);
+export const DEFAULT_UI_BASE_FONT_SIZE = FONT_SIZE.base;
 export const MIN_UI_BASE_FONT_SIZE = 10;
 export const MAX_UI_BASE_FONT_SIZE = 21;
-export function defaultContentFontSize(native: boolean): number {
-  return native ? 16 : FONT_SIZE.content;
-}
-
-export const DEFAULT_CONTENT_FONT_SIZE = defaultContentFontSize(isNative);
+export const DEFAULT_CONTENT_FONT_SIZE = FONT_SIZE.base;
 export const MIN_CONTENT_FONT_SIZE = 10;
 export const MAX_CONTENT_FONT_SIZE = 21;
 export const DEFAULT_CODE_FONT_SIZE = 12; // == FONT_SIZE.code
@@ -84,8 +76,8 @@ export interface AppSettings {
   useLegacyTerminalRenderer: boolean;
   uiFontFamily: string; // "" = platform default UI stack
   monoFontFamily: string; // "" = platform default mono stack
-  uiBaseFontSize: number; // clamped px, platform default 14 or 15
-  contentFontSize: number; // clamped px, platform default 15 or 16
+  uiBaseFontSize: number; // clamped px, default 14
+  contentFontSize: number; // clamped px, default 14
   codeFontSize: number; // clamped px, default 12
   /** Max width of chat and markdown content in px; null follows the current default. */
   contentMaxWidth: number | null;

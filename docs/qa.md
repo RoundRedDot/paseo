@@ -11,6 +11,8 @@ The bar is four questions:
 
 Every pull request needs evidence for the questions its change touches. Pull requests without evidence get closed.
 
+See [PR review workflow](pr-review-workflow.md) for CI routing, AI review, failure handling, and the boundary between automated checks and maintainer decisions.
+
 For plugin changes, verify the [SDK import boundaries](plugins.md#sdk-import-boundaries) before
 exercising contributions. Include the boundary tests and both runtime loaders in the evidence.
 

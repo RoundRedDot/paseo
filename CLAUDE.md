@@ -25,6 +25,7 @@ At the start of non-trivial work, list `docs/` and skim anything relevant to the
 | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | [docs/product.md](docs/product.md)                                   | What Paseo is, who it's for, where it's going                                                                                  |
 | [docs/architecture.md](docs/architecture.md)                         | System design, package layering, WebSocket protocol, agent lifecycle, data flow                                                |
+| [docs/desktop-ui-selection.md](docs/desktop-ui-selection.md)         | Desktop UI selection research, candidate evidence, daemon reuse boundary, and prototype acceptance plan                        |
 | [docs/agent-lifecycle.md](docs/agent-lifecycle.md)                   | Agent states, parent/child relationships, archive semantics, tabs vs archive, subagents track                                  |
 | [docs/data-model.md](docs/data-model.md)                             | File-based JSON persistence, Zod schemas, atomic writes, no migrations                                                         |
 | [docs/glossary.md](docs/glossary.md)                                 | Authoritative terminology — UI label wins, no synonyms                                                                         |
@@ -52,6 +53,8 @@ At the start of non-trivial work, list `docs/` and skim anything relevant to the
 | [docs/file-observation.md](docs/file-observation.md)                 | Recursive watcher ownership, Linux constraints, teardown invariants, and Parcel comparison                                     |
 | [docs/testing.md](docs/testing.md)                                   | TDD workflow, determinism, real dependencies over mocks, test organization                                                     |
 | [docs/qa.md](docs/qa.md)                                             | QA evidence bar for pull requests — platform matrix, version drift, performance, UI proof                                      |
+| [docs/pr-review-workflow.md](docs/pr-review-workflow.md)             | PR automation — CI routing, Greptile review, failure handling, evidence boundaries, and maintainer decisions                   |
+| [docs/automation-workflows.md](docs/automation-workflows.md)         | Configured automation — PR checks, main-push validation, tag releases, deployments, maintenance, and evidence boundaries       |
 | [docs/mobile-testing.md](docs/mobile-testing.md)                     | Maestro and mobile test workflows                                                                                              |
 | [docs/mobile-panels.md](docs/mobile-panels.md)                       | Compact left/center/right panel ownership, worklet motion, gesture revisions, and Fabric constraints                           |
 | [docs/explorer-sidebar.md](docs/explorer-sidebar.md)                 | Explorer sidebar, side-pane, and compact workspace sheet host contracts, lifecycle, placement, routing preferences             |

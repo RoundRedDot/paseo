@@ -193,6 +193,8 @@ authorization, ownership, persistence, and lifecycle contract is documented in [
 
 Electron wrapper for macOS, Linux, and Windows.
 
+See [desktop UI selection](desktop-ui-selection.md) for the proposal to retain the daemon and evaluate alternative desktop clients.
+
 - Can spawn the daemon as a managed subprocess
 - Native file access for workspace integration
 - Same WebSocket client as mobile app
