@@ -1,4 +1,5 @@
 import type { AgentTimelinePromptIndexPayload } from "@getpaseo/client/internal/daemon-client";
+import type { StreamItem } from "@/types/stream";
 
 export type ChatOutlinePrompt = AgentTimelinePromptIndexPayload["prompts"][number];
 
@@ -82,4 +83,37 @@ export function createActivePromptPublisher(): ActivePromptPublisher {
       }
     },
   };
+}
+
+/** Where the reader is: the timeline position under the top of the viewport, and whether
+ * the row there is itself a prompt. */
+export interface ReadingPosition {
+  seq: number;
+  isPromptRow: boolean;
+}
+
+export interface ReadingRow {
+  item: StreamItem;
+  aboveItem: StreamItem | null;
+}
+
+/**
+ * Display rows such as Markdown blocks, live rows and optimistic prompts carry no timeline
+ * cursor of their own. They belong to the turn of the nearest earlier row that has one, so a
+ * reader parked on them still sits inside that turn.
+ */
+export function resolveReadingPosition(
+  rowId: string | null,
+  getRow: (id: string) => ReadingRow | undefined,
+): ReadingPosition | null {
+  let row = rowId === null ? undefined : getRow(rowId);
+  const isPromptRow = row?.item.kind === "user_message";
+  while (row) {
+    const seq = row.item.timelineCursor?.seq;
+    if (seq !== undefined) {
+      return { seq, isPromptRow };
+    }
+    row = row.aboveItem ? getRow(row.aboveItem.id) : undefined;
+  }
+  return null;
 }

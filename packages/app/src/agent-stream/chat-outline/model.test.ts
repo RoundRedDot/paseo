@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
+import type { StreamItem } from "@/types/stream";
 import {
   createActivePromptPublisher,
   shouldAcceptPromptIndexEpoch,
   promptTickMagnification,
   resolveActivePromptSeq,
+  resolveReadingPosition,
   OUTLINE_MAGNIFY_RADIUS,
   type ChatOutlinePrompt,
+  type ReadingRow,
 } from "./model";
 
 describe("chat outline prompt index epoch", () => {
@@ -68,5 +71,62 @@ describe("createActivePromptPublisher", () => {
 
     expect(notifications).toBe(2);
     expect(publisher.getActiveSeq()).toBeNull();
+  });
+});
+
+function userMessage(id: string, seq: number | null, text = id): StreamItem {
+  return {
+    kind: "user_message",
+    id,
+    text,
+    timestamp: new Date(Math.max(seq ?? 0, 0)),
+    ...(seq === null ? {} : { timelineCursor: { epoch: "epoch-1", seq } }),
+  };
+}
+
+function assistantRow(id: string, seq: number | null): StreamItem {
+  return {
+    kind: "assistant_message",
+    id,
+    text: id,
+    timestamp: new Date(0),
+    ...(seq === null ? {} : { timelineCursor: { epoch: "epoch-1", seq } }),
+  };
+}
+
+function rowsAboveEachOther(items: StreamItem[]): (id: string) => ReadingRow | undefined {
+  const rows = new Map(
+    items.map((item, index) => [item.id, { item, aboveItem: items[index - 1] ?? null }]),
+  );
+  return (id) => rows.get(id);
+}
+
+describe("resolveReadingPosition", () => {
+  const getRow = rowsAboveEachOther([
+    userMessage("prompt", 4),
+    assistantRow("answer", 5),
+    assistantRow("answer:block:1", null),
+    userMessage("optimistic", null),
+  ]);
+
+  it("reads the row's own timeline position", () => {
+    expect(resolveReadingPosition("answer", getRow)).toEqual({ seq: 5, isPromptRow: false });
+    expect(resolveReadingPosition("prompt", getRow)).toEqual({ seq: 4, isPromptRow: true });
+  });
+
+  it("places rows without a cursor in the turn of the nearest earlier row", () => {
+    expect(resolveReadingPosition("answer:block:1", getRow)).toEqual({
+      seq: 5,
+      isPromptRow: false,
+    });
+    expect(resolveReadingPosition("optimistic", getRow)).toEqual({ seq: 5, isPromptRow: true });
+  });
+
+  it("reads nothing without a row or any earlier cursor", () => {
+    expect(resolveReadingPosition(null, getRow)).toBeNull();
+    expect(resolveReadingPosition("missing", getRow)).toBeNull();
+    expect(
+      resolveReadingPosition("draft", rowsAboveEachOther([userMessage("draft", null)])),
+    ).toBeNull();
   });
 });
