@@ -1,13 +1,19 @@
 import { describe, expect, it } from "vitest";
 import type { StreamItem } from "@/types/stream";
+import { resolveMobilePanelGestureIntent } from "../../mobile-panels/gesture-intent";
 import {
   createActivePromptPublisher,
   shouldAcceptPromptIndexEpoch,
   promptTickMagnification,
   resolveActivePromptSeq,
+  resolveOutlineAccessibilityIndex,
+  resolveOutlinePreviewTop,
+  resolveOutlineScrubIntent,
+  resolvePromptSlotAt,
   resolveReadingPosition,
   OUTLINE_MAGNIFY_RADIUS,
   type ChatOutlinePrompt,
+  type OutlinePreviewPlacement,
   type ReadingRow,
 } from "./model";
 
@@ -21,6 +27,27 @@ describe("chat outline prompt index epoch", () => {
 function prompt(seq: number): ChatOutlinePrompt {
   return { seq, timestamp: new Date(seq).toISOString(), preview: `prompt ${seq}` };
 }
+
+describe("resolvePromptSlotAt", () => {
+  it("maps a touch to the slot under it, with slots tiling the rail", () => {
+    expect(resolvePromptSlotAt(0, 100, 4)).toBe(0);
+    expect(resolvePromptSlotAt(24.9, 100, 4)).toBe(0);
+    expect(resolvePromptSlotAt(25, 100, 4)).toBe(1);
+    expect(resolvePromptSlotAt(99.9, 100, 4)).toBe(3);
+  });
+
+  it("keeps the first and last slot while the finger slides past the rail", () => {
+    expect(resolvePromptSlotAt(-40, 100, 4)).toBe(0);
+    expect(resolvePromptSlotAt(100, 100, 4)).toBe(3);
+    expect(resolvePromptSlotAt(400, 100, 4)).toBe(3);
+  });
+
+  it("has no slot before the rail is measured or when it is empty", () => {
+    expect(resolvePromptSlotAt(10, 0, 4)).toBeNull();
+    expect(resolvePromptSlotAt(10, 100, 0)).toBeNull();
+    expect(resolvePromptSlotAt(Number.NaN, 100, 4)).toBeNull();
+  });
+});
 
 describe("promptTickMagnification", () => {
   it("peaks under the pointer and decays to nothing at the radius", () => {
@@ -127,6 +154,111 @@ describe("resolveReadingPosition", () => {
     expect(resolveReadingPosition("missing", getRow)).toBeNull();
     expect(
       resolveReadingPosition("draft", rowsAboveEachOther([userMessage("draft", null)])),
+    ).toBeNull();
+  });
+});
+
+describe("resolveOutlineScrubIntent", () => {
+  it("waits through a tap, then scrubs only when vertical travel wins", () => {
+    expect([
+      resolveOutlineScrubIntent(0, 10),
+      resolveOutlineScrubIntent(0, 11),
+      resolveOutlineScrubIntent(8, 11),
+      resolveOutlineScrubIntent(-4, -30),
+      resolveOutlineScrubIntent(12, 40),
+    ]).toEqual(["wait", "activate", "activate", "activate", "activate"]);
+  });
+
+  it("yields a sideways move before the left drawer would claim it", () => {
+    expect([
+      resolveOutlineScrubIntent(9, 0),
+      resolveOutlineScrubIntent(10, 0),
+      resolveOutlineScrubIntent(10, 9),
+      resolveOutlineScrubIntent(-16, 4),
+      resolveOutlineScrubIntent(40, 12),
+      resolveOutlineScrubIntent(Number.NaN, 20),
+      resolveOutlineScrubIntent(12, Number.POSITIVE_INFINITY),
+    ]).toEqual(["wait", "fail", "fail", "fail", "fail", "fail", "fail"]);
+  });
+
+  it("never scrubs a gesture the left drawer would open, or opens one the scrubber takes", () => {
+    const conflicts: { dx: number; dy: number; scrub: string; drawer: string }[] = [];
+    for (let dx = -30; dx <= 40; dx += 1) {
+      for (let dy = -30; dy <= 40; dy += 1) {
+        const scrub = resolveOutlineScrubIntent(dx, dy);
+        const drawer = resolveMobilePanelGestureIntent({
+          deltaX: dx,
+          deltaY: dy,
+          direction: 1,
+          openGesturesBlocked: false,
+        });
+        if (scrub === "activate" && drawer !== "fail") conflicts.push({ dx, dy, scrub, drawer });
+        if (drawer === "activate" && scrub !== "fail") conflicts.push({ dx, dy, scrub, drawer });
+      }
+    }
+    expect(conflicts).toEqual([]);
+  });
+});
+
+describe("resolveOutlinePreviewTop", () => {
+  const placement: OutlinePreviewPlacement = {
+    railY: 80,
+    columnY: 10,
+    columnHeight: 200,
+    slotIndex: 3,
+    slotCount: 4,
+    previewHeight: 64,
+    fingerClearance: 24,
+  };
+
+  it("sits the bubble above the slot under the finger", () => {
+    expect(resolveOutlinePreviewTop(placement)).toBe(177);
+  });
+
+  it("keeps the bubble inside the stream when the first slots leave no room above", () => {
+    expect(
+      resolveOutlinePreviewTop({
+        ...placement,
+        railY: 0,
+        columnY: 0,
+        columnHeight: 40,
+        slotIndex: 0,
+      }),
+    ).toBe(0);
+  });
+
+  it("has no position before the column is measured", () => {
+    expect(resolveOutlinePreviewTop({ ...placement, columnHeight: 0 })).toBeNull();
+    expect(resolveOutlinePreviewTop({ ...placement, slotCount: 0 })).toBeNull();
+    expect(resolveOutlinePreviewTop({ ...placement, slotIndex: Number.NaN })).toBeNull();
+  });
+});
+
+describe("resolveOutlineAccessibilityIndex", () => {
+  it("steps to the next or previous prompt and does not wrap", () => {
+    expect(
+      resolveOutlineAccessibilityIndex({ activeIndex: 2, action: "increment", count: 5 }),
+    ).toBe(3);
+    expect(
+      resolveOutlineAccessibilityIndex({ activeIndex: 2, action: "decrement", count: 5 }),
+    ).toBe(1);
+    expect(
+      resolveOutlineAccessibilityIndex({ activeIndex: 0, action: "decrement", count: 5 }),
+    ).toBeNull();
+    expect(
+      resolveOutlineAccessibilityIndex({ activeIndex: 4, action: "increment", count: 5 }),
+    ).toBeNull();
+  });
+
+  it("enters at the first prompt when nothing is active", () => {
+    expect(
+      resolveOutlineAccessibilityIndex({ activeIndex: -1, action: "increment", count: 5 }),
+    ).toBe(0);
+    expect(
+      resolveOutlineAccessibilityIndex({ activeIndex: -1, action: "decrement", count: 5 }),
+    ).toBeNull();
+    expect(
+      resolveOutlineAccessibilityIndex({ activeIndex: 0, action: "increment", count: 0 }),
     ).toBeNull();
   });
 });
