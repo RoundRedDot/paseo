@@ -96,6 +96,12 @@ export function parseStoredAgentRecord(value: unknown): StoredAgentRecord {
   return STORED_AGENT_SCHEMA.parse(value);
 }
 
+export interface GetTurnTimingsInput {
+  agentId: string;
+  turnIds: ReadonlySet<string>;
+  messageIds: ReadonlySet<string>;
+}
+
 export class AgentStorage {
   private cache: Map<string, StoredAgentRecord> = new Map();
   private pathById: Map<string, string> = new Map();
@@ -167,11 +173,7 @@ export class AgentStorage {
     });
   }
 
-  async getTurnTimings(params: {
-    agentId: string;
-    turnIds: ReadonlySet<string>;
-    messageIds: ReadonlySet<string>;
-  }): Promise<AgentTurnTiming[]> {
+  async getTurnTimings(params: GetTurnTimingsInput): Promise<AgentTurnTiming[]> {
     const { agentId, turnIds, messageIds } = params;
     await this.load();
     await this.waitForPendingWrite(agentId);
