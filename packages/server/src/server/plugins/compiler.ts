@@ -459,7 +459,9 @@ async function compileTarget(entryPath: string, target: PluginBuildTarget): Prom
   const output = result.outputFiles[0]?.text;
   if (!output) throw new Error(`Plugin ${target} compilation produced no output`);
   const interopSafe = makeHermesInteropEager(output);
-  return wrapCommonJsBundle(target === "client" ? lowerClassesForHermes(interopSafe) : interopSafe);
+  let transformed = interopSafe;
+  if (target === "client") transformed = lowerClassesForHermes(transformed);
+  return wrapCommonJsBundle(transformed);
 }
 
 export async function compilePlugin(entryPaths: {
