@@ -77,9 +77,9 @@ const historyStartSlotStyle: ViewStyle = {
 const HISTORY_START_SETTLE_FRAMES = 2;
 
 const PROMPT_JUMP_TICK_MS = 50;
-const NATIVE_STREAM_WINDOW_SIZE = 10;
-// VirtualizedList defaults are 10 cells per 50ms. A far jump needs a larger
-// batch to mount the unmeasured tail; reading and scrolling keep the defaults.
+const NATIVE_STREAM_WINDOW_SIZE = 5;
+// A far jump needs a larger batch to mount the unmeasured tail. Ordinary
+// reading keeps the bounded native Markdown batches from the default viewport.
 const PROMPT_JUMP_MAX_TO_RENDER_PER_BATCH = 48;
 const PROMPT_JUMP_BATCH_PERIOD_MS = 16;
 
@@ -454,7 +454,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
     promptJumpRef.current = null;
   });
 
-  // Drops the render batch back to the FlatList default. Unmount clears the
+  // Restores the bounded reading batch. Unmount clears the
   // timer only; setting state from the cleanup would update an unmounted list.
   const endPromptJump = useStableEvent(() => {
     cancelPromptJump();
@@ -888,12 +888,13 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
         onContentSizeChange={handleContentSizeChange}
         onScrollToIndexFailed={handleScrollToIndexFailed}
         maintainVisibleContentPosition={maintainVisibleContentPosition}
-        initialNumToRender={12}
+        // A history row can contain an entire long reply. Keep synchronous native
+        // Markdown measurement bounded while FlatList fills the surrounding window.
+        initialNumToRender={2}
         windowSize={NATIVE_STREAM_WINDOW_SIZE}
-        // Undefined keeps the list defaults (10 / 50ms) while the reader scrolls.
         // Both props are read on every render-window update, so the larger
         // batch applies only to the batches that run during a prompt jump.
-        maxToRenderPerBatch={promptJumpBatch ? PROMPT_JUMP_MAX_TO_RENDER_PER_BATCH : undefined}
+        maxToRenderPerBatch={promptJumpBatch ? PROMPT_JUMP_MAX_TO_RENDER_PER_BATCH : 2}
         updateCellsBatchingPeriod={promptJumpBatch ? PROMPT_JUMP_BATCH_PERIOD_MS : undefined}
         removeClippedSubviews={false}
         scrollEnabled={scrollEnabled}

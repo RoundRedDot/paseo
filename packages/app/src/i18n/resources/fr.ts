@@ -622,6 +622,9 @@ export const fr: TranslationResources = {
       updateHost: "Mettez à jour l’hôte pour utiliser le rendu natif du terminal.",
       unableToSubscribe: "Impossible de s’abonner au terminal",
     },
+    sheet: {
+      openAsTab: "Ouvrir dans un onglet",
+    },
     tabs: {
       loading: "Chargement…",
       modified: "Modifications non enregistrées",
@@ -637,7 +640,7 @@ export const fr: TranslationResources = {
       },
       switcher: {
         trigger: "Changer d’onglet ({{count}} ouverts)",
-        title: "Changer d’onglet",
+        title: "Onglets de l’espace de travail",
         searchPlaceholder: "Rechercher des onglets",
       },
       menu: {
@@ -736,6 +739,8 @@ export const fr: TranslationResources = {
     header: {
       actions: {
         workspaceActions: "Actions de l’espace de travail",
+        workspaceActionsUnhealthy:
+          "Actions de l’espace de travail, un service est en mauvaise santé",
         newAgent: "Nouvel agent",
         newTerminal: "Nouveau terminal",
         newBrowser: "Nouvel onglet de navigateur",
@@ -784,6 +789,8 @@ export const fr: TranslationResources = {
         exitCode: "sortie {{code}}",
         startFailed: "Impossible de démarrer {{scriptName}}",
         stopFailed: "Impossible d’arrêter {{scriptName}}",
+        running: "En cours",
+        runningCount: "{{count}} en cours",
       },
     },
     tree: {
@@ -1700,13 +1707,18 @@ export const fr: TranslationResources = {
     title: "Ajouter un fournisseur",
     search: "Rechercher des fournisseurs",
     noProviders: "Aucun fournisseur trouvé",
+    clearSearch: "Effacer la recherche",
     actions: {
       add: "Ajouter",
+      addProvider: "Ajouter {{provider}}",
       adding: "Ajout…",
       installed: "Installé",
       cancel: "Annuler",
       installInstructions: "Instructions d’installation",
       installInstructionsFor: "Instructions d’installation de {{provider}}",
+    },
+    types: {
+      acp: "ACP",
     },
     errors: {
       unableToInstall: "Impossible d’installer le fournisseur",

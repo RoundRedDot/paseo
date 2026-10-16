@@ -19,9 +19,8 @@ const measured: InvertedPromptJumpMeasurement = {
   stable: 0,
 };
 
-describe("resolveMeasuredWindowRevealPosition", () => {
+describe.each([5, 10])("resolveMeasuredWindowRevealPosition with windowSize %i", (windowSize) => {
   const viewportHeight = 736;
-  const windowSize = 10;
   // Half of (windowSize - 1) viewports past the screen, plus the screen itself.
   const limit = viewportHeight * (1 + (windowSize - 1) / 2);
 
