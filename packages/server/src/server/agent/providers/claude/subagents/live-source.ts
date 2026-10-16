@@ -120,6 +120,10 @@ function readString(value: unknown): string | undefined {
   return typeof value === "string" && value.trim().length > 0 ? value.trim() : undefined;
 }
 
+function readPrompt(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim().length > 0 ? value : undefined;
+}
+
 /**
  * The descriptor has no paused or pending state, and neither is terminal, so both read as
  * running. `killed` is a cancellation, not a failure — the child was stopped, it did not error.
@@ -359,7 +363,7 @@ export class ClaudeTaskProtocolSource {
     const prompt =
       message.task_type === CLAUDE_WORKFLOW_TASK_TYPE
         ? readString(message.description)
-        : readString(message.prompt);
+        : readPrompt(message.prompt);
     if (prompt) {
       observations.push({
         kind: "timeline",
@@ -395,7 +399,7 @@ export class ClaudeTaskProtocolSource {
     const description = readString(message.description);
     // A workflow's prompt is its JavaScript source, not a user-authored task, so it stays off the
     // card and out of the timeline below.
-    const taskPrompt = isWorkflow ? undefined : readString(message.prompt);
+    const taskPrompt = isWorkflow ? undefined : readPrompt(message.prompt);
     const observations: SubagentObservation[] = [
       {
         kind: "declared",

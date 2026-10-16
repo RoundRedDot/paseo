@@ -4,6 +4,45 @@ import type { SDKMessage } from "@anthropic-ai/claude-agent-sdk";
 import { ClaudeSidechainTracker } from "./sidechain-tracker.js";
 
 describe("ClaudeSidechainTracker", () => {
+  it("preserves nonempty prompt whitespace on the Task card and omits whitespace-only prompts", () => {
+    const prompt = "  inspect this\n";
+    const tracker = new ClaudeSidechainTracker({
+      getToolInput: () => ({ prompt }),
+    });
+    const events = tracker.handleMessage(
+      {
+        type: "assistant",
+        parent_tool_use_id: "task-1",
+        message: { content: [] },
+      } as unknown as SDKMessage,
+      "task-1",
+    );
+    expect(events).toContainEqual(
+      expect.objectContaining({
+        type: "timeline",
+        item: expect.objectContaining({ detail: expect.objectContaining({ prompt }) }),
+      }),
+    );
+
+    const emptyTracker = new ClaudeSidechainTracker({ getToolInput: () => ({ prompt: " \n " }) });
+    const emptyEvents = emptyTracker.handleMessage(
+      {
+        type: "assistant",
+        parent_tool_use_id: "task-2",
+        message: { content: [] },
+      } as unknown as SDKMessage,
+      "task-2",
+    );
+    expect(emptyEvents).not.toContainEqual(
+      expect.objectContaining({
+        type: "timeline",
+        item: expect.objectContaining({
+          detail: expect.objectContaining({ prompt: expect.anything() }),
+        }),
+      }),
+    );
+  });
+
   it("uses Claude's native agent name for the provider subagent title", () => {
     const tracker = new ClaudeSidechainTracker({
       getToolInput: () => ({

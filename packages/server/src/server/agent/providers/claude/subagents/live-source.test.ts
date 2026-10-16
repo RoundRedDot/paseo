@@ -415,6 +415,27 @@ describe("ClaudeTaskProtocolSource", () => {
     });
   });
 
+  it("preserves nonempty prompt whitespace and omits whitespace-only prompts", () => {
+    const prompt = "  preserve this\n";
+    const source = new ClaudeTaskProtocolSource();
+    const observations = source.observe(taskStarted({ prompt }));
+    expect(observations[0]).toMatchObject({
+      kind: "declared",
+      id: "toolu_01DgLoPMW9",
+      title: "general-purpose",
+      toolCallId: "toolu_01DgLoPMW9",
+      prompt,
+    });
+    expect(observations).toContainEqual({
+      kind: "timeline",
+      id: "toolu_01DgLoPMW9",
+      item: { type: "user_message", text: prompt },
+    });
+
+    const emptySource = new ClaudeTaskProtocolSource();
+    expect(emptySource.observe(taskStarted({ prompt: " \n\t " }))).toHaveLength(1);
+  });
+
   it("declares without a timeline item when no prompt was announced", () => {
     const source = new ClaudeTaskProtocolSource();
     expect(source.observe(taskStarted())).toHaveLength(1);

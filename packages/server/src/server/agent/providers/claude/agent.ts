@@ -6256,8 +6256,8 @@ function readClaudeHistoricalSubagentToolCalls(
       const name = readNonEmptyString(input?.name);
       const subagentType = readNonEmptyString(input?.subagent_type);
       const description = readNonEmptyString(input?.description);
-      // Trimmed like the live declaration, so a restart labels the card with the same text.
-      const prompt = readNonEmptyString(input?.prompt)?.trim();
+      // Read like the live declaration: use trim only to reject whitespace-only prompts.
+      const prompt = readNonEmptyString(input?.prompt);
       toolCalls.set(block.id, {
         ...(name ? { name } : {}),
         ...(subagentType ? { subagentType } : {}),

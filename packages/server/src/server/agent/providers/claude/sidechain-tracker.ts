@@ -54,6 +54,10 @@ function readTrimmedString(value: unknown): string | undefined {
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
+function readNonEmptyString(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim().length > 0 ? value : undefined;
+}
+
 function isClaudeContentChunk(value: unknown): value is ClaudeContentChunk {
   return Boolean(
     value && typeof value === "object" && typeof (value as { type?: unknown }).type === "string",
@@ -324,7 +328,7 @@ export class ClaudeSidechainTracker {
     const nextDescription = this.normalizeSubAgentText(taskInput?.description);
     // The prompt is shown in full, so it keeps its line breaks and length. This card replaces the
     // one built at declaration, so it has to carry the prompt too or the card loses it.
-    const nextPrompt = readTrimmedString(taskInput?.prompt);
+    const nextPrompt = readNonEmptyString(taskInput?.prompt);
 
     let changed = false;
     if (nextName && nextName !== state.name) {
