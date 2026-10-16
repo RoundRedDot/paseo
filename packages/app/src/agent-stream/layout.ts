@@ -1,6 +1,10 @@
 import type { TurnTiming } from "@/timeline/turn-time";
 import type { StreamItem } from "@/types/stream";
-import { getAssistantBlockSpacing, getGapBetweenStreamItems, isToolSequenceItem } from "./spacing";
+import {
+  getAssistantMessageSpacing,
+  getGapBetweenStreamItems,
+  isToolSequenceItem,
+} from "./spacing";
 import type { StreamFrameChildOrder, StreamStrategy } from "./strategy";
 import { continuesResponse, continuesTurn, isResponseBoundary } from "./turn-membership";
 
@@ -305,10 +309,8 @@ function layoutSegmentItem(
     boundaryAboveItems: input.boundaryAboveItems,
     boundaryAboveIndex: input.boundaryAboveIndex,
   });
-  const assistantSpacing = getAssistantBlockSpacing({
+  const assistantSpacing = getAssistantMessageSpacing({
     item,
-    aboveItem,
-    belowItem,
     hasFooterBelow: completedFooter !== null || (input.hasAuxiliaryFooter && belowItem === null),
   });
 
