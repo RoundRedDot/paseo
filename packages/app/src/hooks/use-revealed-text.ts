@@ -12,7 +12,7 @@ import {
   visibleRevealedText,
   withholdPartialClosingFence,
 } from "@/agent-stream/text-reveal";
-import type { MarkdownPhase } from "@/components/markdown/fence/types";
+export type MarkdownPhase = "streaming" | "complete";
 
 /**
  * Binds the paced reveal in @/agent-stream/text-reveal to a frame clock.
