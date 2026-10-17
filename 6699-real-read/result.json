@@ -1,0 +1,1475 @@
+{
+  "sha": "13a3cd7279a3fa499f6bf9755b32826c0e981ea8",
+  "provider": "claude",
+  "pluginSourceSha": "2fc6476acbdf75e8802668b0260cfd128513c990",
+  "runs": [
+    {
+      "order": [
+        "A",
+        "B"
+      ],
+      "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+      "model": "claude-opus-5-5",
+      "stages": [
+        {
+          "stage": "both-running",
+          "at": 1792206271278,
+          "rows": [
+            {
+              "callId": "toolu_01PvCAGJM3jUvjyarRS27316",
+              "timestamp": "1792206269675",
+              "status": "running",
+              "top": 280,
+              "height": 26,
+              "marginBottom": "-12px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt"
+            },
+            {
+              "callId": "toolu_01FvENJNm7KAhHp6orPuckr2",
+              "timestamp": "1792206270624",
+              "status": "running",
+              "top": 310,
+              "height": 26,
+              "marginBottom": "0px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txt"
+            }
+          ],
+          "timeline": {
+            "requestId": "4e31e492-6403-4961-a80a-491f25f349da",
+            "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+            "agent": {
+              "id": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+              "provider": "claude",
+              "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+              "workspaceId": "wks_83398da762ab4039",
+              "model": "claude-opus-5-5",
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "runtimeInfo": {
+                "provider": "claude",
+                "sessionId": null,
+                "model": null,
+                "modeId": "bypassPermissions"
+              },
+              "createdAt": "2026-10-17T03:04:22.191Z",
+              "updatedAt": "2026-10-17T03:04:30.624Z",
+              "lastUserMessageAt": "2026-10-17T03:04:26.109Z",
+              "status": "running",
+              "activeTurn": {
+                "turnId": "foreground-turn-1",
+                "startedAt": "2026-10-17T03:04:26.108Z"
+              },
+              "capabilities": {
+                "supportsStreaming": true,
+                "supportsSessionPersistence": true,
+                "supportsSessionListing": true,
+                "supportsDynamicModes": true,
+                "supportsMcpServers": true,
+                "supportsReasoningStream": true,
+                "supportsToolInvocations": true,
+                "supportsRewindConversation": true,
+                "supportsRewindFiles": true,
+                "supportsRewindBoth": true
+              },
+              "currentModeId": "bypassPermissions",
+              "availableModes": [
+                {
+                  "id": "plan",
+                  "label": "Plan Mode",
+                  "description": "Analyze the codebase without executing tools or edits"
+                },
+                {
+                  "id": "default",
+                  "label": "Always Ask",
+                  "description": "Prompts for permission the first time a tool is used"
+                },
+                {
+                  "id": "acceptEdits",
+                  "label": "Accept File Edits",
+                  "description": "Automatically approves edit-focused tools without prompting"
+                },
+                {
+                  "id": "auto",
+                  "label": "Auto mode",
+                  "description": "Uses a model classifier to review permission prompts automatically"
+                },
+                {
+                  "id": "bypassPermissions",
+                  "label": "Bypass",
+                  "description": "Skip all permission prompts (use with caution)"
+                }
+              ],
+              "features": [
+                {
+                  "type": "toggle",
+                  "id": "fast_mode",
+                  "label": "Fast",
+                  "description": "Lower latency Opus responses at higher token cost",
+                  "tooltip": "Toggle fast mode",
+                  "icon": "zap",
+                  "value": false
+                }
+              ],
+              "pendingPermissions": [],
+              "persistence": {
+                "provider": "claude",
+                "sessionId": "5312417d-c21a-4bce-a9d6-db11af0e2ff4",
+                "nativeHandle": "5312417d-c21a-4bce-a9d6-db11af0e2ff4",
+                "metadata": {
+                  "provider": "claude",
+                  "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+                  "modeId": "bypassPermissions",
+                  "title": "QA parallel Read A-B",
+                  "model": "claude-opus-5-5"
+                }
+              },
+              "title": "QA parallel Read A-B",
+              "labels": {},
+              "lastUsage": {
+                "contextWindowMaxTokens": 1000000,
+                "contextWindowUsedTokens": 36789
+              },
+              "requiresAttention": false,
+              "attentionReason": null,
+              "attentionTimestamp": null,
+              "archivedAt": null
+            },
+            "direction": "tail",
+            "projection": "projected",
+            "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+            "reset": false,
+            "staleCursor": false,
+            "gap": false,
+            "window": {
+              "minSeq": 1,
+              "maxSeq": 4,
+              "nextSeq": 5
+            },
+            "startCursor": {
+              "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+              "seq": 1
+            },
+            "endCursor": {
+              "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+              "seq": 4
+            },
+            "hasOlder": false,
+            "hasNewer": false,
+            "entries": [
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "user_message",
+                  "text": "This is an isolated synthetic QA task. Call the native Read tool exactly twice on /tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt and /tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txt, in the SAME parallel tool-use batch. Both calls wait for a test coordinator hook, so do not await one before issuing the other. Do not use MCP tools or any other tools. After both results arrive reply only QA-DONE.",
+                  "clientMessageId": "b1532f37-e836-4ff1-bd4f-aa4e9da4d422",
+                  "messageId": "b1532f37-e836-4ff1-bd4f-aa4e9da4d422"
+                },
+                "timestamp": "2026-10-17T03:04:26.109Z",
+                "seqStart": 1,
+                "seqEnd": 1,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 1,
+                    "endSeq": 1
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": []
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01PvCAGJM3jUvjyarRS27316",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt"
+                  },
+                  "status": "running",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:30.615Z",
+                "seqStart": 2,
+                "seqEnd": 3,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 2,
+                    "endSeq": 3
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": [
+                  "tool_lifecycle"
+                ]
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01FvENJNm7KAhHp6orPuckr2",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txt"
+                  },
+                  "status": "running",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:30.624Z",
+                "seqStart": 4,
+                "seqEnd": 4,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 4,
+                    "endSeq": 4
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": []
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "stage": "first-complete",
+          "at": 1792206272038,
+          "rows": [
+            {
+              "callId": "toolu_01PvCAGJM3jUvjyarRS27316",
+              "timestamp": "1792206269675",
+              "status": "completed",
+              "top": 280,
+              "height": 26,
+              "marginBottom": "-12px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txtL1+"
+            },
+            {
+              "callId": "toolu_01FvENJNm7KAhHp6orPuckr2",
+              "timestamp": "1792206270624",
+              "status": "running",
+              "top": 310,
+              "height": 26,
+              "marginBottom": "0px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txt"
+            }
+          ],
+          "timeline": {
+            "requestId": "53b6db75-92e5-4bc7-9e46-c70ec97d2909",
+            "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+            "agent": {
+              "id": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+              "provider": "claude",
+              "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+              "workspaceId": "wks_83398da762ab4039",
+              "model": "claude-opus-5-5",
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "runtimeInfo": {
+                "provider": "claude",
+                "sessionId": null,
+                "model": null,
+                "modeId": "bypassPermissions"
+              },
+              "createdAt": "2026-10-17T03:04:22.191Z",
+              "updatedAt": "2026-10-17T03:04:31.388Z",
+              "lastUserMessageAt": "2026-10-17T03:04:26.109Z",
+              "status": "running",
+              "activeTurn": {
+                "turnId": "foreground-turn-1",
+                "startedAt": "2026-10-17T03:04:26.108Z"
+              },
+              "capabilities": {
+                "supportsStreaming": true,
+                "supportsSessionPersistence": true,
+                "supportsSessionListing": true,
+                "supportsDynamicModes": true,
+                "supportsMcpServers": true,
+                "supportsReasoningStream": true,
+                "supportsToolInvocations": true,
+                "supportsRewindConversation": true,
+                "supportsRewindFiles": true,
+                "supportsRewindBoth": true
+              },
+              "currentModeId": "bypassPermissions",
+              "availableModes": [
+                {
+                  "id": "plan",
+                  "label": "Plan Mode",
+                  "description": "Analyze the codebase without executing tools or edits"
+                },
+                {
+                  "id": "default",
+                  "label": "Always Ask",
+                  "description": "Prompts for permission the first time a tool is used"
+                },
+                {
+                  "id": "acceptEdits",
+                  "label": "Accept File Edits",
+                  "description": "Automatically approves edit-focused tools without prompting"
+                },
+                {
+                  "id": "auto",
+                  "label": "Auto mode",
+                  "description": "Uses a model classifier to review permission prompts automatically"
+                },
+                {
+                  "id": "bypassPermissions",
+                  "label": "Bypass",
+                  "description": "Skip all permission prompts (use with caution)"
+                }
+              ],
+              "features": [
+                {
+                  "type": "toggle",
+                  "id": "fast_mode",
+                  "label": "Fast",
+                  "description": "Lower latency Opus responses at higher token cost",
+                  "tooltip": "Toggle fast mode",
+                  "icon": "zap",
+                  "value": false
+                }
+              ],
+              "pendingPermissions": [],
+              "persistence": {
+                "provider": "claude",
+                "sessionId": "5312417d-c21a-4bce-a9d6-db11af0e2ff4",
+                "nativeHandle": "5312417d-c21a-4bce-a9d6-db11af0e2ff4",
+                "metadata": {
+                  "provider": "claude",
+                  "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+                  "modeId": "bypassPermissions",
+                  "title": "QA parallel Read A-B",
+                  "model": "claude-opus-5-5"
+                }
+              },
+              "title": "QA parallel Read A-B",
+              "labels": {},
+              "lastUsage": {
+                "contextWindowMaxTokens": 1000000,
+                "contextWindowUsedTokens": 36789
+              },
+              "requiresAttention": false,
+              "attentionReason": null,
+              "attentionTimestamp": null,
+              "archivedAt": null
+            },
+            "direction": "tail",
+            "projection": "projected",
+            "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+            "reset": false,
+            "staleCursor": false,
+            "gap": false,
+            "window": {
+              "minSeq": 1,
+              "maxSeq": 5,
+              "nextSeq": 6
+            },
+            "startCursor": {
+              "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+              "seq": 1
+            },
+            "endCursor": {
+              "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+              "seq": 5
+            },
+            "hasOlder": false,
+            "hasNewer": false,
+            "entries": [
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "user_message",
+                  "text": "This is an isolated synthetic QA task. Call the native Read tool exactly twice on /tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt and /tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txt, in the SAME parallel tool-use batch. Both calls wait for a test coordinator hook, so do not await one before issuing the other. Do not use MCP tools or any other tools. After both results arrive reply only QA-DONE.",
+                  "clientMessageId": "b1532f37-e836-4ff1-bd4f-aa4e9da4d422",
+                  "messageId": "b1532f37-e836-4ff1-bd4f-aa4e9da4d422"
+                },
+                "timestamp": "2026-10-17T03:04:26.109Z",
+                "seqStart": 1,
+                "seqEnd": 1,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 1,
+                    "endSeq": 1
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": []
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01PvCAGJM3jUvjyarRS27316",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt",
+                    "content": "Synthetic A — alpha\n",
+                    "offset": 1
+                  },
+                  "status": "completed",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:31.388Z",
+                "seqStart": 2,
+                "seqEnd": 5,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 2,
+                    "endSeq": 3
+                  },
+                  {
+                    "startSeq": 5,
+                    "endSeq": 5
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": [
+                  "tool_lifecycle"
+                ]
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01FvENJNm7KAhHp6orPuckr2",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txt"
+                  },
+                  "status": "running",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:30.624Z",
+                "seqStart": 4,
+                "seqEnd": 4,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 4,
+                    "endSeq": 4
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": []
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "stage": "both-complete",
+          "at": 1792206273823,
+          "rows": [
+            {
+              "callId": "toolu_01PvCAGJM3jUvjyarRS27316",
+              "timestamp": "1792206269675",
+              "status": "completed",
+              "top": 280,
+              "height": 26,
+              "marginBottom": "-12px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txtL1+"
+            },
+            {
+              "callId": "toolu_01FvENJNm7KAhHp6orPuckr2",
+              "timestamp": "1792206270624",
+              "status": "completed",
+              "top": 310,
+              "height": 26,
+              "marginBottom": "-12px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txtL1+"
+            }
+          ],
+          "timeline": {
+            "requestId": "cf6822af-4667-452d-bec7-51174f8a337d",
+            "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+            "agent": {
+              "id": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+              "provider": "claude",
+              "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+              "workspaceId": "wks_83398da762ab4039",
+              "model": "claude-opus-5-5",
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "runtimeInfo": {
+                "provider": "claude",
+                "sessionId": "5312417d-c21a-4bce-a9d6-db11af0e2ff4",
+                "model": "claude-opus-5-5",
+                "modeId": "bypassPermissions",
+                "extra": {
+                  "runtimeModel": "claude-opus-5-5"
+                }
+              },
+              "createdAt": "2026-10-17T03:04:22.191Z",
+              "updatedAt": "2026-10-17T03:04:33.215Z",
+              "lastUserMessageAt": "2026-10-17T03:04:26.109Z",
+              "status": "idle",
+              "activeTurn": null,
+              "capabilities": {
+                "supportsStreaming": true,
+                "supportsSessionPersistence": true,
+                "supportsSessionListing": true,
+                "supportsDynamicModes": true,
+                "supportsMcpServers": true,
+                "supportsReasoningStream": true,
+                "supportsToolInvocations": true,
+                "supportsRewindConversation": true,
+                "supportsRewindFiles": true,
+                "supportsRewindBoth": true
+              },
+              "currentModeId": "bypassPermissions",
+              "availableModes": [
+                {
+                  "id": "plan",
+                  "label": "Plan Mode",
+                  "description": "Analyze the codebase without executing tools or edits"
+                },
+                {
+                  "id": "default",
+                  "label": "Always Ask",
+                  "description": "Prompts for permission the first time a tool is used"
+                },
+                {
+                  "id": "acceptEdits",
+                  "label": "Accept File Edits",
+                  "description": "Automatically approves edit-focused tools without prompting"
+                },
+                {
+                  "id": "auto",
+                  "label": "Auto mode",
+                  "description": "Uses a model classifier to review permission prompts automatically"
+                },
+                {
+                  "id": "bypassPermissions",
+                  "label": "Bypass",
+                  "description": "Skip all permission prompts (use with caution)"
+                }
+              ],
+              "features": [
+                {
+                  "type": "toggle",
+                  "id": "fast_mode",
+                  "label": "Fast",
+                  "description": "Lower latency Opus responses at higher token cost",
+                  "tooltip": "Toggle fast mode",
+                  "icon": "zap",
+                  "value": false
+                }
+              ],
+              "pendingPermissions": [],
+              "persistence": {
+                "provider": "claude",
+                "sessionId": "5312417d-c21a-4bce-a9d6-db11af0e2ff4",
+                "nativeHandle": "5312417d-c21a-4bce-a9d6-db11af0e2ff4",
+                "metadata": {
+                  "provider": "claude",
+                  "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+                  "modeId": "bypassPermissions",
+                  "title": "QA parallel Read A-B",
+                  "model": "claude-opus-5-5"
+                }
+              },
+              "title": "QA parallel Read A-B",
+              "labels": {},
+              "lastUsage": {
+                "inputTokens": 4,
+                "cachedInputTokens": 48397,
+                "outputTokens": 191,
+                "totalCostUsd": 0.2143234,
+                "contextWindowMaxTokens": 1000000,
+                "contextWindowUsedTokens": 36904
+              },
+              "requiresAttention": true,
+              "attentionReason": "finished",
+              "attentionTimestamp": "2026-10-17T03:04:33.214Z",
+              "archivedAt": null
+            },
+            "direction": "tail",
+            "projection": "projected",
+            "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+            "reset": false,
+            "staleCursor": false,
+            "gap": false,
+            "window": {
+              "minSeq": 1,
+              "maxSeq": 7,
+              "nextSeq": 8
+            },
+            "startCursor": {
+              "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+              "seq": 1
+            },
+            "endCursor": {
+              "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+              "seq": 7
+            },
+            "hasOlder": false,
+            "hasNewer": false,
+            "entries": [
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "user_message",
+                  "text": "This is an isolated synthetic QA task. Call the native Read tool exactly twice on /tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt and /tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txt, in the SAME parallel tool-use batch. Both calls wait for a test coordinator hook, so do not await one before issuing the other. Do not use MCP tools or any other tools. After both results arrive reply only QA-DONE.",
+                  "clientMessageId": "b1532f37-e836-4ff1-bd4f-aa4e9da4d422",
+                  "messageId": "b1532f37-e836-4ff1-bd4f-aa4e9da4d422"
+                },
+                "timestamp": "2026-10-17T03:04:26.109Z",
+                "seqStart": 1,
+                "seqEnd": 1,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 1,
+                    "endSeq": 1
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": []
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01PvCAGJM3jUvjyarRS27316",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt",
+                    "content": "Synthetic A — alpha\n",
+                    "offset": 1
+                  },
+                  "status": "completed",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:31.388Z",
+                "seqStart": 2,
+                "seqEnd": 5,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 2,
+                    "endSeq": 3
+                  },
+                  {
+                    "startSeq": 5,
+                    "endSeq": 5
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": [
+                  "tool_lifecycle"
+                ]
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01FvENJNm7KAhHp6orPuckr2",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txt",
+                    "content": "Synthetic B — beta\n",
+                    "offset": 1
+                  },
+                  "status": "completed",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:32.150Z",
+                "seqStart": 4,
+                "seqEnd": 6,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 4,
+                    "endSeq": 4
+                  },
+                  {
+                    "startSeq": 6,
+                    "endSeq": 6
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": [
+                  "tool_lifecycle"
+                ]
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "assistant_message",
+                  "text": "QA-DONE",
+                  "messageId": "msg_011Cg74ty55oAECC3AKRN5Nz"
+                },
+                "timestamp": "2026-10-17T03:04:33.142Z",
+                "seqStart": 7,
+                "seqEnd": 7,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 7,
+                    "endSeq": 7
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": []
+              }
+            ],
+            "error": null
+          }
+        }
+      ],
+      "nativeDetails": [
+        "read",
+        "read"
+      ],
+      "gaps": {
+        "initial": 4,
+        "middle": 4
+      }
+    },
+    {
+      "order": [
+        "B",
+        "A"
+      ],
+      "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+      "model": "claude-opus-5-5",
+      "stages": [
+        {
+          "stage": "both-running",
+          "at": 1792206282406,
+          "rows": [
+            {
+              "callId": "toolu_01Ag8V6DFsxbiRg8gyzUPSnE",
+              "timestamp": "1792206280795",
+              "status": "running",
+              "top": 280,
+              "height": 26,
+              "marginBottom": "-12px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txt"
+            },
+            {
+              "callId": "toolu_01RpfExutZM3b3ysWx7xp3X7",
+              "timestamp": "1792206281368",
+              "status": "running",
+              "top": 310,
+              "height": 26,
+              "marginBottom": "0px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txt"
+            }
+          ],
+          "timeline": {
+            "requestId": "a6316c43-2d32-4414-adce-0c417e569e11",
+            "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+            "agent": {
+              "id": "3961b019-ecef-4acc-8760-dda2aaba944b",
+              "provider": "claude",
+              "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+              "workspaceId": "wks_83398da762ab4039",
+              "model": "claude-opus-5-5",
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "runtimeInfo": {
+                "provider": "claude",
+                "sessionId": null,
+                "model": null,
+                "modeId": "bypassPermissions"
+              },
+              "createdAt": "2026-10-17T03:04:34.154Z",
+              "updatedAt": "2026-10-17T03:04:41.735Z",
+              "lastUserMessageAt": "2026-10-17T03:04:35.542Z",
+              "status": "running",
+              "activeTurn": {
+                "turnId": "foreground-turn-1",
+                "startedAt": "2026-10-17T03:04:35.542Z"
+              },
+              "capabilities": {
+                "supportsStreaming": true,
+                "supportsSessionPersistence": true,
+                "supportsSessionListing": true,
+                "supportsDynamicModes": true,
+                "supportsMcpServers": true,
+                "supportsReasoningStream": true,
+                "supportsToolInvocations": true,
+                "supportsRewindConversation": true,
+                "supportsRewindFiles": true,
+                "supportsRewindBoth": true
+              },
+              "currentModeId": "bypassPermissions",
+              "availableModes": [
+                {
+                  "id": "plan",
+                  "label": "Plan Mode",
+                  "description": "Analyze the codebase without executing tools or edits"
+                },
+                {
+                  "id": "default",
+                  "label": "Always Ask",
+                  "description": "Prompts for permission the first time a tool is used"
+                },
+                {
+                  "id": "acceptEdits",
+                  "label": "Accept File Edits",
+                  "description": "Automatically approves edit-focused tools without prompting"
+                },
+                {
+                  "id": "auto",
+                  "label": "Auto mode",
+                  "description": "Uses a model classifier to review permission prompts automatically"
+                },
+                {
+                  "id": "bypassPermissions",
+                  "label": "Bypass",
+                  "description": "Skip all permission prompts (use with caution)"
+                }
+              ],
+              "features": [
+                {
+                  "type": "toggle",
+                  "id": "fast_mode",
+                  "label": "Fast",
+                  "description": "Lower latency Opus responses at higher token cost",
+                  "tooltip": "Toggle fast mode",
+                  "icon": "zap",
+                  "value": false
+                }
+              ],
+              "pendingPermissions": [],
+              "persistence": {
+                "provider": "claude",
+                "sessionId": "30517841-c015-472a-b1c6-b71f7e96667c",
+                "nativeHandle": "30517841-c015-472a-b1c6-b71f7e96667c",
+                "metadata": {
+                  "provider": "claude",
+                  "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+                  "modeId": "bypassPermissions",
+                  "title": "QA parallel Read B-A",
+                  "model": "claude-opus-5-5"
+                }
+              },
+              "title": "QA parallel Read B-A",
+              "labels": {},
+              "lastUsage": {
+                "contextWindowMaxTokens": 1000000,
+                "contextWindowUsedTokens": 36786
+              },
+              "requiresAttention": false,
+              "attentionReason": null,
+              "attentionTimestamp": null,
+              "archivedAt": null
+            },
+            "direction": "tail",
+            "projection": "projected",
+            "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+            "reset": false,
+            "staleCursor": false,
+            "gap": false,
+            "window": {
+              "minSeq": 1,
+              "maxSeq": 5,
+              "nextSeq": 6
+            },
+            "startCursor": {
+              "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+              "seq": 1
+            },
+            "endCursor": {
+              "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+              "seq": 5
+            },
+            "hasOlder": false,
+            "hasNewer": false,
+            "entries": [
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "user_message",
+                  "text": "This is an isolated synthetic QA task. Call the native Read tool exactly twice on /tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txt and /tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txt, in the SAME parallel tool-use batch. Both calls wait for a test coordinator hook, so do not await one before issuing the other. Do not use MCP tools or any other tools. After both results arrive reply only QA-DONE.",
+                  "clientMessageId": "786fb77a-a258-4bb6-a90e-aad1bf23be07",
+                  "messageId": "786fb77a-a258-4bb6-a90e-aad1bf23be07"
+                },
+                "timestamp": "2026-10-17T03:04:35.542Z",
+                "seqStart": 1,
+                "seqEnd": 1,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 1,
+                    "endSeq": 1
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": []
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01Ag8V6DFsxbiRg8gyzUPSnE",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txt"
+                  },
+                  "status": "running",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:41.304Z",
+                "seqStart": 2,
+                "seqEnd": 3,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 2,
+                    "endSeq": 3
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": [
+                  "tool_lifecycle"
+                ]
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01RpfExutZM3b3ysWx7xp3X7",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txt"
+                  },
+                  "status": "running",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:41.730Z",
+                "seqStart": 4,
+                "seqEnd": 5,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 4,
+                    "endSeq": 5
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": [
+                  "tool_lifecycle"
+                ]
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "stage": "first-complete",
+          "at": 1792206283162,
+          "rows": [
+            {
+              "callId": "toolu_01Ag8V6DFsxbiRg8gyzUPSnE",
+              "timestamp": "1792206280795",
+              "status": "running",
+              "top": 280,
+              "height": 26,
+              "marginBottom": "-12px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txt"
+            },
+            {
+              "callId": "toolu_01RpfExutZM3b3ysWx7xp3X7",
+              "timestamp": "1792206281368",
+              "status": "completed",
+              "top": 310,
+              "height": 26,
+              "marginBottom": "0px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txtL1+"
+            }
+          ],
+          "timeline": {
+            "requestId": "1361c072-6cfa-4b97-9eca-580a59316c14",
+            "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+            "agent": {
+              "id": "3961b019-ecef-4acc-8760-dda2aaba944b",
+              "provider": "claude",
+              "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+              "workspaceId": "wks_83398da762ab4039",
+              "model": "claude-opus-5-5",
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "runtimeInfo": {
+                "provider": "claude",
+                "sessionId": null,
+                "model": null,
+                "modeId": "bypassPermissions"
+              },
+              "createdAt": "2026-10-17T03:04:34.154Z",
+              "updatedAt": "2026-10-17T03:04:42.546Z",
+              "lastUserMessageAt": "2026-10-17T03:04:35.542Z",
+              "status": "running",
+              "activeTurn": {
+                "turnId": "foreground-turn-1",
+                "startedAt": "2026-10-17T03:04:35.542Z"
+              },
+              "capabilities": {
+                "supportsStreaming": true,
+                "supportsSessionPersistence": true,
+                "supportsSessionListing": true,
+                "supportsDynamicModes": true,
+                "supportsMcpServers": true,
+                "supportsReasoningStream": true,
+                "supportsToolInvocations": true,
+                "supportsRewindConversation": true,
+                "supportsRewindFiles": true,
+                "supportsRewindBoth": true
+              },
+              "currentModeId": "bypassPermissions",
+              "availableModes": [
+                {
+                  "id": "plan",
+                  "label": "Plan Mode",
+                  "description": "Analyze the codebase without executing tools or edits"
+                },
+                {
+                  "id": "default",
+                  "label": "Always Ask",
+                  "description": "Prompts for permission the first time a tool is used"
+                },
+                {
+                  "id": "acceptEdits",
+                  "label": "Accept File Edits",
+                  "description": "Automatically approves edit-focused tools without prompting"
+                },
+                {
+                  "id": "auto",
+                  "label": "Auto mode",
+                  "description": "Uses a model classifier to review permission prompts automatically"
+                },
+                {
+                  "id": "bypassPermissions",
+                  "label": "Bypass",
+                  "description": "Skip all permission prompts (use with caution)"
+                }
+              ],
+              "features": [
+                {
+                  "type": "toggle",
+                  "id": "fast_mode",
+                  "label": "Fast",
+                  "description": "Lower latency Opus responses at higher token cost",
+                  "tooltip": "Toggle fast mode",
+                  "icon": "zap",
+                  "value": false
+                }
+              ],
+              "pendingPermissions": [],
+              "persistence": {
+                "provider": "claude",
+                "sessionId": "30517841-c015-472a-b1c6-b71f7e96667c",
+                "nativeHandle": "30517841-c015-472a-b1c6-b71f7e96667c",
+                "metadata": {
+                  "provider": "claude",
+                  "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+                  "modeId": "bypassPermissions",
+                  "title": "QA parallel Read B-A",
+                  "model": "claude-opus-5-5"
+                }
+              },
+              "title": "QA parallel Read B-A",
+              "labels": {},
+              "lastUsage": {
+                "contextWindowMaxTokens": 1000000,
+                "contextWindowUsedTokens": 36786
+              },
+              "requiresAttention": false,
+              "attentionReason": null,
+              "attentionTimestamp": null,
+              "archivedAt": null
+            },
+            "direction": "tail",
+            "projection": "projected",
+            "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+            "reset": false,
+            "staleCursor": false,
+            "gap": false,
+            "window": {
+              "minSeq": 1,
+              "maxSeq": 6,
+              "nextSeq": 7
+            },
+            "startCursor": {
+              "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+              "seq": 1
+            },
+            "endCursor": {
+              "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+              "seq": 6
+            },
+            "hasOlder": false,
+            "hasNewer": false,
+            "entries": [
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "user_message",
+                  "text": "This is an isolated synthetic QA task. Call the native Read tool exactly twice on /tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txt and /tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txt, in the SAME parallel tool-use batch. Both calls wait for a test coordinator hook, so do not await one before issuing the other. Do not use MCP tools or any other tools. After both results arrive reply only QA-DONE.",
+                  "clientMessageId": "786fb77a-a258-4bb6-a90e-aad1bf23be07",
+                  "messageId": "786fb77a-a258-4bb6-a90e-aad1bf23be07"
+                },
+                "timestamp": "2026-10-17T03:04:35.542Z",
+                "seqStart": 1,
+                "seqEnd": 1,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 1,
+                    "endSeq": 1
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": []
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01Ag8V6DFsxbiRg8gyzUPSnE",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txt"
+                  },
+                  "status": "running",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:41.304Z",
+                "seqStart": 2,
+                "seqEnd": 3,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 2,
+                    "endSeq": 3
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": [
+                  "tool_lifecycle"
+                ]
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01RpfExutZM3b3ysWx7xp3X7",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txt",
+                    "content": "Synthetic B — beta\n",
+                    "offset": 1
+                  },
+                  "status": "completed",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:42.546Z",
+                "seqStart": 4,
+                "seqEnd": 6,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 4,
+                    "endSeq": 6
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": [
+                  "tool_lifecycle"
+                ]
+              }
+            ],
+            "error": null
+          }
+        },
+        {
+          "stage": "both-complete",
+          "at": 1792206285586,
+          "rows": [
+            {
+              "callId": "toolu_01Ag8V6DFsxbiRg8gyzUPSnE",
+              "timestamp": "1792206280795",
+              "status": "completed",
+              "top": 280,
+              "height": 26,
+              "marginBottom": "-12px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txtL1+"
+            },
+            {
+              "callId": "toolu_01RpfExutZM3b3ysWx7xp3X7",
+              "timestamp": "1792206281368",
+              "status": "completed",
+              "top": 310,
+              "height": 26,
+              "marginBottom": "-12px",
+              "text": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txtL1+"
+            }
+          ],
+          "timeline": {
+            "requestId": "32d2d48e-7f2f-4e02-b04f-69c84e4ea803",
+            "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+            "agent": {
+              "id": "3961b019-ecef-4acc-8760-dda2aaba944b",
+              "provider": "claude",
+              "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+              "workspaceId": "wks_83398da762ab4039",
+              "model": "claude-opus-5-5",
+              "thinkingOptionId": null,
+              "effectiveThinkingOptionId": null,
+              "runtimeInfo": {
+                "provider": "claude",
+                "sessionId": "30517841-c015-472a-b1c6-b71f7e96667c",
+                "model": "claude-opus-5-5",
+                "modeId": "bypassPermissions",
+                "extra": {
+                  "runtimeModel": "claude-opus-5-5"
+                }
+              },
+              "createdAt": "2026-10-17T03:04:34.154Z",
+              "updatedAt": "2026-10-17T03:04:44.980Z",
+              "lastUserMessageAt": "2026-10-17T03:04:35.542Z",
+              "status": "idle",
+              "activeTurn": null,
+              "capabilities": {
+                "supportsStreaming": true,
+                "supportsSessionPersistence": true,
+                "supportsSessionListing": true,
+                "supportsDynamicModes": true,
+                "supportsMcpServers": true,
+                "supportsReasoningStream": true,
+                "supportsToolInvocations": true,
+                "supportsRewindConversation": true,
+                "supportsRewindFiles": true,
+                "supportsRewindBoth": true
+              },
+              "currentModeId": "bypassPermissions",
+              "availableModes": [
+                {
+                  "id": "plan",
+                  "label": "Plan Mode",
+                  "description": "Analyze the codebase without executing tools or edits"
+                },
+                {
+                  "id": "default",
+                  "label": "Always Ask",
+                  "description": "Prompts for permission the first time a tool is used"
+                },
+                {
+                  "id": "acceptEdits",
+                  "label": "Accept File Edits",
+                  "description": "Automatically approves edit-focused tools without prompting"
+                },
+                {
+                  "id": "auto",
+                  "label": "Auto mode",
+                  "description": "Uses a model classifier to review permission prompts automatically"
+                },
+                {
+                  "id": "bypassPermissions",
+                  "label": "Bypass",
+                  "description": "Skip all permission prompts (use with caution)"
+                }
+              ],
+              "features": [
+                {
+                  "type": "toggle",
+                  "id": "fast_mode",
+                  "label": "Fast",
+                  "description": "Lower latency Opus responses at higher token cost",
+                  "tooltip": "Toggle fast mode",
+                  "icon": "zap",
+                  "value": false
+                }
+              ],
+              "pendingPermissions": [],
+              "persistence": {
+                "provider": "claude",
+                "sessionId": "30517841-c015-472a-b1c6-b71f7e96667c",
+                "nativeHandle": "30517841-c015-472a-b1c6-b71f7e96667c",
+                "metadata": {
+                  "provider": "claude",
+                  "cwd": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/repo",
+                  "modeId": "bypassPermissions",
+                  "title": "QA parallel Read B-A",
+                  "model": "claude-opus-5-5"
+                }
+              },
+              "title": "QA parallel Read B-A",
+              "labels": {},
+              "lastUsage": {
+                "inputTokens": 4,
+                "cachedInputTokens": 49897,
+                "outputTokens": 188,
+                "totalCostUsd": 0.2025394,
+                "contextWindowMaxTokens": 1000000,
+                "contextWindowUsedTokens": 36901
+              },
+              "requiresAttention": true,
+              "attentionReason": "finished",
+              "attentionTimestamp": "2026-10-17T03:04:44.979Z",
+              "archivedAt": null
+            },
+            "direction": "tail",
+            "projection": "projected",
+            "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+            "reset": false,
+            "staleCursor": false,
+            "gap": false,
+            "window": {
+              "minSeq": 1,
+              "maxSeq": 8,
+              "nextSeq": 9
+            },
+            "startCursor": {
+              "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+              "seq": 1
+            },
+            "endCursor": {
+              "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+              "seq": 8
+            },
+            "hasOlder": false,
+            "hasNewer": false,
+            "entries": [
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "user_message",
+                  "text": "This is an isolated synthetic QA task. Call the native Read tool exactly twice on /tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txt and /tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txt, in the SAME parallel tool-use batch. Both calls wait for a test coordinator hook, so do not await one before issuing the other. Do not use MCP tools or any other tools. After both results arrive reply only QA-DONE.",
+                  "clientMessageId": "786fb77a-a258-4bb6-a90e-aad1bf23be07",
+                  "messageId": "786fb77a-a258-4bb6-a90e-aad1bf23be07"
+                },
+                "timestamp": "2026-10-17T03:04:35.542Z",
+                "seqStart": 1,
+                "seqEnd": 1,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 1,
+                    "endSeq": 1
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": []
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01Ag8V6DFsxbiRg8gyzUPSnE",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txt",
+                    "content": "Synthetic A — alpha\n",
+                    "offset": 1
+                  },
+                  "status": "completed",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:43.283Z",
+                "seqStart": 2,
+                "seqEnd": 7,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 2,
+                    "endSeq": 3
+                  },
+                  {
+                    "startSeq": 7,
+                    "endSeq": 7
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": [
+                  "tool_lifecycle"
+                ]
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "tool_call",
+                  "callId": "toolu_01RpfExutZM3b3ysWx7xp3X7",
+                  "name": "Read",
+                  "detail": {
+                    "type": "read",
+                    "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txt",
+                    "content": "Synthetic B — beta\n",
+                    "offset": 1
+                  },
+                  "status": "completed",
+                  "error": null
+                },
+                "timestamp": "2026-10-17T03:04:42.546Z",
+                "seqStart": 4,
+                "seqEnd": 6,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 4,
+                    "endSeq": 6
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": [
+                  "tool_lifecycle"
+                ]
+              },
+              {
+                "provider": "claude",
+                "item": {
+                  "type": "assistant_message",
+                  "text": "QA-DONE",
+                  "messageId": "msg_011Cg74unbZhrNe4j1tJqq55"
+                },
+                "timestamp": "2026-10-17T03:04:44.905Z",
+                "seqStart": 8,
+                "seqEnd": 8,
+                "sourceSeqRanges": [
+                  {
+                    "startSeq": 8,
+                    "endSeq": 8
+                  }
+                ],
+                "turnId": "foreground-turn-1",
+                "collapsed": []
+              }
+            ],
+            "error": null
+          }
+        }
+      ],
+      "nativeDetails": [
+        "read",
+        "read"
+      ],
+      "gaps": {
+        "initial": 4,
+        "middle": 4
+      }
+    }
+  ],
+  "cleanup": {
+    "metroPid": 93847,
+    "completedAt": "2026-10-17T03:04:46.821Z"
+  },
+  "metroPort": 63451,
+  "port": 63453,
+  "paseoHome": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/home/.paseo",
+  "plugins": [
+    {
+      "id": "qa-timestamp",
+      "path": "/tmp/paseo-review-repair-20261017/qa/plugin",
+      "enabled": true,
+      "status": "running",
+      "name": "Better Paseo",
+      "installation": {
+        "identity": {
+          "kind": "directory",
+          "path": "/tmp/paseo-review-repair-20261017/qa/plugin"
+        }
+      }
+    }
+  ],
+  "serverId": "srv_-JG12eRGQXx1",
+  "status": "passed"
+}

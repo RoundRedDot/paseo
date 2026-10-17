@@ -1,0 +1,12 @@
+diff --git a/Users/luopeihuan/workspace/rrd/beautiful-chat/client/live-renderers.tsx b/tmp/paseo-review-repair-20261017/qa/plugin/client/live-renderers.tsx
+index 7f8696d..42635f9 100644
+--- a/Users/luopeihuan/workspace/rrd/beautiful-chat/client/live-renderers.tsx
++++ b/tmp/paseo-review-repair-20261017/qa/plugin/client/live-renderers.tsx
+@@ -217,6 +217,7 @@ function LiveToolCallRendererBody({
+       ref={rootRef}
+       {...surfaceProps(itemRootFont(preferences.uiFont), pluginRoot)}
+       {...probe.viewProps}
++      dataSet={{ qaCallId: data.callId, qaTimestamp: String(timestamp.getTime()), qaStatus: data.status }}
+       style={group !== null && compensatesRow(preferences.compactRowSpacing, anythingBelow, rowBelow, hostStacks) ? rowGapStyles.compensated : undefined}
+     >
+       {group !== null ? (

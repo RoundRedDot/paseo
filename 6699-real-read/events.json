@@ -1,0 +1,599 @@
+[
+  {
+    "type": "browser-console",
+    "text": "React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element. uniProps uniprops"
+  },
+  {
+    "type": "browser-console",
+    "text": "React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element. accessibilityElementsHidden accessibilityelementshidden"
+  },
+  {
+    "type": "browser-console",
+    "text": "React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element. importantForAccessibility importantforaccessibility"
+  },
+  {
+    "at": 1792206266123,
+    "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+        "event": {
+          "type": "turn_started",
+          "provider": "claude",
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:26.108Z",
+        "subscriptionId": "1780bf99-37c3-4bc0-93b4-f6e414e35926"
+      }
+    }
+  },
+  {
+    "at": 1792206266123,
+    "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "user_message",
+            "text": "This is an isolated synthetic QA task. Call the native Read tool exactly twice on /tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt and /tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txt, in the SAME parallel tool-use batch. Both calls wait for a test coordinator hook, so do not await one before issuing the other. Do not use MCP tools or any other tools. After both results arrive reply only QA-DONE.",
+            "messageId": "b1532f37-e836-4ff1-bd4f-aa4e9da4d422",
+            "clientMessageId": "b1532f37-e836-4ff1-bd4f-aa4e9da4d422"
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:26.109Z",
+        "seq": 1,
+        "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+        "subscriptionId": "1780bf99-37c3-4bc0-93b4-f6e414e35926"
+      }
+    }
+  },
+  {
+    "at": 1792206266124,
+    "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+        "event": {
+          "type": "thread_started",
+          "sessionId": "5312417d-c21a-4bce-a9d6-db11af0e2ff4",
+          "provider": "claude"
+        },
+        "timestamp": "2026-10-17T03:04:26.113Z",
+        "subscriptionId": "1780bf99-37c3-4bc0-93b4-f6e414e35926"
+      }
+    }
+  },
+  {
+    "at": 1792206269677,
+    "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "tool_call",
+            "callId": "toolu_01PvCAGJM3jUvjyarRS27316",
+            "name": "Read",
+            "detail": {
+              "type": "unknown",
+              "input": {},
+              "output": null
+            },
+            "status": "running",
+            "error": null
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:29.675Z",
+        "seq": 2,
+        "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+        "subscriptionId": "1780bf99-37c3-4bc0-93b4-f6e414e35926"
+      }
+    }
+  },
+  {
+    "at": 1792206270616,
+    "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "tool_call",
+            "callId": "toolu_01PvCAGJM3jUvjyarRS27316",
+            "name": "Read",
+            "detail": {
+              "type": "read",
+              "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt"
+            },
+            "status": "running",
+            "error": null
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:30.615Z",
+        "seq": 3,
+        "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+        "subscriptionId": "1780bf99-37c3-4bc0-93b4-f6e414e35926"
+      }
+    }
+  },
+  {
+    "at": 1792206270626,
+    "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "tool_call",
+            "callId": "toolu_01FvENJNm7KAhHp6orPuckr2",
+            "name": "Read",
+            "detail": {
+              "type": "read",
+              "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txt"
+            },
+            "status": "running",
+            "error": null
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:30.624Z",
+        "seq": 4,
+        "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+        "subscriptionId": "1780bf99-37c3-4bc0-93b4-f6e414e35926"
+      }
+    }
+  },
+  {
+    "at": 1792206271388,
+    "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "tool_call",
+            "callId": "toolu_01PvCAGJM3jUvjyarRS27316",
+            "name": "Read",
+            "detail": {
+              "type": "read",
+              "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt",
+              "content": "Synthetic A — alpha\n",
+              "offset": 1
+            },
+            "status": "completed",
+            "error": null
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:31.388Z",
+        "seq": 5,
+        "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+        "subscriptionId": "1780bf99-37c3-4bc0-93b4-f6e414e35926"
+      }
+    }
+  },
+  {
+    "type": "browser-console",
+    "text": "In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s <button> button \n\n  ...\n    <LiveToolCallRendererBody agentId=\"2fe684a5-c...\" theme={{colors:{...}}} host={{id:\"srv_-J...\", ...}} ...>\n      <View ref={{...}} dataSet={{qaCallId:\"...\", ...}} style={{...}}>\n        <div dir={null} ref={function forwardRef} data-qa-call-id=\"toolu_01Pv...\" data-qa-timestamp=\"1792206269675\" ...>\n          <PreferenceSyncSlotBody>\n          <ToolCallout data={{id:\"live-read\", ...}} previewKey=\"2fe684a5-c...\" groupCalls={undefined} ...>\n            <DisclosureHeader expanded={false} onToggle={function} scrollAnchor={{ref:{...}, ...}} ...>\n              <Pressable ref={function} accessibilityRole=\"button\" accessibilityLabel=\"Read /tmp/...\" ...>\n                <View accessibilityRole=\"button\" accessibilityLabel=\"Read /tmp/...\" accessibilityState={{expanded:false}} ...>\n>                 <button\n>                   onKeyDown={function}\n>                   onClick={function onClick}\n>                   onContextMenu={function}\n>                   onBlur={function}\n>                   onFocus={function}\n>                   dir={null}\n>                   ref={function forwardRef}\n>                   aria-expanded={false}\n>                   aria-label=\"Read /tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt L1+\"\n>                   role=\"button\"\n>                   tabIndex={0}\n>                   className=\"css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-borderRad...\"\n>                   style={{height:\"26px\"}}\n>                   type=\"button\"\n>                 >\n                    <View>\n                    <PathText path=\"/tmp/paseo...\" tokens={{isDark:false, ...}} compact={false} copyOnHover={false} ...>\n                      <View style={{flex:1, ...}} onLayout={function}>\n                        <div dir={null} ref={function forwardRef} className=\"css-view-g...\">\n                          <Pressable accessibilityRole=\"button\" accessibilityLabel=\"/tmp/paseo...\" ...>\n                            <View accessibilityRole=\"button\" accessibilityLabel=\"/tmp/paseo...\" ...>\n>                             <button\n>                               onKeyDown={function}\n>                               onClick={function onClick}\n>                               onContextMenu={function}\n>                               onBlur={function}\n>                               onFocus={function}\n>                               dir={null}\n>                               ref={function forwardRef}\n>                               aria-label=\"/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt\"\n>                               role=\"button\"\n>                               tabIndex={0}\n>                               className=\"css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy...\"\n>                               type=\"button\"\n>                             >\n                    ...\n          ...\n"
+  },
+  {
+    "type": "browser-console",
+    "text": "<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. button <button>"
+  },
+  {
+    "at": 1792206272151,
+    "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "tool_call",
+            "callId": "toolu_01FvENJNm7KAhHp6orPuckr2",
+            "name": "Read",
+            "detail": {
+              "type": "read",
+              "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/B.txt",
+              "content": "Synthetic B — beta\n",
+              "offset": 1
+            },
+            "status": "completed",
+            "error": null
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:32.150Z",
+        "seq": 6,
+        "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+        "subscriptionId": "1780bf99-37c3-4bc0-93b4-f6e414e35926"
+      }
+    }
+  },
+  {
+    "at": 1792206273142,
+    "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "assistant_message",
+            "text": "QA-DONE",
+            "messageId": "msg_011Cg74ty55oAECC3AKRN5Nz"
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:33.142Z",
+        "seq": 7,
+        "epoch": "ac7dbeb2-9f39-4ed8-b3c5-56059e6be686",
+        "subscriptionId": "1780bf99-37c3-4bc0-93b4-f6e414e35926"
+      }
+    }
+  },
+  {
+    "at": 1792206273217,
+    "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "2fe684a5-c2bd-46a6-961b-a71249694bf7",
+        "event": {
+          "type": "turn_completed",
+          "provider": "claude",
+          "turnId": "foreground-turn-1",
+          "usage": {
+            "inputTokens": 4,
+            "cachedInputTokens": 48397,
+            "outputTokens": 191,
+            "totalCostUsd": 0.2143234,
+            "contextWindowMaxTokens": 1000000,
+            "contextWindowUsedTokens": 36904
+          }
+        },
+        "timestamp": "2026-10-17T03:04:33.214Z",
+        "subscriptionId": "1780bf99-37c3-4bc0-93b4-f6e414e35926"
+      }
+    }
+  },
+  {
+    "type": "browser-console",
+    "text": "React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element. uniProps uniprops"
+  },
+  {
+    "type": "browser-console",
+    "text": "React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element. accessibilityElementsHidden accessibilityelementshidden"
+  },
+  {
+    "type": "browser-console",
+    "text": "React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element. importantForAccessibility importantforaccessibility"
+  },
+  {
+    "type": "browser-console",
+    "text": "In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s <button> button \n\n  ...\n    <LiveToolCallRendererBody agentId=\"2fe684a5-c...\" theme={{colors:{...}}} host={{id:\"srv_-J...\", ...}} ...>\n      <View ref={{current:null}} dataSet={{qaCallId:\"...\", ...}} style={undefined}>\n        <div dir={null} ref={function forwardRef} data-qa-call-id=\"toolu_01Pv...\" data-qa-timestamp=\"1792206269675\" ...>\n          <PreferenceSyncSlotBody>\n          <ToolCallout data={{id:\"live-read\", ...}} previewKey=\"2fe684a5-c...\" groupCalls={undefined} ...>\n            <DisclosureHeader expanded={false} onToggle={function} scrollAnchor={{ref:{...}, ...}} ...>\n              <Pressable ref={function} accessibilityRole=\"button\" accessibilityLabel=\"Read /tmp/...\" ...>\n                <View accessibilityRole=\"button\" accessibilityLabel=\"Read /tmp/...\" accessibilityState={{expanded:false}} ...>\n>                 <button\n>                   onKeyDown={function}\n>                   onClick={function onClick}\n>                   onContextMenu={function}\n>                   onBlur={function}\n>                   onFocus={function}\n>                   dir={null}\n>                   ref={function forwardRef}\n>                   aria-expanded={false}\n>                   aria-label=\"Read /tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt L1+\"\n>                   role=\"button\"\n>                   tabIndex={0}\n>                   className=\"css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy r-borderRad...\"\n>                   style={{height:\"26px\"}}\n>                   type=\"button\"\n>                 >\n                    <View>\n                    <PathText path=\"/tmp/paseo...\" tokens={{isDark:false, ...}} compact={false} copyOnHover={false} ...>\n                      <View style={{flex:1, ...}} onLayout={function}>\n                        <div dir={null} ref={function forwardRef} className=\"css-view-g...\">\n                          <Pressable accessibilityRole=\"button\" accessibilityLabel=\"/tmp/paseo...\" ...>\n                            <View accessibilityRole=\"button\" accessibilityLabel=\"/tmp/paseo...\" ...>\n>                             <button\n>                               onKeyDown={function}\n>                               onClick={function onClick}\n>                               onContextMenu={function}\n>                               onBlur={function}\n>                               onFocus={function}\n>                               dir={null}\n>                               ref={function forwardRef}\n>                               aria-label=\"/tmp/paseo-review-repair-20261017/qa/6699-native-read/A-B/A.txt\"\n>                               role=\"button\"\n>                               tabIndex={0}\n>                               className=\"css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 r-alignItems-1awozwy...\"\n>                               type=\"button\"\n>                             >\n                    ...\n          ...\n"
+  },
+  {
+    "type": "browser-console",
+    "text": "<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. button <button>"
+  },
+  {
+    "at": 1792206275543,
+    "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+        "event": {
+          "type": "turn_started",
+          "provider": "claude",
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:35.542Z",
+        "subscriptionId": "9a492f01-c51d-4f83-ab84-10d54c0af0ce"
+      }
+    }
+  },
+  {
+    "at": 1792206275543,
+    "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "user_message",
+            "text": "This is an isolated synthetic QA task. Call the native Read tool exactly twice on /tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txt and /tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txt, in the SAME parallel tool-use batch. Both calls wait for a test coordinator hook, so do not await one before issuing the other. Do not use MCP tools or any other tools. After both results arrive reply only QA-DONE.",
+            "messageId": "786fb77a-a258-4bb6-a90e-aad1bf23be07",
+            "clientMessageId": "786fb77a-a258-4bb6-a90e-aad1bf23be07"
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:35.542Z",
+        "seq": 1,
+        "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+        "subscriptionId": "9a492f01-c51d-4f83-ab84-10d54c0af0ce"
+      }
+    }
+  },
+  {
+    "at": 1792206275559,
+    "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+        "event": {
+          "type": "thread_started",
+          "sessionId": "30517841-c015-472a-b1c6-b71f7e96667c",
+          "provider": "claude"
+        },
+        "timestamp": "2026-10-17T03:04:35.558Z",
+        "subscriptionId": "9a492f01-c51d-4f83-ab84-10d54c0af0ce"
+      }
+    }
+  },
+  {
+    "at": 1792206280796,
+    "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "tool_call",
+            "callId": "toolu_01Ag8V6DFsxbiRg8gyzUPSnE",
+            "name": "Read",
+            "detail": {
+              "type": "unknown",
+              "input": {},
+              "output": null
+            },
+            "status": "running",
+            "error": null
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:40.795Z",
+        "seq": 2,
+        "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+        "subscriptionId": "9a492f01-c51d-4f83-ab84-10d54c0af0ce"
+      }
+    }
+  },
+  {
+    "at": 1792206281304,
+    "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "tool_call",
+            "callId": "toolu_01Ag8V6DFsxbiRg8gyzUPSnE",
+            "name": "Read",
+            "detail": {
+              "type": "read",
+              "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txt"
+            },
+            "status": "running",
+            "error": null
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:41.304Z",
+        "seq": 3,
+        "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+        "subscriptionId": "9a492f01-c51d-4f83-ab84-10d54c0af0ce"
+      }
+    }
+  },
+  {
+    "at": 1792206281369,
+    "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "tool_call",
+            "callId": "toolu_01RpfExutZM3b3ysWx7xp3X7",
+            "name": "Read",
+            "detail": {
+              "type": "unknown",
+              "input": {},
+              "output": null
+            },
+            "status": "running",
+            "error": null
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:41.368Z",
+        "seq": 4,
+        "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+        "subscriptionId": "9a492f01-c51d-4f83-ab84-10d54c0af0ce"
+      }
+    }
+  },
+  {
+    "at": 1792206281730,
+    "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "tool_call",
+            "callId": "toolu_01RpfExutZM3b3ysWx7xp3X7",
+            "name": "Read",
+            "detail": {
+              "type": "read",
+              "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txt"
+            },
+            "status": "running",
+            "error": null
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:41.730Z",
+        "seq": 5,
+        "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+        "subscriptionId": "9a492f01-c51d-4f83-ab84-10d54c0af0ce"
+      }
+    }
+  },
+  {
+    "at": 1792206282546,
+    "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "tool_call",
+            "callId": "toolu_01RpfExutZM3b3ysWx7xp3X7",
+            "name": "Read",
+            "detail": {
+              "type": "read",
+              "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/B.txt",
+              "content": "Synthetic B — beta\n",
+              "offset": 1
+            },
+            "status": "completed",
+            "error": null
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:42.546Z",
+        "seq": 6,
+        "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+        "subscriptionId": "9a492f01-c51d-4f83-ab84-10d54c0af0ce"
+      }
+    }
+  },
+  {
+    "at": 1792206283283,
+    "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "tool_call",
+            "callId": "toolu_01Ag8V6DFsxbiRg8gyzUPSnE",
+            "name": "Read",
+            "detail": {
+              "type": "read",
+              "filePath": "/tmp/paseo-review-repair-20261017/qa/6699-native-read/B-A/A.txt",
+              "content": "Synthetic A — alpha\n",
+              "offset": 1
+            },
+            "status": "completed",
+            "error": null
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:43.283Z",
+        "seq": 7,
+        "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+        "subscriptionId": "9a492f01-c51d-4f83-ab84-10d54c0af0ce"
+      }
+    }
+  },
+  {
+    "at": 1792206284906,
+    "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+        "event": {
+          "type": "timeline",
+          "provider": "claude",
+          "item": {
+            "type": "assistant_message",
+            "text": "QA-DONE",
+            "messageId": "msg_011Cg74unbZhrNe4j1tJqq55"
+          },
+          "turnId": "foreground-turn-1"
+        },
+        "timestamp": "2026-10-17T03:04:44.905Z",
+        "seq": 8,
+        "epoch": "75ac0923-de0b-490f-ad47-bf55c00b10da",
+        "subscriptionId": "9a492f01-c51d-4f83-ab84-10d54c0af0ce"
+      }
+    }
+  },
+  {
+    "at": 1792206284981,
+    "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "3961b019-ecef-4acc-8760-dda2aaba944b",
+        "event": {
+          "type": "turn_completed",
+          "provider": "claude",
+          "turnId": "foreground-turn-1",
+          "usage": {
+            "inputTokens": 4,
+            "cachedInputTokens": 49897,
+            "outputTokens": 188,
+            "totalCostUsd": 0.2025394,
+            "contextWindowMaxTokens": 1000000,
+            "contextWindowUsedTokens": 36901
+          }
+        },
+        "timestamp": "2026-10-17T03:04:44.979Z",
+        "subscriptionId": "9a492f01-c51d-4f83-ab84-10d54c0af0ce"
+      }
+    }
+  }
+]
