@@ -1,0 +1,12 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 1330,
+    "sha256": "a7a7a255c7c707d727c3652dacad0b38572952339820b421b34f0ec1dfd1e3d6"
+  },
+  {
+    "file": "presence-only.json",
+    "bytes": 878,
+    "sha256": "576e9dc5ae51ad695204b79ab2b408173380258d2d35029d3a4bd35c4693fc45"
+  }
+]

@@ -1,0 +1,7 @@
+import pathlib,json,math
+src=pathlib.Path('/tmp/paseo-pr-native-followup-20261017/perf-stage');out=[]
+for name in ['WARM1','CAL01','CAL02']:
+ a=json.loads((src/'runs'/name/'analysis.json').read_text())['metrics'];raw=json.loads((src/'runs'/name/'perf-raw-events.json').read_text());header=next(x for x in raw if x['event']=='header');start=__import__('datetime').datetime.fromisoformat(a['window']['start'].replace('Z','+00:00')).timestamp()*1000;end=__import__('datetime').datetime.fromisoformat(a['window']['end'].replace('Z','+00:00')).timestamp()*1000
+ persists=[x for x in raw if x['event']=='persist' and start<=x['startMs']+header['wallAtZero']<=end and any(y['kind']=='timeline' for y in x['rows'])];times=sorted([x['durationMs'] for x in persists],reverse=True);total=sum(times)
+ out.append({'run':name,'counterMs':a['primary']['counterMs'],'persistMs':total,'counterShareOfPersist':a['primary']['counterMs']/total,'persistCount':len(times),'largestPersistDurationsMs':times[:6],'top3PersistShare':sum(times[:3])/total,'counterBytes':a['volume']['counterBytes'],'upsertBytes':a['volume']['materializedUpsertBytes'],'assistantFrames':a['input']['assistantFrames'],'assistantBytes':a['input']['assistantBytes'],'assistantHash':a['input']['assistantSha256'],'caution':'Counter share is descriptive, not attributable CPU or component latency; async persist includes waits.'})
+r=pathlib.Path('/tmp/paseo-pr-final-gaps-20261017');(r/'7186-noise-analysis.json').write_text(json.dumps(out,indent=2));print(json.dumps(out,indent=2))

@@ -1,0 +1,17 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 2309,
+    "sha256": "9ccca47ef81c4c5b143e21e1e58dae3a8530e82c955eb4b90d629d33bab86b1b"
+  },
+  {
+    "file": "analysis.json",
+    "bytes": 2206,
+    "sha256": "50b4ce3caf7afd101805f5a983b7235560adc257de8344cbdbca719d42b8cd01"
+  },
+  {
+    "file": "analyze-noise.py",
+    "bytes": 1533,
+    "sha256": "8c1c34d5de6c84eb1a1d079b4cffafb6299361292035be44ca13fe5e1bd35cc6"
+  }
+]

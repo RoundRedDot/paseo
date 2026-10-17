@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-17T08:33:48.351018+00:00",
+  "environmentPresence": {
+    "ANTHROPIC_API_KEY": false,
+    "OPENAI_API_KEY": false,
+    "GEMINI_API_KEY": false,
+    "GOOGLE_API_KEY": false,
+    "GOOGLE_APPLICATION_CREDENTIALS": false,
+    "GOOGLE_CLOUD_PROJECT": false,
+    "GOOGLE_CLOUD_LOCATION": false,
+    "OPENROUTER_API_KEY": false,
+    "XAI_API_KEY": false,
+    "PI_CODING_AGENT_DIR": false,
+    "OMP_PROFILE": false,
+    "OMP_CONFIG_DIR": false,
+    "XDG_CONFIG_HOME": false
+  },
+  "statePathPresence": {
+    ".omp/agent/agent.db": false,
+    ".omp/agent/config.yml": false,
+    ".omp/config.yml": false,
+    ".config/omp/agent.db": false,
+    ".config/omp/config.yml": false
+  },
+  "realModelRequests": 0,
+  "secretValuesReadOrPrinted": false,
+  "note": "Presence only; not a successful model/provider runtime. Existing Pi extension routing is not copied into OMP."
+}

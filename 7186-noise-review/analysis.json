@@ -1,0 +1,68 @@
+[
+  {
+    "run": "WARM1",
+    "counterMs": 0.9649190157651901,
+    "persistMs": 344.8507899791002,
+    "counterShareOfPersist": 0.002798076860498621,
+    "persistCount": 28,
+    "largestPersistDurationsMs": [
+      62.26783399283886,
+      60.933791011571884,
+      60.38254100084305,
+      44.80170799791813,
+      34.52504199743271,
+      13.141165986657143
+    ],
+    "top3PersistShare": 0.5323582585279273,
+    "counterBytes": 755820,
+    "upsertBytes": 760975,
+    "assistantFrames": 457,
+    "assistantBytes": 50014,
+    "assistantHash": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+    "caution": "Counter share is descriptive, not attributable CPU or component latency; async persist includes waits."
+  },
+  {
+    "run": "CAL01",
+    "counterMs": 0.9881669729948044,
+    "persistMs": 238.46003797650337,
+    "counterShareOfPersist": 0.004143952091008948,
+    "persistCount": 27,
+    "largestPersistDurationsMs": [
+      63.28441700339317,
+      57.977540999650955,
+      49.18537500500679,
+      7.520874992012978,
+      3.933875009417534,
+      3.640874996781349
+    ],
+    "top3PersistShare": 0.714783636094388,
+    "counterBytes": 710357,
+    "upsertBytes": 715512,
+    "assistantFrames": 459,
+    "assistantBytes": 50014,
+    "assistantHash": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+    "caution": "Counter share is descriptive, not attributable CPU or component latency; async persist includes waits."
+  },
+  {
+    "run": "CAL02",
+    "counterMs": 0.930291011929512,
+    "persistMs": 441.79129399359226,
+    "counterShareOfPersist": 0.002105725089148101,
+    "persistCount": 28,
+    "largestPersistDurationsMs": [
+      91.42729200422764,
+      83.31383299827576,
+      78.30545899271965,
+      66.25729198753834,
+      49.415625005960464,
+      15.711083993315697
+    ],
+    "top3PersistShare": 0.5727740393157074,
+    "counterBytes": 756350,
+    "upsertBytes": 761505,
+    "assistantFrames": 458,
+    "assistantBytes": 50014,
+    "assistantHash": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+    "caution": "Counter share is descriptive, not attributable CPU or component latency; async persist includes waits."
+  }
+]
