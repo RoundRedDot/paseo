@@ -1,0 +1,45 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7000-parallel-20261016/packages/server
+
+stdout | src/server/agent/providers/claude/agent.history-load.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: ⚙️  suppress all logs with { quiet: true }
+
+ ❯ src/server/agent/providers/claude/agent.history-load.test.ts (6 tests | 1 failed | 4 skipped) 73ms
+     × records a distinct 'turn_completed' timing when the same agent runs after disk reload 73ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/agent/providers/claude/agent.history-load.test.ts > ClaudeAgentSession persisted history load > records a distinct 'turn_completed' timing when the same agent runs after disk reload
+AssertionError: expected [ { …(5) } ] to match object [ { status: 'turn_completed', …(1) } ]
+(3 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  [
+    {
+      "messageIds": [
+-       "provider-reply-1",
++       "provider-reply-0",
+      ],
+      "status": "turn_completed",
+    },
+  ]
+
+ ❯ src/server/agent/providers/claude/agent.history-load.test.ts:178:30
+    176|       });
+    177|       expect(currentPage.rows).toEqual([reply]);
+    178|       expect(currentTimings).toMatchObject([{ status, messageIds: ["pr…
+       |                              ^
+    179|       const timings = (await diskStorage.get(agent.id))!.turnTimings!;
+    180|       expect(timings).toHaveLength(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (6)
+   Start at  10:43:50
+   Duration  700ms (transform 353ms, setup 18ms, import 540ms, tests 73ms, environment 0ms)
+

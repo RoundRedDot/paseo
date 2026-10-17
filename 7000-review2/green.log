@@ -1,0 +1,9 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7000-parallel-20261016/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed | 4 skipped (6)
+   Start at  10:47:21
+   Duration  738ms (transform 352ms, setup 19ms, import 540ms, tests 112ms, environment 0ms)
+
