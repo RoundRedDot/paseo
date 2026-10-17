@@ -1,0 +1,56 @@
+
+> @getpaseo/app@0.12.0-beta.1 test
+> vitest run src/ordering/replica.test.ts --bail=1
+
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+
+ ❯ |unit| src/ordering/replica.test.ts (12 tests | 1 failed) 7ms
+   × a first explicit gesture initializes the complete relevant order at revision zero 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/ordering/replica.test.ts > a first explicit gesture initializes the complete relevant order at revision zero
+AssertionError: expected [ { …(3) } ] to deeply equal [ { …(3) } ]
+
+- Expected
++ Received
+
+@@ -1,13 +1,11 @@
+  [
+    {
+      "expectedRevision": 0,
+      "order": [
+-       "a",
+        "d",
+        "b",
+-       "c",
+      ],
+      "scope": {
+        "kind": "tabs",
+        "workspaceId": "w",
+      },
+
+ ❯ src/ordering/replica.test.ts:121:22
+    119|   replica.reorder({ scope, move: createOrderMove({ moved: "d", order: …
+    120|   replica.snapshot([]);
+    121|   expect(port.calls).toEqual([{ scope, expectedRevision: 0, order: ["a…
+       |                      ^
+    122| });
+    123|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  10:43:51
+   Duration  151ms (transform 37ms, setup 26ms, import 40ms, tests 7ms, environment 0ms)
+
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+npm error workspace @getpaseo/app@0.12.0-beta.1
+npm error location /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+npm error command failed
+npm error command sh -c vitest run src/ordering/replica.test.ts --bail=1

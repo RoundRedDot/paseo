@@ -1,0 +1,13 @@
+
+> @getpaseo/server@0.12.0-beta.1 test:unit
+> vitest run --fileParallelism --exclude "**/*.e2e.test.ts" src/server/session.test.ts -t ordering preferences isolate real sessions --bail=1 --maxWorkers=1
+
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 148 skipped (149)
+   Start at  10:54:52
+   Duration  1.77s (transform 1.20s, setup 18ms, import 1.67s, tests 15ms, environment 0ms)
+

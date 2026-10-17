@@ -1,0 +1,13 @@
+
+> @getpaseo/app@0.12.0-beta.1 test
+> vitest run src/runtime/directory-sync/index.test.ts --bail=1
+
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  31 passed (31)
+   Start at  10:55:17
+   Duration  4.62s (transform 3.26s, setup 18ms, import 3.93s, tests 614ms, environment 0ms)
+

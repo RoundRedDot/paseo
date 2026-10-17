@@ -1,0 +1,76 @@
+
+> @getpaseo/app@0.12.0-beta.1 test
+> vitest run src/ordering/index.test.ts -t offline pinned --bail=1
+
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+
+stderr | src/ordering/index.test.ts > offline pinned unpin cancels only impossible moves and later gestures sync
+[SharedOrdering] Order remains pending {
+  serverId: 'order-host',
+  error: Error: Order contains a workspace outside its scope
+      at FakeClient.setOrder (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/ordering/index.test.ts:56:13)
+      at Object.setOrder (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/ordering/index.ts:219:30)
+      at processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at OrderReplica.flush (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/ordering/replica.ts:88:24)
+}
+
+stderr | src/ordering/index.test.ts
+[DraftStore] Attachment garbage collection failed Error: IndexedDB is unavailable in this runtime.
+    at ensureIndexedDb (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/attachments/web/indexeddb-attachment-store.ts:27:11)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/attachments/web/indexeddb-attachment-store.ts:34:21
+    at new Promise (<anonymous>)
+    at openAttachmentDb (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/attachments/web/indexeddb-attachment-store.ts:33:10)
+    at Object.garbageCollect (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/attachments/web/indexeddb-attachment-store.ts:192:24)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/attachments/service.ts:188:17
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+ ❯ |unit| src/ordering/index.test.ts (8 tests | 1 failed | 6 skipped) 1044ms
+   × offline pinned unpin cancels only impossible moves and later gestures sync 1041ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/ordering/index.test.ts > offline pinned unpin cancels only impossible moves and later gestures sync
+AssertionError: expected [ { scope: { kind: 'pinned' }, …(2) } ] to deeply equal [ { scope: { kind: 'pinned' }, …(2) } ]
+
+- Expected
++ Received
+
+@@ -1,9 +1,10 @@
+  [
+    {
+      "expectedRevision": 2,
+      "order": [
++       "a",
+        "c",
+        "b",
+      ],
+      "scope": {
+        "kind": "pinned",
+
+ ❯ src/ordering/index.test.ts:316:46
+    314|   reconnected.allowedPinned = ["b", "c"];
+    315|   await sharedOrdering.connect({ serverId: host, client: reconnected, …
+    316|   await expect.poll(() => reconnected.calls).toEqual([
+       |                                              ^
+    317|     { scope: { kind: "pinned" }, expectedRevision: 2, order: ["c", "b"…
+    318|   ]);
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/ordering/index.test.ts:316:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (8)
+   Start at  10:47:15
+   Duration  4.90s (transform 3.10s, setup 18ms, import 3.78s, tests 1.04s, environment 0ms)
+
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+npm error workspace @getpaseo/app@0.12.0-beta.1
+npm error location /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+npm error command failed
+npm error command sh -c vitest run src/ordering/index.test.ts -t 'offline pinned' --bail=1

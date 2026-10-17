@@ -1,0 +1,13 @@
+
+> @getpaseo/app@0.12.0-beta.1 test
+> vitest run src/ordering/replica.test.ts --bail=1
+
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  11:04:57
+   Duration  121ms (transform 32ms, setup 21ms, import 35ms, tests 3ms, environment 0ms)
+

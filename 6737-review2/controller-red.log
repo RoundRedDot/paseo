@@ -1,0 +1,54 @@
+
+> @getpaseo/app@0.12.0-beta.1 test
+> vitest run src/ordering/index.test.ts -t read-only --bail=1
+
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+
+stderr | src/ordering/index.test.ts
+[DraftStore] Attachment garbage collection failed Error: IndexedDB is unavailable in this runtime.
+    at ensureIndexedDb (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/attachments/web/indexeddb-attachment-store.ts:27:11)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/attachments/web/indexeddb-attachment-store.ts:34:21
+    at new Promise (<anonymous>)
+    at openAttachmentDb (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/attachments/web/indexeddb-attachment-store.ts:33:10)
+    at Object.garbageCollect (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/attachments/web/indexeddb-attachment-store.ts:192:24)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app/src/attachments/service.ts:188:17
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+ ❯ |unit| src/ordering/index.test.ts (8 tests | 1 failed | 7 skipped) 9ms
+   × read-only hydration and layout changes never write or toast, while subscribed updates still apply 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/ordering/index.test.ts > read-only hydration and layout changes never write or toast, while subscribed updates still apply
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/ordering/index.test.ts:278:32
+    276|     })!);
+    277|     await Promise.resolve();
+    278|     expect(client.targetCalls).toBe(0);
+       |                                ^
+    279|     store.reorderTabs({ workspaceKey, tabIds: ids.toReversed(), movedT…
+    280|     await Promise.resolve();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  10:47:07
+   Duration  4.89s (transform 3.90s, setup 26ms, import 4.78s, tests 9ms, environment 0ms)
+
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+npm error workspace @getpaseo/app@0.12.0-beta.1
+npm error location /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+npm error command failed
+npm error command sh -c vitest run src/ordering/index.test.ts -t read-only --bail=1
