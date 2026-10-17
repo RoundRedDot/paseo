@@ -2267,6 +2267,8 @@ class ClaudeAgentSession implements AgentSession {
   >[] = [];
   private historyPending = false;
   private turnState: TurnState = "idle";
+  // Timing outlives this runtime, including resumes of the same Claude session.
+  private readonly turnIdNamespace = randomUUID();
   private nextTurnOrdinal = 1;
   private cancelCurrentTurn: (() => void) | null = null;
   private cachedRuntimeInfo: AgentRuntimeInfo | null = null;
@@ -3763,7 +3765,7 @@ class ClaudeAgentSession implements AgentSession {
   }
 
   private createTurnId(owner: "foreground" | "autonomous"): string {
-    return `${owner}-turn-${this.nextTurnOrdinal++}`;
+    return `${owner}-turn-${this.nextTurnOrdinal++}-${this.turnIdNamespace}`;
   }
 
   private isTerminalTurnEvent(event: AgentStreamEvent): boolean {

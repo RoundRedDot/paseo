@@ -108,7 +108,7 @@ describe("daemon E2E - timeline window", () => {
         status: "turn_completed",
         messageIds: ["provider-reply"],
       } satisfies AgentTurnTiming;
-      await ctx.daemon.daemon.agentStorage.recordTurnTiming(agent.id, timing);
+      await ctx.daemon.daemon.agentStorage.recordTurnTiming({ agentId: agent.id, timing });
       await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
         type: "assistant_message",
         text: "rehydrated reply",

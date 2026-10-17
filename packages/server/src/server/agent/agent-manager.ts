@@ -395,6 +395,13 @@ interface StreamEventFlags {
 
 type ActiveTurnTerminalDisposition = "closed_current" | "stale" | "untracked";
 
+interface ApplyActiveTurnTerminalInput {
+  agent: ActiveManagedAgent;
+  turnId?: string;
+  fromHistory?: boolean;
+  status?: AgentTurnTiming["status"];
+}
+
 interface HandleStreamEventOptions {
   fromHistory?: boolean;
 }
@@ -2772,12 +2779,9 @@ export class AgentManager {
     agent.activeTurnStartedAt = startedAt;
   }
 
-  private applyActiveTurnTerminal(params: {
-    agent: ActiveManagedAgent;
-    turnId?: string;
-    fromHistory?: boolean;
-    status?: AgentTurnTiming["status"];
-  }): ActiveTurnTerminalDisposition {
+  private applyActiveTurnTerminal(
+    params: ApplyActiveTurnTerminalInput,
+  ): ActiveTurnTerminalDisposition {
     const { agent, turnId, fromHistory, status } = params;
     if (fromHistory) return "stale";
     if (!agent.activeTurnId) return "untracked";
@@ -2790,7 +2794,7 @@ export class AgentManager {
         status,
         messageIds: Array.from(this.turnMessageIds.get(agent.id) ?? []),
       };
-      const persist = this.registry.recordTurnTiming(agent.id, timing).catch((err) => {
+      const persist = this.registry.recordTurnTiming({ agentId: agent.id, timing }).catch((err) => {
         this.logger.error(
           { err, agentId: agent.id, turnId: timing.turnId },
           "Failed to persist turn timing",

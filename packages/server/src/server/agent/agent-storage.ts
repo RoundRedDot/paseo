@@ -102,6 +102,11 @@ export interface GetTurnTimingsInput {
   messageIds: ReadonlySet<string>;
 }
 
+export interface RecordTurnTimingInput {
+  agentId: string;
+  timing: AgentTurnTiming;
+}
+
 export class AgentStorage {
   private cache: Map<string, StoredAgentRecord> = new Map();
   private pathById: Map<string, string> = new Map();
@@ -163,7 +168,8 @@ export class AgentStorage {
     await this.queueRecordWrite(record);
   }
 
-  async recordTurnTiming(agentId: string, timing: AgentTurnTiming): Promise<void> {
+  async recordTurnTiming(params: RecordTurnTimingInput): Promise<void> {
+    const { agentId, timing } = params;
     await this.load();
     await this.queueRecordMutation(agentId, (record) => {
       if (!record) throw new Error(`Agent ${agentId} not found`);

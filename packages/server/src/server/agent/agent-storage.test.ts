@@ -206,7 +206,7 @@ describe("AgentStorage", () => {
       status: "turn_completed",
       messageIds: ["provider-reply"],
     } satisfies AgentTurnTiming;
-    const write = storage.recordTurnTiming(agent.id, timing);
+    const write = storage.recordTurnTiming({ agentId: agent.id, timing });
     const snapshot = storage.applySnapshot(agent);
     expect(
       await storage.getTurnTimings({
@@ -219,9 +219,12 @@ describe("AgentStorage", () => {
     const stale = await storage.get(agent.id);
     expect(stale).not.toBeNull();
     await storage.upsert({ ...stale!, turnTimings: [] });
-    await storage.recordTurnTiming(agent.id, {
-      ...timing,
-      completedAt: "2026-10-15T09:00:00.000Z",
+    await storage.recordTurnTiming({
+      agentId: agent.id,
+      timing: {
+        ...timing,
+        completedAt: "2026-10-15T09:00:00.000Z",
+      },
     });
     const reloaded = new AgentStorage(storagePath, logger);
     expect(
