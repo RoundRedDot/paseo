@@ -1,0 +1,47 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6699-qa-20261017/packages/app
+
+stderr | src/agent-stream/presentation.test.ts
+[DraftStore] Attachment garbage collection failed Error: IndexedDB is unavailable in this runtime.
+    at ensureIndexedDb (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6699-qa-20261017/packages/app/src/attachments/web/indexeddb-attachment-store.ts:27:11)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6699-qa-20261017/packages/app/src/attachments/web/indexeddb-attachment-store.ts:34:21
+    at new Promise (<anonymous>)
+    at openAttachmentDb (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6699-qa-20261017/packages/app/src/attachments/web/indexeddb-attachment-store.ts:33:10)
+    at Object.garbageCollect (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6699-qa-20261017/packages/app/src/attachments/web/indexeddb-attachment-store.ts:192:24)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6699-qa-20261017/packages/app/src/attachments/service.ts:188:17
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+ ❯ |unit| src/agent-stream/presentation.test.ts (28 tests | 1 failed | 26 skipped) 5ms
+     × retains the latest lifecycle boundary through 'grouped native tools' 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/agent-stream/presentation.test.ts > stream presentation through installed plugins > retains the latest lifecycle boundary through 'grouped native tools'
+AssertionError: expected { …(2) } to deeply equal { …(2) }
+
+- Expected
++ Received
+
+  {
+-   "completedAt": 1970-01-01T00:01:00.000Z,
+-   "durationMs": 60000,
++   "completedAt": 1970-01-01T00:00:30.000Z,
++   "durationMs": 30000,
+  }
+
+ ❯ src/agent-stream/presentation.test.ts:161:61
+    159|     const presented = createStreamPresentation()({ tail: source, head:…
+    160|     const model = buildAgentStreamRenderModel({ tail: presented.tail, …
+    161|     expect(model.turnTiming.byAssistantId.get("assistant")).toEqual({ …
+       |                                                             ^
+    162|     expect(presented.tail.filter(item => item.kind === "tool_call" || …
+    163|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 26 skipped (28)
+   Start at  11:32:58
+   Duration  4.02s (transform 3.27s, setup 20ms, import 3.93s, tests 5ms, environment 0ms)
+

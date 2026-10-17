@@ -14,8 +14,11 @@ These are synthetic, isolated QA artifacts. Each directory records its exact val
 | [7006-review2](7006-review2/README.md) | Whitespace production repair and exact pause windows |
 | [7006-review3](7006-review3/README.md) | Code-block sampler scope;4 browser tests, production unchanged |
 | [7000-review2](7000-review2/README.md) | Real manager/storage disk reload;94 targeted tests |
+| [6737-readonly](6737-readonly/README.md) | Readonly reconnect cancellation, snapshot/update projection;27 focused tests |
 | [6737-review2](6737-review2/README.md) | Initialization/offline membership/readonly repair;62 tests and cross-client browser |
+| [6699-timing](6699-timing/README.md) | Stopped/parallel tool duration through source/cache/presentation;278 tests |
 | [6699-real-read](6699-real-read/README.md) | Real Claude native Read, both completion orders, screenshots/recording; plugin cache limitation disclosed |
+| [6736-pi-before](6736-pi-before/README.md) | Real Pi/Gemini live passes but provider history fails;user-authorized repair tracked separately |
 | [6736-omp-blocker](6736-omp-blocker/README.md) | Official OMP startup blocked by model/auth configuration;0 inference |
 | [7186-web-smoke](7186-web-smoke/README.md) | Actual app IndexedDB/reload integrity, mock provider;not performance acceptance |
 | [7186-release-blocker](7186-release-blocker/README.md) | Temporary snapshot Metro bundle failure;no accepted native Release runtime |

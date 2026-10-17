@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-parallel-20261016/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  11:34:54
+   Duration  3.68s (transform 2.83s, setup 17ms, import 3.44s, tests 172ms, environment 0ms)
+

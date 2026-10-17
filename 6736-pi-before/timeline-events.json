@@ -1,0 +1,103 @@
+[
+  {
+    "at": 1792207905796,
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "f2d00d7a-6b9b-48a5-b984-e9b0020d112d",
+        "event": {
+          "type": "turn_started",
+          "provider": "pi",
+          "turnId": "4b2c0f31-8de5-4871-a29c-9ccc33612e5a"
+        },
+        "timestamp": "2026-10-17T03:31:45.787Z",
+        "subscriptionId": "cdab606d-e138-426f-bc00-fbb2ea8acce1"
+      }
+    }
+  },
+  {
+    "at": 1792207905796,
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "f2d00d7a-6b9b-48a5-b984-e9b0020d112d",
+        "event": {
+          "type": "timeline",
+          "provider": "pi",
+          "item": {
+            "type": "user_message",
+            "text": "",
+            "images": [
+              {
+                "data": "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAABfklEQVR4nO3RAQmAABBDUUPYP6MNtIMMxvR9LsCxd9yqdrQf+HsAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoFwO4zvNXl9oNAIDNS+0GAMDmpXYDAGDzUrsBALB5qd0AANi81G4AAGxeajcAADYvtRsAAJuX2g0AgM1L7QYAwOaldgMAYPNSuwEAsHmp3QAA2LzUbgAAbF5qNwAANi+1GwAAm5faDQCAzUvtBgDA5qV2AwBg81K7AQCweandAADYvNRuAABsXmo3AAA2L7UbAACbl9oNAIDNS+0GAMDmpXYDAGDzUrsBALB5qd0AANi81G4AAGxeajcAADYvtRsAAJuX2g0AgM1L7QYAwOaldgMAYPNSuwEAsHmp3QAA2LzUbgAAbF5qNwAANi+1G4CvAOhdAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAeg3AOlxutiG6CP/AAAAABJRU5ErkJggg==",
+                "mimeType": "image/png"
+              }
+            ],
+            "messageId": "qa6736-pi-image-only",
+            "clientMessageId": "qa6736-pi-image-only"
+          },
+          "turnId": "4b2c0f31-8de5-4871-a29c-9ccc33612e5a"
+        },
+        "timestamp": "2026-10-17T03:31:45.789Z",
+        "seq": 1,
+        "epoch": "394c0e08-c93c-475a-abc4-f7d972f4e51d",
+        "subscriptionId": "cdab606d-e138-426f-bc00-fbb2ea8acce1"
+      }
+    }
+  },
+  {
+    "at": 1792207905826,
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "f2d00d7a-6b9b-48a5-b984-e9b0020d112d",
+        "event": {
+          "type": "thread_started",
+          "sessionId": "01a147ea-19d3-72b6-a865-80b6027ea61e",
+          "provider": "pi"
+        },
+        "timestamp": "2026-10-17T03:31:45.826Z",
+        "subscriptionId": "cdab606d-e138-426f-bc00-fbb2ea8acce1"
+      }
+    }
+  },
+  {
+    "at": 1792207909452,
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "f2d00d7a-6b9b-48a5-b984-e9b0020d112d",
+        "event": {
+          "type": "timeline",
+          "provider": "pi",
+          "item": {
+            "type": "assistant_message",
+            "text": "The image shows a red square.",
+            "messageId": "a747b005-93a7-4c6a-892c-10e1966200a9"
+          },
+          "turnId": "4b2c0f31-8de5-4871-a29c-9ccc33612e5a"
+        },
+        "timestamp": "2026-10-17T03:31:49.452Z",
+        "seq": 2,
+        "epoch": "394c0e08-c93c-475a-abc4-f7d972f4e51d",
+        "subscriptionId": "cdab606d-e138-426f-bc00-fbb2ea8acce1"
+      }
+    }
+  },
+  {
+    "at": 1792207909480,
+    "message": {
+      "type": "agent_stream",
+      "payload": {
+        "agentId": "f2d00d7a-6b9b-48a5-b984-e9b0020d112d",
+        "event": {
+          "type": "turn_completed",
+          "provider": "pi",
+          "turnId": "4b2c0f31-8de5-4871-a29c-9ccc33612e5a"
+        },
+        "timestamp": "2026-10-17T03:31:49.477Z",
+        "subscriptionId": "cdab606d-e138-426f-bc00-fbb2ea8acce1"
+      }
+    }
+  }
+]

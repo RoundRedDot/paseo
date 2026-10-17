@@ -1,0 +1,46 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6699-qa-20261017/packages/app
+
+ ❯ |unit| src/timeline/turn-time.test.ts (10 tests | 1 failed) 5ms
+     × includes a long-running tool canceled after assistant text in completed turn timing 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/timeline/turn-time.test.ts > deriveStreamTurnTiming > includes a long-running tool canceled after assistant text in completed turn timing
+AssertionError: Expected values to be strictly deep-equal:
++ actual - expected
+
+  {
++   completedAt: 1970-01-01T00:00:02.000Z,
++   durationMs: 2000
+-   completedAt: 1970-01-01T00:01:02.000Z,
+-   durationMs: 62000
+  }
+
+
+- Expected
++ Received
+
+  {
+-   "completedAt": 1970-01-01T00:01:02.000Z,
+-   "durationMs": 62000,
++   "completedAt": 1970-01-01T00:00:02.000Z,
++   "durationMs": 2000,
+  }
+
+ ❯ src/timeline/turn-time.test.ts:39:12
+     37|     }
+     38|     const timing = deriveStreamTurnTiming({ isTurnActive: false, activ…
+     39|     assert.deepEqual(timing.byAssistantId.get("assistant"), { complete…
+       |            ^
+     40|     assert.deepEqual(hydrateStreamState(updates, { source: "canonical"…
+     41|     assert.equal(tail.at(-1)?.timestamp.getTime(), 2000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (10)
+   Start at  11:26:54
+   Duration  161ms (transform 45ms, setup 18ms, import 70ms, tests 5ms, environment 0ms)
+

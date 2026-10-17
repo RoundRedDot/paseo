@@ -1,0 +1,472 @@
+{
+  "at": "2026-10-17T03:33:24.098Z",
+  "head": "6513124ca16cf18db0df5eba3fda80c9fe2b37f0",
+  "status": "",
+  "model": "google-cloud/gemini-3.8-flash",
+  "prompts": [
+    {
+      "at": "2026-10-17T03:31:45.787Z",
+      "text": "",
+      "images": [
+        {
+          "mimeType": "image/png",
+          "bytes": 439,
+          "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-17T03:31:49.790Z",
+      "text": "Name the color and shape visible in this attached image. Reply in one short sentence.",
+      "images": [
+        {
+          "mimeType": "image/png",
+          "bytes": 549,
+          "sha256": "9be138bd83e0a44459040c1b7dd386ca80d6366a63ccef947445da95a94d0921"
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "PASS": 17,
+    "FAIL": 4
+  },
+  "nativeSessions": [
+    {
+      "file": "2026-10-17T03-31-26-803Z_01a147ea-19d3-72b6-a865-80b6027ea61e.jsonl",
+      "userMessages": [
+        {
+          "entryId": "57061f34",
+          "text": "",
+          "images": [
+            {
+              "mimeType": "image/png",
+              "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda",
+              "bytes": 439
+            }
+          ]
+        },
+        {
+          "entryId": "8417b730",
+          "text": "Name the color and shape visible in this attached image. Reply in one short sentence.",
+          "images": [
+            {
+              "mimeType": "image/png",
+              "sha256": "9be138bd83e0a44459040c1b7dd386ca80d6366a63ccef947445da95a94d0921",
+              "bytes": 549
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "vendorAssistantMessages": [
+    {
+      "provider": "google-cloud",
+      "model": "gemini-3.8-flash",
+      "responseId": "chatcmpl-202610170331459670478748268d9d6BQ03vEV3",
+      "stopReason": "stop",
+      "text": "The image shows a red square.",
+      "usage": {
+        "input": 1666,
+        "output": 58,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 51,
+        "totalTokens": 1724,
+        "cost": {
+          "input": 0.0012495,
+          "output": 0.0002175,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.001467
+        }
+      }
+    },
+    {
+      "provider": "google-cloud",
+      "model": "gemini-3.8-flash",
+      "responseId": "chatcmpl-202610170331498395063948268d9d67pm73lN2",
+      "stopReason": "stop",
+      "text": "The image shows a green triangle.",
+      "usage": {
+        "input": 2781,
+        "output": 29,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 22,
+        "totalTokens": 2810,
+        "cost": {
+          "input": 0.00208575,
+          "output": 0.00010875,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.0021945
+        }
+      }
+    }
+  ],
+  "snapshots": {
+    "image-only-live": {
+      "epoch": "394c0e08-c93c-475a-abc4-f7d972f4e51d",
+      "users": [
+        {
+          "messageId": "qa6736-pi-image-only",
+          "clientMessageId": "qa6736-pi-image-only",
+          "text": "",
+          "images": [
+            {
+              "mimeType": "image/png",
+              "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+            }
+          ]
+        }
+      ]
+    },
+    "text-image-live": {
+      "epoch": "394c0e08-c93c-475a-abc4-f7d972f4e51d",
+      "users": [
+        {
+          "messageId": "qa6736-pi-image-only",
+          "clientMessageId": "qa6736-pi-image-only",
+          "text": "",
+          "images": [
+            {
+              "mimeType": "image/png",
+              "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+            }
+          ]
+        },
+        {
+          "messageId": "qa6736-pi-text-image",
+          "clientMessageId": "qa6736-pi-text-image",
+          "text": "Name the color and shape visible in this attached image. Reply in one short sentence.",
+          "images": [
+            {
+              "mimeType": "image/png",
+              "sha256": "9be138bd83e0a44459040c1b7dd386ca80d6366a63ccef947445da95a94d0921"
+            }
+          ]
+        }
+      ]
+    },
+    "image-only-client-reload": {
+      "epoch": "394c0e08-c93c-475a-abc4-f7d972f4e51d",
+      "users": [
+        {
+          "messageId": "qa6736-pi-image-only",
+          "clientMessageId": "qa6736-pi-image-only",
+          "text": "",
+          "images": [
+            {
+              "mimeType": "image/png",
+              "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+            }
+          ]
+        }
+      ]
+    },
+    "text-image-client-reload": {
+      "epoch": "394c0e08-c93c-475a-abc4-f7d972f4e51d",
+      "users": [
+        {
+          "messageId": "qa6736-pi-image-only",
+          "clientMessageId": "qa6736-pi-image-only",
+          "text": "",
+          "images": [
+            {
+              "mimeType": "image/png",
+              "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+            }
+          ]
+        },
+        {
+          "messageId": "qa6736-pi-text-image",
+          "clientMessageId": "qa6736-pi-text-image",
+          "text": "Name the color and shape visible in this attached image. Reply in one short sentence.",
+          "images": [
+            {
+              "mimeType": "image/png",
+              "sha256": "9be138bd83e0a44459040c1b7dd386ca80d6366a63ccef947445da95a94d0921"
+            }
+          ]
+        }
+      ]
+    },
+    "provider-history-refresh": {
+      "epoch": "f9134d3d-2eaa-4ca4-9c0b-e162c032d221",
+      "users": [
+        {
+          "messageId": "8417b730",
+          "text": "Name the color and shape visible in this attached image. Reply in one short sentence.",
+          "images": []
+        }
+      ]
+    },
+    "daemon-disk-restart": {
+      "epoch": "6c9efc9e-ce48-49dc-be5c-812f9a295e6b",
+      "users": [
+        {
+          "messageId": "8417b730",
+          "text": "Name the color and shape visible in this attached image. Reply in one short sentence.",
+          "images": []
+        }
+      ]
+    }
+  },
+  "listening": {
+    "daemon": false,
+    "metro": false
+  },
+  "redaction": {
+    "sensitiveFields": []
+  },
+  "cleanup": {
+    "metroPid": 71155,
+    "metroGroupRemaining": false,
+    "completedAt": "2026-10-17T03:32:58.203Z"
+  },
+  "unchangedPiHistoryMapper": true,
+  "artifacts": [
+    {
+      "name": "audit.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "audit.mjs",
+      "bytes": 3887,
+      "sha256": "8bb46bc45a4a9a0d1714473c56d36890018a2d1692b69db661fa55258b7dea8e"
+    },
+    {
+      "name": "audit.zsh",
+      "bytes": 68,
+      "sha256": "3fa56af88168088feb61d18dc528b58834962b017d68067cf545cc7ba35fb9c6"
+    },
+    {
+      "name": "auth-readiness.log",
+      "bytes": 72,
+      "sha256": "6933a47eb3d3c1128d5f211afaa1562478adbd6f1be258ba8749722f8aabc981"
+    },
+    {
+      "name": "before-refresh-info.json",
+      "bytes": 1866,
+      "sha256": "8c5ed960036f22f50d459921d395a1655a7482930f039fff68709b160f0b0e85"
+    },
+    {
+      "name": "browser-reload-lightbox.png",
+      "bytes": 73472,
+      "sha256": "75eff5e6418fe8819956ac54dbc36c338db058742e4fe58ffa95230a76637c7d"
+    },
+    {
+      "name": "browser-reload.png",
+      "bytes": 68315,
+      "sha256": "c00f9cc88ee2d9cf673260dcae4d45f23fdc4838d0aa0e9b72745367f53c240d"
+    },
+    {
+      "name": "build-audio.log",
+      "bytes": 59,
+      "sha256": "a6e46b490484f698d1c9cb1264d943e8ea7ae0b6632891487c3cde7198c3be15"
+    },
+    {
+      "name": "build-server.log",
+      "bytes": 3651,
+      "sha256": "d7beac644d48b2081d742dc75179f751ebd9fa8e6239f2b2c043c5c439170c34"
+    },
+    {
+      "name": "build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "build.zsh",
+      "bytes": 441,
+      "sha256": "f2e2e165347cd4187116c9b0343292ae7bf8983095bf25a7d2b3953f37538a60"
+    },
+    {
+      "name": "catalog-full.log",
+      "bytes": 600,
+      "sha256": "ae4a6a2ba92b9b318e85bcd448baea16d173d90ee97467f85543759fe6fd8f51"
+    },
+    {
+      "name": "catalog-full.zsh",
+      "bytes": 285,
+      "sha256": "dce602d48eaa12a357b663f89107cfc6c94a845ad56afa5ae23e32ccffd96ab9"
+    },
+    {
+      "name": "catalog-native.log",
+      "bytes": 1238,
+      "sha256": "e5ec8866656e169262f49cddc2254650a981fd3a2af97c2a758660349aac25f0"
+    },
+    {
+      "name": "catalog-native.zsh",
+      "bytes": 241,
+      "sha256": "f984ac3933dfed7097fab0f289babc9f7f0e02db1804c04bf096d405a5d2e7dc"
+    },
+    {
+      "name": "catalog.log",
+      "bytes": 28,
+      "sha256": "507c524afa88b01e7d394b4d80a8c4552f146411dee3cf1d87edfe1440a69fde"
+    },
+    {
+      "name": "catalog.zsh",
+      "bytes": 346,
+      "sha256": "33f6ac10b6e66085d2066ea7649ff7d84128db700391ca3e1af0cfc731eb2f5f"
+    },
+    {
+      "name": "daemon-disk-restart-receiver.json",
+      "bytes": 3753,
+      "sha256": "019bdcc4c7a04fd3873d701fa74f3e8127d87c7fe828fc01ba22656c01fc7fc7"
+    },
+    {
+      "name": "daemon-disk-restart-sender.json",
+      "bytes": 3753,
+      "sha256": "f913d7ebf0b93034ea6ed5fdccee42fbe87049328679e749f9da77061044a744"
+    },
+    {
+      "name": "extensions.log",
+      "bytes": 23,
+      "sha256": "97b79322c8820b3eb74b04575cf8151359ba74ba5bec6bf48ce26480414de561"
+    },
+    {
+      "name": "image-only-client-reload-receiver.json",
+      "bytes": 4345,
+      "sha256": "9cf5037b290b95540530bf9d5ec54c13cbe7e0130e6dbe3173a311079e788240"
+    },
+    {
+      "name": "image-only-client-reload-sender.json",
+      "bytes": 4345,
+      "sha256": "aef254b6f670a97fe1e2f587efd9df25a668b4374a36b13c9cbef013834fd344"
+    },
+    {
+      "name": "image-only-live-lightbox.png",
+      "bytes": 48102,
+      "sha256": "ef30a781e1c0d51ec7de6176eb14221adb7be3dea23d50146d5940eda19c9931"
+    },
+    {
+      "name": "image-only-live-receiver.json",
+      "bytes": 4345,
+      "sha256": "e5cbed27e184f8e71360658ca495fa35b41917b6bfd86cda54188a0bb828f3e6"
+    },
+    {
+      "name": "image-only-live-sender.json",
+      "bytes": 4345,
+      "sha256": "05bade64ccb82da0706b6b7e628795f0d10b60275877c9da7ad62dae3efac13f"
+    },
+    {
+      "name": "image-only-live.png",
+      "bytes": 50650,
+      "sha256": "b2322ea429a8727c9f005721506c4db8c45f542035ac924c19089632b13add96"
+    },
+    {
+      "name": "image-only.png",
+      "bytes": 439,
+      "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+    },
+    {
+      "name": "inventory.log",
+      "bytes": 10785,
+      "sha256": "0841841468a165878509d15f89ad12170d579a02574d4996a73e2570f104a07b"
+    },
+    {
+      "name": "inventory.zsh",
+      "bytes": 153,
+      "sha256": "3970bbe4da2400e73960f5e0da880fd8652296689ae74ad1984e3b6fbc3290a5"
+    },
+    {
+      "name": "metro.log",
+      "bytes": 3630,
+      "sha256": "b90cedb35334c7fb3ffb6aa167e553b3f1a6b64f2f7b2458c59753661e4443eb"
+    },
+    {
+      "name": "provider-events.json",
+      "bytes": 25854,
+      "sha256": "b56ace274b77888fb90562745a347d4e13fb32417e9409d152d93aee6abfd84e"
+    },
+    {
+      "name": "provider-history-refresh-receiver.json",
+      "bytes": 3974,
+      "sha256": "c6d54f1096eb679f728b7dbc3463e14415c900600f55b620bb98d8e2e1d09d46"
+    },
+    {
+      "name": "provider-history-refresh-sender.json",
+      "bytes": 3974,
+      "sha256": "9f9a99c51692b1159b5f8d96287e26e73e3a33dbeb36a91d790cbf2cc24d58fc"
+    },
+    {
+      "name": "result.json",
+      "bytes": 11929,
+      "sha256": "8a96963764e47ac91c5ce578cdd3bd7648b6a282139ed5a97fc1791e429094ff"
+    },
+    {
+      "name": "run.zsh",
+      "bytes": 403,
+      "sha256": "81d8f694a1408181182f3138a501b8bd420212521800f3bb34b5b3786f716c33"
+    },
+    {
+      "name": "runtime.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "name": "runtime.log",
+      "bytes": 4740,
+      "sha256": "01ba12c053e09b9e9a01e7720bbfbdfc9f7833e7bbf95e1f61641a089b112819"
+    },
+    {
+      "name": "runtime.mjs",
+      "bytes": 14680,
+      "sha256": "6389e54db73fc13ce91e7e3edb49ddcadd91d634cdb1f1a0d52afc2383eba47a"
+    },
+    {
+      "name": "setup.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "setup.zsh",
+      "bytes": 445,
+      "sha256": "efa1d3e76493e2bab2f386ff9564489746fbce60e5c3195c45733f7d8281b9d8"
+    },
+    {
+      "name": "text-image-client-reload-receiver.json",
+      "bytes": 6235,
+      "sha256": "2cc2d6b7779c0a58b87fa571762225b7fcdc987efeafb932e77eaf268cdacdf4"
+    },
+    {
+      "name": "text-image-client-reload-sender.json",
+      "bytes": 6235,
+      "sha256": "b8cd0656983148f34c7fbdefdba3c10efde4cf5c456c6d94ff5e0d810c02101a"
+    },
+    {
+      "name": "text-image-live-lightbox.png",
+      "bytes": 74787,
+      "sha256": "233069d554415b4cd906c26dc87ce8cfac737a10134fca9bdf4ea0fe8d576fe7"
+    },
+    {
+      "name": "text-image-live-receiver.json",
+      "bytes": 6235,
+      "sha256": "7e0ab31adc250ade557ce4f200614863cd3988c0132f50a6ae131bd1718675f6"
+    },
+    {
+      "name": "text-image-live-sender.json",
+      "bytes": 6235,
+      "sha256": "df4ceebd4e5faff025e615113821967a0211b43248ab5610576d31e0b90624cd"
+    },
+    {
+      "name": "text-image-live.png",
+      "bytes": 65614,
+      "sha256": "8ff896226161b65e75bf22f93bdb38a426ba5f6c4fb7b29bf80d5aec98f3b6f1"
+    },
+    {
+      "name": "text-image.png",
+      "bytes": 549,
+      "sha256": "9be138bd83e0a44459040c1b7dd386ca80d6366a63ccef947445da95a94d0921"
+    },
+    {
+      "name": "timeline-events.json",
+      "bytes": 3455,
+      "sha256": "4cc4467947800f184d5511083d4c2bdc3e0679dd464c21e88c22344d7a23375c"
+    }
+  ]
+}
