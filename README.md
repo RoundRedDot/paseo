@@ -16,6 +16,7 @@ These are synthetic, isolated QA artifacts. Each directory records its exact val
 | [7000-review2](7000-review2/README.md) | Real manager/storage disk reload;94 targeted tests |
 | [6737-readonly](6737-readonly/README.md) | Readonly reconnect cancellation, snapshot/update projection;27 focused tests |
 | [6737-review2](6737-review2/README.md) | Initialization/offline membership/readonly repair;62 tests and cross-client browser |
+| [7196-original-report](7196-original-report/README.md) | Original user-reported streaming gap screenshot; exact installed build/Release recording still unverified |
 | [6699-timing](6699-timing/README.md) | Stopped/parallel tool duration through source/cache/presentation;278 tests |
 | [6699-real-read](6699-real-read/README.md) | Real Claude native Read, both completion orders, screenshots/recording; plugin cache limitation disclosed |
 | [6736-pi-fixed](6736-pi-fixed/README.md) | Real Pi/Gemini image replay and disk restore:29 checks pass;345 candidate tests,135 fixture follow-up tests |

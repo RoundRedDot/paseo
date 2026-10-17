@@ -1,0 +1,9 @@
+{
+  "source": "User-supplied image recovered byte-for-byte from the original 2026-10-12T08:45:38.890Z report. The referenced temporary attachment had expired; the persisted original message retained its image bytes.",
+  "captureTime": "Unknown; report receipt time is not claimed as capture time.",
+  "sha256": "a57e0654d387017b74ecb353aebf4dc3087054f3830fc8490a71057127e704ad",
+  "transformations": [],
+  "version": "Exact running app/plugin revision and Release/Dev mode not established from this screenshot.",
+  "followup": "At 2026-10-12T09:00:32.044Z the reporter confirmed the gap appeared only while output was streaming.",
+  "privacy": "Only the originally supplied cropped screenshot is published; no full chat transcript, private home, account details, or session store is included."
+}
