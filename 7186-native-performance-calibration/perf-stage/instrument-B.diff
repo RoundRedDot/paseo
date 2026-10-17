@@ -1,0 +1,109 @@
+--- functional-candidate/packages/app/src/runtime/replica-cache/index.ts
++++ timed-B/packages/app/src/runtime/replica-cache/index.ts
+@@ -1,4 +1,5 @@
+ import { z } from "zod";
++import { AppState } from "react-native";
+ import {
+   AgentStatusSchema,
+   AgentTimelineItemPayloadSchema,
+@@ -802,26 +803,66 @@
+ // A UTF-16 code unit encodes to at most 3 bytes, so a chunk always fits.
+ const utf8Scratch = new Uint8Array(UTF8_COUNT_CHUNK * 3);
+ const rowBytesCache = new WeakMap<ReplicaRow, number>();
++
++// QA observation only; identical in A/B. No payload/state/queue decisions are changed.
++const qa7186Clock = (() => {
++  const deltas: number[] = [];
++  for (let index = 0; index < 1000; index += 1) {
++    const start = performance.now();
++    deltas.push(performance.now() - start);
++  }
++  const positives = deltas.filter((value) => value > 0).sort((a, b) => a - b);
++  return { reads: deltas.length, positiveReads: positives.length,
++    minPositiveMs: positives[0] ?? null, emptyReadDeltasMs: deltas };
++})();
++const qa7186Perf = {
++  launch: String(Date.now()), wallAtZero: Date.now() - performance.now(),
++  counterCalls: 0, cacheHits: 0, counterOverflow: 0, persistOverflow: 0,
++  counters: [] as { startMs: number; durationMs: number; kind: string; chars: number; bytes: number }[],
++  persists: [] as { startMs: number; durationMs: number; rows: {kind: string; chars: number; bytes: number | null}[] }[],
++  dump: 0,
++};
++AppState.addEventListener("change", (state) => {
++  if (state !== "background") return;
++  const dump = ++qa7186Perf.dump;
++  const emit = (value: unknown) => console.log("QA7186PERF " + JSON.stringify(value));
++  emit({event:"header",launch:qa7186Perf.launch,dump,at:Date.now(),wallAtZero:qa7186Perf.wallAtZero,
++    counterCalls:qa7186Perf.counterCalls,cacheHits:qa7186Perf.cacheHits,
++    counterOverflow:qa7186Perf.counterOverflow,persistOverflow:qa7186Perf.persistOverflow,
++    clock:{reads:qa7186Clock.reads,positiveReads:qa7186Clock.positiveReads,minPositiveMs:qa7186Clock.minPositiveMs}});
++  for(let index=0;index<qa7186Clock.emptyReadDeltasMs.length;index+=20)
++    emit({event:"clock",launch:qa7186Perf.launch,dump,index,values:qa7186Clock.emptyReadDeltasMs.slice(index,index+20)});
++  qa7186Perf.counters.forEach((value,index)=>emit({event:"counter",launch:qa7186Perf.launch,dump,index,...value}));
++  qa7186Perf.persists.forEach((value,index)=>emit({event:"persist",launch:qa7186Perf.launch,dump,index,...value}));
++  emit({event:"end",launch:qa7186Perf.launch,dump,counters:qa7186Perf.counters.length,persists:qa7186Perf.persists.length});
++});
+ 
++
+ function utf8ByteLength(text: string): number {
+   let bytes = 0;
+-  for (let start = 0; start < text.length; ) {
+-    let end = Math.min(start + UTF8_COUNT_CHUNK, text.length);
+-    // Keep a surrogate pair in one chunk; a split pair would encode as two replacement characters.
+-    const last = text.charCodeAt(end - 1);
+-    if (end < text.length && last >= 0xd800 && last <= 0xdbff) end -= 1;
+-    bytes += utf8Encoder.encodeInto(text.slice(start, end), utf8Scratch).written;
+-    start = end;
++  for (let index = 0; index < text.length; index += 1) {
++    const code = text.charCodeAt(index);
++    if (code < 0x80) bytes += 1;
++    else if (code < 0x800) bytes += 2;
++    else if (code >= 0xd800 && code <= 0xdbff) {
++      bytes += 4;
++      index += 1;
++    } else bytes += 3;
+   }
+   return bytes;
+ }
+ 
+ function rowBytes(row: ReplicaRow): number {
++  qa7186Perf.counterCalls += 1;
+   let bytes = rowBytesCache.get(row);
+   if (bytes === undefined) {
++    const qaStarted = performance.now();
+     bytes = utf8ByteLength(row.payload);
++    const qaDuration = performance.now() - qaStarted;
++    if (qa7186Perf.counters.length < 10000) qa7186Perf.counters.push({startMs:qaStarted,durationMs:qaDuration,kind:row.kind,chars:row.payload.length,bytes});
++    else qa7186Perf.counterOverflow += 1;
+     rowBytesCache.set(row, bytes);
+-  }
++  } else qa7186Perf.cacheHits += 1;
+   return bytes;
+ }
+ 
+@@ -1252,11 +1293,14 @@
+     const write = this.writeQueue
+       .catch(() => undefined)
+       .then(async () => {
++        const qaPersistStarted = performance.now();
++        let qaMaterialized: ReplicaRow[] = [];
+         const pending = this.drainPendingChanges();
+         try {
+           await this.prepareStore();
+           await this.ensureStoredIndex();
+           const changes = this.materializePendingChanges(pending);
++          qaMaterialized = changes.upserts;
+           const { changes: boundedChanges, evicted } = await this.fitChangesToBudget(changes);
+           if (boundedChanges.upserts.length > 0 || boundedChanges.deletes.length > 0) {
+             await this.rowStore.apply(boundedChanges);
+@@ -1269,6 +1313,10 @@
+           this.restorePendingChanges(pending);
+           if (this.hasPendingChanges()) this.schedulePersist();
+           return false;
++        } finally {
++          const qaDuration = performance.now() - qaPersistStarted;
++          if (qa7186Perf.persists.length < 10000) qa7186Perf.persists.push({startMs:qaPersistStarted,durationMs:qaDuration,rows:qaMaterialized.map(row=>({kind:row.kind,chars:row.payload.length,bytes:rowBytesCache.get(row)??null}))});
++          else qa7186Perf.persistOverflow += 1;
+         }
+         return true;
+       });

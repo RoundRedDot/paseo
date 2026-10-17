@@ -1,0 +1,6 @@
+import fs from'node:fs';
+const root='/tmp/paseo-pr-native-followup-20261017/perf-stage',read=id=>JSON.parse(fs.readFileSync(root+'/runs/'+id+'/analysis.json','utf8'));
+const a=read('CAL01'),b=read('CAL02');
+const comparisons=Object.fromEntries(['counterMs','counterMsPerMiB','persistMs','persistMsPerMiB'].map(k=>{const x=a.metrics?.primary[k],y=b.metrics?.primary[k],relativeDifference=typeof x==='number'&&typeof y==='number'&&(x+y)>0?Math.abs(x-y)/((x+y)/2):null;return[k,{a:x??null,b:y??null,relativeDifference,threshold:.15,passed:relativeDifference!==null&&relativeDifference<=.15}]}));
+const result={at:new Date().toISOString(),preRegisteredThreshold:.15,formula:'abs(x1-x2)/mean(x1,x2)',runIds:['CAL01','CAL02'],bothCorrectAndMeasurable:!a.error&&!b.error,comparisons,passed:!a.error&&!b.error&&Object.values(comparisons).every(v=>v.passed),decision:'not yet assigned'};
+result.decision=result.passed?'A/A calibration passed; B warmup and pre-registered ABBA/BAAB may proceed':'STOP A/B interpretation; retain both calibration runs; no load adjustment or sample replacement';fs.writeFileSync(root+'/calibration.json',JSON.stringify(result,null,2));fs.writeFileSync(root+(result.passed?'/calibration-passed':'/calibration-stopped'),JSON.stringify({at:result.at}));console.log(JSON.stringify(result,null,2));

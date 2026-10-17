@@ -1,0 +1,67 @@
+--- /tmp/paseo-pr-native-followup-20261017/offline-stage/runtime.zsh	2026-10-17 14:44:28
++++ /tmp/paseo-pr-native-followup-20261017/perf-stage/runtime.zsh	2026-10-17 15:00:15
+@@ -1,8 +1,14 @@
+ set -eu
+ root=/tmp/paseo-pr-native-followup-20261017
+-out=$root/offline-stage
++out=$root/perf-stage
+ repo=/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost
+-qa_run=$out/runtime
++qa_variant=${1:?A or B}
++qa_run_id=${2:?fixed five-character run ID}
++qa_role=${3:?warmup calibration or scored}
++[[ "$qa_variant" == A || "$qa_variant" == B ]]
++[[ ${#qa_run_id} == 5 ]]
++[[ -e "$out/builds/$qa_variant/finished" ]]
++qa_run=$out/runs/$qa_run_id
+ [[ ! -e "$qa_run" ]]
+ mkdir -p "$qa_run" "$out/tmp" "$out/maestro-home"
+ export TMPDIR=$out/tmp PASEO_HOME=$qa_run/home/.paseo QA_7186_OUT=$qa_run
+@@ -35,20 +41,20 @@
+ [[ $(git -C "$repo" rev-parse HEAD) == 85f7d56ea79f8b7c22538a2b763875f4ce2d74ad ]]
+ [[ -z $(git -C "$repo" status --porcelain) ]]
+ date -u '+%Y-%m-%dT%H:%M:%SZ' > "$qa_run/started"
++print -r -- "{\"variant\":\"$qa_variant\",\"runId\":\"$qa_run_id\",\"role\":\"$qa_role\",\"video\":false}" > "$qa_run/run-config.json"
+ node --import "$repo/node_modules/tsx/dist/loader.mjs" "$out/native-host.mjs" > "$qa_run/host.log" 2>&1 &
+ qa_host_pid=$!;print -r -- "$qa_host_pid" > "$qa_run/host-pid"
+ for qa_n in {1..100};do [[ -f "$qa_run/info.json" ]]&&break;kill -0 "$qa_host_pid";sleep 0.2;done
+ [[ -f "$qa_run/info.json" ]]
+-qa_sim_id=$(xcrun simctl create 'Paseo-QA7186-offline-reload-20261017' com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro com.apple.CoreSimulator.SimRuntime.iOS-18-6)
++qa_sim_id=$(xcrun simctl create "Paseo-QA7186-perf-$qa_run_id" com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+ print -r -- "$qa_sim_id" > "$qa_run/device-id"
+ xcrun simctl bootstatus "$qa_sim_id" -b > "$qa_run/boot.log" 2>&1
+-xcrun simctl install "$qa_sim_id" /tmp/paseo-review-repair-20261017/qa/7186-derived/Build/Products/Release-iphonesimulator/Paseo.app
+-xcrun simctl spawn "$qa_sim_id" log stream --level debug --style compact --predicate 'process == "Paseo" AND eventMessage CONTAINS "QA7186 "' > "$qa_run/observer-console.log" 2>&1 &
++xcrun simctl install "$qa_sim_id" "$out/apps/$qa_variant/Paseo.app"
++xcrun simctl spawn "$qa_sim_id" log stream --level debug --style compact --predicate 'process == "Paseo" AND eventMessage CONTAINS "QA7186"' > "$qa_run/observer-console.log" 2>&1 &
+ qa_log_pid=$!
+ xcrun simctl launch "$qa_sim_id" sh.paseo > "$qa_run/launch.log" 2>&1
+ mark app-launched
+-xcrun simctl io "$qa_sim_id" recordVideo --codec h264 "$qa_run/continuous-release.mov" > "$qa_run/video.log" 2>&1 &
+-qa_video_pid=$!
++# No video in any perf run; all roles use the same observation load.
+ sleep 12
+ qa_route=$(node -e 'const i=require(process.argv[1]);console.log(`paseo:///h/${i.serverId}/workspace/${i.workspaceId}?open=${encodeURIComponent("agent:"+i.agentId)}`)' "$qa_run/info.json")
+ print -r -- "$qa_route" > "$qa_run/route.txt"
+@@ -71,7 +77,7 @@
+ mark control-stream-trigger
+ touch "$qa_run/stream"
+ sleep 4
+-xcrun simctl io "$qa_sim_id" screenshot "$qa_run/during-stream.png"
++# No screenshot inside the stream measurement window.
+ for qa_n in {1..140};do [[ -f "$qa_run/stream-done" ]]&&break;kill -0 "$qa_host_pid";sleep 1;done
+ [[ -f "$qa_run/stream-done" ]]
+ sleep 8
+@@ -83,6 +89,12 @@
+ sleep 6
+ QA_CACHE_STAGE=steady node "$out/verify-cache.mjs" "$qa_db" "$qa_run"
+ xcrun simctl io "$qa_sim_id" screenshot "$qa_run/content-steady-second.png"
++mark perf-export-start
++xcrun simctl launch "$qa_sim_id" com.apple.mobilesafari > "$qa_run/background-for-export.log" 2>&1
++sleep 4
++xcrun simctl launch "$qa_sim_id" sh.paseo > "$qa_run/reactivate-after-export.log" 2>&1
++sleep 2
++mark perf-export-finished
+ mark normal-host-stop-before-app-terminate
+ touch "$qa_run/stop";wait "$qa_host_pid";qa_host_pid=''
+ node -e 'const n=require("net");Promise.all([54883,Number(require(process.argv[1]).upstreamPort)].flatMap(p=>["127.0.0.1","::1"].map(host=>new Promise((resolve,reject)=>{const s=n.connect(p,host);s.on("connect",()=>{s.destroy();reject(Error("unexpected listener"))});s.on("error",e=>e.code==="ECONNREFUSED"?resolve({port:p,host,error:e.code}):reject(e));})))).then(v=>console.log(JSON.stringify({at:new Date().toISOString(),checks:v}))).catch(e=>{console.error(e);process.exitCode=1})' "$qa_run/info.json" > "$qa_run/offline-proof.json"

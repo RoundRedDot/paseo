@@ -1,0 +1,85 @@
+{
+  "at": "2026-10-17T07:11:11.179Z",
+  "owned": [
+    {
+      "id": "CAL01",
+      "uuid": "4CE1F30B-9BDE-4B69-A546-E08042A36437",
+      "simulatorPresent": false,
+      "hostPid": 46391,
+      "hostAlive": false,
+      "cleanupFinished": "2026-10-17T07:07:05Z"
+    },
+    {
+      "id": "CAL02",
+      "uuid": "50638520-139F-46A3-87A5-350D97DFB353",
+      "simulatorPresent": false,
+      "hostPid": 62145,
+      "hostAlive": false,
+      "cleanupFinished": "2026-10-17T07:10:46Z"
+    },
+    {
+      "id": "WARM1",
+      "uuid": "F2968078-6FD8-41DB-B422-237A09920409",
+      "simulatorPresent": false,
+      "hostPid": 97998,
+      "hostAlive": false,
+      "cleanupFinished": "2026-10-17T07:03:30Z"
+    }
+  ],
+  "existingDeviceCount": 22,
+  "allExistingDeviceStatesUnchanged": true,
+  "portChecks": [
+    {
+      "port": 54883,
+      "host": "127.0.0.1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 54883,
+      "host": "::1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 50465,
+      "host": "127.0.0.1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 50465,
+      "host": "::1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 52312,
+      "host": "127.0.0.1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 52312,
+      "host": "::1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 65432,
+      "host": "127.0.0.1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 65432,
+      "host": "::1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    }
+  ],
+  "head": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "gitStatus": "",
+  "previousPublicUnchanged": true,
+  "temporarySnapshotRestored": true
+}

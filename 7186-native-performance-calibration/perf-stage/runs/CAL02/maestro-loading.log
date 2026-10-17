@@ -1,0 +1,11 @@
+Running on Paseo-QA7186-perf-CAL02 - iOS 18.6 - 50638520-139F-46A3-87A5-350D97DFB353
+ > Flow prepare-loading
+Run flow when "^(打开|Open)$" is visible...
+  Tap on "^(打开|Open)$"... COMPLETED
+Run flow when "^(打开|Open)$" is visible... COMPLETED
+Run flow when "^(不允许|Don’t Allow|Don't Allow)$" is visible...
+  Tap on "^(不允许|Don’t Allow|Don't Allow)$"... COMPLETED
+Run flow when "^(不允许|Don’t Allow|Don't Allow)$" is visible... COMPLETED
+Assert that "^(正在加载 workspace|Loading workspace)$" is visible... COMPLETED
+Assert that id: message-input-root is not visible... COMPLETED
+Take screenshot loading-before-menu... COMPLETED

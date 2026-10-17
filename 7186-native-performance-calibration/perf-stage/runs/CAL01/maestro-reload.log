@@ -1,0 +1,12 @@
+Running on Paseo-QA7186-perf-CAL01 - iOS 18.6 - 4CE1F30B-9BDE-4B69-A546-E08042A36437
+ > Flow reload-content
+Run flow when "^(打开|Open)$" is visible...
+Run flow when "^(打开|Open)$" is visible... SKIPPED
+Run flow when "^(不允许|Don’t Allow|Don't Allow)$" is visible...
+Run flow when "^(不允许|Don’t Allow|Don't Allow)$" is visible... SKIPPED
+Assert that id: message-input-root is visible... COMPLETED
+Take screenshot offline-before-normal-jump... COMPLETED
+Run flow when id: scroll-to-bottom-button is visible...
+Run flow when id: scroll-to-bottom-button is visible... SKIPPED
+Assert that "(?s).*QA7186-END.*" is visible... COMPLETED
+Take screenshot offline-end-after-normal-jump... COMPLETED

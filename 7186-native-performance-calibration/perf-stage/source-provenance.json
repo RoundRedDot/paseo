@@ -1,0 +1,23 @@
+{
+  "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "filesCompared": 5680,
+  "A_B_differences": [
+    {
+      "file": "packages/app/src/runtime/replica-cache/index.ts",
+      "a": "013c3493390164863f3395d627c450eb97ac53be6cfbcfd1312aa3afe24e8cf7",
+      "b": "9de51f7abd40504c65eac6f27ed2e2879e81f0e924a8e77f6f2d65b6a9210327"
+    }
+  ],
+  "staging": "same existing temporary iOS root; variant source copied from immutable snapshot and hash checked before build",
+  "measurement": "same timed call sites; original return/catch/await order; no product interface",
+  "metrics": [
+    "timeline counter total ms",
+    "timeline counter ms/MiB",
+    "timeline-containing persist total ms",
+    "persist ms/upsert MiB"
+  ],
+  "threshold": 0.15,
+  "differenceFormula": "abs(x1-x2)/mean(x1,x2)",
+  "video": false,
+  "export": "background dump after measurement; clock arrays split into 20-value log records to avoid truncation; no I/O in measurement instrumentation"
+}

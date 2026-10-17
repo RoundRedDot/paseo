@@ -1,0 +1,11 @@
+--- /tmp/paseo-pr-native-followup-20261017/perf-stage/backup/packages/app/metro.config.cjs	2026-10-17 14:55:00
++++ /tmp/paseo-pr-native-followup-20261017/perf-stage/snapshots/A/tree/packages/app/metro.config.cjs	2026-10-17 14:55:04
+@@ -130,7 +130,7 @@
+   const original = qaFs.readFileSync(result.filePath);
+   const canonical = qaFs.readFileSync(realpath);
+   if (!original.equals(canonical)) throw new Error("QA navigation canonicalization changed bytes");
+-  qaFs.appendFileSync("/tmp/paseo-pr-native-followup-20261017/build/resolver.jsonl",
++  qaFs.appendFileSync("/tmp/paseo-pr-native-followup-20261017/perf-stage/resolver.jsonl",
+     JSON.stringify({origin: context.originModulePath, specifier, platform,
+       isESMImport: context.isESMImport, path: result.filePath, realpath,
+       moduleIdentity: realpath, bytesEqual: true,

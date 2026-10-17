@@ -1,0 +1,36 @@
+{
+  "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "checked": 5680,
+  "differences": [
+    {
+      "file": "packages/app/metro.config.cjs",
+      "expectedGitBlob": "c1fdbdef77c6b754b2def7d99f7a2b4d2ea78618",
+      "actualGitBlob": "ed1719e58ab81ec61c1eb228d8b4353422f10f7b",
+      "sha256": "a1249f05705251145aaf9a5ce0248eb82a4eabb3f19932d23328ee83e10e726a"
+    },
+    {
+      "file": "packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx",
+      "expectedGitBlob": "7dc11b08f11da6d40a5e9ea328783974392be044",
+      "actualGitBlob": "d4ab496779a05ed784dd5d9f0d0399a51b440e6b",
+      "sha256": "3b17f1f1d2ff5a0526e9e803054854e4905b1ec97182011c2aa554725351933a"
+    },
+    {
+      "file": "packages/app/src/runtime/directory-sync/index.ts",
+      "expectedGitBlob": "28b217fea67647b8fdcc77ab62cbf7e5a97f4854",
+      "actualGitBlob": "b76611ca46fb8679b58f335dd0d6c2788832dc2f",
+      "sha256": "de0a2678dba8d2e03ef1c0b31e57e34c48e779ffc29f8d62ad96c4fcfedbf5c4"
+    },
+    {
+      "file": "packages/app/src/screens/workspace/workspace-route-state.ts",
+      "expectedGitBlob": "7f8137ace1d398c85148c48ca96ba66a8fc97929",
+      "actualGitBlob": "113e65d1cff4c702ebb1d84b065255211bc135de",
+      "sha256": "136ce16bbd7c2a70dfbdbc02fa51b927376b7bbb2ec70c20a4fecc8c5e79ef5d"
+    }
+  ],
+  "allowed": [
+    "packages/app/metro.config.cjs",
+    "packages/app/src/runtime/directory-sync/index.ts",
+    "packages/app/src/screens/workspace/workspace-route-state.ts",
+    "packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx"
+  ]
+}

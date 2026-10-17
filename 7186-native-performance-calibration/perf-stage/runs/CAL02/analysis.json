@@ -1,0 +1,102 @@
+{
+  "config": {
+    "variant": "A",
+    "runId": "CAL02",
+    "role": "calibration",
+    "video": false
+  },
+  "exit": 0,
+  "parseErrors": 0,
+  "metrics": {
+    "window": {
+      "start": "2026-10-17T07:09:00.839Z",
+      "end": "2026-10-17T07:09:38.227Z",
+      "durationMs": 37388,
+      "filter": "operation start within window; full operation duration; queue wait excluded from persist"
+    },
+    "primary": {
+      "counterMs": 0.930291011929512,
+      "counterMsPerMiB": 1.289721462451246,
+      "persistMs": 441.79129399359226,
+      "persistMsPerMiB": 608.3371059817401
+    },
+    "volume": {
+      "allCounterMisses": 34,
+      "timelineCounterMisses": 28,
+      "counterBytes": 756350,
+      "allPersistOperations": 28,
+      "timelinePersistOperations": 28,
+      "materializedUpsertRows": 34,
+      "materializedUpsertBytes": 761505
+    },
+    "timing": {
+      "counter": {
+        "p50": 0.031582996249198914,
+        "p95": 0.05883300304412842,
+        "max": 0.06450000405311584,
+        "zeroDurations": 0
+      },
+      "persist": {
+        "p50": 2.343999996781349,
+        "p95": 78.30545899271965,
+        "max": 91.42729200422764
+      }
+    },
+    "clock": {
+      "reads": 1000,
+      "positiveReads": 1000,
+      "minPositiveMs": 0.0000409930944442749,
+      "zeroReads": 0,
+      "p50EmptyReadMs": 0.00008299946784973145,
+      "p95EmptyReadMs": 0.000125005841255188,
+      "maxEmptyReadMs": 0.0005419999361038208
+    },
+    "input": {
+      "agentStreamFrames": 461,
+      "assistantFrames": 458,
+      "assistantBytes": 50014,
+      "assistantSha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+      "first": "2026-10-17T07:09:00.912Z",
+      "last": "2026-10-17T07:09:29.757Z",
+      "interarrivalMs": {
+        "p50": 63,
+        "p95": 67,
+        "max": 71
+      }
+    },
+    "dump": {
+      "launch": "1792220901465",
+      "dump": 1,
+      "at": "2026-10-17T07:09:56.538Z",
+      "totalCounterCalls": 227,
+      "totalCacheHits": 185,
+      "exportedCounters": 42,
+      "exportedPersists": 32
+    },
+    "correctness": {
+      "after-stream": {
+        "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "timelineSha": "42107a63cebf8f347a6df6e5fdb45ed02ef5f053636d2a8bd46409b17cec4136",
+        "timelineBytes": 50869
+      },
+      "steady": {
+        "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "timelineSha": "42107a63cebf8f347a6df6e5fdb45ed02ef5f053636d2a8bd46409b17cec4136",
+        "timelineBytes": 50869
+      },
+      "after-reload": {
+        "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "timelineSha": "42107a63cebf8f347a6df6e5fdb45ed02ef5f053636d2a8bd46409b17cec4136",
+        "timelineBytes": 50869
+      },
+      "offline-steady": {
+        "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "timelineSha": "42107a63cebf8f347a6df6e5fdb45ed02ef5f053636d2a8bd46409b17cec4136",
+        "timelineBytes": 50869
+      }
+    },
+    "scope": "wall durations of actual existing calls; materialized upsert volume, not physical filesystem I/O count; no CPU/full-app-frame-rate claim"
+  },
+  "error": null,
+  "analyzedAt": "2026-10-17T07:11:01.131Z"
+}

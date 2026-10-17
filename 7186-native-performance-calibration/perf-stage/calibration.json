@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-17T07:11:01.166Z",
+  "preRegisteredThreshold": 0.15,
+  "formula": "abs(x1-x2)/mean(x1,x2)",
+  "runIds": [
+    "CAL01",
+    "CAL02"
+  ],
+  "bothCorrectAndMeasurable": true,
+  "comparisons": {
+    "counterMs": {
+      "a": 0.9881669729948044,
+      "b": 0.930291011929512,
+      "relativeDifference": 0.06033591720026704,
+      "threshold": 0.15,
+      "passed": true
+    },
+    "counterMsPerMiB": {
+      "a": 1.4586583532998196,
+      "b": 1.289721462451246,
+      "relativeDifference": 0.12293562183828452,
+      "threshold": 0.15,
+      "passed": true
+    },
+    "persistMs": {
+      "a": 238.46003797650337,
+      "b": 441.79129399359226,
+      "relativeDifference": 0.5978121510713263,
+      "threshold": 0.15,
+      "passed": false
+    },
+    "persistMsPerMiB": {
+      "a": 349.4609074079121,
+      "b": 608.3371059817401,
+      "relativeDifference": 0.5405653278767281,
+      "threshold": 0.15,
+      "passed": false
+    }
+  },
+  "passed": false,
+  "decision": "STOP A/B interpretation; retain both calibration runs; no load adjustment or sample replacement"
+}

@@ -1,0 +1,209 @@
+{
+  "at": "2026-10-17T07:09:00.317Z",
+  "stage": "after-menu",
+  "counts": {
+    "native->host:hello": 1,
+    "host->native:status": 1,
+    "native->host:session.events.set_subscription.request": 6,
+    "native->host:workspace.label.list.request": 2,
+    "host->native:session.events.set_subscription.response": 6,
+    "host->native:workspace.label.list.response": 2,
+    "native->host:client_heartbeat": 6,
+    "native->host:usage.list_reports.request": 1,
+    "host->native:usage.list_reports.response": 1,
+    "native->host:plugin.catalog.get.request": 1,
+    "host->native:plugin.catalog.get.response": 1,
+    "native->host:ping": 4,
+    "host->native:pong": 4,
+    "native->host:workspace_setup_status_request": 1,
+    "host->native:workspace_setup_status_response": 1,
+    "native->host:subscription.release.request": 1,
+    "host->native:subscription.release.response": 1,
+    "native->host:workspace.script.list.request": 1,
+    "host->native:workspace.script.list.response": 1,
+    "native->host:fetch_agents_request": 1,
+    "native->host:project.list.request": 1,
+    "host->native:fetch_agents_response": 1,
+    "host->native:project.list.response": 1,
+    "native->host:agent.timeline.set_subscription.request": 1,
+    "host->native:agent.timeline.set_subscription.response": 1,
+    "native->host:fetch_workspaces_request": 1,
+    "host->native:fetch_workspaces_response": 1,
+    "native->host:fetch_agent_timeline_request": 1,
+    "host->native:fetch_agent_timeline_response": 1,
+    "native->host:get_daemon_config_request": 1,
+    "host->native:get_daemon_config_response": 1,
+    "native->host:subscribe_terminals_request": 1,
+    "native->host:list_terminals_request": 1,
+    "host->native:terminals_changed": 1,
+    "native->host:checkout_status_request": 1,
+    "host->native:checkout_status_response": 1,
+    "host->native:list_terminals_response": 1,
+    "native->host:file_explorer_request": 1,
+    "host->native:file_explorer_response": 1,
+    "native->host:project.icon.get.request": 1,
+    "host->native:project.icon.get.response": 1,
+    "native->host:read_project_config_request": 1,
+    "host->native:read_project_config_response": 1,
+    "native->host:agent.provider_subagents.list.request": 1,
+    "host->native:agent.provider_subagents.list.response": 1,
+    "native->host:checkout_pr_status_request": 1,
+    "host->native:checkout_pr_status_response": 1,
+    "native->host:get_providers_snapshot_request": 10,
+    "host->native:get_providers_snapshot_response": 10,
+    "host->native:providers_snapshot_update": 13
+  },
+  "directoryEvents": [
+    {
+      "at": "2026-10-17T07:08:57.890Z",
+      "event": "frame",
+      "connection": "8da979fa-b8f6-40fc-9873-e3db37bd1dfe",
+      "direction": "native->host",
+      "binary": false,
+      "bytes": 248,
+      "sha256": "bf17da3adf476e1e878c51d007485047d81b5b894143509d10d0f881ab9b49f0",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_agents_request",
+          "requestId": "5a5dfa73-bd6e-4d39-957c-1ca25fb61241"
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:08:57.891Z",
+      "event": "frame",
+      "connection": "8da979fa-b8f6-40fc-9873-e3db37bd1dfe",
+      "direction": "native->host",
+      "binary": false,
+      "bytes": 121,
+      "sha256": "2de738f0e13498e3022681e50110cd25fc2182d4c222867791d461f64d4e6eea",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "project.list.request",
+          "requestId": "499e6be2-ada2-4fc5-ac15-12bc76fed794"
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:08:57.893Z",
+      "event": "frame",
+      "connection": "8da979fa-b8f6-40fc-9873-e3db37bd1dfe",
+      "direction": "host->native",
+      "binary": false,
+      "bytes": 2412,
+      "sha256": "2b613e9d6573ba981c9b436819d2db01e070d584969679a5a9ad36857e081ce8",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_agents_response",
+          "payload": {
+            "requestId": "5a5dfa73-bd6e-4d39-957c-1ca25fb61241",
+            "subscriptionId": "1d910680-605c-4721-9d14-d1f3c7ec5a1e",
+            "entries": [
+              {
+                "agent": {
+                  "id": "873c9815-383a-4b9f-b8f4-e6d635a8850d",
+                  "workspaceId": "wks_66ba224fc16c9118",
+                  "status": "idle",
+                  "availableModes": [
+                    {
+                      "id": "load-test"
+                    },
+                    {
+                      "id": "approval-test"
+                    }
+                  ]
+                }
+              }
+            ],
+            "pageInfo": {
+              "nextCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "e5a74325-3199-48b4-a78b-69dfec54116f:background",
+              "headSeq": 2,
+              "mode": "snapshot"
+            }
+          }
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:08:57.893Z",
+      "event": "frame",
+      "connection": "8da979fa-b8f6-40fc-9873-e3db37bd1dfe",
+      "direction": "host->native",
+      "binary": false,
+      "bytes": 657,
+      "sha256": "21707e0281a184335d1a362fe732a014e48da30ffa8a8d07ce83d4323cde0dc2",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "project.list.response",
+          "payload": {
+            "requestId": "499e6be2-ada2-4fc5-ac15-12bc76fed794",
+            "sync": {
+              "generation": "e5a74325-3199-48b4-a78b-69dfec54116f",
+              "headSeq": 1,
+              "mode": "snapshot"
+            }
+          }
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:08:57.910Z",
+      "event": "frame",
+      "connection": "8da979fa-b8f6-40fc-9873-e3db37bd1dfe",
+      "direction": "native->host",
+      "binary": false,
+      "bytes": 236,
+      "sha256": "b0af0a86b7d1cc664fd78092114999fa49d51b66634d53f8dd5e9e000245434e",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_workspaces_request",
+          "requestId": "71e36f27-bd93-4b46-ab0f-7a953c555c34"
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T07:08:57.912Z",
+      "event": "frame",
+      "connection": "8da979fa-b8f6-40fc-9873-e3db37bd1dfe",
+      "direction": "host->native",
+      "binary": false,
+      "bytes": 1601,
+      "sha256": "23b53708c156a7ac3dba4e9d4453f1e424979264ef245e6db4ae58a63e47254e",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_workspaces_response",
+          "payload": {
+            "requestId": "71e36f27-bd93-4b46-ab0f-7a953c555c34",
+            "subscriptionId": "847c4e8f-d07b-44c3-8650-f04dc0b3f7b8",
+            "entries": [
+              {
+                "id": "wks_66ba224fc16c9118",
+                "status": "done"
+              }
+            ],
+            "pageInfo": {
+              "nextCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "e5a74325-3199-48b4-a78b-69dfec54116f:background",
+              "headSeq": 1,
+              "mode": "snapshot"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "expectedWorkspaceId": "wks_66ba224fc16c9118"
+}

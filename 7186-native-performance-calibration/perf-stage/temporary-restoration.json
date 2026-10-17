@@ -1,0 +1,23 @@
+[
+  {
+    "file": "packages/app/src/runtime/replica-cache/index.ts",
+    "before": "9de51f7abd40504c65eac6f27ed2e2879e81f0e924a8e77f6f2d65b6a9210327",
+    "after": "d0ba26177542bb0c8fc7c14b174d367749d3a19e93a72c2517350918af259b9f",
+    "backup": "d0ba26177542bb0c8fc7c14b174d367749d3a19e93a72c2517350918af259b9f",
+    "restored": true
+  },
+  {
+    "file": "packages/app/metro.config.cjs",
+    "before": "da01d8f17db04f74731fdd2a5ec93805b23bc27260bb73523f4a1fce47b27411",
+    "after": "a1249f05705251145aaf9a5ce0248eb82a4eabb3f19932d23328ee83e10e726a",
+    "backup": "a1249f05705251145aaf9a5ce0248eb82a4eabb3f19932d23328ee83e10e726a",
+    "restored": true
+  },
+  {
+    "file": "Paseo.app",
+    "files": 93,
+    "restored": true,
+    "nativeSha256": "7a07b73393b1baeca7a1bd892b4435701fe9d5ed0a61fcd6fccd60e3db4d5115",
+    "bundleSha256": "3149fb3b60d8190ca1d0daeb227a812c7b17cb7f87ab3ffcafd102c8046893b3"
+  }
+]

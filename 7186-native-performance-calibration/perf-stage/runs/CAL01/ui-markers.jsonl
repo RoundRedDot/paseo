@@ -1,0 +1,13 @@
+{"at":"2026-10-17T07:04:23.214Z","event":"app-launched"}
+{"at":"2026-10-17T07:04:35.378Z","event":"cold-deeplink"}
+{"at":"2026-10-17T07:05:06.453Z","event":"before-normal-menu-flow"}
+{"at":"2026-10-17T07:05:19.002Z","event":"after-normal-menu-flow"}
+{"at":"2026-10-17T07:05:19.676Z","event":"control-stream-trigger"}
+{"at":"2026-10-17T07:05:57.074Z","event":"stream-finished-and-settled"}
+{"at":"2026-10-17T07:06:14.345Z","event":"perf-export-start"}
+{"at":"2026-10-17T07:06:20.730Z","event":"perf-export-finished"}
+{"at":"2026-10-17T07:06:20.761Z","event":"normal-host-stop-before-app-terminate"}
+{"at":"2026-10-17T07:06:20.887Z","event":"daemon-offline-before-cold-reload"}
+{"at":"2026-10-17T07:06:21.443Z","event":"app-terminated-after-host-offline-proof"}
+{"at":"2026-10-17T07:06:53.108Z","event":"cold-offline-content-visible"}
+{"at":"2026-10-17T07:07:00.082Z","event":"all-functional-checks-completed"}

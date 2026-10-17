@@ -1,0 +1,9 @@
+Running on Paseo-QA7186-perf-CAL02 - iOS 18.6 - 50638520-139F-46A3-87A5-350D97DFB353
+ > Flow assert-content
+Assert that id: message-input-root is visible... COMPLETED
+Take screenshot before-normal-bottom-jump... COMPLETED
+Run flow when id: scroll-to-bottom-button is visible...
+  Tap on id: scroll-to-bottom-button... COMPLETED
+Run flow when id: scroll-to-bottom-button is visible... COMPLETED
+Assert that "(?s).*QA7186-END.*" is visible... COMPLETED
+Take screenshot end-after-normal-jump... COMPLETED

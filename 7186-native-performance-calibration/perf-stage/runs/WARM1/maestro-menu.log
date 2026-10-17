@@ -1,0 +1,9 @@
+Running on Paseo-QA7186-perf-WARM1 - iOS 18.6 - F2968078-6FD8-41DB-B422-237A09920409
+ > Flow open-menu
+Assert that "^(正在加载 workspace|Loading workspace)$" is visible... COMPLETED
+Tap on id: menu-button... COMPLETED
+Assert that id: sidebar-workspace-row-.* is visible... COMPLETED
+Take screenshot directory-after-menu... COMPLETED
+Tap on id: sidebar-close... COMPLETED
+Assert that id: message-input-root is visible... COMPLETED
+Take screenshot chat-after-menu-close... COMPLETED

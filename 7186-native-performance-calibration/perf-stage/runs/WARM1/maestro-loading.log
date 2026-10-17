@@ -1,0 +1,24 @@
+Running on Paseo-QA7186-perf-WARM1 - iOS 18.6 - F2968078-6FD8-41DB-B422-237A09920409
+ > Flow prepare-loading
+Run flow when "^(打开|Open)$" is visible...
+  Tap on "^(打开|Open)$"... COMPLETED
+Run flow when "^(打开|Open)$" is visible... COMPLETED
+Run flow when "^(不允许|Don’t Allow|Don't Allow)$" is visible...
+  Tap on "^(不允许|Don’t Allow|Don't Allow)$"... COMPLETED
+Run flow when "^(不允许|Don’t Allow|Don't Allow)$" is visible... COMPLETED
+Assert that "^(正在加载 workspace|Loading workspace)$" is visible... COMPLETED
+Assert that id: message-input-root is not visible... COMPLETED
+Take screenshot loading-before-menu... COMPLETED
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                         │
+│   Try out our new Analyze with Ai feature.                                                                                              │
+│                                                                                                                                         │
+│   See what's new:                                                                                                                       │
+│   > https://maestro.mobile.dev/cli/test-suites-and-reports#analyze                                                                      │
+│   Analyze command:                                                                                                                      │
+│   $ maestro test flow-file.yaml --analyze | bash                                                                                        │
+│                                                                                                                                         │
+│   To disable this notification, set MAESTRO_CLI_ANALYSIS_NOTIFICATION_DISABLED environment variable to "true" before running Maestro.   │
+│                                                                                                                                         │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+

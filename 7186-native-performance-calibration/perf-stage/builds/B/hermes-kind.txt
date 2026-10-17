@@ -1,0 +1,1 @@
+/tmp/paseo-pr-native-followup-20261017/perf-stage/apps/B/Paseo.app/main.jsbundle: Hermes JavaScript bytecode, version 96

@@ -1,0 +1,510 @@
+{
+  "result": "partial; A/A failed pre-registered noise gate; A/B not run",
+  "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "model": {
+    "configured": "codex/gpt-6.1-sol High",
+    "actualHostMetadata": "not independently exposed",
+    "provider": "MockLoadTestAgentClient",
+    "providerModel": "e2e-fast-stream"
+  },
+  "environment": {
+    "xcode": "Xcode 27.1\nBuild version 27A9275",
+    "simulatorSDK": "27.1",
+    "node": "v24.18.0",
+    "reactNative": "0.81.5",
+    "expo": "54.0.33",
+    "app": "0.12.0-beta.1",
+    "simulatorRuntime": "com.apple.CoreSimulator.SimRuntime.iOS-18-6",
+    "deviceType": "com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro",
+    "architecture": "arm64",
+    "bundleKind": "Hermes JavaScript bytecode",
+    "buildConfiguration": "Release"
+  },
+  "provenance": {
+    "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+    "filesCompared": 5680,
+    "A_B_differences": [
+      {
+        "file": "packages/app/src/runtime/replica-cache/index.ts",
+        "a": "013c3493390164863f3395d627c450eb97ac53be6cfbcfd1312aa3afe24e8cf7",
+        "b": "9de51f7abd40504c65eac6f27ed2e2879e81f0e924a8e77f6f2d65b6a9210327"
+      }
+    ],
+    "staging": "same existing temporary iOS root; variant source copied from immutable snapshot and hash checked before build",
+    "measurement": "same timed call sites; original return/catch/await order; no product interface",
+    "metrics": [
+      "timeline counter total ms",
+      "timeline counter ms/MiB",
+      "timeline-containing persist total ms",
+      "persist ms/upsert MiB"
+    ],
+    "threshold": 0.15,
+    "differenceFormula": "abs(x1-x2)/mean(x1,x2)",
+    "video": false,
+    "export": "background dump after measurement; clock arrays split into 20-value log records to avoid truncation; no I/O in measurement instrumentation"
+  },
+  "builds": {
+    "A": {
+      "started": "2026-10-17T06:55:56Z",
+      "finished": "2026-10-17T06:56:50Z",
+      "exit": 0,
+      "nativeSha256": "7a07b73393b1baeca7a1bd892b4435701fe9d5ed0a61fcd6fccd60e3db4d5115",
+      "hermesBundleSha256": "ead2ad27012b8f2cb287e40e60e95203a2243105823d3ad023c40c3296dbfd2a",
+      "sourceSha256": "013c3493390164863f3395d627c450eb97ac53be6cfbcfd1312aa3afe24e8cf7"
+    },
+    "B": {
+      "started": "2026-10-17T06:57:07Z",
+      "finished": "2026-10-17T06:57:31Z",
+      "exit": 0,
+      "nativeSha256": "7a07b73393b1baeca7a1bd892b4435701fe9d5ed0a61fcd6fccd60e3db4d5115",
+      "hermesBundleSha256": "6f50eb852e912c77c5fc192e0f3ad189f78e1cfa2ad9f75d0d5ac006a819a905",
+      "sourceSha256": "9de51f7abd40504c65eac6f27ed2e2879e81f0e924a8e77f6f2d65b6a9210327"
+    }
+  },
+  "calibration": {
+    "at": "2026-10-17T07:11:01.166Z",
+    "preRegisteredThreshold": 0.15,
+    "formula": "abs(x1-x2)/mean(x1,x2)",
+    "runIds": [
+      "CAL01",
+      "CAL02"
+    ],
+    "bothCorrectAndMeasurable": true,
+    "comparisons": {
+      "counterMs": {
+        "a": 0.9881669729948044,
+        "b": 0.930291011929512,
+        "relativeDifference": 0.06033591720026704,
+        "threshold": 0.15,
+        "passed": true
+      },
+      "counterMsPerMiB": {
+        "a": 1.4586583532998196,
+        "b": 1.289721462451246,
+        "relativeDifference": 0.12293562183828452,
+        "threshold": 0.15,
+        "passed": true
+      },
+      "persistMs": {
+        "a": 238.46003797650337,
+        "b": 441.79129399359226,
+        "relativeDifference": 0.5978121510713263,
+        "threshold": 0.15,
+        "passed": false
+      },
+      "persistMsPerMiB": {
+        "a": 349.4609074079121,
+        "b": 608.3371059817401,
+        "relativeDifference": 0.5405653278767281,
+        "threshold": 0.15,
+        "passed": false
+      }
+    },
+    "passed": false,
+    "decision": "STOP A/B interpretation; retain both calibration runs; no load adjustment or sample replacement"
+  },
+  "runs": [
+    {
+      "id": "CAL01",
+      "config": {
+        "variant": "A",
+        "runId": "CAL01",
+        "role": "calibration",
+        "video": false
+      },
+      "exit": 0,
+      "parseErrors": 0,
+      "metrics": {
+        "window": {
+          "start": "2026-10-17T07:05:19.676Z",
+          "end": "2026-10-17T07:05:57.074Z",
+          "durationMs": 37398,
+          "filter": "operation start within window; full operation duration; queue wait excluded from persist"
+        },
+        "primary": {
+          "counterMs": 0.9881669729948044,
+          "counterMsPerMiB": 1.4586583532998196,
+          "persistMs": 238.46003797650337,
+          "persistMsPerMiB": 349.4609074079121
+        },
+        "volume": {
+          "allCounterMisses": 33,
+          "timelineCounterMisses": 27,
+          "counterBytes": 710357,
+          "allPersistOperations": 27,
+          "timelinePersistOperations": 27,
+          "materializedUpsertRows": 33,
+          "materializedUpsertBytes": 715512
+        },
+        "timing": {
+          "counter": {
+            "p50": 0.035082995891571045,
+            "p95": 0.06645900011062622,
+            "max": 0.06870900094509125,
+            "zeroDurations": 0
+          },
+          "persist": {
+            "p50": 2.8230419903993607,
+            "p95": 49.18537500500679,
+            "max": 63.28441700339317
+          }
+        },
+        "clock": {
+          "reads": 1000,
+          "positiveReads": 1000,
+          "minPositiveMs": 0.00008299946784973145,
+          "zeroReads": 0,
+          "p50EmptyReadMs": 0.00012499094009399414,
+          "p95EmptyReadMs": 0.000125005841255188,
+          "maxEmptyReadMs": 0.002083003520965576
+        },
+        "input": {
+          "agentStreamFrames": 462,
+          "assistantFrames": 459,
+          "assistantBytes": 50014,
+          "assistantSha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+          "first": "2026-10-17T07:05:19.722Z",
+          "last": "2026-10-17T07:05:48.620Z",
+          "interarrivalMs": {
+            "p50": 63,
+            "p95": 66,
+            "max": 75
+          }
+        },
+        "dump": {
+          "launch": "1792220664237",
+          "dump": 1,
+          "at": "2026-10-17T07:06:15.316Z",
+          "totalCounterCalls": 220,
+          "totalCacheHits": 179,
+          "exportedCounters": 41,
+          "exportedPersists": 31
+        },
+        "correctness": {
+          "after-stream": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "7a0bf91f96e0dfbc8d1cfe03ade30092b830c995a62fcb377f6a43d135177bbe",
+            "timelineBytes": 50869
+          },
+          "steady": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "7a0bf91f96e0dfbc8d1cfe03ade30092b830c995a62fcb377f6a43d135177bbe",
+            "timelineBytes": 50869
+          },
+          "after-reload": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "7a0bf91f96e0dfbc8d1cfe03ade30092b830c995a62fcb377f6a43d135177bbe",
+            "timelineBytes": 50869
+          },
+          "offline-steady": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "7a0bf91f96e0dfbc8d1cfe03ade30092b830c995a62fcb377f6a43d135177bbe",
+            "timelineBytes": 50869
+          }
+        },
+        "scope": "wall durations of actual existing calls; materialized upsert volume, not physical filesystem I/O count; no CPU/full-app-frame-rate claim"
+      },
+      "error": null,
+      "analyzedAt": "2026-10-17T07:07:54.791Z"
+    },
+    {
+      "id": "CAL02",
+      "config": {
+        "variant": "A",
+        "runId": "CAL02",
+        "role": "calibration",
+        "video": false
+      },
+      "exit": 0,
+      "parseErrors": 0,
+      "metrics": {
+        "window": {
+          "start": "2026-10-17T07:09:00.839Z",
+          "end": "2026-10-17T07:09:38.227Z",
+          "durationMs": 37388,
+          "filter": "operation start within window; full operation duration; queue wait excluded from persist"
+        },
+        "primary": {
+          "counterMs": 0.930291011929512,
+          "counterMsPerMiB": 1.289721462451246,
+          "persistMs": 441.79129399359226,
+          "persistMsPerMiB": 608.3371059817401
+        },
+        "volume": {
+          "allCounterMisses": 34,
+          "timelineCounterMisses": 28,
+          "counterBytes": 756350,
+          "allPersistOperations": 28,
+          "timelinePersistOperations": 28,
+          "materializedUpsertRows": 34,
+          "materializedUpsertBytes": 761505
+        },
+        "timing": {
+          "counter": {
+            "p50": 0.031582996249198914,
+            "p95": 0.05883300304412842,
+            "max": 0.06450000405311584,
+            "zeroDurations": 0
+          },
+          "persist": {
+            "p50": 2.343999996781349,
+            "p95": 78.30545899271965,
+            "max": 91.42729200422764
+          }
+        },
+        "clock": {
+          "reads": 1000,
+          "positiveReads": 1000,
+          "minPositiveMs": 0.0000409930944442749,
+          "zeroReads": 0,
+          "p50EmptyReadMs": 0.00008299946784973145,
+          "p95EmptyReadMs": 0.000125005841255188,
+          "maxEmptyReadMs": 0.0005419999361038208
+        },
+        "input": {
+          "agentStreamFrames": 461,
+          "assistantFrames": 458,
+          "assistantBytes": 50014,
+          "assistantSha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+          "first": "2026-10-17T07:09:00.912Z",
+          "last": "2026-10-17T07:09:29.757Z",
+          "interarrivalMs": {
+            "p50": 63,
+            "p95": 67,
+            "max": 71
+          }
+        },
+        "dump": {
+          "launch": "1792220901465",
+          "dump": 1,
+          "at": "2026-10-17T07:09:56.538Z",
+          "totalCounterCalls": 227,
+          "totalCacheHits": 185,
+          "exportedCounters": 42,
+          "exportedPersists": 32
+        },
+        "correctness": {
+          "after-stream": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "42107a63cebf8f347a6df6e5fdb45ed02ef5f053636d2a8bd46409b17cec4136",
+            "timelineBytes": 50869
+          },
+          "steady": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "42107a63cebf8f347a6df6e5fdb45ed02ef5f053636d2a8bd46409b17cec4136",
+            "timelineBytes": 50869
+          },
+          "after-reload": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "42107a63cebf8f347a6df6e5fdb45ed02ef5f053636d2a8bd46409b17cec4136",
+            "timelineBytes": 50869
+          },
+          "offline-steady": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "42107a63cebf8f347a6df6e5fdb45ed02ef5f053636d2a8bd46409b17cec4136",
+            "timelineBytes": 50869
+          }
+        },
+        "scope": "wall durations of actual existing calls; materialized upsert volume, not physical filesystem I/O count; no CPU/full-app-frame-rate claim"
+      },
+      "error": null,
+      "analyzedAt": "2026-10-17T07:11:01.131Z"
+    },
+    {
+      "id": "WARM1",
+      "config": {
+        "variant": "A",
+        "runId": "WARM1",
+        "role": "warmup",
+        "video": false
+      },
+      "exit": 0,
+      "parseErrors": 0,
+      "metrics": {
+        "window": {
+          "start": "2026-10-17T07:01:37.876Z",
+          "end": "2026-10-17T07:02:15.236Z",
+          "durationMs": 37360,
+          "filter": "operation start within window; full operation duration; queue wait excluded from persist"
+        },
+        "primary": {
+          "counterMs": 0.9649190157651901,
+          "counterMsPerMiB": 1.3386665103794555,
+          "persistMs": 344.8507899791002,
+          "persistMsPerMiB": 475.1828403733697
+        },
+        "volume": {
+          "allCounterMisses": 34,
+          "timelineCounterMisses": 28,
+          "counterBytes": 755820,
+          "allPersistOperations": 28,
+          "timelinePersistOperations": 28,
+          "materializedUpsertRows": 34,
+          "materializedUpsertBytes": 760975
+        },
+        "timing": {
+          "counter": {
+            "p50": 0.033417001366615295,
+            "p95": 0.06091700494289398,
+            "max": 0.06412500143051147,
+            "zeroDurations": 0
+          },
+          "persist": {
+            "p50": 2.7947919964790344,
+            "p95": 60.38254100084305,
+            "max": 62.26783399283886
+          }
+        },
+        "clock": {
+          "reads": 1000,
+          "positiveReads": 997,
+          "minPositiveMs": 0.0000409930944442749,
+          "zeroReads": 3,
+          "p50EmptyReadMs": 0.00004200637340545654,
+          "p95EmptyReadMs": 0.00008399784564971924,
+          "maxEmptyReadMs": 0.0003750026226043701
+        },
+        "input": {
+          "agentStreamFrames": 460,
+          "assistantFrames": 457,
+          "assistantBytes": 50014,
+          "assistantSha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+          "first": "2026-10-17T07:01:37.909Z",
+          "last": "2026-10-17T07:02:06.745Z",
+          "interarrivalMs": {
+            "p50": 63,
+            "p95": 67,
+            "max": 67
+          }
+        },
+        "dump": {
+          "launch": "1792220457286",
+          "dump": 1,
+          "at": "2026-10-17T07:02:30.897Z",
+          "totalCounterCalls": 227,
+          "totalCacheHits": 185,
+          "exportedCounters": 42,
+          "exportedPersists": 32
+        },
+        "correctness": {
+          "after-stream": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "2a66221c70e8b19ab765805b320cfe337349aa99aa51a1a7060d3aead3edca90",
+            "timelineBytes": 50869
+          },
+          "steady": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "2a66221c70e8b19ab765805b320cfe337349aa99aa51a1a7060d3aead3edca90",
+            "timelineBytes": 50869
+          },
+          "after-reload": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "2a66221c70e8b19ab765805b320cfe337349aa99aa51a1a7060d3aead3edca90",
+            "timelineBytes": 50869
+          },
+          "offline-steady": {
+            "assistantSha": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+            "timelineSha": "2a66221c70e8b19ab765805b320cfe337349aa99aa51a1a7060d3aead3edca90",
+            "timelineBytes": 50869
+          }
+        },
+        "scope": "wall durations of actual existing calls; materialized upsert volume, not physical filesystem I/O count; no CPU/full-app-frame-rate claim"
+      },
+      "error": null,
+      "analyzedAt": "2026-10-17T07:03:34.832Z"
+    }
+  ],
+  "cleanup": {
+    "at": "2026-10-17T07:11:11.179Z",
+    "owned": [
+      {
+        "id": "CAL01",
+        "uuid": "4CE1F30B-9BDE-4B69-A546-E08042A36437",
+        "simulatorPresent": false,
+        "hostPid": 46391,
+        "hostAlive": false,
+        "cleanupFinished": "2026-10-17T07:07:05Z"
+      },
+      {
+        "id": "CAL02",
+        "uuid": "50638520-139F-46A3-87A5-350D97DFB353",
+        "simulatorPresent": false,
+        "hostPid": 62145,
+        "hostAlive": false,
+        "cleanupFinished": "2026-10-17T07:10:46Z"
+      },
+      {
+        "id": "WARM1",
+        "uuid": "F2968078-6FD8-41DB-B422-237A09920409",
+        "simulatorPresent": false,
+        "hostPid": 97998,
+        "hostAlive": false,
+        "cleanupFinished": "2026-10-17T07:03:30Z"
+      }
+    ],
+    "existingDeviceCount": 22,
+    "allExistingDeviceStatesUnchanged": true,
+    "portChecks": [
+      {
+        "port": 54883,
+        "host": "127.0.0.1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 54883,
+        "host": "::1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 50465,
+        "host": "127.0.0.1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 50465,
+        "host": "::1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 52312,
+        "host": "127.0.0.1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 52312,
+        "host": "::1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 65432,
+        "host": "127.0.0.1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 65432,
+        "host": "::1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      }
+    ],
+    "head": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+    "gitStatus": "",
+    "previousPublicUnchanged": true,
+    "temporarySnapshotRestored": true
+  },
+  "scope": {
+    "functional": "actual stream/SQLite/hash/END/offline known-workspace navigation",
+    "automaticStartupRestore": "not claimed",
+    "performance": "wall time only; no CPU, frame rate or physical-device causality claim",
+    "video": false,
+    "productSourceChanges": false,
+    "testsRun": 0
+  }
+}

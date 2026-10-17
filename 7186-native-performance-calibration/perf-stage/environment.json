@@ -1,0 +1,13 @@
+{
+  "xcode": "Xcode 27.1\nBuild version 27A9275",
+  "simulatorSDK": "27.1",
+  "node": "v24.18.0",
+  "reactNative": "0.81.5",
+  "expo": "54.0.33",
+  "app": "0.12.0-beta.1",
+  "simulatorRuntime": "com.apple.CoreSimulator.SimRuntime.iOS-18-6",
+  "deviceType": "com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro",
+  "architecture": "arm64",
+  "bundleKind": "Hermes JavaScript bytecode",
+  "buildConfiguration": "Release"
+}
