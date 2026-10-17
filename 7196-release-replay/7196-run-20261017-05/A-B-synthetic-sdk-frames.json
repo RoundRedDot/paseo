@@ -1,0 +1,333 @@
+[
+  {
+    "at": "2026-10-17T06:59:00.321Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "15ef2be8-d636-4c5b-b175-ca7a7c4c84b4",
+      "type": "system",
+      "subtype": "init",
+      "permissionMode": "default",
+      "model": "claude-sonnet-4-6",
+      "cwd": "/tmp/paseo-pr-native-followup-20261017/7196-run-20261017-04/cwd",
+      "tools": [
+        "Read"
+      ],
+      "mcp_servers": []
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:00.321Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "96d69b20-84bf-48f6-8092-57ee4bd2b9b9",
+      "type": "stream_event",
+      "event": {
+        "type": "message_start",
+        "message": {
+          "id": "msg_7196_A_B",
+          "type": "message",
+          "role": "assistant",
+          "model": "claude-sonnet-4-6",
+          "content": [],
+          "stop_reason": null,
+          "stop_sequence": null,
+          "usage": {
+            "input_tokens": 1,
+            "output_tokens": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:00.321Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "d4963384-1182-4200-96e6-2aef93b1c011",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 0,
+        "content_block": {
+          "type": "tool_use",
+          "id": "toolu_7196_0_A",
+          "name": "Read",
+          "input": {}
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:00.321Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "f5bbd967-ef00-4733-89ae-9b69bbe7c893",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{\"file_path\":\"/tmp/paseo-pr-native-followup-20261017/7196-run-20261017-04/cwd/7196-A.png\"}"
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:00.321Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "2eecff93-9231-42c0-aed7-17037e7d70d5",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 0
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:01.021Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "35558d19-a6dc-4aa5-9463-ab42b95ff66a",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 1,
+        "content_block": {
+          "type": "tool_use",
+          "id": "toolu_7196_0_B",
+          "name": "Read",
+          "input": {}
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:01.021Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "06fc2c6e-31e8-4164-a1fe-ba924116a79d",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{\"file_path\":\"/tmp/paseo-pr-native-followup-20261017/7196-run-20261017-04/cwd/7196-B.png\"}"
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:01.021Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "6a9bd3d0-a62e-4754-9d74-6898a0b8e68d",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 1
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:01.722Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "aa5e31a0-85a9-4b49-a310-d63f41404593",
+      "type": "assistant",
+      "message": {
+        "id": "msg_7196_A_B",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-4-6",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_7196_0_A",
+            "name": "Read",
+            "input": {
+              "file_path": "/tmp/paseo-pr-native-followup-20261017/7196-run-20261017-04/cwd/7196-A.png"
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_7196_0_B",
+            "name": "Read",
+            "input": {
+              "file_path": "/tmp/paseo-pr-native-followup-20261017/7196-run-20261017-04/cwd/7196-B.png"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 1,
+          "output_tokens": 1
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:01.722Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "3f4af452-fcec-4982-91f8-e110c86b1243",
+      "type": "stream_event",
+      "event": {
+        "type": "message_delta",
+        "delta": {
+          "stop_reason": "tool_use",
+          "stop_sequence": null
+        },
+        "usage": {
+          "output_tokens": 1
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:01.722Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "d5ce40b6-5503-47fe-9a9b-90d62d0c5398",
+      "type": "stream_event",
+      "event": {
+        "type": "message_stop"
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:54.040Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "d96da818-5191-4f29-868a-2a2aecddafad",
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "tool_result",
+            "tool_use_id": "toolu_7196_0_A",
+            "content": "Synthetic native Read result: local image/png, 1 x 1; no vendor inference.",
+            "is_error": false
+          }
+        ]
+      },
+      "tool_use_result": {
+        "type": "image",
+        "file": {
+          "filePath": "/tmp/paseo-pr-native-followup-20261017/7196-run-20261017-04/cwd/7196-A.png",
+          "type": "image/png"
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:56.928Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "e6d0e664-e03d-4b5d-83d8-4ca1e72bd939",
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "tool_result",
+            "tool_use_id": "toolu_7196_0_B",
+            "content": "Synthetic native Read result: local image/png, 1 x 1; no vendor inference.",
+            "is_error": false
+          }
+        ]
+      },
+      "tool_use_result": {
+        "type": "image",
+        "file": {
+          "filePath": "/tmp/paseo-pr-native-followup-20261017/7196-run-20261017-04/cwd/7196-B.png",
+          "type": "image/png"
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T06:59:59.810Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "a89cebdd-9ab0-48be-9f6e-1460a75352fa",
+      "type": "assistant",
+      "message": {
+        "id": "msg_7196_next_0",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-4-6",
+        "content": [
+          {
+            "type": "text",
+            "text": "Both native Read calls finished. Synthetic SDK replay; no model inference."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 1,
+          "output_tokens": 1
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T07:00:02.696Z",
+    "session": 1,
+    "frame": {
+      "session_id": "5f368b7a-3dd7-4da5-94a9-483c26f48056",
+      "parent_tool_use_id": null,
+      "uuid": "e4db0e70-1941-4e37-9fcc-7aeaff595adb",
+      "type": "result",
+      "subtype": "success",
+      "duration_ms": 100,
+      "duration_api_ms": 0,
+      "is_error": false,
+      "num_turns": 1,
+      "result": "Synthetic replay complete",
+      "stop_reason": "end_turn",
+      "total_cost_usd": 0,
+      "usage": {
+        "input_tokens": 1,
+        "output_tokens": 1,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "modelUsage": {},
+      "permission_denials": []
+    }
+  }
+]

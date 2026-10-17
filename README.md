@@ -18,6 +18,7 @@ These are synthetic, isolated QA artifacts. Each directory records its exact val
 | [6737-readonly-runtime](6737-readonly-runtime/README.md) | Real Session/controller read-only reconnect via locally granted Hub relationship; external Hub/native UI excluded |
 | [6737-readonly](6737-readonly/README.md) | Readonly reconnect cancellation, snapshot/update projection;27 focused tests |
 | [6737-review2](6737-review2/README.md) | Initialization/offline membership/readonly repair;62 tests and cross-client browser |
+| [7196-release-replay](7196-release-replay/README.md) | Unmodified0.11.4 Release/historical plugin: both completion orders reproduce transient gap; explicitly synthetic SDK replay |
 | [7196-original-report](7196-original-report/README.md) | Original user-reported streaming gap screenshot; exact installed build/Release recording still unverified |
 | [6699-timing](6699-timing/README.md) | Stopped/parallel tool duration through source/cache/presentation;278 tests |
 | [6699-real-read](6699-real-read/README.md) | Real Claude native Read, both completion orders, screenshots/recording; plugin cache limitation disclosed |

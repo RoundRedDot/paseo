@@ -1,0 +1,3 @@
+# #7196 Release startup blocker evidence
+
+No symptom video was produced. The original signed 0.11.4 packaged app was copied without modification and launched once with a fresh profile/home inside a per-process Seatbelt network policy. Chromium helpers failed sandbox initialization, and the app exited before CDP or IPC. No provider replay, plugin load or model inference occurred. This is a startup blocker, not evidence that the original gap is fixed or unreproducible. These files contain only synthetic QA metadata and error excerpts; private homes and full logs are excluded. Nothing has been uploaded.

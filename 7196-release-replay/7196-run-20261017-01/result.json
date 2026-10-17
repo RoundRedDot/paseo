@@ -1,0 +1,19 @@
+{
+  "result": "BLOCKED",
+  "appVersion": "0.11.4",
+  "packaged": true,
+  "baselineSource": "f55bfd50c2dabc3c03116f14e4518f6132e737fd",
+  "historicalPluginPlanned": "58672b784b2082764b7c5de620978193f9aaa030",
+  "pluginInstalled": false,
+  "provider": "planned vendor replay fixture; not reached",
+  "sourceExecution": "codex/gpt-6.1-sol High (task configured)",
+  "appAttempts": 1,
+  "fixtureCasesRun": 0,
+  "realModelRequests": 0,
+  "failure": "Packaged Chromium network/GPU helpers could not initialize their sandbox under the enclosing Seatbelt policy; main exited before CDP/IPC",
+  "machOSha256": "65d1fc76c65f7c85b9f206571370d7215b77006caaf17ea3bdd634ea6ac136f5",
+  "appAsarSha256": "5cb34e255bac791ea2d52a487f45a5451306d7b0b7827a5cc1d5297557c831af",
+  "signatureVerificationExit": 0,
+  "hashesUnchanged": true,
+  "cleanupPassed": true
+}

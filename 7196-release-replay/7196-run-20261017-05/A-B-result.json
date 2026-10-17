@@ -1,0 +1,127 @@
+{
+  "order": "A-B",
+  "agentId": "5c0eda8d-32d2-488b-9186-64c813612591",
+  "callIds": {
+    "A": "toolu_7196_0_A",
+    "B": "toolu_7196_0_B"
+  },
+  "phases": [
+    {
+      "label": "both-running",
+      "begin": "2026-10-17T06:59:51.546Z",
+      "end": "2026-10-17T06:59:53.978Z",
+      "expected": {
+        "A": "running",
+        "B": "running"
+      },
+      "callIds": [
+        "toolu_7196_0_A",
+        "toolu_7196_0_B"
+      ],
+      "canonicalTimestamps": [
+        "2026-10-17T06:59:00.388Z",
+        "2026-10-17T06:59:01.083Z"
+      ],
+      "gap": 4,
+      "margins": {
+        "A": "-12px",
+        "B": "0px"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "documentTop": 0
+      }
+    },
+    {
+      "label": "first-complete",
+      "begin": "2026-10-17T06:59:54.444Z",
+      "end": "2026-10-17T06:59:56.866Z",
+      "expected": {
+        "A": "completed",
+        "B": "running"
+      },
+      "callIds": [
+        "toolu_7196_0_A",
+        "toolu_7196_0_B"
+      ],
+      "canonicalTimestamps": [
+        "2026-10-17T06:59:54.042Z",
+        "2026-10-17T06:59:01.083Z"
+      ],
+      "gap": 16,
+      "margins": {
+        "A": "0px",
+        "B": "-12px"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "documentTop": 0
+      }
+    },
+    {
+      "label": "both-complete",
+      "begin": "2026-10-17T06:59:57.329Z",
+      "end": "2026-10-17T06:59:59.756Z",
+      "expected": {
+        "A": "completed",
+        "B": "completed"
+      },
+      "callIds": [
+        "toolu_7196_0_A",
+        "toolu_7196_0_B"
+      ],
+      "canonicalTimestamps": [
+        "2026-10-17T06:59:54.042Z",
+        "2026-10-17T06:59:56.929Z"
+      ],
+      "gap": 4,
+      "margins": {
+        "A": "-12px",
+        "B": "0px"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "documentTop": 0
+      }
+    },
+    {
+      "label": "next-item",
+      "begin": "2026-10-17T07:00:00.213Z",
+      "end": "2026-10-17T07:00:02.639Z",
+      "expected": {
+        "A": "completed",
+        "B": "completed"
+      },
+      "callIds": [
+        "toolu_7196_0_A",
+        "toolu_7196_0_B"
+      ],
+      "canonicalTimestamps": [
+        "2026-10-17T06:59:54.042Z",
+        "2026-10-17T06:59:56.929Z"
+      ],
+      "gap": 4,
+      "margins": {
+        "A": "-12px",
+        "B": "-12px"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "documentTop": 0
+      }
+    }
+  ],
+  "frames": 3089,
+  "started": "2026-10-17T06:59:01.722Z",
+  "ended": "2026-10-17T07:00:03.763Z",
+  "observedGapRange": {
+    "min": 4,
+    "max": 16
+  },
+  "gapAppearedAndNaturallyDisappeared": true,
+  "note": "Unmodified 0.11.4 packaged renderer + real baseline host/Claude mapper/historical plugin. Synthetic SDK Read lifecycle result frames; not a real vendor call. Collapsed local PNG reads; result contains text, not base64 assistant image blocks. No forced scrolling or spacing modification."
+}

@@ -1,0 +1,58 @@
+{
+  "result": "BLOCKED",
+  "reason": "Replay harness Claude availability configuration omitted",
+  "preflight": "PASS",
+  "appVersion": "0.11.4",
+  "sandbox": {
+    "enabled": true,
+    "reason": "Chromium default"
+  },
+  "settings": {
+    "releaseChannel": "stable",
+    "notifications": {
+      "playSound": true
+    },
+    "daemon": {
+      "manageBuiltInDaemon": false,
+      "keepRunningAfterQuit": false
+    }
+  },
+  "desktopStatus": {
+    "serverId": "",
+    "status": "stopped",
+    "listen": null,
+    "hostname": null,
+    "pid": null,
+    "home": "<RUN>/desktop-home",
+    "version": null,
+    "desktopManaged": false,
+    "startedAt": null,
+    "ownedByDesktop": false,
+    "error": null
+  },
+  "updater": {
+    "hasUpdate": false,
+    "readyToInstall": false,
+    "currentVersion": "0.11.4",
+    "latestVersion": "0.11.4",
+    "body": null,
+    "date": null,
+    "errorMessage": "net::ERR_TUNNEL_CONNECTION_FAILED"
+  },
+  "historicalPlugin": {
+    "revision": "58672b784b2082764b7c5de620978193f9aaa030",
+    "status": "running",
+    "rendererBlob": "1179d259aceac465194962ddf3baf0a327e599d3",
+    "sourceFiles": 673,
+    "sourceUnchanged": true
+  },
+  "casesRun": 0,
+  "vendorFrames": 0,
+  "realModelRequests": 0,
+  "cleanup": true,
+  "binaries": {
+    "Contents/MacOS/Paseo": "65d1fc76c65f7c85b9f206571370d7215b77006caaf17ea3bdd634ea6ac136f5",
+    "Contents/Resources/app.asar": "5cb34e255bac791ea2d52a487f45a5451306d7b0b7827a5cc1d5297557c831af"
+  },
+  "netlogLimitation": "No whole-process or absolute no-DIRECT claim; missing request coverage is accepted"
+}

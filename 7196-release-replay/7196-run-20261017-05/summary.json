@@ -1,0 +1,319 @@
+{
+  "result": "COMPLETE_WITH_LIMITATIONS",
+  "app": "0.11.4",
+  "electron": "44.2.0",
+  "hostSource": "f55bfd50c2dabc3c03116f14e4518f6132e737fd",
+  "plugin": {
+    "revision": "58672b784b2082764b7c5de620978193f9aaa030",
+    "rendererBlob": "1179d259aceac465194962ddf3baf0a327e599d3",
+    "filesUnchanged": 673
+  },
+  "cases": [
+    {
+      "order": "A-B",
+      "agentId": "5c0eda8d-32d2-488b-9186-64c813612591",
+      "callIds": {
+        "A": "toolu_7196_0_A",
+        "B": "toolu_7196_0_B"
+      },
+      "phases": [
+        {
+          "label": "both-running",
+          "begin": "2026-10-17T06:59:51.546Z",
+          "end": "2026-10-17T06:59:53.978Z",
+          "expected": {
+            "A": "running",
+            "B": "running"
+          },
+          "callIds": [
+            "toolu_7196_0_A",
+            "toolu_7196_0_B"
+          ],
+          "canonicalTimestamps": [
+            "2026-10-17T06:59:00.388Z",
+            "2026-10-17T06:59:01.083Z"
+          ],
+          "gap": 4,
+          "margins": {
+            "A": "-12px",
+            "B": "0px"
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "documentTop": 0
+          }
+        },
+        {
+          "label": "first-complete",
+          "begin": "2026-10-17T06:59:54.444Z",
+          "end": "2026-10-17T06:59:56.866Z",
+          "expected": {
+            "A": "completed",
+            "B": "running"
+          },
+          "callIds": [
+            "toolu_7196_0_A",
+            "toolu_7196_0_B"
+          ],
+          "canonicalTimestamps": [
+            "2026-10-17T06:59:54.042Z",
+            "2026-10-17T06:59:01.083Z"
+          ],
+          "gap": 16,
+          "margins": {
+            "A": "0px",
+            "B": "-12px"
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "documentTop": 0
+          }
+        },
+        {
+          "label": "both-complete",
+          "begin": "2026-10-17T06:59:57.329Z",
+          "end": "2026-10-17T06:59:59.756Z",
+          "expected": {
+            "A": "completed",
+            "B": "completed"
+          },
+          "callIds": [
+            "toolu_7196_0_A",
+            "toolu_7196_0_B"
+          ],
+          "canonicalTimestamps": [
+            "2026-10-17T06:59:54.042Z",
+            "2026-10-17T06:59:56.929Z"
+          ],
+          "gap": 4,
+          "margins": {
+            "A": "-12px",
+            "B": "0px"
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "documentTop": 0
+          }
+        },
+        {
+          "label": "next-item",
+          "begin": "2026-10-17T07:00:00.213Z",
+          "end": "2026-10-17T07:00:02.639Z",
+          "expected": {
+            "A": "completed",
+            "B": "completed"
+          },
+          "callIds": [
+            "toolu_7196_0_A",
+            "toolu_7196_0_B"
+          ],
+          "canonicalTimestamps": [
+            "2026-10-17T06:59:54.042Z",
+            "2026-10-17T06:59:56.929Z"
+          ],
+          "gap": 4,
+          "margins": {
+            "A": "-12px",
+            "B": "-12px"
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "documentTop": 0
+          }
+        }
+      ],
+      "frames": 3089,
+      "started": "2026-10-17T06:59:01.722Z",
+      "ended": "2026-10-17T07:00:03.763Z",
+      "observedGapRange": {
+        "min": 4,
+        "max": 16
+      },
+      "gapAppearedAndNaturallyDisappeared": true,
+      "note": "Unmodified 0.11.4 packaged renderer + real baseline host/Claude mapper/historical plugin. Synthetic SDK Read lifecycle result frames; not a real vendor call. Collapsed local PNG reads; result contains text, not base64 assistant image blocks. No forced scrolling or spacing modification."
+    },
+    {
+      "order": "B-A",
+      "agentId": "47fea354-56aa-4beb-ac84-f533cbf49dcf",
+      "callIds": {
+        "A": "toolu_7196_0_A",
+        "B": "toolu_7196_0_B"
+      },
+      "phases": [
+        {
+          "label": "both-running",
+          "clientStatusMatched": true,
+          "clientRunning": {
+            "A": true,
+            "B": true
+          },
+          "begin": "2026-10-17T07:07:40.419Z",
+          "end": "2026-10-17T07:07:42.842Z",
+          "expected": {
+            "A": "running",
+            "B": "running"
+          },
+          "callIds": [
+            "toolu_7196_0_A",
+            "toolu_7196_0_B"
+          ],
+          "canonicalTimestamps": [
+            "2026-10-17T07:07:37.125Z",
+            "2026-10-17T07:07:37.819Z"
+          ],
+          "gap": 4,
+          "margins": {
+            "A": "-12px",
+            "B": "0px"
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "documentTop": 0
+          }
+        },
+        {
+          "label": "first-complete",
+          "clientStatusMatched": true,
+          "clientRunning": {
+            "A": true,
+            "B": false
+          },
+          "begin": "2026-10-17T07:07:43.301Z",
+          "end": "2026-10-17T07:07:45.725Z",
+          "expected": {
+            "A": "running",
+            "B": "completed"
+          },
+          "callIds": [
+            "toolu_7196_0_A",
+            "toolu_7196_0_B"
+          ],
+          "canonicalTimestamps": [
+            "2026-10-17T07:07:37.125Z",
+            "2026-10-17T07:07:42.901Z"
+          ],
+          "gap": 4,
+          "margins": {
+            "A": "-12px",
+            "B": "0px"
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "documentTop": 0
+          }
+        },
+        {
+          "label": "both-complete",
+          "clientStatusMatched": true,
+          "clientRunning": {
+            "A": false,
+            "B": false
+          },
+          "begin": "2026-10-17T07:07:46.183Z",
+          "end": "2026-10-17T07:07:48.612Z",
+          "expected": {
+            "A": "completed",
+            "B": "completed"
+          },
+          "callIds": [
+            "toolu_7196_0_A",
+            "toolu_7196_0_B"
+          ],
+          "canonicalTimestamps": [
+            "2026-10-17T07:07:45.782Z",
+            "2026-10-17T07:07:42.901Z"
+          ],
+          "gap": 16,
+          "margins": {
+            "A": "0px",
+            "B": "-12px"
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "documentTop": 0
+          }
+        },
+        {
+          "label": "next-item",
+          "clientStatusMatched": true,
+          "clientRunning": {
+            "A": false,
+            "B": false
+          },
+          "begin": "2026-10-17T07:07:49.075Z",
+          "end": "2026-10-17T07:07:51.501Z",
+          "expected": {
+            "A": "completed",
+            "B": "completed"
+          },
+          "callIds": [
+            "toolu_7196_0_A",
+            "toolu_7196_0_B"
+          ],
+          "canonicalTimestamps": [
+            "2026-10-17T07:07:45.782Z",
+            "2026-10-17T07:07:42.901Z"
+          ],
+          "gap": 4,
+          "margins": {
+            "A": "-12px",
+            "B": "-12px"
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "documentTop": 0
+          }
+        }
+      ],
+      "frames": 722,
+      "started": "2026-10-17T07:07:38.457Z",
+      "ended": "2026-10-17T07:07:52.625Z",
+      "observedGapRange": {
+        "min": 4,
+        "max": 16
+      },
+      "gapAppearedAndNaturallyDisappeared": true,
+      "note": "Unmodified 0.11.4 packaged renderer + real baseline host/Claude mapper/historical plugin. Synthetic SDK Read lifecycle result frames; not a real vendor call. Collapsed local PNG reads; result contains text, not base64 assistant image blocks. No forced scrolling or spacing modification."
+    }
+  ],
+  "realModelRequests": 0,
+  "cleanup": true,
+  "limitations": [
+    "Synthetic SDK replay; not real vendor",
+    "CDP renderer recording; not OS chrome",
+    "Node networking outside proxy",
+    "NetLog positive request coverage missing",
+    "Original 2026-10-12 exact client build unknown",
+    "No mobile/device acceptance"
+  ],
+  "runtimeArtifacts": {
+    "hostBootstrap": "feecd0a1967f9d16bbe0c4895c1efd930e05bc885b7ddb0d6952aa8a3b89ef3a",
+    "claudeSessionMapper": "519318ffe2c3427e9478ebd3e29e2d28835558c9fb40ff3136f3557c1a077060",
+    "claudeToolCallMapper": "ce7a4ce016271bc7637d8e226952b0ccee411352fcad9514efba5660339bfda1",
+    "pluginCompiler": "4445e6f90710d7cc30c76a4a865625ee046ab15d96a397789e9dee2a336d125b",
+    "loadedPluginClientBundle": "68e89027b53aad1dbf0706d19ced61b03e0da3adafba1d87d43d59e57c9d5ce6",
+    "packagedRenderer": "f420d2f7bf85d22207ea62dc54b5593e9dee8b4261874a83fa8e37f938872486"
+  },
+  "presentationTimestampChecks": [
+    {
+      "order": "A-B",
+      "packets": 3090,
+      "maxErrorSeconds": 1.4848327367644742e-7,
+      "ffprobeExit": 0
+    },
+    {
+      "order": "B-A",
+      "packets": 723,
+      "maxErrorSeconds": 1.6755676268687125e-7,
+      "ffprobeExit": 0
+    }
+  ]
+}

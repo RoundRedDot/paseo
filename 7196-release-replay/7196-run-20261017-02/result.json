@@ -1,0 +1,71 @@
+{
+  "result": "BLOCKED",
+  "appVersion": "0.11.4",
+  "sandbox": {
+    "enabled": true,
+    "reason": "Chromium default"
+  },
+  "settings": {
+    "releaseChannel": "stable",
+    "notifications": {
+      "playSound": true
+    },
+    "daemon": {
+      "manageBuiltInDaemon": false,
+      "keepRunningAfterQuit": false
+    }
+  },
+  "updater": {
+    "hasUpdate": false,
+    "readyToInstall": false,
+    "currentVersion": "0.11.4",
+    "latestVersion": "0.11.4",
+    "body": null,
+    "date": null,
+    "errorMessage": "net::ERR_TUNNEL_CONNECTION_FAILED"
+  },
+  "updaterProxyEvents": [
+    {
+      "at": "2026-10-17T06:44:03.720Z",
+      "method": "CONNECT",
+      "target": "github.com:443",
+      "allowed": false
+    }
+  ],
+  "nonDLoopback": {
+    "error": "TypeError: Failed to fetch"
+  },
+  "netlog": {
+    "at": "2026-10-17T06:47:31.169Z",
+    "netlogEvents": 11,
+    "proxyResolutionEvents": 0,
+    "urlEvents": 0,
+    "directMentions": 0,
+    "eventTypes": [
+      "COOKIE_STORE_ALIVE",
+      "HTTP_SERVER_PROPERTIES_INITIALIZATION",
+      "QUIC_SESSION_POOL_CLOSE_ALL_SESSIONS",
+      "HTTP_SERVER_PROPERTIES_UPDATE_PREFS"
+    ],
+    "conclusion": "NetLog lacks positive proxy/request coverage; zero DIRECT occurrences cannot prove absence of bypass",
+    "desktopStatusRawLimit": "IPC status/home assertions passed before updater; runtime result.status later overwritten by overall status, so the raw desktop status response was not retained",
+    "appExited": {
+      "code": 0,
+      "signal": null
+    },
+    "appAbsent": true,
+    "helperPids": [],
+    "DCPListenersClosed": true,
+    "copyOriginalCodesignExit": 0,
+    "copyHashesUnchanged": true,
+    "providerCases": 0,
+    "modelRequests": 0,
+    "originalCopyHashes": {
+      "Contents/MacOS/Paseo": "65d1fc76c65f7c85b9f206571370d7215b77006caaf17ea3bdd634ea6ac136f5",
+      "Contents/Resources/app.asar": "5cb34e255bac791ea2d52a487f45a5451306d7b0b7827a5cc1d5297557c831af"
+    }
+  },
+  "appAttempts": 1,
+  "casesRun": 0,
+  "realModelRequests": 0
+}

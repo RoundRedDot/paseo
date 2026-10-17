@@ -1,0 +1,14 @@
+[
+  {
+    "name": "README.md",
+    "sha256": "46cd0bab96c7534e2db81f1856d4d16ba9a5683ff222fe9c8bd706de54233f1d"
+  },
+  {
+    "name": "proxy-events.json",
+    "sha256": "2d8116c1f743bc0a653f1fb8bf4d6a30162660ec91223471d9b4382dd731c95b"
+  },
+  {
+    "name": "result.json",
+    "sha256": "c30c31619776c7a34ead4b885d8f86c973026328b03d8b5b64b444567b2aa84b"
+  }
+]

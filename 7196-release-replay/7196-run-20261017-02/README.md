@@ -1,0 +1,3 @@
+# #7196 controlled proxy launch
+
+One unchanged macOS 0.11.4 packaged app launch retained Chromium sandbox. IPC settings and sandbox guards passed. The real updater GitHub CONNECT and a non-D loopback request were denied by the isolated proxy; updater IPC returned ERR_TUNNEL_CONNECTION_FAILED. The required NetLog evidence gate failed: 11 events were retained, with no proxy-resolution or URL events. Zero DIRECT occurrences is insufficient when the relevant requests are absent. The app exited normally and owned listeners/processes were verified gone. No vendor replay, model calls or Read cases ran, and no symptom video was produced. Node paths are not protected by this Chromium proxy. No upload was performed.

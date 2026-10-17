@@ -1,0 +1,26 @@
+[
+  {
+    "name": "README.md",
+    "sha256": "80d4e081179decf4af0c4800dcfa03a91eae51f20ff26b700b3c1e24035278ae"
+  },
+  {
+    "name": "desktop-settings.json",
+    "sha256": "489158ef0755f349e5c6ef79dd60b8d9de515ac63336e04cd576c053285995e1"
+  },
+  {
+    "name": "desktop-status.json",
+    "sha256": "958bacaec0b77fef6cae9c2f51f3b2a8eba47ad67349e6e11ca42bc3e7baeb9e"
+  },
+  {
+    "name": "proxy-events.json",
+    "sha256": "9487903ecbc9dd2e73d150fcb66695ea9871747122a6bde89aee0a1839e11cc3"
+  },
+  {
+    "name": "release-host-connected.png",
+    "sha256": "1c25495be2e6d39946164885dc890b0f288038b898176294fe4cd8cbeb55a718"
+  },
+  {
+    "name": "result.json",
+    "sha256": "8000094ac553d9ef76ee47c466bf98fe7350eb7e0b28f2741b26a24c28c88f88"
+  }
+]
