@@ -61,6 +61,7 @@ function mountCard(question: Record<string, unknown>, structured = false) {
         permission={buildPermission(question, structured)}
         onRespond={onRespond}
         isResponding={false}
+        responseError={null}
       />,
     ),
   );
