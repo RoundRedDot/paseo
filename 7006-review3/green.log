@@ -1,0 +1,40 @@
+
+> @getpaseo/app@0.12.0-beta.1 test:e2e
+> playwright test --project=browser e2e/browser/agent-stream-closing-fence.spec.ts --workers=1 --retries=0 --reporter=list,json
+
+[metro] Starting project at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7006-parallel-20261016/packages/app
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Experimental Expo Autolinking module resolver is enabled.
+[metro] React Compiler enabled
+[metro] Starting Metro Bundler
+[metro] Waiting on http://localhost:52564
+[metro] Logs for your project will appear below.
+[metro] Web Bundled 1582ms packages/app/index.ts (5585 modules)
+[e2e] Metro warmed on port 52564
+
+Running 4 tests using 1 worker
+
+(node:25730) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25730) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 0 daemon started on port 52612, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-0-YDVxJw
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 166ms packages/app/index.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+[metro] Web Bundled 28ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+  ✓  1 [browser] › e2e/browser/agent-stream-closing-fence.spec.ts:114:5 › does not paint a closing fence while it is still being typed (4.5s)
+  ✓  2 [browser] › e2e/browser/agent-stream-closing-fence.spec.ts:155:5 › excludes each revealed character of the next paragraph from both pauses (89ms)
+[metro] Web Bundled 140ms packages/app/index.ts (1 module)
+[metro] Web Bundled 4ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓  3 [browser] › e2e/browser/agent-stream-closing-fence.spec.ts:186:7 › samples opening prefixes in prose in the correct container (2.7s)
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 143ms packages/app/index.ts (1 module)
+[metro] Web Bundled 3ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓  4 [browser] › e2e/browser/agent-stream-closing-fence.spec.ts:186:7 › samples partial fences inside rendered code in the correct container (2.8s)
+[e2e] Worker 0 daemon stopped
+[e2e] Metro stopped
+
+  4 passed (22.4s)

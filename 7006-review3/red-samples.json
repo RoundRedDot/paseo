@@ -1,0 +1,57 @@
+[
+  {
+    "attachment": "closing-fence-frames",
+    "frames": 98,
+    "final": {
+      "text": "Here is the first snippet:const answer = 42;\nconsole.log(answer);And a second one:echo doneBoth blocks are closed.",
+      "codeBlockHeights": [
+        52,
+        38
+      ],
+      "codeBlockTexts": [
+        "const answer = 42;\nconsole.log(answer);",
+        "echo done"
+      ],
+      "messageHeights": [
+        189
+      ],
+      "partialFenceLines": []
+    }
+  },
+  {
+    "attachment": "fence-container-frames",
+    "frames": 4,
+    "final": {
+      "text": "And a second one:```Both blocks are closed.",
+      "codeBlockHeights": [],
+      "codeBlockTexts": [],
+      "messageHeights": [
+        132
+      ],
+      "partialFenceLines": [
+        "`",
+        "``"
+      ]
+    }
+  },
+  {
+    "attachment": "fence-container-frames",
+    "frames": 4,
+    "final": {
+      "text": "const answer = 42;\n`\n``Both blocks are closed.",
+      "codeBlockHeights": [
+        66
+      ],
+      "codeBlockTexts": [
+        "const answer = 42;\n`\n``"
+      ],
+      "messageHeights": [
+        99
+      ],
+      "partialFenceLines": [
+        "`",
+        "``"
+      ]
+    }
+  }
+]
