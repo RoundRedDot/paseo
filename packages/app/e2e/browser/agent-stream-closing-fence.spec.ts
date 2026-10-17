@@ -43,14 +43,16 @@ async function sampleClosingFenceFrames(page: Page): Promise<ClosingFenceFrameRe
         };
 
         for (const message of messages) {
-          for (const line of message.innerText.split(/\r?\n/)) {
-            if (/^\s*`{1,2}\s*$/.test(line)) sample.partialFenceLines.push(line);
-          }
           for (const block of message.querySelectorAll<HTMLElement>(
             '[data-paseo-markdown-tag="pre"]',
           )) {
             const code = block.querySelector<HTMLElement>('[data-paseo-markdown-tag="code"]');
-            sample.codeBlockTexts.push((code?.textContent ?? block.textContent ?? "").trimEnd());
+            const codeText = code?.textContent ?? block.textContent ?? "";
+            sample.codeBlockTexts.push(codeText.trimEnd());
+            // Opening fence prefixes render as prose; closing artifacts live inside code blocks.
+            for (const line of codeText.split(/\r?\n/)) {
+              if (/^\s*`{1,2}\s*$/.test(line)) sample.partialFenceLines.push(line);
+            }
             sample.codeBlockHeights.push(Math.round(block.getBoundingClientRect().height));
           }
         }
@@ -133,7 +135,7 @@ test("does not paint a closing fence while it is still being typed", async ({ pa
     expect(report.finished, "the reply should finish streaming").toBe(true);
     expect(
       report.samples.flatMap((sample) => sample.partialFenceLines),
-      "no frame, including transitions outside the pause windows, may show a partial fence",
+      "no frame, including transitions outside the pause windows, may show a partial fence inside code",
     ).toEqual([]);
     const firstPauseSamples = closingFencePauseSamples(report.samples, FIRST_PAUSE_TEXT);
     const secondPauseSamples = closingFencePauseSamples(report.samples, SECOND_PAUSE_TEXT);
@@ -166,3 +168,47 @@ test("excludes each revealed character of the next paragraph from both pauses", 
     expect(closingFencePauseSamples(samples, pauseText)).toEqual([samples[0]]);
   }
 });
+
+for (const { label, markdown, expectedCode, expectedPartialFenceLines } of [
+  {
+    label: "opening prefixes in prose",
+    markdown: "And a second one:\n\n`\n\n``\n\nBoth blocks are closed.",
+    expectedCode: [],
+    expectedPartialFenceLines: [],
+  },
+  {
+    label: "partial fences inside rendered code",
+    markdown: "```ts\nconst answer = 42;\n`\n``\n```\n\nBoth blocks are closed.",
+    expectedCode: ["const answer = 42;\n`\n``"],
+    expectedPartialFenceLines: ["`", "``"],
+  },
+]) {
+  test(`samples ${label} in the correct container`, async ({ page }, testInfo) => {
+    const agent = await seedMockAgentWorkspace({
+      repoPrefix: "fence-sample-container-",
+      title: "Fence sample container",
+      featureValues: { mockAssistantResponse: markdown },
+    });
+    try {
+      await openAgentRoute(page, agent);
+      await expectComposerVisible(page);
+      const reportPromise = sampleClosingFenceFrames(page);
+      await agent.client.sendAgentMessage(agent.agentId, "Show the fence sampling fixture.");
+      const report = await reportPromise;
+      await testInfo.attach("fence-container-frames", {
+        body: JSON.stringify(report, null, 2),
+        contentType: "application/json",
+      });
+      expect(report.finished).toBe(true);
+      const messageText = await page.getByTestId("assistant-message").innerText();
+      const messageLines = messageText.split(/\r?\n/);
+      const messageFenceLines = messageLines.filter((line) => /^\s*`{1,2}\s*$/.test(line));
+      expect(messageFenceLines).toEqual(["`", "``"]);
+      const finalSample = report.samples.at(-1);
+      expect(finalSample?.codeBlockTexts).toEqual(expectedCode);
+      expect(finalSample?.partialFenceLines).toEqual(expectedPartialFenceLines);
+    } finally {
+      await agent.cleanup();
+    }
+  });
+}
