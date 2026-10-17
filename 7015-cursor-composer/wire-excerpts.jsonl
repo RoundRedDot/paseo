@@ -1,0 +1,5 @@
+{"sourceFile":"cursor-wire.jsonl","sourceLine":20,"time":"2026-10-17T08:45:18.641Z","kind":"rpc_method","direction":"host_to_provider","method":"session/set_model","id":2,"params":{"sessionId":"<SYNTHETIC_sessionId>","modelId":"composer-2.5"}}
+{"sourceFile":"cursor-wire.jsonl","sourceLine":21,"time":"2026-10-17T08:45:22.870Z","kind":"provider_rpc_result","method":"session/set_model","message":{"jsonrpc":"2.0","id":2,"result":{}}}
+{"sourceFile":"cursor-wire.jsonl","sourceLine":22,"time":"2026-10-17T08:45:22.875Z","kind":"rpc_method","direction":"host_to_provider","method":"session/set_mode","id":3,"params":{"sessionId":"<SYNTHETIC_sessionId>","modeId":"plan"}}
+{"sourceFile":"cursor-wire.jsonl","sourceLine":24,"time":"2026-10-17T08:45:22.876Z","kind":"provider_rpc_result","method":"session/set_mode","message":{"jsonrpc":"2.0","id":3,"result":{}}}
+{"sourceFile":"cursor-wire.jsonl","sourceLine":66,"time":"2026-10-17T08:45:29.874Z","kind":"provider_rpc_result","method":"session/prompt","stopReason":"end_turn"}

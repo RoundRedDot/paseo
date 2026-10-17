@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "b8a48e4825cf49d09f352a4b3d7793847657908c",
+  "provider": "cursor",
+  "allowed": [
+    {
+      "file": "public/summary.json",
+      "bytes": 2465,
+      "sha256": "899f39f9859f85ff1359a91d03f073287de6d8fd2ee2c389452090fde7aba6bd"
+    },
+    {
+      "file": "public/wire-excerpts.jsonl",
+      "bytes": 1021,
+      "sha256": "d257f056ff1bcf516c12dcf5281b3cffbb8c1090725857a14fc780e4025718ee"
+    },
+    {
+      "file": "public/README.md",
+      "bytes": 1059,
+      "sha256": "8ebecbc3c4c48c139fe827a33b79ca38c8d9aab80e621de308a9374bc9232aa5"
+    }
+  ],
+  "excluded": [
+    "All files not explicitly listed",
+    "run-*/** including isolated home, credentials, persistence and synthetic repos",
+    "c/**, d/**, n/**, s/** (Cursor temporary config/data/cache/state)",
+    "Private full logs, runtime-results.json, inventory/setup/harness source, and local report.md"
+  ],
+  "review": "Generated from explicit non-secret field selections; parent reviews these exact files before any publication. No upload was performed."
+}

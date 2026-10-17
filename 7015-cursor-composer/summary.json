@@ -1,0 +1,47 @@
+{
+  "sourceSha": "b8a48e4825cf49d09f352a4b3d7793847657908c",
+  "sourceShaAfter": "b8a48e4825cf49d09f352a4b3d7793847657908c",
+  "inventory": {
+    "checkedAt": "2026-10-17T08:43:48.751Z",
+    "cursorVersion": "2026.10.01-e373342",
+    "nodeVersion": "v24.18.0",
+    "sha256": {
+      "cursorLauncher": "2ccc9a8e167797641448b5e5c936f006ba137a2555f117f38c5eb76a5238a233",
+      "cursorImplementation": "f6bd8dece34b56431ee74f1ac827e032d054381085e7da7088e85abdd1008330",
+      "cursorNode": "ebd2d552c7bebde593dd0390530963ad28de56bccde6ce387cdbe55fb0b6fb8e",
+      "supervisorEntrypoint": "151ec8c19d31eeb5618985280482f48ce6d6e9bdcc1997a288f32d66029ab0eb",
+      "cursorBridge": "2b0702ebce20dbb355f91e22b789976cd09dee5963daf2a089e013a36b94aded",
+      "daemonClient": "a1d7a95e8bec8bcf400bca02432dbb24fa09dc4ef83fa821e0dbefbfadb762e6",
+      "questionFormCore": "53d379698f970e23219520679ea3c3bfa7fe636524c588f0e25bc57e9c0d6936"
+    },
+    "sourceSha": "b8a48e4825cf49d09f352a4b3d7793847657908c"
+  },
+  "worker": 1,
+  "retry": 0,
+  "userPromptBudget": 1,
+  "userPromptsSent": 1,
+  "provider": "cursor",
+  "model": "composer-2.5",
+  "mode": "plan",
+  "nativePromptRequestCount": 1,
+  "nativeQuestionRequestCount": 0,
+  "authenticNativeRequest": false,
+  "permissionSeen": false,
+  "structuredSubmission": false,
+  "nativeResponseAccepted": false,
+  "identityCorrect": false,
+  "notesCorrect": "NOT_APPLICABLE",
+  "modelConfirmation": false,
+  "assertionStatus": {
+    "nativeQuestion": "NOT_AVAILABLE_FOR_THIS_CASE",
+    "structuredDelivery": "NOT_RUN",
+    "modelIdentity": "NOT_RUN"
+  },
+  "modelReportsUnavailable": true,
+  "assistantText": "AskQuestion 在本会话的工具列表中未提供。\n\n**CURSOR_ASKQUESTION_UNAVAILABLE**\n\n本会话实际提供的工具名称：\n\n- Shell  \n- Grep  \n- StrReplace  \n- Write  \n- Read  \n- Glob  \n- CreatePlan  \n- GetDynamicTools  \n- CallDynamicTool  \n\n因此无法按规范调用 `AskQuestion`（question ID `qa-cursor-colors`），也不能代填 `selected_option_ids`；仅能在工具可用后根据真实返回值输出 JSON。",
+  "finishedStatus": "idle",
+  "supervisorStopped": true,
+  "endedAt": "2026-10-17T08:45:30.268Z",
+  "platformEvidence": "No DOM, mobile, packaged desktop, or offline-client cancellation acceptance in this run.",
+  "provenanceBoundary": "Installed binary version and SHA256 identify the exercised executable; public repository main is not claimed as its source provenance."
+}
