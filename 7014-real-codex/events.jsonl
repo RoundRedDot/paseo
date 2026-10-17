@@ -1,0 +1,32 @@
+{"at":"2026-10-17T04:59:52.337Z","kind":"assertion","name":"default model present in native metadata","passed":true}
+{"at":"2026-10-17T04:59:52.349Z","kind":"phase","name":"initial"}
+{"at":"2026-10-17T04:59:53.414Z","kind":"isolated_daemon_ready","pid":83619,"listen":"127.0.0.1:57898"}
+{"at":"2026-10-17T04:59:54.322Z","kind":"real_inference_start","model":"gpt-6.1-sol","thinking":"medium","nativeTool":"request_user_input_async","prompt":"Use your actual native request_user_input_async tool exactly once to ask one question titled \"QA accent?\" with choices \"Amber\" and \"Cobalt\". Do not simulate a tool call in prose. After the native async tool call, finish this turn with QUESTION_SENT without guessing the answer. When a real user answer arrives, reply exactly QA_ANSWER=<the received choice>. Do not call any other tools. If request_user_input_async is unavailable, reply ASYNC_TOOL_UNAVAILABLE."}
+{"at":"2026-10-17T05:00:00.047Z","kind":"assertion","name":"raw native async question observed","passed":true}
+{"at":"2026-10-17T05:00:00.048Z","kind":"assertion","name":"pending exactly one question row","passed":true,"detail":{"count":1}}
+{"at":"2026-10-17T05:00:00.049Z","kind":"assertion","name":"pending questions and status","passed":true}
+{"at":"2026-10-17T05:00:00.049Z","kind":"assertion","name":"no answer in pending metadata","passed":true}
+{"at":"2026-10-17T05:00:00.049Z","kind":"assertion","name":"production form parses actual native question","passed":true}
+{"at":"2026-10-17T05:00:00.049Z","kind":"assertion","name":"native choice available","passed":true}
+{"at":"2026-10-17T05:00:00.049Z","kind":"assertion","name":"production form permits submission","passed":true}
+{"at":"2026-10-17T05:00:00.049Z","kind":"real_form_answer","response":{"behavior":"allow","updatedInput":{"questions":[{"id":"0","header":"Question 1","question":"QA accent?","options":[{"label":"Amber"},{"label":"Cobalt"}],"isOther":true}],"answers":{"Question 1":"Cobalt"}}}}
+{"at":"2026-10-17T05:00:03.454Z","kind":"assertion","name":"answered-live exactly one question row","passed":true,"detail":{"count":1}}
+{"at":"2026-10-17T05:00:03.454Z","kind":"assertion","name":"answered metadata retains original questions","passed":true}
+{"at":"2026-10-17T05:00:03.455Z","kind":"assertion","name":"ID keyed selected answer and status","passed":true}
+{"at":"2026-10-17T05:00:03.455Z","kind":"assertion","name":"answer actually sent to native provider","passed":true}
+{"at":"2026-10-17T05:00:03.455Z","kind":"assertion","name":"at most two tiny native turns","passed":true,"detail":{"turnStarts":1,"steers":1}}
+{"at":"2026-10-17T05:00:03.457Z","kind":"assertion","name":"independent production client receives same metadata","passed":true}
+{"at":"2026-10-17T05:00:03.457Z","kind":"phase","name":"provider-refresh"}
+{"at":"2026-10-17T05:00:03.737Z","kind":"assertion","name":"provider-refresh exactly one question row","passed":true,"detail":{"count":1}}
+{"at":"2026-10-17T05:00:03.737Z","kind":"assertion","name":"provider refresh preserves exact metadata","passed":true}
+{"at":"2026-10-17T05:00:03.792Z","kind":"phase","name":"disk-restart"}
+{"at":"2026-10-17T05:00:04.856Z","kind":"isolated_daemon_ready","pid":84947,"listen":"127.0.0.1:57967"}
+{"at":"2026-10-17T05:00:05.386Z","kind":"assertion","name":"disk-restart exactly one question row","passed":true,"detail":{"count":1}}
+{"at":"2026-10-17T05:00:05.387Z","kind":"assertion","name":"disk restart preserves exact metadata","passed":true}
+{"at":"2026-10-17T05:00:05.387Z","kind":"phase","name":"disk-restart-refresh"}
+{"at":"2026-10-17T05:00:05.628Z","kind":"assertion","name":"disk-restart-refresh exactly one question row","passed":true,"detail":{"count":1}}
+{"at":"2026-10-17T05:00:05.628Z","kind":"assertion","name":"restarted native history reload preserves exact metadata","passed":true}
+{"at":"2026-10-17T05:00:05.628Z","kind":"assertion","name":"no pending permissions reopen","passed":true}
+{"at":"2026-10-17T05:00:05.628Z","kind":"assertion","name":"native question survives native history reload","passed":true}
+{"at":"2026-10-17T05:00:05.629Z","kind":"assertion","name":"native session confirms requested model","passed":true}
+{"at":"2026-10-17T05:00:05.700Z","kind":"finished","status":"PASS","source":"8ddacf76a5ea854c8c0ec5e8084bc9d1e8c276db","worktree":"","nativeTurnStarts":1,"nativeSteers":1}

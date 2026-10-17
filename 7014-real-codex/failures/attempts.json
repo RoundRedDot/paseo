@@ -1,0 +1,48 @@
+[
+  {
+    "stage": "inventory-attempt-1",
+    "exit": 1,
+    "inferencePrompts": 0,
+    "reason": "Native Permission denied; overly restrictive synthetic home root caused initialize timeout at 30s"
+  },
+  {
+    "stage": "inventory-attempt-2",
+    "exit": 0,
+    "inferencePrompts": 0,
+    "reason": "Authenticated metadata and default model available after correcting QA directory mode"
+  },
+  {
+    "stage": "runtime-attempt-1",
+    "exit": 1,
+    "nativeTurnStarts": 0,
+    "reason": "Invalid QA retry settings attempted to override reserved built-in openai provider; removed before inference"
+  },
+  {
+    "stage": "runtime-attempt-2",
+    "exit": 1,
+    "syntheticPromptAttempts": 1,
+    "nativeTurnStarts": 1,
+    "nativeTurnDurationMs": 27,
+    "reason": "QA harness misclassified optional initialization getUserSavedConfig error; accepted turn was interrupted before any tool/assistant output"
+  },
+  {
+    "stage": "runtime-attempt-3",
+    "exit": 0,
+    "syntheticPromptAttemptsTotal": 2,
+    "nativeTurnStarts": 1,
+    "nativeSteers": 1,
+    "reason": "Real native async question, answer, completion, refresh and disk restart passed"
+  },
+  {
+    "stage": "audit-first-shell-invocation",
+    "exit": 1,
+    "providerActivity": false,
+    "reason": "ERR_AMBIGUOUS_MODULE_SYNTAX from require plus top-level await; corrected with an ESM audit file"
+  },
+  {
+    "stage": "audit-file-invocation",
+    "exit": 0,
+    "providerActivity": false,
+    "reason": "Artifact equality, native completion, public subset and closed owned ports checked"
+  }
+]

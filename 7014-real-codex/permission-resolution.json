@@ -1,0 +1,28 @@
+{
+  "agentId": "26ac468e-417e-4557-9450-5ab571bb3856",
+  "requestId": "permission-call_95bbeba54dc543079a84d0c8b35df760",
+  "resolution": {
+    "behavior": "allow",
+    "updatedInput": {
+      "questions": [
+        {
+          "id": "0",
+          "header": "Question 1",
+          "question": "QA accent?",
+          "options": [
+            {
+              "label": "Amber"
+            },
+            {
+              "label": "Cobalt"
+            }
+          ],
+          "isOther": true
+        }
+      ],
+      "answers": {
+        "Question 1": "Cobalt"
+      }
+    }
+  }
+}

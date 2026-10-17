@@ -1,0 +1,38 @@
+{
+  "persistence": {
+    "provider": "codex",
+    "sessionId": "01a1483b-1604-7141-b311-2a897ad81ac9",
+    "nativeHandle": "01a1483b-1604-7141-b311-2a897ad81ac9",
+    "metadata": {
+      "provider": "codex",
+      "cwd": "<PRIVATE_QA>/synthetic-repo",
+      "title": "PR7014 native async question QA",
+      "threadId": "01a1483b-1604-7141-b311-2a897ad81ac9",
+      "modeId": "auto",
+      "model": "gpt-6.1-sol",
+      "thinkingOptionId": "medium",
+      "systemPrompt": "This is a tiny synthetic QA. Do not read files, execute commands, access network tools, use MCP, delegate, or change accounts/models. Use only the real native async question capability requested by the user. Do not fabricate question events or tool outputs.",
+      "asyncQuestions": [
+        {
+          "item": {
+            "type": "agentMessage",
+            "id": "call_95bbeba54dc543079a84d0c8b35df760",
+            "delivery": "async",
+            "questions": [
+              {
+                "title": "QA accent?",
+                "options": [
+                  "Amber",
+                  "Cobalt"
+                ]
+              }
+            ]
+          },
+          "resolution": [
+            "Cobalt"
+          ]
+        }
+      ]
+    }
+  }
+}

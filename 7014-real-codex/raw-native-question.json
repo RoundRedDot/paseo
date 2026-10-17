@@ -1,0 +1,26 @@
+{
+  "method": "item/completed",
+  "params": {
+    "item": {
+      "type": "agentMessage",
+      "id": "call_95bbeba54dc543079a84d0c8b35df760",
+      "text": "QA accent?\n- Amber\n- Cobalt",
+      "phase": "final_answer",
+      "memoryCitation": null,
+      "delivery": "async",
+      "questions": [
+        {
+          "title": "QA accent?",
+          "options": [
+            "Amber",
+            "Cobalt"
+          ]
+        }
+      ]
+    },
+    "threadId": "01a1483b-1604-7141-b311-2a897ad81ac9",
+    "turnId": "01a1483b-1655-7ec1-8f35-43f9ab6be3fc",
+    "completedAtMs": 1792213199960
+  },
+  "emittedAtMs": 1792213199962
+}

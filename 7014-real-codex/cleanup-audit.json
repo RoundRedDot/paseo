@@ -1,0 +1,41 @@
+{
+  "ownedPidsChecked": [
+    40638,
+    41189,
+    41187,
+    79906,
+    80314,
+    80313,
+    80355,
+    80354,
+    83619,
+    84947,
+    84039,
+    84038,
+    84079,
+    84078,
+    84857,
+    84856,
+    85126,
+    85125,
+    85215,
+    85214
+  ],
+  "remainingProcessLines": [],
+  "authSourceMetadataUnchanged": true,
+  "authReferenceAbsent": true,
+  "checkedAt": "2026-10-17T05:00:28.386Z",
+  "ownedProviderProcessGroupsChecked": [
+    41187,
+    80313,
+    80354,
+    84038,
+    84078,
+    84856,
+    85125,
+    85214
+  ],
+  "remainingOwnedProcessGroupMembers": [],
+  "inventoryNativePidChecked": 33928,
+  "inventoryNativePidRemaining": false
+}

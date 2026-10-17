@@ -1,0 +1,143 @@
+{
+  "metadataAcrossStagesEqual": true,
+  "metadata": {
+    "answered-live": {
+      "questions": [
+        {
+          "id": "0",
+          "header": "Question 1",
+          "question": "QA accent?",
+          "options": [
+            {
+              "label": "Amber"
+            },
+            {
+              "label": "Cobalt"
+            }
+          ],
+          "isOther": true
+        }
+      ],
+      "questionStatus": "answered",
+      "answers": {
+        "0": [
+          "Cobalt"
+        ]
+      }
+    },
+    "provider-refresh": {
+      "questions": [
+        {
+          "id": "0",
+          "header": "Question 1",
+          "question": "QA accent?",
+          "options": [
+            {
+              "label": "Amber"
+            },
+            {
+              "label": "Cobalt"
+            }
+          ],
+          "isOther": true
+        }
+      ],
+      "questionStatus": "answered",
+      "answers": {
+        "0": [
+          "Cobalt"
+        ]
+      }
+    },
+    "disk-restart": {
+      "questions": [
+        {
+          "id": "0",
+          "header": "Question 1",
+          "question": "QA accent?",
+          "options": [
+            {
+              "label": "Amber"
+            },
+            {
+              "label": "Cobalt"
+            }
+          ],
+          "isOther": true
+        }
+      ],
+      "questionStatus": "answered",
+      "answers": {
+        "0": [
+          "Cobalt"
+        ]
+      }
+    },
+    "disk-restart-refresh": {
+      "questions": [
+        {
+          "id": "0",
+          "header": "Question 1",
+          "question": "QA accent?",
+          "options": [
+            {
+              "label": "Amber"
+            },
+            {
+              "label": "Cobalt"
+            }
+          ],
+          "isOther": true
+        }
+      ],
+      "questionStatus": "answered",
+      "answers": {
+        "0": [
+          "Cobalt"
+        ]
+      }
+    }
+  },
+  "actualNativeAnswerTexts": [
+    "QA_ANSWER=Cobalt"
+  ],
+  "nativeTerminals": [
+    {
+      "phase": "initial",
+      "status": "completed",
+      "turnId": "01a1483b-1655-7ec1-8f35-43f9ab6be3fc"
+    }
+  ],
+  "nativeAnswerSteerAccepted": true,
+  "successfulRunNativeTurnStarts": 1,
+  "successfulRunNativeSteers": 1,
+  "totalSyntheticPromptAttempts": 2,
+  "abortedFirstNativeTurnDurationMs": 27,
+  "publicArtifactFilesScanned": 28,
+  "publicForbiddenMatches": [],
+  "ownedPorts": [
+    {
+      "port": 56611,
+      "listening": false
+    },
+    {
+      "port": 57563,
+      "listening": false
+    },
+    {
+      "port": 57898,
+      "listening": false
+    },
+    {
+      "port": 57967,
+      "listening": false
+    }
+  ],
+  "logSummary": {
+    "daemon-stdout.log": {
+      "bytes": 12906,
+      "authenticationErrors": false,
+      "retryEvents": 0
+    }
+  }
+}

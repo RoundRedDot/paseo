@@ -6,6 +6,7 @@ These are synthetic, isolated QA artifacts. Each directory records its exact val
 | --- | --- |
 | [7153](7153/README.md) | Narrow window Explorer/navigation geometry; native devices pending |
 | [7015](7015/README.md) | SDK/form/browser fixtures; see real-provider partial result separately |
+| [7014-real-codex](7014-real-codex/README.md) | Real native question/answer, shared form/client, provider refresh and daemon disk restart:23 checks pass |
 | [7014-current](7014-current/README.md) | Current-head mapper/static validation; real-provider reload pending |
 | [6601](6601/README.md) | Compiler focused tests |
 | [6809](6809/README.md) | Prompt preservation focused tests |

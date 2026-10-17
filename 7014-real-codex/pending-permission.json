@@ -1,0 +1,25 @@
+{
+  "id": "permission-call_95bbeba54dc543079a84d0c8b35df760",
+  "provider": "codex",
+  "name": "request_user_input_async",
+  "kind": "question",
+  "title": "Question",
+  "input": {
+    "questions": [
+      {
+        "id": "0",
+        "header": "Question 1",
+        "question": "QA accent?",
+        "options": [
+          {
+            "label": "Amber"
+          },
+          {
+            "label": "Cobalt"
+          }
+        ],
+        "isOther": true
+      }
+    ]
+  }
+}

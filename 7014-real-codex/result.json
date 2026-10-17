@@ -1,0 +1,239 @@
+{
+  "sourceSha": "8ddacf76a5ea854c8c0ec5e8084bc9d1e8c276db",
+  "nodeVersion": "v24.18.0",
+  "cliVersion": "codex-cli 0.163.0",
+  "requestedModel": "gpt-6.1-sol",
+  "requestedThinking": "medium",
+  "startedAt": "2026-10-17T04:59:52.273Z",
+  "syntheticPromptBudget": 2,
+  "checks": [
+    {
+      "name": "default model present in native metadata",
+      "passed": true
+    },
+    {
+      "name": "raw native async question observed",
+      "passed": true
+    },
+    {
+      "name": "pending exactly one question row",
+      "passed": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "name": "pending questions and status",
+      "passed": true
+    },
+    {
+      "name": "no answer in pending metadata",
+      "passed": true
+    },
+    {
+      "name": "production form parses actual native question",
+      "passed": true
+    },
+    {
+      "name": "native choice available",
+      "passed": true
+    },
+    {
+      "name": "production form permits submission",
+      "passed": true
+    },
+    {
+      "name": "answered-live exactly one question row",
+      "passed": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "name": "answered metadata retains original questions",
+      "passed": true
+    },
+    {
+      "name": "ID keyed selected answer and status",
+      "passed": true
+    },
+    {
+      "name": "answer actually sent to native provider",
+      "passed": true
+    },
+    {
+      "name": "at most two tiny native turns",
+      "passed": true,
+      "detail": {
+        "turnStarts": 1,
+        "steers": 1
+      }
+    },
+    {
+      "name": "independent production client receives same metadata",
+      "passed": true
+    },
+    {
+      "name": "provider-refresh exactly one question row",
+      "passed": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "name": "provider refresh preserves exact metadata",
+      "passed": true
+    },
+    {
+      "name": "disk-restart exactly one question row",
+      "passed": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "name": "disk restart preserves exact metadata",
+      "passed": true
+    },
+    {
+      "name": "disk-restart-refresh exactly one question row",
+      "passed": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "name": "restarted native history reload preserves exact metadata",
+      "passed": true
+    },
+    {
+      "name": "no pending permissions reopen",
+      "passed": true
+    },
+    {
+      "name": "native question survives native history reload",
+      "passed": true
+    },
+    {
+      "name": "native session confirms requested model",
+      "passed": true
+    }
+  ],
+  "timings": {
+    "questionMs": 5723,
+    "answerCompletionMs": 3404
+  },
+  "cleanup": {
+    "daemonStops": [
+      {
+        "pid": 83619,
+        "exitCode": 0,
+        "signal": null
+      },
+      {
+        "pid": 84947,
+        "exitCode": 0,
+        "signal": null
+      }
+    ],
+    "authenticationReferenceRemoved": true,
+    "endedAt": "2026-10-17T05:00:05.700Z"
+  },
+  "browserDOM": "NOT_RUN",
+  "consumer": "production DaemonClient + production question-form-card-core",
+  "sourceFiles": {
+    "packages/server/src/server/agent/providers/codex/async-questions.ts": "e0d14d56e2cad0209bce2eeee6e86b2c8097e6726259372250da54858723ab31",
+    "packages/server/dist/server/server/agent/providers/codex/async-questions.js": "c680fb65a71a7ced917678958a795791025196536f6fe75f9c4e56df983b39b3",
+    "packages/app/src/components/question-form-card-core.ts": "7c9b151d17d62b297904cf9e2a35bb4c9ee51b991f9798d472438c8dd5d36425",
+    "packages/client/dist/daemon-client.js": "a1d7a95e8bec8bcf400bca02432dbb24fa09dc4ef83fa821e0dbefbfadb762e6"
+  },
+  "endpoints": [
+    {
+      "label": "initial",
+      "pid": 83619,
+      "listen": "127.0.0.1:57898"
+    },
+    {
+      "label": "disk-restart",
+      "pid": 84947,
+      "listen": "127.0.0.1:57967"
+    }
+  ],
+  "agentId": "26ac468e-417e-4557-9450-5ab571bb3856",
+  "syntheticPromptAttempts": 2,
+  "prompt": "Use your actual native request_user_input_async tool exactly once to ask one question titled \"QA accent?\" with choices \"Amber\" and \"Cobalt\". Do not simulate a tool call in prose. After the native async tool call, finish this turn with QUESTION_SENT without guessing the answer. When a real user answer arrives, reply exactly QA_ANSWER=<the received choice>. Do not call any other tools. If request_user_input_async is unavailable, reply ASYNC_TOOL_UNAVAILABLE.",
+  "nativeInputs": [
+    {
+      "method": "turn/start",
+      "id": 8
+    },
+    {
+      "method": "turn/steer",
+      "id": 9
+    }
+  ],
+  "refresh": {
+    "status": "agent_refreshed",
+    "agentId": "26ac468e-417e-4557-9450-5ab571bb3856",
+    "requestId": "b3c8b957-4fe8-4a0b-a4e4-c84761f039d3",
+    "timelineSize": 5
+  },
+  "restartRefresh": {
+    "status": "agent_refreshed",
+    "agentId": "26ac468e-417e-4557-9450-5ab571bb3856",
+    "requestId": "bc3b706b-189d-41f6-bf5f-0422c43cf8bd",
+    "timelineSize": 5
+  },
+  "actualNativeSessions": [
+    {
+      "at": "2026-10-17T04:59:54.313Z",
+      "phase": "initial",
+      "proxyPid": 84078,
+      "kind": "native_session_metadata",
+      "method": "thread/start",
+      "model": "gpt-6.1-sol",
+      "modelProvider": "openai",
+      "reasoningEffort": "medium",
+      "threadId": "01a1483b-1604-7141-b311-2a897ad81ac9"
+    },
+    {
+      "at": "2026-10-17T05:00:03.728Z",
+      "phase": "provider-refresh",
+      "proxyPid": 84856,
+      "kind": "native_session_metadata",
+      "method": "thread/resume",
+      "model": "gpt-6.1-sol",
+      "modelProvider": "openai",
+      "reasoningEffort": "medium",
+      "threadId": "01a1483b-1604-7141-b311-2a897ad81ac9"
+    },
+    {
+      "at": "2026-10-17T05:00:05.378Z",
+      "phase": "disk-restart",
+      "proxyPid": 85125,
+      "kind": "native_session_metadata",
+      "method": "thread/resume",
+      "model": "gpt-6.1-sol",
+      "modelProvider": "openai",
+      "reasoningEffort": "medium",
+      "threadId": "01a1483b-1604-7141-b311-2a897ad81ac9"
+    },
+    {
+      "at": "2026-10-17T05:00:05.622Z",
+      "phase": "disk-restart-refresh",
+      "proxyPid": 85214,
+      "kind": "native_session_metadata",
+      "method": "thread/resume",
+      "model": "gpt-6.1-sol",
+      "modelProvider": "openai",
+      "reasoningEffort": "medium",
+      "threadId": "01a1483b-1604-7141-b311-2a897ad81ac9"
+    }
+  ],
+  "status": "PASS",
+  "finishedAt": "2026-10-17T05:00:05.675Z",
+  "finalSource": "8ddacf76a5ea854c8c0ec5e8084bc9d1e8c276db",
+  "finalWorktree": "",
+  "nativeTurnStarts": 1,
+  "nativeSteers": 1
+}

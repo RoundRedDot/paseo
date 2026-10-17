@@ -1,0 +1,5 @@
+{"at":"2026-10-17T04:56:58.379Z","kind":"assertion","name":"default model present in native metadata","passed":true}
+{"at":"2026-10-17T04:56:58.392Z","kind":"phase","name":"initial"}
+{"at":"2026-10-17T04:56:59.905Z","kind":"isolated_daemon_ready","pid":40638,"listen":"127.0.0.1:56611"}
+{"at":"2026-10-17T04:57:00.591Z","kind":"runtime_blocker","error":"Error: Codex app-server exited with code 1 and signal null\n    at DaemonClient.createAgent (<USER_HOME>/workspace/rrd/paseo/.worktrees/pr-7014-followup-20261017/packages/client/src/daemon-client.ts:2909:46)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async <anonymous> (/private/tmp/paseo-pr-gap-20261017/7014-runtime/runtime.mjs:47:8)"}
+{"at":"2026-10-17T04:57:00.650Z","kind":"finished","status":"BLOCKED_OR_FAILED","source":"8ddacf76a5ea854c8c0ec5e8084bc9d1e8c276db","worktree":"","nativeTurnStarts":0,"nativeSteers":0}

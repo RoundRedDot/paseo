@@ -1,0 +1,11 @@
+{
+  "cliVersion": "codex-cli 0.163.0",
+  "sourceSha": "8ddacf76a5ea854c8c0ec5e8084bc9d1e8c276db",
+  "startedAt": "2026-10-17T04:53:33.783Z",
+  "authenticationCopied": false,
+  "authenticationReferenceReadOnly": true,
+  "inferencePrompts": 0,
+  "status": "BLOCKED",
+  "error": "Error: timeout initialize",
+  "endedAt": "2026-10-17T04:54:03.786Z"
+}
