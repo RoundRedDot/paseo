@@ -1,0 +1,22 @@
+{
+  "records": [
+    {
+      "observedAt": "2026-10-12T08:42:30.992Z",
+      "pluginId": "beautiful-chat",
+      "enabled": true,
+      "status": "running",
+      "currentRevision": "58672b784b2082764b7c5de620978193f9aaa030"
+    },
+    {
+      "observedAt": "2026-10-12T08:45:24.042Z",
+      "pluginId": "beautiful-chat",
+      "enabled": true,
+      "status": "running",
+      "currentRevision": "aceb3cb33e75520ef68a898333a50cb5e74d73a7"
+    }
+  ],
+  "source": "Selected fields from archived plugin update/list command outputs recorded by the concurrent deployment session. Private local paths and unrelated plugins omitted.",
+  "rendererBlobAtBothRevisions": "1179d259aceac465194962ddf3baf0a327e599d3",
+  "verification": "Both renderer blobs independently fetched from the public repository through the GitHub Contents API. Both use timestamp.getTime() for timeline entry and row-below lookup; neither contains arrivalRef.",
+  "limits": "These are server-side running revision observations near report receipt, not a browser bundle acknowledgement or exact screenshot capture timestamp."
+}
