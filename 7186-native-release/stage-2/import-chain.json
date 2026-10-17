@@ -1,0 +1,349 @@
+{
+  "method": "Read original generated bundle, existing transform-cache outputs and serialized Metro TreeFS. Match source SHA1 to cache and exact transformed body to bundle ID, then read bundled dependency IDs. No new transform/build/runtime.",
+  "modules": [
+    {
+      "sourceCanonical": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/src/root-app.tsx",
+      "sourceSha1": "3485dd82c5560210fad897f6310951354aa43c78",
+      "id": 800,
+      "bundleStartLine": 120379,
+      "dependencies": []
+    },
+    {
+      "sourceCanonical": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx",
+      "sourceSha1": "ede45ebbbd8d5bc3fc6dfcdf06cd0e9afa47a24e",
+      "id": 6193,
+      "bundleStartLine": 1021721,
+      "dependencies": [
+        {
+          "name": "@react-navigation/native",
+          "id": 6194,
+          "isESMImport": true
+        }
+      ]
+    },
+    {
+      "sourceCanonical": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/expo-router/build/ExpoRoot.js",
+      "sourceSha1": "091bf094c3d81736ad8ff894eb803ca852df1fdf",
+      "id": 1163,
+      "bundleStartLine": 152488,
+      "dependencies": [
+        {
+          "name": "@react-navigation/native",
+          "id": 806,
+          "isESMImport": false
+        }
+      ]
+    },
+    {
+      "sourceCanonical": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/expo-router/build/fork/NavigationContainer.js",
+      "sourceSha1": "58d2e724776b917cd7b9e47feefca6baabfdd158",
+      "id": 1167,
+      "bundleStartLine": 152791,
+      "dependencies": [
+        {
+          "name": "@react-navigation/native",
+          "id": 806,
+          "isESMImport": false
+        }
+      ]
+    },
+    {
+      "sourceCanonical": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/native/lib/module/index.js",
+      "sourceSha1": "9c2f94bfb02377034f1ab12aa6748462c2bfff74",
+      "id": 806,
+      "bundleStartLine": 120950,
+      "dependencies": [
+        {
+          "name": "@react-navigation/core",
+          "id": 808,
+          "isESMImport": true
+        }
+      ]
+    },
+    {
+      "sourceCanonical": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/native/lib/module/index.js",
+      "sourceSha1": "9c2f94bfb02377034f1ab12aa6748462c2bfff74",
+      "id": 6194,
+      "bundleStartLine": 1022242,
+      "dependencies": [
+        {
+          "name": "@react-navigation/core",
+          "id": 6196,
+          "isESMImport": true
+        }
+      ]
+    },
+    {
+      "sourceCanonical": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/index.js",
+      "sourceSha1": "08894e106e60e5f23c69f2c74121db1b5a14b1a0",
+      "id": 808,
+      "bundleStartLine": 121166,
+      "dependencies": [
+        {
+          "name": "./NavigationContext.js",
+          "id": 862,
+          "isESMImport": true
+        },
+        {
+          "name": "./useNavigation.js",
+          "id": 867,
+          "isESMImport": true
+        }
+      ]
+    },
+    {
+      "sourceCanonical": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/index.js",
+      "sourceSha1": "08894e106e60e5f23c69f2c74121db1b5a14b1a0",
+      "id": 6196,
+      "bundleStartLine": 1022458,
+      "dependencies": [
+        {
+          "name": "./NavigationContext.js",
+          "id": 6249,
+          "isESMImport": true
+        },
+        {
+          "name": "./useNavigation.js",
+          "id": 6254,
+          "isESMImport": true
+        }
+      ]
+    },
+    {
+      "sourceCanonical": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "sourceSha1": "d5732e21aa75ea2b1f2e265ff15f5c13b6dc6580",
+      "id": 862,
+      "bundleStartLine": 126074,
+      "dependencies": []
+    },
+    {
+      "sourceCanonical": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "sourceSha1": "d5732e21aa75ea2b1f2e265ff15f5c13b6dc6580",
+      "id": 6249,
+      "bundleStartLine": 1027325,
+      "dependencies": []
+    },
+    {
+      "sourceCanonical": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/useNavigation.js",
+      "sourceSha1": "18e5093560be17b998b34ddced62e05adad44933",
+      "id": 867,
+      "bundleStartLine": 126319,
+      "dependencies": [
+        {
+          "name": "./NavigationContext.js",
+          "id": 862,
+          "isESMImport": true
+        }
+      ]
+    },
+    {
+      "sourceCanonical": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/useNavigation.js",
+      "sourceSha1": "18e5093560be17b998b34ddced62e05adad44933",
+      "id": 6254,
+      "bundleStartLine": 1027570,
+      "dependencies": [
+        {
+          "name": "./NavigationContext.js",
+          "id": 6249,
+          "isESMImport": true
+        }
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "origin": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/src/root-app.tsx",
+      "isESMImport": true,
+      "activeConditions": [
+        "default",
+        "import",
+        "react-native"
+      ],
+      "native": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/native/lib/module/index.js",
+      "core": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/index.js",
+      "context": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "realContext": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "nativeVersion": "7.1.33",
+      "coreVersion": "7.16.1"
+    },
+    {
+      "origin": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/src/root-app.tsx",
+      "isESMImport": false,
+      "activeConditions": [
+        "default",
+        "require",
+        "react-native"
+      ],
+      "native": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/native/lib/module/index.js",
+      "core": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/index.js",
+      "context": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "realContext": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "nativeVersion": "7.1.33",
+      "coreVersion": "7.16.1"
+    },
+    {
+      "origin": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx",
+      "isESMImport": true,
+      "activeConditions": [
+        "default",
+        "import",
+        "react-native"
+      ],
+      "native": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/native/lib/module/index.js",
+      "core": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/index.js",
+      "context": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "realContext": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "nativeVersion": "7.1.33",
+      "coreVersion": "7.16.1"
+    },
+    {
+      "origin": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx",
+      "isESMImport": false,
+      "activeConditions": [
+        "default",
+        "require",
+        "react-native"
+      ],
+      "native": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/native/lib/module/index.js",
+      "core": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/index.js",
+      "context": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "realContext": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "nativeVersion": "7.1.33",
+      "coreVersion": "7.16.1"
+    },
+    {
+      "origin": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/expo-router/build/ExpoRoot.js",
+      "isESMImport": true,
+      "activeConditions": [
+        "default",
+        "import",
+        "react-native"
+      ],
+      "native": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/native/lib/module/index.js",
+      "core": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/index.js",
+      "context": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "realContext": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "nativeVersion": "7.1.33",
+      "coreVersion": "7.16.1"
+    },
+    {
+      "origin": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/expo-router/build/ExpoRoot.js",
+      "isESMImport": false,
+      "activeConditions": [
+        "default",
+        "require",
+        "react-native"
+      ],
+      "native": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/native/lib/module/index.js",
+      "core": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/index.js",
+      "context": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "realContext": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "nativeVersion": "7.1.33",
+      "coreVersion": "7.16.1"
+    },
+    {
+      "origin": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/expo-router/build/fork/NavigationContainer.js",
+      "isESMImport": true,
+      "activeConditions": [
+        "default",
+        "import",
+        "react-native"
+      ],
+      "native": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/native/lib/module/index.js",
+      "core": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/index.js",
+      "context": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "realContext": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "nativeVersion": "7.1.33",
+      "coreVersion": "7.16.1"
+    },
+    {
+      "origin": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/expo-router/build/fork/NavigationContainer.js",
+      "isESMImport": false,
+      "activeConditions": [
+        "default",
+        "require",
+        "react-native"
+      ],
+      "native": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/native/lib/module/index.js",
+      "core": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/index.js",
+      "context": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "realContext": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "nativeVersion": "7.1.33",
+      "coreVersion": "7.16.1"
+    },
+    {
+      "origin": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/expo-router/build/ExpoRoot.js",
+      "isESMImport": true,
+      "activeConditions": [
+        "default",
+        "import",
+        "react-native"
+      ],
+      "native": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/native/lib/module/index.js",
+      "core": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/index.js",
+      "context": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "realContext": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "nativeVersion": "7.1.33",
+      "coreVersion": "7.16.1"
+    },
+    {
+      "origin": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/expo-router/build/ExpoRoot.js",
+      "isESMImport": false,
+      "activeConditions": [
+        "default",
+        "require",
+        "react-native"
+      ],
+      "native": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/native/lib/module/index.js",
+      "core": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/index.js",
+      "context": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "realContext": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "nativeVersion": "7.1.33",
+      "coreVersion": "7.16.1"
+    }
+  ],
+  "packages": [
+    {
+      "name": "@react-navigation/native",
+      "version": "7.1.33",
+      "exports": {
+        ".": {
+          "source": "./src/index.tsx",
+          "types": "./lib/typescript/src/index.d.ts",
+          "default": "./lib/module/index.js"
+        },
+        "./package.json": "./package.json"
+      },
+      "main": "./lib/module/index.js"
+    },
+    {
+      "name": "@react-navigation/core",
+      "version": "7.16.1",
+      "exports": {
+        ".": {
+          "source": "./src/index.tsx",
+          "types": "./lib/typescript/src/index.d.ts",
+          "default": "./lib/module/index.js"
+        },
+        "./package.json": "./package.json"
+      },
+      "main": "./lib/module/index.js"
+    },
+    {
+      "name": "expo-router",
+      "version": "6.0.23",
+      "exports": null,
+      "main": "build/index"
+    }
+  ],
+  "contextFiles": {
+    "physical": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+    "alias": "/private/tmp/paseo-review-repair-20261017/qa/native-7186/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+    "aliasRealpath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+    "sameDeviceAndInode": true,
+    "sourceSha1": "d5732e21aa75ea2b1f2e265ff15f5c13b6dc6580",
+    "sameBytes": true
+  },
+  "conclusion": "Two bundle identities for the same ESM lib/module source. Not CJS/ESM conditional exports and not two physical package installations. Snapshot lexical alias and real checkout path are distinct entries in saved TreeFS.",
+  "limit": "Standalone Metro ModuleResolver was fed the saved TreeFS/config; Expo CLI extended/autolinking layer was not replayed or traced. No independent build source map was emitted. Exact body/source hash and dependency-ID mappings are raw evidence; assigning each incoming lexical root as the historical CLI resolution result remains untraced."
+}

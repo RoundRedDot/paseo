@@ -1,0 +1,1 @@
+/tmp/paseo-review-repair-20261017/qa/7186-derived/Build/Products/Release-iphonesimulator/Paseo.app/main.jsbundle: Hermes JavaScript bytecode, version 96

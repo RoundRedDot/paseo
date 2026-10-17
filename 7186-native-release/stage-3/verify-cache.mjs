@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+const [db,out]=process.argv.slice(2);
+const rows=JSON.parse(execFileSync('/usr/bin/sqlite3',['-readonly','-json',db,'SELECT kind,id,payload,length(CAST(payload AS BLOB)) AS sqlBytes FROM rows ORDER BY kind,id;'],{encoding:'utf8'}));
+const response=('缓存😀'.repeat(2500)+'\n\n').repeat(2)+'QA7186-END';
+const sha=s=>createHash('sha256').update(s).digest('hex');
+const result={at:new Date().toISOString(),rows:rows.map(r=>({kind:r.kind,id:r.id,payloadChars:r.payload.length,payloadBytes:Buffer.byteLength(r.payload),sqliteBytes:r.sqlBytes,payloadSha256:sha(r.payload),jsonValid:!!JSON.parse(r.payload)}))};
+const timeline=rows.filter(r=>r.kind==='timeline');
+if(timeline.length!==1)throw Error('Expected one synthetic timeline');
+const parsed=JSON.parse(timeline[0].payload);
+const text=parsed.items.filter(i=>i.kind==='assistant_message').map(i=>i.text).join('');
+result.assistant={chars:text.length,bytes:Buffer.byteLength(text),sha256:sha(text),expectedSha256:sha(response),matches:text===response};
+fs.writeFileSync(out,JSON.stringify(result,null,2));
+if(!result.assistant.matches||result.rows.some(r=>r.payloadBytes!==r.sqliteBytes))throw Error('Native cache content mismatch');

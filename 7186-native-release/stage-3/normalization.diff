@@ -1,0 +1,28 @@
+--- /tmp/paseo-pr-gap-20261017/7186-release/stage-2-preserved/metro.config.cjs	2026-10-17 13:09:24
++++ /private/tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/metro.config.cjs	2026-10-17 13:09:24
+@@ -115,3 +115,25 @@
+ module.exports.watchFolders = [...new Set([...module.exports.watchFolders,
+   "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost",
+ ])];
++
++// QA snapshot only: one physical navigation package must have one Metro identity.
++const qaFs = require("node:fs");
++const qaCrypto = require("node:crypto");
++const qaResolveRequest = module.exports.resolver.resolveRequest;
++module.exports.resolver.resolveRequest = (context, specifier, platform) => {
++  const result = qaResolveRequest(context, specifier, platform);
++  if (result.type !== "sourceFile" ||
++      !/[\\/]node_modules[\\/]@react-navigation[\\/](native|core)[\\/]/.test(result.filePath)) {
++    return result;
++  }
++  const realpath = qaFs.realpathSync(result.filePath);
++  const original = qaFs.readFileSync(result.filePath);
++  const canonical = qaFs.readFileSync(realpath);
++  if (!original.equals(canonical)) throw new Error("QA navigation canonicalization changed bytes");
++  qaFs.appendFileSync("/tmp/paseo-pr-gap-20261017/7186-release/stage-3/resolver.jsonl",
++    JSON.stringify({origin: context.originModulePath, specifier, platform,
++      isESMImport: context.isESMImport, path: result.filePath, realpath,
++      moduleIdentity: realpath, bytesEqual: true,
++      sha256: qaCrypto.createHash("sha256").update(canonical).digest("hex")}) + "\n");
++  return {...result, filePath: realpath};
++};

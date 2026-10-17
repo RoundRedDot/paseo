@@ -1,0 +1,17 @@
+{
+  "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "baseline": "cd77ecd837df40d042599d8847403eb416b35b04",
+  "gitStatus": "",
+  "trackedFilesCompared": 5678,
+  "snapshotMismatches": [
+    "packages/app/metro.config.cjs"
+  ],
+  "sourceInstrumentation": "none",
+  "buildConfigOnly": "metro.config.cjs watchFolders + canonical ENTRY_FILE; existing generated iOS/Pods; copied owning checkout build outputs",
+  "xcode": "Xcode 27.1\nBuild version 27A9275",
+  "node": "v24.18.0",
+  "app": "0.12.0-beta.1",
+  "reactNative": "0.81.5",
+  "expo": "54.0.33",
+  "executor": "Codex; task requested codex/gpt-6.1-sol High; actual backend metadata unavailable"
+}

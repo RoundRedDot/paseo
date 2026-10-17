@@ -1,0 +1,22 @@
+Running on Paseo-QA7186-Release-Gap-20261017 - iOS 18.6 - 563181E2-D49B-4D2E-859F-3CA23CC02D68
+ > Flow permissions
+Run flow when "^(打开|Open)$" is visible...
+  Tap on "^(打开|Open)$"... COMPLETED
+Run flow when "^(打开|Open)$" is visible... COMPLETED
+Run flow when "^(不允许|Don’t Allow|Don't Allow)$" is visible...
+  Tap on "^(不允许|Don’t Allow|Don't Allow)$"... COMPLETED
+Run flow when "^(不允许|Don’t Allow|Don't Allow)$" is visible... COMPLETED
+Assert that id: message-input-root is visible... FAILED
+
+Assertion is false: id: message-input-root is visible
+
+Assertion 'id: message-input-root is visible' failed. Check the UI hierarchy in debug artifacts to verify the element state and properties.
+
+Possible causes:
+- Element selector may be incorrect - check if there are similar elements with slightly different names/properties.
+- Element may be temporarily unavailable due to loading state
+- This could be a real regression that needs to be addressed
+
+==== Debug output (logs & screenshots) ====
+
+/tmp/paseo-pr-gap-20261017/7186-release/runtime-3/maestro/.maestro/tests/2026-10-17_131056

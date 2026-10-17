@@ -1,0 +1,33 @@
+{
+  "result": "partial",
+  "source": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "build": "passed; arm64 iOS Simulator Release/Hermes",
+  "buildStarted": "2026-10-17T05:09:24Z",
+  "buildFinished": "2026-10-17T05:09:51Z",
+  "runtimeStarted": "2026-10-17T05:10:10.409Z",
+  "cleanupAt": "2026-10-17T05:11:42.080Z",
+  "provider": "MockLoadTestAgentClient",
+  "model": "e2e-fast-stream",
+  "realProvider": false,
+  "navigationContexts": [
+    {
+      "moduleId": 862,
+      "line": 126106
+    }
+  ],
+  "normalizerCalls": 121,
+  "allNormalizedFileBytesEqual": true,
+  "contextBodyBytesUnchanged": true,
+  "workspace": "navigation error absent; Loading workspace persisted until 30s Maestro deadline",
+  "streamTriggered": false,
+  "actualNativeCacheReadback": null,
+  "offlineReload": "not reached",
+  "expectedFixtureOnly": {
+    "chars": 20014,
+    "bytes": 50014,
+    "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c"
+  },
+  "baseline": "not run",
+  "performance": "no improvement or frame attribution claim",
+  "routeMatchesProductHelper": true
+}

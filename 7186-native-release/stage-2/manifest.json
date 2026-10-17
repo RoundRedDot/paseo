@@ -1,0 +1,123 @@
+{
+  "generatedAt": "2026-10-17T05:08:24.882Z",
+  "entries": [
+    {
+      "file": "README.md",
+      "bytes": 2551,
+      "sha256": "599b21d5146e1d843a5c70679c714a8e76c7d2aa7714087bb1851402f011a102"
+    },
+    {
+      "file": "build-1.zsh",
+      "bytes": 2157,
+      "sha256": "0321472d71e417097332a51b60d2851b6f46277a6b67ca46aa58ee086199ae3f"
+    },
+    {
+      "file": "build-2.zsh",
+      "bytes": 1524,
+      "sha256": "f6fd11785c78130f167e8d3caac61ec71301b2e5bda4f1b5b5832b2a48a6e1a5"
+    },
+    {
+      "file": "build-sha256.txt",
+      "bytes": 350,
+      "sha256": "bc8167a53972b8f0af1b0ff07d28b1d137da28295df83a4d0f01dd5d211cfaeb"
+    },
+    {
+      "file": "bundle-kind.txt",
+      "bytes": 153,
+      "sha256": "4438775f9177f6d3b2b3c0f7d53e3acda3e2617b3b0eeb568e92d7a6f34220e5"
+    },
+    {
+      "file": "cleanup.json",
+      "bytes": 228,
+      "sha256": "b3dd3df4dbb1e0720bfc0120c90d0ea735826a7402e226e4d31eb58aa54cdca7"
+    },
+    {
+      "file": "final-inventory.json",
+      "bytes": 159,
+      "sha256": "32c340c68fb85f4695e87527eaaf0b706adc747e2a33f68927aa51623ab1f920"
+    },
+    {
+      "file": "first-launch.png",
+      "bytes": 409439,
+      "sha256": "93779426a3b7c6ce63b38651e27b6c193ccb801f6fbbc4261db0dc0f7649ed93"
+    },
+    {
+      "file": "import-chain.json",
+      "bytes": 16700,
+      "sha256": "cbf08b6df65e44a9972ce72535f9d400a91faf5434d7db7a425949dde9be6a69"
+    },
+    {
+      "file": "maestro-flow.log",
+      "bytes": 4732,
+      "sha256": "c9e4d69f486891869714578fa3d2272ef190e8dc19ef2c125282df0e94a1f249"
+    },
+    {
+      "file": "metro-snapshot.diff",
+      "bytes": 495,
+      "sha256": "e855aa5a98dc591c5e850fd0e57f7d473ba8c14cb5cbee28e46d74d29f995461"
+    },
+    {
+      "file": "native-host.mjs",
+      "bytes": 4023,
+      "sha256": "458558a261f762b550d7fa0daa151756dac60dbb872a8702b2e98bc205e94e37"
+    },
+    {
+      "file": "navigation-diagnostic.json",
+      "bytes": 522,
+      "sha256": "e8c6ac121257bd058210b11f2b05db509368585ed45e126bf5da2aaf0e2a334e"
+    },
+    {
+      "file": "navigation-error.log",
+      "bytes": 1320,
+      "sha256": "28ede2a9b3a3fb9b02b9c1008a919bf5b18d771f601882d6992175c1b3853482"
+    },
+    {
+      "file": "permissions.yaml",
+      "bytes": 386,
+      "sha256": "8be84aba2f5ebb55ed460514f2a15ccc1d4570ec4e5af7e111fbd9635c89b115"
+    },
+    {
+      "file": "read-only-module-diagnostic.cjs",
+      "bytes": 5195,
+      "sha256": "914fffbc8b61649f1576e45afb76dfb586d30da6c6ad207b9b07bf6d2c86914b"
+    },
+    {
+      "file": "release-startup-and-error.mp4",
+      "bytes": 407146,
+      "sha256": "d7d45b2c95a4c2884c0e515590a230d86acd0cc4f33b31e02fcfd15ccb6d9986"
+    },
+    {
+      "file": "result.json",
+      "bytes": 722,
+      "sha256": "27c872ffd87bcc403f4ffef4d50f61ecc65a0a0175ee1c7b4ea616c64ee05555"
+    },
+    {
+      "file": "runtime-2.zsh",
+      "bytes": 4583,
+      "sha256": "f5b1b78f5958e77ef0cd26693325422327fcbeec3c77e17dadb1ea9facf45324"
+    },
+    {
+      "file": "source-info.json",
+      "bytes": 659,
+      "sha256": "528ba32b6c3be3c51c48df74c5c477038eb39be334a410dd1d8510a7f858c621"
+    },
+    {
+      "file": "verify-cache.mjs",
+      "bytes": 1302,
+      "sha256": "461c86eea2fa6bea40993adcb80f7dc89cd67c9e3de110d13d1953898d821253"
+    },
+    {
+      "file": "video-info.json",
+      "bytes": 84,
+      "sha256": "2697fd58354bc77e1363b06cc260cad91d7fd6f44945bf68f83ab230a2326acf"
+    },
+    {
+      "file": "workspace-error.png",
+      "bytes": 262050,
+      "sha256": "7396e19c23dae00ef970f394dca3ed403d27d6002b7fc2d4bb5a9d57ae2042fe"
+    }
+  ],
+  "credentialPatternMatches": [],
+  "includesSessionHomes": false,
+  "includesDatabases": false
+}

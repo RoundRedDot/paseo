@@ -1,0 +1,14 @@
+{
+  "bundledModules": 6535,
+  "navigationContextDefinitions": [
+    {
+      "line": 126106,
+      "code": "var NavigationContext = /*#__PURE__*/React.createContext(undefined);"
+    },
+    {
+      "line": 1027357,
+      "code": "var NavigationContext = /*#__PURE__*/React.createContext(undefined);"
+    }
+  ],
+  "observation": "Two NavigationContext definitions in generated JS. Cause of duplicate module identity is not established; temporary snapshot/symlink resolution remains a confounder. No cache-code attribution."
+}

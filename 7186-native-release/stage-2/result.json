@@ -1,0 +1,19 @@
+{
+  "result": "partial",
+  "build": "Release iOS Simulator arm64 succeeded",
+  "launch": "passed; first-launch UI rendered",
+  "workspace": "blocked by navigation-context error",
+  "stream": "not triggered",
+  "nativeCacheBytes": "not exercised",
+  "offlineReload": "not reached",
+  "baseline": "not run; no paired performance conclusion",
+  "provider": "MockLoadTestAgentClient",
+  "model": "e2e-fast-stream",
+  "responseChars": 20014,
+  "responseBytes": 50014,
+  "responseSha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+  "startedAt": "2026-10-17T04:57:21.145Z",
+  "cleanupAt": "2026-10-17T04:58:51.715Z",
+  "buildStarted": "2026-10-17T04:54:11Z",
+  "buildFinished": "2026-10-17T04:55:02Z"
+}

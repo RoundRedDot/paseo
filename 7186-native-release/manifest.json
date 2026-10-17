@@ -1,0 +1,257 @@
+{
+  "generatedAt": "2026-10-17T05:14:31.237Z",
+  "entries": [
+    {
+      "file": "README.md",
+      "bytes": 2044,
+      "sha256": "db2052e488e55bc22e17bcc2e19c4e20195ab66a9adb1ac5c158c7dbbdad93bd"
+    },
+    {
+      "file": "cleanup.json",
+      "bytes": 342,
+      "sha256": "2d8decc446d4ab60f405b7762a3223d6f8d1cae74105b54322372ae223a60133"
+    },
+    {
+      "file": "result.json",
+      "bytes": 1073,
+      "sha256": "46dbffccfe98c3ff8eb5dccbc3eedb438c30daceb282dbcac44214a4dd6b093e"
+    },
+    {
+      "file": "stage-2/README.md",
+      "bytes": 2551,
+      "sha256": "599b21d5146e1d843a5c70679c714a8e76c7d2aa7714087bb1851402f011a102"
+    },
+    {
+      "file": "stage-2/build-1.zsh",
+      "bytes": 2157,
+      "sha256": "0321472d71e417097332a51b60d2851b6f46277a6b67ca46aa58ee086199ae3f"
+    },
+    {
+      "file": "stage-2/build-2.zsh",
+      "bytes": 1524,
+      "sha256": "f6fd11785c78130f167e8d3caac61ec71301b2e5bda4f1b5b5832b2a48a6e1a5"
+    },
+    {
+      "file": "stage-2/build-sha256.txt",
+      "bytes": 350,
+      "sha256": "bc8167a53972b8f0af1b0ff07d28b1d137da28295df83a4d0f01dd5d211cfaeb"
+    },
+    {
+      "file": "stage-2/bundle-kind.txt",
+      "bytes": 153,
+      "sha256": "4438775f9177f6d3b2b3c0f7d53e3acda3e2617b3b0eeb568e92d7a6f34220e5"
+    },
+    {
+      "file": "stage-2/cleanup.json",
+      "bytes": 228,
+      "sha256": "b3dd3df4dbb1e0720bfc0120c90d0ea735826a7402e226e4d31eb58aa54cdca7"
+    },
+    {
+      "file": "stage-2/final-inventory.json",
+      "bytes": 159,
+      "sha256": "32c340c68fb85f4695e87527eaaf0b706adc747e2a33f68927aa51623ab1f920"
+    },
+    {
+      "file": "stage-2/first-launch.png",
+      "bytes": 409439,
+      "sha256": "93779426a3b7c6ce63b38651e27b6c193ccb801f6fbbc4261db0dc0f7649ed93"
+    },
+    {
+      "file": "stage-2/import-chain.json",
+      "bytes": 16700,
+      "sha256": "cbf08b6df65e44a9972ce72535f9d400a91faf5434d7db7a425949dde9be6a69"
+    },
+    {
+      "file": "stage-2/maestro-flow.log",
+      "bytes": 4732,
+      "sha256": "c9e4d69f486891869714578fa3d2272ef190e8dc19ef2c125282df0e94a1f249"
+    },
+    {
+      "file": "stage-2/manifest.json",
+      "bytes": 3653,
+      "sha256": "1d7f471cfefb9fff84b3c1948b8a7c7858dfacd0848733eedf09a1f98d93dd9f"
+    },
+    {
+      "file": "stage-2/metro-snapshot.diff",
+      "bytes": 495,
+      "sha256": "e855aa5a98dc591c5e850fd0e57f7d473ba8c14cb5cbee28e46d74d29f995461"
+    },
+    {
+      "file": "stage-2/native-host.mjs",
+      "bytes": 4023,
+      "sha256": "458558a261f762b550d7fa0daa151756dac60dbb872a8702b2e98bc205e94e37"
+    },
+    {
+      "file": "stage-2/navigation-diagnostic.json",
+      "bytes": 522,
+      "sha256": "e8c6ac121257bd058210b11f2b05db509368585ed45e126bf5da2aaf0e2a334e"
+    },
+    {
+      "file": "stage-2/navigation-error.log",
+      "bytes": 1320,
+      "sha256": "28ede2a9b3a3fb9b02b9c1008a919bf5b18d771f601882d6992175c1b3853482"
+    },
+    {
+      "file": "stage-2/permissions.yaml",
+      "bytes": 386,
+      "sha256": "8be84aba2f5ebb55ed460514f2a15ccc1d4570ec4e5af7e111fbd9635c89b115"
+    },
+    {
+      "file": "stage-2/read-only-module-diagnostic.cjs",
+      "bytes": 5195,
+      "sha256": "914fffbc8b61649f1576e45afb76dfb586d30da6c6ad207b9b07bf6d2c86914b"
+    },
+    {
+      "file": "stage-2/release-startup-and-error.mp4",
+      "bytes": 407146,
+      "sha256": "d7d45b2c95a4c2884c0e515590a230d86acd0cc4f33b31e02fcfd15ccb6d9986"
+    },
+    {
+      "file": "stage-2/report.md",
+      "bytes": 13310,
+      "sha256": "25d2723f04071a82e9703c27ce4519f8d1099351082d72f595e8a73cbbf399ea"
+    },
+    {
+      "file": "stage-2/result.json",
+      "bytes": 722,
+      "sha256": "27c872ffd87bcc403f4ffef4d50f61ecc65a0a0175ee1c7b4ea616c64ee05555"
+    },
+    {
+      "file": "stage-2/runtime-2.zsh",
+      "bytes": 4583,
+      "sha256": "f5b1b78f5958e77ef0cd26693325422327fcbeec3c77e17dadb1ea9facf45324"
+    },
+    {
+      "file": "stage-2/source-info.json",
+      "bytes": 659,
+      "sha256": "528ba32b6c3be3c51c48df74c5c477038eb39be334a410dd1d8510a7f858c621"
+    },
+    {
+      "file": "stage-2/verify-cache.mjs",
+      "bytes": 1302,
+      "sha256": "461c86eea2fa6bea40993adcb80f7dc89cd67c9e3de110d13d1953898d821253"
+    },
+    {
+      "file": "stage-2/video-info.json",
+      "bytes": 84,
+      "sha256": "2697fd58354bc77e1363b06cc260cad91d7fd6f44945bf68f83ab230a2326acf"
+    },
+    {
+      "file": "stage-2/workspace-error.png",
+      "bytes": 262050,
+      "sha256": "7396e19c23dae00ef970f394dca3ed403d27d6002b7fc2d4bb5a9d57ae2042fe"
+    },
+    {
+      "file": "stage-3/before-stream.png",
+      "bytes": 322596,
+      "sha256": "1e96b2e012a284e14c3a782d5fe04b3c71eab3ede9804022d3754f0d489b3085"
+    },
+    {
+      "file": "stage-3/build-3.zsh",
+      "bytes": 4394,
+      "sha256": "79a9de4aed4ec47df2dca738d38f5b38f4e6e26eecd36b0f32f8b08377f2e92a"
+    },
+    {
+      "file": "stage-3/build-sha256.txt",
+      "bytes": 350,
+      "sha256": "5ec8d62bb098e36e06f977a47317e23480baf07e2993921939e3d00179953824"
+    },
+    {
+      "file": "stage-3/bundle-kind.txt",
+      "bytes": 153,
+      "sha256": "4438775f9177f6d3b2b3c0f7d53e3acda3e2617b3b0eeb568e92d7a6f34220e5"
+    },
+    {
+      "file": "stage-3/cleanup.finished",
+      "bytes": 21,
+      "sha256": "777403dc34cc3097c78852deaaad990e52338a58e74532ab46e4a887318c7a40"
+    },
+    {
+      "file": "stage-3/cleanup.json",
+      "bytes": 342,
+      "sha256": "2d8decc446d4ab60f405b7762a3223d6f8d1cae74105b54322372ae223a60133"
+    },
+    {
+      "file": "stage-3/context-byte-semantics.json",
+      "bytes": 474,
+      "sha256": "448fd75839cd944d146273f3f168fbd3132dac5c17c7238b26401383471eae14"
+    },
+    {
+      "file": "stage-3/first-launch.png",
+      "bytes": 409095,
+      "sha256": "5183f8159e6f32f32f164fb4420bcf1ec7125429d0a8b2e2734056ee424a3182"
+    },
+    {
+      "file": "stage-3/maestro.log",
+      "bytes": 1117,
+      "sha256": "a00ef7947c3222c8792977fc1d9817fcee41dd6af174311d34eff7fcc6815e84"
+    },
+    {
+      "file": "stage-3/module-audit.json",
+      "bytes": 1210,
+      "sha256": "5b5d905790d5d18ee34ab3add6ea4aac84d7d9302a1217a2c90f799457a2c2b2"
+    },
+    {
+      "file": "stage-3/native-host.mjs",
+      "bytes": 4023,
+      "sha256": "458558a261f762b550d7fa0daa151756dac60dbb872a8702b2e98bc205e94e37"
+    },
+    {
+      "file": "stage-3/normalization.diff",
+      "bytes": 1616,
+      "sha256": "30fd8ee32e4d1ceead1e4ac3bbfb89197c810e95d9ee19e1d479f65ccc942b38"
+    },
+    {
+      "file": "stage-3/permissions.yaml",
+      "bytes": 386,
+      "sha256": "8be84aba2f5ebb55ed460514f2a15ccc1d4570ec4e5af7e111fbd9635c89b115"
+    },
+    {
+      "file": "stage-3/release-loading-timeout.mp4",
+      "bytes": 514979,
+      "sha256": "09389f65323d449aaf8d97855020358bf31703151b49a5e46733b03c6d2fcb97"
+    },
+    {
+      "file": "stage-3/resolver.jsonl",
+      "bytes": 94834,
+      "sha256": "1b22c0122f89042da82fd5f14817d3e7adbaea1232573447327cbda3a240ff32"
+    },
+    {
+      "file": "stage-3/result.json",
+      "bytes": 1073,
+      "sha256": "46dbffccfe98c3ff8eb5dccbc3eedb438c30daceb282dbcac44214a4dd6b093e"
+    },
+    {
+      "file": "stage-3/route-contract.json",
+      "bytes": 271,
+      "sha256": "4cf3f7e8af8840a984c5ac80c94a4a5dfd46f10830a913d762bc5deb0a4c6aab"
+    },
+    {
+      "file": "stage-3/runtime-3.zsh",
+      "bytes": 4759,
+      "sha256": "ebb2bd38b175b2f9afa65e4c54bd0ffd08492a3606f91651a5107290d8d177f9"
+    },
+    {
+      "file": "stage-3/verify-cache.mjs",
+      "bytes": 1302,
+      "sha256": "461c86eea2fa6bea40993adcb80f7dc89cd67c9e3de110d13d1953898d821253"
+    },
+    {
+      "file": "stage-3/video-info.json",
+      "bytes": 84,
+      "sha256": "719bedfd0b855ea4b4002f12136602817569dff860ce76352af445f9adf050d1"
+    },
+    {
+      "file": "stage-3/workspace-loading-timeout.png",
+      "bytes": 74668,
+      "sha256": "05bff18c4cbedcf8950bf261af3e6ccf7c5ab33dae3e574339a7f44267c811b9"
+    }
+  ],
+  "credentialPatternMatches": [],
+  "includesSessionHomes": false,
+  "includesDatabases": false,
+  "stageProvenance": [
+    "stage-2: prior evidence retained",
+    "stage-3: explicitly authorized narrow QA correction; partial runtime"
+  ]
+}

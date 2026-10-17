@@ -1,0 +1,11 @@
+--- /tmp/paseo-pr-gap-20261017/7186-release/metro.original.cjs	2026-10-17 12:52:42
++++ /private/tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/metro.config.cjs	2026-10-17 12:52:42
+@@ -110,3 +110,8 @@
+ }
+ 
+ module.exports = config;
++
++// QA snapshot only: expose the real targets of checkout-local dependency symlinks.
++module.exports.watchFolders = [...new Set([...module.exports.watchFolders,
++  "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost",
++])];

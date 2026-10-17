@@ -1,0 +1,26 @@
+{
+  "contextDefinitions": [
+    {
+      "moduleId": 862,
+      "line": 126106
+    }
+  ],
+  "resolverCalls": 121,
+  "contextCalls": [
+    {
+      "origin": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/index.js",
+      "specifier": "./NavigationContext.js",
+      "platform": "ios",
+      "isESMImport": true,
+      "path": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "realpath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "moduleIdentity": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js",
+      "bytesEqual": true,
+      "sha256": "08d5654cc87ed5612ba31af25849a1784fe9666c1ef2dda59ed1056c82ed56fb"
+    }
+  ],
+  "allBytesEqual": true,
+  "contextModuleIdentities": [
+    "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js"
+  ]
+}
