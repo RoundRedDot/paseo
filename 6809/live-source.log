@@ -1,0 +1,13 @@
+
+> @getpaseo/server@0.12.0-beta.1 test:unit
+> vitest run --fileParallelism --exclude "**/*.e2e.test.ts" src/server/agent/providers/claude/subagents/live-source.test.ts --bail=1 --maxWorkers=1
+
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6809-parallel-20261016/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  53 passed (53)
+   Start at  09:46:20
+   Duration  210ms (transform 67ms, setup 29ms, import 60ms, tests 11ms, environment 0ms)
+

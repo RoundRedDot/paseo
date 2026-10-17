@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7015-parallel-20261016/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  00:35:36
+   Duration  96ms (transform 25ms, setup 21ms, import 12ms, tests 2ms, environment 0ms)
+

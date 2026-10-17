@@ -1,0 +1,13 @@
+
+> @getpaseo/app@0.11.2 test
+> vitest run src/components/explorer-sidebar-layout.test.ts --bail=1
+
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7153-parallel-20261016/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  00:46:34
+   Duration  1.14s (transform 804ms, setup 20ms, import 1.06s, tests 2ms, environment 0ms)
+

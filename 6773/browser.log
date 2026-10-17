@@ -1,0 +1,131 @@
+Chromium executable: /Users/luopeihuan/Library/Caches/ms-playwright/chromium-1208/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing
+
+> @getpaseo/app@0.11.2 test:e2e
+> playwright test --project=browser e2e/browser/chat-outline.spec.ts --workers=1 --retries=0 --reporter=list,json --output=/tmp/pr-6773-playwright-artifacts
+
+[metro] Starting project at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6773-parallel-20261016/packages/app
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Experimental Expo Autolinking module resolver is enabled.
+[metro] React Compiler enabled
+[metro] Starting Metro Bundler
+[metro] Waiting on http://localhost:51472
+[metro] Logs for your project will appear below.
+[metro] | (node:11390) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:11394) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:11392) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:11397) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:11395) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:11399) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:11391) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:11396) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:11393) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:11398) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] Web packages/app/index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (5586/5587)
+[metro] Web packages/app/index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (5587/5587)
+[metro] Web Bundled 9457ms packages/app/index.ts (5587 modules)
+[e2e] Metro warmed on port 51472
+
+Running 17 tests using 1 worker
+
+(node:12246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 0 daemon started on port 51541, home: /tmp/pr-6773-playwright-home/worker-0
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 175ms packages/app/index.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+[metro] Web Bundled 34ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 174ms packages/app/index.ts (1 module)
+[metro] Web Bundled 5ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓   1 [browser] › e2e/browser/chat-outline.spec.ts:54:7 › desktop chat outline › keeps the prompt marked while reading split Markdown blocks and after completion (43.9s)
+[metro] Web Bundled 152ms packages/app/index.ts (1 module)
+[metro] Web Bundled 5ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓   2 [browser] › e2e/browser/chat-outline.spec.ts:79:7 › desktop chat outline › indexes unloaded prompts and jumps with one bounded merged page (13.8s)
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 149ms packages/app/index.ts (1 module)
+[metro] Web Bundled 4ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓   3 [browser] › e2e/browser/chat-outline.spec.ts:114:7 › desktop chat outline › jumps to prompts a timeline plugin draws (3.6s)
+[metro] Web Bundled 154ms packages/app/index.ts (1 module)
+[metro] Web Bundled 4ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓   4 [browser] › e2e/browser/chat-outline.spec.ts:140:7 › desktop chat outline › jumps to a loaded virtualized prompt a timeline plugin draws without fetching (5.6s)
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 149ms packages/app/index.ts (1 module)
+[metro] Web Bundled 4ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓   5 [browser] › e2e/browser/chat-outline.spec.ts:186:9 › desktop chat outline › with the whole conversation loaded › previews the prompt under the pointer, anywhere across its row (3.1s)
+[metro] Web Bundled 147ms packages/app/index.ts (1 module)
+[metro] Web Bundled 3ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓   6 [browser] › e2e/browser/chat-outline.spec.ts:197:9 › desktop chat outline › with the whole conversation loaded › does not preview while crossing the rail toward the sidebar (2.6s)
+[metro] Web Bundled 152ms packages/app/index.ts (1 module)
+[metro] Web packages/app/src/attachments/web/indexeddb-attachment-store.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 4ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓   7 [browser] › e2e/browser/chat-outline.spec.ts:201:9 › desktop chat outline › with the whole conversation loaded › closes the preview when the pointer leaves after a jump (2.7s)
+[metro] Web Bundled 147ms packages/app/index.ts (1 module)
+[metro] Web Bundled 3ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓   8 [browser] › e2e/browser/chat-outline.spec.ts:208:9 › desktop chat outline › with the whole conversation loaded › previews and jumps to the focused prompt from the keyboard (2.6s)
+[metro] Web Bundled 150ms packages/app/index.ts (1 module)
+[metro] Web Bundled 3ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓   9 [browser] › e2e/browser/chat-outline.spec.ts:218:9 › desktop chat outline › with the whole conversation loaded › moves the active mark as the reader jumps and scrolls (2.6s)
+[metro] Web Bundled 148ms packages/app/index.ts (1 module)
+[metro] Web Bundled 3ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓  10 [browser] › e2e/browser/chat-outline.spec.ts:230:9 › desktop chat outline › with the whole conversation loaded › keeps a clicked prompt free of persistent selection chrome (2.6s)
+[metro] Web Bundled 148ms packages/app/index.ts (1 module)
+[metro] Web Bundled 3ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓  11 [browser] › e2e/browser/chat-outline.spec.ts:236:9 › desktop chat outline › with the whole conversation loaded › clamps the newest prompt at maximum scroll while keeping it visible (2.5s)
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 145ms packages/app/index.ts (1 module)
+[metro] Web Bundled 4ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓  12 [browser] › e2e/browser/chat-outline.spec.ts:244:9 › desktop chat outline › with the whole conversation loaded › keeps the current prompt active throughout a long live assistant turn (12.6s)
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 147ms packages/app/index.ts (1 module)
+[metro] Web Bundled 4ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓  13 [browser] › e2e/browser/chat-outline.spec.ts:273:9 › desktop chat outline › with virtualized loaded history › pins a loaded prompt inside the virtualized block without fetching (5.2s)
+[metro] Web Bundled 147ms packages/app/index.ts (1 module)
+[metro] Web Bundled 4ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓  14 [browser] › e2e/browser/chat-outline.spec.ts:287:9 › desktop chat outline › with virtualized loaded history › pins a newer loaded prompt when jumping downward from old history (5.0s)
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 144ms packages/app/index.ts (1 module)
+[metro] Web Bundled 3ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓  15 [browser] › e2e/browser/chat-outline.spec.ts:303:7 › desktop chat outline › hides the rail when a split makes its panel narrow (2.9s)
+[metro] Web Bundled 148ms packages/app/index.ts (1 module)
+[metro] Web Bundled 4ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+[metro] Web Bundled 149ms packages/app/index.ts (1 module)
+[metro] Web Bundled 4ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓  16 [browser] › e2e/browser/chat-outline.spec.ts:317:7 › desktop chat outline › can be disabled from Appearance settings (4.3s)
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 145ms packages/app/index.ts (1 module)
+[metro] Web Bundled 4ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+  ✓  17 [browser] › e2e/browser/chat-outline.spec.ts:332:5 › indexes a new agent's prompts only once the agent exists (3.4s)
+[e2e] Worker 0 daemon stopped
+[e2e] Metro stopped
+
+  17 passed (2.3m)

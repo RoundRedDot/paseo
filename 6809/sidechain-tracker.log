@@ -1,0 +1,13 @@
+
+> @getpaseo/server@0.12.0-beta.1 test:unit
+> vitest run --fileParallelism --exclude "**/*.e2e.test.ts" src/server/agent/providers/claude/sidechain-tracker.test.ts --bail=1 --maxWorkers=1
+
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6809-parallel-20261016/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  09:44:31
+   Duration  154ms (transform 53ms, setup 17ms, import 72ms, tests 4ms, environment 0ms)
+

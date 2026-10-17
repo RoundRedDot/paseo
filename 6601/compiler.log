@@ -1,0 +1,13 @@
+
+> @getpaseo/server@0.12.0-beta.1 test:unit
+> vitest run --fileParallelism --exclude "**/*.e2e.test.ts" src/server/plugins/compiler.test.ts --bail=1 --maxWorkers=1
+
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6601-parallel-20261016/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  83 passed (83)
+   Start at  09:45:47
+   Duration  2.54s (transform 45ms, setup 20ms, import 124ms, tests 2.32s, environment 0ms)
+
