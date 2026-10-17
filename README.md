@@ -14,6 +14,7 @@ These are synthetic, isolated QA artifacts. Each directory records its exact val
 | [7006-review2](7006-review2/README.md) | Whitespace production repair and exact pause windows |
 | [7006-review3](7006-review3/README.md) | Code-block sampler scope;4 browser tests, production unchanged |
 | [7000-review2](7000-review2/README.md) | Real manager/storage disk reload;94 targeted tests |
+| [6737-readonly-runtime](6737-readonly-runtime/README.md) | Real Session/controller read-only reconnect via locally granted Hub relationship; external Hub/native UI excluded |
 | [6737-readonly](6737-readonly/README.md) | Readonly reconnect cancellation, snapshot/update projection;27 focused tests |
 | [6737-review2](6737-review2/README.md) | Initialization/offline membership/readonly repair;62 tests and cross-client browser |
 | [7196-original-report](7196-original-report/README.md) | Original user-reported streaming gap screenshot; exact installed build/Release recording still unverified |

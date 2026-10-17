@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "source": "f0f445e354298adc6385e11dfe6c2b1f85da9ca7",
+  "started": "2026-10-17T04:55:09.069Z",
+  "finished": "2026-10-17T04:55:10.456Z",
+  "host": "srv_zQAW1wyR66ZN",
+  "daemonPort": 55778,
+  "workspaceIds": [
+    "wks_d7a13a183e3131eb",
+    "wks_974b8e41f0808393",
+    "wks_5f30b2da8baa508a",
+    "wks_14878676f5c316ab"
+  ],
+  "readonlyPermissions": [
+    "workspace.read"
+  ],
+  "readonlyIllegalWrites": 0,
+  "regainOldMovesReplayed": 0,
+  "newGestureWrites": 1,
+  "otherHost": "NOT_VERIFIED",
+  "laterUpdates": "real owner unpin -> atomic prune -> subscribed ui.order.update",
+  "externalHubAuthentication": "NOT_VERIFIED: local HTTP/WebSocket counterpart"
+}

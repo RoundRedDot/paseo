@@ -1,0 +1,5 @@
+private state directory absent: PASS
+owned daemon port 55404 closed: PASS (connect_ex=61)
+owned daemon port 55778 closed: PASS (connect_ex=61)
+source HEAD unchanged: f0f445e354298adc6385e11dfe6c2b1f85da9ca7
+git status --porcelain=v1: empty (clean)
