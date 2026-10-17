@@ -33,6 +33,7 @@ These are synthetic, isolated QA artifacts. Each directory records its exact val
 | [7186-native-directory-followup](7186-native-directory-followup/README.md) | Normal menu directory-demand causal proof; native stream/actual SQLite match; offline cold reload pending |
 | [7186-native-release](7186-native-release/README.md) | Actual iOS Simulator Release build/startup pass; workspace loading blocks stream/cache acceptance |
 | [7186-release-blocker](7186-release-blocker/README.md) | Temporary snapshot Metro bundle failure;no accepted native Release runtime |
+| [7015-grok-1.0.62](7015-grok-1.0.62/PUBLICATION.md) | New installed Grok version: native delivery PASS, final model identity FAIL;1 prompt/no retry |
 | [7015-real-provider](7015-real-provider/README.md) | Grok transport PASS but model identity FAIL;tested Cursor AskQuestion NOT_AVAILABLE |
 
 No production daemon restart/deployment, existing device operation, or credential publication is represented here. CI approval and merge decisions belong to upstream maintainers.

@@ -1,0 +1,75 @@
+{
+  "sourceSha": "b8a48e4825cf49d09f352a4b3d7793847657908c",
+  "sourceShaAfter": "b8a48e4825cf49d09f352a4b3d7793847657908c",
+  "inventory": {
+    "checkedAt": "2026-10-17T08:40:06.348Z",
+    "grokVersion": "1.0.62 (1474f9cbdd91)",
+    "nodeVersion": "v24.18.0",
+    "sha256": {
+      "grokExecutable": "ec434e831afdcfce87780f2815fd732b1df8a4a8de96a491716ad75d13605a4e",
+      "supervisorEntrypoint": "151ec8c19d31eeb5618985280482f48ce6d6e9bdcc1997a288f32d66029ab0eb",
+      "grokBridge": "1644359868e051b851701fef26badb525dfca85079ed69cab6be0571c4a86db9",
+      "daemonClient": "a1d7a95e8bec8bcf400bca02432dbb24fa09dc4ef83fa821e0dbefbfadb762e6",
+      "questionFormCore": "53d379698f970e23219520679ea3c3bfa7fe636524c588f0e25bc57e9c0d6936"
+    },
+    "sourceSha": "b8a48e4825cf49d09f352a4b3d7793847657908c"
+  },
+  "worker": 1,
+  "retry": 0,
+  "userPromptBudget": 1,
+  "userPromptsSent": 1,
+  "provider": "grok",
+  "model": "grok-4.7",
+  "mode": "not reported",
+  "questionMode": "default",
+  "nativePromptRequestCount": 1,
+  "nativeQuestionRequestCount": 1,
+  "authenticNativeRequest": true,
+  "permissionSeen": true,
+  "matrixRequested": true,
+  "structuredSubmission": true,
+  "submittedQuestionAnswers": {
+    "Question 1": {
+      "selectedOptionIds": [
+        "0",
+        "1"
+      ],
+      "otherText": "Red, Blue"
+    }
+  },
+  "nativeResponse": {
+    "jsonrpc": "2.0",
+    "id": 0,
+    "result": {
+      "outcome": "accepted",
+      "answers": {
+        "QA Grok colors?": [
+          "Red",
+          "Blue"
+        ]
+      },
+      "annotations": {
+        "QA Grok colors?": {
+          "notes": "Red, Blue"
+        }
+      }
+    }
+  },
+  "nativeResponseAccepted": true,
+  "identityCorrect": true,
+  "notesCorrect": true,
+  "modelConfirmation": false,
+  "modelConfirmationObject": {
+    "selected_labels": [
+      "Red, Blue"
+    ],
+    "notes": "Red, Blue",
+    "combined_selected": true
+  },
+  "assistantText": "I'll ask that one multi-select question now and wait for the tool result.\n{\"selected_labels\":[\"Red, Blue\"],\"notes\":\"Red, Blue\",\"combined_selected\":true}",
+  "finishedStatus": "idle",
+  "supervisorStopped": true,
+  "endedAt": "2026-10-17T08:43:05.639Z",
+  "platformEvidence": "No DOM, mobile, packaged desktop, or offline-client cancellation acceptance in this run.",
+  "provenanceBoundary": "Installed binary version and SHA256 identify the exercised executable; public repository main is not claimed as its source provenance."
+}

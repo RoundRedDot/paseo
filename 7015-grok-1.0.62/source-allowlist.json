@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "b8a48e4825cf49d09f352a4b3d7793847657908c",
+  "provider": "grok",
+  "allowed": [
+    {
+      "file": "public/summary.json",
+      "bytes": 2466,
+      "sha256": "6ffa47cd7a3563ace8ee3a03d4784217b4071019270b3f9b597d626a03b8e4c1"
+    },
+    {
+      "file": "public/wire-excerpts.jsonl",
+      "bytes": 2552,
+      "sha256": "82d43fdc09966a0b6c196ecc0926d3108c83d4fc43e8ab24859514e0a8bf7a3d"
+    },
+    {
+      "file": "public/README.md",
+      "bytes": 767,
+      "sha256": "627216e6a6cee8e4fb6e3a6524c22cbd73cfb80cd75be26951cfc2e42b4805b4"
+    }
+  ],
+  "excluded": [
+    "All files not explicitly listed",
+    "run-*/** including isolated home, credentials, persistence and synthetic repos",
+    "Private full logs, runtime-results.json, inventory/setup/harness source, and local report.md"
+  ],
+  "review": "Generated from explicit non-secret field selections; parent reviews these exact files before any publication. No upload was performed."
+}
