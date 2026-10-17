@@ -44,9 +44,9 @@ async function sampleClosingFenceFrames(page: Page): Promise<ClosingFenceFrameRe
 
         for (const message of messages) {
           for (const block of message.querySelectorAll<HTMLElement>(
-            '[data-paseo-markdown-tag="pre"]',
+            'pre, [data-paseo-markdown-tag="pre"]',
           )) {
-            const code = block.querySelector<HTMLElement>('[data-paseo-markdown-tag="code"]');
+            const code = block.querySelector<HTMLElement>('code, [data-paseo-markdown-tag="code"]');
             const codeText = code?.textContent ?? block.textContent ?? "";
             sample.codeBlockTexts.push(codeText.trimEnd());
             // Opening fence prefixes render as prose; closing artifacts live inside code blocks.
@@ -75,6 +75,31 @@ async function sampleClosingFenceFrames(page: Page): Promise<ClosingFenceFrameRe
 
 const FIRST_PAUSE_TEXT = "Here is the first snippet:const answer = 42;\nconsole.log(answer);";
 const SECOND_PAUSE_TEXT = `${FIRST_PAUSE_TEXT}And a second one:echo done`;
+
+for (const { label, html } of [
+  { label: "semantic", html: "<pre><code>const answer = 42;\n`\n``</code></pre>" },
+  {
+    label: "annotated",
+    html: '<div data-paseo-markdown-tag="pre"><span data-paseo-markdown-tag="code">const answer = 42;\n`\n``</span><button>Copy</button></div>',
+  },
+  {
+    label: "annotated semantic",
+    html: '<pre data-paseo-markdown-tag="pre"><code data-paseo-markdown-tag="code">const answer = 42;\n`\n``</code></pre>',
+  },
+]) {
+  test(`samples ${label} code block DOM without duplicate blocks or controls`, async ({ page }) => {
+    await page.setContent(
+      `<div data-testid="assistant-message">${html}<p>Both blocks are closed.</p></div>`,
+    );
+    const report = await sampleClosingFenceFrames(page);
+    const sample = report.samples.at(-1)!;
+    expect(report.finished).toBe(true);
+    expect(sample.codeBlockTexts).toEqual(["const answer = 42;\n`\n``"]);
+    expect(sample.partialFenceLines).toEqual(["`", "``"]);
+    expect(sample.codeBlockHeights).toHaveLength(1);
+    expect(sample.codeBlockHeights[0]).toBeGreaterThan(0);
+  });
+}
 
 function closingFencePauseSamples(
   samples: readonly ClosingFenceFrameSample[],
