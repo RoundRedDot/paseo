@@ -1,0 +1,112 @@
+╭───────────────────────────────────╮
+│ lefthook v2.1.6  hook: pre-commit │
+╰───────────────────────────────────╯
+┃  format ❯ 
+
+
+> paseo@0.12.0-beta.1 format:check:files
+> oxfmt --check docs/providers.md packages/server/src/server/agent/agent-manager.test.ts packages/server/src/server/agent/agent-manager.ts packages/server/src/server/agent/providers/pi/agent.test.ts packages/server/src/server/agent/providers/pi/agent.ts packages/server/src/server/agent/providers/pi/fixtures/image-history.json packages/server/src/server/agent/providers/pi/history-mapper.test.ts packages/server/src/server/agent/providers/pi/history-mapper.ts
+
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 144ms on 8 files using 15 threads.
+
+┃  lint ❯ 
+
+
+> paseo@0.12.0-beta.1 lint
+> oxlint packages/server/src/server/agent/agent-manager.test.ts packages/server/src/server/agent/agent-manager.ts packages/server/src/server/agent/providers/pi/agent.test.ts packages/server/src/server/agent/providers/pi/agent.ts packages/server/src/server/agent/providers/pi/history-mapper.test.ts packages/server/src/server/agent/providers/pi/history-mapper.ts
+
+Found 0 warnings and 0 errors.
+Finished in 61ms on 6 files with 177 rules using 15 threads.
+
+┃  typecheck ❯ 
+
+
+> paseo@0.12.0-beta.1 typecheck
+> npm run typecheck --workspaces --if-present
+
+
+> @getpaseo/builtin-plugins@0.12.0-beta.1 typecheck
+> tsgo -p tsconfig.json --noEmit
+
+
+> @getpaseo/expo-two-way-audio@0.12.0-beta.1 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/highlight@0.12.0-beta.1 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/plugin@0.12.0-beta.1 typecheck
+> tsgo --noEmit && tsgo -p tsconfig.examples.json --noEmit
+
+
+> @getpaseo/protocol@0.12.0-beta.1 pretypecheck
+> npm run generate:validators
+
+
+> @getpaseo/protocol@0.12.0-beta.1 generate:validators
+> node scripts/generate-validation-aot.mjs
+
+generated src/generated/validation/ws-outbound.aot.ts: envelope + 224 session message validators
+
+> @getpaseo/protocol@0.12.0-beta.1 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/client@0.12.0-beta.1 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/server@0.12.0-beta.1 typecheck
+> tsgo -p tsconfig.server.typecheck.json --noEmit
+
+
+> @getpaseo/app@0.12.0-beta.1 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/relay@0.12.0-beta.1 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/website@0.12.0-beta.1 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/desktop@0.12.0-beta.1 typecheck
+> tsgo --noEmit -p tsconfig.json
+
+
+> @getpaseo/cli@0.12.0-beta.1 typecheck
+> tsgo --noEmit
+
+
+                                      
+  ────────────────────────────────────
+summary: (done in 9.14 seconds)       
+✓ format (0.40 seconds)
+✓ lint (0.20 seconds)
+✓ typecheck (8.52 seconds)
+[detached HEAD 516f41b4f] fix(pi): preserve image prompts and canonical identities on replay
+ 8 files changed, 458 insertions(+), 13 deletions(-)
+ create mode 100644 packages/server/src/server/agent/providers/pi/fixtures/image-history.json
+commit 516f41b4fc4e7b1ffa49fac1229756b7d72c86c8
+Author:     luke <luopeihuan@gmail.com>
+AuthorDate: Sat Oct 17 11:44:23 2026 +0800
+Commit:     luke <luopeihuan@gmail.com>
+CommitDate: Sat Oct 17 11:44:23 2026 +0800
+
+    fix(pi): preserve image prompts and canonical identities on replay
+    
+    Replay native image blocks, including image-only prompts. Persist exact native
+    entry to client message associations in the existing Pi persistence handle,
+    and restore canonical wire identities while retaining native rewind targets.
+    
+    Cover captured native image history, real AgentStorage disk reload, prime and
+    forced hydration, and legacy handles without inferred client identities.
+    
+    Co-authored-by: RoundRedDot <roundreddot@gmail.com>

@@ -1,0 +1,30 @@
+{
+  "agentId": "b71b5fd7-9bed-45f1-9e81-991ad976e87f",
+  "items": [
+    {
+      "id": "qa6736-pi-image-only",
+      "timelineCursor": {
+        "epoch": "c58cc083-f6ab-45f8-8aa1-89af97ff4cf8",
+        "seq": 1
+      },
+      "turnId": "f9674223-32ec-4bc3-af05-6f170d017311",
+      "timestamp": "2026-10-17T03:43:18.972Z",
+      "kind": "user_message",
+      "clientMessageId": "qa6736-pi-image-only",
+      "messageId": "qa6736-pi-image-only",
+      "inlineImages": [
+        {
+          "data": "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAABfklEQVR4nO3RAQmAABBDUUPYP6MNtIMMxvR9LsCxd9yqdrQf+HsAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoFwO4zvNXl9oNAIDNS+0GAMDmpXYDAGDzUrsBALB5qd0AANi81G4AAGxeajcAADYvtRsAAJuX2g0AgM1L7QYAwOaldgMAYPNSuwEAsHmp3QAA2LzUbgAAbF5qNwAANi+1GwAAm5faDQCAzUvtBgDA5qV2AwBg81K7AQCweandAADYvNRuAABsXmo3AAA2L7UbAACbl9oNAIDNS+0GAMDmpXYDAGDzUrsBALB5qd0AANi81G4AAGxeajcAADYvtRsAAJuX2g0AgM1L7QYAwOaldgMAYPNSuwEAsHmp3QAA2LzUbgAAbF5qNwAANi+1G4CvAOhdAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAeg3AOlxutiG6CP/AAAAABJRU5ErkJggg==",
+          "mimeType": "image/png"
+        }
+      ],
+      "text": ""
+    }
+  ],
+  "range": {
+    "epoch": "c58cc083-f6ab-45f8-8aa1-89af97ff4cf8",
+    "startSeq": 1,
+    "endSeq": 1
+  },
+  "hasOlder": false
+}

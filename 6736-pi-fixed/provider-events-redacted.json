@@ -1,0 +1,116 @@
+[
+  {
+    "at": "2026-10-17T03:43:19.010Z",
+    "event": {
+      "type": "agent_start"
+    }
+  },
+  {
+    "at": "2026-10-17T03:43:19.011Z",
+    "event": {
+      "type": "message_end",
+      "message": {
+        "role": "system",
+        "content": ""
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T03:43:19.012Z",
+    "event": {
+      "type": "message_end",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": ""
+          },
+          {
+            "type": "image",
+            "data": "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAABfklEQVR4nO3RAQmAABBDUUPYP6MNtIMMxvR9LsCxd9yqdrQf+HsAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoFwO4zvNXl9oNAIDNS+0GAMDmpXYDAGDzUrsBALB5qd0AANi81G4AAGxeajcAADYvtRsAAJuX2g0AgM1L7QYAwOaldgMAYPNSuwEAsHmp3QAA2LzUbgAAbF5qNwAANi+1GwAAm5faDQCAzUvtBgDA5qV2AwBg81K7AQCweandAADYvNRuAABsXmo3AAA2L7UbAACbl9oNAIDNS+0GAMDmpXYDAGDzUrsBALB5qd0AANi81G4AAGxeajcAADYvtRsAAJuX2g0AgM1L7QYAwOaldgMAYPNSuwEAsHmp3QAA2LzUbgAAbF5qNwAANi+1G4CvAOhdAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAeg3AOlxutiG6CP/AAAAABJRU5ErkJggg==",
+            "mimeType": "image/png"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T03:43:21.701Z",
+    "event": {
+      "type": "message_end",
+      "message": {
+        "role": "assistant",
+        "provider": "google-cloud",
+        "model": "gemini-3.8-flash",
+        "responseId": "chatcmpl-202610170343192785477258268d9d6oQU86d0h",
+        "stopReason": "stop",
+        "content": [
+          {
+            "type": "text",
+            "text": "The image displays a red square."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T03:43:21.702Z",
+    "event": {
+      "type": "agent_settled",
+      "aborted": false
+    }
+  },
+  {
+    "at": "2026-10-17T03:43:22.007Z",
+    "event": {
+      "type": "agent_start"
+    }
+  },
+  {
+    "at": "2026-10-17T03:43:22.007Z",
+    "event": {
+      "type": "message_end",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "Name the color and shape visible in this attached image. Reply in one short sentence."
+          },
+          {
+            "type": "image",
+            "data": "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAB7ElEQVR4nO3RwW0CQRQEUYLgTP4BkJ85IPlgWTbsLlvd86s0Afzpd/kytAt9wPQEgBMATgA4AeAEgBMATgA4AeAEgBMATgA4AeAEgBMATgA4AeAEgBMATgC4eoDr/UafsCsB4LoBrvfb89GHbE8AuGKA7/WrDQSAawX4sX6vgQBwlQC/rl9qIABcH8Af6zcaCABXBvDv+nUGAsA1Aby4fpeBAHA1AG+tX2QgAFwHwIb1WwwEgCsA2Lx+hYEAcOkAO9fPNxAALhrgkPXDDQSAywU4cP1kAwHgQgEOXz/WQAC4RIAPrZ9pIABcHMBH1w80EAAuC+CE9dMMBIALAjht/SgDAeBSAE5eP8dAALgIAGT9EAMB4HgAcP0EAwFmA+Dr4wYCDAbAd08wEGAqAL54iIEAIwHwrXMMBJgHgK8cZSDAMAB83zQDASYB4MsGGggwBgDfNNNAgBkA+JqxBgIMAMB3TDYQYHUAfMFwAwGWBsC3yzcQYF0AfLUKAwEWBcD3ajEQYEUAfKkiAwGWA8A36jIQYC0AfJ06AwEWAsB3aTQQYBUAfJFSAwGWAMC36DUQoB8AX6HaQIByAPz/CY8EsJ0JACcAnABwAsAJACcAnABwAsAJACcAnABwAsAJACcAnABwAsAJACcAnABwD/3mY1IktLCwAAAAAElFTkSuQmCC",
+            "mimeType": "image/png"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T03:43:24.270Z",
+    "event": {
+      "type": "message_end",
+      "message": {
+        "role": "assistant",
+        "provider": "google-cloud",
+        "model": "gemini-3.8-flash",
+        "responseId": "chatcmpl-202610170343220370878068268d9d6wabriOw2",
+        "stopReason": "stop",
+        "content": [
+          {
+            "type": "text",
+            "text": "The image displays a green triangle."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T03:43:24.271Z",
+    "event": {
+      "type": "agent_settled",
+      "aborted": false
+    }
+  }
+]

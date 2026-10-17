@@ -1,0 +1,59 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6736-parallel-20261016/packages/server
+
+stdout | src/server/agent/providers/pi/history-mapper.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+
+ ❯ src/server/agent/providers/pi/history-mapper.test.ts (8 tests | 1 failed | 7 skipped) 5ms
+   × replays captured native Pi images without dropping the image-only entry 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/agent/providers/pi/history-mapper.test.ts > replays captured native Pi images without dropping the image-only entry
+AssertionError: expected [ { type: 'user_message', …(2) } ] to deeply equal [ Array(2) ]
+
+- Expected
++ Received
+
+  [
+    {
+-     "images": [
+-       {
+-         "data": "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAABfklEQVR4nO3RAQmAABBDUUPYP6MNtIMMxvR9LsCxd9yqdrQf+HsAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoFwO4zvNXl9oNAIDNS+0GAMDmpXYDAGDzUrsBALB5qd0AANi81G4AAGxeajcAADYvtRsAAJuX2g0AgM1L7QYAwOaldgMAYPNSuwEAsHmp3QAA2LzUbgAAbF5qNwAANi+1GwAAm5faDQCAzUvtBgDA5qV2AwBg81K7AQCweandAADYvNRuAABsXmo3AAA2L7UbAACbl9oNAIDNS+0GAMDmpXYDAGDzUrsBALB5qd0AANi81G4AAGxeajcAADYvtRsAAJuX2g0AgM1L7QYAwOaldgMAYPNSuwEAsHmp3QAA2LzUbgAAbF5qNwAANi+1G4CvAOhdAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAeg3AOlxutiG6CP/AAAAABJRU5ErkJggg==",
+-         "mimeType": "image/png",
+-       },
+-     ],
+-     "messageId": "57061f34",
+-     "text": "",
+-     "type": "user_message",
+-   },
+-   {
+-     "images": [
+-       {
+-         "data": "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAB7ElEQVR4nO3RwW0CQRQEUYLgTP4BkJ85IPlgWTbsLlvd86s0Afzpd/kytAt9wPQEgBMATgA4AeAEgBMATgA4AeAEgBMATgA4AeAEgBMATgA4AeAEgBMATgC4eoDr/UafsCsB4LoBrvfb89GHbE8AuGKA7/WrDQSAawX4sX6vgQBwlQC/rl9qIABcH8Af6zcaCABXBvDv+nUGAsA1Aby4fpeBAHA1AG+tX2QgAFwHwIb1WwwEgCsA2Lx+hYEAcOkAO9fPNxAALhrgkPXDDQSAywU4cP1kAwHgQgEOXz/WQAC4RIAPrZ9pIABcHMBH1w80EAAuC+CE9dMMBIALAjht/SgDAeBSAE5eP8dAALgIAGT9EAMB4HgAcP0EAwFmA+Dr4wYCDAbAd08wEGAqAL54iIEAIwHwrXMMBJgHgK8cZSDAMAB83zQDASYB4MsGGggwBgDfNNNAgBkA+JqxBgIMAMB3TDYQYHUAfMFwAwGWBsC3yzcQYF0AfLUKAwEWBcD3ajEQYEUAfKkiAwGWA8A36jIQYC0AfJ06AwEWAsB3aTQQYBUAfJFSAwGWAMC36DUQoB8AX6HaQIByAPz/CY8EsJ0JACcAnABwAsAJACcAnABwAsAJACcAnABwAsAJACcAnABwAsAJACcAnABwD/3mY1IktLCwAAAAAElFTkSuQmCC",
+-         "mimeType": "image/png",
+-       },
+-     ],
+      "messageId": "8417b730",
+      "text": "Name the color and shape visible in this attached image. Reply in one short sentence.",
+      "type": "user_message",
+    },
+  ]
+
+ ❯ src/server/agent/providers/pi/history-mapper.test.ts:232:123
+    230|   const userEntries = entries.flatMap((entry) => entry.message.role ==…
+    231|   const history = await collectHistory(entries.map((entry) => entry.me…
+    232|   expect(history.flatMap((event) => event.type === "timeline" && event…
+       |                                                                                                                           ^
+    233|     entries.flatMap((entry) => entry.message.role === "user" ? [{
+    234|       type: "user_message", messageId: entry.id,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  11:39:48
+   Duration  154ms (transform 59ms, setup 16ms, import 76ms, tests 5ms, environment 0ms)
+

@@ -1,0 +1,40 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6736-parallel-20261016/packages/server
+
+stdout | src/server/agent/providers/pi/agent.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: ⚙️  override existing env vars with { override: true }
+
+ ❯ src/server/agent/providers/pi/agent.test.ts (126 tests | 1 failed) 211ms
+   × captured Pi image history keeps canonical identities across disk reload and refresh 145ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/agent/providers/pi/agent.test.ts > captured Pi image history keeps canonical identities across disk reload and refresh
+AssertionError: expected undefined to deeply equal { '57061f34': 'client-image-0', …(1) }
+
+- Expected:
+{
+  "57061f34": "client-image-0",
+  "8417b730": "client-image-1",
+}
+
++ Received:
+undefined
+
+ ❯ src/server/agent/providers/pi/agent.test.ts:3531:68
+    3529|     const reloadedStorage = new AgentStorage(path.join(workdir, "agent…
+    3530|     const record = await reloadedStorage.get(agent.id);
+    3531|     expect(record?.persistence?.metadata?.submittedUserMessageIds).toE…
+       |                                                                    ^
+    3532|     if (!record?.persistence) throw new Error("Expected persisted Pi h…
+    3533|     const resumedPi = new FakePi();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 125 passed (126)
+   Start at  11:39:05
+   Duration  712ms (transform 326ms, setup 15ms, import 430ms, tests 211ms, environment 0ms)
+

@@ -18,6 +18,7 @@ These are synthetic, isolated QA artifacts. Each directory records its exact val
 | [6737-review2](6737-review2/README.md) | Initialization/offline membership/readonly repair;62 tests and cross-client browser |
 | [6699-timing](6699-timing/README.md) | Stopped/parallel tool duration through source/cache/presentation;278 tests |
 | [6699-real-read](6699-real-read/README.md) | Real Claude native Read, both completion orders, screenshots/recording; plugin cache limitation disclosed |
+| [6736-pi-fixed](6736-pi-fixed/README.md) | Real Pi/Gemini image replay and disk restore:29 checks pass;345 candidate tests,135 fixture follow-up tests |
 | [6736-pi-before](6736-pi-before/README.md) | Real Pi/Gemini live passes but provider history fails;user-authorized repair tracked separately |
 | [6736-omp-blocker](6736-omp-blocker/README.md) | Official OMP startup blocked by model/auth configuration;0 inference |
 | [7186-web-smoke](7186-web-smoke/README.md) | Actual app IndexedDB/reload integrity, mock provider;not performance acceptance |

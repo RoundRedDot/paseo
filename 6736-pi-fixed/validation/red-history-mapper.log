@@ -1,0 +1,50 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6736-parallel-20261016/packages/server
+
+stdout | src/server/agent/providers/pi/history-mapper.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: ⚙️  enable debug logging with { debug: true }
+
+ ❯ src/server/agent/providers/pi/history-mapper.test.ts (8 tests | 1 failed) 6ms
+     × replays user, assistant, reasoning, and completed tool calls 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/agent/providers/pi/history-mapper.test.ts > Pi history mapper > replays user, assistant, reasoning, and completed tool calls
+AssertionError: expected [ { type: 'timeline', …(2) }, …(4) ] to deeply equal [ { type: 'timeline', …(2) }, …(4) ]
+
+- Expected
++ Received
+
+@@ -1,14 +1,8 @@
+  [
+    {
+      "item": {
+-       "images": [
+-         {
+-           "data": "base64",
+-           "mimeType": "image/png",
+-         },
+-       ],
+        "text": "read this
+
+  then answer",
+        "type": "user_message",
+      },
+
+ ❯ src/server/agent/providers/pi/history-mapper.test.ts:76:5
+     74|         },
+     75|       ]),
+     76|     ).resolves.toEqual([
+       |     ^
+     77|       {
+     78|         type: "timeline",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (8)
+   Start at  11:39:04
+   Duration  178ms (transform 67ms, setup 18ms, import 91ms, tests 6ms, environment 0ms)
+

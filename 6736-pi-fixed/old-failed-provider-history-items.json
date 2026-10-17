@@ -1,0 +1,60 @@
+{
+  "source": "6513124ca16cf18db0df5eba3fda80c9fe2b37f0",
+  "epoch": "f9134d3d-2eaa-4ca4-9c0b-e162c032d221",
+  "entries": [
+    {
+      "provider": "pi",
+      "item": {
+        "type": "assistant_message",
+        "text": "The image shows a red square.",
+        "messageId": "chatcmpl-202610170331459670478748268d9d6BQ03vEV3"
+      },
+      "timestamp": "2026-10-17T03:31:54.176Z",
+      "seqStart": 1,
+      "seqEnd": 1,
+      "sourceSeqRanges": [
+        {
+          "startSeq": 1,
+          "endSeq": 1
+        }
+      ],
+      "collapsed": []
+    },
+    {
+      "provider": "pi",
+      "item": {
+        "type": "user_message",
+        "text": "Name the color and shape visible in this attached image. Reply in one short sentence.",
+        "messageId": "8417b730"
+      },
+      "timestamp": "2026-10-17T03:31:54.176Z",
+      "seqStart": 2,
+      "seqEnd": 2,
+      "sourceSeqRanges": [
+        {
+          "startSeq": 2,
+          "endSeq": 2
+        }
+      ],
+      "collapsed": []
+    },
+    {
+      "provider": "pi",
+      "item": {
+        "type": "assistant_message",
+        "text": "The image shows a green triangle.",
+        "messageId": "chatcmpl-202610170331498395063948268d9d67pm73lN2"
+      },
+      "timestamp": "2026-10-17T03:31:54.176Z",
+      "seqStart": 3,
+      "seqEnd": 3,
+      "sourceSeqRanges": [
+        {
+          "startSeq": 3,
+          "endSeq": 3
+        }
+      ],
+      "collapsed": []
+    }
+  ]
+}

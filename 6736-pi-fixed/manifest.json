@@ -1,0 +1,215 @@
+{
+  "source": "516f41b4fc4e7b1ffa49fac1229756b7d72c86c8",
+  "runtimeSource": "6513124ca16cf18db0df5eba3fda80c9fe2b37f0",
+  "sourceFiles": {
+    "docs/providers.md": "c909f1f5b8dedff6c12fd36e7e13327f06f0760d25b1108c95dc2ddc5eea5fdc",
+    "packages/server/src/server/agent/agent-manager.ts": "1455abb84045ca785e0f6024ce39deb3a2d4a43bda7baac28739d3d44d36a76a",
+    "packages/server/src/server/agent/agent-manager.test.ts": "3eff3381db2d0838ed6fd986e7f085a04bee30537fb1401968c64f1161af7ac9",
+    "packages/server/src/server/agent/providers/pi/agent.ts": "06dce7c9e2d931f37eb2c65460f333d88836b137feecfb8b1d9ddced57d19e21",
+    "packages/server/src/server/agent/providers/pi/agent.test.ts": "3bfca8054f188ff3af58ff827f0b948d1f4129fff63fe81ae0871c299de73e5d",
+    "packages/server/src/server/agent/providers/pi/history-mapper.ts": "f8771fe28627937d8aa0b841922fde58f5541769b0bc90e675f297ebad1b9ae9",
+    "packages/server/src/server/agent/providers/pi/history-mapper.test.ts": "d4002637cfda9195d6865ddb37cc0c8335af0801385adfdd7feade4b37d4a860",
+    "packages/server/src/server/agent/providers/pi/fixtures/image-history.json": "57b335bc40a1c0680372108087bafaa60ac32f1dd36d0551ec4aedf3b6802aac"
+  },
+  "requestsThisRun": 2,
+  "totalRequests": 4,
+  "checks": {
+    "PASS": 29,
+    "FAIL": 0
+  },
+  "oldEvidenceUnchanged": [
+    {
+      "name": "runtime.log",
+      "sha256": "01ba12c053e09b9e9a01e7720bbfbdfc9f7833e7bbf95e1f61641a089b112819"
+    },
+    {
+      "name": "result.json",
+      "sha256": "8a96963764e47ac91c5ce578cdd3bd7648b6a282139ed5a97fc1791e429094ff"
+    },
+    {
+      "name": "provider-events.json",
+      "sha256": "b56ace274b77888fb90562745a347d4e13fb32417e9409d152d93aee6abfd84e"
+    },
+    {
+      "name": "timeline-events.json",
+      "sha256": "4cc4467947800f184d5511083d4c2bdc3e0679dd464c21e88c22344d7a23375c"
+    },
+    {
+      "name": "provider-history-refresh-receiver.json",
+      "sha256": "c6d54f1096eb679f728b7dbc3463e14415c900600f55b620bb98d8e2e1d09d46"
+    }
+  ],
+  "files": [
+    {
+      "name": "browser-reload-browser-replica.json",
+      "sha256": "eb7072ea3273af2e8b4adc02b677cb710a6df5e00057ec54915e24a3a2ff30c9",
+      "bytes": 3042
+    },
+    {
+      "name": "browser-reload-lightbox.png",
+      "sha256": "318e193108cf9ef02667121f7c7ea583731fa4a65394df114a80f13f610423d5",
+      "bytes": 73935
+    },
+    {
+      "name": "browser-reload.png",
+      "sha256": "f8a24b13b1e43ff11c634c4bd99a1834ce90ddeac80cf8da287c82f07b45a92d",
+      "bytes": 65589
+    },
+    {
+      "name": "daemon-disk-reload-browser-replica.json",
+      "sha256": "46ffdd04bca25dc0a3cc1a98f78994b98dcff96de731ec3993aeb67c8a131aa2",
+      "bytes": 3402
+    },
+    {
+      "name": "daemon-disk-reload-lightbox.png",
+      "sha256": "231680ccd2aefad4d47d43ffe87ef252e93cc7ad9f8de0aa1cf82a84d36f27a0",
+      "bytes": 74332
+    },
+    {
+      "name": "daemon-disk-reload.png",
+      "sha256": "41553dad29cfc60425ec9ecd4f44079aec9195c179473cd95e6febb66422701a",
+      "bytes": 65548
+    },
+    {
+      "name": "daemon-disk-restart-receiver.json",
+      "sha256": "e3947d7fed3a7f456cca7115c5257bb5b28ad4fa5e087e978a90f725c1d35f28",
+      "bytes": 3518
+    },
+    {
+      "name": "daemon-disk-restart-sender.json",
+      "sha256": "e3947d7fed3a7f456cca7115c5257bb5b28ad4fa5e087e978a90f725c1d35f28",
+      "bytes": 3518
+    },
+    {
+      "name": "image-only-client-reload-receiver.json",
+      "sha256": "2a20505dc860b647723b14e1ae84be072f096c94f93f4d5be09082a57f44946f",
+      "bytes": 1826
+    },
+    {
+      "name": "image-only-client-reload-sender.json",
+      "sha256": "2a20505dc860b647723b14e1ae84be072f096c94f93f4d5be09082a57f44946f",
+      "bytes": 1826
+    },
+    {
+      "name": "image-only-live-browser-replica.json",
+      "sha256": "3e85e8942a865365cc0a028a9f313484209170194acdc2a61213621711881887",
+      "bytes": 1296
+    },
+    {
+      "name": "image-only-live-lightbox.png",
+      "sha256": "811353046ab8aa11a49939e30910abc8bec66b3de432fc1567931de4ea3e0248",
+      "bytes": 49653
+    },
+    {
+      "name": "image-only-live-receiver.json",
+      "sha256": "2a20505dc860b647723b14e1ae84be072f096c94f93f4d5be09082a57f44946f",
+      "bytes": 1826
+    },
+    {
+      "name": "image-only-live-sender.json",
+      "sha256": "2a20505dc860b647723b14e1ae84be072f096c94f93f4d5be09082a57f44946f",
+      "bytes": 1826
+    },
+    {
+      "name": "image-only-live.png",
+      "sha256": "1dbca02d65007ff90ea7ac71f321615f65d59acf771e04ac65b1fe11c30085e2",
+      "bytes": 50866
+    },
+    {
+      "name": "image-only.png",
+      "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda",
+      "bytes": 439
+    },
+    {
+      "name": "provider-history-refresh-receiver.json",
+      "sha256": "5af8aaaf92554ffd17e05eec95f3b98e97919c582c82adb5719ecb39078af644",
+      "bytes": 3518
+    },
+    {
+      "name": "provider-history-refresh-sender.json",
+      "sha256": "5af8aaaf92554ffd17e05eec95f3b98e97919c582c82adb5719ecb39078af644",
+      "bytes": 3518
+    },
+    {
+      "name": "provider-history-reload-browser-replica.json",
+      "sha256": "235e7004e4e16420455d7abeb07507fe8eb337014165166b11b345d9aeb6e146",
+      "bytes": 3402
+    },
+    {
+      "name": "provider-history-reload-lightbox.png",
+      "sha256": "aee3a5e0cf96606b1665746c6910df141daff8d623f99297504a08b99dc3bbb8",
+      "bytes": 74827
+    },
+    {
+      "name": "provider-history-reload.png",
+      "sha256": "5af1f2d5fae73ee818f3f325abb678c52fc78577db6314be4c421787fb54e800",
+      "bytes": 65418
+    },
+    {
+      "name": "text-image-client-reload-receiver.json",
+      "sha256": "11bee68fe9e7d651ac921c9e78a1376eba69d0982dd8c90c9b55f9e62ff5993f",
+      "bytes": 3718
+    },
+    {
+      "name": "text-image-client-reload-sender.json",
+      "sha256": "11bee68fe9e7d651ac921c9e78a1376eba69d0982dd8c90c9b55f9e62ff5993f",
+      "bytes": 3718
+    },
+    {
+      "name": "text-image-live-browser-replica.json",
+      "sha256": "eb7072ea3273af2e8b4adc02b677cb710a6df5e00057ec54915e24a3a2ff30c9",
+      "bytes": 3042
+    },
+    {
+      "name": "text-image-live-lightbox.png",
+      "sha256": "02e51b9b3d47d005b66df928eadcd718fc15a7c99f07d092bfa31532c445b8f6",
+      "bytes": 72569
+    },
+    {
+      "name": "text-image-live-receiver.json",
+      "sha256": "11bee68fe9e7d651ac921c9e78a1376eba69d0982dd8c90c9b55f9e62ff5993f",
+      "bytes": 3718
+    },
+    {
+      "name": "text-image-live-sender.json",
+      "sha256": "11bee68fe9e7d651ac921c9e78a1376eba69d0982dd8c90c9b55f9e62ff5993f",
+      "bytes": 3718
+    },
+    {
+      "name": "text-image-live.png",
+      "sha256": "0babf3636316e2fd019fa1fb14c688c18a604212231e1bbfb7e4bf7ee3355787",
+      "bytes": 65848
+    },
+    {
+      "name": "text-image.png",
+      "sha256": "9be138bd83e0a44459040c1b7dd386ca80d6366a63ccef947445da95a94d0921",
+      "bytes": 549
+    },
+    {
+      "name": "runtime.log",
+      "sha256": "8ea3fb5e21ac8df9578ec118e75c8b39782408caf6cef00e3be20cdab6c431c6",
+      "bytes": 7836
+    },
+    {
+      "name": "legacy-native-replay.json",
+      "sha256": "528ebd501c7a36f54fb0fe127b20b9789c95667d0d223cac0cadabeb4488804c",
+      "bytes": 1751
+    }
+  ],
+  "transformations": [
+    "daemon-disk-restart-receiver.json: omit response envelope and agent configuration; entries unchanged",
+    "daemon-disk-restart-sender.json: omit response envelope and agent configuration; entries unchanged",
+    "image-only-client-reload-receiver.json: omit response envelope and agent configuration; entries unchanged",
+    "image-only-client-reload-sender.json: omit response envelope and agent configuration; entries unchanged",
+    "image-only-live-receiver.json: omit response envelope and agent configuration; entries unchanged",
+    "image-only-live-sender.json: omit response envelope and agent configuration; entries unchanged",
+    "provider-history-refresh-receiver.json: omit response envelope and agent configuration; entries unchanged",
+    "provider-history-refresh-sender.json: omit response envelope and agent configuration; entries unchanged",
+    "text-image-client-reload-receiver.json: omit response envelope and agent configuration; entries unchanged",
+    "text-image-client-reload-sender.json: omit response envelope and agent configuration; entries unchanged",
+    "text-image-live-receiver.json: omit response envelope and agent configuration; entries unchanged",
+    "text-image-live-sender.json: omit response envelope and agent configuration; entries unchanged",
+    "provider-events-redacted.json: keep genuine agent_start/settled and message_end frames; omit thinking/signatures/usage and unrelated frame kinds; text/image bytes and identities unchanged",
+    "old-failed-provider-history-items.json: unchanged original failing entries, response envelope omitted"
+  ]
+}

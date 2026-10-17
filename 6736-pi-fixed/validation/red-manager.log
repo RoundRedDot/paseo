@@ -1,0 +1,52 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6736-parallel-20261016/packages/server
+
+stdout | src/server/agent/agent-manager.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: 🛡️ auth for agents: https://vestauth.com
+
+ ❯ src/server/agent/agent-manager.test.ts (210 tests | 1 failed | 208 skipped) 12ms
+   × history ingestion canonicalizes explicit client identity with force=false 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/agent/agent-manager.test.ts > history ingestion canonicalizes explicit client identity with force=false
+AssertionError: expected [ …(2) ] to match object [ { …(2) }, { item: { …(3) } } ]
+(7 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -6,14 +6,13 @@
+          {
+            "data": "AA==",
+            "mimeType": "image/png",
+          },
+        ],
+-       "messageId": "client-1",
++       "messageId": "native-1",
+        "type": "user_message",
+      },
+-     "providerMessageId": "native-1",
+    },
+    {
+      "item": {
+        "images": [
+          {
+
+ ❯ src/server/agent/agent-manager.test.ts:11955:64
+    11953|   try {
+    11954|     await manager.hydrateTimelineFromProvider(agent.id, { force });
+    11955|     expect(manager.fetchTimeline(agent.id, { limit: 0 }).rows).toMatch…
+       |                                                                ^
+    11956|       { providerMessageId: "native-1", item: { type: "user_message", m…
+    11957|       { item: { type: "user_message", messageId: "native-external", im…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 208 skipped (210)
+   Start at  11:39:06
+   Duration  446ms (transform 261ms, setup 15ms, import 360ms, tests 12ms, environment 0ms)
+
