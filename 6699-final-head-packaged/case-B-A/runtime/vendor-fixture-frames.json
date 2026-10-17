@@ -1,0 +1,405 @@
+[
+  {
+    "at": "2026-10-17T08:52:07.129Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "3cb810d6-c27f-4411-85f1-5333a186d5ed",
+      "type": "system",
+      "subtype": "init",
+      "permissionMode": "default",
+      "model": "claude-sonnet-4-6",
+      "cwd": "<QA_ROOT>/run-B-A-1/cwd",
+      "tools": [
+        "Read"
+      ],
+      "mcp_servers": []
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:07.129Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "a6648b68-c572-4181-b57c-17af104b3e9a",
+      "type": "assistant",
+      "message": {
+        "id": "msg_6699_ack_B-A",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-4-6",
+        "content": [
+          {
+            "type": "text",
+            "text": "Starting two synthetic native Read calls. No model inference."
+          }
+        ],
+        "stop_reason": "tool_use",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 1,
+          "output_tokens": 1
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:07.830Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "18a37d7c-4a5a-4d7a-bc33-32664f2c79bb",
+      "type": "stream_event",
+      "event": {
+        "type": "message_start",
+        "message": {
+          "id": "msg_7196_B_A",
+          "type": "message",
+          "role": "assistant",
+          "model": "claude-sonnet-4-6",
+          "content": [],
+          "stop_reason": null,
+          "stop_sequence": null,
+          "usage": {
+            "input_tokens": 1,
+            "output_tokens": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:07.830Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "51d623e5-1ffc-4def-b9d1-bdf81d1dca6e",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 0,
+        "content_block": {
+          "type": "tool_use",
+          "id": "toolu_7196_0_A",
+          "name": "Read",
+          "input": {}
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:07.830Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "68f3d6fa-f1f7-43b8-aa55-b3c6d090e5e3",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{\"file_path\":\"<QA_ROOT>/run-B-A-1/cwd/7196-A.png\"}"
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:07.830Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "8d42a71f-3a2a-46b2-96f8-006c97b71fcf",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 0
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:08.531Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "d0128f9b-d8d8-4b31-a52b-e61fd661ca5b",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 1,
+        "content_block": {
+          "type": "tool_use",
+          "id": "toolu_7196_0_B",
+          "name": "Read",
+          "input": {}
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:08.531Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "c3bf72f5-a48c-44a3-b984-114b7817efeb",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{\"file_path\":\"<QA_ROOT>/run-B-A-1/cwd/7196-B.png\"}"
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:08.531Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "95795b3a-da62-46d8-adcc-3ed23ba649bf",
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 1
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:09.232Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "6469ebcc-d17f-46af-ba12-d163b7df6b78",
+      "type": "assistant",
+      "message": {
+        "id": "msg_7196_B_A",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-4-6",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_7196_0_A",
+            "name": "Read",
+            "input": {
+              "file_path": "<QA_ROOT>/run-B-A-1/cwd/7196-A.png"
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_7196_0_B",
+            "name": "Read",
+            "input": {
+              "file_path": "<QA_ROOT>/run-B-A-1/cwd/7196-B.png"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 1,
+          "output_tokens": 1
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:09.232Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "30b8ba48-3e97-4ad0-b99c-d147db3ce66d",
+      "type": "stream_event",
+      "event": {
+        "type": "message_delta",
+        "delta": {
+          "stop_reason": "tool_use",
+          "stop_sequence": null
+        },
+        "usage": {
+          "output_tokens": 1
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:09.232Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "a511ba24-88d1-473c-9722-d2534430858c",
+      "type": "stream_event",
+      "event": {
+        "type": "message_stop"
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:13.688Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "b577664b-e095-449d-9ef6-d8f593edb2de",
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "tool_result",
+            "tool_use_id": "toolu_7196_0_B",
+            "content": "Synthetic native Read result: local image/png, 1 x 1; no vendor inference.",
+            "is_error": false
+          }
+        ]
+      },
+      "tool_use_result": {
+        "type": "image",
+        "file": {
+          "filePath": "<QA_ROOT>/run-B-A-1/cwd/7196-B.png",
+          "type": "image/png"
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:16.574Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "f130e5fa-eb98-4c1f-b893-9c25c056edd9",
+      "type": "user",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "tool_result",
+            "tool_use_id": "toolu_7196_0_A",
+            "content": "Synthetic native Read result: local image/png, 1 x 1; no vendor inference.",
+            "is_error": false
+          }
+        ]
+      },
+      "tool_use_result": {
+        "type": "image",
+        "file": {
+          "filePath": "<QA_ROOT>/run-B-A-1/cwd/7196-A.png",
+          "type": "image/png"
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:19.465Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "71c19e3f-736e-4a71-a21c-4a070d77bb38",
+      "type": "result",
+      "subtype": "success",
+      "duration_ms": 100,
+      "duration_api_ms": 0,
+      "is_error": false,
+      "num_turns": 1,
+      "result": "",
+      "stop_reason": "end_turn",
+      "total_cost_usd": 0,
+      "usage": {
+        "input_tokens": 1,
+        "output_tokens": 1,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "modelUsage": {},
+      "permission_denials": []
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:24.434Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "6deb0ef1-12ac-415d-bc87-c343c9f326e0",
+      "type": "system",
+      "subtype": "init",
+      "permissionMode": "default",
+      "model": "claude-sonnet-4-6",
+      "cwd": "<QA_ROOT>/run-B-A-1/cwd",
+      "tools": [
+        "Read"
+      ],
+      "mcp_servers": []
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:24.434Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "7bfe05a3-dad9-4a32-8929-b65fa1086c46",
+      "type": "assistant",
+      "message": {
+        "id": "msg_7196_next_0",
+        "type": "message",
+        "role": "assistant",
+        "model": "claude-sonnet-4-6",
+        "content": [
+          {
+            "type": "text",
+            "text": "Both native Read calls finished. Synthetic SDK replay; no model inference."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 1,
+          "output_tokens": 1
+        }
+      }
+    }
+  },
+  {
+    "at": "2026-10-17T08:52:27.323Z",
+    "session": 1,
+    "frame": {
+      "session_id": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "parent_tool_use_id": null,
+      "uuid": "b9dc9f15-ae9b-42fa-a90d-ad11d31bc2b3",
+      "type": "result",
+      "subtype": "success",
+      "duration_ms": 100,
+      "duration_api_ms": 0,
+      "is_error": false,
+      "num_turns": 1,
+      "result": "Synthetic replay complete",
+      "stop_reason": "end_turn",
+      "total_cost_usd": 0,
+      "usage": {
+        "input_tokens": 1,
+        "output_tokens": 1,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      "modelUsage": {},
+      "permission_denials": []
+    }
+  }
+]

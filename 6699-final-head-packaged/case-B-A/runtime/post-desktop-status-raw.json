@@ -1,0 +1,13 @@
+{
+  "serverId": "",
+  "status": "stopped",
+  "listen": null,
+  "hostname": null,
+  "pid": null,
+  "home": "<QA_ROOT>/run-B-A-1/desktop-home",
+  "version": null,
+  "desktopManaged": false,
+  "startedAt": null,
+  "ownedByDesktop": false,
+  "error": null
+}

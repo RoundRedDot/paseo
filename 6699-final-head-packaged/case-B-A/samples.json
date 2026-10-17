@@ -1,0 +1,4274 @@
+[
+  {
+    "at": "2026-10-17T08:52:11.195Z",
+    "now": 27489.40000000596,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:11.396Z",
+    "now": 27690.70000000298,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:11.599Z",
+    "now": 27893.5,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:11.802Z",
+    "now": 28096.5,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:12.003Z",
+    "now": 28297.60000000894,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:12.205Z",
+    "now": 28499.90000000596,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:12.409Z",
+    "now": 28703.30000001192,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:12.611Z",
+    "now": 28905.80000001192,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:12.813Z",
+    "now": 29107.60000000894,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:13.017Z",
+    "now": 29311.60000000894,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:13.220Z",
+    "now": 29514,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:13.423Z",
+    "now": 29716.90000000596,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-running"
+  },
+  {
+    "at": "2026-10-17T08:52:14.090Z",
+    "now": 30384.80000001192,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:14.294Z",
+    "now": 30588,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:14.495Z",
+    "now": 30789,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:14.697Z",
+    "now": 30991.10000000894,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:14.900Z",
+    "now": 31194.60000000894,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:15.101Z",
+    "now": 31395.90000000596,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:15.303Z",
+    "now": 31597.20000000298,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:15.506Z",
+    "now": 31800.10000000894,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:15.707Z",
+    "now": 32001.80000001192,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:15.909Z",
+    "now": 32203.60000000894,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:16.112Z",
+    "now": 32406.70000000298,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:16.313Z",
+    "now": 32607.80000001192,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": true,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "first-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:16.978Z",
+    "now": 33271.90000000596,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:17.179Z",
+    "now": 33473.80000001192,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:17.381Z",
+    "now": 33675.40000000596,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:17.583Z",
+    "now": 33877.20000000298,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:17.787Z",
+    "now": 34081.70000000298,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:17.989Z",
+    "now": 34283.5,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:18.193Z",
+    "now": 34486.90000000596,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:18.394Z",
+    "now": 34688.10000000894,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:18.597Z",
+    "now": 34891.40000000596,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:18.799Z",
+    "now": 35093.90000000596,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:19.004Z",
+    "now": 35298.80000001192,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:19.207Z",
+    "now": 35501.40000000596,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "0px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "both-complete"
+  },
+  {
+    "at": "2026-10-17T08:52:24.845Z",
+    "now": 3460.4000000059605,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  },
+  {
+    "at": "2026-10-17T08:52:25.047Z",
+    "now": 3662.7000000029802,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  },
+  {
+    "at": "2026-10-17T08:52:25.248Z",
+    "now": 3864.2000000029802,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  },
+  {
+    "at": "2026-10-17T08:52:25.452Z",
+    "now": 4067.7000000029802,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  },
+  {
+    "at": "2026-10-17T08:52:25.654Z",
+    "now": 4269.4000000059605,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  },
+  {
+    "at": "2026-10-17T08:52:25.855Z",
+    "now": 4470.5,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  },
+  {
+    "at": "2026-10-17T08:52:26.057Z",
+    "now": 4672.800000011921,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  },
+  {
+    "at": "2026-10-17T08:52:26.260Z",
+    "now": 4876.20000000298,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  },
+  {
+    "at": "2026-10-17T08:52:26.463Z",
+    "now": 5078.5,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  },
+  {
+    "at": "2026-10-17T08:52:26.664Z",
+    "now": 5280.100000008941,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  },
+  {
+    "at": "2026-10-17T08:52:26.865Z",
+    "now": 5481.300000011921,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  },
+  {
+    "at": "2026-10-17T08:52:27.069Z",
+    "now": 5684.9000000059605,
+    "url": "paseo://app/h/srv_stmc82gZzvEJ/workspace/wks_6d821a4e45f82cfa",
+    "viewport": {
+      "width": 1200,
+      "height": 800,
+      "devicePixelRatio": 2
+    },
+    "scroll": {
+      "x": 0,
+      "y": 0,
+      "documentTop": 0
+    },
+    "rows": {
+      "A": {
+        "root": {
+          "x": 358,
+          "y": 247,
+          "width": 804,
+          "height": 26,
+          "top": 247,
+          "right": 1162,
+          "bottom": 273,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 247,
+          "width": 820,
+          "height": 26,
+          "top": 247,
+          "right": 1170,
+          "bottom": 273,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      },
+      "B": {
+        "root": {
+          "x": 358,
+          "y": 277,
+          "width": 804,
+          "height": 26,
+          "top": 277,
+          "right": 1162,
+          "bottom": 303,
+          "left": 358
+        },
+        "header": {
+          "x": 350,
+          "y": 277,
+          "width": 820,
+          "height": 26,
+          "top": 277,
+          "right": 1170,
+          "bottom": 303,
+          "left": 350
+        },
+        "marginBottom": "-12px",
+        "running": false,
+        "expanded": "false",
+        "ancestors": [
+          {
+            "tag": "DIV",
+            "testId": "agent-chat-scroll",
+            "overflowY": "auto",
+            "scrollTop": 0,
+            "clientHeight": 596,
+            "scrollHeight": 596
+          }
+        ]
+      }
+    },
+    "gap": 4,
+    "phase": "next-item"
+  }
+]

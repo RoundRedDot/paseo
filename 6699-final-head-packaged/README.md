@@ -1,0 +1,13 @@
+# #6699 candidate packaged production / Release QA
+
+Source 2947e07d1209447d9b023302ed610efc81ae1aa8; local new macOS arm64 production package 0.12.0-beta.1 / Electron 44.2.0. Historical plugin 58672b784b2082764b7c5de620978193f9aaa030, all 673 source files unchanged, renderer Git blob 1179d259aceac465194962ddf3baf0a327e599d3.
+
+A-B and B-A: 4 → 4 → 4 → 4 CSS px. Prior official 0.11.4 baseline: A-B 4 → 16 → 4 → 4, B-A 4 → 4 → 16 → 4. Exact canonical call IDs/status/order gate each phase; raw compositor frames retained privately in this QA directory. Videos contain every captured Release-renderer frame at original variable timestamps, no cuts/crops/overlays/speed changes; OS/window chrome outside the renderer is not recorded.
+
+Synthetic Claude SDK queryFactory native Read lifecycle replay through real host/mapper/plugin; zero vendor/model requests. To isolate lifecycle duration, an earlier assistant acknowledgement precedes the Read calls. The Read turn terminates before an autonomous next assistant item. Between both-complete and next-item, the plugin's normal settings RPC temporarily disables only assistant markdown to expose the host's native duration footer; default settings are restored before next-item. Read renderer/spacing/timestamp/plugin source untouched. Reload is included in the continuous video.
+
+Local ad-hoc package uses hardenedRuntime=false because an ad-hoc hardened build failed dyld Team ID validation. Chromium sandbox enabled by actual IPC. This is a production packaged renderer, not dev Electron, but does not prove official Developer ID/notarized/hardened distribution compatibility. Updater actual CONNECT denied plus matching IPC error and non-D loopback denial observed. Chromium proxy does not cover Node networking; NetLog lacks full request coverage. Not real vendor, iOS/Android/device/Windows/Linux acceptance. Original 2026-10-12 exact app version/mode remain unknown.
+
+Only this allowlist is a publication candidate, subject to parent review. Do not upload private homes, raw logs/catalog/NetLog, dependency/package trees or credentials. Source paths in JSON are replaced with <QA_ROOT>; videos are original and may still show synthetic tmp paths. Nothing uploaded or marked ready.
+
+The official 0.11.4 baseline and this 0.12.0-beta.1 local ad-hoc/hardenedRuntime=false candidate differ in version and distribution form. This proves final-head integration in the same Read lifecycle scenario, not isolated attribution of every visual difference to this PR or official distribution acceptance. Reducer/canonical red-green evidence is separate; no existing green unit suite was rerun here.

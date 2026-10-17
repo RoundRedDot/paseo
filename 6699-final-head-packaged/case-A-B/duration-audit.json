@@ -1,0 +1,122 @@
+{
+  "expectedMs": 9440,
+  "expectedLabel": "9s",
+  "latestCompletedAt": "2026-10-17T08:51:23.232Z",
+  "arrivalOnlyDurationMs": 1406,
+  "visible": [
+    {
+      "aria": "工作了 9s, ended 16:51",
+      "text": "工作了 9s\n工作了 9s",
+      "rect": {
+        "x": 414,
+        "y": 336.75,
+        "width": 57.515625,
+        "height": 18.5,
+        "top": 336.75,
+        "right": 471.515625,
+        "bottom": 355.25,
+        "left": 414
+      }
+    }
+  ],
+  "reloaded": [
+    {
+      "aria": "工作了 9s, ended 16:51",
+      "text": "工作了 9s\n工作了 9s",
+      "rect": {
+        "x": 414,
+        "y": 336.75,
+        "width": 57.515625,
+        "height": 18.5,
+        "top": 336.75,
+        "right": 471.515625,
+        "bottom": 355.25,
+        "left": 414
+      }
+    }
+  ],
+  "settingsInitial": {
+    "status": "ready",
+    "revision": "missing",
+    "values": {
+      "accent": "host",
+      "uiFont": "host",
+      "codeFont": "code",
+      "monoFont": "host",
+      "customMonoFont": "",
+      "codeFontSize": null,
+      "toolDetail": "collapsed",
+      "pathDisplay": "relative",
+      "enhancedUserBubble": false,
+      "selectionActions": true,
+      "assistantMarkdown": true,
+      "markdownVariant": "document",
+      "rowLabelStyle": "icon",
+      "compactRowSpacing": true,
+      "compactReplySpacing": true,
+      "language": "system"
+    }
+  },
+  "settingsNative": {
+    "status": "saved",
+    "revision": "1b641b33c9cf44e029db2495df3911aa7cfa46da7558ee4e201ab30aa4d494de",
+    "values": {
+      "accent": "host",
+      "uiFont": "host",
+      "codeFont": "code",
+      "monoFont": "host",
+      "customMonoFont": "",
+      "codeFontSize": null,
+      "toolDetail": "collapsed",
+      "pathDisplay": "relative",
+      "enhancedUserBubble": false,
+      "selectionActions": true,
+      "assistantMarkdown": false,
+      "markdownVariant": "document",
+      "rowLabelStyle": "icon",
+      "compactRowSpacing": true,
+      "compactReplySpacing": true,
+      "language": "system"
+    }
+  },
+  "settingsRestored": {
+    "status": "saved",
+    "revision": "eee846af0f737b1d3c06993280489232ac42aa28fa8380d0ec8069f92d19173b",
+    "values": {
+      "accent": "host",
+      "uiFont": "host",
+      "codeFont": "code",
+      "monoFont": "host",
+      "customMonoFont": "",
+      "codeFontSize": null,
+      "toolDetail": "collapsed",
+      "pathDisplay": "relative",
+      "enhancedUserBubble": false,
+      "selectionActions": true,
+      "assistantMarkdown": true,
+      "markdownVariant": "document",
+      "rowLabelStyle": "icon",
+      "compactRowSpacing": true,
+      "compactReplySpacing": true,
+      "language": "system"
+    }
+  },
+  "readOrder": [
+    {
+      "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_A",
+      "callId": "toolu_7196_0_A",
+      "timestamp": "2026-10-17T08:51:14.502Z",
+      "latestTimestamp": "2026-10-17T08:51:20.339Z",
+      "status": "completed"
+    },
+    {
+      "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_B",
+      "callId": "toolu_7196_0_B",
+      "timestamp": "2026-10-17T08:51:15.198Z",
+      "latestTimestamp": "2026-10-17T08:51:23.232Z",
+      "status": "completed"
+    }
+  ],
+  "cacheReload": "PASS",
+  "note": "Default plugin gap phases retained. Between both-complete and next-item, normal plugin settings RPC disables only assistant markdown to expose native host footer, then restores it. No timing/CSS/store mutation."
+}

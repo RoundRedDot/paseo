@@ -1,0 +1,88 @@
+{
+  "at": "2026-10-17T08:51:20.082Z",
+  "now": 29822.19999998808,
+  "url": "paseo://app/h/srv_p0IdP5zDL5iJ/workspace/wks_7cf39e88a5c15ad6",
+  "viewport": {
+    "width": 1200,
+    "height": 800,
+    "devicePixelRatio": 2
+  },
+  "scroll": {
+    "x": 0,
+    "y": 0,
+    "documentTop": 0
+  },
+  "rows": {
+    "A": {
+      "root": {
+        "x": 358,
+        "y": 247,
+        "width": 804,
+        "height": 26,
+        "top": 247,
+        "right": 1162,
+        "bottom": 273,
+        "left": 358
+      },
+      "header": {
+        "x": 350,
+        "y": 247,
+        "width": 820,
+        "height": 26,
+        "top": 247,
+        "right": 1170,
+        "bottom": 273,
+        "left": 350
+      },
+      "marginBottom": "-12px",
+      "running": true,
+      "expanded": "false",
+      "ancestors": [
+        {
+          "tag": "DIV",
+          "testId": "agent-chat-scroll",
+          "overflowY": "auto",
+          "scrollTop": 0,
+          "clientHeight": 596,
+          "scrollHeight": 596
+        }
+      ]
+    },
+    "B": {
+      "root": {
+        "x": 358,
+        "y": 277,
+        "width": 804,
+        "height": 26,
+        "top": 277,
+        "right": 1162,
+        "bottom": 303,
+        "left": 358
+      },
+      "header": {
+        "x": 350,
+        "y": 277,
+        "width": 820,
+        "height": 26,
+        "top": 277,
+        "right": 1170,
+        "bottom": 303,
+        "left": 350
+      },
+      "marginBottom": "0px",
+      "running": true,
+      "expanded": "false",
+      "ancestors": [
+        {
+          "tag": "DIV",
+          "testId": "agent-chat-scroll",
+          "overflowY": "auto",
+          "scrollTop": 0,
+          "clientHeight": 596,
+          "scrollHeight": 596
+        }
+      ]
+    }
+  },
+  "gap": 4
+}

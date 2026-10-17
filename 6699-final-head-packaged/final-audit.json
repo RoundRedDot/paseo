@@ -1,0 +1,199 @@
+{
+  "at": "2026-10-17T08:58:05.811Z",
+  "source": "2947e07d1209447d9b023302ed610efc81ae1aa8",
+  "configuredModel": "codex/gpt-6.1-sol High",
+  "provider": "synthetic Claude SDK queryFactory native Read lifecycle fixture replay",
+  "realModelRequests": 0,
+  "platform": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434",
+  "arch": "arm64",
+  "runs": [
+    {
+      "name": "run-A-B-1",
+      "start": "2026-10-17T08:41:29.615Z",
+      "end": "2026-10-17T08:41:36.216Z",
+      "status": "BLOCKED_OR_FAILED",
+      "error": "Error: Packaged app exited before CDP\n    at file://<QA_ROOT>/harness/runtime.mjs:16:112",
+      "appExit": {
+        "code": null,
+        "signal": "SIGABRT"
+      },
+      "cleanup": true,
+      "ports": {
+        "D": 56582,
+        "C": 56583,
+        "P": 56585,
+        "F": 56584
+      },
+      "casesRun": 0
+    },
+    {
+      "name": "run-A-B-2",
+      "start": "2026-10-17T08:44:20.210Z",
+      "end": "2026-10-17T08:44:24.898Z",
+      "status": "BLOCKED_OR_FAILED",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n\n    at file://<QA_ROOT>/harness/runtime.mjs:21:269",
+      "appExit": {
+        "code": 0,
+        "signal": null
+      },
+      "cleanup": true,
+      "ports": {
+        "D": 57425,
+        "C": 57426,
+        "P": 57428,
+        "F": 57427
+      },
+      "casesRun": 0
+    },
+    {
+      "name": "run-A-B-3",
+      "start": "2026-10-17T08:48:43.873Z",
+      "end": "2026-10-17T08:50:32.007Z",
+      "status": "FAILED_HARNESS_RELOAD_ALIAS_AND_TEARDOWN_ACK",
+      "error": "Canonical/client phases both-running, first-complete, both-complete and native footer/cache reload passed. Restoring plugin preference timed out because normal reload canonicalized fixed D to localhost:D rejected by proxy. Late screencast ACK rejected while target closed, so recovered result is explicitly reconstructed from preserved preflight/raw log; not a successful run.",
+      "appExit": {
+        "code": null,
+        "signal": null,
+        "note": "Original runtime did not finish result write; owned app PID absent at recovery"
+      },
+      "cleanup": true,
+      "ports": {
+        "D": 58703,
+        "C": 58704,
+        "P": 58706,
+        "F": 58705
+      },
+      "casesRun": 0
+    },
+    {
+      "name": "run-A-B-4",
+      "start": "2026-10-17T08:50:49.919Z",
+      "end": "2026-10-17T08:51:37.278Z",
+      "status": "COMPLETE",
+      "error": null,
+      "appExit": {
+        "code": 0,
+        "signal": null
+      },
+      "cleanup": true,
+      "ports": {
+        "D": 59311,
+        "C": 59312,
+        "P": 59314,
+        "F": 59313
+      },
+      "casesRun": 1
+    },
+    {
+      "name": "run-B-A-1",
+      "start": "2026-10-17T08:51:43.371Z",
+      "end": "2026-10-17T08:52:30.598Z",
+      "status": "COMPLETE",
+      "error": null,
+      "appExit": {
+        "code": 0,
+        "signal": null
+      },
+      "cleanup": true,
+      "ports": {
+        "D": 59619,
+        "C": 59620,
+        "P": 59622,
+        "F": 59621
+      },
+      "casesRun": 1
+    }
+  ],
+  "cases": [
+    {
+      "order": "A-B",
+      "loadedPluginClientBundleSha256": "c6112df227e149c1c55d4018391a8e8b1763448b1e6f66531059ecb95d07c33e",
+      "run": "run-A-B-4",
+      "dir": "<QA_ROOT>/run-A-B-4/evidence/case-A-B",
+      "gaps": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "samples": 48,
+      "rawFrames": 786,
+      "encodedFrames": 787,
+      "captureDuration": 21.214938163757324,
+      "encodedDuration": 21.214939,
+      "allPacketMaxErrorSeconds": 2.3713683994230905e-7,
+      "durationMs": 9440,
+      "durationLabel": "9s",
+      "arrivalOnlyDurationMs": 1406,
+      "latestCompletedAt": "2026-10-17T08:51:23.232Z",
+      "cacheReload": "PASS",
+      "videoSha256": "b97e7d70a42d2c1433ad2a63344960be49e6d4218b0a95372290161a798b2b66",
+      "ffmpegExit": 0,
+      "ffprobeExit": 0,
+      "decodeExit": 0
+    },
+    {
+      "order": "B-A",
+      "loadedPluginClientBundleSha256": "c6112df227e149c1c55d4018391a8e8b1763448b1e6f66531059ecb95d07c33e",
+      "run": "run-B-A-1",
+      "dir": "<QA_ROOT>/run-B-A-1/evidence/case-B-A",
+      "gaps": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "samples": 48,
+      "rawFrames": 787,
+      "encodedFrames": 788,
+      "captureDuration": 21.207918167114258,
+      "encodedDuration": 21.207919,
+      "allPacketMaxErrorSeconds": 1.7173767097311554e-7,
+      "durationMs": 9450,
+      "durationLabel": "9s",
+      "arrivalOnlyDurationMs": 1408,
+      "latestCompletedAt": "2026-10-17T08:52:16.575Z",
+      "cacheReload": "PASS",
+      "videoSha256": "b309a870df4e37dedac78f8f1f6ae601b1684912e779be77b93dd6774fa28da2",
+      "ffmpegExit": 0,
+      "ffprobeExit": 0,
+      "decodeExit": 0
+    }
+  ],
+  "appUnchanged": true,
+  "pluginUnchangedFiles": 673,
+  "trackedSourceClean": true,
+  "syntheticRequests": [
+    {
+      "run": "run-A-B-4",
+      "sessions": 1,
+      "frames": 18,
+      "turnInitFrames": 2,
+      "resultFrames": 2,
+      "readToolUseBlocks": 2
+    },
+    {
+      "run": "run-B-A-1",
+      "sessions": 1,
+      "frames": 18,
+      "turnInitFrames": 2,
+      "resultFrames": 2,
+      "readToolUseBlocks": 2
+    },
+    {
+      "run": "run-A-B-3",
+      "sessions": 1,
+      "frames": 15,
+      "turnInitFrames": 1,
+      "resultFrames": 1,
+      "readToolUseBlocks": 2,
+      "provenance": "Actual parsed SDK trace recovery; emitter dump missing after teardown rejection"
+    }
+  ],
+  "providerSdk": "0.3.246",
+  "providerSdkResolvedEntry": "<QA_ROOT>/snapshot/node_modules/@anthropic-ai/claude-agent-sdk/sdk.mjs",
+  "metadataCorrection": {
+    "at": "2026-10-17T09:00:31.486Z",
+    "note": "Count failed A-B-3 synthetic replay in total; actual provider SDK resolved from importing module. Acceptance/runtime/video results unchanged."
+  }
+}

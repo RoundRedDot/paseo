@@ -1,0 +1,9 @@
+{
+  "hasUpdate": false,
+  "readyToInstall": false,
+  "currentVersion": "0.12.0-beta.1",
+  "latestVersion": "0.12.0-beta.1",
+  "body": null,
+  "date": null,
+  "errorMessage": "net::ERR_TUNNEL_CONNECTION_FAILED"
+}

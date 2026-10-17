@@ -1,0 +1,333 @@
+{
+  "order": "B-A",
+  "agentId": "dbad44f6-a921-487e-a083-53e25734736a",
+  "callIds": {
+    "A": "toolu_7196_0_A",
+    "B": "toolu_7196_0_B"
+  },
+  "phases": [
+    {
+      "label": "both-running",
+      "clientStatusMatched": true,
+      "clientRunning": {
+        "A": true,
+        "B": true
+      },
+      "begin": "2026-10-17T08:52:11.194Z",
+      "end": "2026-10-17T08:52:13.624Z",
+      "expected": {
+        "A": "running",
+        "B": "running"
+      },
+      "callIds": [
+        "toolu_7196_0_A",
+        "toolu_7196_0_B"
+      ],
+      "canonicalTimestamps": [
+        "2026-10-17T08:52:07.897Z",
+        "2026-10-17T08:52:08.594Z"
+      ],
+      "gap": 4,
+      "margins": {
+        "A": "-12px",
+        "B": "0px"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "documentTop": 0
+      },
+      "cache": [
+        {
+          "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_A",
+          "callId": "toolu_7196_0_A",
+          "timestamp": "2026-10-17T08:52:07.835Z",
+          "latestTimestamp": "2026-10-17T08:52:07.897Z",
+          "status": "running"
+        },
+        {
+          "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_B",
+          "callId": "toolu_7196_0_B",
+          "timestamp": "2026-10-17T08:52:08.533Z",
+          "latestTimestamp": "2026-10-17T08:52:08.594Z",
+          "status": "running"
+        }
+      ]
+    },
+    {
+      "label": "first-complete",
+      "clientStatusMatched": true,
+      "clientRunning": {
+        "A": true,
+        "B": false
+      },
+      "begin": "2026-10-17T08:52:14.090Z",
+      "end": "2026-10-17T08:52:16.515Z",
+      "expected": {
+        "A": "running",
+        "B": "completed"
+      },
+      "callIds": [
+        "toolu_7196_0_A",
+        "toolu_7196_0_B"
+      ],
+      "canonicalTimestamps": [
+        "2026-10-17T08:52:07.897Z",
+        "2026-10-17T08:52:13.689Z"
+      ],
+      "gap": 4,
+      "margins": {
+        "A": "-12px",
+        "B": "0px"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "documentTop": 0
+      },
+      "cache": [
+        {
+          "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_A",
+          "callId": "toolu_7196_0_A",
+          "timestamp": "2026-10-17T08:52:07.835Z",
+          "latestTimestamp": "2026-10-17T08:52:07.897Z",
+          "status": "running"
+        },
+        {
+          "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_B",
+          "callId": "toolu_7196_0_B",
+          "timestamp": "2026-10-17T08:52:08.533Z",
+          "latestTimestamp": "2026-10-17T08:52:13.689Z",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "label": "both-complete",
+      "clientStatusMatched": true,
+      "clientRunning": {
+        "A": false,
+        "B": false
+      },
+      "begin": "2026-10-17T08:52:16.977Z",
+      "end": "2026-10-17T08:52:19.407Z",
+      "expected": {
+        "A": "completed",
+        "B": "completed"
+      },
+      "callIds": [
+        "toolu_7196_0_A",
+        "toolu_7196_0_B"
+      ],
+      "canonicalTimestamps": [
+        "2026-10-17T08:52:16.575Z",
+        "2026-10-17T08:52:13.689Z"
+      ],
+      "gap": 4,
+      "margins": {
+        "A": "-12px",
+        "B": "0px"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "documentTop": 0
+      },
+      "cache": [
+        {
+          "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_A",
+          "callId": "toolu_7196_0_A",
+          "timestamp": "2026-10-17T08:52:07.835Z",
+          "latestTimestamp": "2026-10-17T08:52:16.575Z",
+          "status": "completed"
+        },
+        {
+          "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_B",
+          "callId": "toolu_7196_0_B",
+          "timestamp": "2026-10-17T08:52:08.533Z",
+          "latestTimestamp": "2026-10-17T08:52:13.689Z",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "label": "next-item",
+      "clientStatusMatched": true,
+      "clientRunning": {
+        "A": false,
+        "B": false
+      },
+      "begin": "2026-10-17T08:52:24.843Z",
+      "end": "2026-10-17T08:52:27.271Z",
+      "expected": {
+        "A": "completed",
+        "B": "completed"
+      },
+      "callIds": [
+        "toolu_7196_0_A",
+        "toolu_7196_0_B"
+      ],
+      "canonicalTimestamps": [
+        "2026-10-17T08:52:16.575Z",
+        "2026-10-17T08:52:13.689Z"
+      ],
+      "gap": 4,
+      "margins": {
+        "A": "-12px",
+        "B": "-12px"
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0,
+        "documentTop": 0
+      },
+      "cache": [
+        {
+          "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_A",
+          "callId": "toolu_7196_0_A",
+          "timestamp": "2026-10-17T08:52:07.835Z",
+          "latestTimestamp": "2026-10-17T08:52:16.575Z",
+          "status": "completed"
+        },
+        {
+          "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_B",
+          "callId": "toolu_7196_0_B",
+          "timestamp": "2026-10-17T08:52:08.533Z",
+          "latestTimestamp": "2026-10-17T08:52:13.689Z",
+          "status": "completed"
+        }
+      ]
+    }
+  ],
+  "frames": 787,
+  "started": "2026-10-17T08:52:09.232Z",
+  "ended": "2026-10-17T08:52:28.380Z",
+  "observedGapRange": {
+    "min": 4,
+    "max": 4
+  },
+  "gapAppearedAndNaturallyDisappeared": false,
+  "timing": {
+    "expectedMs": 9450,
+    "expectedLabel": "9s",
+    "latestCompletedAt": "2026-10-17T08:52:16.575Z",
+    "arrivalOnlyDurationMs": 1408,
+    "visible": [
+      {
+        "aria": "工作了 9s, ended 16:52",
+        "text": "工作了 9s\n工作了 9s",
+        "rect": {
+          "x": 414,
+          "y": 336.75,
+          "width": 57.515625,
+          "height": 18.5,
+          "top": 336.75,
+          "right": 471.515625,
+          "bottom": 355.25,
+          "left": 414
+        }
+      }
+    ],
+    "reloaded": [
+      {
+        "aria": "工作了 9s, ended 16:52",
+        "text": "工作了 9s\n工作了 9s",
+        "rect": {
+          "x": 414,
+          "y": 336.75,
+          "width": 57.515625,
+          "height": 18.5,
+          "top": 336.75,
+          "right": 471.515625,
+          "bottom": 355.25,
+          "left": 414
+        }
+      }
+    ],
+    "settingsInitial": {
+      "status": "ready",
+      "revision": "missing",
+      "values": {
+        "accent": "host",
+        "uiFont": "host",
+        "codeFont": "code",
+        "monoFont": "host",
+        "customMonoFont": "",
+        "codeFontSize": null,
+        "toolDetail": "collapsed",
+        "pathDisplay": "relative",
+        "enhancedUserBubble": false,
+        "selectionActions": true,
+        "assistantMarkdown": true,
+        "markdownVariant": "document",
+        "rowLabelStyle": "icon",
+        "compactRowSpacing": true,
+        "compactReplySpacing": true,
+        "language": "system"
+      }
+    },
+    "settingsNative": {
+      "status": "saved",
+      "revision": "1b641b33c9cf44e029db2495df3911aa7cfa46da7558ee4e201ab30aa4d494de",
+      "values": {
+        "accent": "host",
+        "uiFont": "host",
+        "codeFont": "code",
+        "monoFont": "host",
+        "customMonoFont": "",
+        "codeFontSize": null,
+        "toolDetail": "collapsed",
+        "pathDisplay": "relative",
+        "enhancedUserBubble": false,
+        "selectionActions": true,
+        "assistantMarkdown": false,
+        "markdownVariant": "document",
+        "rowLabelStyle": "icon",
+        "compactRowSpacing": true,
+        "compactReplySpacing": true,
+        "language": "system"
+      }
+    },
+    "settingsRestored": {
+      "status": "saved",
+      "revision": "eee846af0f737b1d3c06993280489232ac42aa28fa8380d0ec8069f92d19173b",
+      "values": {
+        "accent": "host",
+        "uiFont": "host",
+        "codeFont": "code",
+        "monoFont": "host",
+        "customMonoFont": "",
+        "codeFontSize": null,
+        "toolDetail": "collapsed",
+        "pathDisplay": "relative",
+        "enhancedUserBubble": false,
+        "selectionActions": true,
+        "assistantMarkdown": true,
+        "markdownVariant": "document",
+        "rowLabelStyle": "icon",
+        "compactRowSpacing": true,
+        "compactReplySpacing": true,
+        "language": "system"
+      }
+    },
+    "readOrder": [
+      {
+        "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_A",
+        "callId": "toolu_7196_0_A",
+        "timestamp": "2026-10-17T08:52:07.835Z",
+        "latestTimestamp": "2026-10-17T08:52:16.575Z",
+        "status": "completed"
+      },
+      {
+        "id": "agent_tool_turn:foreground-turn-1/toolu_7196_0_B",
+        "callId": "toolu_7196_0_B",
+        "timestamp": "2026-10-17T08:52:08.533Z",
+        "latestTimestamp": "2026-10-17T08:52:13.689Z",
+        "status": "completed"
+      }
+    ],
+    "cacheReload": "PASS",
+    "note": "Default plugin gap phases retained. Between both-complete and next-item, normal plugin settings RPC disables only assistant markdown to expose native host footer, then restores it. No timing/CSS/store mutation."
+  },
+  "note": "Candidate 2947e07 packaged production renderer + same-source real host/Claude mapper/historical plugin. Earlier assistant acknowledgement and terminal result before next autonomous assistant isolate completed tool lifecycle duration. Synthetic SDK Read lifecycle result frames; not a real vendor call. Collapsed local PNG reads; result contains text, not base64 assistant image blocks. No forced scrolling or spacing modification."
+}

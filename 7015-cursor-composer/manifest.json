@@ -1,0 +1,27 @@
+[
+  {
+    "file": "PUBLICATION.md",
+    "bytes": 571,
+    "sha256": "e667253c8a788d124ca57a261c4ed2c05b107c845e683c94f43a8efdfd026ae1"
+  },
+  {
+    "file": "README.md",
+    "bytes": 1059,
+    "sha256": "8ebecbc3c4c48c139fe827a33b79ca38c8d9aab80e621de308a9374bc9232aa5"
+  },
+  {
+    "file": "source-allowlist.json",
+    "bytes": 1060,
+    "sha256": "bdc6334c7767df2f5d289bfa5d847eee2075165d3823c68b88c44cf3c98b9bc4"
+  },
+  {
+    "file": "summary.json",
+    "bytes": 2465,
+    "sha256": "899f39f9859f85ff1359a91d03f073287de6d8fd2ee2c389452090fde7aba6bd"
+  },
+  {
+    "file": "wire-excerpts.jsonl",
+    "bytes": 1021,
+    "sha256": "d257f056ff1bcf516c12dcf5281b3cffbb8c1090725857a14fc780e4025718ee"
+  }
+]

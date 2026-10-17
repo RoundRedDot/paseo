@@ -1,0 +1,10 @@
+{
+  "releaseChannel": "stable",
+  "notifications": {
+    "playSound": true
+  },
+  "daemon": {
+    "manageBuiltInDaemon": false,
+    "keepRunningAfterQuit": false
+  }
+}

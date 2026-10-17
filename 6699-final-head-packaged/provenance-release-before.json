@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-17T08:48:15.809Z",
+  "source": "2947e07d1209447d9b023302ed610efc81ae1aa8",
+  "trackedBlobsVerified": 5680,
+  "mismatches": [],
+  "version": "0.12.0-beta.1",
+  "electron": "44.2.0",
+  "packaging": "npm production export + electron-builder arm64 zip; ad-hoc new QA bundle; no notarization; hardenedRuntime=false for ad-hoc Team ID incompatibility; Chromium sandbox unchanged",
+  "appFiles": {
+    "Contents/MacOS/Paseo": "952d9865eb1b93f828ba1f56fa8992f6245b4bc0df06ed62b010625e50e686da",
+    "Contents/Resources/app.asar": "eaf3842f9f17b59d886f9f43499cc7caeee49339e07293c4cea1eb6ad3bcfa98"
+  },
+  "renderer": {
+    "file": "index-1a7596549c89221d32dd1176076cf76d.js",
+    "sha256": "88fabf42a93cf2ff4c0f737b1e896d7b1f51358fcf4db47ccf8d05b99f84fc07",
+    "containsLatestTimestamp": true
+  },
+  "compiled": {
+    "hostBootstrap": "925c98e4930603da330605ec037d0fc9912d9a9e9a91b669a83d5a5fd202aaca",
+    "claudeMapper": "e0565ba9010ecb2dba4816bb67bd887ce780d5597fe365d6b79baf08e4a99261",
+    "toolMapper": "ce7a4ce016271bc7637d8e226952b0ccee411352fcad9514efba5660339bfda1",
+    "pluginCompiler": "9848b2336cf3ed0a706ef2329ea67381be1138f6f08d88e09284b7646dcde55c",
+    "desktopMain": "c719e3d30bd64de227294f723af46aabdbc83b0e8976a36d28afe1c08fe42295"
+  },
+  "plugin": {
+    "revision": "58672b784b2082764b7c5de620978193f9aaa030",
+    "rendererBlob": "1179d259aceac465194962ddf3baf0a327e599d3",
+    "filesVerified": 673
+  },
+  "realModelRequests": 0
+}

@@ -1,0 +1,211 @@
+{
+  "requestId": "91c04539-953a-48d9-9e45-87a241721791",
+  "agentId": "dbad44f6-a921-487e-a083-53e25734736a",
+  "agent": {
+    "id": "dbad44f6-a921-487e-a083-53e25734736a",
+    "provider": "claude",
+    "cwd": "<QA_ROOT>/run-B-A-1/cwd",
+    "workspaceId": "wks_6d821a4e45f82cfa",
+    "model": "claude-sonnet-4-6",
+    "thinkingOptionId": null,
+    "effectiveThinkingOptionId": null,
+    "runtimeInfo": {
+      "provider": "claude",
+      "sessionId": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "model": "claude-sonnet-4-6",
+      "modeId": "default",
+      "extra": {
+        "runtimeModel": "claude-sonnet-4-6"
+      }
+    },
+    "createdAt": "2026-10-17T08:52:02.677Z",
+    "updatedAt": "2026-10-17T08:52:13.689Z",
+    "lastUserMessageAt": "2026-10-17T08:52:07.125Z",
+    "status": "running",
+    "activeTurn": {
+      "turnId": "foreground-turn-1",
+      "startedAt": "2026-10-17T08:52:07.124Z"
+    },
+    "capabilities": {
+      "supportsStreaming": true,
+      "supportsSessionPersistence": true,
+      "supportsSessionListing": true,
+      "supportsDynamicModes": true,
+      "supportsMcpServers": true,
+      "supportsReasoningStream": true,
+      "supportsToolInvocations": true,
+      "supportsRewindConversation": true,
+      "supportsRewindFiles": true,
+      "supportsRewindBoth": true
+    },
+    "currentModeId": "default",
+    "availableModes": [
+      {
+        "id": "plan",
+        "label": "Plan Mode",
+        "description": "Analyze the codebase without executing tools or edits"
+      },
+      {
+        "id": "default",
+        "label": "Always Ask",
+        "description": "Prompts for permission the first time a tool is used"
+      },
+      {
+        "id": "acceptEdits",
+        "label": "Accept File Edits",
+        "description": "Automatically approves edit-focused tools without prompting"
+      },
+      {
+        "id": "auto",
+        "label": "Auto mode",
+        "description": "Uses a model classifier to review permission prompts automatically"
+      },
+      {
+        "id": "bypassPermissions",
+        "label": "Bypass",
+        "description": "Skip all permission prompts (use with caution)"
+      }
+    ],
+    "features": [],
+    "pendingPermissions": [],
+    "persistence": {
+      "provider": "claude",
+      "sessionId": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "nativeHandle": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "metadata": {
+        "provider": "claude",
+        "cwd": "<QA_ROOT>/run-B-A-1/cwd",
+        "model": "claude-sonnet-4-6",
+        "title": "6699 Candidate Release B-A"
+      }
+    },
+    "title": "6699 Candidate Release B-A",
+    "labels": {},
+    "lastUsage": {
+      "contextWindowMaxTokens": 200000,
+      "contextWindowUsedTokens": 2
+    },
+    "requiresAttention": false,
+    "attentionReason": null,
+    "attentionTimestamp": null,
+    "archivedAt": null
+  },
+  "direction": "tail",
+  "projection": "projected",
+  "epoch": "eb281c1b-c440-4acb-ab57-126a37b296cc",
+  "reset": false,
+  "staleCursor": false,
+  "gap": false,
+  "window": {
+    "minSeq": 1,
+    "maxSeq": 7,
+    "nextSeq": 8
+  },
+  "startCursor": {
+    "epoch": "eb281c1b-c440-4acb-ab57-126a37b296cc",
+    "seq": 1
+  },
+  "endCursor": {
+    "epoch": "eb281c1b-c440-4acb-ab57-126a37b296cc",
+    "seq": 7
+  },
+  "hasOlder": false,
+  "hasNewer": false,
+  "entries": [
+    {
+      "provider": "claude",
+      "item": {
+        "type": "user_message",
+        "text": "Synthetic #7196 B-A native Read replay; no model inference.",
+        "clientMessageId": "dcdca91d-7ac0-4877-94be-a152e7a7b8a7",
+        "messageId": "dcdca91d-7ac0-4877-94be-a152e7a7b8a7"
+      },
+      "timestamp": "2026-10-17T08:52:07.125Z",
+      "seqStart": 1,
+      "seqEnd": 1,
+      "sourceSeqRanges": [
+        {
+          "startSeq": 1,
+          "endSeq": 1
+        }
+      ],
+      "turnId": "foreground-turn-1",
+      "collapsed": []
+    },
+    {
+      "provider": "claude",
+      "item": {
+        "type": "assistant_message",
+        "text": "Starting two synthetic native Read calls. No model inference.",
+        "messageId": "msg_6699_ack_B-A"
+      },
+      "timestamp": "2026-10-17T08:52:07.131Z",
+      "seqStart": 2,
+      "seqEnd": 2,
+      "sourceSeqRanges": [
+        {
+          "startSeq": 2,
+          "endSeq": 2
+        }
+      ],
+      "turnId": "foreground-turn-1",
+      "collapsed": []
+    },
+    {
+      "provider": "claude",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_7196_0_A",
+        "name": "Read",
+        "detail": {
+          "type": "read",
+          "filePath": "<QA_ROOT>/run-B-A-1/cwd/7196-A.png"
+        },
+        "status": "running",
+        "error": null
+      },
+      "timestamp": "2026-10-17T08:52:07.897Z",
+      "seqStart": 3,
+      "seqEnd": 4,
+      "sourceSeqRanges": [
+        {
+          "startSeq": 3,
+          "endSeq": 4
+        }
+      ],
+      "turnId": "foreground-turn-1",
+      "collapsed": [
+        "tool_lifecycle"
+      ]
+    },
+    {
+      "provider": "claude",
+      "item": {
+        "type": "tool_call",
+        "callId": "toolu_7196_0_B",
+        "name": "Read",
+        "detail": {
+          "type": "read",
+          "filePath": "<QA_ROOT>/run-B-A-1/cwd/7196-B.png",
+          "content": "Synthetic native Read result: local image/png, 1 x 1; no vendor inference."
+        },
+        "status": "completed",
+        "error": null
+      },
+      "timestamp": "2026-10-17T08:52:13.689Z",
+      "seqStart": 5,
+      "seqEnd": 7,
+      "sourceSeqRanges": [
+        {
+          "startSeq": 5,
+          "endSeq": 7
+        }
+      ],
+      "turnId": "foreground-turn-1",
+      "collapsed": [
+        "tool_lifecycle"
+      ]
+    }
+  ],
+  "error": null
+}

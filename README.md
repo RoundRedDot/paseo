@@ -20,6 +20,7 @@ These are synthetic, isolated QA artifacts. Each directory records its exact val
 | [6737-review2](6737-review2/README.md) | Initialization/offline membership/readonly repair;62 tests and cross-client browser |
 | [7196-release-replay](7196-release-replay/README.md) | Unmodified0.11.4 Release/historical plugin: both completion orders reproduce transient gap; explicitly synthetic SDK replay |
 | [7196-original-report](7196-original-report/README.md) | Original user-reported streaming gap screenshot; exact installed build/Release recording still unverified |
+| [6699-final-head-packaged](6699-final-head-packaged/PUBLICATION.md) | Final head local production package: both orders stable,96 samples; lifecycle duration/cache reload pass; distribution/fixture limits disclosed |
 | [6699-timing](6699-timing/README.md) | Stopped/parallel tool duration through source/cache/presentation;278 tests |
 | [6699-real-read](6699-real-read/README.md) | Real Claude native Read, both completion orders, screenshots/recording; plugin cache limitation disclosed |
 | [6736-pi-fixed](6736-pi-fixed/README.md) | Real Pi/Gemini image replay and disk restore:29 checks pass;345 candidate tests,135 fixture follow-up tests |

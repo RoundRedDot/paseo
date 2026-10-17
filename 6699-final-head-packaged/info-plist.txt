@@ -1,0 +1,69 @@
+Dict {
+    DTCompiler = com.apple.compilers.llvm.clang.1_0
+    CFBundleURLTypes = Array {
+        Dict {
+            CFBundleTypeRole = Editor
+            CFBundleURLName = Paseo agent link
+            CFBundleURLSchemes = Array {
+                paseo
+            }
+        }
+    }
+    CFBundleInfoDictionaryVersion = 6.0
+    NSAudioCaptureUsageDescription = This app needs access to audio capture
+    CFBundleIconFile = icon.icns
+    CFBundleName = Paseo
+    DTSDKName = macosx15.5
+    NSSupportsAutomaticGraphicsSwitching = true
+    NSBluetoothAlwaysUsageDescription = This app needs access to Bluetooth
+    NSPrincipalClass = AtomApplication
+    LSApplicationCategoryType = public.app-category.developer-tools
+    CFBundleDisplayName = Paseo
+    NSHighResolutionCapable = true
+    NSRequiresAquaSystemAppearance = false
+    DTSDKBuild = 24F74
+    NSCameraUsageDescription = This app needs access to the camera
+    CFBundleShortVersionString = 0.12.0-beta.1
+    CFBundlePackageType = APPL
+    NSBluetoothPeripheralUsageDescription = This app needs access to Bluetooth
+    NSPrefersDisplaySafeAreaCompatibilityMode = false
+    DTXcodeBuild = 16F6
+    CFBundleVersion = 0.12.0-beta.1
+    NSMainNibFile = MainMenu
+    NSMicrophoneUsageDescription = This app needs access to the microphone
+    CFBundleIdentifier = sh.paseo.desktop
+    LSEnvironment = Dict {
+        MallocNanoZone = 0
+    }
+    ElectronAsarIntegrity = Dict {
+        Resources/app.asar = Dict {
+            hash = 6e99c547632cf827346082994c7ae175946eb57e6c0e74a8414f92d27279be69
+            algorithm = SHA256
+        }
+    }
+    DTXcode = 1640
+    NSQuitAlwaysKeepsWindows = false
+    NSAppTransportSecurity = Dict {
+        NSExceptionDomains = Dict {
+            127.0.0.1 = Dict {
+                NSTemporaryExceptionAllowsInsecureHTTPLoads = true
+                NSTemporaryExceptionRequiresForwardSecrecy = false
+                NSIncludesSubdomains = false
+                NSTemporaryExceptionMinimumTLSVersion = 1.0
+                NSTemporaryExceptionAllowsInsecureHTTPSLoads = false
+            }
+            localhost = Dict {
+                NSTemporaryExceptionAllowsInsecureHTTPLoads = true
+                NSTemporaryExceptionRequiresForwardSecrecy = false
+                NSIncludesSubdomains = false
+                NSTemporaryExceptionMinimumTLSVersion = 1.0
+                NSTemporaryExceptionAllowsInsecureHTTPSLoads = false
+            }
+        }
+        NSAllowsArbitraryLoads = true
+        NSAllowsLocalNetworking = true
+    }
+    CFBundleExecutable = Paseo
+    LSMinimumSystemVersion = 13.0.0
+    NSHumanReadableCopyright = Copyright © 2026 Mohamed Boudra
+}

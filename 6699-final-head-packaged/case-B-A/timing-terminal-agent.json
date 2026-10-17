@@ -1,0 +1,106 @@
+{
+  "agent": {
+    "id": "dbad44f6-a921-487e-a083-53e25734736a",
+    "provider": "claude",
+    "cwd": "<QA_ROOT>/run-B-A-1/cwd",
+    "workspaceId": "wks_6d821a4e45f82cfa",
+    "model": "claude-sonnet-4-6",
+    "thinkingOptionId": null,
+    "effectiveThinkingOptionId": null,
+    "runtimeInfo": {
+      "provider": "claude",
+      "sessionId": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "model": "claude-sonnet-4-6",
+      "modeId": "default",
+      "extra": {
+        "runtimeModel": "claude-sonnet-4-6"
+      }
+    },
+    "createdAt": "2026-10-17T08:52:02.677Z",
+    "updatedAt": "2026-10-17T08:52:19.466Z",
+    "lastUserMessageAt": "2026-10-17T08:52:07.125Z",
+    "status": "idle",
+    "activeTurn": null,
+    "capabilities": {
+      "supportsStreaming": true,
+      "supportsSessionPersistence": true,
+      "supportsSessionListing": true,
+      "supportsDynamicModes": true,
+      "supportsMcpServers": true,
+      "supportsReasoningStream": true,
+      "supportsToolInvocations": true,
+      "supportsRewindConversation": true,
+      "supportsRewindFiles": true,
+      "supportsRewindBoth": true
+    },
+    "currentModeId": "default",
+    "availableModes": [
+      {
+        "id": "plan",
+        "label": "Plan Mode",
+        "description": "Analyze the codebase without executing tools or edits"
+      },
+      {
+        "id": "default",
+        "label": "Always Ask",
+        "description": "Prompts for permission the first time a tool is used"
+      },
+      {
+        "id": "acceptEdits",
+        "label": "Accept File Edits",
+        "description": "Automatically approves edit-focused tools without prompting"
+      },
+      {
+        "id": "auto",
+        "label": "Auto mode",
+        "description": "Uses a model classifier to review permission prompts automatically"
+      },
+      {
+        "id": "bypassPermissions",
+        "label": "Bypass",
+        "description": "Skip all permission prompts (use with caution)"
+      }
+    ],
+    "features": [],
+    "pendingPermissions": [],
+    "persistence": {
+      "provider": "claude",
+      "sessionId": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "nativeHandle": "3ecd3aa2-efcb-4fad-be40-1eb1765140f3",
+      "metadata": {
+        "provider": "claude",
+        "cwd": "<QA_ROOT>/run-B-A-1/cwd",
+        "model": "claude-sonnet-4-6",
+        "title": "6699 Candidate Release B-A"
+      }
+    },
+    "title": "6699 Candidate Release B-A",
+    "labels": {},
+    "lastUsage": {
+      "inputTokens": 1,
+      "cachedInputTokens": 0,
+      "outputTokens": 1,
+      "totalCostUsd": 0,
+      "contextWindowMaxTokens": 200000,
+      "contextWindowUsedTokens": 2
+    },
+    "requiresAttention": true,
+    "attentionReason": "finished",
+    "attentionTimestamp": "2026-10-17T08:52:19.466Z",
+    "archivedAt": null
+  },
+  "project": {
+    "projectKey": "prj_2294153598f3321c",
+    "projectName": "cwd",
+    "workspaceName": "cwd",
+    "checkout": {
+      "cwd": "<QA_ROOT>/run-B-A-1/cwd",
+      "isGit": false,
+      "currentBranch": null,
+      "remoteUrl": null,
+      "worktreeRoot": null,
+      "isPaseoOwnedWorktree": false,
+      "mainRepoRoot": null
+    }
+  }
+}

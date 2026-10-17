@@ -1,0 +1,50 @@
+[
+  {
+    "at": "2026-10-17T08:50:50.862Z",
+    "method": "CONNECT",
+    "target": "github.com:443",
+    "allowed": false
+  },
+  {
+    "at": "2026-10-17T08:50:50.870Z",
+    "method": "CONNECT",
+    "target": "github.com:443",
+    "allowed": false
+  },
+  {
+    "at": "2026-10-17T08:50:50.876Z",
+    "method": "CONNECT",
+    "target": "github.com:443",
+    "allowed": false
+  },
+  {
+    "at": "2026-10-17T08:50:50.885Z",
+    "method": "GET",
+    "target": "http://127.0.0.1:59313/qa-loopback-deny",
+    "allowed": false
+  },
+  {
+    "at": "2026-10-17T08:51:06.763Z",
+    "method": "CONNECT",
+    "target": "127.0.0.1:59311",
+    "allowed": true
+  },
+  {
+    "at": "2026-10-17T08:51:28.303Z",
+    "method": "CONNECT",
+    "target": "github.com:443",
+    "allowed": false
+  },
+  {
+    "at": "2026-10-17T08:51:28.305Z",
+    "method": "CONNECT",
+    "target": "github.com:443",
+    "allowed": false
+  },
+  {
+    "at": "2026-10-17T08:51:28.348Z",
+    "method": "CONNECT",
+    "target": "localhost:59311",
+    "allowed": true
+  }
+]
