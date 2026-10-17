@@ -286,6 +286,27 @@ describe("a closing fence still being typed", () => {
     expect(withholdPartialClosingFence(`${code}  \`\``)).toBe(code);
   });
 
+  it.each([
+    { char: "`", length: 3, whitespace: " " },
+    { char: "`", length: 3, whitespace: "\t" },
+    { char: "`", length: 4, whitespace: " " },
+    { char: "`", length: 4, whitespace: "\t" },
+    { char: "~", length: 3, whitespace: " " },
+    { char: "~", length: 3, whitespace: "\t" },
+    { char: "~", length: 5, whitespace: " " },
+    { char: "~", length: 5, whitespace: "\t" },
+  ])(
+    "paints real code after whitespace ends a $length $char run ($whitespace)",
+    ({ char, length, whitespace }) => {
+      const prefix = `${char.repeat(length)}\ncode\n`;
+      const run = char.repeat(length - 1);
+      expect(withholdPartialClosingFence(prefix + run)).toBe(prefix);
+      const text = prefix + run + whitespace;
+      expect(withholdPartialClosingFence(text)).toBe(text);
+      expect(visibleRevealedText(beginTextReveal(text), { streaming: true })).toBe(text);
+    },
+  );
+
   it("paints the fence once it closes the block", () => {
     expect(withholdPartialClosingFence(`${code}\`\`\``)).toBe(`${code}\`\`\``);
     expect(withholdPartialClosingFence(`${code}\`\`\`\n\nAfter`)).toBe(`${code}\`\`\`\n\nAfter`);
@@ -301,21 +322,26 @@ describe("a closing fence still being typed", () => {
   });
 
   it.each([
-    { lineEnding: "LF", newline: "\n" },
-    { lineEnding: "CRLF", newline: "\r\n" },
-  ])("recognizes completed closers before a tilde block with $lineEnding", ({ newline }) => {
-    const backtickBlock = ["Intro", "```ts", "const a = 1;", "```", ""].join(newline);
-    const tildeBlock = backtickBlock + ["~~~md", "code", ""].join(newline);
+    { lineEnding: "LF", newline: "\n", closer: "```" },
+    { lineEnding: "CRLF", newline: "\r\n", closer: "```" },
+    { lineEnding: "LF", newline: "\n", closer: "``` \t" },
+    { lineEnding: "CRLF", newline: "\r\n", closer: "``` \t" },
+  ])(
+    "recognizes completed closers before a tilde block with $lineEnding ($closer)",
+    ({ newline, closer }) => {
+      const backtickBlock = ["Intro", "```ts", "const a = 1;", closer, ""].join(newline);
+      const tildeBlock = backtickBlock + ["~~~md", "code", ""].join(newline);
 
-    expect(withholdPartialClosingFence(tildeBlock + "~~")).toBe(tildeBlock);
-    expect(withholdPartialClosingFence(tildeBlock + "~~~")).toBe(tildeBlock + "~~~");
-    expect(withholdPartialClosingFence(tildeBlock + "~~ not a closer")).toBe(
-      tildeBlock + "~~ not a closer",
-    );
+      expect(withholdPartialClosingFence(tildeBlock + "~~")).toBe(tildeBlock);
+      expect(withholdPartialClosingFence(tildeBlock + "~~~")).toBe(tildeBlock + "~~~");
+      expect(withholdPartialClosingFence(tildeBlock + "~~ not a closer")).toBe(
+        tildeBlock + "~~ not a closer",
+      );
 
-    const closedTildeBlock = tildeBlock + "~~~" + newline;
-    expect(withholdPartialClosingFence(closedTildeBlock + "`")).toBe(closedTildeBlock + "`");
-  });
+      const closedTildeBlock = tildeBlock + "~~~" + newline;
+      expect(withholdPartialClosingFence(closedTildeBlock + "`")).toBe(closedTildeBlock + "`");
+    },
+  );
 
   it("leaves backticks alone outside a code block", () => {
     expect(withholdPartialClosingFence("Prose\n`")).toBe("Prose\n`");

@@ -212,6 +212,8 @@ const FENCE_OPEN = /^ {0,3}(`{3,}|~{3,})/;
 // A line that is nothing but a run of one fence character, maybe indented.
 // Splitting CRLF text on LF leaves the CR at the end of each completed line.
 const FENCE_RUN = /^ {0,3}(`+|~+)[ \t]*\r?$/;
+// Whitespace ends a short run: more fence characters can no longer make it a closer.
+const UNFINISHED_FENCE_RUN = /^ {0,3}(`+|~+)$/;
 
 /**
  * The fence a code block opened at the end of `text` and has not closed yet, if
@@ -249,7 +251,7 @@ function openFenceAt(text: string): { char: string; length: number } | null {
 export function withholdPartialClosingFence(text: string): string {
   const lineStart = text.lastIndexOf("\n") + 1;
   if (lineStart === 0) return text;
-  const run = FENCE_RUN.exec(text.slice(lineStart))?.[1];
+  const run = UNFINISHED_FENCE_RUN.exec(text.slice(lineStart))?.[1];
   if (!run) return text;
   const open = openFenceAt(text.slice(0, lineStart - 1));
   if (!open || open.char !== run[0] || run.length >= open.length) return text;

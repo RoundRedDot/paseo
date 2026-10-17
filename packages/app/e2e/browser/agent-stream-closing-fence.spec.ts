@@ -1,9 +1,15 @@
+import {
+  beginTextReveal,
+  retargetTextReveal,
+  visibleRevealedText,
+} from "../../src/agent-stream/text-reveal";
 import type { Page } from "@playwright/test";
 import { test, expect } from "../support/fixtures";
 import { expectComposerVisible } from "../support/helpers/composer";
 import { openAgentRoute, seedMockAgentWorkspace } from "../support/helpers/mock-agent";
 
 interface ClosingFenceFrameSample {
+  text: string;
   codeBlockHeights: number[];
   codeBlockTexts: string[];
   messageHeights: number[];
@@ -12,14 +18,12 @@ interface ClosingFenceFrameSample {
 
 interface ClosingFenceFrameReport {
   finished: boolean;
-  firstPauseSamples: ClosingFenceFrameSample[];
-  secondPauseSamples: ClosingFenceFrameSample[];
+  samples: ClosingFenceFrameSample[];
 }
 
 async function sampleClosingFenceFrames(page: Page): Promise<ClosingFenceFrameReport> {
   return await page.evaluate(async () => {
-    const firstPauseSamples: ClosingFenceFrameSample[] = [];
-    const secondPauseSamples: ClosingFenceFrameSample[] = [];
+    const samples: ClosingFenceFrameSample[] = [];
     let finished = false;
 
     await new Promise<void>((resolve) => {
@@ -29,6 +33,7 @@ async function sampleClosingFenceFrames(page: Page): Promise<ClosingFenceFrameRe
         );
         const text = messages.map((message) => message.textContent ?? "").join("");
         const sample: ClosingFenceFrameSample = {
+          text,
           codeBlockHeights: [],
           codeBlockTexts: [],
           messageHeights: messages.map((message) =>
@@ -50,12 +55,7 @@ async function sampleClosingFenceFrames(page: Page): Promise<ClosingFenceFrameRe
           }
         }
 
-        if (text.includes("console.log(answer);") && !text.includes("And a second one:")) {
-          firstPauseSamples.push(sample);
-        }
-        if (text.includes("echo done") && !text.includes("Both blocks are closed.")) {
-          secondPauseSamples.push(sample);
-        }
+        samples.push(sample);
 
         finished = text.includes("Both blocks are closed.");
         if (finished) {
@@ -67,8 +67,18 @@ async function sampleClosingFenceFrames(page: Page): Promise<ClosingFenceFrameRe
       requestAnimationFrame(tick);
     });
 
-    return { finished, firstPauseSamples, secondPauseSamples };
+    return { finished, samples };
   });
+}
+
+const FIRST_PAUSE_TEXT = "Here is the first snippet:const answer = 42;\nconsole.log(answer);";
+const SECOND_PAUSE_TEXT = `${FIRST_PAUSE_TEXT}And a second one:echo done`;
+
+function closingFencePauseSamples(
+  samples: readonly ClosingFenceFrameSample[],
+  pauseText: string,
+): ClosingFenceFrameSample[] {
+  return samples.filter((sample) => sample.text === pauseText);
 }
 
 function expectStableGeometry(
@@ -82,11 +92,6 @@ function expectStableGeometry(
     ),
     "the sampled code should contain only the authored lines",
   ).toBe(true);
-  expect(
-    samples.every((sample) => sample.partialFenceLines.length === 0),
-    "no frame may show a partial closing fence as code",
-  ).toBe(true);
-
   const geometries = new Set(
     samples.map((sample) => JSON.stringify([sample.messageHeights, sample.codeBlockHeights])),
   );
@@ -104,7 +109,7 @@ function expectStableGeometry(
  * vanishes when the fence completes, so the block grows and shrinks and every
  * row below it moves twice. Each pause is sampled and its text geometry checked.
  */
-test("does not paint a closing fence while it is still being typed", async ({ page }) => {
+test("does not paint a closing fence while it is still being typed", async ({ page }, testInfo) => {
   test.setTimeout(90_000);
   const agent = await seedMockAgentWorkspace({
     repoPrefix: "closing-fence-",
@@ -121,16 +126,43 @@ test("does not paint a closing fence while it is still being typed", async ({ pa
     );
     const report = await reportPromise;
 
+    await testInfo.attach("closing-fence-frames", {
+      body: JSON.stringify(report, null, 2),
+      contentType: "application/json",
+    });
     expect(report.finished, "the reply should finish streaming").toBe(true);
-    expectStableGeometry(report.firstPauseSamples, ["const answer = 42;\nconsole.log(answer);"]);
-    expectStableGeometry(report.secondPauseSamples, [
+    expect(
+      report.samples.flatMap((sample) => sample.partialFenceLines),
+      "no frame, including transitions outside the pause windows, may show a partial fence",
+    ).toEqual([]);
+    const firstPauseSamples = closingFencePauseSamples(report.samples, FIRST_PAUSE_TEXT);
+    const secondPauseSamples = closingFencePauseSamples(report.samples, SECOND_PAUSE_TEXT);
+    expectStableGeometry(firstPauseSamples, ["const answer = 42;\nconsole.log(answer);"]);
+    expectStableGeometry(secondPauseSamples, [
       "const answer = 42;\nconsole.log(answer);",
       "echo done",
     ]);
-    expect(report.secondPauseSamples[0]?.codeBlockHeights[0]).toBe(
-      report.firstPauseSamples[0]?.codeBlockHeights[0],
+    expect(secondPauseSamples[0]?.codeBlockHeights[0]).toBe(
+      firstPauseSamples[0]?.codeBlockHeights[0],
     );
   } finally {
     await agent.cleanup();
+  }
+});
+
+test("excludes each revealed character of the next paragraph from both pauses", () => {
+  for (const [pauseText, paragraph] of [
+    [FIRST_PAUSE_TEXT, "And a second one:"],
+    [SECOND_PAUSE_TEXT, "Both blocks are closed."],
+  ]) {
+    const state = retargetTextReveal(beginTextReveal(pauseText), pauseText + paragraph);
+    const samples = Array.from({ length: paragraph.length + 1 }, (_, index) => ({
+      text: visibleRevealedText({ ...state, revealed: pauseText.length + index }),
+      codeBlockHeights: [],
+      codeBlockTexts: [],
+      messageHeights: [index],
+      partialFenceLines: [],
+    }));
+    expect(closingFencePauseSamples(samples, pauseText)).toEqual([samples[0]]);
   }
 });
