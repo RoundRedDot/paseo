@@ -1,0 +1,12 @@
+--- previous-causal-harness/native-host.mjs
++++ offline-harness/native-host.mjs
+@@ -106,7 +106,8 @@
+   await new Promise(r=>setTimeout(r,100));
+  }
+ }catch(e){result.error=String(e);process.exitCode=1;console.error(e)}finally{
+- if(client&&projectId)await client.removeProject(projectId).catch(()=>{});
++ // Normal host shutdown preserves the synthetic project; no directory deletion RPC.
++ result.normalHostStopAt=new Date().toISOString();
+  if(client)await client.close().catch(()=>{});
+  for(const s of sockets)s.terminate();wss?.close();
+  if(proxy)await new Promise(r=>proxy.close(r));

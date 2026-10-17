@@ -1,0 +1,18 @@
+appId: sh.paseo
+---
+- extendedWaitUntil:
+    visible:
+      id: message-input-root
+    timeout: 30000
+- takeScreenshot: before-normal-bottom-jump
+- runFlow:
+    when:
+      visible:
+        id: scroll-to-bottom-button
+    commands:
+      - tapOn:
+          id: scroll-to-bottom-button
+- extendedWaitUntil:
+    visible: "(?s).*QA7186-END.*"
+    timeout: 30000
+- takeScreenshot: end-after-normal-jump

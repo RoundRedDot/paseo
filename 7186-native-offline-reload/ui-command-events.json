@@ -1,0 +1,650 @@
+[
+  {
+    "file": "maestro-loading/.maestro/tests/2026-10-17_144528/commands-(prepare-loading.yaml).json",
+    "command": {
+      "defineVariablesCommand": {
+        "env": {
+          "MAESTRO_CLI_NO_ANALYTICS": "1",
+          "MAESTRO_FILENAME": "prepare-loading",
+          "MAESTRO_DEVICE_UDID": "CFF36641-F70E-4743-B00E-112EB763AC08",
+          "MAESTRO_SHARD_ID": "1",
+          "MAESTRO_SHARD_INDEX": "0"
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:34.042Z",
+    "durationMs": 3
+  },
+  {
+    "file": "maestro-loading/.maestro/tests/2026-10-17_144528/commands-(prepare-loading.yaml).json",
+    "command": {
+      "takeScreenshotCommand": {
+        "path": "loading-before-menu",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:38.268Z",
+    "durationMs": 41
+  },
+  {
+    "file": "maestro-loading/.maestro/tests/2026-10-17_144528/commands-(prepare-loading.yaml).json",
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "textRegex": "^(正在加载 workspace|Loading workspace)$",
+            "optional": false
+          }
+        },
+        "timeout": "15000",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:37.505Z",
+    "durationMs": 118
+  },
+  {
+    "file": "maestro-loading/.maestro/tests/2026-10-17_144528/commands-(prepare-loading.yaml).json",
+    "command": {
+      "applyConfigurationCommand": {
+        "config": {
+          "appId": "sh.paseo"
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:34.045Z",
+    "durationMs": 1
+  },
+  {
+    "file": "maestro-loading/.maestro/tests/2026-10-17_144528/commands-(prepare-loading.yaml).json",
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "notVisible": {
+            "idRegex": "message-input-root",
+            "optional": false
+          }
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:37.623Z",
+    "durationMs": 645
+  },
+  {
+    "file": "maestro-loading/.maestro/tests/2026-10-17_144528/commands-(prepare-loading.yaml).json",
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "textRegex": "^(不允许|Don’t Allow|Don't Allow)$",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:36.173Z",
+    "durationMs": 1331
+  },
+  {
+    "file": "maestro-loading/.maestro/tests/2026-10-17_144528/commands-(prepare-loading.yaml).json",
+    "command": {
+      "runFlowCommand": {
+        "commands": [
+          {
+            "tapOnElement": {
+              "selector": {
+                "textRegex": "^(不允许|Don’t Allow|Don't Allow)$",
+                "optional": false
+              },
+              "retryIfNoChange": false,
+              "waitUntilVisible": false,
+              "longPress": false,
+              "optional": false
+            }
+          }
+        ],
+        "condition": {
+          "visible": {
+            "textRegex": "^(不允许|Don’t Allow|Don't Allow)$",
+            "optional": false
+          }
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:36.074Z",
+    "durationMs": 1431
+  },
+  {
+    "file": "maestro-loading/.maestro/tests/2026-10-17_144528/commands-(prepare-loading.yaml).json",
+    "command": {
+      "runFlowCommand": {
+        "commands": [
+          {
+            "tapOnElement": {
+              "selector": {
+                "textRegex": "^(打开|Open)$",
+                "optional": false
+              },
+              "retryIfNoChange": false,
+              "waitUntilVisible": false,
+              "longPress": false,
+              "optional": false
+            }
+          }
+        ],
+        "condition": {
+          "visible": {
+            "textRegex": "^(打开|Open)$",
+            "optional": false
+          }
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:34.046Z",
+    "durationMs": 2027
+  },
+  {
+    "file": "maestro-loading/.maestro/tests/2026-10-17_144528/commands-(prepare-loading.yaml).json",
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "textRegex": "^(打开|Open)$",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:34.225Z",
+    "durationMs": 1847
+  },
+  {
+    "file": "maestro-menu/.maestro/tests/2026-10-17_144540/commands-(open-menu.yaml).json",
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "idRegex": "sidebar-workspace-row-.*",
+            "optional": false
+          }
+        },
+        "timeout": "30000",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:44.340Z",
+    "durationMs": 178
+  },
+  {
+    "file": "maestro-menu/.maestro/tests/2026-10-17_144540/commands-(open-menu.yaml).json",
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "idRegex": "sidebar-close",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:44.570Z",
+    "durationMs": 873
+  },
+  {
+    "file": "maestro-menu/.maestro/tests/2026-10-17_144540/commands-(open-menu.yaml).json",
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "idRegex": "menu-button",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:43.385Z",
+    "durationMs": 955
+  },
+  {
+    "file": "maestro-menu/.maestro/tests/2026-10-17_144540/commands-(open-menu.yaml).json",
+    "command": {
+      "applyConfigurationCommand": {
+        "config": {
+          "appId": "sh.paseo"
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:43.216Z",
+    "durationMs": 1
+  },
+  {
+    "file": "maestro-menu/.maestro/tests/2026-10-17_144540/commands-(open-menu.yaml).json",
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "idRegex": "message-input-root",
+            "optional": false
+          }
+        },
+        "timeout": "30000",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:45.443Z",
+    "durationMs": 106
+  },
+  {
+    "file": "maestro-menu/.maestro/tests/2026-10-17_144540/commands-(open-menu.yaml).json",
+    "command": {
+      "takeScreenshotCommand": {
+        "path": "chat-after-menu-close",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:45.549Z",
+    "durationMs": 44
+  },
+  {
+    "file": "maestro-menu/.maestro/tests/2026-10-17_144540/commands-(open-menu.yaml).json",
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "textRegex": "^(正在加载 workspace|Loading workspace)$",
+            "optional": false
+          }
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:43.217Z",
+    "durationMs": 168
+  },
+  {
+    "file": "maestro-menu/.maestro/tests/2026-10-17_144540/commands-(open-menu.yaml).json",
+    "command": {
+      "takeScreenshotCommand": {
+        "path": "directory-after-menu",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:44.518Z",
+    "durationMs": 52
+  },
+  {
+    "file": "maestro-menu/.maestro/tests/2026-10-17_144540/commands-(open-menu.yaml).json",
+    "command": {
+      "defineVariablesCommand": {
+        "env": {
+          "MAESTRO_CLI_NO_ANALYTICS": "1",
+          "MAESTRO_FILENAME": "open-menu",
+          "MAESTRO_DEVICE_UDID": "CFF36641-F70E-4743-B00E-112EB763AC08",
+          "MAESTRO_SHARD_ID": "1",
+          "MAESTRO_SHARD_INDEX": "0"
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:43.213Z",
+    "durationMs": 2
+  },
+  {
+    "file": "maestro-content/.maestro/tests/2026-10-17_144626/commands-(assert-content.yaml).json",
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "idRegex": "message-input-root",
+            "optional": false
+          }
+        },
+        "timeout": "30000",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:46:29.634Z",
+    "durationMs": 186
+  },
+  {
+    "file": "maestro-content/.maestro/tests/2026-10-17_144626/commands-(assert-content.yaml).json",
+    "command": {
+      "takeScreenshotCommand": {
+        "path": "before-normal-bottom-jump",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:46:29.820Z",
+    "durationMs": 57
+  },
+  {
+    "file": "maestro-content/.maestro/tests/2026-10-17_144626/commands-(assert-content.yaml).json",
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "idRegex": "scroll-to-bottom-button",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:46:29.992Z",
+    "durationMs": 1063
+  },
+  {
+    "file": "maestro-content/.maestro/tests/2026-10-17_144626/commands-(assert-content.yaml).json",
+    "command": {
+      "applyConfigurationCommand": {
+        "config": {
+          "appId": "sh.paseo"
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:46:29.633Z",
+    "durationMs": 1
+  },
+  {
+    "file": "maestro-content/.maestro/tests/2026-10-17_144626/commands-(assert-content.yaml).json",
+    "command": {
+      "defineVariablesCommand": {
+        "env": {
+          "MAESTRO_CLI_NO_ANALYTICS": "1",
+          "MAESTRO_FILENAME": "assert-content",
+          "MAESTRO_DEVICE_UDID": "CFF36641-F70E-4743-B00E-112EB763AC08",
+          "MAESTRO_SHARD_ID": "1",
+          "MAESTRO_SHARD_INDEX": "0"
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:46:29.629Z",
+    "durationMs": 3
+  },
+  {
+    "file": "maestro-content/.maestro/tests/2026-10-17_144626/commands-(assert-content.yaml).json",
+    "command": {
+      "runFlowCommand": {
+        "commands": [
+          {
+            "tapOnElement": {
+              "selector": {
+                "idRegex": "scroll-to-bottom-button",
+                "optional": false
+              },
+              "retryIfNoChange": false,
+              "waitUntilVisible": false,
+              "longPress": false,
+              "optional": false
+            }
+          }
+        ],
+        "condition": {
+          "visible": {
+            "idRegex": "scroll-to-bottom-button",
+            "optional": false
+          }
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:46:29.878Z",
+    "durationMs": 1178
+  },
+  {
+    "file": "maestro-content/.maestro/tests/2026-10-17_144626/commands-(assert-content.yaml).json",
+    "command": {
+      "takeScreenshotCommand": {
+        "path": "end-after-normal-jump",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:46:31.185Z",
+    "durationMs": 50
+  },
+  {
+    "file": "maestro-content/.maestro/tests/2026-10-17_144626/commands-(assert-content.yaml).json",
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "textRegex": "(?s).*QA7186-END.*",
+            "optional": false
+          }
+        },
+        "timeout": "30000",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:46:31.057Z",
+    "durationMs": 128
+  },
+  {
+    "file": "maestro-reload/.maestro/tests/2026-10-17_144702/commands-(reload-content.yaml).json",
+    "command": {
+      "defineVariablesCommand": {
+        "env": {
+          "MAESTRO_CLI_NO_ANALYTICS": "1",
+          "MAESTRO_FILENAME": "reload-content",
+          "MAESTRO_DEVICE_UDID": "CFF36641-F70E-4743-B00E-112EB763AC08",
+          "MAESTRO_SHARD_ID": "1",
+          "MAESTRO_SHARD_INDEX": "0"
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:47:05.548Z",
+    "durationMs": 2
+  },
+  {
+    "file": "maestro-reload/.maestro/tests/2026-10-17_144702/commands-(reload-content.yaml).json",
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "textRegex": "(?s).*QA7186-END.*",
+            "optional": false
+          }
+        },
+        "timeout": "30000",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:47:13.204Z",
+    "durationMs": 113
+  },
+  {
+    "file": "maestro-reload/.maestro/tests/2026-10-17_144702/commands-(reload-content.yaml).json",
+    "command": {
+      "takeScreenshotCommand": {
+        "path": "offline-end-after-normal-jump",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:47:13.317Z",
+    "durationMs": 50
+  },
+  {
+    "file": "maestro-reload/.maestro/tests/2026-10-17_144702/commands-(reload-content.yaml).json",
+    "command": {
+      "runFlowCommand": {
+        "commands": [
+          {
+            "tapOnElement": {
+              "selector": {
+                "textRegex": "^(不允许|Don’t Allow|Don't Allow)$",
+                "optional": false
+              },
+              "retryIfNoChange": false,
+              "waitUntilVisible": false,
+              "longPress": false,
+              "optional": false
+            }
+          }
+        ],
+        "condition": {
+          "visible": {
+            "textRegex": "^(不允许|Don’t Allow|Don't Allow)$",
+            "optional": false
+          }
+        },
+        "optional": false
+      }
+    },
+    "status": "SKIPPED",
+    "at": "2026-10-17T06:47:12.613Z",
+    "durationMs": null
+  },
+  {
+    "file": "maestro-reload/.maestro/tests/2026-10-17_144702/commands-(reload-content.yaml).json",
+    "command": {
+      "runFlowCommand": {
+        "commands": [
+          {
+            "tapOnElement": {
+              "selector": {
+                "textRegex": "^(打开|Open)$",
+                "optional": false
+              },
+              "retryIfNoChange": false,
+              "waitUntilVisible": false,
+              "longPress": false,
+              "optional": false
+            }
+          }
+        ],
+        "condition": {
+          "visible": {
+            "textRegex": "^(打开|Open)$",
+            "optional": false
+          }
+        },
+        "optional": false
+      }
+    },
+    "status": "SKIPPED",
+    "at": "2026-10-17T06:47:05.551Z",
+    "durationMs": null
+  },
+  {
+    "file": "maestro-reload/.maestro/tests/2026-10-17_144702/commands-(reload-content.yaml).json",
+    "command": {
+      "applyConfigurationCommand": {
+        "config": {
+          "appId": "sh.paseo"
+        },
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:47:05.551Z",
+    "durationMs": 0
+  },
+  {
+    "file": "maestro-reload/.maestro/tests/2026-10-17_144702/commands-(reload-content.yaml).json",
+    "command": {
+      "takeScreenshotCommand": {
+        "path": "offline-before-normal-jump",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:47:12.940Z",
+    "durationMs": 52
+  },
+  {
+    "file": "maestro-reload/.maestro/tests/2026-10-17_144702/commands-(reload-content.yaml).json",
+    "command": {
+      "runFlowCommand": {
+        "commands": [
+          {
+            "tapOnElement": {
+              "selector": {
+                "idRegex": "scroll-to-bottom-button",
+                "optional": false
+              },
+              "retryIfNoChange": false,
+              "waitUntilVisible": false,
+              "longPress": false,
+              "optional": false
+            }
+          }
+        ],
+        "condition": {
+          "visible": {
+            "idRegex": "scroll-to-bottom-button",
+            "optional": false
+          }
+        },
+        "optional": false
+      }
+    },
+    "status": "SKIPPED",
+    "at": "2026-10-17T06:47:12.992Z",
+    "durationMs": null
+  },
+  {
+    "file": "maestro-reload/.maestro/tests/2026-10-17_144702/commands-(reload-content.yaml).json",
+    "command": {
+      "assertConditionCommand": {
+        "condition": {
+          "visible": {
+            "idRegex": "message-input-root",
+            "optional": false
+          }
+        },
+        "timeout": "30000",
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:47:12.824Z",
+    "durationMs": 115
+  }
+]

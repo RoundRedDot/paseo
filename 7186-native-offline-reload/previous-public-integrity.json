@@ -1,0 +1,295 @@
+{
+  "at": "2026-10-17T06:47:31.363Z",
+  "round12": [
+    {
+      "file": "build/candidate-to-observed-snapshot.diff",
+      "unchanged": true
+    },
+    {
+      "file": "build/module-audit.json",
+      "unchanged": true
+    },
+    {
+      "file": "build/observation.diff",
+      "unchanged": true
+    },
+    {
+      "file": "build/proxy-fix.diff",
+      "unchanged": true
+    },
+    {
+      "file": "build/sha256.txt",
+      "unchanged": true
+    },
+    {
+      "file": "build/source-provenance.json",
+      "unchanged": true
+    },
+    {
+      "file": "cleanup.json",
+      "unchanged": true
+    },
+    {
+      "file": "media-metadata.json",
+      "unchanged": true
+    },
+    {
+      "file": "native-host.mjs",
+      "unchanged": true
+    },
+    {
+      "file": "network-contrast.mjs",
+      "unchanged": true
+    },
+    {
+      "file": "network-control/result.json",
+      "unchanged": true
+    },
+    {
+      "file": "original-ipv6-ipv4-excerpt.log",
+      "unchanged": true
+    },
+    {
+      "file": "permissions.yaml",
+      "unchanged": true
+    },
+    {
+      "file": "prior-evidence-integrity.json",
+      "unchanged": true
+    },
+    {
+      "file": "README.md",
+      "unchanged": true
+    },
+    {
+      "file": "result.json",
+      "unchanged": true
+    },
+    {
+      "file": "round-1/before-stream.png",
+      "unchanged": true
+    },
+    {
+      "file": "round-1/final-state.png",
+      "unchanged": true
+    },
+    {
+      "file": "round-1/first-launch.png",
+      "unchanged": true
+    },
+    {
+      "file": "round-1/host-result.json",
+      "unchanged": true
+    },
+    {
+      "file": "round-1/release-smoke.mov",
+      "unchanged": true
+    },
+    {
+      "file": "round-1/result.json",
+      "unchanged": true
+    },
+    {
+      "file": "round-1/synthetic-ids.json",
+      "unchanged": true
+    },
+    {
+      "file": "round-1/ws-ledger.jsonl",
+      "unchanged": true
+    },
+    {
+      "file": "round-2/before-stream.png",
+      "unchanged": true
+    },
+    {
+      "file": "round-2/cache-row-index.json",
+      "unchanged": true
+    },
+    {
+      "file": "round-2/final-state.png",
+      "unchanged": true
+    },
+    {
+      "file": "round-2/first-launch.png",
+      "unchanged": true
+    },
+    {
+      "file": "round-2/host-result.json",
+      "unchanged": true
+    },
+    {
+      "file": "round-2/release-smoke.mov",
+      "unchanged": true
+    },
+    {
+      "file": "round-2/result.json",
+      "unchanged": true
+    },
+    {
+      "file": "round-2/synthetic-ids.json",
+      "unchanged": true
+    },
+    {
+      "file": "round-2/ws-ledger.jsonl",
+      "unchanged": true
+    },
+    {
+      "file": "runtime.zsh",
+      "unchanged": true
+    }
+  ],
+  "causal": [
+    {
+      "file": "app-sha256.txt",
+      "unchanged": true
+    },
+    {
+      "file": "assert-content.yaml",
+      "unchanged": true
+    },
+    {
+      "file": "checkpoint.mjs",
+      "unchanged": true
+    },
+    {
+      "file": "cleanup.json",
+      "unchanged": true
+    },
+    {
+      "file": "host-observation.diff",
+      "unchanged": true
+    },
+    {
+      "file": "media-metadata.json",
+      "unchanged": true
+    },
+    {
+      "file": "native-host.mjs",
+      "unchanged": true
+    },
+    {
+      "file": "native-observer-events.json",
+      "unchanged": true
+    },
+    {
+      "file": "open-menu.yaml",
+      "unchanged": true
+    },
+    {
+      "file": "prepare-loading.yaml",
+      "unchanged": true
+    },
+    {
+      "file": "README.md",
+      "unchanged": true
+    },
+    {
+      "file": "reload-content.yaml",
+      "unchanged": true
+    },
+    {
+      "file": "result.json",
+      "unchanged": true
+    },
+    {
+      "file": "runtime.zsh",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/actual-assistant-after-stream.txt",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/actual-timeline-after-stream.json",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/after-menu.json",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/after-stream.png",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/before-menu.json",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/cache-after-stream.json",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/cache-before-stream.json",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/cache-row-index-final.json",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/chat-after-menu-close.png",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/continuous-release.mov",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/directory-after-menu.png",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/during-stream.png",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/final-state.png",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/host-result.json",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/info.json",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/loading-before-menu.png",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/maestro-content.log",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/maestro-loading.log",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/maestro-menu.log",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/ui-markers.jsonl",
+      "unchanged": true
+    },
+    {
+      "file": "runtime/ws-ledger.jsonl",
+      "unchanged": true
+    },
+    {
+      "file": "ui-command-events.json",
+      "unchanged": true
+    },
+    {
+      "file": "utf8-readback-audit.json",
+      "unchanged": true
+    },
+    {
+      "file": "verify-cache.mjs",
+      "unchanged": true
+    }
+  ]
+}

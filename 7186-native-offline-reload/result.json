@@ -1,0 +1,836 @@
+{
+  "bytePersistence": {
+    "stages": {
+      "after-stream": {
+        "assistantSha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "timelineSha256": "a394dbf0e6cfcc2df4f12b08f3aebe32e4afbea5be579316bd0175d70d9da7bc"
+      },
+      "steady": {
+        "assistantSha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "timelineSha256": "a394dbf0e6cfcc2df4f12b08f3aebe32e4afbea5be579316bd0175d70d9da7bc"
+      },
+      "after-reload": {
+        "assistantSha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "timelineSha256": "a394dbf0e6cfcc2df4f12b08f3aebe32e4afbea5be579316bd0175d70d9da7bc"
+      },
+      "offline-steady": {
+        "assistantSha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "timelineSha256": "a394dbf0e6cfcc2df4f12b08f3aebe32e4afbea5be579316bd0175d70d9da7bc"
+      }
+    },
+    "allAssistantHashesEqual": true,
+    "allTimelineHashesEqual": true,
+    "allFourStagesRead": true
+  },
+  "result": "candidate functional acceptance passed; performance remains unmeasured",
+  "exit": 0,
+  "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "startedAt": "2026-10-17T06:44:44Z",
+  "endedAt": "2026-10-17T06:47:26Z",
+  "info": {
+    "port": 54883,
+    "upstreamPort": 60992,
+    "serverId": "srv_oxYWGL8qd6W6",
+    "workspaceId": "wks_11041c64b0c41cd3",
+    "agentId": "af0f4858-a88e-49a8-aca6-554220695795"
+  },
+  "appSha256": [
+    "7a07b73393b1baeca7a1bd892b4435701fe9d5ed0a61fcd6fccd60e3db4d5115  /tmp/paseo-review-repair-20261017/qa/7186-derived/Build/Products/Release-iphonesimulator/Paseo.app/Paseo",
+    "3149fb3b60d8190ca1d0daeb227a812c7b17cb7f87ab3ffcafd102c8046893b3  /tmp/paseo-review-repair-20261017/qa/7186-derived/Build/Products/Release-iphonesimulator/Paseo.app/main.jsbundle"
+  ],
+  "parentAuthorizedExtension": true,
+  "productFix": false,
+  "model": {
+    "executorConfigured": "codex/gpt-6.1-sol High",
+    "actualHostModelMetadata": "not independently exposed",
+    "provider": "MockLoadTestAgentClient",
+    "providerModel": "e2e-fast-stream"
+  },
+  "beforeMenu": {
+    "at": "2026-10-17T06:45:39.800Z",
+    "stage": "before-menu",
+    "counts": {
+      "native->host:hello": 1,
+      "host->native:status": 1,
+      "native->host:session.events.set_subscription.request": 5,
+      "native->host:workspace.label.list.request": 1,
+      "host->native:session.events.set_subscription.response": 5,
+      "host->native:workspace.label.list.response": 1,
+      "native->host:client_heartbeat": 5,
+      "native->host:usage.list_reports.request": 1,
+      "host->native:usage.list_reports.response": 1,
+      "native->host:plugin.catalog.get.request": 1,
+      "host->native:plugin.catalog.get.response": 1,
+      "native->host:ping": 4,
+      "host->native:pong": 4,
+      "native->host:workspace_setup_status_request": 1,
+      "host->native:workspace_setup_status_response": 1,
+      "native->host:subscription.release.request": 1,
+      "native->host:workspace.script.list.request": 1,
+      "host->native:subscription.release.response": 1,
+      "host->native:workspace.script.list.response": 1
+    },
+    "directoryEvents": [],
+    "expectedWorkspaceId": "wks_11041c64b0c41cd3"
+  },
+  "afterMenu": {
+    "at": "2026-10-17T06:45:46.681Z",
+    "stage": "after-menu",
+    "counts": {
+      "native->host:hello": 1,
+      "host->native:status": 1,
+      "native->host:session.events.set_subscription.request": 6,
+      "native->host:workspace.label.list.request": 2,
+      "host->native:session.events.set_subscription.response": 6,
+      "host->native:workspace.label.list.response": 2,
+      "native->host:client_heartbeat": 6,
+      "native->host:usage.list_reports.request": 1,
+      "host->native:usage.list_reports.response": 1,
+      "native->host:plugin.catalog.get.request": 1,
+      "host->native:plugin.catalog.get.response": 1,
+      "native->host:ping": 4,
+      "host->native:pong": 4,
+      "native->host:workspace_setup_status_request": 1,
+      "host->native:workspace_setup_status_response": 1,
+      "native->host:subscription.release.request": 1,
+      "native->host:workspace.script.list.request": 1,
+      "host->native:subscription.release.response": 1,
+      "host->native:workspace.script.list.response": 1,
+      "native->host:fetch_agents_request": 1,
+      "native->host:project.list.request": 1,
+      "host->native:fetch_agents_response": 1,
+      "host->native:project.list.response": 1,
+      "native->host:agent.timeline.set_subscription.request": 1,
+      "host->native:agent.timeline.set_subscription.response": 1,
+      "native->host:fetch_workspaces_request": 1,
+      "native->host:fetch_agent_timeline_request": 1,
+      "host->native:fetch_workspaces_response": 1,
+      "host->native:fetch_agent_timeline_response": 1,
+      "native->host:get_daemon_config_request": 1,
+      "host->native:get_daemon_config_response": 1,
+      "native->host:subscribe_terminals_request": 1,
+      "native->host:list_terminals_request": 1,
+      "host->native:terminals_changed": 1,
+      "native->host:checkout_status_request": 1,
+      "host->native:list_terminals_response": 1,
+      "host->native:checkout_status_response": 1,
+      "native->host:file_explorer_request": 1,
+      "host->native:file_explorer_response": 1,
+      "native->host:project.icon.get.request": 1,
+      "host->native:project.icon.get.response": 1,
+      "native->host:read_project_config_request": 1,
+      "host->native:read_project_config_response": 1,
+      "native->host:agent.provider_subagents.list.request": 1,
+      "host->native:agent.provider_subagents.list.response": 1,
+      "native->host:checkout_pr_status_request": 1,
+      "native->host:get_providers_snapshot_request": 10,
+      "host->native:get_providers_snapshot_response": 10,
+      "host->native:checkout_pr_status_response": 1,
+      "host->native:providers_snapshot_update": 13
+    },
+    "directoryEvents": [
+      {
+        "at": "2026-10-17T06:45:44.207Z",
+        "event": "frame",
+        "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+        "direction": "native->host",
+        "binary": false,
+        "bytes": 248,
+        "sha256": "29e5a3bc64e34c5df92796349971810735da3867095aa7056451f4375d5418b7",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "fetch_agents_request",
+            "requestId": "bd5ab5df-96f1-45a9-aaf6-461e42634488"
+          }
+        }
+      },
+      {
+        "at": "2026-10-17T06:45:44.207Z",
+        "event": "frame",
+        "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+        "direction": "native->host",
+        "binary": false,
+        "bytes": 121,
+        "sha256": "d274e1609a3331ad6625f819f183582427c4b9f589b024a91c1242fee9da2ca0",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "project.list.request",
+            "requestId": "a5ecfe58-0ce0-4656-9b2e-35b669c6e39d"
+          }
+        }
+      },
+      {
+        "at": "2026-10-17T06:45:44.211Z",
+        "event": "frame",
+        "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+        "direction": "host->native",
+        "binary": false,
+        "bytes": 2412,
+        "sha256": "ad0b47abe0cde230f79dfe3f031f0f3340e5c499a02857a6dc798092d9778b7e",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "fetch_agents_response",
+            "payload": {
+              "requestId": "bd5ab5df-96f1-45a9-aaf6-461e42634488",
+              "subscriptionId": "2b272ed1-0531-420a-b763-c4c974bea3cb",
+              "entries": [
+                {
+                  "agent": {
+                    "id": "af0f4858-a88e-49a8-aca6-554220695795",
+                    "workspaceId": "wks_11041c64b0c41cd3",
+                    "status": "idle",
+                    "availableModes": [
+                      {
+                        "id": "load-test"
+                      },
+                      {
+                        "id": "approval-test"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "pageInfo": {
+                "nextCursor": null,
+                "hasMore": false
+              },
+              "sync": {
+                "generation": "17397a07-b3ca-4e8a-a87a-6e71fb387d19:background",
+                "headSeq": 2,
+                "mode": "snapshot"
+              }
+            }
+          }
+        }
+      },
+      {
+        "at": "2026-10-17T06:45:44.212Z",
+        "event": "frame",
+        "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+        "direction": "host->native",
+        "binary": false,
+        "bytes": 657,
+        "sha256": "984bff13e2abad1e981c5eada5e355abccfb6a179eb31e9f7621ab4b0bdebbbf",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "project.list.response",
+            "payload": {
+              "requestId": "a5ecfe58-0ce0-4656-9b2e-35b669c6e39d",
+              "sync": {
+                "generation": "17397a07-b3ca-4e8a-a87a-6e71fb387d19",
+                "headSeq": 1,
+                "mode": "snapshot"
+              }
+            }
+          }
+        }
+      },
+      {
+        "at": "2026-10-17T06:45:44.230Z",
+        "event": "frame",
+        "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+        "direction": "native->host",
+        "binary": false,
+        "bytes": 236,
+        "sha256": "5499f9af319fe3aa05d4cc52ce683982a9df7ebb221553e5d2a8c75a4421c727",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "fetch_workspaces_request",
+            "requestId": "ed0c719c-70de-4584-921f-34ae4038361a"
+          }
+        }
+      },
+      {
+        "at": "2026-10-17T06:45:44.234Z",
+        "event": "frame",
+        "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+        "direction": "host->native",
+        "binary": false,
+        "bytes": 1601,
+        "sha256": "054c83a8ef7770807dd8dec0fb68b0b901b45b40eb4131ba35aa07de7c45d446",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "fetch_workspaces_response",
+            "payload": {
+              "requestId": "ed0c719c-70de-4584-921f-34ae4038361a",
+              "subscriptionId": "b247f7e1-412b-484e-abbf-b63a178ea977",
+              "entries": [
+                {
+                  "id": "wks_11041c64b0c41cd3",
+                  "status": "done"
+                }
+              ],
+              "pageInfo": {
+                "nextCursor": null,
+                "hasMore": false
+              },
+              "sync": {
+                "generation": "17397a07-b3ca-4e8a-a87a-6e71fb387d19:background",
+                "headSeq": 1,
+                "mode": "snapshot"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "expectedWorkspaceId": "wks_11041c64b0c41cd3"
+  },
+  "menuTap": {
+    "file": "maestro-menu/.maestro/tests/2026-10-17_144540/commands-(open-menu.yaml).json",
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "idRegex": "menu-button",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:45:43.385Z",
+    "durationMs": 955
+  },
+  "directoryEvents": [
+    {
+      "at": "2026-10-17T06:45:44.207Z",
+      "event": "frame",
+      "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+      "direction": "native->host",
+      "binary": false,
+      "bytes": 248,
+      "sha256": "29e5a3bc64e34c5df92796349971810735da3867095aa7056451f4375d5418b7",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_agents_request",
+          "requestId": "bd5ab5df-96f1-45a9-aaf6-461e42634488"
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:45:44.207Z",
+      "event": "frame",
+      "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+      "direction": "native->host",
+      "binary": false,
+      "bytes": 121,
+      "sha256": "d274e1609a3331ad6625f819f183582427c4b9f589b024a91c1242fee9da2ca0",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "project.list.request",
+          "requestId": "a5ecfe58-0ce0-4656-9b2e-35b669c6e39d"
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:45:44.211Z",
+      "event": "frame",
+      "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+      "direction": "host->native",
+      "binary": false,
+      "bytes": 2412,
+      "sha256": "ad0b47abe0cde230f79dfe3f031f0f3340e5c499a02857a6dc798092d9778b7e",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_agents_response",
+          "payload": {
+            "requestId": "bd5ab5df-96f1-45a9-aaf6-461e42634488",
+            "subscriptionId": "2b272ed1-0531-420a-b763-c4c974bea3cb",
+            "entries": [
+              {
+                "agent": {
+                  "id": "af0f4858-a88e-49a8-aca6-554220695795",
+                  "workspaceId": "wks_11041c64b0c41cd3",
+                  "status": "idle",
+                  "availableModes": [
+                    {
+                      "id": "load-test"
+                    },
+                    {
+                      "id": "approval-test"
+                    }
+                  ]
+                }
+              }
+            ],
+            "pageInfo": {
+              "nextCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "17397a07-b3ca-4e8a-a87a-6e71fb387d19:background",
+              "headSeq": 2,
+              "mode": "snapshot"
+            }
+          }
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:45:44.212Z",
+      "event": "frame",
+      "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+      "direction": "host->native",
+      "binary": false,
+      "bytes": 657,
+      "sha256": "984bff13e2abad1e981c5eada5e355abccfb6a179eb31e9f7621ab4b0bdebbbf",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "project.list.response",
+          "payload": {
+            "requestId": "a5ecfe58-0ce0-4656-9b2e-35b669c6e39d",
+            "sync": {
+              "generation": "17397a07-b3ca-4e8a-a87a-6e71fb387d19",
+              "headSeq": 1,
+              "mode": "snapshot"
+            }
+          }
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:45:44.230Z",
+      "event": "frame",
+      "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+      "direction": "native->host",
+      "binary": false,
+      "bytes": 236,
+      "sha256": "5499f9af319fe3aa05d4cc52ce683982a9df7ebb221553e5d2a8c75a4421c727",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_workspaces_request",
+          "requestId": "ed0c719c-70de-4584-921f-34ae4038361a"
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:45:44.234Z",
+      "event": "frame",
+      "connection": "b419ea2c-ce82-4668-9021-000e66abfd24",
+      "direction": "host->native",
+      "binary": false,
+      "bytes": 1601,
+      "sha256": "054c83a8ef7770807dd8dec0fb68b0b901b45b40eb4131ba35aa07de7c45d446",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_workspaces_response",
+          "payload": {
+            "requestId": "ed0c719c-70de-4584-921f-34ae4038361a",
+            "subscriptionId": "b247f7e1-412b-484e-abbf-b63a178ea977",
+            "entries": [
+              {
+                "id": "wks_11041c64b0c41cd3",
+                "status": "done"
+              }
+            ],
+            "pageInfo": {
+              "nextCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "17397a07-b3ca-4e8a-a87a-6e71fb387d19:background",
+              "headSeq": 1,
+              "mode": "snapshot"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "nativeObserverEvents": 54,
+  "cacheStages": {
+    "after-stream": {
+      "at": "2026-10-17T06:46:25.463Z",
+      "stage": "after-stream",
+      "rows": [
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "agent",
+          "id": "af0f4858-a88e-49a8-aca6-554220695795",
+          "payloadChars": 1397,
+          "payloadBytes": 1397,
+          "sqliteBytes": 1397,
+          "sqlHexBytes": 1397,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "35eab224f18f4db926b83fee473f3129c964202f047fcca7014e6acbab68d16d"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "checkpoint",
+          "id": "singleton",
+          "payloadChars": 281,
+          "payloadBytes": 281,
+          "sqliteBytes": 281,
+          "sqlHexBytes": 281,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "0ace738ec80906cd63f8c620c5863472693e5fe1f6c60ce5d1ca42fa5058f468"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "project",
+          "id": "prj_760e47627262809a",
+          "payloadChars": 381,
+          "payloadBytes": 381,
+          "sqliteBytes": 381,
+          "sqlHexBytes": 381,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "1dbce6fa6f342df2d351c93fa2ba473270a9c272c755bc68920e486ffc843acf"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "timeline",
+          "id": "af0f4858-a88e-49a8-aca6-554220695795",
+          "payloadChars": 20869,
+          "payloadBytes": 50869,
+          "sqliteBytes": 50869,
+          "sqlHexBytes": 50869,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "a394dbf0e6cfcc2df4f12b08f3aebe32e4afbea5be579316bd0175d70d9da7bc"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "workspace",
+          "id": "wks_11041c64b0c41cd3",
+          "payloadChars": 818,
+          "payloadBytes": 818,
+          "sqliteBytes": 818,
+          "sqlHexBytes": 818,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "f3d041ed7cd1a58730e3ec950dee9529a0e8860856ed1903eacaae1b99ba592f"
+        }
+      ],
+      "assistant": {
+        "agentId": "af0f4858-a88e-49a8-aca6-554220695795",
+        "chars": 20014,
+        "bytes": 50014,
+        "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "matchesExpected": true,
+        "utf8RoundTrip": true,
+        "replacementCharacters": 0,
+        "nonAsciiCodePoints": 15000
+      }
+    },
+    "steady": {
+      "at": "2026-10-17T06:46:38.736Z",
+      "stage": "steady",
+      "rows": [
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "agent",
+          "id": "af0f4858-a88e-49a8-aca6-554220695795",
+          "payloadChars": 1397,
+          "payloadBytes": 1397,
+          "sqliteBytes": 1397,
+          "sqlHexBytes": 1397,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "35eab224f18f4db926b83fee473f3129c964202f047fcca7014e6acbab68d16d"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "checkpoint",
+          "id": "singleton",
+          "payloadChars": 281,
+          "payloadBytes": 281,
+          "sqliteBytes": 281,
+          "sqlHexBytes": 281,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "0ace738ec80906cd63f8c620c5863472693e5fe1f6c60ce5d1ca42fa5058f468"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "project",
+          "id": "prj_760e47627262809a",
+          "payloadChars": 381,
+          "payloadBytes": 381,
+          "sqliteBytes": 381,
+          "sqlHexBytes": 381,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "1dbce6fa6f342df2d351c93fa2ba473270a9c272c755bc68920e486ffc843acf"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "timeline",
+          "id": "af0f4858-a88e-49a8-aca6-554220695795",
+          "payloadChars": 20869,
+          "payloadBytes": 50869,
+          "sqliteBytes": 50869,
+          "sqlHexBytes": 50869,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "a394dbf0e6cfcc2df4f12b08f3aebe32e4afbea5be579316bd0175d70d9da7bc"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "workspace",
+          "id": "wks_11041c64b0c41cd3",
+          "payloadChars": 818,
+          "payloadBytes": 818,
+          "sqliteBytes": 818,
+          "sqlHexBytes": 818,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "f3d041ed7cd1a58730e3ec950dee9529a0e8860856ed1903eacaae1b99ba592f"
+        }
+      ],
+      "assistant": {
+        "agentId": "af0f4858-a88e-49a8-aca6-554220695795",
+        "chars": 20014,
+        "bytes": 50014,
+        "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "matchesExpected": true,
+        "utf8RoundTrip": true,
+        "replacementCharacters": 0,
+        "nonAsciiCodePoints": 15000
+      }
+    },
+    "after-reload": {
+      "at": "2026-10-17T06:47:14.870Z",
+      "stage": "after-reload",
+      "rows": [
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "agent",
+          "id": "af0f4858-a88e-49a8-aca6-554220695795",
+          "payloadChars": 1397,
+          "payloadBytes": 1397,
+          "sqliteBytes": 1397,
+          "sqlHexBytes": 1397,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "35eab224f18f4db926b83fee473f3129c964202f047fcca7014e6acbab68d16d"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "checkpoint",
+          "id": "singleton",
+          "payloadChars": 281,
+          "payloadBytes": 281,
+          "sqliteBytes": 281,
+          "sqlHexBytes": 281,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "0ace738ec80906cd63f8c620c5863472693e5fe1f6c60ce5d1ca42fa5058f468"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "project",
+          "id": "prj_760e47627262809a",
+          "payloadChars": 381,
+          "payloadBytes": 381,
+          "sqliteBytes": 381,
+          "sqlHexBytes": 381,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "1dbce6fa6f342df2d351c93fa2ba473270a9c272c755bc68920e486ffc843acf"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "timeline",
+          "id": "af0f4858-a88e-49a8-aca6-554220695795",
+          "payloadChars": 20869,
+          "payloadBytes": 50869,
+          "sqliteBytes": 50869,
+          "sqlHexBytes": 50869,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "a394dbf0e6cfcc2df4f12b08f3aebe32e4afbea5be579316bd0175d70d9da7bc"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "workspace",
+          "id": "wks_11041c64b0c41cd3",
+          "payloadChars": 818,
+          "payloadBytes": 818,
+          "sqliteBytes": 818,
+          "sqlHexBytes": 818,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "f3d041ed7cd1a58730e3ec950dee9529a0e8860856ed1903eacaae1b99ba592f"
+        }
+      ],
+      "assistant": {
+        "agentId": "af0f4858-a88e-49a8-aca6-554220695795",
+        "chars": 20014,
+        "bytes": 50014,
+        "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "matchesExpected": true,
+        "utf8RoundTrip": true,
+        "replacementCharacters": 0,
+        "nonAsciiCodePoints": 15000
+      }
+    },
+    "offline-steady": {
+      "at": "2026-10-17T06:47:21.339Z",
+      "stage": "offline-steady",
+      "rows": [
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "agent",
+          "id": "af0f4858-a88e-49a8-aca6-554220695795",
+          "payloadChars": 1397,
+          "payloadBytes": 1397,
+          "sqliteBytes": 1397,
+          "sqlHexBytes": 1397,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "35eab224f18f4db926b83fee473f3129c964202f047fcca7014e6acbab68d16d"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "checkpoint",
+          "id": "singleton",
+          "payloadChars": 281,
+          "payloadBytes": 281,
+          "sqliteBytes": 281,
+          "sqlHexBytes": 281,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "0ace738ec80906cd63f8c620c5863472693e5fe1f6c60ce5d1ca42fa5058f468"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "project",
+          "id": "prj_760e47627262809a",
+          "payloadChars": 381,
+          "payloadBytes": 381,
+          "sqliteBytes": 381,
+          "sqlHexBytes": 381,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "1dbce6fa6f342df2d351c93fa2ba473270a9c272c755bc68920e486ffc843acf"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "timeline",
+          "id": "af0f4858-a88e-49a8-aca6-554220695795",
+          "payloadChars": 20869,
+          "payloadBytes": 50869,
+          "sqliteBytes": 50869,
+          "sqlHexBytes": 50869,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "a394dbf0e6cfcc2df4f12b08f3aebe32e4afbea5be579316bd0175d70d9da7bc"
+        },
+        {
+          "serverId": "srv_oxYWGL8qd6W6",
+          "kind": "workspace",
+          "id": "wks_11041c64b0c41cd3",
+          "payloadChars": 818,
+          "payloadBytes": 818,
+          "sqliteBytes": 818,
+          "sqlHexBytes": 818,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "f3d041ed7cd1a58730e3ec950dee9529a0e8860856ed1903eacaae1b99ba592f"
+        }
+      ],
+      "assistant": {
+        "agentId": "af0f4858-a88e-49a8-aca6-554220695795",
+        "chars": 20014,
+        "bytes": 50014,
+        "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "matchesExpected": true,
+        "utf8RoundTrip": true,
+        "replacementCharacters": 0,
+        "nonAsciiCodePoints": 15000
+      }
+    }
+  },
+  "streamChunks": {
+    "frames": 461,
+    "chunks": 458,
+    "joined": {
+      "chars": 20014,
+      "bytes": 50014,
+      "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+      "matchesActualCache": true
+    }
+  },
+  "offlineProof": {
+    "at": "2026-10-17T06:46:39.294Z",
+    "checks": [
+      {
+        "port": 54883,
+        "host": "127.0.0.1",
+        "error": "ECONNREFUSED"
+      },
+      {
+        "port": 54883,
+        "host": "::1",
+        "error": "ECONNREFUSED"
+      },
+      {
+        "port": 60992,
+        "host": "127.0.0.1",
+        "error": "ECONNREFUSED"
+      },
+      {
+        "port": 60992,
+        "host": "::1",
+        "error": "ECONNREFUSED"
+      }
+    ]
+  },
+  "performance": "not run; no baseline build, A/B or physical-device claim",
+  "cleanup": {
+    "at": "2026-10-17T06:47:31.379Z",
+    "ownSimulator": {
+      "uuid": "CFF36641-F70E-4743-B00E-112EB763AC08",
+      "present": false
+    },
+    "ownHost": {
+      "pid": 51477,
+      "alive": false
+    },
+    "existingDeviceCount": 22,
+    "allExistingDeviceStatesUnchanged": true,
+    "portChecks": [
+      {
+        "port": 54883,
+        "host": "127.0.0.1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 54883,
+        "host": "::1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 60992,
+        "host": "127.0.0.1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 60992,
+        "host": "::1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      }
+    ],
+    "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+    "gitStatus": "",
+    "priorPublicUnchanged": true,
+    "priorPublicEntries": 34
+  },
+  "acceptance": {
+    "cacheFunctional": "complete via normal sidebar demand",
+    "onlineEnd": "passed after actual normal jump-to-bottom tap",
+    "offlineColdProcessKnownWorkspace": "passed; explicit normal workspace deep link after relaunch",
+    "automaticInitialRouteRestore": "not passed/claimed; pre-navigation 12-second screenshot blank",
+    "actualAssistantAndTimelineHashes": "all four stages identical",
+    "productDemandFix": false,
+    "performance": "not run; plan only"
+  },
+  "baselineDrift": {
+    "source": "parent read-only compare, not independently refreshed here",
+    "previousMain": "cd77ecd837df40d042599d8847403eb416b35b04",
+    "latestMain": "30799fda19f50febc62349c64460368adc85ff07",
+    "latestMainTested": false
+  }
+}

@@ -25,6 +25,7 @@ These are synthetic, isolated QA artifacts. Each directory records its exact val
 | [6736-pi-before](6736-pi-before/README.md) | Real Pi/Gemini live passes but provider history fails;user-authorized repair tracked separately |
 | [6736-omp-blocker](6736-omp-blocker/README.md) | Official OMP startup blocked by model/auth configuration;0 inference |
 | [7186-web-smoke](7186-web-smoke/README.md) | Actual app IndexedDB/reload integrity, mock provider;not performance acceptance |
+| [7186-native-offline-reload](7186-native-offline-reload/PUBLICATION.md) | Simulator Release stream, actual SQLite and cold process/explicit workspace navigation offline content pass; automatic startup restore/performance excluded |
 | [7186-native-directory-followup](7186-native-directory-followup/README.md) | Normal menu directory-demand causal proof; native stream/actual SQLite match; offline cold reload pending |
 | [7186-native-release](7186-native-release/README.md) | Actual iOS Simulator Release build/startup pass; workspace loading blocks stream/cache acceptance |
 | [7186-release-blocker](7186-release-blocker/README.md) | Temporary snapshot Metro bundle failure;no accepted native Release runtime |

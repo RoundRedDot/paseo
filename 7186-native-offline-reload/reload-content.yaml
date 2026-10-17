@@ -1,0 +1,28 @@
+appId: sh.paseo
+---
+- runFlow:
+    when:
+      visible: "^(打开|Open)$"
+    commands:
+      - tapOn: "^(打开|Open)$"
+- runFlow:
+    when:
+      visible: "^(不允许|Don’t Allow|Don't Allow)$"
+    commands:
+      - tapOn: "^(不允许|Don’t Allow|Don't Allow)$"
+- extendedWaitUntil:
+    visible:
+      id: message-input-root
+    timeout: 30000
+- takeScreenshot: offline-before-normal-jump
+- runFlow:
+    when:
+      visible:
+        id: scroll-to-bottom-button
+    commands:
+      - tapOn:
+          id: scroll-to-bottom-button
+- extendedWaitUntil:
+    visible: "(?s).*QA7186-END.*"
+    timeout: 30000
+- takeScreenshot: offline-end-after-normal-jump
