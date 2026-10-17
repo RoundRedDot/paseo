@@ -1,0 +1,26 @@
+{
+  "navigationContexts": [
+    {
+      "moduleId": 862,
+      "line": 126106
+    }
+  ],
+  "hostRuntimeDefinitions": [
+    {
+      "moduleId": 4248,
+      "line": 674640
+    }
+  ],
+  "sessionStoreDefinitions": [
+    {
+      "moduleId": 4118,
+      "line": 451210
+    }
+  ],
+  "observationMarkers": 8,
+  "resolverCalls": 121,
+  "allResolverBytesEqual": true,
+  "contextIdentities": [
+    "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/@react-navigation/core/lib/module/NavigationContext.js"
+  ]
+}

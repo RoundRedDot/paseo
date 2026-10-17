@@ -1,0 +1,195 @@
+{
+  "generatedAt": "2026-10-17T06:41:16.332Z",
+  "entries": [
+    {
+      "file": "app-sha256.txt",
+      "bytes": 350,
+      "sha256": "b322cf3e5c7a9967383d717f3850c283a3a86fafca4938be0a8a668c2544bd64"
+    },
+    {
+      "file": "assert-content.yaml",
+      "bytes": 210,
+      "sha256": "9d715136b12b8b6ce3d6952cbfe79c19f34bd5423b7b1bbbfa91eb2b9f7688b7"
+    },
+    {
+      "file": "checkpoint.mjs",
+      "bytes": 1172,
+      "sha256": "4dc6d54661becaf07ec7d7586e8f67b7b16dd7413e9d4735142089c8dee33c17"
+    },
+    {
+      "file": "cleanup.json",
+      "bytes": 862,
+      "sha256": "1cce99b104277fa1acbbdececbbd2f210574ec8e040371c6e88a8cfcabea8dca"
+    },
+    {
+      "file": "host-observation.diff",
+      "bytes": 1290,
+      "sha256": "db59df592637b3d08dc311b94527e969a0f399e2d5a6bdc4257d39eb0abb27ab"
+    },
+    {
+      "file": "media-metadata.json",
+      "bytes": 275,
+      "sha256": "0ba13c0ca649c830092f3c4d35a496c2c5bc560afffd1ffef5d356b1e9e754aa"
+    },
+    {
+      "file": "native-host.mjs",
+      "bytes": 9443,
+      "sha256": "8fb811496ef51f9dce00b8f8f21f580a82c9890f7da6f59c63c8cdb373885734"
+    },
+    {
+      "file": "native-observer-events.json",
+      "bytes": 8770,
+      "sha256": "8d69fca999b8c2202a65b7eca28e0d0aced7144d91ff959bf8fb356e991eca4e"
+    },
+    {
+      "file": "open-menu.yaml",
+      "bytes": 395,
+      "sha256": "39f07298a426474d3ef0196a082d196bd37687bbc07d4af1b25933118de72c15"
+    },
+    {
+      "file": "prepare-loading.yaml",
+      "bytes": 455,
+      "sha256": "660ac32be5e855813df4f3ec84764126cce56379ad1ed3ab3ec8b5d6dd233f6e"
+    },
+    {
+      "file": "README.md",
+      "bytes": 3435,
+      "sha256": "0d55effadc1cefb976b9192b762867e9b4ffb6b23b48b7149edbe3b4a2e6487b"
+    },
+    {
+      "file": "reload-content.yaml",
+      "bytes": 386,
+      "sha256": "3f5117b921f195bef17ad9961c61e874e6c9696ed7e64cf94c8c4163a430e372"
+    },
+    {
+      "file": "result.json",
+      "bytes": 19445,
+      "sha256": "ecf5ed2fc77d7c1ec4bc426a8dce85ea7ef4185868aa7d887a6e8888659bfd3f"
+    },
+    {
+      "file": "runtime.zsh",
+      "bytes": 6921,
+      "sha256": "272e982a03a9044abfce49d761d2c9a9ae5ba24f779d3ced54ebb39a3fa46d3b"
+    },
+    {
+      "file": "runtime/actual-assistant-after-stream.txt",
+      "bytes": 50014,
+      "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c"
+    },
+    {
+      "file": "runtime/actual-timeline-after-stream.json",
+      "bytes": 50869,
+      "sha256": "4888a703c2ad88fe38e49554a80e8c10e872bdd1aa99a28c45e4e1410e188555"
+    },
+    {
+      "file": "runtime/after-menu.json",
+      "bytes": 7203,
+      "sha256": "9b33c2e8d1d8f7368143912682870d9ecd38ed07d3d9dbf70f5a19aee2a51f79"
+    },
+    {
+      "file": "runtime/after-stream.png",
+      "bytes": 651467,
+      "sha256": "20d762db74a3fd35aa8163819476d5e230da883f29f7260b9a1331ed67f290b4"
+    },
+    {
+      "file": "runtime/before-menu.json",
+      "bytes": 1066,
+      "sha256": "3acd0b09aae81de56fe6133965b4acec1eace88210e54ee22eaee5a7ede379bd"
+    },
+    {
+      "file": "runtime/cache-after-stream.json",
+      "bytes": 2137,
+      "sha256": "ce65631a108fa090cd78d5701070c7e684472e7d2630b6c47eeb013e7e210886"
+    },
+    {
+      "file": "runtime/cache-before-stream.json",
+      "bytes": 481,
+      "sha256": "c3e3cc36c478390740db13ee4f1e46a306d221d4442ce9dbc00bbee618373bc8"
+    },
+    {
+      "file": "runtime/cache-row-index-final.json",
+      "bytes": 484,
+      "sha256": "346f25587f51b2e4f6408cb29da0ad76273faa8e92940b7711a7198d4eff983f"
+    },
+    {
+      "file": "runtime/chat-after-menu-close.png",
+      "bytes": 172801,
+      "sha256": "960d4f7cb2d158419fdb67da813187a68b097902a4343a88c08fd34cf6270b70"
+    },
+    {
+      "file": "runtime/continuous-release.mov",
+      "bytes": 27658572,
+      "sha256": "46f8b89ffcf4908df1c46dc59a6074951260d51d2871dfff60c3af86d2a00233"
+    },
+    {
+      "file": "runtime/directory-after-menu.png",
+      "bytes": 104225,
+      "sha256": "343e73bb2504b5445d8441b16ba306cb067e7b53c7b306d768781e91c269778c"
+    },
+    {
+      "file": "runtime/during-stream.png",
+      "bytes": 589089,
+      "sha256": "833e04dc6846eab2e92c6105394e74a4a92c4726d426cc22ef1d1195671b5812"
+    },
+    {
+      "file": "runtime/final-state.png",
+      "bytes": 651467,
+      "sha256": "20d762db74a3fd35aa8163819476d5e230da883f29f7260b9a1331ed67f290b4"
+    },
+    {
+      "file": "runtime/host-result.json",
+      "bytes": 53189,
+      "sha256": "e1311bd0275d6e7bc83afcfe1cf2833a8efa7e937572f6950074d75a339177c8"
+    },
+    {
+      "file": "runtime/info.json",
+      "bytes": 151,
+      "sha256": "c3c42810e6cf67c529993ebfe6ba84c51eaa7282e6a91878d9d4132f170d105b"
+    },
+    {
+      "file": "runtime/loading-before-menu.png",
+      "bytes": 91124,
+      "sha256": "5316b713d5370c47ecfd04a9e2c33a5d831680f43364257fabffb45f168e34ec"
+    },
+    {
+      "file": "runtime/maestro-content.log",
+      "bytes": 2044,
+      "sha256": "52b7f74eba0bcc7ea355e527c93591aa77727992bad22588f0a893a9de5c9775"
+    },
+    {
+      "file": "runtime/maestro-loading.log",
+      "bytes": 2947,
+      "sha256": "e64d510c23b2b669388e2cb0d2c48e69c7db3680897813f405a6cefe4ca3e37a"
+    },
+    {
+      "file": "runtime/maestro-menu.log",
+      "bytes": 495,
+      "sha256": "819340ec0820132fa91144cd62c7258662fc34a772930f5cc3d9fe797bca6267"
+    },
+    {
+      "file": "runtime/ui-markers.jsonl",
+      "bytes": 389,
+      "sha256": "8fe51423daa31b30655e1f7a1c30d63b0cd9e15743b32f61ff600f962c02aa11"
+    },
+    {
+      "file": "runtime/ws-ledger.jsonl",
+      "bytes": 305650,
+      "sha256": "3a478c4f48e8c1e33d9ff04826aa3da7f51d884d0336ef5a9d2c34dda3f90933"
+    },
+    {
+      "file": "ui-command-events.json",
+      "bytes": 10416,
+      "sha256": "df22a77701cecf4ad2e81c198fc2786d562641011b7ae74ab1cd021b4c284e54"
+    },
+    {
+      "file": "utf8-readback-audit.json",
+      "bytes": 181342,
+      "sha256": "b8968e870b172dd58f6e5dba15f00d9479f7ddcf4813c27c48b374a70d64fcdb"
+    },
+    {
+      "file": "verify-cache.mjs",
+      "bytes": 2122,
+      "sha256": "8c0734209c9fea7a1cd9694c553f845c0509312ec35463cdce0bd6f371402641"
+    }
+  ]
+}

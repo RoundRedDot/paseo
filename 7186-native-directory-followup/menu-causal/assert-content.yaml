@@ -1,0 +1,10 @@
+appId: sh.paseo
+---
+- extendedWaitUntil:
+    visible:
+      id: message-input-root
+    timeout: 30000
+- extendedWaitUntil:
+    visible: "(?s).*QA7186-END.*"
+    timeout: 30000
+- takeScreenshot: content-visible

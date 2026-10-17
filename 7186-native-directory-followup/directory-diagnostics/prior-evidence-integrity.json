@@ -1,0 +1,201 @@
+{
+  "at": "2026-10-17T06:30:10.358Z",
+  "entries": [
+    {
+      "file": "README.md",
+      "unchanged": true
+    },
+    {
+      "file": "cleanup.json",
+      "unchanged": true
+    },
+    {
+      "file": "result.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/README.md",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/build-1.zsh",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/build-2.zsh",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/build-sha256.txt",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/bundle-kind.txt",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/cleanup.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/final-inventory.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/first-launch.png",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/import-chain.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/maestro-flow.log",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/manifest.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/metro-snapshot.diff",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/native-host.mjs",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/navigation-diagnostic.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/navigation-error.log",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/permissions.yaml",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/read-only-module-diagnostic.cjs",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/release-startup-and-error.mp4",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/report.md",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/result.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/runtime-2.zsh",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/source-info.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/verify-cache.mjs",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/video-info.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-2/workspace-error.png",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/before-stream.png",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/build-3.zsh",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/build-sha256.txt",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/bundle-kind.txt",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/cleanup.finished",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/cleanup.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/context-byte-semantics.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/first-launch.png",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/maestro.log",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/module-audit.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/native-host.mjs",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/normalization.diff",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/permissions.yaml",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/release-loading-timeout.mp4",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/resolver.jsonl",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/result.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/route-contract.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/runtime-3.zsh",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/verify-cache.mjs",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/video-info.json",
+      "unchanged": true
+    },
+    {
+      "file": "stage-3/workspace-loading-timeout.png",
+      "unchanged": true
+    }
+  ]
+}

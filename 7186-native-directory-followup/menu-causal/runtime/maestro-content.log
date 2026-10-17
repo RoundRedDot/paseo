@@ -1,0 +1,26 @@
+Running on Paseo-QA7186-causal-menu-20261017 - iOS 18.6 - 50EE316A-A6DB-4B78-87FE-1D92E86C1696
+ > Flow assert-content
+Assert that id: message-input-root is visible... COMPLETED
+Assert that "(?s).*QA7186-END.*" is visible... FAILED
+
+Assertion is false: "(?s).*QA7186-END.*" is visible
+
+Assertion '"(?s).*QA7186-END.*" is visible' failed. Check the UI hierarchy in debug artifacts to verify the element state and properties.
+
+Possible causes:
+- Element selector may be incorrect - check if there are similar elements with slightly different names/properties.
+- Element may be temporarily unavailable due to loading state
+- This could be a real regression that needs to be addressed
+
+==== Debug output (logs & screenshots) ====
+
+/tmp/paseo-pr-native-followup-20261017/causal-stage/runtime/maestro-content/.maestro/tests/2026-10-17_143717
+╭────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                │
+│   Debug tests faster by easy access to test recordings, maestro logs, screenshots, and more.   │
+│                                                                                                │
+│   Run your flows on Maestro Cloud:                                                             │
+│   maestro cloud app_file flows_folder/                                                         │
+│                                                                                                │
+╰────────────────────────────────────────────────────────────────────────────────────────────────╯
+

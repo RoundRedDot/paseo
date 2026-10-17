@@ -1,0 +1,77 @@
+--- candidate/packages/app/metro.config.cjs
++++ qa-snapshot/packages/app/metro.config.cjs
+@@ -130,7 +130,7 @@
+   const original = qaFs.readFileSync(result.filePath);
+   const canonical = qaFs.readFileSync(realpath);
+   if (!original.equals(canonical)) throw new Error("QA navigation canonicalization changed bytes");
+-  qaFs.appendFileSync("/tmp/paseo-pr-gap-20261017/7186-release/stage-3/resolver.jsonl",
++  qaFs.appendFileSync("/tmp/paseo-pr-native-followup-20261017/build/resolver.jsonl",
+     JSON.stringify({origin: context.originModulePath, specifier, platform,
+       isESMImport: context.isESMImport, path: result.filePath, realpath,
+       moduleIdentity: realpath, bytesEqual: true,
+--- candidate/packages/app/src/runtime/directory-sync/index.ts
++++ qa-snapshot/packages/app/src/runtime/directory-sync/index.ts
+@@ -180,6 +180,7 @@
+   }
+ 
+   connectionChanged(connection: DirectoryConnection): boolean {
++    console.log("QA7186 " + JSON.stringify({event:"directory.connection",serverId:this.serverId,status:connection.status,source:connection.source,hasClient:!!connection.client}));
+     const changed =
+       this.connection.client !== connection.client ||
+       this.connection.source.clientGeneration !== connection.source.clientGeneration ||
+@@ -204,6 +205,7 @@
+   }
+ 
+   setDemand(source: object, demanded: boolean): void {
++    console.log("QA7186 " + JSON.stringify({event:"directory.demand",serverId:this.serverId,demanded,fullCount:this.fullDemandSources.size,routeCount:this.routeDemandIds.size}));
+     const wasDemanded = this.fullDemandSources.size > 0;
+     if (demanded) this.fullDemandSources.add(source);
+     else this.fullDemandSources.delete(source);
+@@ -544,6 +546,7 @@
+     const onlineConnection = this.getOnlineConnection();
+     if (!onlineConnection) return;
+     const { client, source } = onlineConnection;
++    console.log("QA7186 " + JSON.stringify({event:"directory.workspace.begin",serverId:this.serverId,source,subscribe:input?.subscribe===true}));
+     const transaction = this.workspaceTransactions.begin(source, () => {
+       const baseline = this.workspaces.snapshot();
+       return {
+@@ -579,9 +582,11 @@
+           transaction.snapshot.syncModes?.workspaces;
+       }
+       this.completeWorkspaceRefresh(client, source, transaction);
++      console.log("QA7186 " + JSON.stringify({event:"directory.workspace.committed",serverId:this.serverId,ids:[...this.workspaces.snapshot().workspaces.keys()]}));
+     } catch (error) {
+       const deltas = this.workspaceTransactions.fail(transaction);
+       if (deltas) for (const delta of deltas) this.applyWorkspaceDelta(delta);
++      console.log("QA7186 " + JSON.stringify({event:"directory.workspace.failed",serverId:this.serverId,name:error instanceof Error?error.name:"unknown"}));
+       throw error;
+     }
+   }
+@@ -966,6 +971,7 @@
+     source: DirectorySourceToken,
+     matches: () => boolean,
+   ): Promise<void> {
++    console.log("QA7186 " + JSON.stringify({event:"directory.session.wait",serverId:this.serverId,source,matches:matches(),hasSession:!!useSessionStore.getState().sessions[this.serverId],clientEqual:useSessionStore.getState().sessions[this.serverId]?.client===client,sessionGeneration:useSessionStore.getState().sessions[this.serverId]?.clientGeneration,hasServerInfo:!!useSessionStore.getState().sessions[this.serverId]?.serverInfo}));
+     if (matches()) return;
+     await new Promise<void>((resolve, reject) => {
+       let settled = false;
+--- candidate/packages/app/src/screens/workspace/workspace-route-state.ts
++++ qa-snapshot/packages/app/src/screens/workspace/workspace-route-state.ts
+@@ -35,6 +35,7 @@
+   hasHydratedWorkspaces: boolean;
+   recovery: WorkspaceRecoveryModel;
+ }): WorkspaceRouteState {
++  console.log("QA7186 " + JSON.stringify({event:"workspace.gate",status:input.connectionStatus,workspaceId:input.workspace?.id??null,hydrated:input.hasHydratedWorkspaces,recovery:input.recovery.kind}));
+   if (input.workspace) {
+     if (input.connectionStatus === "online") {
+       if (input.recovery.kind === "recoverable" && input.recovery.phase === "restoring") {
+--- candidate/packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx
++++ qa-snapshot/packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx
+@@ -116,6 +116,7 @@
+   const workspaceExists = useWorkspaceExists(serverId, workspaceId);
+   const openIntent = useMemo(() => parseWorkspaceOpenIntent(openValue), [openValue]);
+   const isAgentOpenIntent = openIntent?.kind === "agent";
++  console.log("QA7186 " + JSON.stringify({event:"workspace.route",serverId,workspaceId,hydrated:hasHydratedWorkspaces,exists:workspaceExists,layoutHydrated:hasHydratedWorkspaceLayoutStore,openKind:openIntent?.kind??null}));
+   const isOpenIntentWaitingForWorkspace = Boolean(
+     isAgentOpenIntent && (!hasHydratedWorkspaces || !workspaceExists),
+   );

@@ -1,0 +1,578 @@
+{
+  "result": "partial",
+  "exit": 1,
+  "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "startedAt": "2026-10-17T06:35:37Z",
+  "endedAt": "2026-10-17T06:37:58Z",
+  "info": {
+    "port": 54883,
+    "upstreamPort": 58110,
+    "serverId": "srv_9VvB5IUP7itU",
+    "workspaceId": "wks_65600194d01e9577",
+    "agentId": "6a511986-f89e-48ea-9116-4cf6c9f3b25d"
+  },
+  "appSha256": [
+    "7a07b73393b1baeca7a1bd892b4435701fe9d5ed0a61fcd6fccd60e3db4d5115  /tmp/paseo-review-repair-20261017/qa/7186-derived/Build/Products/Release-iphonesimulator/Paseo.app/Paseo",
+    "3149fb3b60d8190ca1d0daeb227a812c7b17cb7f87ab3ffcafd102c8046893b3  /tmp/paseo-review-repair-20261017/qa/7186-derived/Build/Products/Release-iphonesimulator/Paseo.app/main.jsbundle"
+  ],
+  "parentAuthorizedExtension": true,
+  "productFix": false,
+  "model": {
+    "executorConfigured": "codex/gpt-6.1-sol High",
+    "actualHostModelMetadata": "not independently exposed",
+    "provider": "MockLoadTestAgentClient",
+    "providerModel": "e2e-fast-stream"
+  },
+  "beforeMenu": {
+    "at": "2026-10-17T06:36:31.075Z",
+    "stage": "before-menu",
+    "counts": {
+      "native->host:hello": 1,
+      "host->native:status": 1,
+      "native->host:session.events.set_subscription.request": 5,
+      "native->host:workspace.label.list.request": 1,
+      "host->native:session.events.set_subscription.response": 5,
+      "host->native:workspace.label.list.response": 1,
+      "native->host:client_heartbeat": 5,
+      "native->host:usage.list_reports.request": 1,
+      "host->native:usage.list_reports.response": 1,
+      "native->host:plugin.catalog.get.request": 1,
+      "host->native:plugin.catalog.get.response": 1,
+      "native->host:ping": 4,
+      "host->native:pong": 4,
+      "native->host:workspace_setup_status_request": 1,
+      "host->native:workspace_setup_status_response": 1,
+      "native->host:subscription.release.request": 1,
+      "native->host:workspace.script.list.request": 1,
+      "host->native:subscription.release.response": 1,
+      "host->native:workspace.script.list.response": 1
+    },
+    "directoryEvents": [],
+    "expectedWorkspaceId": "wks_65600194d01e9577"
+  },
+  "afterMenu": {
+    "at": "2026-10-17T06:36:38.019Z",
+    "stage": "after-menu",
+    "counts": {
+      "native->host:hello": 1,
+      "host->native:status": 1,
+      "native->host:session.events.set_subscription.request": 6,
+      "native->host:workspace.label.list.request": 2,
+      "host->native:session.events.set_subscription.response": 6,
+      "host->native:workspace.label.list.response": 2,
+      "native->host:client_heartbeat": 6,
+      "native->host:usage.list_reports.request": 1,
+      "host->native:usage.list_reports.response": 1,
+      "native->host:plugin.catalog.get.request": 1,
+      "host->native:plugin.catalog.get.response": 1,
+      "native->host:ping": 4,
+      "host->native:pong": 4,
+      "native->host:workspace_setup_status_request": 1,
+      "host->native:workspace_setup_status_response": 1,
+      "native->host:subscription.release.request": 1,
+      "native->host:workspace.script.list.request": 1,
+      "host->native:subscription.release.response": 1,
+      "host->native:workspace.script.list.response": 1,
+      "native->host:fetch_agents_request": 1,
+      "native->host:project.list.request": 1,
+      "host->native:fetch_agents_response": 1,
+      "host->native:project.list.response": 1,
+      "native->host:agent.timeline.set_subscription.request": 1,
+      "host->native:agent.timeline.set_subscription.response": 1,
+      "native->host:fetch_workspaces_request": 1,
+      "native->host:fetch_agent_timeline_request": 1,
+      "host->native:fetch_workspaces_response": 1,
+      "host->native:fetch_agent_timeline_response": 1,
+      "native->host:get_daemon_config_request": 1,
+      "native->host:subscribe_terminals_request": 1,
+      "host->native:get_daemon_config_response": 1,
+      "native->host:list_terminals_request": 1,
+      "native->host:checkout_status_request": 1,
+      "native->host:file_explorer_request": 1,
+      "host->native:checkout_status_response": 1,
+      "host->native:list_terminals_response": 1,
+      "host->native:terminals_changed": 1,
+      "native->host:project.icon.get.request": 1,
+      "native->host:read_project_config_request": 1,
+      "host->native:project.icon.get.response": 1,
+      "host->native:file_explorer_response": 1,
+      "host->native:read_project_config_response": 1,
+      "native->host:agent.provider_subagents.list.request": 1,
+      "host->native:agent.provider_subagents.list.response": 1,
+      "native->host:checkout_pr_status_request": 1,
+      "native->host:get_providers_snapshot_request": 10,
+      "host->native:get_providers_snapshot_response": 10,
+      "host->native:checkout_pr_status_response": 1,
+      "host->native:providers_snapshot_update": 13
+    },
+    "directoryEvents": [
+      {
+        "at": "2026-10-17T06:36:35.367Z",
+        "event": "frame",
+        "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+        "direction": "native->host",
+        "binary": false,
+        "bytes": 248,
+        "sha256": "00e560fac2855bc42784b10c63d5fd1ef19fcd34f3471b72b04011e03abeca98",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "fetch_agents_request",
+            "requestId": "ec59c917-1bcb-45b7-9925-0294631fd8d6"
+          }
+        }
+      },
+      {
+        "at": "2026-10-17T06:36:35.371Z",
+        "event": "frame",
+        "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+        "direction": "native->host",
+        "binary": false,
+        "bytes": 121,
+        "sha256": "bc051b1275fd9dc62057afd9eeab2db615a9064588a30dba35b1ec59f1b15cb5",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "project.list.request",
+            "requestId": "38e8beec-09cc-4444-8dab-f57bfd6c798c"
+          }
+        }
+      },
+      {
+        "at": "2026-10-17T06:36:35.372Z",
+        "event": "frame",
+        "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+        "direction": "host->native",
+        "binary": false,
+        "bytes": 2408,
+        "sha256": "d5b7fa948bb4941a3f19e06be7b5b08fea3d6d94afbebb55c82b709aa04627c9",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "fetch_agents_response",
+            "payload": {
+              "requestId": "ec59c917-1bcb-45b7-9925-0294631fd8d6",
+              "subscriptionId": "f210d865-9a6f-4724-b679-856e507203d2",
+              "entries": [
+                {
+                  "agent": {
+                    "id": "6a511986-f89e-48ea-9116-4cf6c9f3b25d",
+                    "workspaceId": "wks_65600194d01e9577",
+                    "status": "idle",
+                    "availableModes": [
+                      {
+                        "id": "load-test"
+                      },
+                      {
+                        "id": "approval-test"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "pageInfo": {
+                "nextCursor": null,
+                "hasMore": false
+              },
+              "sync": {
+                "generation": "e563e748-d0ea-469d-8c19-121bacbe06d7:background",
+                "headSeq": 2,
+                "mode": "snapshot"
+              }
+            }
+          }
+        }
+      },
+      {
+        "at": "2026-10-17T06:36:35.374Z",
+        "event": "frame",
+        "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+        "direction": "host->native",
+        "binary": false,
+        "bytes": 655,
+        "sha256": "8947f6a10a30956ac3e61ece9b0e858de61e92ae2dcf250c7378c7491bbe6a34",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "project.list.response",
+            "payload": {
+              "requestId": "38e8beec-09cc-4444-8dab-f57bfd6c798c",
+              "sync": {
+                "generation": "e563e748-d0ea-469d-8c19-121bacbe06d7",
+                "headSeq": 1,
+                "mode": "snapshot"
+              }
+            }
+          }
+        }
+      },
+      {
+        "at": "2026-10-17T06:36:35.390Z",
+        "event": "frame",
+        "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+        "direction": "native->host",
+        "binary": false,
+        "bytes": 236,
+        "sha256": "f18ed6bedaf1836323b9731f7b355ce159696c9679422bafcfb3d3df18c3fa56",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "fetch_workspaces_request",
+            "requestId": "1d6967c8-8094-46f2-b472-0ed366c00f08"
+          }
+        }
+      },
+      {
+        "at": "2026-10-17T06:36:35.394Z",
+        "event": "frame",
+        "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+        "direction": "host->native",
+        "binary": false,
+        "bytes": 1597,
+        "sha256": "fea9889e692a1d2fca2c928befa0d2de6c72f893c7885b6f98776fc502880198",
+        "fields": {
+          "type": "session",
+          "message": {
+            "type": "fetch_workspaces_response",
+            "payload": {
+              "requestId": "1d6967c8-8094-46f2-b472-0ed366c00f08",
+              "subscriptionId": "2147cf63-e2ee-4672-b867-a54ca628967c",
+              "entries": [
+                {
+                  "id": "wks_65600194d01e9577",
+                  "status": "done"
+                }
+              ],
+              "pageInfo": {
+                "nextCursor": null,
+                "hasMore": false
+              },
+              "sync": {
+                "generation": "e563e748-d0ea-469d-8c19-121bacbe06d7:background",
+                "headSeq": 1,
+                "mode": "snapshot"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "expectedWorkspaceId": "wks_65600194d01e9577"
+  },
+  "menuTap": {
+    "file": "maestro-menu/.maestro/tests/2026-10-17_143631/commands-(open-menu.yaml).json",
+    "command": {
+      "tapOnElement": {
+        "selector": {
+          "idRegex": "menu-button",
+          "optional": false
+        },
+        "retryIfNoChange": false,
+        "waitUntilVisible": false,
+        "longPress": false,
+        "optional": false
+      }
+    },
+    "status": "COMPLETED",
+    "at": "2026-10-17T06:36:34.627Z",
+    "durationMs": 872
+  },
+  "directoryEvents": [
+    {
+      "at": "2026-10-17T06:36:35.367Z",
+      "event": "frame",
+      "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+      "direction": "native->host",
+      "binary": false,
+      "bytes": 248,
+      "sha256": "00e560fac2855bc42784b10c63d5fd1ef19fcd34f3471b72b04011e03abeca98",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_agents_request",
+          "requestId": "ec59c917-1bcb-45b7-9925-0294631fd8d6"
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:36:35.371Z",
+      "event": "frame",
+      "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+      "direction": "native->host",
+      "binary": false,
+      "bytes": 121,
+      "sha256": "bc051b1275fd9dc62057afd9eeab2db615a9064588a30dba35b1ec59f1b15cb5",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "project.list.request",
+          "requestId": "38e8beec-09cc-4444-8dab-f57bfd6c798c"
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:36:35.372Z",
+      "event": "frame",
+      "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+      "direction": "host->native",
+      "binary": false,
+      "bytes": 2408,
+      "sha256": "d5b7fa948bb4941a3f19e06be7b5b08fea3d6d94afbebb55c82b709aa04627c9",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_agents_response",
+          "payload": {
+            "requestId": "ec59c917-1bcb-45b7-9925-0294631fd8d6",
+            "subscriptionId": "f210d865-9a6f-4724-b679-856e507203d2",
+            "entries": [
+              {
+                "agent": {
+                  "id": "6a511986-f89e-48ea-9116-4cf6c9f3b25d",
+                  "workspaceId": "wks_65600194d01e9577",
+                  "status": "idle",
+                  "availableModes": [
+                    {
+                      "id": "load-test"
+                    },
+                    {
+                      "id": "approval-test"
+                    }
+                  ]
+                }
+              }
+            ],
+            "pageInfo": {
+              "nextCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "e563e748-d0ea-469d-8c19-121bacbe06d7:background",
+              "headSeq": 2,
+              "mode": "snapshot"
+            }
+          }
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:36:35.374Z",
+      "event": "frame",
+      "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+      "direction": "host->native",
+      "binary": false,
+      "bytes": 655,
+      "sha256": "8947f6a10a30956ac3e61ece9b0e858de61e92ae2dcf250c7378c7491bbe6a34",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "project.list.response",
+          "payload": {
+            "requestId": "38e8beec-09cc-4444-8dab-f57bfd6c798c",
+            "sync": {
+              "generation": "e563e748-d0ea-469d-8c19-121bacbe06d7",
+              "headSeq": 1,
+              "mode": "snapshot"
+            }
+          }
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:36:35.390Z",
+      "event": "frame",
+      "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+      "direction": "native->host",
+      "binary": false,
+      "bytes": 236,
+      "sha256": "f18ed6bedaf1836323b9731f7b355ce159696c9679422bafcfb3d3df18c3fa56",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_workspaces_request",
+          "requestId": "1d6967c8-8094-46f2-b472-0ed366c00f08"
+        }
+      }
+    },
+    {
+      "at": "2026-10-17T06:36:35.394Z",
+      "event": "frame",
+      "connection": "b5739597-019b-4e9d-8c47-316279a13420",
+      "direction": "host->native",
+      "binary": false,
+      "bytes": 1597,
+      "sha256": "fea9889e692a1d2fca2c928befa0d2de6c72f893c7885b6f98776fc502880198",
+      "fields": {
+        "type": "session",
+        "message": {
+          "type": "fetch_workspaces_response",
+          "payload": {
+            "requestId": "1d6967c8-8094-46f2-b472-0ed366c00f08",
+            "subscriptionId": "2147cf63-e2ee-4672-b867-a54ca628967c",
+            "entries": [
+              {
+                "id": "wks_65600194d01e9577",
+                "status": "done"
+              }
+            ],
+            "pageInfo": {
+              "nextCursor": null,
+              "hasMore": false
+            },
+            "sync": {
+              "generation": "e563e748-d0ea-469d-8c19-121bacbe06d7:background",
+              "headSeq": 1,
+              "mode": "snapshot"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "nativeObserverEvents": 28,
+  "cacheStages": {
+    "after-stream": {
+      "at": "2026-10-17T06:37:16.767Z",
+      "stage": "after-stream",
+      "rows": [
+        {
+          "serverId": "srv_9VvB5IUP7itU",
+          "kind": "agent",
+          "id": "6a511986-f89e-48ea-9116-4cf6c9f3b25d",
+          "payloadChars": 1394,
+          "payloadBytes": 1394,
+          "sqliteBytes": 1394,
+          "sqlHexBytes": 1394,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "eb89a977e74bd67110d771e34b1e5e787abc04aaa02d8b61ee8569f0a6b376ff"
+        },
+        {
+          "serverId": "srv_9VvB5IUP7itU",
+          "kind": "checkpoint",
+          "id": "singleton",
+          "payloadChars": 281,
+          "payloadBytes": 281,
+          "sqliteBytes": 281,
+          "sqlHexBytes": 281,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "61149840387d6b3ff9967bd415a4a6cd7ade125b71e827338bd23f2259701df4"
+        },
+        {
+          "serverId": "srv_9VvB5IUP7itU",
+          "kind": "project",
+          "id": "prj_6b431b1b93359d6a",
+          "payloadChars": 379,
+          "payloadBytes": 379,
+          "sqliteBytes": 379,
+          "sqlHexBytes": 379,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "52440452c890f7a9e525c5207bfffb1cdcef9e775d09807e5d91c1aeaf007f8b"
+        },
+        {
+          "serverId": "srv_9VvB5IUP7itU",
+          "kind": "timeline",
+          "id": "6a511986-f89e-48ea-9116-4cf6c9f3b25d",
+          "payloadChars": 20869,
+          "payloadBytes": 50869,
+          "sqliteBytes": 50869,
+          "sqlHexBytes": 50869,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "4888a703c2ad88fe38e49554a80e8c10e872bdd1aa99a28c45e4e1410e188555"
+        },
+        {
+          "serverId": "srv_9VvB5IUP7itU",
+          "kind": "workspace",
+          "id": "wks_65600194d01e9577",
+          "payloadChars": 816,
+          "payloadBytes": 816,
+          "sqliteBytes": 816,
+          "sqlHexBytes": 816,
+          "sqlHexEqualsUtf8": true,
+          "payloadSha256": "5ce47891a027112e1b0e7dd91abc3e5667730538caac92a41210d06b64ae06f1"
+        }
+      ],
+      "assistant": {
+        "agentId": "6a511986-f89e-48ea-9116-4cf6c9f3b25d",
+        "chars": 20014,
+        "bytes": 50014,
+        "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+        "matchesExpected": true,
+        "utf8RoundTrip": true,
+        "replacementCharacters": 0,
+        "nonAsciiCodePoints": 15000
+      }
+    }
+  },
+  "streamChunks": {
+    "frames": 461,
+    "chunks": 458,
+    "joined": {
+      "chars": 20014,
+      "bytes": 50014,
+      "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+      "matchesActualCache": true
+    }
+  },
+  "offlineProof": null,
+  "performance": "not run; no baseline build, A/B or physical-device claim",
+  "cleanup": {
+    "at": "2026-10-17T06:38:40.257Z",
+    "ownSimulator": {
+      "uuid": "50EE316A-A6DB-4B78-87FE-1D92E86C1696",
+      "present": false
+    },
+    "ownHost": {
+      "pid": 40347,
+      "alive": false
+    },
+    "existingDeviceCount": 22,
+    "allExistingDeviceStatesUnchanged": true,
+    "portChecks": [
+      {
+        "port": 54883,
+        "host": "127.0.0.1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 54883,
+        "host": "::1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 58110,
+        "host": "127.0.0.1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      },
+      {
+        "port": 58110,
+        "host": "::1",
+        "closed": true,
+        "code": "ECONNREFUSED"
+      }
+    ],
+    "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+    "gitStatus": "",
+    "priorPublicUnchanged": true,
+    "priorPublicEntries": 34
+  },
+  "baselineDrift": {
+    "source": "parent read-only compare; not independently re-fetched by this worker",
+    "previousMain": "cd77ecd837df40d042599d8847403eb416b35b04",
+    "latestMain": "30799fda19f50febc62349c64460368adc85ff07",
+    "commits": 6,
+    "relevantRouteDemandFilesChanged": false,
+    "latestMainTested": false
+  },
+  "acceptance": {
+    "menuCausal": "passed",
+    "nativeStreamVisible": "passed: actual rendered body screenshot; full END visibility unverified",
+    "nativeSqliteExactBytes": "passed",
+    "utf8Readback": "passed; no surrogate split at the actual 16384 window",
+    "endMarkerVisible": "failed current-viewport assertion; normal jump-to-bottom was not tapped",
+    "offlineColdReload": "not reached",
+    "performance": "not run"
+  }
+}

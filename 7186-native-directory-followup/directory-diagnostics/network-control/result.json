@@ -1,0 +1,55 @@
+{
+  "startedAt": "2026-10-17T06:26:36.005Z",
+  "classification": "Node direct upgrade control, not native runtime",
+  "listener": {
+    "type": "tcp",
+    "host": "127.0.0.1",
+    "port": 55084
+  },
+  "probes": [
+    {
+      "label": "direct-ipv4-daemon",
+      "url": "ws://127.0.0.1:55084/ws",
+      "httpStatus": 101,
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 55084,
+      "open": true
+    },
+    {
+      "label": "direct-ipv4-daemon",
+      "url": "ws://[::1]:55084/ws",
+      "code": "ECONNREFUSED",
+      "message": "Error"
+    },
+    {
+      "label": "direct-ipv4-daemon",
+      "url": "ws://localhost:55084/ws",
+      "httpStatus": 101,
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 55084,
+      "open": true
+    },
+    {
+      "label": "proxy-original-host-replaced",
+      "url": "ws://127.0.0.1:55084/ws",
+      "headers": {
+        "Origin": "http://localhost:54883"
+      },
+      "code": null,
+      "message": "Unexpected server response: 403"
+    },
+    {
+      "label": "proxy-original-host-preserved",
+      "url": "ws://127.0.0.1:55084/ws",
+      "headers": {
+        "Origin": "http://localhost:54883",
+        "Host": "localhost:54883"
+      },
+      "httpStatus": 101,
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 55084,
+      "open": true
+    }
+  ],
+  "finishedAt": "2026-10-17T06:26:36.092Z"
+}

@@ -1,0 +1,71 @@
+{
+  "at": "2026-10-17T06:37:16.767Z",
+  "stage": "after-stream",
+  "rows": [
+    {
+      "serverId": "srv_9VvB5IUP7itU",
+      "kind": "agent",
+      "id": "6a511986-f89e-48ea-9116-4cf6c9f3b25d",
+      "payloadChars": 1394,
+      "payloadBytes": 1394,
+      "sqliteBytes": 1394,
+      "sqlHexBytes": 1394,
+      "sqlHexEqualsUtf8": true,
+      "payloadSha256": "eb89a977e74bd67110d771e34b1e5e787abc04aaa02d8b61ee8569f0a6b376ff"
+    },
+    {
+      "serverId": "srv_9VvB5IUP7itU",
+      "kind": "checkpoint",
+      "id": "singleton",
+      "payloadChars": 281,
+      "payloadBytes": 281,
+      "sqliteBytes": 281,
+      "sqlHexBytes": 281,
+      "sqlHexEqualsUtf8": true,
+      "payloadSha256": "61149840387d6b3ff9967bd415a4a6cd7ade125b71e827338bd23f2259701df4"
+    },
+    {
+      "serverId": "srv_9VvB5IUP7itU",
+      "kind": "project",
+      "id": "prj_6b431b1b93359d6a",
+      "payloadChars": 379,
+      "payloadBytes": 379,
+      "sqliteBytes": 379,
+      "sqlHexBytes": 379,
+      "sqlHexEqualsUtf8": true,
+      "payloadSha256": "52440452c890f7a9e525c5207bfffb1cdcef9e775d09807e5d91c1aeaf007f8b"
+    },
+    {
+      "serverId": "srv_9VvB5IUP7itU",
+      "kind": "timeline",
+      "id": "6a511986-f89e-48ea-9116-4cf6c9f3b25d",
+      "payloadChars": 20869,
+      "payloadBytes": 50869,
+      "sqliteBytes": 50869,
+      "sqlHexBytes": 50869,
+      "sqlHexEqualsUtf8": true,
+      "payloadSha256": "4888a703c2ad88fe38e49554a80e8c10e872bdd1aa99a28c45e4e1410e188555"
+    },
+    {
+      "serverId": "srv_9VvB5IUP7itU",
+      "kind": "workspace",
+      "id": "wks_65600194d01e9577",
+      "payloadChars": 816,
+      "payloadBytes": 816,
+      "sqliteBytes": 816,
+      "sqlHexBytes": 816,
+      "sqlHexEqualsUtf8": true,
+      "payloadSha256": "5ce47891a027112e1b0e7dd91abc3e5667730538caac92a41210d06b64ae06f1"
+    }
+  ],
+  "assistant": {
+    "agentId": "6a511986-f89e-48ea-9116-4cf6c9f3b25d",
+    "chars": 20014,
+    "bytes": 50014,
+    "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+    "matchesExpected": true,
+    "utf8RoundTrip": true,
+    "replacementCharacters": 0,
+    "nonAsciiCodePoints": 15000
+  }
+}

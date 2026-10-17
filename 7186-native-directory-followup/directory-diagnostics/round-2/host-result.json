@@ -1,0 +1,17 @@
+{
+  "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "provider": "MockLoadTestAgentClient",
+  "model": "e2e-fast-stream",
+  "expected": {
+    "chars": 20014,
+    "bytes": 50014,
+    "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c"
+  },
+  "startedAt": "2026-10-17T06:26:49.345Z",
+  "port": 54883,
+  "upstreamPort": 55168,
+  "serverId": "srv_4m_LVpcSHgN-",
+  "workspaceId": "wks_024816e95abef1a9",
+  "agentId": "ce5f582d-3f93-45df-9f68-ffa84dc4b7f4",
+  "cleanupAt": "2026-10-17T06:28:17.250Z"
+}

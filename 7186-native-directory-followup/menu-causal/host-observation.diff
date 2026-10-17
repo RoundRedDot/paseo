@@ -1,0 +1,22 @@
+--- /tmp/paseo-pr-native-followup-20261017/native-host.mjs	2026-10-17 14:26:42
++++ /tmp/paseo-pr-native-followup-20261017/causal-stage/native-host.mjs	2026-10-17 14:34:47
+@@ -33,6 +33,19 @@
+  const b=Buffer.from(data);let fields;
+  try{fields=select(JSON.parse(b.toString('utf8')))}catch{}
+  log('frame',{connection,direction,binary,bytes:b.length,sha256:sha(b),fields});
++ // Read-only stream observation; frame Buffer and forwarding are unchanged.
++ if(direction==='host->native'){
++  let envelope;try{envelope=JSON.parse(b.toString('utf8'))}catch{}
++  if(envelope?.message?.type==='agent_stream'){
++   const texts=[];
++   const visit=(v,path='payload')=>{if(!v||typeof v!=='object')return;for(const[k,x]of Object.entries(v)){
++    if((k==='text'||k==='delta')&&typeof x==='string')texts.push({path:path+'.'+k,text:x});
++    else if(x&&typeof x==='object')visit(x,path+'.'+k);
++   }};visit(envelope.message.payload);
++   fs.appendFileSync(out+'/native-stream-text-private.jsonl',JSON.stringify({at:new Date().toISOString(),connection,frameSha256:sha(b),texts})+'\n');
++  }
++ }
++
+ }
+ fs.mkdirSync(out+'/repo',{recursive:true});fs.mkdirSync(out+'/static',{recursive:true});execFileSync('git',['init','-q'],{cwd:out+'/repo'});
+ let daemon,client,projectId,proxy,wss;const sockets=new Set();

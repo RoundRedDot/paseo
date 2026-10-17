@@ -1,0 +1,35 @@
+--- /tmp/paseo-pr-native-followup-20261017/backup/round-1-native-host.mjs	2026-10-17 14:25:43
++++ /tmp/paseo-pr-native-followup-20261017/native-host.mjs	2026-10-17 14:26:42
+@@ -49,25 +49,27 @@
+  });
+  wss=new WebSocketServer({noServer:true});
+  proxy.on('upgrade',(r,s,h)=>{
+-  log('upgrade',{path:new URL(r.url,'http://local').pathname,address:s.remoteAddress});
++  log('upgrade',{path:new URL(r.url,'http://local').pathname,address:s.remoteAddress,host:r.headers.host,origin:r.headers.origin?.match(/^https?:\/\/(localhost|127\.0\.0\.1|\[::1\]):54883$/)?.[0]??'absent-or-redacted'});
+   wss.handleUpgrade(r,s,h,down=>{
+-   const connection=randomUUID();log('native-open',{connection});
++   const connection=randomUUID();log('native-open',{connection,targetURL:upstream+new URL(r.url,'http://local').pathname,host:r.headers.host,origin:r.headers.origin?.match(/^https?:\/\/(localhost|127\.0\.0\.1|\[::1\]):54883$/)?.[0]??'absent-or-redacted',subprotocolCount:r.headers['sec-websocket-protocol']?.split(',').length??0});
+    const protocols=r.headers['sec-websocket-protocol']?.split(',').map(s=>s.trim());
+-   const headers={...r.headers};for(const k of ['host','upgrade','connection','sec-websocket-key','sec-websocket-version','sec-websocket-extensions','sec-websocket-protocol'])delete headers[k];
++   const headers={...r.headers};for(const k of ['upgrade','connection','sec-websocket-key','sec-websocket-version','sec-websocket-extensions','sec-websocket-protocol'])delete headers[k];
+    const up=new WebSocket(upstream+r.url,protocols,{headers});sockets.add(up);sockets.add(down);
++   up.on('upgrade',res=>log('backend-upgrade',{connection,status:res.statusCode,remoteAddress:res.socket.remoteAddress,remotePort:res.socket.remotePort,host:headers.host??new URL(upstream).host,protocolNegotiated:!!res.headers['sec-websocket-protocol']}));
++   up.on('unexpected-response',(_req,res)=>{log('backend-upgrade-rejected',{connection,status:res.statusCode});res.resume();up.terminate();});
+    const pending=[];
+    down.on('message',(d,b)=>{frame(connection,'native->host',d,b);if(up.readyState===WebSocket.OPEN)up.send(d,{binary:b});else pending.push([d,b]);});
+    up.on('open',()=>{log('upstream-open',{connection});for(const[d,b]of pending)up.send(d,{binary:b});});
+    up.on('message',(d,b)=>{frame(connection,'host->native',d,b);if(down.readyState===WebSocket.OPEN)down.send(d,{binary:b});});
+    for(const [a,b]of [[down,up],[up,down]]){
+-    a.on('error',e=>{log('socket-error',{connection,code:e.code??'unknown'});b.terminate()});
++    a.on('error',e=>{log('socket-error',{connection,code:e.code??'unknown',classification:/Unexpected server response: \d+/.exec(e.message)?.[0]??e.name});b.terminate()});
+     a.on('close',code=>{log('socket-close',{connection,side:a===down?'native':'host',code});sockets.delete(a);if(b.readyState===WebSocket.OPEN)b.close();else if(b.readyState===WebSocket.CONNECTING)b.terminate()});
+    }
+   });
+  });
+  // Dual stack includes ::1 because the native localhost normalizer can resolve IPv6 first.
+  await new Promise((resolve,reject)=>{proxy.once('error',reject);proxy.listen({port,host:'::',ipv6Only:false},resolve)});
+- log('proxy-listening',{port,upstreamPort:daemon.port});
++ log('proxy-listening',{port,address:proxy.address(),upstream:daemon.daemon.getListenTarget(),upstreamPort:daemon.port});
+  client=new DaemonClient({url:upstream+'/ws',clientId:'qa-7186-control',clientType:'cli',appVersion:'0.12.0-beta.1',webSocketFactory:(url,opt)=>{const ws=new WebSocket(url,{headers:opt?.headers});ws.on('message',(d,b)=>frame('control-cli','host->control',d,b));const send=ws.send.bind(ws);ws.send=(d,...args)=>{frame('control-cli','control->host',d,false);return send(d,...args)};return ws}});
+  await client.connect();await client.fetchAgents({subscribe:{}});const serverId=client.getLastServerInfoMessage().serverId;
+  const added=await client.addProject(out+'/repo');projectId=added.project.projectId;

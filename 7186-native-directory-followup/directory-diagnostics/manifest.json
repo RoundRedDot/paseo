@@ -1,0 +1,175 @@
+{
+  "generatedAt": "2026-10-17T06:32:28.812Z",
+  "entries": [
+    {
+      "file": "build/candidate-to-observed-snapshot.diff",
+      "bytes": 5816,
+      "sha256": "5b5bd16c1124744efd4d42504d190b0eb5b905c3955939129c4c6bc972adec72"
+    },
+    {
+      "file": "build/module-audit.json",
+      "bytes": 537,
+      "sha256": "9e680a5cff65d014fe0625906cf5b0c8d9f91539e6076c26d2e24c094fe98748"
+    },
+    {
+      "file": "build/observation.diff",
+      "bytes": 4862,
+      "sha256": "e29a5ad5922287ac27902571bb2f4387ca666079cf699c2972428559ab145688"
+    },
+    {
+      "file": "build/proxy-fix.diff",
+      "bytes": 3951,
+      "sha256": "ace901293c81246d06e94f84e074ed92afec6f8fd070964c3adcb828bf132e44"
+    },
+    {
+      "file": "build/sha256.txt",
+      "bytes": 350,
+      "sha256": "b322cf3e5c7a9967383d717f3850c283a3a86fafca4938be0a8a668c2544bd64"
+    },
+    {
+      "file": "build/source-provenance.json",
+      "bytes": 1560,
+      "sha256": "f8e07b2c1d0f12f2384cb685721d63a47cfe4c039e3b14899034abf328c4b96c"
+    },
+    {
+      "file": "cleanup.json",
+      "bytes": 1560,
+      "sha256": "5f3daab6915168d92e2a7e2869b1c7f808cdf66d5be91617b4e9c5f59c85c6fa"
+    },
+    {
+      "file": "media-metadata.json",
+      "bytes": 544,
+      "sha256": "cb29884ee00d76c3ba611782c9ca23779e8a88cdb561be279ddbea2033614b3f"
+    },
+    {
+      "file": "native-host.mjs",
+      "bytes": 8747,
+      "sha256": "c00c2699f7c500571d6e33d95c0eaa2d0f1590a409b8730be38cec2408291340"
+    },
+    {
+      "file": "network-contrast.mjs",
+      "bytes": 2257,
+      "sha256": "e84c53886e1afde8cc9171c4c7f94785b7e5c46adac6c438678722534301b091"
+    },
+    {
+      "file": "network-control/result.json",
+      "bytes": 1352,
+      "sha256": "65e6962f42986cbc32b1349f041700aa85d606b1dfa2cb7e61f09dacd73be2cd"
+    },
+    {
+      "file": "original-ipv6-ipv4-excerpt.log",
+      "bytes": 1904,
+      "sha256": "7e0e69519de0b74c6aa48bd544b166361cb492dc0ee11a91f82e6241aa6914bd"
+    },
+    {
+      "file": "permissions.yaml",
+      "bytes": 386,
+      "sha256": "8be84aba2f5ebb55ed460514f2a15ccc1d4570ec4e5af7e111fbd9635c89b115"
+    },
+    {
+      "file": "prior-evidence-integrity.json",
+      "bytes": 3914,
+      "sha256": "d321cc15a533956caa7a9e9043ee32cf49e55fe594a6ad2b7ab5dc3041acbf34"
+    },
+    {
+      "file": "README.md",
+      "bytes": 2087,
+      "sha256": "f172c498b687850b7f5a9695eafbb37d46ae18bc05683b62acd7c49b9be2928a"
+    },
+    {
+      "file": "result.json",
+      "bytes": 13791,
+      "sha256": "91e2044ef805e3a1bd7c296dad2a3c7f23ec9898a23e55df37ae8aa6776d0738"
+    },
+    {
+      "file": "round-1/before-stream.png",
+      "bytes": 383745,
+      "sha256": "e519543622a16ce19f2724f8159924b1f8e3255c6927e1e199adbf34a2da57ef"
+    },
+    {
+      "file": "round-1/final-state.png",
+      "bytes": 155326,
+      "sha256": "cc64e3e834b9bd0f1b39c4c68ece497ed12c307aa0465ffd65ef68b12bac39bd"
+    },
+    {
+      "file": "round-1/first-launch.png",
+      "bytes": 154562,
+      "sha256": "211c96d6a9f6d4069fdc6fa6a3fd11a097db9b920b0742bcc2ce7e5079ff14c9"
+    },
+    {
+      "file": "round-1/host-result.json",
+      "bytes": 530,
+      "sha256": "83d1bfabab0b85ed951f83f8f2a34d177d0a575b738522fab3b2b2bd5c9b43ab"
+    },
+    {
+      "file": "round-1/release-smoke.mov",
+      "bytes": 1892802,
+      "sha256": "6bdcbffd54de75ab52bdc81b63fa3d7d0819985da77da16c306666ca92fbd892"
+    },
+    {
+      "file": "round-1/result.json",
+      "bytes": 9225,
+      "sha256": "f78923d1ba4e546cdfe0e88a3b594b8bcd0078eaa3835a3557e8c0194cdf8c65"
+    },
+    {
+      "file": "round-1/synthetic-ids.json",
+      "bytes": 151,
+      "sha256": "393a2fe346084a42d0a2f10ddf2212e8899879bfc74b05eebaffb6b11539d753"
+    },
+    {
+      "file": "round-1/ws-ledger.jsonl",
+      "bytes": 70368,
+      "sha256": "bde34589b9efc56832571a27a53d98f0cc2e22b3fefa0e59c7474f2405e7a85b"
+    },
+    {
+      "file": "round-2/before-stream.png",
+      "bytes": 322560,
+      "sha256": "590b3cc29a57bfac570fe2ad814703256c5358c48c28c8790a334134d890c9fa"
+    },
+    {
+      "file": "round-2/cache-row-index.json",
+      "bytes": 52,
+      "sha256": "fda339d5b03adcd398d2b29350bf8fb301db221270e8fa97d777b5de9997206c"
+    },
+    {
+      "file": "round-2/final-state.png",
+      "bytes": 91162,
+      "sha256": "123ab818e76c8e1ff5f8d8741507bbb3b6ed954c6576b2c57e73610efe7ed517"
+    },
+    {
+      "file": "round-2/first-launch.png",
+      "bytes": 409038,
+      "sha256": "67280ffc80ab580e4298604ae1dad59ed396804917412dfa3e045f71826f59a7"
+    },
+    {
+      "file": "round-2/host-result.json",
+      "bytes": 530,
+      "sha256": "00af663d36a888a3903f669bf4d080eaf9992d26ea705fe79d4630cc473d9ff1"
+    },
+    {
+      "file": "round-2/release-smoke.mov",
+      "bytes": 3648282,
+      "sha256": "c211ddc366047a12cf3f8e15254221a3cd038dc895c841adb3b5dc57e6964749"
+    },
+    {
+      "file": "round-2/result.json",
+      "bytes": 2165,
+      "sha256": "75c04944d9fcac5b5d8e649fb2abbb254bb36f693270294bb9fc4c95903895f0"
+    },
+    {
+      "file": "round-2/synthetic-ids.json",
+      "bytes": 151,
+      "sha256": "1ea7632406701cb5fb3cfc1d62806bda61034f6d938649cb35dddca4fa3a9486"
+    },
+    {
+      "file": "round-2/ws-ledger.jsonl",
+      "bytes": 30822,
+      "sha256": "8affc02bd3f9f6a372678fa184ce4cb93a3c268d73da6d298215d054e10aade6"
+    },
+    {
+      "file": "runtime.zsh",
+      "bytes": 5246,
+      "sha256": "db8ad52518f86a3169eced371c3c5fed7d91128a6b734b3fec04740964c50e5c"
+    }
+  ]
+}

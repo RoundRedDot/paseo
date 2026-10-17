@@ -1,0 +1,16 @@
+appId: sh.paseo
+---
+- runFlow:
+    when:
+      visible: "^(打开|Open)$"
+    commands:
+      - tapOn: "^(打开|Open)$"
+- runFlow:
+    when:
+      visible: "^(不允许|Don’t Allow|Don't Allow)$"
+    commands:
+      - tapOn: "^(不允许|Don’t Allow|Don't Allow)$"
+- extendedWaitUntil:
+    visible: "(?s).*QA7186-END.*"
+    timeout: 30000
+- takeScreenshot: offline-content-visible

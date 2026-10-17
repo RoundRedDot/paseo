@@ -1,0 +1,329 @@
+{
+  "round": "round-1",
+  "info": {
+    "port": 54883,
+    "upstreamPort": 53958,
+    "serverId": "srv_pUEfD3EV7Fa8",
+    "workspaceId": "wks_23a27e788de3a2f8",
+    "agentId": "b20864b5-0eb8-40b5-9132-ecf255bc9a51"
+  },
+  "startedAt": "2026-10-17T06:23:51Z",
+  "endedAt": "2026-10-17T06:25:20Z",
+  "exit": 1,
+  "nativeConnections": [
+    {
+      "at": "2026-10-17T06:24:15.389Z",
+      "event": "native-open",
+      "connection": "ea029637-061c-4907-8cb5-7f84a46440e5"
+    },
+    {
+      "at": "2026-10-17T06:24:16.408Z",
+      "event": "native-open",
+      "connection": "22c1b7d8-4a20-40cd-be16-93b0cc88d89f"
+    },
+    {
+      "at": "2026-10-17T06:24:17.437Z",
+      "event": "native-open",
+      "connection": "6ad12e66-280e-499f-b709-37ce47aa57bd"
+    },
+    {
+      "at": "2026-10-17T06:24:18.457Z",
+      "event": "native-open",
+      "connection": "c54e59de-465f-4627-9565-9ad232597f56"
+    },
+    {
+      "at": "2026-10-17T06:24:19.475Z",
+      "event": "native-open",
+      "connection": "491146db-fcb9-4406-a45b-be87872c8c54"
+    },
+    {
+      "at": "2026-10-17T06:24:20.492Z",
+      "event": "native-open",
+      "connection": "0a50c50f-3bac-415e-88c2-7dbe065450f2"
+    },
+    {
+      "at": "2026-10-17T06:24:21.506Z",
+      "event": "native-open",
+      "connection": "c90a33e6-d972-48d8-b776-764c545058d6"
+    },
+    {
+      "at": "2026-10-17T06:24:22.521Z",
+      "event": "native-open",
+      "connection": "382577a6-d6c9-4ba3-b6f0-8adff7f77b06"
+    },
+    {
+      "at": "2026-10-17T06:24:23.538Z",
+      "event": "native-open",
+      "connection": "632120a8-4cca-4521-8d3e-6a6faf10be4d"
+    },
+    {
+      "at": "2026-10-17T06:24:24.556Z",
+      "event": "native-open",
+      "connection": "4a5b9593-225b-4352-816a-2591d034937c"
+    },
+    {
+      "at": "2026-10-17T06:24:25.571Z",
+      "event": "native-open",
+      "connection": "7e748b5a-6a54-42d7-84ce-5dff84d5d244"
+    },
+    {
+      "at": "2026-10-17T06:24:26.589Z",
+      "event": "native-open",
+      "connection": "f5a023f7-e01b-4242-9c7c-f93d98e45a75"
+    },
+    {
+      "at": "2026-10-17T06:24:27.595Z",
+      "event": "native-open",
+      "connection": "9072152a-24ff-44db-8c86-0a415bd001e7"
+    },
+    {
+      "at": "2026-10-17T06:24:28.601Z",
+      "event": "native-open",
+      "connection": "9965e46b-c9e6-4bf8-aeab-f9ec2ffe7e19"
+    },
+    {
+      "at": "2026-10-17T06:24:29.606Z",
+      "event": "native-open",
+      "connection": "ca22a937-9d82-4c90-a0c1-9ebdde4504b1"
+    },
+    {
+      "at": "2026-10-17T06:24:30.612Z",
+      "event": "native-open",
+      "connection": "1ef7b863-aa90-4857-8c2a-a9f2138bb13a"
+    },
+    {
+      "at": "2026-10-17T06:24:31.620Z",
+      "event": "native-open",
+      "connection": "92eab477-ddb2-41f2-abc7-0b3631779598"
+    },
+    {
+      "at": "2026-10-17T06:24:32.627Z",
+      "event": "native-open",
+      "connection": "a10bb301-e1cc-4bcb-8d8f-95a64938aab3"
+    },
+    {
+      "at": "2026-10-17T06:24:33.634Z",
+      "event": "native-open",
+      "connection": "6e715ab2-fff9-4697-a711-f460188509cd"
+    },
+    {
+      "at": "2026-10-17T06:24:34.642Z",
+      "event": "native-open",
+      "connection": "2d4fdba7-d2c1-473b-bb2f-19bc191259e3"
+    },
+    {
+      "at": "2026-10-17T06:24:35.649Z",
+      "event": "native-open",
+      "connection": "43650db6-416d-4770-bee1-2fb95a54f587"
+    },
+    {
+      "at": "2026-10-17T06:24:36.655Z",
+      "event": "native-open",
+      "connection": "6de709dc-b84b-4cbf-b33c-cd34e153a829"
+    },
+    {
+      "at": "2026-10-17T06:24:37.663Z",
+      "event": "native-open",
+      "connection": "d16b3240-7b1f-4e93-8776-eaff6acc3721"
+    },
+    {
+      "at": "2026-10-17T06:24:38.670Z",
+      "event": "native-open",
+      "connection": "bf48d6a0-5f26-489c-b9fb-073c74221aa4"
+    },
+    {
+      "at": "2026-10-17T06:24:39.675Z",
+      "event": "native-open",
+      "connection": "b3b13bb5-e059-4509-967b-7b9bf9105ce0"
+    },
+    {
+      "at": "2026-10-17T06:24:40.681Z",
+      "event": "native-open",
+      "connection": "d7098c51-e1be-48a6-b0bb-e2a67b715071"
+    },
+    {
+      "at": "2026-10-17T06:24:41.688Z",
+      "event": "native-open",
+      "connection": "fc81fb1d-7ea9-44ad-8ace-bbd3e60e4b80"
+    },
+    {
+      "at": "2026-10-17T06:24:42.694Z",
+      "event": "native-open",
+      "connection": "2f7a8d0d-ff2d-4e1b-9476-73023815b8f8"
+    },
+    {
+      "at": "2026-10-17T06:24:43.705Z",
+      "event": "native-open",
+      "connection": "e7c336ca-22e7-493b-bad5-f283635bbd16"
+    },
+    {
+      "at": "2026-10-17T06:24:44.722Z",
+      "event": "native-open",
+      "connection": "8d67b044-b0d5-4e07-8857-c4124df4afb2"
+    },
+    {
+      "at": "2026-10-17T06:24:45.739Z",
+      "event": "native-open",
+      "connection": "ddfd952e-e42e-463e-9d6c-9c91b8d1eea5"
+    },
+    {
+      "at": "2026-10-17T06:24:46.755Z",
+      "event": "native-open",
+      "connection": "77190482-1ca6-4d20-8c04-a2b294fea3da"
+    },
+    {
+      "at": "2026-10-17T06:24:47.771Z",
+      "event": "native-open",
+      "connection": "f1d73f8a-bcfc-4eb3-9944-34d4e1b5f457"
+    },
+    {
+      "at": "2026-10-17T06:24:48.790Z",
+      "event": "native-open",
+      "connection": "3054ba72-cb79-454e-b15d-21f8f0c42619"
+    },
+    {
+      "at": "2026-10-17T06:24:49.808Z",
+      "event": "native-open",
+      "connection": "28ecc461-fb47-407d-8a40-12c765941f9f"
+    },
+    {
+      "at": "2026-10-17T06:24:50.822Z",
+      "event": "native-open",
+      "connection": "1e98d050-dc20-4afc-b142-bcf1ece404ef"
+    },
+    {
+      "at": "2026-10-17T06:24:51.839Z",
+      "event": "native-open",
+      "connection": "98d162c0-b3d6-4e44-9a5b-5a44e223ffdf"
+    },
+    {
+      "at": "2026-10-17T06:24:52.856Z",
+      "event": "native-open",
+      "connection": "5a0b764b-0ddf-48e8-b44e-e5c5002542bd"
+    },
+    {
+      "at": "2026-10-17T06:24:53.875Z",
+      "event": "native-open",
+      "connection": "02e14b68-1ae2-4636-8020-c36abbcfbc3c"
+    },
+    {
+      "at": "2026-10-17T06:24:54.891Z",
+      "event": "native-open",
+      "connection": "7fce6ea0-7253-43b1-af37-080e0b225119"
+    },
+    {
+      "at": "2026-10-17T06:24:55.905Z",
+      "event": "native-open",
+      "connection": "fd1fb228-183d-4b03-b84d-eacf6772609b"
+    },
+    {
+      "at": "2026-10-17T06:24:56.922Z",
+      "event": "native-open",
+      "connection": "131d99a0-656e-47b6-94d5-64ddb9d38cfa"
+    },
+    {
+      "at": "2026-10-17T06:24:57.940Z",
+      "event": "native-open",
+      "connection": "3438c310-8939-42b4-b35d-d811dfc76de4"
+    },
+    {
+      "at": "2026-10-17T06:24:58.955Z",
+      "event": "native-open",
+      "connection": "d8ccc7c1-577a-4979-aee9-50bff3cf87ce"
+    },
+    {
+      "at": "2026-10-17T06:24:59.974Z",
+      "event": "native-open",
+      "connection": "5e982bbd-2b19-4cf1-84eb-377720d302b1"
+    },
+    {
+      "at": "2026-10-17T06:25:00.990Z",
+      "event": "native-open",
+      "connection": "536416d2-9106-429e-86e7-f643b40429b2"
+    },
+    {
+      "at": "2026-10-17T06:25:02.006Z",
+      "event": "native-open",
+      "connection": "5ee7edb4-5621-4a8a-b1e4-9edcfa7451d0"
+    },
+    {
+      "at": "2026-10-17T06:25:03.021Z",
+      "event": "native-open",
+      "connection": "aa223af2-83c3-4b0f-8b4a-b22daab64fe4"
+    },
+    {
+      "at": "2026-10-17T06:25:04.039Z",
+      "event": "native-open",
+      "connection": "28cd281d-76cd-471c-a392-908a80a11f99"
+    },
+    {
+      "at": "2026-10-17T06:25:05.055Z",
+      "event": "native-open",
+      "connection": "37c8071c-6513-4aec-a873-5de873697ace"
+    },
+    {
+      "at": "2026-10-17T06:25:06.074Z",
+      "event": "native-open",
+      "connection": "47214620-c585-4454-bbef-1cbf3c157d86"
+    },
+    {
+      "at": "2026-10-17T06:25:07.089Z",
+      "event": "native-open",
+      "connection": "4827f518-bad6-4b47-85ed-500e5e184904"
+    },
+    {
+      "at": "2026-10-17T06:25:08.106Z",
+      "event": "native-open",
+      "connection": "34746f27-9c38-475d-b000-186ada1ce50e"
+    },
+    {
+      "at": "2026-10-17T06:25:09.122Z",
+      "event": "native-open",
+      "connection": "696c24b5-683a-4f03-975f-f603d3c54642"
+    },
+    {
+      "at": "2026-10-17T06:25:10.143Z",
+      "event": "native-open",
+      "connection": "23375c34-ecb1-4096-9fdd-3c7720cf8b85"
+    },
+    {
+      "at": "2026-10-17T06:25:11.154Z",
+      "event": "native-open",
+      "connection": "6c16cd56-cbc3-452b-8d42-39482aa25dbc"
+    },
+    {
+      "at": "2026-10-17T06:25:12.172Z",
+      "event": "native-open",
+      "connection": "c81e41b5-0be7-47e0-822d-b986cb1c4862"
+    },
+    {
+      "at": "2026-10-17T06:25:13.188Z",
+      "event": "native-open",
+      "connection": "a6d9a367-2584-4d3f-8b83-6e438049fcdd"
+    },
+    {
+      "at": "2026-10-17T06:25:14.205Z",
+      "event": "native-open",
+      "connection": "f085c1a4-37d4-4233-bf22-f95c30d3dfe4"
+    },
+    {
+      "at": "2026-10-17T06:25:15.222Z",
+      "event": "native-open",
+      "connection": "9e2f4fbf-5e3f-498d-bc2b-68c68f4967fe"
+    },
+    {
+      "at": "2026-10-17T06:25:16.239Z",
+      "event": "native-open",
+      "connection": "412adaa0-3164-4c88-94f6-01c46558f92b"
+    }
+  ],
+  "backendUpgrades": [],
+  "nativeMessageCounts": {
+    "native->host:hello": 55
+  },
+  "cacheRows": null,
+  "streamTriggered": false,
+  "actualAssistantBytes": null,
+  "offlineReload": false,
+  "observationConsoleLines": 0
+}

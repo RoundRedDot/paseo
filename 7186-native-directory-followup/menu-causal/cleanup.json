@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-17T06:38:40.257Z",
+  "ownSimulator": {
+    "uuid": "50EE316A-A6DB-4B78-87FE-1D92E86C1696",
+    "present": false
+  },
+  "ownHost": {
+    "pid": 40347,
+    "alive": false
+  },
+  "existingDeviceCount": 22,
+  "allExistingDeviceStatesUnchanged": true,
+  "portChecks": [
+    {
+      "port": 54883,
+      "host": "127.0.0.1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 54883,
+      "host": "::1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 58110,
+      "host": "127.0.0.1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 58110,
+      "host": "::1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    }
+  ],
+  "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "gitStatus": "",
+  "priorPublicUnchanged": true,
+  "priorPublicEntries": 34
+}

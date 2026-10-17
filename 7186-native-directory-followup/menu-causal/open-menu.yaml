@@ -1,0 +1,17 @@
+appId: sh.paseo
+---
+- assertVisible: "^(正在加载 workspace|Loading workspace)$"
+- tapOn:
+    id: menu-button
+- extendedWaitUntil:
+    visible:
+      id: "sidebar-workspace-row-.*"
+    timeout: 30000
+- takeScreenshot: directory-after-menu
+- tapOn:
+    id: sidebar-close
+- extendedWaitUntil:
+    visible:
+      id: message-input-root
+    timeout: 30000
+- takeScreenshot: chat-after-menu-close

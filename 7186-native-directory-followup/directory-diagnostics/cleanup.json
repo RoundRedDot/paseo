@@ -1,0 +1,82 @@
+{
+  "at": "2026-10-17T06:30:11.191Z",
+  "candidate": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "gitStatus": "",
+  "ownDevices": [
+    {
+      "round": "round-1",
+      "uuid": "D5CBEC15-966B-4DA9-92ED-E66C3C76B43B",
+      "present": false
+    },
+    {
+      "round": "round-2",
+      "uuid": "81942C33-EDED-4026-BFF4-2CA5B6B7A99D",
+      "present": false
+    }
+  ],
+  "ownedProcesses": [
+    {
+      "round": "round-1",
+      "pid": 22637,
+      "alive": false
+    },
+    {
+      "round": "round-2",
+      "pid": 33210,
+      "alive": false
+    }
+  ],
+  "portChecks": [
+    {
+      "port": 54883,
+      "host": "127.0.0.1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 54883,
+      "host": "::1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 53958,
+      "host": "127.0.0.1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 53958,
+      "host": "::1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 55168,
+      "host": "127.0.0.1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 55168,
+      "host": "::1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 55084,
+      "host": "127.0.0.1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "port": 55084,
+      "host": "::1",
+      "closed": true,
+      "code": "ECONNREFUSED"
+    }
+  ],
+  "existingDeviceCount": 22,
+  "allExistingDeviceStatesUnchanged": true,
+  "priorPublicEntriesUnchanged": 49
+}

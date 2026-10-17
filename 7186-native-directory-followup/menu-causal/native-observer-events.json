@@ -1,0 +1,321 @@
+{
+  "timezone": "Asia/Singapore (+08:00), matching recorded environment",
+  "events": [
+    {
+      "at": "2026-10-17T06:36:00.665Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:00.665",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "offline",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 0
+      },
+      "hasClient": false
+    },
+    {
+      "at": "2026-10-17T06:36:00.667Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:00.667",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:36:00.674Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:00.674",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:36:10.680Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:10.680",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:36:20.680Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:20.680",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:36:26.757Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:26.757",
+      "event": "workspace.route",
+      "serverId": "srv_9VvB5IUP7itU",
+      "workspaceId": "wks_65600194d01e9577",
+      "hydrated": false,
+      "exists": false,
+      "layoutHydrated": true,
+      "openKind": "agent"
+    },
+    {
+      "at": "2026-10-17T06:36:26.758Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:26.758",
+      "event": "workspace.gate",
+      "status": "online",
+      "workspaceId": null,
+      "hydrated": false,
+      "recovery": "idle"
+    },
+    {
+      "at": "2026-10-17T06:36:26.776Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:26.776",
+      "event": "workspace.route",
+      "serverId": "srv_9VvB5IUP7itU",
+      "workspaceId": "wks_65600194d01e9577",
+      "hydrated": false,
+      "exists": false,
+      "layoutHydrated": true,
+      "openKind": null
+    },
+    {
+      "at": "2026-10-17T06:36:26.785Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:26.785",
+      "event": "workspace.route",
+      "serverId": "srv_9VvB5IUP7itU",
+      "workspaceId": "wks_65600194d01e9577",
+      "hydrated": false,
+      "exists": false,
+      "layoutHydrated": true,
+      "openKind": null
+    },
+    {
+      "at": "2026-10-17T06:36:30.705Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:30.705",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:36:35.341Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:35.341",
+      "event": "directory.demand",
+      "serverId": "srv_9VvB5IUP7itU",
+      "demanded": true,
+      "fullCount": 0,
+      "routeCount": 0
+    },
+    {
+      "at": "2026-10-17T06:36:35.363Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:35.363",
+      "event": "directory.session.wait",
+      "serverId": "srv_9VvB5IUP7itU",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "matches": true,
+      "hasSession": true,
+      "clientEqual": true,
+      "sessionGeneration": 1,
+      "hasServerInfo": true
+    },
+    {
+      "at": "2026-10-17T06:36:35.363Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:35.363",
+      "event": "directory.workspace.begin",
+      "serverId": "srv_9VvB5IUP7itU",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "subscribe": true
+    },
+    {
+      "at": "2026-10-17T06:36:35.363Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:35.363",
+      "event": "directory.session.wait",
+      "serverId": "srv_9VvB5IUP7itU",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "matches": true,
+      "hasSession": true,
+      "clientEqual": true,
+      "sessionGeneration": 1,
+      "hasServerInfo": true
+    },
+    {
+      "at": "2026-10-17T06:36:35.374Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:35.374",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:36:35.395Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:35.395",
+      "event": "directory.workspace.committed",
+      "serverId": "srv_9VvB5IUP7itU",
+      "ids": [
+        "wks_65600194d01e9577"
+      ]
+    },
+    {
+      "at": "2026-10-17T06:36:35.396Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:35.396",
+      "event": "workspace.route",
+      "serverId": "srv_9VvB5IUP7itU",
+      "workspaceId": "wks_65600194d01e9577",
+      "hydrated": true,
+      "exists": true,
+      "layoutHydrated": true,
+      "openKind": null
+    },
+    {
+      "at": "2026-10-17T06:36:35.397Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:35.397",
+      "event": "workspace.gate",
+      "status": "online",
+      "workspaceId": "wks_65600194d01e9577",
+      "hydrated": true,
+      "recovery": "idle"
+    },
+    {
+      "at": "2026-10-17T06:36:36.516Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:36.516",
+      "event": "directory.demand",
+      "serverId": "srv_9VvB5IUP7itU",
+      "demanded": false,
+      "fullCount": 1,
+      "routeCount": 1
+    },
+    {
+      "at": "2026-10-17T06:36:38.705Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:38.705",
+      "event": "workspace.gate",
+      "status": "online",
+      "workspaceId": "wks_65600194d01e9577",
+      "hydrated": true,
+      "recovery": "idle"
+    },
+    {
+      "at": "2026-10-17T06:36:40.739Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:40.739",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:36:50.773Z",
+      "rawLocalTimestamp": "2026-10-17 14:36:50.773",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:37:07.765Z",
+      "rawLocalTimestamp": "2026-10-17 14:37:07.765",
+      "event": "workspace.gate",
+      "status": "online",
+      "workspaceId": "wks_65600194d01e9577",
+      "hydrated": true,
+      "recovery": "idle"
+    },
+    {
+      "at": "2026-10-17T06:37:10.908Z",
+      "rawLocalTimestamp": "2026-10-17 14:37:10.908",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:37:20.914Z",
+      "rawLocalTimestamp": "2026-10-17 14:37:20.914",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:37:30.923Z",
+      "rawLocalTimestamp": "2026-10-17 14:37:30.923",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:37:40.927Z",
+      "rawLocalTimestamp": "2026-10-17 14:37:40.927",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    },
+    {
+      "at": "2026-10-17T06:37:50.932Z",
+      "rawLocalTimestamp": "2026-10-17 14:37:50.932",
+      "event": "directory.connection",
+      "serverId": "srv_9VvB5IUP7itU",
+      "status": "online",
+      "source": {
+        "clientGeneration": 1,
+        "connectionEpoch": 1
+      },
+      "hasClient": true
+    }
+  ]
+}

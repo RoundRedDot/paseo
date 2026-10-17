@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-17T06:36:31.075Z",
+  "stage": "before-menu",
+  "counts": {
+    "native->host:hello": 1,
+    "host->native:status": 1,
+    "native->host:session.events.set_subscription.request": 5,
+    "native->host:workspace.label.list.request": 1,
+    "host->native:session.events.set_subscription.response": 5,
+    "host->native:workspace.label.list.response": 1,
+    "native->host:client_heartbeat": 5,
+    "native->host:usage.list_reports.request": 1,
+    "host->native:usage.list_reports.response": 1,
+    "native->host:plugin.catalog.get.request": 1,
+    "host->native:plugin.catalog.get.response": 1,
+    "native->host:ping": 4,
+    "host->native:pong": 4,
+    "native->host:workspace_setup_status_request": 1,
+    "host->native:workspace_setup_status_response": 1,
+    "native->host:subscription.release.request": 1,
+    "native->host:workspace.script.list.request": 1,
+    "host->native:subscription.release.response": 1,
+    "host->native:workspace.script.list.response": 1
+  },
+  "directoryEvents": [],
+  "expectedWorkspaceId": "wks_65600194d01e9577"
+}

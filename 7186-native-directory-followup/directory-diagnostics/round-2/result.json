@@ -1,0 +1,69 @@
+{
+  "round": "round-2",
+  "info": {
+    "port": 54883,
+    "upstreamPort": 55168,
+    "serverId": "srv_4m_LVpcSHgN-",
+    "workspaceId": "wks_024816e95abef1a9",
+    "agentId": "ce5f582d-3f93-45df-9f68-ffa84dc4b7f4"
+  },
+  "startedAt": "2026-10-17T06:26:48Z",
+  "endedAt": "2026-10-17T06:28:17Z",
+  "exit": 1,
+  "nativeConnections": [
+    {
+      "at": "2026-10-17T06:27:10.658Z",
+      "event": "native-open",
+      "connection": "7d47220b-620a-46a8-875f-f6b3aa36d364",
+      "targetURL": "ws://127.0.0.1:55168/ws",
+      "host": "localhost:54883",
+      "origin": "http://localhost:54883",
+      "subprotocolCount": 0
+    }
+  ],
+  "backendUpgrades": [
+    {
+      "at": "2026-10-17T06:27:10.660Z",
+      "event": "backend-upgrade",
+      "connection": "7d47220b-620a-46a8-875f-f6b3aa36d364",
+      "status": 101,
+      "remoteAddress": "127.0.0.1",
+      "remotePort": 55168,
+      "host": "localhost:54883",
+      "protocolNegotiated": false
+    }
+  ],
+  "nativeMessageCounts": {
+    "native->host:hello": 1,
+    "host->native:status": 1,
+    "native->host:session.events.set_subscription.request": 5,
+    "native->host:workspace.label.list.request": 1,
+    "host->native:session.events.set_subscription.response": 5,
+    "host->native:workspace.label.list.response": 1,
+    "native->host:client_heartbeat": 7,
+    "native->host:usage.list_reports.request": 1,
+    "host->native:usage.list_reports.response": 1,
+    "native->host:plugin.catalog.get.request": 1,
+    "host->native:plugin.catalog.get.response": 1,
+    "native->host:ping": 7,
+    "host->native:pong": 7,
+    "host->native:checkout_status_update": 1,
+    "native->host:workspace_setup_status_request": 1,
+    "host->native:workspace_setup_status_response": 1,
+    "native->host:subscription.release.request": 1,
+    "host->native:subscription.release.response": 1,
+    "native->host:workspace.script.list.request": 1,
+    "host->native:workspace.script.list.response": 1
+  },
+  "cacheRows": [
+    {
+      "kind": "checkpoint",
+      "id": "singleton",
+      "bytes": 26
+    }
+  ],
+  "streamTriggered": false,
+  "actualAssistantBytes": null,
+  "offlineReload": false,
+  "observationConsoleLines": 0
+}
