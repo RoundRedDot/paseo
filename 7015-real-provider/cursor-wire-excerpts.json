@@ -1,0 +1,33 @@
+[
+  {
+    "source": "cursor-wire.jsonl",
+    "line": 20,
+    "record": {
+      "time": "2026-10-17T03:14:57.670Z",
+      "wrapperPid": 9705,
+      "seq": 6,
+      "provider": "cursor",
+      "kind": "rpc_method",
+      "direction": "host_to_provider",
+      "id": 2,
+      "method": "session/set_mode"
+    }
+  },
+  {
+    "source": "cursor-wire.jsonl",
+    "line": 22,
+    "record": {
+      "time": "2026-10-17T03:14:57.671Z",
+      "wrapperPid": 9705,
+      "seq": 8,
+      "provider": "cursor",
+      "kind": "provider_rpc_result",
+      "method": "session/set_mode",
+      "message": {
+        "jsonrpc": "2.0",
+        "id": 2,
+        "result": {}
+      }
+    }
+  }
+]

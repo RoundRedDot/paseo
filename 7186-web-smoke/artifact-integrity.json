@@ -1,0 +1,7 @@
+{
+  "exactAssistantTextMatch": true,
+  "expectedUtf8Bytes": 50014,
+  "actualUtf8Bytes": 50014,
+  "expectedSha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c",
+  "actualSha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c"
+}

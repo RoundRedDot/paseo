@@ -1,0 +1,28 @@
+95690: Experimental Expo Autolinking module resolver is enabled.
+95691: React Compiler enabled
+95692: Starting Metro Bundler
+95693: /private/tmp/paseo-review-repair-20261017/qa/native-7186/.:0: error: Unable to resolve module /tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/index.ts from /private/tmp/paseo-review-repair-20261017/qa/native-7186/.: 
+95694: Error: Unable to resolve module /tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/index.ts from /private/tmp/paseo-review-repair-20261017/qa/native-7186/.: 
+95695: 
+95696: None of these files exist:
+95697:   * ../../../../../../../tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/index.ts(.ios.ts|.native.ts|.ts|.ios.tsx|.native.tsx|.tsx|.ios.mjs|.native.mjs|.mjs|.ios.js|.native.js|.js|.ios.jsx|.native.jsx|.jsx|.ios.json|.native.json|.json|.ios.cjs|.native.cjs|.cjs|.ios.scss|.native.scss|.scss|.ios.sass|.native.sass|.sass|.ios.css|.native.css|.css)
+95698:   * ../../../../../../../tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/index.ts
+95699: Error: Unable to resolve module /tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/index.ts from /private/tmp/paseo-review-repair-20261017/qa/native-7186/.: 
+95700: 
+95701: None of these files exist:
+95702:   * ../../../../../../../tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/index.ts(.ios.ts|.native.ts|.ts|.ios.tsx|.native.tsx|.tsx|.ios.mjs|.native.mjs|.mjs|.ios.js|.native.js|.js|.ios.jsx|.native.jsx|.jsx|.ios.json|.native.json|.json|.ios.cjs|.native.cjs|.cjs|.ios.scss|.native.scss|.scss|.ios.sass|.native.sass|.sass|.ios.css|.native.css|.css)
+95703:   * ../../../../../../../tmp/paseo-review-repair-20261017/qa/native-7186/packages/app/index.ts
+95704:     at ModuleResolver.resolveDependency (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/metro/src/node-haste/DependencyGraph/ModuleResolution.js:136:15)
+95705:     at DependencyGraph.resolveDependency (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/metro/src/node-haste/DependencyGraph.js:252:43)
+95706:     at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/metro/src/lib/transformHelpers.js:163:21
+95707:     at Server._resolveRelativePath (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/node_modules/metro/src/Server.js:1259:12)
+95730: note: Run script build phase '[Expo] Configure project' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'Paseo' from project 'Paseo')
+95731: note: Run script build phase 'Bundle React Native code and images' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'Paseo' from project 'Paseo')
+95732: note: Run script build phase '[CP-User] Generate app.config for prebuilt Constants.manifest' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'EXConstants' from project 'Pods')
+95733: ** BUILD FAILED **
+95734: 
+95735: 
+95736: The following build commands failed:
+95737: 	PhaseScriptExecution Bundle\ React\ Native\ code\ and\ images /tmp/paseo-review-repair-20261017/qa/7186-derived/Build/Intermediates.noindex/Paseo.build/Release-iphonesimulator/Paseo.build/Script-00DD1BFF1BD5951E006B06BC.sh (in target 'Paseo' from project 'Paseo')
+95738: 	Building workspace Paseo with scheme Paseo and configuration Release
+95739: (2 failures)

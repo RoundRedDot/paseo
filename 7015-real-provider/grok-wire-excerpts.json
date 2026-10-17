@@ -1,0 +1,128 @@
+[
+  {
+    "source": "grok-wire.jsonl",
+    "line": 157,
+    "record": {
+      "time": "2026-10-17T03:14:10.036Z",
+      "wrapperPid": 5119,
+      "seq": 75,
+      "provider": "grok",
+      "kind": "native_question_request",
+      "direction": "provider_to_host",
+      "message": {
+        "jsonrpc": "2.0",
+        "id": 0,
+        "method": "_x.ai/ask_user_question",
+        "params": {
+          "sessionId": "01a147d9-f8fc-7770-a590-1d3eb41a866d",
+          "toolCallId": "call-911bc096-82bf-429b-8006-120903261dce-0",
+          "questions": [
+            {
+              "question": "QA Grok colors?",
+              "options": [
+                {
+                  "label": "Red",
+                  "description": "Red"
+                },
+                {
+                  "label": "Blue",
+                  "description": "Blue"
+                },
+                {
+                  "label": "Red, Blue",
+                  "description": "Red, Blue"
+                }
+              ],
+              "multiSelect": true
+            }
+          ],
+          "mode": "default"
+        }
+      }
+    }
+  },
+  {
+    "source": "grok-wire.jsonl",
+    "line": 158,
+    "record": {
+      "time": "2026-10-17T03:14:10.239Z",
+      "wrapperPid": 5119,
+      "seq": 76,
+      "provider": "grok",
+      "kind": "native_question_response",
+      "direction": "host_to_provider",
+      "method": "_x.ai/ask_user_question",
+      "message": {
+        "jsonrpc": "2.0",
+        "id": 0,
+        "result": {
+          "outcome": "accepted",
+          "answers": {
+            "QA Grok colors?": [
+              "Red",
+              "Blue"
+            ]
+          },
+          "annotations": {
+            "QA Grok colors?": {
+              "notes": "Red, Blue"
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "source": "grok-wire.jsonl",
+    "line": 162,
+    "record": {
+      "time": "2026-10-17T03:14:10.351Z",
+      "wrapperPid": 5119,
+      "seq": 80,
+      "provider": "grok",
+      "kind": "provider_update",
+      "direction": "provider_to_host",
+      "message": {
+        "jsonrpc": "2.0",
+        "method": "session/update",
+        "params": {
+          "sessionId": "01a147d9-f8fc-7770-a590-1d3eb41a866d",
+          "update": {
+            "sessionUpdate": "tool_call_update",
+            "toolCallId": "call-911bc096-82bf-429b-8006-120903261dce-0",
+            "status": "completed",
+            "content": [
+              {
+                "type": "content",
+                "content": {
+                  "type": "text",
+                  "text": "User has answered your questions: \"QA Grok colors?\"=\"Red, Blue\" user notes: Red, Blue. You can now continue with the user's answers in mind."
+                }
+              }
+            ],
+            "rawOutput": {
+              "type": "AskUserQuestion",
+              "UserAnswered": {
+                "message": "User has answered your questions: \"QA Grok colors?\"=\"Red, Blue\" user notes: Red, Blue. You can now continue with the user's answers in mind."
+              }
+            }
+          },
+          "_meta": {
+            "totalTokens": "<REDACTED>",
+            "requestTrimmedTokens": "<REDACTED>",
+            "eventId": "01a147d9-f8fc-7770-a590-1d3eb41a866d-42",
+            "agentTimestampMs": 1792206850351,
+            "promptId": "596b7b3b-84ed-42ec-a056-472e969b52ca",
+            "streamStartMs": 1792206832431,
+            "turnStartMs": 1792206830062,
+            "updateType": "ToolCallUpdate",
+            "updateParams": {
+              "toolCallId": "call-911bc096-82bf-429b-8006-120903261dce-0",
+              "status": "Completed"
+            }
+          }
+        }
+      }
+    }
+  }
+]

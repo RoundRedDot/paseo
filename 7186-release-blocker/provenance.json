@@ -1,0 +1,9 @@
+{
+  "sourceSha": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+  "sourceLog": "7186-release-build-3.log",
+  "sourceLogSha256": "b37c12612bd8e61da0c143324ca6a6bce6ec12abf7ac500b47edc4dc693af871",
+  "exitCode": 65,
+  "nativeRuntime": "NOT_RUN",
+  "releasePerformance": "NOT_VERIFIED",
+  "failure": "temporary snapshot Metro entry resolution during app bundle"
+}

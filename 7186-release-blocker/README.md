@@ -1,0 +1,5 @@
+# PR #7186 Release attempt: blocked
+
+Candidate `85f7d56ea79f8b7c22538a2b763875f4ce2d74ad`. Temporary git-archive snapshot, RN0.81.5 / Expo54.0.33 / app0.12.0-beta.1, Xcode27.1. `xcodebuild -workspace Paseo.xcworkspace -scheme Paseo -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath <qa>/7186-derived -jobs 2 CODE_SIGNING_ALLOWED=NO IPHONEOS_DEPLOYMENT_TARGET=15.1 ONLY_ACTIVE_ARCH=YES ARCHS=arm64 build` exits65.
+
+Native targets compile/link, but the application bundle phase cannot resolve the temporary snapshot packages/app/index.ts even though that file exists. This records an environment/harness blocker, not a demonstrated PR defect. No app was installed, no simulator runtime or Release performance accepted. No additional platform repair was attempted. Raw error excerpt includes original line numbers; provenance records the complete local log hash. Web smoke is separate evidence, not Release/device proof. Keep Draft pending actual application/runtime symptoms and performance discussion.
