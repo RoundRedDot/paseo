@@ -368,6 +368,7 @@ export const ru: TranslationResources = {
       details: "Подробности",
     },
     dictation: {
+      paused: "Микрофон прерван. Ожидание возобновления…",
       start: "Начать диктовку голосом",
       cancel: "Отменить диктовку",
       retry: "Повторить диктовку",
