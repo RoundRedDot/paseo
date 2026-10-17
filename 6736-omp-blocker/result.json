@@ -1,0 +1,10 @@
+{
+  "provider": "official OMP 18.11.3",
+  "sha": "6513124ca16cf18db0df5eba3fda80c9fe2b37f0",
+  "startedAt": "2026-10-17T03:05:34.614Z",
+  "inferenceRequests": 0,
+  "available": true,
+  "status": "blocked",
+  "error": "Error: OMP RPC process exited with code 1 and signal null\nNo default model selected. Use /login, set an API key environment variable, or select a local model with /model or --model.\n\nSet an API key environment variable:\n  ANTHROPIC_API_KEY, OPENAI_API_KEY, GEMINI_API_KEY, etc.\n\nOr create /tmp/paseo-review-repair-20261017/qa/tools/probe-state/models.yml\n    at ChildProcess.<anonymous> (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6736-parallel-20261016/packages/server/src/server/agent/providers/jsonl-rpc-process.ts:117:21)\n    at ChildProcess.emit (node:events:509:28)\n    at ChildProcess._handle.onexit (node:internal/child_process:295:12)",
+  "endedAt": "2026-10-17T03:05:39.443Z"
+}
