@@ -1,0 +1,13 @@
+
+> @getpaseo/app@0.12.0-beta.1 test
+> vitest run src/agent-stream/text-reveal.test.ts --bail=1
+
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7006-parallel-20261016/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  51 passed (51)
+   Start at  10:47:32
+   Duration  109ms (transform 31ms, setup 21ms, import 23ms, tests 5ms, environment 0ms)
+

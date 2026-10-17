@@ -1,0 +1,257 @@
+
+> @getpaseo/app@0.12.0-beta.1 test:e2e
+> playwright test --project=browser e2e/browser/agent-stream-closing-fence.spec.ts --workers=1 --retries=0
+
+[metro] Starting project at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7006-parallel-20261016/packages/app
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Experimental Expo Autolinking module resolver is enabled.
+[metro] React Compiler enabled
+[metro] Starting Metro Bundler
+[metro] Waiting on http://localhost:56270
+[metro] Logs for your project will appear below.
+[metro] | (node:19644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:19650) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:19645) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:19649) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:19647) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:19651) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:19652) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:19648) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:19646) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:19653) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] Web packages/app/index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (5499/5501)
+[metro] Web packages/app/index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (5584/5585)
+[metro] Web packages/app/index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (5585/5585)
+[metro] Web Bundled 9598ms packages/app/index.ts (5585 modules)
+[e2e] Metro warmed on port 56270
+
+Running 2 tests using 1 worker
+
+(node:20400) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20400) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 0 daemon started on port 56359, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-0-h3Y8aQ
+[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[metro] Web Bundled 174ms packages/app/index.ts (1 module)
+[metro]  LOG  [web] Logs will appear in the browser console
+[metro] Web Bundled 37ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+  ✓  1 [browser] › e2e/browser/agent-stream-closing-fence.spec.ts:118:5 › does not paint a closing fence while it is still being typed (5.3s)
+[e2e] Worker 0 daemon stopped
+  ✘  2 [browser] › e2e/browser/agent-stream-closing-fence.spec.ts:156:5 › excludes each revealed character of the next paragraph from both pauses (162ms)
+[e2e] Metro stopped
+
+
+  1) [browser] › e2e/browser/agent-stream-closing-fence.spec.ts:156:5 › excludes each revealed character of the next paragraph from both pauses 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  -   0[39m
+    [31m+ Received  + 160[39m
+
+    [33m@@ -7,6 +7,166 @@[39m
+    [2m      ],[22m
+    [2m      "partialFenceLines": Array [],[22m
+    [2m      "text": "Here is the first snippet:const answer = 42;[22m
+    [2m  console.log(answer);",[22m
+    [2m    },[22m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       1,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);A",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       2,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);An",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       3,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       4,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And ",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       5,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       6,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a ",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       7,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a s",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       8,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a se",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       9,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a sec",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       10,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a seco",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       11,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a secon",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       12,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a second",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       13,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a second ",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       14,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a second o",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       15,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a second on",[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "codeBlockHeights": Array [],[39m
+    [31m+     "codeBlockTexts": Array [],[39m
+    [31m+     "messageHeights": Array [[39m
+    [31m+       16,[39m
+    [31m+     ],[39m
+    [31m+     "partialFenceLines": Array [],[39m
+    [31m+     "text": "Here is the first snippet:const answer = 42;[39m
+    [31m+ console.log(answer);And a second one",[39m
+    [31m+   },[39m
+    [2m  ][22m
+
+      167 |       partialFenceLines: [],
+      168 |     }));
+    > 169 |     expect(closingFencePauseSamples(samples, pauseText)).toEqual([samples[0]]);
+          |                                                          ^
+      170 |   }
+      171 | });
+      172 |
+        at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7006-parallel-20261016/packages/app/e2e/browser/agent-stream-closing-fence.spec.ts:169:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/agent-stream-closing-fence-a9c92--paragraph-from-both-pauses-browser/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results/agent-stream-closing-fence-a9c92--paragraph-from-both-pauses-browser/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/agent-stream-closing-fence-a9c92--paragraph-from-both-pauses-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/agent-stream-closing-fence-a9c92--paragraph-from-both-pauses-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [browser] › e2e/browser/agent-stream-closing-fence.spec.ts:156:5 › excludes each revealed character of the next paragraph from both pauses 
+  1 passed (25.9s)

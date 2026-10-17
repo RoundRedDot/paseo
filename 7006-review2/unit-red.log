@@ -1,0 +1,39 @@
+
+> @getpaseo/app@0.12.0-beta.1 test
+> vitest run src/agent-stream/text-reveal.test.ts --bail=1
+
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7006-parallel-20261016/packages/app
+
+ ❯ |unit| src/agent-stream/text-reveal.test.ts (49 tests | 1 failed) 7ms
+     × paints real code after whitespace ends a 3 '`' run (' ') 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/agent-stream/text-reveal.test.ts > a closing fence still being typed > paints real code after whitespace ends a 3 '`' run (' ')
+AssertionError: expected '```\ncode\n' to be '```\ncode\n`` ' // Object.is equality
+
+- Expected
++ Received
+
+  ```
+  code
+- `` 
++
+
+ ❯ src/agent-stream/text-reveal.test.ts:303:47
+    301|     expect(withholdPartialClosingFence(prefix + run)).toBe(prefix);
+    302|     const text = prefix + run + whitespace;
+    303|     expect(withholdPartialClosingFence(text)).toBe(text);
+       |                                               ^
+    304|     expect(visibleRevealedText(beginTextReveal(text), { streaming: tru…
+    305|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 33 passed (49)
+   Start at  10:41:35
+   Duration  122ms (transform 32ms, setup 23ms, import 24ms, tests 7ms, environment 0ms)
+
