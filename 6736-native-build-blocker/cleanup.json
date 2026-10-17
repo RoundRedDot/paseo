@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-17T09:05:26.736Z",
+  "runtimeStarted": false,
+  "ownedSimulatorCreated": false,
+  "ownedHostCreated": false,
+  "videoOrLogProcessCreated": false,
+  "allFourXcodebuildInvocationsExited": true,
+  "compilerResourceEvidence": "unified command results all exit65; no hosted runtime started",
+  "existingDeviceCount": 22,
+  "allExistingDeviceStatesUnchanged": true,
+  "portChecks": [
+    {
+      "host": "127.0.0.1",
+      "port": 57190,
+      "closed": true,
+      "code": "ECONNREFUSED"
+    },
+    {
+      "host": "::1",
+      "port": 57190,
+      "closed": true,
+      "code": "ECONNREFUSED"
+    }
+  ],
+  "productHead": "bd3bbb45f612df5fcdd02f5355d545d13341ade0",
+  "gitStatus": "",
+  "previousPublic": [
+    {
+      "directory": "/tmp/paseo-pr-native-followup-20261017/public",
+      "entries": 34,
+      "unchanged": true,
+      "mismatches": []
+    },
+    {
+      "directory": "/tmp/paseo-pr-native-followup-20261017/causal-stage/public",
+      "entries": 38,
+      "unchanged": true,
+      "mismatches": []
+    },
+    {
+      "directory": "/tmp/paseo-pr-native-followup-20261017/offline-stage/public",
+      "entries": 65,
+      "unchanged": true,
+      "mismatches": []
+    },
+    {
+      "directory": "/tmp/paseo-pr-native-followup-20261017/perf-stage/public",
+      "entries": 105,
+      "unchanged": true,
+      "mismatches": []
+    }
+  ]
+}

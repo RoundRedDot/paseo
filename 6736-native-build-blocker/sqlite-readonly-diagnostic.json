@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-17T09:02:23.510Z",
+  "readOnly": true,
+  "noNewBuildOrRuntime": true,
+  "headers": [
+    {
+      "kind": "Public",
+      "symlink": "/tmp/paseo-pr-final-gaps-20261017/6736-native/native-assets/expo-sqlite/sqlite3.h",
+      "realpath": "/private/tmp/paseo-pr-final-gaps-20261017/6736-native/native-assets/expo-sqlite/sqlite3.h",
+      "hasExsqliteOpen": true
+    },
+    {
+      "kind": "Private",
+      "symlink": "/tmp/paseo-pr-final-gaps-20261017/6736-native/native-assets/expo-sqlite/sqlite3.h",
+      "realpath": "/private/tmp/paseo-pr-final-gaps-20261017/6736-native/native-assets/expo-sqlite/sqlite3.h",
+      "hasExsqliteOpen": true
+    }
+  ],
+  "modules": [
+    {
+      "file": "/tmp/paseo-pr-final-gaps-20261017/6736-native/DerivedData-fresh/ModuleCache.noindex/3UQNBQJ7OTJ6S/ExpoSQLite-49U3HRCTVHQX.pcm",
+      "exit": 1,
+      "sqliteLines": [
+        "error: precompiled file '/tmp/paseo-pr-final-gaps-20261017/6736-native/DerivedData-fresh/ModuleCache.noindex/3UQNBQJ7OTJ6S/ExpoSQLite-49U3HRCTVHQX.pcm' built from a different branch ((clang-2100.3.34.1)) than the compiler ((clang-2100.3.34.2))"
+      ],
+      "mtime": "2026-10-17T08:58:03.553Z"
+    },
+    {
+      "file": "/tmp/paseo-pr-final-gaps-20261017/6736-native/DerivedData-fresh/ModuleCache.noindex/3UQNBQJ7OTJ6S/SQLite3-2I5LTOES9LPWT.pcm",
+      "exit": 1,
+      "sqliteLines": [],
+      "mtime": "2026-10-17T08:58:03.547Z"
+    }
+  ],
+  "limitation": "Exact Swift imported header identity remains unproven: metadata reader uses clang-2100.3.34.2, Swift-produced PCM uses clang-2100.3.34.1; both module-file-info invocations exit1. Header paths/namespace are directly verified, but cache causality is only a hypothesis."
+}

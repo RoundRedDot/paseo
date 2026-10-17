@@ -1,0 +1,48 @@
+appId: sh.paseo
+---
+- extendedWaitUntil:
+    visible: "QA6736-TEXT-IMAGE"
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: scroll-to-bottom-button
+    commands:
+      - tapOn:
+          id: scroll-to-bottom-button
+- assertVisible:
+    id: user-message-image
+    index: 0
+- assertVisible:
+    id: user-message-image
+    index: 1
+- assertVisible: "QA6736 fixture reply 2"
+- assertNotVisible: "^(正在更新消息|Updating messages)$"
+- takeScreenshot: two-native-previews
+- tapOn:
+    id: user-message-image
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: attachment-lightbox-image
+    timeout: 15000
+- assertNotVisible: "^(无法加载图片|Failed to load image)$"
+- takeScreenshot: first-native-lightbox
+- tapOn:
+    id: attachment-lightbox-close
+- assertNotVisible:
+    id: attachment-lightbox
+- tapOn:
+    id: user-message-image
+    index: 1
+- extendedWaitUntil:
+    visible:
+      id: attachment-lightbox-image
+    timeout: 15000
+- assertNotVisible: "^(无法加载图片|Failed to load image)$"
+- takeScreenshot: second-native-lightbox
+- tapOn:
+    id: attachment-lightbox-close
+- assertNotVisible:
+    id: attachment-lightbox
+- assertVisible: "QA6736-TEXT-IMAGE"

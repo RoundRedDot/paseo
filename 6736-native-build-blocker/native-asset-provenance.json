@@ -1,0 +1,3674 @@
+{
+  "at": "2026-10-17T08:51:37.923Z",
+  "packageVersion": "1.2.0-nightly-20261014-766fc0e67",
+  "sourceFilesCompared": 903,
+  "sourceFileHashes": [
+    {
+      "file": "LICENSE",
+      "sha256": "42430f8ede032f5a42494728ada2712e1f2794d1c8b2e4b3d24551a12b06badf"
+    },
+    {
+      "file": "README.md",
+      "sha256": "9d68b925c26cd2be0af8bccb49ad725cb7012a49a7ee756b765cf18e175fbe59"
+    },
+    {
+      "file": "ReactNativeEnrichedMarkdown.podspec",
+      "sha256": "94c511796b07a9ad8e49433908eb2c239875d4214494799f03d2a3d1895ca261"
+    },
+    {
+      "file": "android/build.gradle",
+      "sha256": "22fd436eda68ff0c309666756b5f04ea75b9a8d0c922df7b1216cf41868918ca"
+    },
+    {
+      "file": "android/consumer-rules.pro",
+      "sha256": "d502c04062b37c4563beaa8c350f2e69260b746afac1dbbc666d7484fd97373c"
+    },
+    {
+      "file": "android/generated/java/com/facebook/react/viewmanagers/EnrichedMarkdownManagerDelegate.java",
+      "sha256": "7605e7bd66983520ae4a79db9c1a005f3e28c83d0c48f26dc4b7e4d310426a82"
+    },
+    {
+      "file": "android/generated/java/com/facebook/react/viewmanagers/EnrichedMarkdownManagerInterface.java",
+      "sha256": "e2733802521f1dc199eea605430bec251896a3c81affc5f3bad6c3afead2bf87"
+    },
+    {
+      "file": "android/generated/java/com/facebook/react/viewmanagers/EnrichedMarkdownTextInputManagerDelegate.java",
+      "sha256": "236b83e99952287e2b15f623159baec1739fb9e0ce736fe7f1102ff98bcea6f4"
+    },
+    {
+      "file": "android/generated/java/com/facebook/react/viewmanagers/EnrichedMarkdownTextInputManagerInterface.java",
+      "sha256": "ca308f272e2c8d7cb43a44a0fa5b40a3ed74b36a81644df04159827d0001ee5e"
+    },
+    {
+      "file": "android/generated/java/com/facebook/react/viewmanagers/EnrichedMarkdownTextManagerDelegate.java",
+      "sha256": "fdff73aaaafb627770a1851a49ba75311e0da48ede604d3f6b1a97c624fe19c2"
+    },
+    {
+      "file": "android/generated/java/com/facebook/react/viewmanagers/EnrichedMarkdownTextManagerInterface.java",
+      "sha256": "1194d40ad30016db16363f7f4df70d67c1e4ee85c3b00155d2ae4ee5ccb63513"
+    },
+    {
+      "file": "android/generated/jni/react/renderer/components/EnrichedMarkdownTextSpec/ComponentDescriptors.cpp",
+      "sha256": "0e840c5b608eb35b21be7ced7d4952db014255ac7978aa23749d2d03e7a1c0d4"
+    },
+    {
+      "file": "android/generated/jni/react/renderer/components/EnrichedMarkdownTextSpec/ComponentDescriptors.h",
+      "sha256": "a7137bbca3a1b8baa1eb7f6f68d23eb868f96f6284fadb095a437c3684f1bc31"
+    },
+    {
+      "file": "android/generated/jni/react/renderer/components/EnrichedMarkdownTextSpec/EventEmitters.cpp",
+      "sha256": "347b619e6b9e826590649740510fd48614e7bb30b5c243896ca38d24250aee0f"
+    },
+    {
+      "file": "android/generated/jni/react/renderer/components/EnrichedMarkdownTextSpec/EventEmitters.h",
+      "sha256": "17e8a978d2d9c0423a9ef09403e8487610c4435458b81facb8deb313356a5dac"
+    },
+    {
+      "file": "android/generated/jni/react/renderer/components/EnrichedMarkdownTextSpec/Props.cpp",
+      "sha256": "0e04c80a6f5b8b6906d2af1b27a95f08ce644f69e8600ec6be64a5522cd58c59"
+    },
+    {
+      "file": "android/generated/jni/react/renderer/components/EnrichedMarkdownTextSpec/Props.h",
+      "sha256": "6ab2e0caf6a79a25f631350fe36a70650f62328fb12103231d1ec3d3474c80a7"
+    },
+    {
+      "file": "android/generated/jni/react/renderer/components/EnrichedMarkdownTextSpec/ShadowNodes.cpp",
+      "sha256": "11993168194630ecd97b57e9dd1a38dd08bf829914ee72859b305f9e979da97f"
+    },
+    {
+      "file": "android/generated/jni/react/renderer/components/EnrichedMarkdownTextSpec/ShadowNodes.h",
+      "sha256": "f053293e115e90554ff17691056684529c177b329d2e1080fc720550e9dd017f"
+    },
+    {
+      "file": "android/generated/jni/react/renderer/components/EnrichedMarkdownTextSpec/States.cpp",
+      "sha256": "982c98edc95915e0016a53240974b613d764f7c44673e260a655b2a43021710c"
+    },
+    {
+      "file": "android/generated/jni/react/renderer/components/EnrichedMarkdownTextSpec/States.h",
+      "sha256": "8a89d856a12d382f70d76e556e28651c292b013cc416088a321269bf6a3cfde2"
+    },
+    {
+      "file": "android/gradle.properties",
+      "sha256": "28b402407fa9e896c4980e1681d0c91038f49fdff7e5025414e6dfb8c186a235"
+    },
+    {
+      "file": "android/src/main/AndroidManifest.xml",
+      "sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d"
+    },
+    {
+      "file": "android/src/main/baseline-prof.txt",
+      "sha256": "a67f5bfa1a7f2626fad7552877bc69cc6c5b3c7def9646b24a4f56eb39f174d8"
+    },
+    {
+      "file": "android/src/main/cpp/jni-adapter.cpp",
+      "sha256": "452278d014f5af0372de5acec01a7a91b399c42685cba6494c6fcb353922249b"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/EnrichedMarkdown.kt",
+      "sha256": "6d91d385f461d833e76aae569ec27f74a8081de13efe28b0b9e6ed979cbe51cd"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/EnrichedMarkdownInternalText.kt",
+      "sha256": "505a84ca87599963b081b2f98bb41a75318ffe682034e4d15ff49f4ac44d62ce"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/EnrichedMarkdownManager.kt",
+      "sha256": "f3a005a6b1f2fd022745bb45ada0d35909d66d8e9fa653a3656190ab679962d2"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/EnrichedMarkdownText.kt",
+      "sha256": "ce3f676578a1ae5646e8463966c918b8611ce400bcf366fbdc9555646587c877"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/EnrichedMarkdownTextLayoutManager.kt",
+      "sha256": "c42a38e20878ba914a683a8697f1468633f1b4abcf61a52b4b434cdd7ff1e65e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/EnrichedMarkdownTextManager.kt",
+      "sha256": "5341faec6097ba325bf8d0ea9525af7e43c782adab1eebe9264ebffed013699e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/EnrichedMarkdownTextPackage.kt",
+      "sha256": "ca698e814e1096122fd825ddd47baeca46604e3119e6e3aff3084fe454bd742d"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/MarkdownRenderDispatch.kt",
+      "sha256": "61b404985700586da6ff3012a12767f5f27d6d8ac143ed3fcae211316ae94fa4"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/MeasurementSizeCache.kt",
+      "sha256": "be7962ffa37043075557e7382447a2e74069919b9b2057eb90a63fd5617a9b50"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/MeasurementStore.kt",
+      "sha256": "ed762800fcfa9b2e6d055485c7086155840c24d7f759a1fe534ea676fd6478d6"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/accessibility/AccessibilityLabels.kt",
+      "sha256": "bdd16511aafa5e0ea0b0895e12755be3f9775c6810576f439e54e8df7dd9e70c"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/accessibility/AccessibleMarkdownTextView.kt",
+      "sha256": "0f53c1bfe47f2c271b1901e4f0c6d7c3c474d94e48b7f170f9139c15dff29fc0"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/accessibility/MarkdownAccessibilityHelper.kt",
+      "sha256": "3bc201ca2160cf6b7740921866aaabef122bfb98dbfd44ee4b690ac79db7c1a6"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/events/CodeBlockPressEvent.kt",
+      "sha256": "2a0b6a98d60d892338024424863775070b4dc8e6f05f4335630a10e13363b141"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/events/ContextMenuItemPressEvent.kt",
+      "sha256": "9c50e58e882d2f111ceb9460ca52f3d137ffc3d0be0f07da65dde91e496012ab"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/events/CopyPressEvent.kt",
+      "sha256": "cd041c183775142e1b883522a8f01fa8d4fe2f61ae893a3adfd6be1e1895840b"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/events/ImagePressEvent.kt",
+      "sha256": "70da127c8ab320fd9e403e0449c6178728ed718303a80c69b94b80deff27edf6"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/events/LatexErrorEvent.kt",
+      "sha256": "bd956e460192b11cd2287c1d1a5fddbb5f3e63982c230c44fbbadac1921efc11"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/events/LinkLongPressEvent.kt",
+      "sha256": "9edd368c98e9e5a33a07d3c4153e614813d39ed17eea59066c9c594d4015dac2"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/events/LinkPressEvent.kt",
+      "sha256": "66a9dfacdef38bc327fb26da081a9d49a3021bddddf5020efb0f3211f0e99af5"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/events/TaskListItemPressEvent.kt",
+      "sha256": "a34413b49ea79c51e9a8d1c629e045f2cd7b3a56bc9ab915d068133320278013"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/EnrichedMarkdownTextInputManager.kt",
+      "sha256": "2e49792674d20b5fccb0c92071c71a84d0a1b96720abbe90daa7642d9c050494"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/EnrichedMarkdownTextInputView.kt",
+      "sha256": "398a67de3c8ea6ff137378754a91481ed4f6af1314d056b833f2ee971d3a416a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/MarkdownClipboard.kt",
+      "sha256": "a54ade9eb00162561f60beb750e4846fd64b791529f26806130deec2ad1e535f"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/autolink/AutoDetectedLinkSpan.kt",
+      "sha256": "0a183362616478080c7210568811c8284e01a71c345c61c8225a97f324875a4d"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/autolink/AutoLinkDetector.kt",
+      "sha256": "9313143d50980d2097db870ab89139292266cfb06322d34994e129dd154f89ef"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/detection/DetectorPipeline.kt",
+      "sha256": "237ec0636204b8c244ef11baa47b17fcb99d9c4d516676fae8adbcd1849e907b"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/detection/TextDetector.kt",
+      "sha256": "cba3f0c1f47939380ee8a272f2da1e66a30b0b0fd5ff1f2bdc83e023661ba22a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/detection/WordResult.kt",
+      "sha256": "659ec3f029bd1b749a90396ae77962c405e44710eadb7e98b4eb486845368d3e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/detection/WordsUtils.kt",
+      "sha256": "bbadbd40dd646cda37b108600e1ad24a28281185f3d3785ca1d9f2ca478bfad8"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/editing/BlockEditCoordinator.kt",
+      "sha256": "3bcc6466f42cb614de86115acaa43625e94cd15a1a0d937cd03535398c997fd3"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/editing/ClipboardCoordinator.kt",
+      "sha256": "937ee6129f9ac00d6ce0092a345e17e8939faec428364df662ef1b877f2765f1"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/editing/EditContext.kt",
+      "sha256": "4232834e720bc1180f4325310ca35a49ef2b6d3daf1ac849d2141fcb3eb76f32"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/editing/EditPipeline.kt",
+      "sha256": "97a2ca159803dc6dc5570d507c0ba4121556d676c1c3cc8927fd9d9dac7f18b5"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/editing/EditSession.kt",
+      "sha256": "ced3d68a30d882d03f53ce7b977a845a1c67566ebee108c8a2dde562a691a2e5"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/editing/InputConnectionWrapper.kt",
+      "sha256": "80ef1ca23be9037d644e52e610fe45b74e4c856294aa9bacf796ee7bda0a6e31"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/editing/LinkCoordinator.kt",
+      "sha256": "4bbc2c1932684fc2002467f6852e204c8ac1f3ae173fc30363f1a6697324423a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/editing/MarkdownEditableFactory.kt",
+      "sha256": "2019717e05ab897243522d3de6443332135a467883f28bd6185258bab6bfef94"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/editing/MarkdownShortcutMatcher.kt",
+      "sha256": "c0d6412824f372aa4f0d35afe5f459e58dc664953b61b589191f497799e13805"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/editing/MarkdownTextWatcher.kt",
+      "sha256": "ca74e73b4261a8f5f33a665249c022b56a6b09acef770a98e7451fa08d8a9dde"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/editing/MentionCoordinator.kt",
+      "sha256": "a628a661ad3415a75ea6270f56ac78ccbea7ccaa4fd8e4a20611b16ef55cf55a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnCaretRectChangeEvent.kt",
+      "sha256": "9bd1bbd901d3951142c2b07076de0067e195e1ac85a178130ebe6bc96f6c0363"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnChangeMarkdownEvent.kt",
+      "sha256": "33465aded99b38a6bf2ccd81af0ef13926339bb7f14b23738d6637b149358e26"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnChangeMentionEvent.kt",
+      "sha256": "6568ea04b79b982bca0c78f8ea82e8495c9a4e3f00ef650e1900bec70b3740c8"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnChangeSelectionEvent.kt",
+      "sha256": "b1f963805974a116d96e8f1e5df49f0d52d6bbecef79bdea99fa141776933ce4"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnChangeStateEvent.kt",
+      "sha256": "642d15c3e70712981791533e7e1d0f03029eceddce59e9cb2e9829db535f35a7"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnChangeTextEvent.kt",
+      "sha256": "f9b337025520ebab9986708b2181daa7e76ad0833d7f28a42ab3ca5bd4b9a979"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnContextMenuItemPressEvent.kt",
+      "sha256": "befc21b0d2d279551ddc625fbebdcc7737057d55f43bfd5a8aa9408c489f475d"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnEndMentionEvent.kt",
+      "sha256": "cd3bf2f43a0ecc265af68508bc1bbe2b36876a80a77bb817b681539d760bc6f3"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnInputBlurEvent.kt",
+      "sha256": "1195b91ea2738368cb47e17b253232cfc0c1c4b02450ccc34f92b6ef064c9ed5"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnInputFocusEvent.kt",
+      "sha256": "4058c92b7bd64336c3ff61da4f6e9c6ee81b8214fdbae1183ea163b82cab7f57"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnInputKeyPressEvent.kt",
+      "sha256": "d7cb916506e40d065856ec33df849807c5b589c3608895375a01f509d1bc2676"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnLinkDetectedEvent.kt",
+      "sha256": "67ebdb8b3ad78b9130040d666196ab1fb00f8a742169a7b66cf211ce2a2372e6"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnRequestCaretRectResultEvent.kt",
+      "sha256": "f1688e62f1f69a40a793fbd04add559ce949fcd56d24d38a2000f64abd428b5d"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnRequestMarkdownResultEvent.kt",
+      "sha256": "7d0ee0cbac16db9e45b25961dbb6bd64c9597c2131fd763c8c977e98de775b34"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/events/OnStartMentionEvent.kt",
+      "sha256": "dfc828c9583691f32b42ab96c9d4ed499b6b26723a71bf3bb455b22afe6cbda8"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/formatting/BlockStore.kt",
+      "sha256": "d404d789adc6817ea72a96017178cd809406465d4c8f32dd9ab34d621bfe3a63"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/formatting/FormattingStore.kt",
+      "sha256": "faaa608be39ed90b0cbd6198d03f92fa9b9e0c897744dc1e1d90adbb77c8bf52"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/formatting/InputFormatter.kt",
+      "sha256": "bd46a0af150c6db15e1711f879489bc81a68ea2f832657dbb50036c131313d89"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/formatting/InputParser.kt",
+      "sha256": "83b1547a9d90d253fa0d82d943e977ac0326f67f786a9c1bf6ffa7697387faed"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/formatting/InputRemend.kt",
+      "sha256": "66945191a9dc0d2ace8c38094cf6b43cd9140f7cbf113607f429ce08bdfb93a2"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/formatting/MarkdownSerializer.kt",
+      "sha256": "6de57d9a8e2af1149c8467d29d27db357fb92f3d47fb36c5ba4e4514116720d6"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/formatting/RangeEditAdjustment.kt",
+      "sha256": "2d12f59fb6d9e7d8761855cfca5b5652161588f49ba3da4d372a14c78d7975be"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/layout/InputEventEmitter.kt",
+      "sha256": "c7023a77f23db57993212f1af89e22d22a0306dc1efd8b943e44d44f4ee6834d"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/layout/InputLayoutManager.kt",
+      "sha256": "e8dc6ba1863fdfe266422adc7721920865782bf4025909040ab8a56f388d9302"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/layout/InputMeasurementStore.kt",
+      "sha256": "b35350cedf5d8744e370d18ab252466b0166792e1b5fe51d61d6b216b04dd087"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/model/BlockRange.kt",
+      "sha256": "986a0f479ee767fecb042608e467b248eb38dd377fe46f3faeb265e4d0cafdbe"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/model/BlockType.kt",
+      "sha256": "b1078baefb965da988f48bc481a1f403d3ffba85b46e6e068d44e11b91f1c292"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/model/CaretRect.kt",
+      "sha256": "7e635ce4a8485cb1c9933fa306dcac431bc8db8132758f4d2f37d66a302c0429"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/model/FormattingRange.kt",
+      "sha256": "6bf56cf6e59a1e8335064579ba719f619e8a7cd64af4f381c1ff554db5e418f4"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/model/InputFormatterStyle.kt",
+      "sha256": "cec955df22deff5dc24c3efce607dca5206f2f50ab04e93733197de310748d6f"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/model/MutableRangeBounds.kt",
+      "sha256": "57f08c62d719144602423570f9bae92e5bf8a4527adc868bee83f9e71d0b92ef"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/model/StyleType.kt",
+      "sha256": "f2fff42afe36f2b144c889cdd7bb0a2c86054385338c011494f8ab93d3d2983a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/spans/InputBulletSpan.kt",
+      "sha256": "bba8c2c280f149722f0e7458f35f94bc0369e69dc7ff9bed37b2c95da0a12dca"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/spans/InputHeadingSpan.kt",
+      "sha256": "ff3d8021c0528abe7c42025fab74813a83517da1b7babced1e7d72e1ed3acc46"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/spans/InputLineHeightSpan.kt",
+      "sha256": "e4985a71bfd2c289e58673cab0f7a934c79d18b5b1f7641747bb3b405179ac04"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/spans/InputListItemSpacingSpan.kt",
+      "sha256": "2046a47b852a9a632d38c560b2a74f1939bff31acdd8d98da09dba1cb84cf8a7"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/spans/InputOrderedListMarkerSpan.kt",
+      "sha256": "929e8e3af904221da0ca21367fc9376b522b4b6cac032bab81f7348021456d7e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/BlockHandler.kt",
+      "sha256": "a476455313994ac1c9a866ef3b50e9132606105bbb09da69c7cdf8600347239b"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/BoldStyleHandler.kt",
+      "sha256": "7afeed2777b06f2f2f13f01658f1e97146c79d8adea4e7bfa97bcbdf1620db7e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/HeadingBlockHandler.kt",
+      "sha256": "edc2247810a83dce7f71f8a5011687ee5cf220446affa395ad112a62ecbef375"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/ItalicStyleHandler.kt",
+      "sha256": "1630106c19eca101b16f8e280870c0c0331d5a9139a12870932b4fae39777d0c"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/LinkStyleHandler.kt",
+      "sha256": "64e8e9a8cb85d49340ddd8a1a4b787ca83f4c21f9b5d25444586178e7a90cec0"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/OrderedListBlockHandler.kt",
+      "sha256": "be27e40d018979552d76592661986ca0f1a40db5a77049980646e8f92d69a12b"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/SpoilerStyleHandler.kt",
+      "sha256": "e5477f1e80e582c1a23e342423ae799cbec96dee85c8f1e2829727cea8aea4eb"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/StrikethroughStyleHandler.kt",
+      "sha256": "4c09e379c402474e80a41daca6f7c635bc810be7a3a17a1a22930f62c5d4cd53"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/StyleHandler.kt",
+      "sha256": "bcb670d6c8baca40bd44f315a886bc4d256629795c80c0fb696ba6db4070c004"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/StyleMergingConfig.kt",
+      "sha256": "1904a540bfca55f5bdd64a0849e5ec5306d783e6acc18f7808bbcfb6dfe89b85"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/UnderlineStyleHandler.kt",
+      "sha256": "a97e291a61848cc0c53cb87184cea65c33824aee89d1a7de20d7d6af75e0c932"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/styles/UnorderedListBlockHandler.kt",
+      "sha256": "607d3d4a4c203f8ab28731454d0f359258d063f244e2e4c797cc3d9493efc9de"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/input/toolbar/InputContextMenu.kt",
+      "sha256": "0972614d56d4ae6d4d4277566c202e15366ec3cc4b876dbc29ce9ae27b21d38a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/math/LatexErrorReporter.kt",
+      "sha256": "8e6bf467932230f112241983c37d299624eb9de92b0a91058b0a558a6bc8c21a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/parser/MarkdownASTNode.kt",
+      "sha256": "a49761c03cad3d0648a52edce06bdd646fa41f3c99866c3561ca1fa40d15d182"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/parser/Parser.kt",
+      "sha256": "633503f7894199d083094cd58ce345110eb956f7e62d5deb12786b92e944002f"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/parser/TextLinkMatching.kt",
+      "sha256": "00c56c7cac14782a71eaaf787d418e9c31f2540e7ead5d507a10ace2401d67c4"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/BaselineShiftRenderer.kt",
+      "sha256": "40b833a4ac1189a04f3be0d1e55c64e18529b9e5e0c844916174607e3355933d"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/BlankLineRenderer.kt",
+      "sha256": "c2ae5ed509b8439cd5fe77bac1bb02a2b9e9bc983c54cfcab5da18f977effe6b"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/BlockStyleContext.kt",
+      "sha256": "5a87084fba2ab66ce193145c3d624455d2e44c83a8987a0509c94f2366dc030c"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/BlockquoteRenderer.kt",
+      "sha256": "36902db160e0e73623e51bb1a718a84a699438aa9a1fb40eb647212e2fc6697d"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/BlockquoteTextRenderer.kt",
+      "sha256": "8d6e8c923964bfcb40625fd8cc32bbb950287280ed3b7b82869edfd8cf3a9173"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/CodeBlockRenderer.kt",
+      "sha256": "c6d5627ad08dbaa7c71e1c2f91c0cbede845c862a6635bb62ffa616ec971c125"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/CodeRenderer.kt",
+      "sha256": "2aae08d9076a489e344d359447ee77375681c3538c6c4b95e192a0e5ea09a243"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/EmphasisRenderer.kt",
+      "sha256": "80138e42afab65b525a5428c5ae495a5af978259f71468bb47f71901ed7d9787"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/HeadingRenderer.kt",
+      "sha256": "1966048c9b0ccd530dba8e3456ff3249590c869f5a3d1f39b6c7c10ebd8dc83d"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/HighlightRenderer.kt",
+      "sha256": "c25eb0e3ee26740948e1932d242c0d9240791c146e68f70584ca2750d015f90c"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/ImageRenderer.kt",
+      "sha256": "4e36ec04b1346e17b8cbfebecd07f44490244ba5241612cdbae1eee7711002d0"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/LineBreakRenderer.kt",
+      "sha256": "1cd856c360771041f450de6859ae2112c29141090bd710cfd5f26503b7151d00"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/LinkRenderer.kt",
+      "sha256": "a3b3709ef7375284933178cab05a66ffbc88f725faeed672f4223d68123cfa34"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/ListContextManager.kt",
+      "sha256": "7e9c31104d2c521eaa23f351f4fc36b45985f9fa68c5ed1534d84596c3aa51f1"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/ListItemRenderer.kt",
+      "sha256": "e0d3fb9b553d1c5d086507b99a45eb16b8dae6b60702454b55820f6cee6eb151"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/ListRenderer.kt",
+      "sha256": "506834867b2527cd05768ee7f2bdfe92768772c8a0a8221ecb4264f6fc034780"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/NodeRenderer.kt",
+      "sha256": "21beeaf5bc5ff5f802a7bf85d72ce6129b83291b8fb82105f5277ac05309ab3f"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/ParagraphRenderer.kt",
+      "sha256": "fabd78a8a60a67ccf4daa101bca3882458ad0e5f3d0c107fa9d2830ae6dee3e7"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/Renderer.kt",
+      "sha256": "4a396d128349c839540ed2d557db34536cf4e31a8981693c57d1f1ab3a98bac8"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/SoftBreakRenderer.kt",
+      "sha256": "1fc3bcda5f7f938f8af784485a0fde432bbf5255427795dc83d831425f4759c9"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/SpanStyleCache.kt",
+      "sha256": "4899311f84ffcaa7d68e6d0e335b85346753352ca71857f1b13297c3cf00b14e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/SpoilerRenderer.kt",
+      "sha256": "b85d0c63a2c4d93006648219478a5577f6a8110f5351a10a5d807ee46a9c9b43"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/StrikethroughRenderer.kt",
+      "sha256": "6ae04227fb4d79644153bc0cb23445d2f87d07e5520bd17b5d902e5882cd8222"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/StrongRenderer.kt",
+      "sha256": "6dc1460aaf5e809f435b38d5542d14e21833d4829c4a109443b7349ff48a9462"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/SubscriptRenderer.kt",
+      "sha256": "a59f7ddf2ecf81d6971160015a19cb9c3cce1ea6172019f8bbe7229838769c30"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/SuperscriptRenderer.kt",
+      "sha256": "beb782d200e3f2c6a11199c43f5c11de821d0e71c390b23bb0add60353fe80a4"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/TextRenderer.kt",
+      "sha256": "823c03ac98c73347515c4e254d32c58766913c48084c0223313d04222cd65086"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/ThematicBreakRenderer.kt",
+      "sha256": "9b684df53024bbc0615f6a465a89184ee8072a61b617ccd362f12cc195dc57ce"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/renderer/UnderlineRenderer.kt",
+      "sha256": "a28efee9828747dc569946fc1f392858942382122c7d679dbbc3ace887e05b1c"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/AdmonitionIcons.kt",
+      "sha256": "4773b07868bdc7029926257ec9f79775a14682e77810d6ebbe52409ff00e5a1f"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/BlockSegmentView.kt",
+      "sha256": "e6fd042ad822da41b42888af76d32381136ee2e9cd66b4ac73c29003c53b7a96"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/BlockquoteContainerView.kt",
+      "sha256": "a2a1861fcb5bc9f994be261ea8a70cb3e213ead64a96f568c4f2632bf417e1fb"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/CodeBlockContainerView.kt",
+      "sha256": "16297d1849cc5ac7c2e3ec415de962046dd44b1173cc06ad24bac6263d6a65b0"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/ContainerNodeView.kt",
+      "sha256": "a14bc385f87086f37ed28576dc4b0945d361dce0348748dd0354c209245a45ff"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/MarkdownSegment.kt",
+      "sha256": "1c7b023cf533406c8ef9ba28d8cfe753bc77ce30537372b6b0e3a3e00edff8a8"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/RenderedSegment.kt",
+      "sha256": "7e69c5531095b549e57ba3b15b562683cb84584800e0435c867c3d164353d155"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/SegmentHeightMeasurer.kt",
+      "sha256": "65a5cf6b27e3b29ea3d4e5303c6993d44685086c219a7dae9700338f0d87ca3f"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/SegmentReconciler.kt",
+      "sha256": "c4cc13b3f666b514d12c6aceacf0785ce967380e1cd32b61d5dee0e6ab3ec05f"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/SegmentSignature.kt",
+      "sha256": "87e5a2cd6f20dc3ee5cf9e194bc3a3a74ece6dccecccd199e2b002a5445ab02a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/SegmentViewCreators.kt",
+      "sha256": "846c9e15f8486a9a99b7b45c93274afa61e1733ba201768a04dd1f2baeaf1a11"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/SegmentViewFactory.kt",
+      "sha256": "448263f5f76e3b65f4a2639e445a12c49c35fcd2f794339e2a227e901025bfb2"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/segments/TableContainerView.kt",
+      "sha256": "7af6dc588713c2e686493aa12b2cc3104ae5d2506b1ff7e8d95740a9b68bb14b"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/BaseListSpan.kt",
+      "sha256": "b93219cb183e82c3a3b328d7d5244ffc238de72ee3e9110c3e6ff1f64b1f1657"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/BaselineShiftSpan.kt",
+      "sha256": "7dc34e931f2863616bd4fdda8c76f82ccc89ccdbdd3e997c471c1fd59687a45e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/BlockquoteSpan.kt",
+      "sha256": "5c0b08db1f787bede1b4e8e7fc212f7b4e08c0b095dc54d915dc8345509a824b"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/CodeBackgroundSpan.kt",
+      "sha256": "903b4e57c5346a775015906538392b936fdfbd0d92d6586f29c76ac86885819a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/CodeBlockSpan.kt",
+      "sha256": "2213d2c9abb0f5859ec4bb731e2db7610401460aff404ef3b334965ea29f9d8e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/CodeSpan.kt",
+      "sha256": "20cb5f1210bf234fcee1f110c867becbabf090a2195a0a1c6daef6d0a7247ce1"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/EmphasisSpan.kt",
+      "sha256": "1ffb01acd1c0be3a09407573af08711cc070cfaecbb7316292328310c229f92a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/FadeInSpan.kt",
+      "sha256": "5d02ee1bc9a20bc67b843e5fad6ef93b4d964584199fb964f136c3f07c09c71a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/HeadingSpan.kt",
+      "sha256": "3cca561e882c16ce64fe14dfb7ea6e9d2d5d327d67fb7386a7bd6da0375b7eb9"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/HighlightSpan.kt",
+      "sha256": "fb300e6d5410285b6b60f14d528d0af5bd824200f2f432c1e86972b2853ec90a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/ImageSpan.kt",
+      "sha256": "b4b36195d3fb2b8f2fccf606779ffdd9462403086e866d675792a5ad29b51876"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/InlineBackgroundGeometry.kt",
+      "sha256": "9227a5eda44c01b7b1da7411f9857bb8cd5f7c7f96c219712c6ee049165f28b2"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/LineHeightSpan.kt",
+      "sha256": "fd8de6b620aa4b78e3cb683b4a799c8131920b58502eacaec4ac6bd110f3cbe1"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/LinkPillIconCache.kt",
+      "sha256": "7ad3204bc70dd04a5425ceec546d19fadb2f8db95c81cd86a2fbaae3982987e7"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/LinkPillSpan.kt",
+      "sha256": "0d00b0b9081d06a1af483241ecb4f2e0f5f6f6ac3c92652643e2983cf4f1b10a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/LinkSpan.kt",
+      "sha256": "7e65dbb11ffcf735c7a9acc6ee853fb730849d542c676ac0c1141665191e3d69"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/ListItemSpacingSpan.kt",
+      "sha256": "83fd365c126252bf9670e2d543d51440f8fb03f0e6ca3c3e02ca64a5785faa07"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/ListMarkerAnchorSpan.kt",
+      "sha256": "a281fbb6c7db383396009646f0db87a1e554291cc6e0ad4a66864fe4cc5257f4"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/MarginBottomSpan.kt",
+      "sha256": "4c4b420e5ca674cf3a1d2a03ec4dde0b78477c097ac6f94fab6bef5d99bbb2f6"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/MathModels.kt",
+      "sha256": "7c0253aa49c20dc5b113e0e47fcf5d0bc520a70b5950d142f147e05624c4bf5a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/OrderedListSpan.kt",
+      "sha256": "cf4e9fd750c8de63bbb72ec45b37d056e1a633fccd1d5e5ae415fa5949cf26b0"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/SpoilerSpan.kt",
+      "sha256": "a26924bc680b8b2e64b3cf2f7177af06c01ccffc5c86081bccb85b34bc4fd974"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/StrikethroughSpan.kt",
+      "sha256": "391e09fb25100c724702066620d9d839a74b1089ac33c2527c8fa22d74d39881"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/StrongSpan.kt",
+      "sha256": "3d6680d9545959a1da3bf7c634ddabca37af3c5703be78d586c27d89c5cb4ab2"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/TaskListSpan.kt",
+      "sha256": "da4ceefefc601bf8a25cb10fbac8196522a6ad4c40b4e5ac4e8cb8f39659f429"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/TextSpan.kt",
+      "sha256": "63062e792be3054cf1542f04e1f61f23e02be395b8e502dc48dd94f1d55d6a01"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/ThematicBreakSpan.kt",
+      "sha256": "073b75c75b363bad97e40ae0beb7663d459f4b38762e041a5cf7f2b75df43e1a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spans/UnorderedListSpan.kt",
+      "sha256": "34b9bf13269d950a5cafe2ea8102c9530e18b5c58d2c3f77ce181a6c9aaa9900"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/ParticleStrategy.kt",
+      "sha256": "f4b1d7737bc77783e3f4030ed6aa53e58cd8725abbb9496ef499ec9f1b10addc"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/SegmentKey.kt",
+      "sha256": "b8072ee75a86aedcbf23e29f7fe8dd4f6d7eb7b24104d65dc408281c70eecda7"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/SolidStrategy.kt",
+      "sha256": "aed80cc7e157ec13f40a7346705779c829b5afa1b5cff3696a8985c9c38b9094"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/SpoilerAnimator.kt",
+      "sha256": "394a17aa12c5cc612c300e0ec9c9d87ab6686f32d973410e0ecbaf5947b2deb7"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/SpoilerCapable.kt",
+      "sha256": "0b41d204bde8bc9a1e9fa824d10e6d507b276c323646b5d51da66fef2a1938cd"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/SpoilerConstants.kt",
+      "sha256": "62d886eb70a01964b5d43367151ddb31af102eff646fcbceea07eeb9214cb2cd"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/SpoilerDrawContext.kt",
+      "sha256": "043657294d467b1306e4efec55f7ce121dd1bd042b6db210944c677493612a23"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/SpoilerDrawUtils.kt",
+      "sha256": "2bc15a21ba7cbfb9dcd7bf098bec7254d28538a4ccb8904b2699b15d594c8115"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/SpoilerOverlay.kt",
+      "sha256": "bba0dce3ec691bec161813812f2e2ded05bfee5318a7f5222fe538d2a1e19593"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/SpoilerOverlayDrawer.kt",
+      "sha256": "bd6e9528b716de46ecb5bdbbd8f76f875c8418bc040a4482013707095a5a71d6"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/SpoilerParticleDrawable.kt",
+      "sha256": "36698d76b676d04fdd7f06815263acc00fed00bbe564a2d36c2a663e53064e75"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/spoiler/SpoilerStrategy.kt",
+      "sha256": "cda2e8f061cb549b8eb1896789677b033d7716e649aec659f903261b5a79e5ac"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/BaseBlockStyle.kt",
+      "sha256": "9aceed3c67f6f387850a562ba56b144d0ae8d9b1ffbfb8254c5a39f4c1851dc5"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/BlockquoteStyle.kt",
+      "sha256": "54b2d97a65021e59043aa573711391f6323d4aa512d3c6086c32db498560234d"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/CodeBlockStyle.kt",
+      "sha256": "b1b3c9cf96bedd03269e50118c22eb01e2e8f8ec39bd82d802a8c2ff2f15adeb"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/CodeStyle.kt",
+      "sha256": "b03bfaa13b7d3b34a8ef7c3e9f5292561a685925da77a6875161e59382dc44e8"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/EmphasisStyle.kt",
+      "sha256": "552336cb6535626a4a1b2d3c9ad0ddf12caf84ed4696dfdf442bab6b92de1628"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/HeadingStyle.kt",
+      "sha256": "ceaaebac71cff951e4ff5d7e49f2839697a510adb3d99bea357d505a8204720e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/HighlightStyle.kt",
+      "sha256": "4962da0d4ec2382a1dad46a0a71fe28ad3adf16616b723dbfe9681edca7ce8de"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/ImageStyle.kt",
+      "sha256": "cfe7eac0e674c7e480c4a5b6539a741d067d2a0c441a3dea64bc1c9b388c2142"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/InlineImageStyle.kt",
+      "sha256": "df3a82036cf58654e8c040dcfb54cd034a239f287d5d1c282722f511897ebc43"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/InlineMathStyle.kt",
+      "sha256": "664cff39fa05a0acd474ef09e7b2d81319f31a176f048375b44942abec79e85d"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/LinkPillContent.kt",
+      "sha256": "5d39354810c951f02f1a335ae40ec4d8f024f6b0d069bc41c4559ce00dc61fbd"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/LinkPillStyle.kt",
+      "sha256": "3043d65c6ee17fdc4112e844e44e370766006caac1436c9b9a76e91dc3aadab4"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/LinkStyle.kt",
+      "sha256": "f7fe13d0edd6189c9e5c7ffe3aa929d2e2434b2e3d541e4de4e01f4aba5f3652"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/LinkVariantEntry.kt",
+      "sha256": "07481531ecfb9880dd85f998f570793db90059e61437c1215a32ee465d70fe28"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/ListStyle.kt",
+      "sha256": "7508d94cba34d0e5193b02592d96c81d271eb6280c9c303db0789847503ba44e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/MathStyle.kt",
+      "sha256": "0e90dde896ab3919b1a02b5f65c24c0719f2d6905847641fef442d5f20789746"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/ParagraphStyle.kt",
+      "sha256": "4b91bfc4b7b54bf7f26dbb578067d183f7ef295201732bdf24a200829af456ff"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/SpoilerStyle.kt",
+      "sha256": "a1d311a152d4acc75e15780da053cdaba3a6b8a098df36cfcca9c149719cc4b9"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/StrikethroughStyle.kt",
+      "sha256": "039d8c70a2b612004b564a59e5148cee8cdf6ffe1f1a679b0d8ecdc0f805ee51"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/StrongStyle.kt",
+      "sha256": "c1b930e606c8ed14e3b1b45feac5232456def4a866de763ebd95499668623fbb"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/StyleConfig.kt",
+      "sha256": "a59259fbdd20f35947ed86533bc64fac1318454454f896041c434633b19bf67c"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/StyleParser.kt",
+      "sha256": "1c36029446ab187402ca4a175cf4d9f4c088adbdb69e70f456a8b56e48955c59"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/SubscriptStyle.kt",
+      "sha256": "751283aa0e4dead287a4817b2279019d8222cd861fe798f089a289cc8689503f"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/SuperscriptStyle.kt",
+      "sha256": "ac9b79ab1e0516d690bb295caeac16322c1a9bafb1addd164e259ccd2e0107ab"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/TableStyle.kt",
+      "sha256": "e6e08dac8775879be99043a65bb6541d5f8af32c2aeef9cecff175ed779ce2e2"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/TaskListStyle.kt",
+      "sha256": "b3f1dfcdee4f2368516ef364a831122c2f1e4e4b246537e8c52a17802dec4aa5"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/TextAlignment.kt",
+      "sha256": "ef96be89b7b12aa481d4b0dc8d91fd5e055beeb747d9e716e0648258f68c2e59"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/ThematicBreakStyle.kt",
+      "sha256": "826964d261978e280ea0cda90b487078e4337fbfeb38b752d2e54dc87fb489f5"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/UnderlineStyle.kt",
+      "sha256": "963b2f3b3c048909c08447d4523cffcd93de22262fcffeab7fc1cfb15a9ed1a8"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/styles/VideoStyle.kt",
+      "sha256": "ce929331af14db976dccfb233a1889323d22845692ae9c14b67280ab4e3ceda9"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/BorderStyleUtils.kt",
+      "sha256": "2324ba3e593cf8f8e43607aea34f3a9ae209d75b19cbf8338660b960266e92a8"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/BreakStrategyUtils.kt",
+      "sha256": "c23758e0c1ddea841553bffd641f8822fe199e1a4d17888f6dd9d93065f37afa"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/CodeBlockHighlighter.kt",
+      "sha256": "beac71c0e6e7e804847f43ef1acf75cf1659d844ed24fe832542634bd7fe5a42"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/CodeBlockNode.kt",
+      "sha256": "11049b67704cbd9c6a431a70cb776471a244b5d5f6e2c971d3ea85684cd06189"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/EllipsizeUtils.kt",
+      "sha256": "add14d8cfc17f76086fdfd70959f0f524ddbd87d1522c6bd34609c5a3af9eaf7"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/EnrichedMarkdownAncestorUtils.kt",
+      "sha256": "50f24d8253bd19c1ec7d839ddece09082e5b9d780a6022f5891cd02378d63a83"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/FeatureFlags.kt",
+      "sha256": "2d462980204d6d3631c74c7b6fb0e2d019595ffce9d0f1fe7186b4ed141e1b60"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/LinkRecognitionProps.kt",
+      "sha256": "ec6d42f8f90a17fc2ab578476f9eeaf19cc972400bcd98a6bd04b0660b95288c"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/LinkRegexConfig.kt",
+      "sha256": "c47dfe026c3262f1a0ae76bdf22f98ffc20b64616512b19551aeb59f07a95e6e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/MarkdownViewManagerUtils.kt",
+      "sha256": "04d1bcfe51e1595af349883d4235b02e177ee28f9402ab2b6e47c22080e47a65"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/MotionPreferences.kt",
+      "sha256": "4f99405bd9c8d2ca50d0293f194bcb7e8e4032a72842451009a8215fff7f3195"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/ReadableMapExtensions.kt",
+      "sha256": "1d9b3030add137846b5b32f61be2d9e58936c57f4d491e482b3f64ef0ff70c3d"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/StreamingMarkdownFilter.kt",
+      "sha256": "af8b4e0f997e9163d43a52bb4ee30297f5b93228a8d4749e5fcf2bce54ea7e91"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/layout/RTLUtils.kt",
+      "sha256": "24c265b319a45d2fc158d20ff3c4ab569956afce11afdb643b0da2206d18d858"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/common/serialization/MarkdownASTSerializer.kt",
+      "sha256": "1947eb87cf3c475a46fc296dc38dd79e42c4ee4f193b96b6fd854e5e10bcbd5f"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/input/AutoCapitalizeUtils.kt",
+      "sha256": "401834b480ce1babcd4404f22d083c33416107a2b115370439fc649fce521326"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/input/BorderPropsApplicator.kt",
+      "sha256": "c35cebd615b32ab785656fc2912759bae621de1f3f4f836b1e04c76e34d1acdc"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/input/MarkdownStyleParser.kt",
+      "sha256": "ef4539a29ca759acb6d85407746d10f9d4d9688d05c4e4d59e0aeadfc3a87486"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/ImageCache.kt",
+      "sha256": "4178bce1441be2b0ad3bcd3cb95570d8c2a157f92bedd26bc3d965837bab20fb"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/ImageDownloader.kt",
+      "sha256": "bed2838928e57c9201f4398ed077cad974abcdd219a7a9196a7d4f8a6ff71948"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/LocalImageLoader.kt",
+      "sha256": "716b665ecbebf5cb61b12954a7100c5cd298a2dafe5b45fbf1bba62c283d6284"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/TailFadeInAnimator.kt",
+      "sha256": "259edc680cdaa5c2d5c57cef33c7f27c765932dc45662c741fc1920093b6fbdd"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/conversion/HTMLGenerator.kt",
+      "sha256": "182a4cd4c614b2596f4f649b5060389328d162631815f1519d4fd9c559341d46"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/conversion/MarkdownExtractor.kt",
+      "sha256": "35ff2beffe019d51cc0dcd937812e734cf8631a13a4f2289eabe33489234da62"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/extensions/ParagraphUtils.kt",
+      "sha256": "07b7f364267147863cdd331344d8b6750098720d9142f75bf6bdc20e018c7708"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/extensions/SpannableExtensions.kt",
+      "sha256": "d671ade9c0aae930c991a3680c37e81ebe4c1fd233e98b175c17506c21400265"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/extensions/TextPaintExtensions.kt",
+      "sha256": "48711143ba0945793c4cdf9da5e8474ec689e9113c4c6352c97ad7c15f28200e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/interaction/CheckboxTouchHelper.kt",
+      "sha256": "ca25110171664fea9961183bc0586efd5e88ba955971d8c023dee178eff04706"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/interaction/TaskListTapUtils.kt",
+      "sha256": "9cf5e0219d28d9596d2d1c7ab9790b8a282e2355b449ba0a549092dc19b95a1c"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/span/ApplyLineHeight.kt",
+      "sha256": "3b14d68cbace66a6a0403817294239e56d9a484686b6356792d7ca247e738b4c"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/span/BlockSpacing.kt",
+      "sha256": "8dfb9ea3d555a1842cae5089f7c61a44f237a954104b8b5c643540b6cd6ce424"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/span/SpanFlags.kt",
+      "sha256": "11b659c7e43fd75bc47186acd1156572dddad9aae15eb4910fd1e715d61db541"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/span/WidthAwareSpans.kt",
+      "sha256": "314f333acc9e16f32e72166cfd6d0066123d574a64f0dab5ab32926e8438c375"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/view/CodeBlockPressHost.kt",
+      "sha256": "c14146e35801eae5aea8c3fb46fd93397a8bdb802594e6b952feca56bc6775b4"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/view/ImagePressHost.kt",
+      "sha256": "f72e43da7af9d463c036471699531b71cf525d11187c24e92e519657908a5e0f"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/view/LinkEvents.kt",
+      "sha256": "bcf28035936c1ef17fdb8549cfb23479f7d8cb1aad934102376dd20fa3dd7eb4"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/view/LinkLongPressMovementMethod.kt",
+      "sha256": "02a764e125f48c4fc5d823f1dea13d8ac69f032a5ad0c070db61c8228f778255"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/view/SelectionActionMode.kt",
+      "sha256": "c4d59e3d9c6060d9dc0ac8f7adab3951be04ab0b9c0c00f79714a4a6d9c151a1"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/view/TextSelectionColors.kt",
+      "sha256": "ef8558aa5e51e2173d23cf9ec6227c8115087003a5e502e9887a9ca28b298219"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/utils/text/view/TextViewSetup.kt",
+      "sha256": "aaf97e815ae45a6e88fdea6fb7569c0c34d051fb0c6ad7ab51ff05fcbefde963"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/views/ClaimingHorizontalScrollView.kt",
+      "sha256": "052f367096b6e798bfa7ed888cf3ac2db8a243edaf748f62a9c9d7c0c395a75e"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/views/ContextMenuPopup.kt",
+      "sha256": "c35862d3139fb6581655784dee564d61215379700a06e00f0046802c4b65009a"
+    },
+    {
+      "file": "android/src/main/java/com/swmansion/enriched/markdown/views/CopyGlyph.kt",
+      "sha256": "9fbe183d79212d68559785ee22673b75514ee75efe9aab9451175ff8c12548b4"
+    },
+    {
+      "file": "android/src/main/jni/CMakeLists.txt",
+      "sha256": "2b6362020097bac93bb381d28ad4df91c39762738bbaf8ab1c3b499ee92ff300"
+    },
+    {
+      "file": "android/src/main/jni/EnrichedMarkdownTextSpec.cpp",
+      "sha256": "be7093e19ecf036e745e4d73a0e7b97643a8921d7f1a8dbadc75e91f9793dd4f"
+    },
+    {
+      "file": "android/src/main/jni/EnrichedMarkdownTextSpec.h",
+      "sha256": "4ea642d0c62d63cb1f19fd251893c1b0675ca3ac141eebba14b8c2bb56a32095"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/ComponentDescriptors.h",
+      "sha256": "b1d90453021a4bfe2a19fba2c20d017402e03b45c64e47bc042a18540215345b"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerComponentDescriptor.h",
+      "sha256": "89481c9d828dd5818c2600bd9491081026ec48f6c5f6341bf09541c0371fe5be"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerMeasurementManager.cpp",
+      "sha256": "c7acf4b392b50c924ad085927b2f5cb69b1503bfdc3a70de3af5adcc01b3abb9"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerMeasurementManager.h",
+      "sha256": "e0deadc1ba1e96a78539222c3c9ec79ef43754a60e9fb05cd8a7eefd92fbc9ff"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerShadowNode.cpp",
+      "sha256": "d1992f60a6ab6f65622e07ab58579276fe9a7e8123da56d9d8fb0fda7f805ecb"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownContainerShadowNode.h",
+      "sha256": "4ea7e0f10825a6c94647c3378d58db687c79411fa972f3c88824db1126738344"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextComponentDescriptor.h",
+      "sha256": "abdf2172427971b5c43f279294f26bf550fa6633356efcdd69315b3ad80d6445"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextInputMeasurementManager.cpp",
+      "sha256": "9268893d5b8ea40b54d2410b0b742c030d00fa62d87ef0add92ec514d4892f46"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextInputMeasurementManager.h",
+      "sha256": "78afc25f9d25fc155938e806ca43b75d9dea7c88fa75f803abf81a92c4ee59a6"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextInputShadowNode.cpp",
+      "sha256": "1fdc7a32aa4066222ede90b3a0e01ab40c8c2a53318991affaf5b57aca20384a"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextInputShadowNode.h",
+      "sha256": "bd5d6c099ceafe5bfae4291031a17afcef4385c1d87c62a77e6d2c027cd596bf"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextInputState.cpp",
+      "sha256": "b28d9cd76c5fcf38657b36111331fd82d892dde2fcc3fc5ff98a1e0af813d370"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextInputState.h",
+      "sha256": "79fed449324e2e82881d703a3972a60de1f7d118e71e4b19b38c95f3cd7f049d"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextMeasurementManager.cpp",
+      "sha256": "5d78cfc4768e8006e18e8b27634ba0cdd53cedf59c1bb6ece30722888cb1954b"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextMeasurementManager.h",
+      "sha256": "018c75f272d7d1549e329a1dfd7134c0a965489f146d3d423c93d0125b11d692"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextShadowNode.cpp",
+      "sha256": "fc279ca55298a79371a391a9d11ddc79a953e4e7935a1247b47563a52c5f5c29"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextShadowNode.h",
+      "sha256": "d9355e216f8edaf26875182230bbd4ad7e2348f76f66f023e1501d8b34da494c"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextState.cpp",
+      "sha256": "751617946fd2814cff8edb8c9309941e28bd1897e3b867a3dff52c24e2ab9fde"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/MarkdownTextState.h",
+      "sha256": "9e8fc15c56f0034a77c57a95b6ca19bc66b5eac8d953c4d0db215f4a6eae42d9"
+    },
+    {
+      "file": "android/src/main/jni/react/renderer/components/EnrichedMarkdownTextSpec/conversions.h",
+      "sha256": "266d79da6f1ab5c848b7922ad18f101074af327dfe222db5c9da2765770d1030"
+    },
+    {
+      "file": "android/src/math/java/com/swmansion/enriched/markdown/renderer/MathInlineRenderer.kt",
+      "sha256": "c905af22e7530f2e055dbf946cfc5b0a27f066cf701128d6c34c216046017136"
+    },
+    {
+      "file": "android/src/math/java/com/swmansion/enriched/markdown/segments/MathContainerView.kt",
+      "sha256": "7969c9dc1a4db417629f7c97de3735af4cd0c9bc573dc8ad7ad243606cc863de"
+    },
+    {
+      "file": "android/src/math/java/com/swmansion/enriched/markdown/spans/MathInlinePlaceholderSpan.kt",
+      "sha256": "e9f458c7958d44d841de5b8e27f84f84042d90fb7d521a0b20f40d6350150753"
+    },
+    {
+      "file": "android/src/math/java/com/swmansion/enriched/markdown/spans/MathInlineSpan.kt",
+      "sha256": "1fa05d323dec442c6eec6b3779687cfde70f0443d1d4e47b8bd86ef03ab348ef"
+    },
+    {
+      "file": "android/src/math/java/com/swmansion/enriched/markdown/spans/MathMeasureHelper.kt",
+      "sha256": "b242b058e149a9238ceacab21595b5a1b5cb9f81eaedcd39193768d64f9773bc"
+    },
+    {
+      "file": "android/src/test/java/com/swmansion/enriched/markdown/MarkdownRenderDispatchTest.kt",
+      "sha256": "709a2792a34528f9760df10885d57ee45cb1fd2c047a66f76f396505376c3ed4"
+    },
+    {
+      "file": "android/src/test/java/com/swmansion/enriched/markdown/MeasurementSizeCacheTest.kt",
+      "sha256": "a7d6a739645c311e5d36585e2af6e8280838e34936123877573f12560bfd64e6"
+    },
+    {
+      "file": "android/src/video/java/com/swmansion/enriched/markdown/segments/VideoContainerView.kt",
+      "sha256": "34beeaa53b6ccdef11d39d04f296bc9c980a21265594504aa94c2cd70cbfa9b1"
+    },
+    {
+      "file": "cpp/highlight/CodeBlockHighlighter.cpp",
+      "sha256": "c996aed3008fcf4fe848abd322dce77e8ef69c82f8879b0316c01b034700a3fe"
+    },
+    {
+      "file": "cpp/highlight/CodeBlockHighlighter.hpp",
+      "sha256": "98e1b16ecf8bda12e497d6ccf6768f81199e5dc5f70e34f40d7a355b06840008"
+    },
+    {
+      "file": "cpp/highlight/CodeBlockLanguages.cpp",
+      "sha256": "822a69d9314caa5507bbb75181a372135fe171f396e67c94351ad23f1f20d544"
+    },
+    {
+      "file": "cpp/highlight/CodeBlockLanguages.hpp",
+      "sha256": "6787ed5d0c8528154ab57cd7d0f712b26f2dca384445f9316e0f9917c216296c"
+    },
+    {
+      "file": "cpp/highlight/HighlightGrammars.hpp",
+      "sha256": "4f0e7f033e9afe4fd5a8695eb991a3c48e7b3cbda4d09d5aa2e783f8dc7382ed"
+    },
+    {
+      "file": "cpp/highlight/code_highlight_podspec.rb",
+      "sha256": "cd2d22d281dc072e1c0bc439a4c76e5e1dc2f099866780ab1a4134c5799d11ba"
+    },
+    {
+      "file": "cpp/highlight/gen-registry.mjs",
+      "sha256": "881d9f9b8b993744002b6ca513eb3fdd93233fa40549bcfd75ee07d2662d8fbb"
+    },
+    {
+      "file": "cpp/highlight/grammar-versions.json",
+      "sha256": "ee678fcfea9b00dd315c52d2a6e0f997d7ba6e6574cba70c053eacb8989c451b"
+    },
+    {
+      "file": "cpp/md4c/md4c.c",
+      "sha256": "8da50702e801448e1703842561642deb16fde5ed97eddfb2237325a7b63f2641"
+    },
+    {
+      "file": "cpp/md4c/md4c.h",
+      "sha256": "c03b2d722bf283ee4b520f449a85d8a96ba1575ee531917afbd713a6249ca7d9"
+    },
+    {
+      "file": "cpp/parser/MD4CParser.cpp",
+      "sha256": "33731b38961b86ce1040cbc0bdd3749118a2516eaf398390ed51484de249da4b"
+    },
+    {
+      "file": "cpp/parser/MD4CParser.hpp",
+      "sha256": "c13bf56a28a7af13266347c8c2f7f192266f6208bf14d89893a833230cb6054b"
+    },
+    {
+      "file": "cpp/parser/MarkdownASTNode.hpp",
+      "sha256": "fbca859d7ed79b8bfe2913b8c54a7616ae81fa75e99b683b201718cdc87168a0"
+    },
+    {
+      "file": "cpp/parser/TextLinkRecognizer.cpp",
+      "sha256": "9a539ea7a29a06378ce4b04bd1ae1935d25597585127d5adbb76dc359a454cea"
+    },
+    {
+      "file": "cpp/parser/TextLinkRecognizer.hpp",
+      "sha256": "3b6e13a6a1b28dd99132c8c8b690dae55f22272de7fada16bee28cf43441031f"
+    },
+    {
+      "file": "cpp/wasm/ASTSerializer.cpp",
+      "sha256": "f7702f043e4873997ec551dc3d1917374c88a3ac33fac813db396a812210aaa7"
+    },
+    {
+      "file": "cpp/wasm/ASTSerializer.hpp",
+      "sha256": "94145e37f1857a2b23fcd9b6a2173b17b35ad56ad3dc44d4b3ca1aafeaf37a72"
+    },
+    {
+      "file": "cpp/wasm/build.sh",
+      "sha256": "4e7816b34802fe778cab4d2e136ae520c21dd35bf652138be85ea72262f16fdf"
+    },
+    {
+      "file": "cpp/wasm/md4c_wasm.cpp",
+      "sha256": "767bfda90896728f6946308bea2b4acd9e081e5ae5fda54db57b04344039eaa0"
+    },
+    {
+      "file": "ios/EnrichedMarkdown.h",
+      "sha256": "ebfb851bd25eb6ccae4edbb3ce6ef4472c1c46dbf664b0e8d9420ee4ec667b02"
+    },
+    {
+      "file": "ios/EnrichedMarkdown.mm",
+      "sha256": "448d5b5b9ad11041568af8a591db3a430f9e657ceaed5e0b0dea87887048d236"
+    },
+    {
+      "file": "ios/EnrichedMarkdownText.h",
+      "sha256": "0700153c1acadf9ed9cca4617ccf72b1e89ca3386fa45f2b59a1be540bc8413e"
+    },
+    {
+      "file": "ios/EnrichedMarkdownText.mm",
+      "sha256": "7ef096d2a64c23775135685e3aef90f94d856611dbfefc3a3b5efd3bbc05f3fa"
+    },
+    {
+      "file": "ios/attachments/ENRMImageAttachment.h",
+      "sha256": "f4378f0095eedb380cb5bca743d034c27361a87066a3e88632743b27829556c4"
+    },
+    {
+      "file": "ios/attachments/ENRMImageAttachment.m",
+      "sha256": "748b9d73559105ac4c450d867c5e20970e69a4e7f4905bafa3c1a8f7ba990191"
+    },
+    {
+      "file": "ios/attachments/ENRMLinkPillAttachment.h",
+      "sha256": "6ac92243dcc724bafac8036014ac99b5341c5196f0d09648f3320f15b5ac97a8"
+    },
+    {
+      "file": "ios/attachments/ENRMLinkPillAttachment.m",
+      "sha256": "40cbb89b5c12ffddcc172b1ba784c33475f487276e813e9b671c74f1187a3812"
+    },
+    {
+      "file": "ios/attachments/ENRMLinkPillIconCache.h",
+      "sha256": "61d69950b2942df7d6ea8ef5d8b717e39cc0072a1e765b93d229bee964df5c62"
+    },
+    {
+      "file": "ios/attachments/ENRMLinkPillIconCache.m",
+      "sha256": "0dfa800c2779240522e468ca06cb61ffcb2ec735b38cd2b21330eb4572f8f87f"
+    },
+    {
+      "file": "ios/attachments/ENRMLinkPillText.h",
+      "sha256": "8ee47bde04b895a5fa136de11f53e4a3df43fb312ff639ec944c223bf7c654cd"
+    },
+    {
+      "file": "ios/attachments/ENRMLinkPillText.m",
+      "sha256": "d5a3531dcc8ffe6e1cb733f03b9098ae02c338672179d262d4d6e654325665f0"
+    },
+    {
+      "file": "ios/attachments/ENRMMathInlineAttachment+macOS.m",
+      "sha256": "86c299f70b41b22e954621b4c63aaff4f2cdaf54204a2824469eec55567b679d"
+    },
+    {
+      "file": "ios/attachments/ENRMMathInlineAttachment.h",
+      "sha256": "a6502d1131760d015667fc2a94e2d811d86bec2312e48d842ce92a4319b3f641"
+    },
+    {
+      "file": "ios/attachments/ENRMMathInlineAttachment.m",
+      "sha256": "f94285a9ac5cd101472aa76a7ca5a066b63bebe6bd7cb125544ed857ea27c579"
+    },
+    {
+      "file": "ios/attachments/ENRMMathInlineAttachmentShared.h",
+      "sha256": "4382f14bd8a915e3cae7c383a2219aca0bc985ddf6e447ea68cf08cb9c2e50c1"
+    },
+    {
+      "file": "ios/attachments/ThematicBreakAttachment.h",
+      "sha256": "822d5e1d180f166a7cfcba8dfd717211fbb1c3dfec5390550b8815f9c3b363a7"
+    },
+    {
+      "file": "ios/attachments/ThematicBreakAttachment.m",
+      "sha256": "8e56b5f47530b7a7d66d671df823f45c4d73a4567dc0074c7bc6e45adb75a005"
+    },
+    {
+      "file": "ios/generated/ReactCodegen/EnrichedMarkdownTextSpec/ComponentDescriptors.cpp",
+      "sha256": "0e840c5b608eb35b21be7ced7d4952db014255ac7978aa23749d2d03e7a1c0d4"
+    },
+    {
+      "file": "ios/generated/ReactCodegen/EnrichedMarkdownTextSpec/ComponentDescriptors.h",
+      "sha256": "a7137bbca3a1b8baa1eb7f6f68d23eb868f96f6284fadb095a437c3684f1bc31"
+    },
+    {
+      "file": "ios/generated/ReactCodegen/EnrichedMarkdownTextSpec/EventEmitters.cpp",
+      "sha256": "347b619e6b9e826590649740510fd48614e7bb30b5c243896ca38d24250aee0f"
+    },
+    {
+      "file": "ios/generated/ReactCodegen/EnrichedMarkdownTextSpec/EventEmitters.h",
+      "sha256": "17e8a978d2d9c0423a9ef09403e8487610c4435458b81facb8deb313356a5dac"
+    },
+    {
+      "file": "ios/generated/ReactCodegen/EnrichedMarkdownTextSpec/Props.cpp",
+      "sha256": "0e04c80a6f5b8b6906d2af1b27a95f08ce644f69e8600ec6be64a5522cd58c59"
+    },
+    {
+      "file": "ios/generated/ReactCodegen/EnrichedMarkdownTextSpec/Props.h",
+      "sha256": "6ab2e0caf6a79a25f631350fe36a70650f62328fb12103231d1ec3d3474c80a7"
+    },
+    {
+      "file": "ios/generated/ReactCodegen/EnrichedMarkdownTextSpec/RCTComponentViewHelpers.h",
+      "sha256": "a7fada3dd88ceaf39abb91d03898c5b59ed244bd434117de133ae65b7e25585c"
+    },
+    {
+      "file": "ios/generated/ReactCodegen/EnrichedMarkdownTextSpec/ShadowNodes.cpp",
+      "sha256": "11993168194630ecd97b57e9dd1a38dd08bf829914ee72859b305f9e979da97f"
+    },
+    {
+      "file": "ios/generated/ReactCodegen/EnrichedMarkdownTextSpec/ShadowNodes.h",
+      "sha256": "f053293e115e90554ff17691056684529c177b329d2e1080fc720550e9dd017f"
+    },
+    {
+      "file": "ios/generated/ReactCodegen/EnrichedMarkdownTextSpec/States.cpp",
+      "sha256": "982c98edc95915e0016a53240974b613d764f7c44673e260a655b2a43021710c"
+    },
+    {
+      "file": "ios/generated/ReactCodegen/EnrichedMarkdownTextSpec/States.h",
+      "sha256": "8a89d856a12d382f70d76e556e28651c292b013cc416088a321269bf6a3cfde2"
+    },
+    {
+      "file": "ios/input/ENRMAutoLinkDetector.h",
+      "sha256": "590baf2c05b1665da9b5f4ff2298fd07b1ee3c722fad74ee41f4678821ea0448"
+    },
+    {
+      "file": "ios/input/ENRMAutoLinkDetector.mm",
+      "sha256": "5bbaeacd622d4a25f1fc3bb64561949afbb25fa742a1f2af9283e64a61c20cce"
+    },
+    {
+      "file": "ios/input/ENRMBlockEditCoordinator.h",
+      "sha256": "4bb7160fac949dc3554e37ec3d4e980f10f7275f00ade4c49f2143f40f5fb6ae"
+    },
+    {
+      "file": "ios/input/ENRMBlockEditCoordinator.mm",
+      "sha256": "60a54926e7dcbc7b55b4e094bcd769fcbd28b90590aed47b50ac5621cf240bbe"
+    },
+    {
+      "file": "ios/input/ENRMBlockRange.h",
+      "sha256": "62f943d2d5ce0941cb7446bb59a84637bf92b2584500c8304df248488b0fc152"
+    },
+    {
+      "file": "ios/input/ENRMBlockRange.mm",
+      "sha256": "2ecbc1df1812793896fe1dbec76aab5d65f8d9d47d8a4e5eebbdc690041e2067"
+    },
+    {
+      "file": "ios/input/ENRMBlockStore.h",
+      "sha256": "a33f69775583aa0c58b6806b5d9d7e2df052e1ed661d7d51ca690214c5772097"
+    },
+    {
+      "file": "ios/input/ENRMBlockStore.mm",
+      "sha256": "5cd3d959bafac0dcafe1931158516b35642382aa6dc975e18daa9986637ed902"
+    },
+    {
+      "file": "ios/input/ENRMClipboardCoordinator.h",
+      "sha256": "5fecf3eb625016fd8ebd590c10094f3ccf2d0b158e29c350bc8f9815c85b0f92"
+    },
+    {
+      "file": "ios/input/ENRMClipboardCoordinator.mm",
+      "sha256": "4842de592fa3374b176e0c9a1bbc31356376729e2225dea6690ee658d2ea7b1f"
+    },
+    {
+      "file": "ios/input/ENRMDetectorPipeline.h",
+      "sha256": "485f9ebd740335c65385f68ed77f7ddc79a5a3764568098ec4774a7f3f1af321"
+    },
+    {
+      "file": "ios/input/ENRMDetectorPipeline.mm",
+      "sha256": "cef60237226bd1530c7f674025e3d3b55d0651735003a67bb3d7ca9370cea961"
+    },
+    {
+      "file": "ios/input/ENRMEditPipeline.h",
+      "sha256": "6596a0ce15ad53d2cfcb3be06999392f10ca26721a7632571f27049e2f4dd980"
+    },
+    {
+      "file": "ios/input/ENRMEditPipeline.mm",
+      "sha256": "f60005e776e213c8005075253bfa86db28c34a5806374d876353a6f9d1e8e7db"
+    },
+    {
+      "file": "ios/input/ENRMEditSession.h",
+      "sha256": "015405f8437993be34dbc64bd453319e5875100f596e2a41087afed32c8b6194"
+    },
+    {
+      "file": "ios/input/ENRMEditSession.mm",
+      "sha256": "356ade75b11eb74f8efd423b53207019933abceda90429eb7c1f49c88cd6b3b9"
+    },
+    {
+      "file": "ios/input/ENRMFormattingRange.h",
+      "sha256": "166e77161b9442375c6207c5458d942393b9eab5dcdd83a81b07aca3c13c72f0"
+    },
+    {
+      "file": "ios/input/ENRMFormattingRange.mm",
+      "sha256": "ac724f7be82b2a1aabbf558e3310fd0681d3021d0ce8dd2b58f1e0acc3ba4df0"
+    },
+    {
+      "file": "ios/input/ENRMFormattingStore.h",
+      "sha256": "b033df953d2dd5b25cc7b66035f973470f8fa060e0bc1c3efa7534ebd1666677"
+    },
+    {
+      "file": "ios/input/ENRMFormattingStore.mm",
+      "sha256": "3a28da1bf411d53679435ea3c69eef03ab400509a386fe2bb5c209192ff522c8"
+    },
+    {
+      "file": "ios/input/ENRMInputBlockType.h",
+      "sha256": "26e2293550e3ef12b113033dc40719a1f937302ace9fe67c6c9167042f5687a8"
+    },
+    {
+      "file": "ios/input/ENRMInputBlockType.mm",
+      "sha256": "0974305031b3bdc85ff148c962732293c8beb54dbeb29b745576451ba0989634"
+    },
+    {
+      "file": "ios/input/ENRMInputDecorationDrawer.h",
+      "sha256": "ede8a373a339f5cea36c63305164d122f7bdb61f4f3014f475a988f77d5e19f8"
+    },
+    {
+      "file": "ios/input/ENRMInputEventEmitter.h",
+      "sha256": "ab31c888c8dfe66c289a5b6524435009851fdce9b509a533c30abf37ba140b38"
+    },
+    {
+      "file": "ios/input/ENRMInputEventEmitter.mm",
+      "sha256": "4846917ee3d99a6ba39ef98fab4b7b7e940b4ad83e01185e5cd29486ed41103f"
+    },
+    {
+      "file": "ios/input/ENRMInputFormatter.h",
+      "sha256": "a63ee910bcd4348afa13b66cc2a34f200356a9bea9a668cd41fd39cdfc59389a"
+    },
+    {
+      "file": "ios/input/ENRMInputFormatter.mm",
+      "sha256": "32de534c858ae5fd082e18c4fab99f0c7811abfc0ed95377da3edfa38a98aa5c"
+    },
+    {
+      "file": "ios/input/ENRMInputFormatterStyle.h",
+      "sha256": "452fa79110b445e09c4b1535136f02986614e70ed8f68afcba793f0e60f01451"
+    },
+    {
+      "file": "ios/input/ENRMInputFormatterStyle.mm",
+      "sha256": "da8daa76557069b53463112a106f1ebf3fe8ff30096d9d053905e7cdcead3bdc"
+    },
+    {
+      "file": "ios/input/ENRMInputLayoutManager.h",
+      "sha256": "90e97b3909b2b4816fca811c3da3b2741a0b47f6944c17534487e4fd1baa2f99"
+    },
+    {
+      "file": "ios/input/ENRMInputLayoutManager.mm",
+      "sha256": "6806163e3f4dffae1c87fc1cd0a708438b49b7894a91c1113490de2c17085377"
+    },
+    {
+      "file": "ios/input/ENRMInputLinkPrompt.h",
+      "sha256": "185a1b06e1d170e28656a71b4d2ae4ea6974d427ea9f9c92220f43557fa5ef15"
+    },
+    {
+      "file": "ios/input/ENRMInputLinkPrompt.mm",
+      "sha256": "5a3d95969bcc5d7875eb74ba45a4e8896283a075c92278d2d0c68eddf1fec073"
+    },
+    {
+      "file": "ios/input/ENRMInputListMarkerDrawer.h",
+      "sha256": "ea82f1a28a21869a71506039cd796a783d5774b0095fdf66ba9aeda0850be576"
+    },
+    {
+      "file": "ios/input/ENRMInputListMarkerDrawer.mm",
+      "sha256": "b7728fea52658b0d551b0ec22afd668a42936e4a7bf5ca6524050d61dd0d4427"
+    },
+    {
+      "file": "ios/input/ENRMInputMentionCandidate.h",
+      "sha256": "110bbc0cc1ffbedf54439736da1e00ab2a3ba5373b8943e272855556b22516bb"
+    },
+    {
+      "file": "ios/input/ENRMInputMentionCandidate.mm",
+      "sha256": "d91435d0286dbb08935e164ecbacc4dbe858a08f54403a0fd2b1ea1b52a1101d"
+    },
+    {
+      "file": "ios/input/ENRMInputParser.h",
+      "sha256": "77f215a4a8ce3b90bef21b94a5251723868ad566a653a8bf228c3c0f6c75d4e7"
+    },
+    {
+      "file": "ios/input/ENRMInputParser.mm",
+      "sha256": "74043605be5919084215f302970b8d358488b57631fd6ef70c96cf6154218c54"
+    },
+    {
+      "file": "ios/input/ENRMInputRemend.h",
+      "sha256": "d2eb30848478d76dba0411b9d9aa49d47f0e10787ccf405e075ee4a2147d4d91"
+    },
+    {
+      "file": "ios/input/ENRMInputRemend.mm",
+      "sha256": "6c6fe9040303e99d47511c0c3eb9c416f5eea1ee8115abce911c717387b40262"
+    },
+    {
+      "file": "ios/input/ENRMInputStyleStateBuilder.h",
+      "sha256": "5aff13569d00ee29ed76934c13ef6c164f898e9bac5b65fac5511894c429bd5c"
+    },
+    {
+      "file": "ios/input/ENRMInputStyleStateBuilder.mm",
+      "sha256": "fcce9f37fd10f44d61331cea8d6c9010be9d6916048c2d5625ba2bbba9f3201a"
+    },
+    {
+      "file": "ios/input/ENRMInputStyledRange.h",
+      "sha256": "1f479bf68dddd35198a9e3b326c86cc030b0d82295b0f901974ca72d366b368f"
+    },
+    {
+      "file": "ios/input/ENRMInputStyledRange.mm",
+      "sha256": "c998346c161f1d33c43ed1113bd578a91dfb23972b2bfed70dfd2b81f0a42deb"
+    },
+    {
+      "file": "ios/input/ENRMInputTextView.h",
+      "sha256": "5a691b2bf681dc6c72495b17299a66387a60a9335eddea88cff324f92f82423d"
+    },
+    {
+      "file": "ios/input/ENRMInputTextView.mm",
+      "sha256": "d29b533f14be090423ccdcd93e3cf96083b06902401101d11f4a8a8a4ba27c5b"
+    },
+    {
+      "file": "ios/input/ENRMInputTypingAttributesController.h",
+      "sha256": "6e2944ce8079bec2227096a995e16b2649c53ecccd7fdb8f967c4a75e8bf3131"
+    },
+    {
+      "file": "ios/input/ENRMInputTypingAttributesController.mm",
+      "sha256": "ff1b10a5d466f08c9c5f1e2169bf87d8b24220230931a74a396ce3ec64ee78c8"
+    },
+    {
+      "file": "ios/input/ENRMLinkCoordinator.h",
+      "sha256": "7a17d15bb29328135866ddbf4fcaffa4be01787c18160b586be5cb857f6e391e"
+    },
+    {
+      "file": "ios/input/ENRMLinkCoordinator.mm",
+      "sha256": "51318d3f641d6231d9ffb64dc3edde2dd61499e7e7dad2bc6d0b82e6f5cb6bc5"
+    },
+    {
+      "file": "ios/input/ENRMMarkdownSerializer.h",
+      "sha256": "b2c521f49870cb119b7373efdff4ab137795023cd3a20073b4678692404cb79d"
+    },
+    {
+      "file": "ios/input/ENRMMarkdownSerializer.mm",
+      "sha256": "44de2846bc36e15a1dde1871971e41ae67f72b92c9bceb2cb1e96a76614a3133"
+    },
+    {
+      "file": "ios/input/ENRMMarkdownShortcutMatcher.h",
+      "sha256": "fbfd5f5edcd219254cf52dbe408c0f683ac0211553c9ae455e89a40c7ba9a653"
+    },
+    {
+      "file": "ios/input/ENRMMarkdownShortcutMatcher.mm",
+      "sha256": "2cbbdaf241d3e173affff1612646aa89e2a042824a62b4aa936b6ce8fb33f9c1"
+    },
+    {
+      "file": "ios/input/ENRMMentionCoordinator.h",
+      "sha256": "93a66e8549f9bb4c6cf6a6c31417e0a261dea23df7af8bbf20527e831f3ece22"
+    },
+    {
+      "file": "ios/input/ENRMMentionCoordinator.mm",
+      "sha256": "8adae7387c1fcce28e74182032bf9cf1cc1f8ff9d71645427f0d0604a84d78d7"
+    },
+    {
+      "file": "ios/input/ENRMRangeEditAdjustment.h",
+      "sha256": "c0ee2448c3260bb87d15c1bb91d4a64b2281c6b3d5dc2b34cd05a81d0b84fc5b"
+    },
+    {
+      "file": "ios/input/ENRMRangeEditAdjustment.mm",
+      "sha256": "0208f9b6f3d933117cf6d1ec60dac786ce587ae8fff46a28710ed71cbf88ceba"
+    },
+    {
+      "file": "ios/input/ENRMRangeStoreUtils.h",
+      "sha256": "c6326e5d8537d8133bcd8b5c778dc0af34624df4a0673b89e4c70ef647f45637"
+    },
+    {
+      "file": "ios/input/ENRMTextDetector.h",
+      "sha256": "b7d4fb2d3b36d70afb32666cb8dcb77ad3fe6f4902bc7e8653fe083a6a8a545a"
+    },
+    {
+      "file": "ios/input/ENRMWordsUtils.h",
+      "sha256": "04008c78f6f50c4647792e080e6b39d83733fd8da25eeab09bf3359c0c987873"
+    },
+    {
+      "file": "ios/input/ENRMWordsUtils.mm",
+      "sha256": "688146bc59f9b5eabe5fe1b9e319c2c49bde148712a9809a875cf73447e350e1"
+    },
+    {
+      "file": "ios/input/EnrichedMarkdownTextInput+ContextMenu.mm",
+      "sha256": "afa38799c8112bb248890e1631ebc9b48a87492e37f9c59843d5178c9dbba5f3"
+    },
+    {
+      "file": "ios/input/EnrichedMarkdownTextInput+Internal.h",
+      "sha256": "9d14383a079464730250aef897678c4721c4025400e61eb97ee30a5f496980dd"
+    },
+    {
+      "file": "ios/input/EnrichedMarkdownTextInput.h",
+      "sha256": "0b17f8f94d6ec34e9d11de9ed5ad383c02079ef1c7b035e54e53bb02416c379b"
+    },
+    {
+      "file": "ios/input/EnrichedMarkdownTextInput.mm",
+      "sha256": "4028d3189f5512fab7e4a6175b4f9538efa362483ca0680859ea1521eac042e8"
+    },
+    {
+      "file": "ios/input/InputStylePropsUtils.h",
+      "sha256": "05d585449cb2b9a2a82e64cd4d5bca9ffb3d6cff68948235c7fda6a79da841ec"
+    },
+    {
+      "file": "ios/input/internals/EnrichedMarkdownTextInputComponentDescriptor.h",
+      "sha256": "3eb0b47f1faec58d964d014e3b1d35a19c5cb97e012f961da3459e513ae9f0d3"
+    },
+    {
+      "file": "ios/input/internals/EnrichedMarkdownTextInputShadowNode.h",
+      "sha256": "2d5259458a6ec19902669f172a32d963e6a8231aef989187a312de87db455257"
+    },
+    {
+      "file": "ios/input/internals/EnrichedMarkdownTextInputShadowNode.mm",
+      "sha256": "62d94fa711c7fd1cfaf0be144ec49e834f7e92f73b9bc5d6be3a259ecde84cf9"
+    },
+    {
+      "file": "ios/input/internals/EnrichedMarkdownTextInputState.h",
+      "sha256": "ecf5fa61b704a45e00cbe7f4c47dc1fb78cd254c75f63a49d6f394618101faaf"
+    },
+    {
+      "file": "ios/input/styles/ENRMBlockHandler.h",
+      "sha256": "08c4a5a061cafe4799bdf3bfaa98dc4e3c434cc2779a6443768685b63efe3ab0"
+    },
+    {
+      "file": "ios/input/styles/ENRMBoldStyleHandler.h",
+      "sha256": "9d5116d6411513c21ab84b62bd82f2d3d3848f7506e2d9cfdc620c160354b30d"
+    },
+    {
+      "file": "ios/input/styles/ENRMBoldStyleHandler.mm",
+      "sha256": "e969c46cffef1e17d9eb5e9873b33611171db4451146434d81a58e0bdb2fe83b"
+    },
+    {
+      "file": "ios/input/styles/ENRMHeadingBlockHandler.h",
+      "sha256": "e9fc3f96732c29b90e57fa53e46a39ebb00932adf075b1a67c581f6316bef67e"
+    },
+    {
+      "file": "ios/input/styles/ENRMHeadingBlockHandler.mm",
+      "sha256": "33bd7612b51675128505a58cd5d9d298c145cdbad642522fe65f140becedcb70"
+    },
+    {
+      "file": "ios/input/styles/ENRMItalicStyleHandler.h",
+      "sha256": "e3924c68797b3859b64d872916bfa9b584371040e188f14e13ebe9d4724b0fae"
+    },
+    {
+      "file": "ios/input/styles/ENRMItalicStyleHandler.mm",
+      "sha256": "6515e7c5f1bb9086e030223e7815f07de4175108adb135fa46e969f988e6e64e"
+    },
+    {
+      "file": "ios/input/styles/ENRMLinkStyleHandler.h",
+      "sha256": "b7bdefbd9f6eb5612ed281e532594719190ff2982efa88079ec3cc1f7a77ea2c"
+    },
+    {
+      "file": "ios/input/styles/ENRMLinkStyleHandler.mm",
+      "sha256": "3823bfa844e6e17248f877bf861c51c20dad362ac42276314986d6df6845b230"
+    },
+    {
+      "file": "ios/input/styles/ENRMOrderedListBlockHandler.h",
+      "sha256": "873d50ed5f964c6d045c35ca21e45cbd48b41c3b3e18dce21faa9903b24412a5"
+    },
+    {
+      "file": "ios/input/styles/ENRMOrderedListBlockHandler.mm",
+      "sha256": "0fd12475bff0f8f2fbff10ab5b1c731aa1c31596bd021443fdfe6a661346df3a"
+    },
+    {
+      "file": "ios/input/styles/ENRMSpoilerStyleHandler.h",
+      "sha256": "60f5287766a57cf09a15a6d7ea790b13d2495efd147230a2b616ca7039036c55"
+    },
+    {
+      "file": "ios/input/styles/ENRMSpoilerStyleHandler.mm",
+      "sha256": "75624982cd5bf86996030c906d023438886fab656a01031fe03bef88b1035abf"
+    },
+    {
+      "file": "ios/input/styles/ENRMStrikethroughStyleHandler.h",
+      "sha256": "34a75c28f009250c99739e572e8e11960edb0f31cdbf56e58bfb751c0a52b6b8"
+    },
+    {
+      "file": "ios/input/styles/ENRMStrikethroughStyleHandler.mm",
+      "sha256": "255c65fceae7b467f72ca4c2806b48415da6da8cfe572af3ac189876649aa75c"
+    },
+    {
+      "file": "ios/input/styles/ENRMStyleHandler.h",
+      "sha256": "569e6945f5b541f3ee7e067687ca52ae39865c92f8c082f00f2812e3900a301f"
+    },
+    {
+      "file": "ios/input/styles/ENRMStyleMergingConfig.h",
+      "sha256": "2d17c69244c477439dccf46ddf1f202b124b9b9756304b72c6fb1f86944166a1"
+    },
+    {
+      "file": "ios/input/styles/ENRMStyleMergingConfig.mm",
+      "sha256": "d6014cb703b8402e0c13f53165ae44d138616e0ebd9f8292251fd6106a286d50"
+    },
+    {
+      "file": "ios/input/styles/ENRMUnderlineStyleHandler.h",
+      "sha256": "a318f0b7f689129ddb01067ea5b374cd4616c6e529f0adc601bdc2dcdfa01509"
+    },
+    {
+      "file": "ios/input/styles/ENRMUnderlineStyleHandler.mm",
+      "sha256": "1bf6c5aa92aa0ce8c7e24553e52a3e1d47c066ec0c67f12389d26c111cd98a13"
+    },
+    {
+      "file": "ios/input/styles/ENRMUnorderedListBlockHandler.h",
+      "sha256": "83f50000f399c9fa10233c047ead36873b5d9b18b1e665c971bbb8db6b33e3ff"
+    },
+    {
+      "file": "ios/input/styles/ENRMUnorderedListBlockHandler.mm",
+      "sha256": "be3a8ff60e80102016f3e3788dc73279200d4afafcc6a386012d23c15127ea8f"
+    },
+    {
+      "file": "ios/internals/ENRMViewFreeMeasurement.h",
+      "sha256": "7e98419c693e7c069e49593a3035e8bbb8f38d5e3379d4432b104980f7581745"
+    },
+    {
+      "file": "ios/internals/EnrichedMarkdownComponentDescriptor.h",
+      "sha256": "d90eea0c1778d8f3fd69606f47fabb90e40838641b80a7cb0f2a0381f2bceae6"
+    },
+    {
+      "file": "ios/internals/EnrichedMarkdownShadowNode.h",
+      "sha256": "4597b3a6b14a0c7452f9f1eff698a79f20e13274110abcb7794555a4161a4046"
+    },
+    {
+      "file": "ios/internals/EnrichedMarkdownShadowNode.mm",
+      "sha256": "295de894e8ebf9cfc4bc9ff60d783f01890595fafc544b2a5454bc7e0a3bcd13"
+    },
+    {
+      "file": "ios/internals/EnrichedMarkdownState.h",
+      "sha256": "31100b07c57dd3e891ecf09ad06933acf5f05d96e48c441055342ea5eb214560"
+    },
+    {
+      "file": "ios/internals/EnrichedMarkdownTextComponentDescriptor.h",
+      "sha256": "f0559f43a9389fc7ecc8cfcd99485bc1c0e9736f29d9a4126c2a7e23fae8881c"
+    },
+    {
+      "file": "ios/internals/EnrichedMarkdownTextShadowNode.h",
+      "sha256": "5a5706585aa22cd5b8d1aed6878262baf68eff6c9a7a0bedf7727e8f76c132fb"
+    },
+    {
+      "file": "ios/internals/EnrichedMarkdownTextShadowNode.mm",
+      "sha256": "7a5296a0d28aba5550180a61f7dc638bae7c98231120ddda836ac0e7b596df7f"
+    },
+    {
+      "file": "ios/internals/EnrichedMarkdownTextState.h",
+      "sha256": "e595c20209964261208a411f45edeecc2c5dc3e7bdbbe9113f8b98089badd5d1"
+    },
+    {
+      "file": "ios/internals/MeasurementCache.h",
+      "sha256": "40f2973ca2a86916a555bc7c88ede8da5cb4cb56aa950c9f35a52f80b18f3c70"
+    },
+    {
+      "file": "ios/internals/ShadowMeasurementUtils.h",
+      "sha256": "72deba3f3d13144f7098f5a8b89f314a31412dc257e21312556738fe16a948f1"
+    },
+    {
+      "file": "ios/math/ENRMLatexErrorCoordinator.h",
+      "sha256": "c0e204981671143ab2b6055ef290965e0603004323d481295f31c17af5296b58"
+    },
+    {
+      "file": "ios/math/ENRMLatexErrorCoordinator.mm",
+      "sha256": "49d64ce4025a428b815106064e2bbc7a54a9303d5ae58b5f04c1df1964f6b7d7"
+    },
+    {
+      "file": "ios/math/ENRMLatexErrorReporting.h",
+      "sha256": "d6351ebf167c86ba221eb8e336de74db9d273aa85a30c4da26ae46edb18fc4b7"
+    },
+    {
+      "file": "ios/math/ENRMRaTeXBridge.swift",
+      "sha256": "2cbb2a14c3b39e900aaafe42d96fe2925708946901e1315ad38f4682d003c42d"
+    },
+    {
+      "file": "ios/parser/ENRMMarkdownParser.h",
+      "sha256": "ce625a52f6538a50636b4b4ccdf23f00019dacffdf43612867820c6a2188d1ef"
+    },
+    {
+      "file": "ios/parser/ENRMMarkdownParser.mm",
+      "sha256": "f3c8affbab30fd0691e7ba168b87771ba7dbfd56e4bc06f6a9f7c78fc3ec6897"
+    },
+    {
+      "file": "ios/parser/ENRMTextLinkAttributes.h",
+      "sha256": "4de71750cb42a1b49fbace877fcb59f19850a4d5834817781b7046e67bf2c53a"
+    },
+    {
+      "file": "ios/parser/MarkdownASTNode.h",
+      "sha256": "7cf7c51d4240651e98c26db24afe5689ed5c07d82a21411176cc599f4a9c20b0"
+    },
+    {
+      "file": "ios/parser/MarkdownASTNode.m",
+      "sha256": "cf75d6b7383f8cccc290eba8e8c04a3cccb34410cd9641779cd2359ef64e5f42"
+    },
+    {
+      "file": "ios/parser/MarkdownParserBridge.mm",
+      "sha256": "a3556e3679fdc9394ab10e168eb9589621aea59aa3b5f803b24a0685e8e00086"
+    },
+    {
+      "file": "ios/renderer/AttributedRenderer.h",
+      "sha256": "ea53bcb7b1beea8c3a94b062a32924b4f0c191bd773b9c6a9cc6397be55216d6"
+    },
+    {
+      "file": "ios/renderer/AttributedRenderer.m",
+      "sha256": "b6877d9d846d32e4ab07623c13b4b903dfe2109a09d77821d1db427a6d1862be"
+    },
+    {
+      "file": "ios/renderer/BaseRenderer.h",
+      "sha256": "2ce6ec52f41b301969b71ec1ad1431867be5334b08f78bbfca828ff9c16aeba5"
+    },
+    {
+      "file": "ios/renderer/BaseRenderer.m",
+      "sha256": "07a76ba3cf9a640dfd9e0820182da60a3bb5ce55aac51eed9c7e5d2de2483313"
+    },
+    {
+      "file": "ios/renderer/BaselineShiftTextAttributes.h",
+      "sha256": "d006aa82755b27b703f2719f84b44ca4dca24f12d0e5876afeede0571f9ccc7b"
+    },
+    {
+      "file": "ios/renderer/BaselineShiftTextAttributes.m",
+      "sha256": "0345c04eb64ec0787de18f27d28ef51c02dbdcd04d13730bfdfc7eccc0d0d1e7"
+    },
+    {
+      "file": "ios/renderer/BlankLineRenderer.h",
+      "sha256": "e9bb13995feaf6ac57449c4fd2b95c3a70160c514ccf73e584a52698c039c2dd"
+    },
+    {
+      "file": "ios/renderer/BlankLineRenderer.m",
+      "sha256": "4526a202c89e1a248a93e082d326d337e5cdf8ddf8058802938eff6ce8b6117f"
+    },
+    {
+      "file": "ios/renderer/BlockquoteRenderer.h",
+      "sha256": "6b673fc87c838d5dd5be44e2aa5ec76541de908364f316fbd59ca8cdac320a14"
+    },
+    {
+      "file": "ios/renderer/BlockquoteRenderer.m",
+      "sha256": "fd0345450d998635e437afd3080f2cafd39c927d3bc494bed618ef64f206e018"
+    },
+    {
+      "file": "ios/renderer/CodeBlockRenderer.h",
+      "sha256": "40525a324de78343cde9de08ec0d969022136c517f6c934d939073815d845155"
+    },
+    {
+      "file": "ios/renderer/CodeBlockRenderer.m",
+      "sha256": "f63047f8a108903a0c92e77ce2d0e7f0f9cc641fd5281d2f4f68ef0d92ee4e8b"
+    },
+    {
+      "file": "ios/renderer/CodeRenderer.h",
+      "sha256": "6937140e52e7748c67d3fe1eaef365cb577278dd9d266365a9fca8d845ccacf9"
+    },
+    {
+      "file": "ios/renderer/CodeRenderer.m",
+      "sha256": "8d8aed8bb92f5381d69457070a8410e61bdb05d4f8100594fdcfbb8643f24b53"
+    },
+    {
+      "file": "ios/renderer/ENRMBlockquoteTextRenderer.h",
+      "sha256": "2743041b43fa1742ae63f6cd12ae7e42770d5af6b30530c2e6413e39aa4f3cda"
+    },
+    {
+      "file": "ios/renderer/ENRMBlockquoteTextRenderer.m",
+      "sha256": "75a0a92dcc4ef52e5232e2e2fa8ea32addddcdfca7beeb26c62de74e505545da"
+    },
+    {
+      "file": "ios/renderer/ENRMImageRenderer.h",
+      "sha256": "9b63abd95dfa765c747a31884e435c829d0a792bf1c565f5c227e98c702f9c5e"
+    },
+    {
+      "file": "ios/renderer/ENRMImageRenderer.m",
+      "sha256": "ca7a3c3f7c29679a06a16a7cf5ec948848951cdff9cf8f934f4825191d72e5a1"
+    },
+    {
+      "file": "ios/renderer/ENRMMathInlineRenderer.h",
+      "sha256": "7c22904812af63d951a95296ba26680e6b6b87d7e3b12e808f7c5665dc85509d"
+    },
+    {
+      "file": "ios/renderer/ENRMMathInlineRenderer.m",
+      "sha256": "636bf5228e9d6529f2218248f6c47022cb3862939c466d3613f4848296a2411a"
+    },
+    {
+      "file": "ios/renderer/ENRMSpoilerRenderer.h",
+      "sha256": "23b1e1a3582508b9acacb709741a6de737a85296ad8b6b9b5da61eb59a256ac6"
+    },
+    {
+      "file": "ios/renderer/ENRMSpoilerRenderer.m",
+      "sha256": "9b4e61faa09e4f7a6f8ed4e9c5f9fe923ac98bda8f79b67f7a682fbb07a9be31"
+    },
+    {
+      "file": "ios/renderer/EmphasisRenderer.h",
+      "sha256": "4ecaa1cbb73a4cd8a46522c4152d0c208bd3621d764e3075448e3f789daeeb45"
+    },
+    {
+      "file": "ios/renderer/EmphasisRenderer.m",
+      "sha256": "d33fd097b0b84df28f1e7bbf83baac77cdd8d9b3c6dbf13c91e1766fd0c6bc6b"
+    },
+    {
+      "file": "ios/renderer/HeadingRenderer.h",
+      "sha256": "df40321b6004fe0f67a2eb47d9cb7407f19ceb07f8095f0d86b7e152e7dfecbf"
+    },
+    {
+      "file": "ios/renderer/HeadingRenderer.m",
+      "sha256": "b21d5c0aef22cc9bd6e1ab066946649e6b2511d99fe77794d5cd5354bcd702e2"
+    },
+    {
+      "file": "ios/renderer/HighlightRenderer.h",
+      "sha256": "17b132fd66bae11a7b9342e00d0e3eb0612218d2d3aa38669a6086415e082f06"
+    },
+    {
+      "file": "ios/renderer/HighlightRenderer.m",
+      "sha256": "5512cf2f86a4e6c8ad817680825e9a72995d7cbb62947171162abbeba229cf33"
+    },
+    {
+      "file": "ios/renderer/LinkRenderer.h",
+      "sha256": "556b49ccc773cd1809687ba7d19f2822201ab370a3933ffc6578b0701a9e0984"
+    },
+    {
+      "file": "ios/renderer/LinkRenderer.m",
+      "sha256": "5cf3b68c626b332fbb9facc6a1c97d02cf4dd107a612e8755ff1c544b27a2af9"
+    },
+    {
+      "file": "ios/renderer/ListItemRenderer.h",
+      "sha256": "005bb146184c4c2ed9a2b4608436bd8f9e84eac89b7b40faf59963ccb562d25c"
+    },
+    {
+      "file": "ios/renderer/ListItemRenderer.m",
+      "sha256": "2cbef75468f417855e94d6133ce28c7ee976ca6b4ad4d1eb2616db5e347f613a"
+    },
+    {
+      "file": "ios/renderer/ListRenderer.h",
+      "sha256": "5ca64fafa53643e8d1e350f61bc8d7db4ce190529db049f2b5276384d4542af1"
+    },
+    {
+      "file": "ios/renderer/ListRenderer.m",
+      "sha256": "e0627fd6823b737e3089167347d19d201e968f93c39852a9df11c5240016a1f0"
+    },
+    {
+      "file": "ios/renderer/NodeRenderer.h",
+      "sha256": "6b4dc4b05f93af7e1dfe83ed442c0fb479e7841c635a52678c524e92668392e5"
+    },
+    {
+      "file": "ios/renderer/ParagraphRenderer.h",
+      "sha256": "680cb55554beae2b1c26abb347dd343d4f41e3b0b7ce5450ee5c6a01b12c43fa"
+    },
+    {
+      "file": "ios/renderer/ParagraphRenderer.m",
+      "sha256": "49bce202ad1c5aa8b04f0ee234f6fa235e372e105fa5c054c58283406a5ee4c5"
+    },
+    {
+      "file": "ios/renderer/RenderContext.h",
+      "sha256": "6a1e662a1a3ded86340cbc9282365237e3a41005d828c50a42d08f86c534f947"
+    },
+    {
+      "file": "ios/renderer/RenderContext.m",
+      "sha256": "aa31de50de1fa12545edbd71fee364161b9aa08e6ab96c0ee4639ba016f56a21"
+    },
+    {
+      "file": "ios/renderer/RendererFactory.h",
+      "sha256": "95279b091d42e0098e58176f34e4e56ba5146c72ba529c06761df7a0f0fa1af9"
+    },
+    {
+      "file": "ios/renderer/RendererFactory.m",
+      "sha256": "c9bc63dee059525cf301b573945573c13ad25ed7bc08c71493fd336a2dced70e"
+    },
+    {
+      "file": "ios/renderer/StrikethroughRenderer.h",
+      "sha256": "578d4c69b64a160c17173575931c4c37bcc297326470e8f1fcb843f4a7f1acdb"
+    },
+    {
+      "file": "ios/renderer/StrikethroughRenderer.m",
+      "sha256": "d521db5272ce1dd1d951eaf4d5d1983619bf742cbb23a710759b080c97e58b5f"
+    },
+    {
+      "file": "ios/renderer/StrongRenderer.h",
+      "sha256": "5b650da4a76af497562d018f6ea7e349f2bc8625de003a563776cebae8574cae"
+    },
+    {
+      "file": "ios/renderer/StrongRenderer.m",
+      "sha256": "a33017f38a4db52b7caa335a2872b681ab73b42dcdbee331c26e7e43cc914cf1"
+    },
+    {
+      "file": "ios/renderer/SubscriptRenderer.h",
+      "sha256": "0a315c1ab883da2b439c0ed58318efd3d8455c7c9ef935958fc61aa050d93aba"
+    },
+    {
+      "file": "ios/renderer/SubscriptRenderer.m",
+      "sha256": "7ef7ab653e371dd874de67615579924292dcad54050d316673dbe2ccddecd151"
+    },
+    {
+      "file": "ios/renderer/SuperscriptRenderer.h",
+      "sha256": "5a75cf565838b80d8c0f9848b6f41b52a3dac80900e9e47b2fa0235fbcf66a2b"
+    },
+    {
+      "file": "ios/renderer/SuperscriptRenderer.m",
+      "sha256": "9c5fcc5beb5016e48f2650e6738abb78b06e40a887e5bb766d37671378b24ea7"
+    },
+    {
+      "file": "ios/renderer/TextRenderer.h",
+      "sha256": "38336fcac27fc786277722a6c2967bffb1d46d37b36afb290704692613cd6386"
+    },
+    {
+      "file": "ios/renderer/TextRenderer.m",
+      "sha256": "0ae8f65b1fe7c330314e342df632c90ae01c12fde37f57cc2a4bca19d97529b7"
+    },
+    {
+      "file": "ios/renderer/ThematicBreakRenderer.h",
+      "sha256": "cd959318ad38fe4d31270a3e1d2754eb92fe8a355ecf2e8ea4671a667a8bc36c"
+    },
+    {
+      "file": "ios/renderer/ThematicBreakRenderer.m",
+      "sha256": "ac36b8c8b99b9f9755116e4f08f5bfd9a0d528dae4e4f344414a12dd7e4e2b4c"
+    },
+    {
+      "file": "ios/renderer/UnderlineRenderer.h",
+      "sha256": "9c5991cde8f7ade3703bb3d9efb94a3b785885d79c230e01b9a0a8f85c37e4e5"
+    },
+    {
+      "file": "ios/renderer/UnderlineRenderer.m",
+      "sha256": "955584a2ad13d5f3a2d8279d77defe9786980b33f08e1ab810000e20374d4f18"
+    },
+    {
+      "file": "ios/segments/ENRMAdmonitionIcons.h",
+      "sha256": "4ada65a44e8f4d8e61bd7fb4547d1b07a736c4c22b0c76541944f0c47d519910"
+    },
+    {
+      "file": "ios/segments/ENRMAdmonitionIcons.m",
+      "sha256": "0193b640f61827820f21e44a37d9b5247fd2f8cb3f71c4523f9c72c3a1ef0214"
+    },
+    {
+      "file": "ios/segments/ENRMBlockquoteContainerView.h",
+      "sha256": "27e123b7a84207708b79fc67ca64b40cb777ce4d3ebb5ae88b221e3f80e3812a"
+    },
+    {
+      "file": "ios/segments/ENRMBlockquoteContainerView.mm",
+      "sha256": "2c5562c37ef21252929d7c0a3a6aa3ebd333551539dd815c59889388fc27aa6a"
+    },
+    {
+      "file": "ios/segments/ENRMCodeBlockContainerView.h",
+      "sha256": "19b0341976463bb28ee6a1fe851f035a17097801b14570c37b63b2dc9d729db2"
+    },
+    {
+      "file": "ios/segments/ENRMCodeBlockContainerView.m",
+      "sha256": "1d5e691d4483d4a6646074c30dcab98c93b443dde3806c07d337821e65045db2"
+    },
+    {
+      "file": "ios/segments/ENRMContainerNodeView.h",
+      "sha256": "cd8d12ddeee1247412baff2860708d6052c112bc701197c7875a92d32b1df8ac"
+    },
+    {
+      "file": "ios/segments/ENRMContainerNodeView.mm",
+      "sha256": "a6c3fbb2cd7aff87c40e6557b67b3cbb71fd673e3ff4c9867c4be1703b3757f4"
+    },
+    {
+      "file": "ios/segments/ENRMDynamicBlockProps.h",
+      "sha256": "31701b070d3d477cdf0be9737e4d7fe2d71cf384e9fdc6559a862ebf143b5368"
+    },
+    {
+      "file": "ios/segments/ENRMDynamicBlockProps.m",
+      "sha256": "6f446b2f3a07087efd473440208bd1b5d6453460a68a859df71db9b973c348b1"
+    },
+    {
+      "file": "ios/segments/ENRMMathContainerView.h",
+      "sha256": "9be707a6e96876689e4aa5b797f62374b4f25b2b65fa9c173d0d699b404e8b2b"
+    },
+    {
+      "file": "ios/segments/ENRMMathContainerView.m",
+      "sha256": "c1a288567fd5819c324aa51991d7e381b87c3b9eed8bdb096fdfda1d868d97f9"
+    },
+    {
+      "file": "ios/segments/ENRMSVGPath.h",
+      "sha256": "538b6e35e0762b647fd1779f4a846edf91f9f45fdfd33c022dd59a1ce44f5b57"
+    },
+    {
+      "file": "ios/segments/ENRMSVGPath.m",
+      "sha256": "0163f61c0f27141dbf44a36bd64c6e3390b90ec8617ea9a15fe4ee7fa8f721a2"
+    },
+    {
+      "file": "ios/segments/ENRMSegmentHeightMeasurer.h",
+      "sha256": "6986f3c466b1edae7e2f177f296547a14d817ebae4287f927db7a17ea6f88bf7"
+    },
+    {
+      "file": "ios/segments/ENRMSegmentHeightMeasurer.mm",
+      "sha256": "4e08f77854b705e4fded7b905b7486402af1cc3daf7801d267e01ec9f76a6b7f"
+    },
+    {
+      "file": "ios/segments/ENRMTableGridView.h",
+      "sha256": "eb6c3255d943dcb7f96aaf19d0657a099fda7d788efebb3c6cef5a5512a42b10"
+    },
+    {
+      "file": "ios/segments/ENRMTableGridView.m",
+      "sha256": "bbdefd812e4595785bcb930262b17a934f5741846caa1b59de9430c74bda3ef8"
+    },
+    {
+      "file": "ios/segments/ENRMTableIOSGridView.h",
+      "sha256": "703d2e1fcffe315bb7e8bf43129d685b81265576de7fcb20f9d49fd486845304"
+    },
+    {
+      "file": "ios/segments/ENRMTableIOSGridView.m",
+      "sha256": "c996dcc47b00d3d752e3ab00b30e0a5002d74fed644290a9cba021af9cab004f"
+    },
+    {
+      "file": "ios/segments/ENRMVideoContainerView.h",
+      "sha256": "737f9085527a9ad17ca6b8f52802a59adadf2461cceabfd7b99e56b2ecb4b2f6"
+    },
+    {
+      "file": "ios/segments/ENRMVideoContainerView.m",
+      "sha256": "22395fc9cb0bc96e658a03887d861bd066b7da6706b7413ee3ec43312ee40952"
+    },
+    {
+      "file": "ios/segments/RenderedMarkdownSegment.h",
+      "sha256": "89738ae39ca30145b7b791f69fdbd80007f45bd6fa571972df109b5b11a3ad50"
+    },
+    {
+      "file": "ios/segments/RenderedMarkdownSegment.m",
+      "sha256": "945012a8aeae48d85f4f1607f4c8c3c06a37557db261ae5a7a57e23d9fa24204"
+    },
+    {
+      "file": "ios/segments/SegmentReconciler.h",
+      "sha256": "3e60929d0bd67d061105eb61c519fb5590f37e2b0d9f448497d28b00383613c6"
+    },
+    {
+      "file": "ios/segments/SegmentReconciler.m",
+      "sha256": "546e4a4c74c8163d0a2f31f83dcd77fa3f20720908adb8f3f47ca53e0c0c7a1b"
+    },
+    {
+      "file": "ios/segments/SegmentRenderer.h",
+      "sha256": "1ee08e8e8a3dee578acfd85bccc8cb530bb4f672036b6948aef412670ec7b451"
+    },
+    {
+      "file": "ios/segments/SegmentRenderer.m",
+      "sha256": "5d5d6019aeb1e7a45e09855cb4a2a175072a73f024966461da82f8af037e7537"
+    },
+    {
+      "file": "ios/segments/SegmentViewRegistry.h",
+      "sha256": "f23deab4264c8b02ad4b5b057e19df32fc71b6655f8efa2fe82fb958a1a392f3"
+    },
+    {
+      "file": "ios/segments/SegmentViewRegistry.m",
+      "sha256": "7319e3cb28f4392e4e5a9c3f11482759fe7b554b0f8759466f487cbcb6744836"
+    },
+    {
+      "file": "ios/segments/TableContainerView.h",
+      "sha256": "19c6ec91ce12832871147c15fddb19346f362b7d3afcccc0659e4b98898b8627"
+    },
+    {
+      "file": "ios/segments/TableContainerView.m",
+      "sha256": "9cd0821d522a23175b94ba232fd74c6e9be03a286aec0f081471729b4356b928"
+    },
+    {
+      "file": "ios/styles/ENRMFontSlot.h",
+      "sha256": "ae308751cdbc5a59ff8136475fbdfdb2677824f45b98024dd56e8e8aced4566c"
+    },
+    {
+      "file": "ios/styles/ENRMFontSlot.m",
+      "sha256": "f80c8484ff39cff94666fbcf306cf77521c101748cffe658bfb00a8f1f465dd7"
+    },
+    {
+      "file": "ios/styles/StyleConfig.h",
+      "sha256": "de20403c5a08d8f8e827bd92b6f5304178b101e8d4e1552b06ff0ae514dd36a8"
+    },
+    {
+      "file": "ios/styles/StyleConfig.mm",
+      "sha256": "f00fb3aae4163f81e8e40982a07a8abba3a3ec5e24d91e0df3d95a108303e03c"
+    },
+    {
+      "file": "ios/utils/AccessibilityInfo.h",
+      "sha256": "47c742348bc990b5510e87a45050bb26e2ce6462f1a5e8fe0b9a183fd957477b"
+    },
+    {
+      "file": "ios/utils/AccessibilityInfo.m",
+      "sha256": "25da69d9d8de2c79595acd4afe27919ff614b418fc057b3703dc91a8b4cc6f80"
+    },
+    {
+      "file": "ios/utils/BlockquoteBorder.h",
+      "sha256": "edf02485f2cc8ef6c3bb3cbd04bf046be664af3b8bf9711f308d59a73fad8307"
+    },
+    {
+      "file": "ios/utils/BlockquoteBorder.m",
+      "sha256": "29d74630199d77cb5617c082af2cb863f6af4c895c0261feaabee8b8fe55e766"
+    },
+    {
+      "file": "ios/utils/CodeBackground.h",
+      "sha256": "2d5fdb9e69d45a3a22b0eaea44fe9514c88155ade691d24e155d16eb37aa1616"
+    },
+    {
+      "file": "ios/utils/CodeBackground.m",
+      "sha256": "9d0a6ab02ee18cb58304962860b2605af2aa58ec4000bbc581297789e5078dda"
+    },
+    {
+      "file": "ios/utils/CodeBlockBackground.h",
+      "sha256": "edc702f1a8c9ed2596d391800cedd437818c9082d69ef436f98cf23c796a4167"
+    },
+    {
+      "file": "ios/utils/CodeBlockBackground.m",
+      "sha256": "23d067ae55599e43a820cb6efdd4719281218529d88910f612e943d598302217"
+    },
+    {
+      "file": "ios/utils/ContextMenuUtils.h",
+      "sha256": "bc12031aeb0b536f257c8dc3b8c27d8d85618fa0b27779fdeb9145a7468daffb"
+    },
+    {
+      "file": "ios/utils/ContextMenuUtils.mm",
+      "sha256": "e17b807c9c3e0cf0dae05088a43d896da1262c9d27b6d23795547cd25d7a996c"
+    },
+    {
+      "file": "ios/utils/ENRMAccessibilityLabels.h",
+      "sha256": "6c93e28d0fee7e759f14b4343c3eecd2fbbd3efc4804f84f496e8fcea4deef21"
+    },
+    {
+      "file": "ios/utils/ENRMAccessibilityLabels.m",
+      "sha256": "066c227d1c7b8957daed21c99ced0204555f137bfeb43cc03f64d1618f9de4ef"
+    },
+    {
+      "file": "ios/utils/ENRMAsyncRenderCoordinator.h",
+      "sha256": "7868ff9270241462133e110575ac071595b56c3fbfb9b47c5b01a8ce1c94c409"
+    },
+    {
+      "file": "ios/utils/ENRMAsyncRenderCoordinator.m",
+      "sha256": "3ab255ad9c3bd43578548201770f3872331a1de62c858fa27f8690bdeae62b45"
+    },
+    {
+      "file": "ios/utils/ENRMAtomicSize.h",
+      "sha256": "b74e5d4d4a1f1fc0f201e2330360f3ed29e0a4bf63200a97480d7bb685eb9a9e"
+    },
+    {
+      "file": "ios/utils/ENRMCodeBlockContent.h",
+      "sha256": "5c5881445fb0ee1bb47d7af2f2e2c11b4a5484f757f265ea19dba1f6a430e273"
+    },
+    {
+      "file": "ios/utils/ENRMCodeBlockContent.mm",
+      "sha256": "b688464aaf08a55658cf74a19ccb6f1e2c90923d3bbeda1bd26fb7ebc187a1f3"
+    },
+    {
+      "file": "ios/utils/ENRMCodeBlockHighlighter.h",
+      "sha256": "31771007a603d49f698e463dffdc368cf871551915304bcd4a9db93a21e5c3c0"
+    },
+    {
+      "file": "ios/utils/ENRMCodeBlockHighlighter.mm",
+      "sha256": "edeebd172068b951c08d46ef70183e3ae087e3c41761b16272311fd6dc4ee192"
+    },
+    {
+      "file": "ios/utils/ENRMFeatureFlags.h",
+      "sha256": "5758d4bc156d9751fe67a560b0ce1fa3792f21f3e253af999029b249fc236ce5"
+    },
+    {
+      "file": "ios/utils/ENRMHorizontalScrollView.h",
+      "sha256": "893c9df6eff9f8118dcca9f648f602d55b90c1501f12c745f748a894d4c992c7"
+    },
+    {
+      "file": "ios/utils/ENRMHorizontalScrollView.m",
+      "sha256": "db2edc0c3f1c19f87025e80e4bf614e7faf0f296637a50402721f15699dde323"
+    },
+    {
+      "file": "ios/utils/ENRMImageDownloader.h",
+      "sha256": "b107d32874db31eff60d743008006547d8e58cccad8f1e22a991ce26836edeef"
+    },
+    {
+      "file": "ios/utils/ENRMImageDownloader.m",
+      "sha256": "dd0fe1c525a337c570e79daa4e8e8a686cbffa8c2278eae13d16b18bf74a1daa"
+    },
+    {
+      "file": "ios/utils/ENRMLinkContextMenus.h",
+      "sha256": "dc88918e731345795e414d234a2e07134fd05dc873a45d1c49383af550904569"
+    },
+    {
+      "file": "ios/utils/ENRMLinkContextMenus.m",
+      "sha256": "d2e1eb14d17c0012590772a69ef11f47e44dfa017a3a490a6c82a2152c69ce2c"
+    },
+    {
+      "file": "ios/utils/ENRMLinkRegexConfig.h",
+      "sha256": "6b26d74e7901f51f57b156e9840d79a7f59e6eee234758e0d27b8953f4bedb14"
+    },
+    {
+      "file": "ios/utils/ENRMLinkRegexConfig.mm",
+      "sha256": "654a6596cd8c6f23f23b2c5f0557bfa3ba8b416087680f88dbfb2b400b4eaf36"
+    },
+    {
+      "file": "ios/utils/ENRMLinkRegexProps.h",
+      "sha256": "4c9be020902a32afb4bb1319b9bc6905dc03639ee22db2b750ad4af33f8a5ef4"
+    },
+    {
+      "file": "ios/utils/ENRMLocalImageLoader.h",
+      "sha256": "6a616ca412b2ba20dfb399a5be39b12d23fb2393339bb20950931078101fbc1f"
+    },
+    {
+      "file": "ios/utils/ENRMLocalImageLoader.m",
+      "sha256": "f9e096d63b6c89fa53aff0350d17270980668990874e197a65d59d4299e1370c"
+    },
+    {
+      "file": "ios/utils/ENRMMathFallback.h",
+      "sha256": "5b315735330afea9cf7335afd7831f897bfd96e18203ffc44d9141ad246a95d4"
+    },
+    {
+      "file": "ios/utils/ENRMMathFallback.m",
+      "sha256": "bc5b3b2b602eef132a754f27797158f3ae8b0e84cb98b740ca03462d60dac009"
+    },
+    {
+      "file": "ios/utils/ENRMMenuAction.h",
+      "sha256": "6d87cb85e96091eb32fc02e1dc1bbecc947f56fa0c1b79cdabccb456bb3e41d1"
+    },
+    {
+      "file": "ios/utils/ENRMMenuAction.m",
+      "sha256": "fdf23543e7676ba7cdc45ac3d29cea3d39ac643449b256f077fa3a97b0c65a99"
+    },
+    {
+      "file": "ios/utils/ENRMParticleOverlayView.h",
+      "sha256": "0d10a1a863f43c73b1b49b68e7eeaefcc3e6db1db809a47ed3040b3fb7b2b921"
+    },
+    {
+      "file": "ios/utils/ENRMParticleOverlayView.m",
+      "sha256": "204d831d4402fcacaf7a03b8ee3c33acdb439e99faefe0ef9da581222c215fee"
+    },
+    {
+      "file": "ios/utils/ENRMSolidOverlayView.h",
+      "sha256": "569f8915cc1fd595b807871f6b231ee1cd83e24a01599756458be17d225eff92"
+    },
+    {
+      "file": "ios/utils/ENRMSolidOverlayView.m",
+      "sha256": "e29bce7e957d40436461123f664ac32fdae1c44618d8b639ba5facb8bee827f5"
+    },
+    {
+      "file": "ios/utils/ENRMSpoilerCapable.h",
+      "sha256": "77ab0d353581cc25611a591bf66fe6efffdb5442f9fd625b7a58082d7ef64a9b"
+    },
+    {
+      "file": "ios/utils/ENRMSpoilerOverlayManager.h",
+      "sha256": "a25bb566ec5463944ecae167e5c7fe5eb366deb70d47694a0e190bc21440e3cf"
+    },
+    {
+      "file": "ios/utils/ENRMSpoilerOverlayManager.m",
+      "sha256": "5750bd38c830af88b50d2124bece04d6272b65166de7a8a6089dc8e7cdb218ac"
+    },
+    {
+      "file": "ios/utils/ENRMSpoilerOverlayView.h",
+      "sha256": "27d62cb97702c9370c97eb9894bd6fbc4d7f6c551853a22820966223cf7bcf50"
+    },
+    {
+      "file": "ios/utils/ENRMSpoilerOverlayView.m",
+      "sha256": "20c4b2d2c9457c0cb8d01c3ac04b77540ad0b2b575e6ee8577aa6f505b1f10a6"
+    },
+    {
+      "file": "ios/utils/ENRMSpoilerTapUtils.h",
+      "sha256": "6b169fbe49887a27b10953638e4a5c9e8571616c8f365520fdee2ab75bb64fa9"
+    },
+    {
+      "file": "ios/utils/ENRMSpoilerTapUtils.m",
+      "sha256": "e12f780f6aff8a21dd11587821dea461d70a9d1f734b1140f6d809bc3a8bf198"
+    },
+    {
+      "file": "ios/utils/ENRMTailFadeInAnimator.h",
+      "sha256": "f1b5b688d80ca63a49d4039657fc90e4e2fcbe522eeba84f537eb4a5aec5cd90"
+    },
+    {
+      "file": "ios/utils/ENRMTailFadeInAnimator.m",
+      "sha256": "c248ca15d484adc631d62246d22498a0214ae4a0ddd4773dd6a5bf6b70739aaa"
+    },
+    {
+      "file": "ios/utils/ENRMTextHitTest.h",
+      "sha256": "13e41613f9fe84077c64911565f48817def89e740e08affd3d04b57dbb490f0e"
+    },
+    {
+      "file": "ios/utils/ENRMTextHitTest.m",
+      "sha256": "5af37522c3b37edb43a5446af1d9a07dc14629008fa9ebb0f6993ff3c60c5a7a"
+    },
+    {
+      "file": "ios/utils/ENRMTextInteractionUtils.h",
+      "sha256": "fa73cfa3a35d5fc2e802a98b257a2d56d568ccdd7219bc66fb90d0c585c41784"
+    },
+    {
+      "file": "ios/utils/ENRMTextInteractionUtils.m",
+      "sha256": "ec1442a66fd3ce557de32e96d091de4bff8b3f2e947a8b1731ac7cbdc832d790"
+    },
+    {
+      "file": "ios/utils/ENRMTextRenderer.h",
+      "sha256": "9926e4092a92c629d00d335bbd3845fac94f7bac9d5908611d27d2c19561ddf6"
+    },
+    {
+      "file": "ios/utils/ENRMTextRenderer.m",
+      "sha256": "a2c07676dfb4175213fd7b61c7a752a68723452100a69498219434146600f03f"
+    },
+    {
+      "file": "ios/utils/ENRMTextViewSetup.h",
+      "sha256": "a7455e4ba1b308e11b88d46f227404effe3272ffd3670f83d9d77dd130c891ec"
+    },
+    {
+      "file": "ios/utils/ENRMUIKit.h",
+      "sha256": "ffea748dfdaf59c49e258815b5071c35cc96fe23d00fbc3820d3bebf9b265f50"
+    },
+    {
+      "file": "ios/utils/EditMenuUtils+macOS.m",
+      "sha256": "07fb7b78546c482afb21fbe0d77aa7a6a79b3d4884f221cbe24732cc236f9a35"
+    },
+    {
+      "file": "ios/utils/EditMenuUtils.h",
+      "sha256": "ce7832ef10cfcaeed95c2da917c466a005597ecfb2cd811f0a349a3e9b220522"
+    },
+    {
+      "file": "ios/utils/EditMenuUtils.m",
+      "sha256": "e090d779ed51a8b571dd7de9a4c2a171b4760168584883388d1ddf0f26c48b46"
+    },
+    {
+      "file": "ios/utils/FontScaleObserver.h",
+      "sha256": "955a8c66e9f034bbc288cd03a19c05e5185fdbe17256060e3e2d4c7e60936990"
+    },
+    {
+      "file": "ios/utils/FontScaleObserver.m",
+      "sha256": "c3c04f90e2cb15ff96a0649821cb14c444103945b4e3981fa920af64611ac6a3"
+    },
+    {
+      "file": "ios/utils/FontUtils.h",
+      "sha256": "6d5e65611ed7969ba4f85fc83d7f2bc9c4d3b11426ac2c9c03eeba0981120d6d"
+    },
+    {
+      "file": "ios/utils/FontUtils.m",
+      "sha256": "5909f862a1bf74532a24ad9285bf08fc6b201820dc28d52e208c78d2c53cdeb4"
+    },
+    {
+      "file": "ios/utils/HTMLGenerator.h",
+      "sha256": "16f3ecfbe2b5ee9e42819de889d2a938e93dafd72ffe6e46bdbeeed36d9337ca"
+    },
+    {
+      "file": "ios/utils/HTMLGenerator.m",
+      "sha256": "853def7f344bc24192e465b26a2554111397417ff3bc07f82c15b9b1dfb557ee"
+    },
+    {
+      "file": "ios/utils/HeightUpdateUtils.h",
+      "sha256": "9d9a70621e80f98d5562dbcec127becc2b63d6e1305a42affa5b7293fe434c44"
+    },
+    {
+      "file": "ios/utils/ImageRequestHeaderUtils.h",
+      "sha256": "3c76c6e64149352d6ea2740e62034378bbde45e106e85a9c8902033b8e7f519c"
+    },
+    {
+      "file": "ios/utils/LastElementUtils.h",
+      "sha256": "ff3e327c7178d7fd9923a569a68ca4db55088372f9f4150a0a2f33bffda57ba4"
+    },
+    {
+      "file": "ios/utils/LinkContextMenuUtils.h",
+      "sha256": "380e5825315ce336e2040dab7aa7c72ddd3568bdecf04e7fcde3d964827b4199"
+    },
+    {
+      "file": "ios/utils/LinkPillContentUtils.h",
+      "sha256": "719b0acad82d34a363c0b93ed856e60f40ea38fbc8d81159111151c25e188096"
+    },
+    {
+      "file": "ios/utils/LinkTapUtils.h",
+      "sha256": "aa3148e1e7076dc0cdb3102a4fd00a64e6655d656b0cc767470a9333eb75f13e"
+    },
+    {
+      "file": "ios/utils/LinkTapUtils.m",
+      "sha256": "8e80067167e186e92f1918cffbcb5effb34d6c4a62b51839a9364ec27b06361b"
+    },
+    {
+      "file": "ios/utils/ListMarkerDrawer.h",
+      "sha256": "6791ad976022c7f3b479333808fa6f36217b92fae602585e049be145e157ab10"
+    },
+    {
+      "file": "ios/utils/ListMarkerDrawer.m",
+      "sha256": "c8f58e89317c90fdb1f890c772139d26450daa77eee8d74cba22410864eb9f90"
+    },
+    {
+      "file": "ios/utils/MarkdownASTSerializer.h",
+      "sha256": "b1e298e0fc412e0a89cce508ad586aa4ef5e7f9f6905ef948f63e2bec253ff6d"
+    },
+    {
+      "file": "ios/utils/MarkdownASTSerializer.m",
+      "sha256": "92df1b55bb6ce51b072b09a0c6f40d06b5b4000c8b75e15f8225c0899695fc36"
+    },
+    {
+      "file": "ios/utils/MarkdownAccessibilityElementBuilder.h",
+      "sha256": "8ee0359d09e56fc71aab95a101b36f312c575d76e83e0a2b172dd2a00bcaf7cf"
+    },
+    {
+      "file": "ios/utils/MarkdownAccessibilityElementBuilder.m",
+      "sha256": "f57cf835341d6f68f98f534868d409fb463f4b116d44177bd43872aafedf1bdf"
+    },
+    {
+      "file": "ios/utils/MarkdownExtractor.h",
+      "sha256": "115c1852f237fd51b6666284a0428c92b72aa13e1af399dd6bc89e0bdf91f1f2"
+    },
+    {
+      "file": "ios/utils/MarkdownExtractor.m",
+      "sha256": "89326524f15cdce9f991978c8f7754bfe9cc11c59444fbd19ad796691a35b3c1"
+    },
+    {
+      "file": "ios/utils/ParagraphStyleUtils.h",
+      "sha256": "aadfb56febd5a08b6b8d638f386fc7d459e31a3b00af7f37981a52b4a11c3745"
+    },
+    {
+      "file": "ios/utils/ParagraphStyleUtils.m",
+      "sha256": "52bb4152229765280472906e3333b7eb7ec07f30cd80b7d82c94840933e6ba47"
+    },
+    {
+      "file": "ios/utils/PasteboardUtils.h",
+      "sha256": "9eb7f9e12e5ce2c13fa5fe215058dcb5c45e8e107f645bdfac8f3cad771fa7d7"
+    },
+    {
+      "file": "ios/utils/PasteboardUtils.m",
+      "sha256": "ccdbab57dabe1d6110ab35b93efd0779477ce7b6294963053fe153b28bdf936b"
+    },
+    {
+      "file": "ios/utils/RTFExportUtils.h",
+      "sha256": "02837f4869824ff903e0115f6a189e447f79c900e5fc3ede77b710a8708e5882"
+    },
+    {
+      "file": "ios/utils/RTFExportUtils.m",
+      "sha256": "024e0d130eda264139cccf9b69387e2d2b8fba36949b05b51ee69b0433893fa9"
+    },
+    {
+      "file": "ios/utils/RuntimeKeys.h",
+      "sha256": "620152d70f2410790346198f28b48185653ea935b5b1a887e290082d416d6798"
+    },
+    {
+      "file": "ios/utils/RuntimeKeys.m",
+      "sha256": "82bb216b05b6e3c791a5f0506541faaf7370452fbf70b85fea3aa3a986552444"
+    },
+    {
+      "file": "ios/utils/SelectionColorUtils.h",
+      "sha256": "2a11b4ef0616b8543701281475269735a424b29f6bcb9cc50ff8b3d0062172c3"
+    },
+    {
+      "file": "ios/utils/StreamingMarkdownFilter.h",
+      "sha256": "baa8e1742a2ba92b8126ce4e60f4c11c33b587895fbd2625fcd60b9d8b4ce9d7"
+    },
+    {
+      "file": "ios/utils/StreamingMarkdownFilter.m",
+      "sha256": "3648788cebcb14a8aeb8d7c10acae69723500649d7f984300014370dc5467fbc"
+    },
+    {
+      "file": "ios/utils/StylePropsUtils.h",
+      "sha256": "abd01b612ce2aaa47b3435379b669582fafaf887ad400e1c8a4bdeb4f02065be"
+    },
+    {
+      "file": "ios/utils/TaskListTapUtils.h",
+      "sha256": "201c14ba933df509b7f643923c61a2e2a93020d82e6d215b5d3326caca5246c3"
+    },
+    {
+      "file": "ios/utils/TaskListTapUtils.m",
+      "sha256": "28b05004747eadcfd67cc3796cab9425d2bc3c60f2720cdcda51297e5bc71307"
+    },
+    {
+      "file": "ios/utils/TextViewLayoutManager.h",
+      "sha256": "800e5e5fc53e9396aa616f0cd28ac398404e3544faf6203e5ee016c4daff683b"
+    },
+    {
+      "file": "ios/utils/TextViewLayoutManager.mm",
+      "sha256": "6c39d5c7225bcd0497029e6e82cb7f6747d82a2234c59b3d0d07c22846a0de64"
+    },
+    {
+      "file": "ios/views/ENRMContextMenuTextView+macOS.h",
+      "sha256": "8af267bb7c9a54e18e39662aa764f14ece5ec97f52cff3ef58ce07906ce520c1"
+    },
+    {
+      "file": "ios/views/ENRMContextMenuTextView+macOS.m",
+      "sha256": "6dfcaa341de77c314f422f70ebcd44ed5f3cc20e1c5d26fc34c1a0d97df6a33d"
+    },
+    {
+      "file": "ios/views/ENRMMarkdownTextView.h",
+      "sha256": "21c14c9441d0a5a846851d809a9628b35f24f941e0977bc0996f8904c45489f9"
+    },
+    {
+      "file": "ios/views/ENRMMarkdownTextView.m",
+      "sha256": "7c1b9a549f638d6f664a6d1593b758118f7922795020f2a455a3ca582819c1e8"
+    },
+    {
+      "file": "ios/views/EnrichedMarkdownInternalText.h",
+      "sha256": "6f76d6110dece87d3d0dca8516831033ab4f7b9bc54e5f3efeed69a0245f227f"
+    },
+    {
+      "file": "ios/views/EnrichedMarkdownInternalText.m",
+      "sha256": "df3574b58e286c7ff1c24441b5366c5efe65328740aac187e74ad14d25f319b8"
+    },
+    {
+      "file": "jest.d.ts",
+      "sha256": "0c07d0471c898966f83c07ce1ac9ad47cb1f776f27d110307bd39fbea7ec32fd"
+    },
+    {
+      "file": "jest.js",
+      "sha256": "317b8a46f1b0bec46956ac992c09bb587b1614030a2e4a5a8d87d51f60073e44"
+    },
+    {
+      "file": "lib/module/EnrichedMarkdownNativeComponent.ts",
+      "sha256": "4c5748e9acba288ee4079cc21518466d6bda96f239e093a831310c6d0ac0daf5"
+    },
+    {
+      "file": "lib/module/EnrichedMarkdownTextInput.js",
+      "sha256": "1beca754420f18b9071afc63a1ab2787cf75ced67483bfbf6177bec3859b2bb7"
+    },
+    {
+      "file": "lib/module/EnrichedMarkdownTextInput.js.map",
+      "sha256": "6851eafaa2a9560638ea017e31e6ee7e4fbb7932499bccf68bc99ba89ae5de75"
+    },
+    {
+      "file": "lib/module/EnrichedMarkdownTextInputNativeComponent.ts",
+      "sha256": "fd1badffe672f9a98bcc029f951f809a1b512afdbfa5c37e9eb114617d56f99a"
+    },
+    {
+      "file": "lib/module/EnrichedMarkdownTextNativeComponent.ts",
+      "sha256": "1506775ab968e42aefe419e3e3b76235c58c4563fa8d74f6cfad2b5f8773d533"
+    },
+    {
+      "file": "lib/module/accessibilityLabelDefaults.js",
+      "sha256": "65dd71a61a144b49bbf465959125a8333eb41379322db5f9097c5709d8831de8"
+    },
+    {
+      "file": "lib/module/accessibilityLabelDefaults.js.map",
+      "sha256": "fdc6aa2ce5eb7a2d875fc2e12c4715f36070749f01e69ed6e5e2e383d339b850"
+    },
+    {
+      "file": "lib/module/admonitionDefaults.js",
+      "sha256": "cc7cc496f72514cba371ed874e09a6d04c5c485aca26987fa3d5e0573b5e3819"
+    },
+    {
+      "file": "lib/module/admonitionDefaults.js.map",
+      "sha256": "938340b0422ec4626588bba49078db5268269e084955d3581a777807250bed5f"
+    },
+    {
+      "file": "lib/module/headingDefaults.js",
+      "sha256": "081bfd49124b880664bdff9d3df14cd0a4000fb61d962b82c12bbb35c2ff39ad"
+    },
+    {
+      "file": "lib/module/headingDefaults.js.map",
+      "sha256": "e6447b9e6027c609430b2510c23e2edd6cb05366030ce610fc01c875c7c32639"
+    },
+    {
+      "file": "lib/module/index.js",
+      "sha256": "50f90ae753b47a300e1c93de21b63726608b79762cad2bd113848784edba6a58"
+    },
+    {
+      "file": "lib/module/index.js.map",
+      "sha256": "92a98e7a6be12cd1b52c20830083ca388df00f077e8ef14901f5b9804cb3777d"
+    },
+    {
+      "file": "lib/module/index.web.js",
+      "sha256": "bddda44a7479ab6a0f4196a037e8681f12f8b48d5b5efded25620caa177947aa"
+    },
+    {
+      "file": "lib/module/index.web.js.map",
+      "sha256": "9b9edbc659f79621b177511992ab4a3841f2ff08a257565349c1b8c6d97d6cb2"
+    },
+    {
+      "file": "lib/module/jest/index.js",
+      "sha256": "a18c2aa1e8a61a5268f77fded722b20303083b134ee4ffd19033264cf06457a1"
+    },
+    {
+      "file": "lib/module/jest/index.js.map",
+      "sha256": "317946e8526254cc285b00ab68a1174a053545403c4d35655f27a2f46cc0261b"
+    },
+    {
+      "file": "lib/module/linkContextMenuUtils.js",
+      "sha256": "f9816ce278b9f67f8ec521a7e061008d83759f476bba0ac571e6a71ade15f069"
+    },
+    {
+      "file": "lib/module/linkContextMenuUtils.js.map",
+      "sha256": "b0806f5acca794fd3f1e0c542c7049582ef388b69b7daa0b459a7514e0e08af1"
+    },
+    {
+      "file": "lib/module/linkVariantUtils.js",
+      "sha256": "4b02111b96f781447b3f7951d0203c08c924e06e24d09ad89f0b8939f0e7c90f"
+    },
+    {
+      "file": "lib/module/linkVariantUtils.js.map",
+      "sha256": "6450c98ce2bf19fcfbb8d09ee0c52e5f164b75b44e02affd1ac3517f826afdfc"
+    },
+    {
+      "file": "lib/module/native/EnrichedMarkdownText.js",
+      "sha256": "67a85098a8aa22062aec0112c421b04992f3c618e62cb21ebd2ff71d5dea642b"
+    },
+    {
+      "file": "lib/module/native/EnrichedMarkdownText.js.map",
+      "sha256": "9f0136219cfd6dd41b903a6e53fb4206d6a3bfa094d84ae320fdb9d35a041f59"
+    },
+    {
+      "file": "lib/module/normalizeMarkdownShortcuts.js",
+      "sha256": "6018b95a2e3f8f3c24450a826ae8a7b0dbaf38bf358b76c3a481e0a3d0a11180"
+    },
+    {
+      "file": "lib/module/normalizeMarkdownShortcuts.js.map",
+      "sha256": "88690db63747192b36b683e3170edc146d8e598fb4a6adf416fbf7c63254e926"
+    },
+    {
+      "file": "lib/module/normalizeMarkdownStyle.js",
+      "sha256": "fd7e087e9183efadae9a1891e6d57e356adf8cf1774ec2092e4ce9c4f1564e09"
+    },
+    {
+      "file": "lib/module/normalizeMarkdownStyle.js.map",
+      "sha256": "76e5017c8fc6fcdc2fa882337e3a23385badd3f27bdf330c3c87cfe769ee4a97"
+    },
+    {
+      "file": "lib/module/normalizeMarkdownStyle.web.js",
+      "sha256": "85b2e23c3e636be3ddadc6b4581e10607f03980f6f25f9b425e1b4853553df86"
+    },
+    {
+      "file": "lib/module/normalizeMarkdownStyle.web.js.map",
+      "sha256": "7c07d5e4774b3511ecbcfa157cf075dee0836e00df5a42e199ae2f707f63c4ce"
+    },
+    {
+      "file": "lib/module/normalizeMarkdownTextInputStyle.js",
+      "sha256": "a6c1d34d4d296c26e2a988224bef29334d85a78b450d862645c1ea28c8c9944e"
+    },
+    {
+      "file": "lib/module/normalizeMarkdownTextInputStyle.js.map",
+      "sha256": "4340617433b1a83aa176e91c21fe96c2504249e3b0eec620538c636c6e0ff53f"
+    },
+    {
+      "file": "lib/module/normalizeMenuItem.js",
+      "sha256": "bef1cb9e483b367e7490c77e2f485d56e944da1b9db2049ef1d090c3ad6f687d"
+    },
+    {
+      "file": "lib/module/normalizeMenuItem.js.map",
+      "sha256": "418102da0465291608ddaea74897e07264ade46ca18221c60a7eb469052b6e3c"
+    },
+    {
+      "file": "lib/module/package.json",
+      "sha256": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae"
+    },
+    {
+      "file": "lib/module/styleUtils.js",
+      "sha256": "a232e459b652c758510164e82da5ffe85ac2701f3a46d2a7e7d38030032bb5d9"
+    },
+    {
+      "file": "lib/module/styleUtils.js.map",
+      "sha256": "b89a65bc148f13070b98c3ac30e763bbf26c87afc7870cf1079a7b3e7dce1e4d"
+    },
+    {
+      "file": "lib/module/types/AccessibilityLabels.js",
+      "sha256": "eaaf1d7f6f1790b0283b386eb2066619fadea8b5e7248d0edf62ccdda06d0c29"
+    },
+    {
+      "file": "lib/module/types/AccessibilityLabels.js.map",
+      "sha256": "54db7ecfc58219ce202bf3c085e4bfc5b699bfe2179971ceb42fb7d61701c956"
+    },
+    {
+      "file": "lib/module/types/MarkdownRenderers.js",
+      "sha256": "970fdcee394b39363e99b5a56030b112924e894c72c2c1f4425ba2f518dcee77"
+    },
+    {
+      "file": "lib/module/types/MarkdownStyle.js",
+      "sha256": "855215de3627507203b77648db6a29c8a5b6e9b9b02fb4bc77f90d325bf20069"
+    },
+    {
+      "file": "lib/module/types/MarkdownStyle.js.map",
+      "sha256": "b20d2223aa2cb3d127b92b29914769c47779ea75f878aad3685fb321f5f7ac6d"
+    },
+    {
+      "file": "lib/module/types/MarkdownStyleInternal.js",
+      "sha256": "370ac5be20fc46196bebd7f9c8b2acc2edf5f45b8e48735c0958ea4e0e717ba4"
+    },
+    {
+      "file": "lib/module/types/MarkdownStyleInternal.js.map",
+      "sha256": "2de62525a6d1cd1eb6d13ff4e4e6b6873416d213e0f5ccd0a553a30757728118"
+    },
+    {
+      "file": "lib/module/types/MarkdownTextProps.js",
+      "sha256": "540b6cc5d0cadec203683b51fa1c088f11c37f425c2d88246b6c69327dde2edf"
+    },
+    {
+      "file": "lib/module/types/MarkdownTextProps.js.map",
+      "sha256": "1e6219810a36cf9730bdc7ab3a3d6564b612ab292712d9b305e539476bd908b6"
+    },
+    {
+      "file": "lib/module/types/MarkdownTextProps.web.js",
+      "sha256": "b5482922ea058ef53958824043ec26bfaad89707d238c45366e25d75de1eae8d"
+    },
+    {
+      "file": "lib/module/types/MarkdownTextProps.web.js.map",
+      "sha256": "cd62b1ec95d1987cf83abce15f7b4ffb053ce9da938c4126dc925db728895ff0"
+    },
+    {
+      "file": "lib/module/types/events.js",
+      "sha256": "d5f3c60b670faad0caff6be3c97a2179d0b6d9d4787a6b65019490b084538315"
+    },
+    {
+      "file": "lib/module/types/events.js.map",
+      "sha256": "4ce39a2096a9219f9cf0b35c6917bc6c751dd9a815ea3e1e73ad8fac9a1195c9"
+    },
+    {
+      "file": "lib/module/utils/regexParser.js",
+      "sha256": "eeab8e72f9436d5e94e20e4ce9b7aab9792a23a3b6bff5b8b51572a9bc3bee33"
+    },
+    {
+      "file": "lib/module/utils/regexParser.js.map",
+      "sha256": "237b304e57eae9160d87699a0ad404a6975153ffab17fae54a02c42dcc639225"
+    },
+    {
+      "file": "lib/module/utils/textInputState.js",
+      "sha256": "96f8b34cfe132bebf75a739fe1d13b8329b91798be091036f8b2290063b2c24f"
+    },
+    {
+      "file": "lib/module/utils/textInputState.js.map",
+      "sha256": "645a5d66adae3c9216adc0d282d75305f516aafe2f9e0d5839590243d29f039e"
+    },
+    {
+      "file": "lib/module/utils/usePressability.js",
+      "sha256": "2d6473c93e08aff4c1512a21e32743a0f9c33a192b86ca3c48fc8b64c4f3715e"
+    },
+    {
+      "file": "lib/module/utils/usePressability.js.map",
+      "sha256": "37afc69958e22d1c78eb43bfe7ff9d1d4b81b37e57a755b99e23b79f611beb14"
+    },
+    {
+      "file": "lib/module/web/EnrichedMarkdownText.js",
+      "sha256": "59c1c2ea16a07357ac47836c70c5675f9e076fe34f665284f14140f8a94fb8c3"
+    },
+    {
+      "file": "lib/module/web/EnrichedMarkdownText.js.map",
+      "sha256": "e3c8b0e3f3a0132056ac1eedc0ae07694154ac3f9fcdaffcc88a352ed58b4533"
+    },
+    {
+      "file": "lib/module/web/globalStyles.js",
+      "sha256": "05920fbdbb03562859d022d8d5d63d8d8c400b6aa01a16001769b973259bb5b2"
+    },
+    {
+      "file": "lib/module/web/globalStyles.js.map",
+      "sha256": "474d95242fa06d372f4d37d422cdc3b108a176c0b7577062b65eb39bc4736c28"
+    },
+    {
+      "file": "lib/module/web/injectStyle.js",
+      "sha256": "8d942edd55f0b954933e8f3756d11a708cfeca339427d9d82d423afa28694527"
+    },
+    {
+      "file": "lib/module/web/injectStyle.js.map",
+      "sha256": "23016c747a6b2b5ffc2ba17148bf28290647550c5d0d2e4bdb14cbe61246c815"
+    },
+    {
+      "file": "lib/module/web/katex.js",
+      "sha256": "392b13f1604378815e78459398dd360c58ac2daacb0eb3e607e55d30f70d6398"
+    },
+    {
+      "file": "lib/module/web/katex.js.map",
+      "sha256": "ca1259e5132e51358843338c329a75037d43201e198e7e899774576376dc5e43"
+    },
+    {
+      "file": "lib/module/web/nativeProps.js",
+      "sha256": "602192583b75a744138c2b28f2662ddb20f48543641759f8049d305ed24e0dfc"
+    },
+    {
+      "file": "lib/module/web/nativeProps.js.map",
+      "sha256": "ba958ce23b5a85c4effbf0ca49ec2677097d03b1290ef4774dd98986a37ce050"
+    },
+    {
+      "file": "lib/module/web/parseMarkdown.js",
+      "sha256": "04e91c4c0d8f25b0e442724975ae640d2876a724db402250d931ef4014b06f77"
+    },
+    {
+      "file": "lib/module/web/parseMarkdown.js.map",
+      "sha256": "4a72a5bd4f0492cac0575a549f49ebbf5c480b5424a7b6235b34483b49167d71"
+    },
+    {
+      "file": "lib/module/web/recognizeTextLinks.js",
+      "sha256": "69366653885fa981c91ad6a363eefae33b65b17d236ecbe1c1e2bc4bb7fee25a"
+    },
+    {
+      "file": "lib/module/web/recognizeTextLinks.js.map",
+      "sha256": "ccc1c364db8a835bda3c5edd648b254787038759848e5848a5abe4a8769e4602"
+    },
+    {
+      "file": "lib/module/web/renderers/BlockRenderers.js",
+      "sha256": "19856e6d0bc1556820fbb816fe5b605ac7d3ccc681f4745892f1b52993f24cb9"
+    },
+    {
+      "file": "lib/module/web/renderers/BlockRenderers.js.map",
+      "sha256": "61918d4de74d0e3926199ecd3b7910b049d8b472cf40ff1aa40005a4174a30d8"
+    },
+    {
+      "file": "lib/module/web/renderers/InlineRenderers.js",
+      "sha256": "0eabcc85ae3ecdcb9cabacc82e6237a086951b71f803db30cb94b3329bbd3313"
+    },
+    {
+      "file": "lib/module/web/renderers/InlineRenderers.js.map",
+      "sha256": "97b413983c96eb072bb5d47bdebc9cb464800e502b38be4a466e7d64c6a191ad"
+    },
+    {
+      "file": "lib/module/web/renderers/KaTeXRenderer.js",
+      "sha256": "16d0d5365db6424ccb50facfcc9013de7de1053a16de3accd62cd458367d187e"
+    },
+    {
+      "file": "lib/module/web/renderers/KaTeXRenderer.js.map",
+      "sha256": "17b1a9a6b3c2d159adbad5993abd2e8d95f0f287b237bb8c7486a43d0b65ec4f"
+    },
+    {
+      "file": "lib/module/web/renderers/ListRenderers.js",
+      "sha256": "549f6e11983c09ce483918125601f1b8aa9ea87a2eaa25d969cafe4964c3fb31"
+    },
+    {
+      "file": "lib/module/web/renderers/ListRenderers.js.map",
+      "sha256": "26b81edc058c9ec5fcfb52f6a421e5b378df6a89cb5091244e7fb008fe7bcaac"
+    },
+    {
+      "file": "lib/module/web/renderers/TableRenderers.js",
+      "sha256": "c990d5c058de92732fabe218e82895605f78e8a6e5dcba26221de54f4927dc3a"
+    },
+    {
+      "file": "lib/module/web/renderers/TableRenderers.js.map",
+      "sha256": "42e02bfbaf8accfe59783451ec43bbbfdfcf3d4da7ff86603bceeb3239296e54"
+    },
+    {
+      "file": "lib/module/web/renderers/admonitionIcons.js",
+      "sha256": "92feb6561cb054b9174864df4fdf0d74d3f4833b96360775699f6606575fbf1f"
+    },
+    {
+      "file": "lib/module/web/renderers/admonitionIcons.js.map",
+      "sha256": "109d7d57f8fe3f962025fb9485dc0e74504682f021aa206a4039fd69f68f471e"
+    },
+    {
+      "file": "lib/module/web/renderers/index.js",
+      "sha256": "3b6eacdd3e0928a890d424a592f3c9a18b4c9c6fdef590bbd370a67dbcbd682d"
+    },
+    {
+      "file": "lib/module/web/renderers/index.js.map",
+      "sha256": "2032369768e78358732d6fe90d977665131c6697e5f944177e62ea8e0eaa0c83"
+    },
+    {
+      "file": "lib/module/web/styles.js",
+      "sha256": "775191ae00a72b7e2908210d8dc391f204d95ad6683cadc2fab689b26636add0"
+    },
+    {
+      "file": "lib/module/web/styles.js.map",
+      "sha256": "9a1f9a3deaabe09cbbbe9bf7cfd123db17e7a3a101e2a25af86363ba625f1508"
+    },
+    {
+      "file": "lib/module/web/types.js",
+      "sha256": "c95a65648718088acee19da2b3a85c8056e8a1d2bffdf1253e4be2f6af697288"
+    },
+    {
+      "file": "lib/module/web/types.js.map",
+      "sha256": "80ca8ee41f2bd9f7fe647eb96f3bc8661289f5c1f9105ddd96e63643941099e3"
+    },
+    {
+      "file": "lib/module/web/utils.js",
+      "sha256": "5392f02d0931823a3af83c66bfcafa79759edb84aa1d4091d71b79dbf3677cc0"
+    },
+    {
+      "file": "lib/module/web/utils.js.map",
+      "sha256": "e9cdba3830918caca9cc0584943bae73a434b157cdd66903b9353e98b7063bf9"
+    },
+    {
+      "file": "lib/module/web/wasm/md4c.d.js",
+      "sha256": "1a3cacc50f3e7a79417bf7e5933992bd596834e32c1ce5de74311abe06ee4170"
+    },
+    {
+      "file": "lib/module/web/wasm/md4c.d.js.map",
+      "sha256": "e8b3545e0bd38fb564d995c6634c36e083c5f208eae2d3e2aaa2b7b5ec3442d9"
+    },
+    {
+      "file": "lib/module/web/wasm/md4c.js",
+      "sha256": "4a150f9f2691e0add194d0a05199a6d429e429587ccae0b5a99fb5086c4027a6"
+    },
+    {
+      "file": "lib/module/web/wasm/md4c.js.map",
+      "sha256": "547d00b513c21ccb5a3bd6b1349c1d8c45e45d51046382eedd009ef400fa9dab"
+    },
+    {
+      "file": "lib/typescript/package.json",
+      "sha256": "1239d4d885dcad42201a27ed9324f8f0f760b78700d8db9ced39a511cffe7eae"
+    },
+    {
+      "file": "lib/typescript/src/EnrichedMarkdownNativeComponent.d.ts",
+      "sha256": "8f7547cf31be0ec9ed0604d8a775239b055d4895bd807c7d325193a2f8ea7f5c"
+    },
+    {
+      "file": "lib/typescript/src/EnrichedMarkdownNativeComponent.d.ts.map",
+      "sha256": "6a874ca9e2f5a368e0a8b1188e762cc8cfc25dbf75a367f558a5f5eab6ab8f77"
+    },
+    {
+      "file": "lib/typescript/src/EnrichedMarkdownTextInput.d.ts",
+      "sha256": "b696692be1c8f8c3a3ee06d8db8db253aaa42120733dcad60150a6590c96c355"
+    },
+    {
+      "file": "lib/typescript/src/EnrichedMarkdownTextInput.d.ts.map",
+      "sha256": "530c11badd17d5c2845c4da9939eb66f975ba40dfa6a56005c47ad8dcf7b89e6"
+    },
+    {
+      "file": "lib/typescript/src/EnrichedMarkdownTextInputNativeComponent.d.ts",
+      "sha256": "3d1e99e6d31e40e2d86bf5b330e94470c50ddf1f084e1512ee3d887e159654f6"
+    },
+    {
+      "file": "lib/typescript/src/EnrichedMarkdownTextInputNativeComponent.d.ts.map",
+      "sha256": "d16e4f0fbe8fe60125e4281b2a5756f09bebc93e9220609404c65b199a157331"
+    },
+    {
+      "file": "lib/typescript/src/EnrichedMarkdownTextNativeComponent.d.ts",
+      "sha256": "4fbbfe22965f973a550d203c9b715052e4b0cecbcf947ab0bf4d51683270deb3"
+    },
+    {
+      "file": "lib/typescript/src/EnrichedMarkdownTextNativeComponent.d.ts.map",
+      "sha256": "127924cc7c2498d4f780d70c763d21aac806d5276628b1ec3495a270605f992a"
+    },
+    {
+      "file": "lib/typescript/src/accessibilityLabelDefaults.d.ts",
+      "sha256": "9946d0782b62da0f8718f8ea9b5a592a5b5e0065bf8a6a1bbe5f4a5240316abf"
+    },
+    {
+      "file": "lib/typescript/src/accessibilityLabelDefaults.d.ts.map",
+      "sha256": "eb79d1129b8cd6804f820d915eca9c471395b7b8751d4f161742ad77e79b4cf2"
+    },
+    {
+      "file": "lib/typescript/src/admonitionDefaults.d.ts",
+      "sha256": "17b3fcb4af1bda793ea8263292208e8484d636a8c06644a4a35004baf82f1b5a"
+    },
+    {
+      "file": "lib/typescript/src/admonitionDefaults.d.ts.map",
+      "sha256": "c118fa7048ee2dc9024df4b96bc46cff0eecf7012f57f1cd0fc94be26bc2b09b"
+    },
+    {
+      "file": "lib/typescript/src/headingDefaults.d.ts",
+      "sha256": "4b2e18cbad81494519d4676e30497e40570ee35a5d7265130b4218d4a1ccbeb8"
+    },
+    {
+      "file": "lib/typescript/src/headingDefaults.d.ts.map",
+      "sha256": "a209a179fb05ecfa5ca2cdf6dc2493b1dd87ce0f7d9bbb914b257b9157e31553"
+    },
+    {
+      "file": "lib/typescript/src/index.d.ts",
+      "sha256": "5a46d5600c027f0fbf4ef5fd29019bbe134bcb91220ad3f1576e9aa3869da5c8"
+    },
+    {
+      "file": "lib/typescript/src/index.d.ts.map",
+      "sha256": "55712d1db4a1595a6e9aa4ceeb2182542ad72aa8adefe08fcb35867fa99f4fcc"
+    },
+    {
+      "file": "lib/typescript/src/index.web.d.ts",
+      "sha256": "a3cc802369e30ec134431e568f25a9cb0384bd0fbfe68f5c2118115702bbac2e"
+    },
+    {
+      "file": "lib/typescript/src/index.web.d.ts.map",
+      "sha256": "e4d5b71fd96501e83f24e23200d0b3f692ff4874147f6047c3c1180f823a30ec"
+    },
+    {
+      "file": "lib/typescript/src/jest/index.d.ts",
+      "sha256": "906654d1518b48ee1c000985120cb1c40f49615bc59fb7992b4fd88894131c14"
+    },
+    {
+      "file": "lib/typescript/src/jest/index.d.ts.map",
+      "sha256": "c7c56d907e145cb3acc512a79ca125bd9613627bce0c18b467fc63a32f992dcf"
+    },
+    {
+      "file": "lib/typescript/src/linkContextMenuUtils.d.ts",
+      "sha256": "1e5c44159a4cb30be07333a3e86a4f06b7a8a94da6d012d51b7b6eee5041e315"
+    },
+    {
+      "file": "lib/typescript/src/linkContextMenuUtils.d.ts.map",
+      "sha256": "11e46d7869503d1f3ea918d2d5d020c9b5b1bc9543b83614d3f407225625c6a5"
+    },
+    {
+      "file": "lib/typescript/src/linkVariantUtils.d.ts",
+      "sha256": "56be76822198f89ed22ad8f690534d2d7fb634b5f6272916974fee8ce0409e03"
+    },
+    {
+      "file": "lib/typescript/src/linkVariantUtils.d.ts.map",
+      "sha256": "eb9a1b0a54b32074358ac632d678bb6565acc9f7011e79ae9b9b8ac2d7c9f23c"
+    },
+    {
+      "file": "lib/typescript/src/native/EnrichedMarkdownText.d.ts",
+      "sha256": "57710159e973b8a1395a3ae20737ba688be115fd069821891fa015766af255b1"
+    },
+    {
+      "file": "lib/typescript/src/native/EnrichedMarkdownText.d.ts.map",
+      "sha256": "2402d7a2516af8d4b7dae190439c76311666376b0dfe51c7f3fbe36f0cda6f2a"
+    },
+    {
+      "file": "lib/typescript/src/normalizeMarkdownShortcuts.d.ts",
+      "sha256": "0813dbbb48566c4143d34b1cf7af68d1115378544ab9c11c12f88a81e2fe081d"
+    },
+    {
+      "file": "lib/typescript/src/normalizeMarkdownShortcuts.d.ts.map",
+      "sha256": "ceb5c84f4ed93815b6063c984ca409dd4652adc9ef106a34e1413f0125e803d0"
+    },
+    {
+      "file": "lib/typescript/src/normalizeMarkdownStyle.d.ts",
+      "sha256": "c3fda69c3682bb4c5f801e7c960eb063690238a43398205e33f333fc69d31647"
+    },
+    {
+      "file": "lib/typescript/src/normalizeMarkdownStyle.d.ts.map",
+      "sha256": "f0633b951d917d5af1d0913864142b4feb4ef5d3d1ea0453b7a950b2b2515c2c"
+    },
+    {
+      "file": "lib/typescript/src/normalizeMarkdownStyle.web.d.ts",
+      "sha256": "ae1a92f32e3a4e3126a8538cad6fa314db9e4c1138b706b1982ce8d76961acdc"
+    },
+    {
+      "file": "lib/typescript/src/normalizeMarkdownStyle.web.d.ts.map",
+      "sha256": "665080db063c590688dbb6001f167fb1b0265b12f895a96752873aabb63ef2eb"
+    },
+    {
+      "file": "lib/typescript/src/normalizeMarkdownTextInputStyle.d.ts",
+      "sha256": "7c6a6b538cbac02133a7733bd1f82f777d79bfe863202488ed4aa5b5538399e1"
+    },
+    {
+      "file": "lib/typescript/src/normalizeMarkdownTextInputStyle.d.ts.map",
+      "sha256": "efdf5aa5b36ffff30fc109eb87c2ec720b048978cdbf84fd10f28fc5e6b0b81b"
+    },
+    {
+      "file": "lib/typescript/src/normalizeMenuItem.d.ts",
+      "sha256": "78e87a98dc45a04f096313b070376d165e55ea5498aa0f9deae2f544f7b3f961"
+    },
+    {
+      "file": "lib/typescript/src/normalizeMenuItem.d.ts.map",
+      "sha256": "27e5278db3aa7a8a27088e160c8c58891e1232a5322d4290231a194b320b313f"
+    },
+    {
+      "file": "lib/typescript/src/styleUtils.d.ts",
+      "sha256": "30f2bc153098fa60efde0d92528b890ab27c41c2a3c28a2a0d7d78ae623cd399"
+    },
+    {
+      "file": "lib/typescript/src/styleUtils.d.ts.map",
+      "sha256": "9733d39181ed9227030997310596363abb894f3ae30e3c3c47680a91f3a76ccc"
+    },
+    {
+      "file": "lib/typescript/src/types/AccessibilityLabels.d.ts",
+      "sha256": "3db7b71f819204e348a8fb2a488f08549575e246d6a1646900c5596a4f6ddf47"
+    },
+    {
+      "file": "lib/typescript/src/types/AccessibilityLabels.d.ts.map",
+      "sha256": "dc78ee08f875fbcdf8e5c751d18755faacebb32f20216f0791fc185eedacfbde"
+    },
+    {
+      "file": "lib/typescript/src/types/MarkdownRenderers.d.ts",
+      "sha256": "3a508aeccb824fd1b462590da13af7ee238934a3f8a4797da95f024e2b4fbb5a"
+    },
+    {
+      "file": "lib/typescript/src/types/MarkdownStyle.d.ts",
+      "sha256": "d3b5cfe8fafbe1ef6b8ba7f71ec01ab03f4be1f345af14b5abe362d372f2b581"
+    },
+    {
+      "file": "lib/typescript/src/types/MarkdownStyle.d.ts.map",
+      "sha256": "caf78a09e4407ca8f73dbae436dcbe157225af64be87cb02962d33e4c866e2ef"
+    },
+    {
+      "file": "lib/typescript/src/types/MarkdownStyleInternal.d.ts",
+      "sha256": "21b9245b94f2d553ec84fcf8957e8de624f9c4ccb6180350cbcf6f50f985cec2"
+    },
+    {
+      "file": "lib/typescript/src/types/MarkdownStyleInternal.d.ts.map",
+      "sha256": "af5a973e0245b67c52b73b818771cc5ccf5f8806208d584ac027a1d3bdfcec75"
+    },
+    {
+      "file": "lib/typescript/src/types/MarkdownTextProps.d.ts",
+      "sha256": "9ab53ac46995468eb9ab613716788c5c7ff10097ec0da39fb0238e7a20798602"
+    },
+    {
+      "file": "lib/typescript/src/types/MarkdownTextProps.d.ts.map",
+      "sha256": "d81cd5303f8a6511223e283a8fdf3ffd997c732173a6d8758f8854fb6973363f"
+    },
+    {
+      "file": "lib/typescript/src/types/MarkdownTextProps.web.d.ts",
+      "sha256": "19242b4dfd887b072b824d4d900786304e34bdec402c996a05b33b22517cf707"
+    },
+    {
+      "file": "lib/typescript/src/types/MarkdownTextProps.web.d.ts.map",
+      "sha256": "5e177bdb9d57436fbbd6d3e755cd1934de20d65e9772166e0f33ca617257977f"
+    },
+    {
+      "file": "lib/typescript/src/types/events.d.ts",
+      "sha256": "6196b6dd3c777c51ccd2b71ec145c36db0ef5e099cb506360755b497b23df426"
+    },
+    {
+      "file": "lib/typescript/src/types/events.d.ts.map",
+      "sha256": "64902a820c4d9f067167214ddfca4f993764ea512cfb0a4bbb6c20d3c7512745"
+    },
+    {
+      "file": "lib/typescript/src/utils/regexParser.d.ts",
+      "sha256": "cfa031d124aa82740e31bf5de5c5eec392f41589ec7049a8e2ad5a6f476a4069"
+    },
+    {
+      "file": "lib/typescript/src/utils/regexParser.d.ts.map",
+      "sha256": "d1f25ab4747958dadd3a85568ff083e7310b50c4b1dc476f6978f8ece8560acd"
+    },
+    {
+      "file": "lib/typescript/src/utils/textInputState.d.ts",
+      "sha256": "844de919e9e8ee4c4be319bf0d7bf3901ba2694b594b0db30d1c01fc190f6184"
+    },
+    {
+      "file": "lib/typescript/src/utils/textInputState.d.ts.map",
+      "sha256": "88cc6370f0bc7ba38df208dfe3cb84846a0b32a0d3e49533bf031b415c61644b"
+    },
+    {
+      "file": "lib/typescript/src/utils/usePressability.d.ts",
+      "sha256": "3c982bba0182f6ce845e316db54e54ceb34055b7cacabd732e78c25852dd3609"
+    },
+    {
+      "file": "lib/typescript/src/utils/usePressability.d.ts.map",
+      "sha256": "a5eb347c9150d66e49b05331a8597f03327b1ed505e280e987ff06d049692f2f"
+    },
+    {
+      "file": "lib/typescript/src/web/EnrichedMarkdownText.d.ts",
+      "sha256": "a1c9567fa41dfaff2f9f8bfc2f9523be47a7c9f3507facc9db707af7a87a96a4"
+    },
+    {
+      "file": "lib/typescript/src/web/EnrichedMarkdownText.d.ts.map",
+      "sha256": "c19d9416a201a9487797cb24f5b74a6ef7d0057a070486a1b23c2fbede8a7da8"
+    },
+    {
+      "file": "lib/typescript/src/web/globalStyles.d.ts",
+      "sha256": "294424f37d5ea3086213be4df75977c50f62738d8b959cc3dfd4062439b23923"
+    },
+    {
+      "file": "lib/typescript/src/web/globalStyles.d.ts.map",
+      "sha256": "a39e509608e1cd60e7b4181b3bd3c004abe54cdfc01affad14506f297b8f7742"
+    },
+    {
+      "file": "lib/typescript/src/web/injectStyle.d.ts",
+      "sha256": "ce2e63c56182729fc366d4a0fce0166d2e18635a0e7c356937aaa87bdb1da7f0"
+    },
+    {
+      "file": "lib/typescript/src/web/injectStyle.d.ts.map",
+      "sha256": "eb4729e59c8f162ae249eb16c18a592305d12e680f6998e94a5ab56b1385b032"
+    },
+    {
+      "file": "lib/typescript/src/web/katex.d.ts",
+      "sha256": "91c9833b922a4269822d3a5ad987c831c1963e12d1e0f8b993cc14c70738eb5e"
+    },
+    {
+      "file": "lib/typescript/src/web/katex.d.ts.map",
+      "sha256": "0589ff530d1c5be4923dd14b78a45810ed1ab2b83f1be92640d0c3b69b32258a"
+    },
+    {
+      "file": "lib/typescript/src/web/nativeProps.d.ts",
+      "sha256": "aeebcd38a64740e5d698b8fc5b5388c1d47009a6dc51c97dfe464b9a58fcdea3"
+    },
+    {
+      "file": "lib/typescript/src/web/nativeProps.d.ts.map",
+      "sha256": "3551136d9f1bff117e69b4788e7dd4cf48a7ea461ed234658401d9e7b183c60c"
+    },
+    {
+      "file": "lib/typescript/src/web/parseMarkdown.d.ts",
+      "sha256": "bef04b38ebee318e6df7351d7f57cd95567486cd75e27a0e4dbcbc99016e7093"
+    },
+    {
+      "file": "lib/typescript/src/web/parseMarkdown.d.ts.map",
+      "sha256": "90959609ddb4c7b2b146b14174e12e84eb56c842004ae9ac2c32255e89202788"
+    },
+    {
+      "file": "lib/typescript/src/web/recognizeTextLinks.d.ts",
+      "sha256": "2a1ee4feebfff429693eab74911d3e6200bc93129c1590ac60d72707316e704e"
+    },
+    {
+      "file": "lib/typescript/src/web/recognizeTextLinks.d.ts.map",
+      "sha256": "e7648508b33c06aec011d2b3afdd7cda7b5a441896d18c4add9ee6334a65b875"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/BlockRenderers.d.ts",
+      "sha256": "538d2ca81d6fb473572c9b3dab65dc0d847cf7cc2e0bba5b744abe2fdbc65f7e"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/BlockRenderers.d.ts.map",
+      "sha256": "dbd322210a0ecf743780ed9e24576a555281e80a83fd34c12d391bc6748b3213"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/InlineRenderers.d.ts",
+      "sha256": "8a4f352eea1e5f0358e1f4313232d35e0bc9d5bf1bda1b3310341eba3229bf1d"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/InlineRenderers.d.ts.map",
+      "sha256": "e0d328cd1dbddf53fdcd868c160d9781919250aada5c39fa6274b75c847be304"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/KaTeXRenderer.d.ts",
+      "sha256": "dbeee672f31dc748023589430f3f592568fcf542b967ad2610a0382af647d90b"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/KaTeXRenderer.d.ts.map",
+      "sha256": "229e492f6e9da1d432afbcab6d5e3a47129b16143bcd7a4297001daaee692750"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/ListRenderers.d.ts",
+      "sha256": "32ed81c4b72eef91732fe9c6c836c9b798f060632725be56600fb5060509b604"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/ListRenderers.d.ts.map",
+      "sha256": "f79b208d03562c227ce8ad37c4dd7b18a7248a25e86d1da5711ce4bf431d3f9f"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/TableRenderers.d.ts",
+      "sha256": "9e1194c2801883c136ee1afc9f742fbc9ceba44e7abe2a9f39c1459d1e498326"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/TableRenderers.d.ts.map",
+      "sha256": "1ead7ca81546c474058ec69a425df5d5f447b39944834b9708e04a71ff989dbc"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/admonitionIcons.d.ts",
+      "sha256": "7e37a364b73ca0019ef2ac08156ac8a9e37b363665ec79a9b411e2af467fdc99"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/admonitionIcons.d.ts.map",
+      "sha256": "50579ea930ae04a3f153a862cac62038ee4058125d84a00ef9684b0e19918bc4"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/index.d.ts",
+      "sha256": "97e87fabf8641222eb75fff4ac5145269dbe510b4be41d93dac67aa90e5e44dd"
+    },
+    {
+      "file": "lib/typescript/src/web/renderers/index.d.ts.map",
+      "sha256": "4503b87f9242dc992329c0bf634daff8a46c93f13319fe5bd9d9056031019b7d"
+    },
+    {
+      "file": "lib/typescript/src/web/styles.d.ts",
+      "sha256": "37e2c672ee5055c586ae986a4658a4965d317d0509bcb571b1469945bc6c4bc6"
+    },
+    {
+      "file": "lib/typescript/src/web/styles.d.ts.map",
+      "sha256": "1fa65945906dbb5f66f4c52400986e136f79559d50516aa01f639cb0ad6cacd2"
+    },
+    {
+      "file": "lib/typescript/src/web/types.d.ts",
+      "sha256": "8b1f38b94ccabc5d0ea1a537ff366c7cfca8837bdb568e3435ee4f4789435769"
+    },
+    {
+      "file": "lib/typescript/src/web/types.d.ts.map",
+      "sha256": "fe3d0415bfc92c5563e37a4c3a30f6f3a46e1bba65d9dc3ac4d9eed87f12afe2"
+    },
+    {
+      "file": "lib/typescript/src/web/utils.d.ts",
+      "sha256": "ddb2b48d315fbb670aad925d5627a938f0b5326f46feb520301c724a834daeaf"
+    },
+    {
+      "file": "lib/typescript/src/web/utils.d.ts.map",
+      "sha256": "1e6212f4dd7ff3551605a240b1019ec3e583f14555d98989b020cffd8d7d0907"
+    },
+    {
+      "file": "package.json",
+      "sha256": "15784a2f89a760d64669915858d2fba299e548734c1545a70d459fcfbc1dc91f"
+    },
+    {
+      "file": "postinstall.mjs",
+      "sha256": "8b88d293d15380d06fb5851437b19b8b791e5941888abed1721501250ae6f683"
+    },
+    {
+      "file": "ratex-version.json",
+      "sha256": "81a3da25cb023cf3f1396dda878426c195c7592b80aa73cfb2f51d323dab864f"
+    },
+    {
+      "file": "react-native.config.js",
+      "sha256": "fb85f3204883c2f4230b1ad8770dfe6a5338e7c0280ce92975a4ec1da4d923aa"
+    },
+    {
+      "file": "src/EnrichedMarkdownNativeComponent.ts",
+      "sha256": "4c5748e9acba288ee4079cc21518466d6bda96f239e093a831310c6d0ac0daf5"
+    },
+    {
+      "file": "src/EnrichedMarkdownTextInput.tsx",
+      "sha256": "78b569dc94ae8334b5fd7f00e949c78e051e5931f047fdb5a452a57cf9d382f5"
+    },
+    {
+      "file": "src/EnrichedMarkdownTextInputNativeComponent.ts",
+      "sha256": "fd1badffe672f9a98bcc029f951f809a1b512afdbfa5c37e9eb114617d56f99a"
+    },
+    {
+      "file": "src/EnrichedMarkdownTextNativeComponent.ts",
+      "sha256": "1506775ab968e42aefe419e3e3b76235c58c4563fa8d74f6cfad2b5f8773d533"
+    },
+    {
+      "file": "src/accessibilityLabelDefaults.ts",
+      "sha256": "d857a450b2f841d725eac68d2465d85e0d81e200b3fb531d180a975453d0b1e2"
+    },
+    {
+      "file": "src/admonitionDefaults.ts",
+      "sha256": "26e56ff176382164a01749dda6c42966a5149ce3884a05c2aba81e6445537db8"
+    },
+    {
+      "file": "src/headingDefaults.ts",
+      "sha256": "23f6ec1713831b688dfd8001cbbe59ab8ff666532668b74dbe10fe35816e680c"
+    },
+    {
+      "file": "src/index.tsx",
+      "sha256": "59b2d3fbaf08405b84d78fa62982ce301cfdf56d25408e41da09ac5dac759b22"
+    },
+    {
+      "file": "src/index.web.tsx",
+      "sha256": "3a1c0bb9682393795c619e7617e79f2abc210ee24db1843276494f847324a6bb"
+    },
+    {
+      "file": "src/jest/index.tsx",
+      "sha256": "ad53d0c18483aea6470f29dc295ea441f59c9a9c107d7e135362c53068460864"
+    },
+    {
+      "file": "src/linkContextMenuUtils.ts",
+      "sha256": "1c812c929d887ffb5aeb309606314158bf45b85c8f85f8e4fa620ac7bf3e77d0"
+    },
+    {
+      "file": "src/linkVariantUtils.ts",
+      "sha256": "75b725f9b89a65acb1913a28dbea09d5c20caa0935ec531881ac571471f5c4d7"
+    },
+    {
+      "file": "src/native/EnrichedMarkdownText.tsx",
+      "sha256": "561756253bf56fd14155b950c2c65a2b73584ff5ec6bffff19cf066627933b11"
+    },
+    {
+      "file": "src/normalizeMarkdownShortcuts.ts",
+      "sha256": "1aa8a1cd0d71993842fbb8fc76a1289b771934ed61a6d8abca09527475330ef9"
+    },
+    {
+      "file": "src/normalizeMarkdownStyle.ts",
+      "sha256": "c433da44a75329ad2cb43a216e03debc3236181850380376a0991d4f44f63138"
+    },
+    {
+      "file": "src/normalizeMarkdownStyle.web.ts",
+      "sha256": "602127b78ed4736c8721175f6700e2790a41fbe45c0a089326f8b8498fba2ca0"
+    },
+    {
+      "file": "src/normalizeMarkdownTextInputStyle.ts",
+      "sha256": "412bb30624074b6aaa67ad934a0c750d72f773132cab5b6d0a9293587ea53f17"
+    },
+    {
+      "file": "src/normalizeMenuItem.ts",
+      "sha256": "61079e14d08b1e35b356329b036615795cdd226075df800c940764f9051ec601"
+    },
+    {
+      "file": "src/styleUtils.ts",
+      "sha256": "81c9b3c997b0c1001b50df622ba62c78ce24dc19d9ab0ac2927268ddced285fd"
+    },
+    {
+      "file": "src/types/AccessibilityLabels.ts",
+      "sha256": "b90b84d41a9fd0a2cadb01a4dcf7bc496ad56dc5fbba684b694ca9507d8096c8"
+    },
+    {
+      "file": "src/types/MarkdownRenderers.ts",
+      "sha256": "34c7a423616bc26b73b3f29b2d5bfb4807676252629edb92dedcac629b72d79e"
+    },
+    {
+      "file": "src/types/MarkdownStyle.ts",
+      "sha256": "0d091c0b26e4b3a5729659a89295cf09343b56ea367c10354351227ef8470ece"
+    },
+    {
+      "file": "src/types/MarkdownStyleInternal.ts",
+      "sha256": "15aa62ec89edab5f2d26f88dc13afefdd41b74c64bb85f37dd6bc2420aef0b56"
+    },
+    {
+      "file": "src/types/MarkdownTextProps.ts",
+      "sha256": "7ed5e24823efa1e32516347569bd3b04942c17feea85f6a6410fbd9a704f24b8"
+    },
+    {
+      "file": "src/types/MarkdownTextProps.web.ts",
+      "sha256": "43b2f66fc5d447f65e2c4fc1b8f7f337333438b6fd3e49c648d0ceeb9e98f53d"
+    },
+    {
+      "file": "src/types/events.ts",
+      "sha256": "8cbc3fb6fb236eec924b673d2a0c49a572f396d05225393ad26a6fb9b8a67801"
+    },
+    {
+      "file": "src/utils/regexParser.ts",
+      "sha256": "79316f6fa46dd473f3d67cf4f4fd6180487effdea74f9acd172a48597b517c64"
+    },
+    {
+      "file": "src/utils/textInputState.ts",
+      "sha256": "c7863fcb8e590f890c8e79a9b0e1657af5952b139cf48d8d8facae5a2a033b93"
+    },
+    {
+      "file": "src/utils/usePressability.ts",
+      "sha256": "e7d1cb88ff4e905fc8dc31aa0ddad38f79a3d71457576f89e6928248ba421903"
+    },
+    {
+      "file": "src/web/EnrichedMarkdownText.tsx",
+      "sha256": "792e6c4487205a22b073e46ec5f08dfccd88aac7b774ef700fca2a1376027d62"
+    },
+    {
+      "file": "src/web/globalStyles.ts",
+      "sha256": "787448e0fd85131edc4796c0dbf0a4b9b68edfcc3b4c71ae7b36480ec100da3c"
+    },
+    {
+      "file": "src/web/injectStyle.ts",
+      "sha256": "f6f8727124d512badd3dabb8dafa6db59954974173d5c42726ecef81b76160fb"
+    },
+    {
+      "file": "src/web/katex.ts",
+      "sha256": "c00b22f8ce96646366e7489e0d31d38c0735f83d869f9e4ce45da21538a39761"
+    },
+    {
+      "file": "src/web/nativeProps.ts",
+      "sha256": "1d3a0172cb1eaf88584ea87e7a4f573ccf2301adb4a910fcaf2295dc502d5a29"
+    },
+    {
+      "file": "src/web/parseMarkdown.ts",
+      "sha256": "a4d97644bcd11244f6b26c0887112a05b92adb7019b67e1041cd3892e810f378"
+    },
+    {
+      "file": "src/web/recognizeTextLinks.ts",
+      "sha256": "9f28e29cad28885c96cff15cabb88741d02e5b1bd88c7a2baaed0587917c0473"
+    },
+    {
+      "file": "src/web/renderers/BlockRenderers.tsx",
+      "sha256": "f4c442f9276f8992c8e2448576d3dcbfec87b24e49df6d6acc5681c55971a7ac"
+    },
+    {
+      "file": "src/web/renderers/InlineRenderers.tsx",
+      "sha256": "3c2c1682b2fd690483174f421fb3ea3b5d4b083b04bf5b3bfc3848970aab3bac"
+    },
+    {
+      "file": "src/web/renderers/KaTeXRenderer.tsx",
+      "sha256": "e0179e7dedcb682a3512828f2c686b1beb4f5cd81e8485b8de7b4b9df357cd07"
+    },
+    {
+      "file": "src/web/renderers/ListRenderers.tsx",
+      "sha256": "2692969ae72dd018bb82fe13480ed3e34f89eac7abca91bb43b6646896dca4f9"
+    },
+    {
+      "file": "src/web/renderers/TableRenderers.tsx",
+      "sha256": "c083d8943b36b49f3e05a55b6f09a44b7ca127cf583fbf36cdd171042613f138"
+    },
+    {
+      "file": "src/web/renderers/admonitionIcons.ts",
+      "sha256": "8ceac29da251f82c823e50205e9c430b9280b1c443969e5fa32d242fac357732"
+    },
+    {
+      "file": "src/web/renderers/index.tsx",
+      "sha256": "bbcdf03e251d2fb454bc4ead49b27c9f762f5f8433191a31bbbda5057621ee99"
+    },
+    {
+      "file": "src/web/styles.ts",
+      "sha256": "0cfd66f64a8ed50f233ee9e2c98e39cdebd5440ed9501ca3aa839ccbc1b50838"
+    },
+    {
+      "file": "src/web/types.ts",
+      "sha256": "5c8a580654f85ddea3aa424c9de3fdb5b8112066bebfb41458e73f067a33784f"
+    },
+    {
+      "file": "src/web/utils.ts",
+      "sha256": "d82704f72b2ed09095a61d4868e2235e13fcc4053633a3ead97406021ed97f75"
+    },
+    {
+      "file": "src/web/wasm/md4c.d.ts",
+      "sha256": "4e56f35e90572d1669e7dfa792b813e07a49bca346600cb37f377ae6d9a63fdb"
+    },
+    {
+      "file": "src/web/wasm/md4c.js",
+      "sha256": "feb97cfbf6a44a96988a6bdcc7b05086ef41f44cbe6e9bd3d21ee130704e6a9e"
+    },
+    {
+      "file": "vendor-grammars.mjs",
+      "sha256": "ddf28f7f9e8cebb993075fb6938745419118499dd4b6001273e9624ef20cbc19"
+    },
+    {
+      "file": "vendor-ratex.mjs",
+      "sha256": "e3c1f06b68890cacb07c009a6c7d6b487d0f753d756b48ced8d0b6ee87ea7d81"
+    }
+  ],
+  "packageConfig": {
+    "enableMath": false,
+    "enableCodeHighlight": true,
+    "codeHighlightLanguages": [
+      "json",
+      "html",
+      "css",
+      "markdown",
+      "yaml",
+      "go",
+      "java",
+      "javascript",
+      "python",
+      "c",
+      "rust",
+      "bash",
+      "typescript",
+      "tsx",
+      "cpp",
+      "swift",
+      "php",
+      "ruby",
+      "c-sharp"
+    ],
+    "enableVideo": false
+  },
+  "command": [
+    "/Users/luopeihuan/.nvm/versions/node/v24.18.0/bin/node",
+    "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6736-parallel-20261016/packages/app/node_modules/react-native-enriched-markdown/cpp/highlight/gen-registry.mjs",
+    "--vendor-dir",
+    "/tmp/paseo-pr-final-gaps-20261017/6736-native/native-assets/enriched-vendor",
+    "--languages",
+    "json,html,css,markdown,yaml,go,java,javascript,python,c,rust,bash,typescript,tsx,cpp,swift,php,ruby,c-sharp",
+    "--out",
+    "/tmp/paseo-pr-final-gaps-20261017/6736-native/native-assets/enriched-vendor/generated-getpaseo-app"
+  ],
+  "generatedProof": [
+    {
+      "file": "generated_registry.cpp",
+      "sha256": "b72fe8690408f0221e02753f3eb15531dd28e4fc672663b2e872c33736184a00",
+      "bytes": 2443,
+      "identicalToCompatibleInstalledSeed": true
+    },
+    {
+      "file": "generated_queries.h",
+      "sha256": "8bfc833d4e2eb9f8150a24a9d82dbe092489ca7c13ed3a9d693ccdc86377300d",
+      "bytes": 61943,
+      "identicalToCompatibleInstalledSeed": true
+    }
+  ],
+  "assetFiles": 191,
+  "assetManifestSha256": "33bd138f95caf0b8d383f4faf337806a68c2cec3a387396c8f27fce14a865a75",
+  "origin": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/native-render-stream-cost/packages/app/node_modules/react-native-enriched-markdown",
+  "reason": "Current JS-only dependency install lacks vendored native grammars and generated registry; reuse byte-compatible installed native assets in QA-only root",
+  "writes": "owned /tmp assets and three generated Pods files only; product node_modules untouched; no download or version change"
+}

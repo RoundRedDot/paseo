@@ -1,0 +1,13 @@
+--- before-qa-sqlite/Pods.xcodeproj/project.pbxproj
++++ qa-prepared-sqlite/Pods.xcodeproj/project.pbxproj
+@@ -13364,8 +13364,8 @@
+ 		46EB2E00002DD0 /* NativeSession.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NativeSession.swift; sourceTree = "<group>"; };
+ 		46EB2E00002DE0 /* NativeStatement.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NativeStatement.swift; sourceTree = "<group>"; };
+ 		46EB2E00002DF0 /* SQLAction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SQLAction.swift; sourceTree = "<group>"; };
+-		46EB2E00002E00 /* sqlite3.c */ = {isa = PBXFileReference; includeInIndex = 1; path = sqlite3.c; sourceTree = "<group>"; };
+-		46EB2E00002E10 /* sqlite3.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
++		46EB2E00002E00 /* sqlite3.c */ = {isa = PBXFileReference; includeInIndex = 1; path = "/tmp/paseo-pr-final-gaps-20261017/6736-native/native-assets/expo-sqlite/sqlite3.c"; sourceTree = "<group>"; };
++		46EB2E00002E10 /* sqlite3.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "/tmp/paseo-pr-final-gaps-20261017/6736-native/native-assets/expo-sqlite/sqlite3.h"; sourceTree = "<group>"; };
+ 		46EB2E00002E20 /* SQLiteModule.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SQLiteModule.swift; sourceTree = "<group>"; };
+ 		46EB2E00002E30 /* SQLiteOptions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SQLiteOptions.swift; sourceTree = "<group>"; };
+ 		46EB2E00002E40 /* URL+FilePath.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "URL+FilePath.swift"; sourceTree = "<group>"; };

@@ -1,0 +1,12 @@
+{
+  "snapshot": "/tmp/paseo-pr-final-gaps-20261017/6736-native/snapshot",
+  "sourceDifferences": [
+    {
+      "file": "packages/app/metro.config.cjs",
+      "candidate": "21eb6b3343716f2ec9e6907c179fa264c439354fb46efdcb13a06bff4cf87d15",
+      "snapshot": "c4878d82fcd10dc81b40a3c797e2526f10c37c602206bccc1932abe14e8932e2"
+    }
+  ],
+  "generatedRelocations": 5043,
+  "port": 57190
+}

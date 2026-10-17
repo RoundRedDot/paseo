@@ -1,0 +1,19 @@
+[react-native-enriched-markdown] wrote 19 grammar(s) to /tmp/paseo-pr-final-gaps-20261017/6736-native/native-assets/enriched-vendor/generated-getpaseo-app
+{
+  "sourceFilesCompared": 903,
+  "assetFiles": 191,
+  "generatedProof": [
+    {
+      "file": "generated_registry.cpp",
+      "sha256": "b72fe8690408f0221e02753f3eb15531dd28e4fc672663b2e872c33736184a00",
+      "bytes": 2443,
+      "identicalToCompatibleInstalledSeed": true
+    },
+    {
+      "file": "generated_queries.h",
+      "sha256": "8bfc833d4e2eb9f8150a24a9d82dbe092489ca7c13ed3a9d693ccdc86377300d",
+      "bytes": 61943,
+      "identicalToCompatibleInstalledSeed": true
+    }
+  ]
+}

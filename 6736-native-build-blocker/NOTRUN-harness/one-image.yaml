@@ -1,0 +1,23 @@
+appId: sh.paseo
+---
+- extendedWaitUntil:
+    visible:
+      id: user-message-image
+    timeout: 30000
+- assertVisible: "QA6736 fixture reply 1"
+- takeScreenshot: image-only-native-preview
+- tapOn:
+    id: user-message-image
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: attachment-lightbox-image
+    timeout: 15000
+- assertNotVisible: "^(无法加载图片|Failed to load image)$"
+- takeScreenshot: image-only-native-lightbox
+- tapOn:
+    id: attachment-lightbox-close
+- assertNotVisible:
+    id: attachment-lightbox
+- assertVisible:
+    id: user-message-image

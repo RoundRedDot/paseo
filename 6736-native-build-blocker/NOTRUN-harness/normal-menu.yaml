@@ -1,0 +1,30 @@
+appId: sh.paseo
+---
+- runFlow:
+    when:
+      visible: "^(打开|Open)$"
+    commands:
+      - tapOn: "^(打开|Open)$"
+- runFlow:
+    when:
+      visible: "^(不允许|Don’t Allow|Don't Allow)$"
+    commands:
+      - tapOn: "^(不允许|Don’t Allow|Don't Allow)$"
+- extendedWaitUntil:
+    visible:
+      id: menu-button
+    timeout: 30000
+- tapOn:
+    id: menu-button
+- extendedWaitUntil:
+    visible:
+      id: "sidebar-workspace-row-.*"
+    timeout: 30000
+- takeScreenshot: normal-directory-menu
+- tapOn:
+    id: sidebar-close
+- extendedWaitUntil:
+    visible:
+      id: message-input-root
+    timeout: 30000
+- takeScreenshot: normal-chat

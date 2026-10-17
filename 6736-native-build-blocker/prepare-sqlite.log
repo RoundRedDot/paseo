@@ -1,0 +1,32 @@
+{
+  "copied": [
+    {
+      "file": "sqlite3.c",
+      "from": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6736-parallel-20261016/node_modules/expo-sqlite/vendor/sqlite3/sqlite3.c",
+      "bytes": 9306729,
+      "sha256": "df16f4f2845488289d416e1d3b928c82ade5256564605b762daf0113fad394c5",
+      "identicalToNormalPodspecPreparedSeed": true
+    },
+    {
+      "file": "sqlite3.h",
+      "from": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6736-parallel-20261016/node_modules/expo-sqlite/vendor/sqlite3/sqlite3.h",
+      "bytes": 667756,
+      "sha256": "0d247fd5e5e2fd602f427227bae7bf6349dd3322d6090d9751b21b5b3f51db62",
+      "identicalToNormalPodspecPreparedSeed": true
+    }
+  ],
+  "links": [
+    {
+      "file": "Headers/Public/ExpoSQLite/sqlite3.h",
+      "before": "../../../../../../../../../../../../Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6736-parallel-20261016/node_modules/expo-sqlite/ios/sqlite3.h",
+      "after": "/tmp/paseo-pr-final-gaps-20261017/6736-native/native-assets/expo-sqlite/sqlite3.h"
+    },
+    {
+      "file": "Headers/Private/ExpoSQLite/sqlite3.h",
+      "before": "../../../../../../../../../../../../Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6736-parallel-20261016/node_modules/expo-sqlite/ios/sqlite3.h",
+      "after": "/tmp/paseo-pr-final-gaps-20261017/6736-native/native-assets/expo-sqlite/sqlite3.h"
+    }
+  ],
+  "sourceReferences": 1811,
+  "missing": 0
+}
