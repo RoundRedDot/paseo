@@ -1,0 +1,13 @@
+
+> @getpaseo/server@0.12.0-beta.1 test:unit
+> vitest run --fileParallelism --exclude "**/*.e2e.test.ts" src/server/agent/providers/pi/history-mapper.test.ts --bail=1
+
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7014-followup-20261017/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  10:47:14
+   Duration  160ms (transform 65ms, setup 15ms, import 83ms, tests 5ms, environment 0ms)
+

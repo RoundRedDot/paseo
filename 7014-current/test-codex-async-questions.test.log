@@ -1,0 +1,13 @@
+
+> @getpaseo/server@0.12.0-beta.1 test:unit
+> vitest run --fileParallelism --exclude "**/*.e2e.test.ts" src/server/agent/providers/codex-async-questions.test.ts --bail=1
+
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7014-followup-20261017/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  10:47:13
+   Duration  554ms (transform 299ms, setup 17ms, import 448ms, tests 22ms, environment 0ms)
+

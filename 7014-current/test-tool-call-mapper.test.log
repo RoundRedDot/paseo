@@ -1,0 +1,13 @@
+
+> @getpaseo/server@0.12.0-beta.1 test:unit
+> vitest run --fileParallelism --exclude "**/*.e2e.test.ts" src/server/agent/providers/opencode/tool-call-mapper.test.ts --bail=1
+
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7014-followup-20261017/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  21 passed (21)
+   Start at  10:47:15
+   Duration  142ms (transform 42ms, setup 16ms, import 58ms, tests 10ms, environment 0ms)
+
