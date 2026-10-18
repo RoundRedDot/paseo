@@ -620,6 +620,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
   useEffect(() => {
     const handle: StreamViewportHandle = {
       scrollToMessage,
+      cancelScrollToMessage: endPromptJump,
       scrollToBottom: (reason = "jump-to-bottom") => {
         promptJump.requestBottomAnchor({
           agentId,
@@ -640,6 +641,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
   }, [
     agentId,
     bottomAnchorController,
+    endPromptJump,
     promptJump,
     markNativeViewportSettling,
     scrollToMessage,

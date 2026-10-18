@@ -56,6 +56,7 @@ export interface StreamViewportHandle {
   scrollToBottom: (reason?: BottomAnchorLocalRequest["reason"]) => void;
   prepareForViewportChange: () => void;
   scrollToMessage?: (messageId: string, occurrence?: ScrollToMessageOccurrence) => void;
+  cancelScrollToMessage?: () => void;
 }
 
 export interface StreamSegmentRenderers {

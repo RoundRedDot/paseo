@@ -110,6 +110,7 @@ export function createOutlineNavigation(port: OutlineNavigationPort) {
   }
 
   function cancelSelection() {
+    input?.viewportRef.current?.cancelScrollToMessage?.();
     jumpRequestId += 1;
     pending = null;
     activePrompt.request(null);

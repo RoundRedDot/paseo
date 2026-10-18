@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import type { AgentTimelinePromptIndexPayload } from "@getpaseo/client/internal/daemon-client";
 import type { StreamItem } from "@/types/stream";
-import { resolveInvertedPromptJumpOffset } from "../prompt-jump-native";
+import {
+  createNativePromptJumpSession,
+  resolveInvertedPromptJumpOffset,
+} from "../prompt-jump-native";
 import { resolveInvertedReadingRow } from "../reading-anchor";
 import {
   createOutlineNavigation,
@@ -280,6 +283,44 @@ describe("outline navigation", () => {
     h.navigation.jumpToPrompt(2);
     expect(h.navigation.activePrompt.getRequestedSeq()).toBeNull();
     expect(h.scrolls).toEqual(["prompt-9", "prompt-20", "prompt-2"]);
+  });
+
+  it("ends a native landing loop as soon as a scrub takes ownership", () => {
+    const scheduled: (() => void)[] = [];
+    const batches: boolean[] = [];
+    const writes: string[] = [];
+    const jump = createNativePromptJumpSession({
+      schedule(tick) {
+        scheduled.push(tick);
+        return () => undefined;
+      },
+      setBatchActive: (active) => batches.push(active),
+      requestBottomAnchor() {},
+    });
+    const h = createHarness();
+    h.update({
+      head: [prompt(2)],
+      revealLoadedMessage: () => false,
+      viewportRef: {
+        current: {
+          scrollToBottom() {},
+          prepareForViewportChange() {},
+          scrollToMessage(id) {
+            jump.begin(id);
+            jump.schedule(() => writes.push(id));
+          },
+          cancelScrollToMessage: jump.end,
+        },
+      },
+    });
+    h.navigation.jumpToPrompt(2);
+    h.navigation.cancelSelection();
+    scheduled[0]!();
+    expect({ current: jump.getCurrent(), writes, batches: batches.slice(-2) }).toEqual({
+      current: null,
+      writes: [],
+      batches: [true, false],
+    });
   });
 
   it("cancels an unloaded jump when a gesture takes ownership", async () => {

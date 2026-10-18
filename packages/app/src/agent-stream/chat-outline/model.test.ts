@@ -158,6 +158,31 @@ describe("resolveReadingPosition", () => {
   });
 });
 
+interface OutlineDrawerConflict {
+  dx: number;
+  dy: number;
+  scrub: ReturnType<typeof resolveOutlineScrubIntent>;
+  drawer: ReturnType<typeof resolveMobilePanelGestureIntent>;
+}
+
+function findOutlineDrawerGestureConflicts(): OutlineDrawerConflict[] {
+  const conflicts: OutlineDrawerConflict[] = [];
+  for (let dx = -30; dx <= 40; dx += 1) {
+    for (let dy = -30; dy <= 40; dy += 1) {
+      const scrub = resolveOutlineScrubIntent(dx, dy);
+      const drawer = resolveMobilePanelGestureIntent({
+        deltaX: dx,
+        deltaY: dy,
+        direction: 1,
+        openGesturesBlocked: false,
+      });
+      if (scrub === "activate" && drawer !== "fail") conflicts.push({ dx, dy, scrub, drawer });
+      if (drawer === "activate" && scrub !== "fail") conflicts.push({ dx, dy, scrub, drawer });
+    }
+  }
+  return conflicts;
+}
+
 describe("resolveOutlineScrubIntent", () => {
   it("waits through a tap, then scrubs only when vertical travel wins", () => {
     expect([
@@ -182,21 +207,7 @@ describe("resolveOutlineScrubIntent", () => {
   });
 
   it("never scrubs a gesture the left drawer would open, or opens one the scrubber takes", () => {
-    const conflicts: { dx: number; dy: number; scrub: string; drawer: string }[] = [];
-    for (let dx = -30; dx <= 40; dx += 1) {
-      for (let dy = -30; dy <= 40; dy += 1) {
-        const scrub = resolveOutlineScrubIntent(dx, dy);
-        const drawer = resolveMobilePanelGestureIntent({
-          deltaX: dx,
-          deltaY: dy,
-          direction: 1,
-          openGesturesBlocked: false,
-        });
-        if (scrub === "activate" && drawer !== "fail") conflicts.push({ dx, dy, scrub, drawer });
-        if (drawer === "activate" && scrub !== "fail") conflicts.push({ dx, dy, scrub, drawer });
-      }
-    }
-    expect(conflicts).toEqual([]);
+    expect(findOutlineDrawerGestureConflicts()).toEqual([]);
   });
 });
 
