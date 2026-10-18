@@ -26,6 +26,7 @@ import type { StreamItem } from "@/types/stream";
 import type { Theme } from "@/styles/theme";
 import { useStableEvent } from "@/hooks/use-stable-event";
 import { useKeyboardStreamInset } from "@/keyboard/shift";
+import { shouldAnimateNativeScrollToBottom } from "./native-scroll-animation";
 import { useRevisedHistoryRows } from "./history-row-revision";
 import {
   useBottomAnchorController,
@@ -79,9 +80,9 @@ const historyStartSlotStyle: ViewStyle = {
   flexShrink: 0,
 };
 const HISTORY_START_SETTLE_FRAMES = 2;
+const NATIVE_STREAM_WINDOW_SIZE = 10;
 
 const PROMPT_JUMP_TICK_MS = 50;
-const NATIVE_STREAM_WINDOW_SIZE = 5;
 // A far jump needs a larger batch to mount the unmeasured tail. Ordinary
 // reading keeps the bounded native Markdown batches from the default viewport.
 const PROMPT_JUMP_MAX_TO_RENDER_PER_BATCH = 48;
@@ -302,7 +303,13 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
       programmaticScrollEventBudgetRef.current = 3;
       flatListRef.current?.scrollToOffset({
         offset: 0,
-        animated,
+        animated:
+          animated &&
+          shouldAnimateNativeScrollToBottom({
+            offsetY: scrollOffsetYRef.current,
+            viewportHeight: streamViewportMetricsRef.current.viewportHeight,
+            windowSize: NATIVE_STREAM_WINDOW_SIZE,
+          }),
       });
       scrollOffsetYRef.current = 0;
       streamViewportMetricsRef.current = {
@@ -892,7 +899,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
         windowSize={NATIVE_STREAM_WINDOW_SIZE}
         // Both props are read on every render-window update, so the larger
         // batch applies only to the batches that run during a prompt jump.
-        maxToRenderPerBatch={promptJumpBatch ? PROMPT_JUMP_MAX_TO_RENDER_PER_BATCH : 2}
+        maxToRenderPerBatch={promptJumpBatch ? PROMPT_JUMP_MAX_TO_RENDER_PER_BATCH : 10}
         updateCellsBatchingPeriod={promptJumpBatch ? PROMPT_JUMP_BATCH_PERIOD_MS : undefined}
         removeClippedSubviews={false}
         scrollEnabled={scrollEnabled}
