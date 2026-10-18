@@ -343,6 +343,31 @@ describe("a closing fence still being typed", () => {
     },
   );
 
+  it.each([
+    { marker: "-", fence: "```", newline: "\n" },
+    { marker: "1.", fence: "~~~", newline: "\n" },
+    { marker: "-", fence: "~~~", newline: "\r\n" },
+    { marker: "1.", fence: "```", newline: "\r\n" },
+  ])(
+    "keeps prose after a closed $marker list fence ($fence, $newline)",
+    ({ marker, fence, newline }) => {
+      const indent = " ".repeat(marker.length + 1);
+      const closed = [`${marker} ${fence}`, `${indent}code`, `${indent}${fence}`, "", ""].join(
+        newline,
+      );
+      const prose = closed + fence[0];
+      expect(withholdPartialClosingFence(prose)).toBe(prose);
+      expect(visibleRevealedText(beginTextReveal(prose), { streaming: true })).toBe(prose);
+      const open = [`${marker} ${fence}`, `${indent}code`, ""].join(newline);
+      expect(withholdPartialClosingFence(open + indent + fence[0])).toBe(open);
+    },
+  );
+
+  it("does not take an indented code block's fence for a top-level opener", () => {
+    const text = "    code\n    ```\n\n`";
+    expect(withholdPartialClosingFence(text)).toBe(text);
+  });
+
   it("leaves backticks alone outside a code block", () => {
     expect(withholdPartialClosingFence("Prose\n`")).toBe("Prose\n`");
     const closed = "```\na\n```\n";

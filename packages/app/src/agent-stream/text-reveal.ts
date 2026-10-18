@@ -1,3 +1,5 @@
+import { createMarkdownParser } from "@/utils/markdown-parser";
+
 /**
  * Paced reveal for streaming assistant text.
  *
@@ -207,36 +209,9 @@ function trimIncompleteTrailingCluster(text: string): string {
   return text;
 }
 
-// A fence line: up to three spaces, then a run of three or more backticks or tildes.
-const FENCE_OPEN = /^ {0,3}(`{3,}|~{3,})/;
-// A line that is nothing but a run of one fence character, maybe indented.
-// Splitting CRLF text on LF leaves the CR at the end of each completed line.
-const FENCE_RUN = /^ {0,3}(`+|~+)[ \t]*\r?$/;
-// Whitespace ends a short run: more fence characters can no longer make it a closer.
+// Only parse block context when the current line can still become a closer.
 const UNFINISHED_FENCE_RUN = /^ {0,3}(`+|~+)$/;
-
-/**
- * The fence a code block opened at the end of `text` and has not closed yet, if
- * any. Follows the CommonMark rules markdown-it applies at the top level: a
- * backtick opener's info string has no backticks, and a closer is a run of the
- * same character at least as long as the opener with nothing after it.
- */
-function openFenceAt(text: string): { char: string; length: number } | null {
-  let open: { char: string; length: number } | null = null;
-  for (const line of text.split("\n")) {
-    if (open) {
-      const run = FENCE_RUN.exec(line)?.[1];
-      if (run && run[0] === open.char && run.length >= open.length) open = null;
-      continue;
-    }
-    const opener = FENCE_OPEN.exec(line);
-    const run = opener?.[1];
-    if (!run) continue;
-    if (run[0] === "`" && line.slice(opener.index + opener[0].length).includes("`")) continue;
-    open = { char: run[0]!, length: run.length };
-  }
-  return open;
-}
+const fenceParser = createMarkdownParser({ linkify: false }).disable("inline");
 
 /**
  * Hold back the closing fence of a code block while it is still being typed.
@@ -253,8 +228,19 @@ export function withholdPartialClosingFence(text: string): string {
   if (lineStart === 0) return text;
   const run = UNFINISHED_FENCE_RUN.exec(text.slice(lineStart))?.[1];
   if (!run) return text;
-  const open = openFenceAt(text.slice(0, lineStart - 1));
-  if (!open || open.char !== run[0] || run.length >= open.length) return text;
+  // Source maps include container boundaries: a list closer must not become a
+  // new top-level opener, and a fence-looking line in indented code is not one.
+  const lastLine = text.split("\n").length - 1;
+  const open = fenceParser
+    .parse(text, {})
+    .findLast(
+      (token) =>
+        token.type === "fence" &&
+        token.map !== null &&
+        token.map[0] < lastLine &&
+        token.map[1] === lastLine + 1,
+    );
+  if (!open || open.markup[0] !== run[0] || run.length >= open.markup.length) return text;
   return text.slice(0, lineStart);
 }
 
