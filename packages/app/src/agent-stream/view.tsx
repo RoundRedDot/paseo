@@ -873,7 +873,13 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
 
           case "plugin":
             return (
-              <PluginTimelineItemView agentId={agentId} item={item} serverId={resolvedServerId} />
+              <PluginTimelineItemView
+                agentId={agentId}
+                item={item}
+                serverId={resolvedServerId}
+                supportsTimelineCursor={supportsAgentForkContextCursor}
+                onForkAssistantTurn={readOnly ? undefined : handleForkAssistantTurn}
+              />
             );
 
           default:
@@ -887,6 +893,9 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
         renderThoughtItem,
         renderToolCallItem,
         resolvedServerId,
+        supportsAgentForkContextCursor,
+        readOnly,
+        handleForkAssistantTurn,
       ],
     );
 

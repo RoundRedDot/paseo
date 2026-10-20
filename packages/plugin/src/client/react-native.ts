@@ -79,3 +79,11 @@ export declare function copyText(text: string): Promise<void>;
 export declare const TextInput: ForwardRefExoticComponent<
   TextInputProps & RefAttributes<NativeTextInput>
 >;
+
+/** Host-owned fork menu for the completed assistant row being rendered. */
+export interface ForkMenuProps {
+  testID?: string;
+}
+
+/** Renders nothing outside an eligible timeline renderer, including read-only views. */
+export declare const ForkMenu: ComponentType<ForkMenuProps>;
