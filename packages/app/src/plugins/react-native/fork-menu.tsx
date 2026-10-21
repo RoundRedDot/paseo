@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { ForkMenuProps } from "@getpaseo/plugin/client/react-native";
+import type { ForkMenuProps } from "@getpaseo/plugin/client/ui";
 import { AssistantForkMenu, type AssistantForkTarget } from "@/components/assistant-fork-menu";
 
 export const TimelineForkContext = createContext<
