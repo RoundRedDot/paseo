@@ -285,10 +285,11 @@ import to any other code file in the plugin root is also rejected; move it into 
 or `shared/`. These are compile errors naming the importing file and boundary rule. Top-level React
 Native calls such as `StyleSheet.create` belong in `client/`.
 
-Client bundles run on Hermes, which cannot execute `class` syntax and fails silently on larger
-bundles. Metro never sees plugin code, so the compiler lowers classes in the esbuild output with
-Babel (class-only plugins, client target only). Plugin and dependency code can use classes freely;
-other syntax Hermes lacks (regex `v` flag, `Intl.Segmenter`, `toSorted`) is not polyfilled.
+Older clients on React Native 0.81.5 cannot evaluate unlowered classes in plugin bundles.
+Hosts and clients update independently, so client bundles retain class lowering even when the
+host uses a newer Hermes compiler. Metro never sees plugin code; the compiler lowers classes
+in the esbuild output with Babel (class-only plugins, client target only). This does not polyfill
+other syntax or runtime APIs. A successful bytecode compilation does not prove device execution.
 
 The scaffold omits `"DOM"` from `tsconfig.json` and does not use `/// <reference lib="dom" />`, so
 browser globals are not available across the plugin. Put sanctioned web-only APIs in

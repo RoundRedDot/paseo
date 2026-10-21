@@ -324,11 +324,10 @@ function loadBabel(): BabelCore {
   return babelCore;
 }
 
-// Hermes (React Native 0.81) parses `class` but cannot generate code for it. Small
-// scripts fail loudly with a SyntaxError; larger ones are compiled lazily and the class
-// silently evaluates to `undefined`. Metro runs Babel over the app's own source, but
-// plugin client bundles skip Metro and esbuild cannot lower classes, so lower only
-// classes here. Everything else stays as esbuild emitted it.
+// Older clients on React Native 0.81.5 cannot evaluate unlowered classes in plugin
+// bundles. Hosts and clients update independently, so preserve lowering for those
+// clients even when the host uses a newer Hermes compiler. Plugin bundles bypass
+// Metro and esbuild cannot lower classes; everything else stays as esbuild emitted it.
 export function lowerClassesForHermes(code: string): string {
   const result = loadBabel().transformSync(code, {
     babelrc: false,
