@@ -169,6 +169,33 @@ describe("evaluatePluginClientBundle", () => {
     ]);
   });
 
+  it("accepts every item type the timeline projection hands to transformers", () => {
+    const itemTypes = [
+      "user_message",
+      "assistant_message",
+      "reasoning",
+      "tool_call",
+      "todo",
+      "error",
+      "notification",
+      "compaction",
+    ];
+    const plugin = evaluatePluginClientBundle(
+      "reports",
+      bundle(`
+        for (const itemType of ${JSON.stringify(itemTypes)}) {
+          plugin.addTimelineTransformer({
+            id: "test-" + itemType.replace("_", "-"),
+            query: { itemType },
+            transform() { return undefined; },
+          });
+        }
+      `),
+    );
+
+    expect(plugin.timelineTransformers.map(({ query }) => query.itemType)).toEqual(itemTypes);
+  });
+
   it("rejects unknown timeline item types", () => {
     expect(() =>
       evaluatePluginClientBundle(
