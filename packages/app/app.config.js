@@ -3,6 +3,7 @@ const path = require("node:path");
 const pkg = require("./package.json");
 const withAndroidAsyncStorageSize = require("./plugins/with-android-async-storage-size");
 const withAndroidOptionalCamera = require("./plugins/with-android-optional-camera");
+const withAndroidMonospace = require("./plugins/with-android-monospace");
 const withAndroidProfileable = require("./plugins/with-android-profileable");
 const withFdroidAutolinking = require("./plugins/with-fdroid-autolinking");
 const withPasteInput = require("./plugins/with-paste-input");
@@ -81,8 +82,8 @@ const variants = {
     }),
   },
   development: {
-    name: "Paseo Debug",
-    packageId: "sh.paseo.debug",
+    name: "Paseo Fold",
+    packageId: "sh.paseo.fold",
     googleServicesFile: resolveSecretFile({
       envKey: "GOOGLE_SERVICES_FILE_DEBUG",
       fallbackRelativePath: "./.secrets/google-services.debug.json",
@@ -102,7 +103,7 @@ export default {
     name: variant.name,
     slug: "voice-mobile",
     version: nativeReleaseVersion.appVersion,
-    orientation: "portrait",
+    orientation: "default",
     icon: "./assets/images/icon.png",
     scheme: "paseo",
     userInterfaceStyle: "automatic",
@@ -148,6 +149,7 @@ export default {
       [withAndroidAsyncStorageSize, 64],
       ...buildProfile.cameraPlugins,
       withAndroidOptionalCamera,
+      withAndroidMonospace,
       [
         "expo-splash-screen",
         {
