@@ -61,7 +61,7 @@ Gradle auto-fetches the platform/build-tools it needs once licenses are accepted
 
 ## Local build + install
 
-SDK 54 needs the `expo-modules-core` patch installed by `npm install`. It backports
+The locked `expo-modules-core` 57.0.23 needs the patch installed by `npm install`. It backports
 [Expo's Activity-result launcher fix](https://github.com/expo/expo/pull/49634): changing
 font size or another unhandled configuration can otherwise disable image selection
 until the app process restarts. Rebuild the native app after changing this patch;
