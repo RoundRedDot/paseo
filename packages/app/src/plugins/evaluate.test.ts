@@ -688,6 +688,26 @@ describe("evaluatePluginClientBundle", () => {
     expect(plugin.surfaces.map((surface) => surface.id)).toEqual(["main"]);
   });
 
+  it("keeps useRevealedText on the deprecated client/react-native entry", () => {
+    const plugin = evaluatePluginClientBundle(
+      "example",
+      `(function(require) {
+        const { Icon, useRevealedText } = require("@getpaseo/plugin/client/react-native");
+        const module = { exports: {} };
+        module.exports.default = function(plugin) {
+          if (typeof Icon !== "function" || typeof useRevealedText !== "function") {
+            throw new Error("The client/react-native compatibility entry is incomplete");
+          }
+          plugin.addSurface("main", function Surface() { return null; });
+          return function() {};
+        };
+        return module.exports;
+      })`,
+    );
+
+    expect(plugin.surfaces.map((surface) => surface.id)).toEqual(["main"]);
+  });
+
   it("keeps shared and client runtime exports separate", () => {
     expect(() =>
       evaluatePluginClientBundle(

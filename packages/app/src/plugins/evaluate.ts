@@ -1,5 +1,6 @@
 import type { createPluginHosts } from "./hosts";
 import { openExternalUrl } from "@/utils/open-external-url";
+import { useRevealedText } from "@/hooks/use-revealed-text";
 import * as pluginUiRuntime from "./react-native/ui";
 import { useSettings } from "./settings/use-settings";
 import * as pluginSharedRuntime from "@getpaseo/plugin";
@@ -100,6 +101,12 @@ export type PluginClientRuntime = Pick<
   | "addComposerPill"
   | "addHeaderButton"
 > & { hosts: ReturnType<typeof createPluginHosts> };
+
+// COMPAT(pluginReactNativeEntrypoint): added in v0.13.0, remove after 2027-04-20
+// The old entry also exported the paced-text hook. Plugins that render their own
+// text read the revealed string from it, so StreamedText cannot stand in; without
+// it every streaming row such a plugin draws throws on iOS and Android.
+const pluginReactNativeCompatRuntime = { ...pluginUiRuntime, useRevealedText };
 
 export function runPluginClientBundle(
   id: string,
@@ -478,7 +485,7 @@ export function runPluginClientBundle(
   };
   const runtimeRequire = (name: string): unknown => {
     // COMPAT(pluginReactNativeEntrypoint): added in v0.13.0, remove after 2027-04-20
-    if (name === "@getpaseo/plugin/client/react-native") return pluginUiRuntime;
+    if (name === "@getpaseo/plugin/client/react-native") return pluginReactNativeCompatRuntime;
     if (name === "@getpaseo/plugin/client/ui") return pluginUiRuntime;
     if (name === "react") return React;
     if (name === "react/jsx-runtime") return ReactJsxRuntime;
