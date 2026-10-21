@@ -4,9 +4,11 @@ import {
   computeWorkspaceTabLayout,
   type WorkspaceTabLayoutMetrics,
   type WorkspaceTabLayoutResult,
+  type WorkspaceTabPriority,
 } from "@/screens/workspace/workspace-tab-layout";
 
 interface UseWorkspaceTabLayoutInput {
+  activeTab: WorkspaceTabPriority | null;
   tabLabelWidths: number[];
   viewportWidthOverride?: number | null;
   metrics: WorkspaceTabLayoutMetrics;
@@ -28,11 +30,12 @@ export function useWorkspaceTabLayout(
   const layout = useMemo(
     () =>
       computeWorkspaceTabLayout({
+        activeTab: input.activeTab,
         viewportWidth: resolvedViewportWidth,
         tabLabelWidths: input.tabLabelWidths,
         metrics: input.metrics,
       }),
-    [input.metrics, input.tabLabelWidths, resolvedViewportWidth],
+    [input.activeTab, input.metrics, input.tabLabelWidths, resolvedViewportWidth],
   );
 
   return {
