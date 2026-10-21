@@ -125,6 +125,7 @@ function harness() {
   let evaluations = 0;
   let disposals = 0;
   const registry = new PluginRegistry({
+    localeSource: { getLocale: () => "en", subscribe: () => () => {} },
     version: appPackage.version,
     createRuntime(installation) {
       evaluations++;
@@ -139,6 +140,7 @@ function harness() {
           installation.lifetime.signal,
         ),
         paseo: installation.paseo,
+        i18n: installation.i18n,
         rpc: async () => {
           throw new Error("Unexpected runtime RPC");
         },
@@ -247,7 +249,9 @@ it.each(["mounted", "unmounted"])(
     h.registry.installCatalog("other", otherClient.catalog, { client: otherClient, audio });
     const otherPlugin = h.installed("other");
     await otherPlugin.queryClient.fetchQuery(settingsQuery(otherPlugin));
+    // Another host publishes new presentation snapshots without replacing the owning lifetime.
     const beforeReconnect = h.registry.getSnapshot();
+    const retainedInstallation = h.installed();
 
     h.stop();
     h.sync({ connected: false });
@@ -276,7 +280,9 @@ it.each(["mounted", "unmounted"])(
       }),
     ).toEqual({ status: "saved", revision: "3", values: { label: "client A" } });
     expect(h.registry.getSnapshot()).toBe(beforeReconnect);
-    expect(h.installed()).toBe(plugin);
+    expect(h.installed()).toBe(retainedInstallation);
+    expect(h.installed().lifetime).toBe(plugin.lifetime);
+    expect(h.installed().queryClient).toBe(plugin.queryClient);
     expect(h.installed().timelineTransformers).toBe(snapshot[0].timelineTransformers);
     expect(plugin.queryClient.getQueryData(["attachment-search"])).toBe("retained");
     expect(otherClient.settings.reads).toBe(1);
@@ -354,6 +360,8 @@ it("invalidates only the named settings on its host for a live notification", as
   h.registry.installCatalog("other", other.catalog, { client: other, audio });
   await h.installed("other").queryClient.fetchQuery(settingsQuery(h.installed("other")));
 
+  const beforeNotification = h.registry.getSnapshot();
+  const retainedInstallation = h.installed();
   h.client.settings.write({ revision: "1", values: { label: "live" } });
   h.client.update({
     type: "status",
@@ -375,7 +383,10 @@ it("invalidates only the named settings on its host for a live notification", as
     false,
   );
   expect(other.settings.reads).toBe(1);
-  expect(h.installed()).toBe(plugin);
+  expect(h.registry.getSnapshot()).toBe(beforeNotification);
+  expect(h.installed()).toBe(retainedInstallation);
+  expect(h.installed().lifetime).toBe(plugin.lifetime);
+  expect(h.installed().queryClient).toBe(plugin.queryClient);
   expect(h.evaluations()).toBe(2);
   expect(h.client.fetches).toBe(1);
 });
