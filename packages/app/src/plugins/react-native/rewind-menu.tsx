@@ -4,7 +4,7 @@ import { useRewindAgentMutation } from "@/components/rewind/use-rewind-agent-mut
 import { useSessionStore } from "@/stores/session-store";
 import { selectPluginRewindCapabilities } from "./rewind-target";
 
-export type PluginRewindMenuProps = import("@getpaseo/plugin/client/react-native").RewindMenuProps;
+export type PluginRewindMenuProps = import("@getpaseo/plugin/client/ui").RewindMenuProps;
 
 /**
  * The host's own rewind menu for a prompt a plugin draws. The menu offers the
