@@ -13,7 +13,13 @@ export interface WorkspaceTabLayoutMetrics {
   closeButtonWidth: number;
 }
 
+export interface WorkspaceTabPriority {
+  index: number;
+  maxWidth: number;
+}
+
 export interface WorkspaceTabLayoutInput {
+  activeTab: WorkspaceTabPriority | null;
   viewportWidth: number;
   tabLabelWidths: number[];
   metrics: WorkspaceTabLayoutMetrics;
@@ -74,27 +80,42 @@ export function computeWorkspaceTabLayout(
     input.metrics.tabContentGap +
     input.metrics.tabHorizontalPadding * 2 +
     input.metrics.closeButtonWidth;
-  const naturalWidths = input.tabLabelWidths.map((labelWidth) =>
-    clamp(tabChromeWidth + labelWidth, input.metrics.minTabWidth, input.metrics.maxTabWidth),
+  const activeIndex = input.activeTab?.index;
+  const naturalWidths = input.tabLabelWidths.map((labelWidth, index) => {
+    let maxWidth = input.metrics.maxTabWidth;
+    if (input.activeTab && index === activeIndex) {
+      const singleTabSpace =
+        availableWidth - input.metrics.rowPaddingHorizontal * 2 - input.metrics.tabGap;
+      maxWidth = Math.max(
+        input.metrics.minTabWidth,
+        Math.min(input.activeTab.maxWidth, singleTabSpace),
+      );
+    }
+    return clamp(tabChromeWidth + labelWidth, input.metrics.minTabWidth, maxWidth);
+  });
+  // Touch users need to identify the current tab without hover. Reserve its content width
+  // before shrinking its neighbors; when that no longer fits, keep it readable and scroll.
+  const minimumWidths = naturalWidths.map((width, index) =>
+    index === activeIndex ? width : input.metrics.minTabWidth,
   );
   const naturalTotalWidth = naturalWidths.reduce((total, width) => total + width, 0);
-  const minimumTotalWidth = input.metrics.minTabWidth * tabCount;
+  const minimumTotalWidth = minimumWidths.reduce((total, width) => total + width, 0);
   const requiresHorizontalScrollFallback = availableTabsWidth < minimumTotalWidth;
 
   let resolvedWidths = naturalWidths;
   if (requiresHorizontalScrollFallback) {
-    resolvedWidths = Array.from({ length: tabCount }, () => input.metrics.minTabWidth);
+    resolvedWidths = minimumWidths;
   } else if (naturalTotalWidth > availableTabsWidth) {
     const widthToRemove = naturalTotalWidth - availableTabsWidth;
     const shrinkCapacity = naturalTotalWidth - minimumTotalWidth;
     const shrinkRatio = widthToRemove / shrinkCapacity;
     resolvedWidths = naturalWidths.map(
-      (width) => width - (width - input.metrics.minTabWidth) * shrinkRatio,
+      (width, index) => width - (width - minimumWidths[index]) * shrinkRatio,
     );
   }
 
   const roundedWidths = resolvedWidths.map((width) =>
-    Math.round(clamp(width, input.metrics.minTabWidth, input.metrics.maxTabWidth)),
+    input.activeTab ? Math.floor(width) : Math.round(width),
   );
 
   return {

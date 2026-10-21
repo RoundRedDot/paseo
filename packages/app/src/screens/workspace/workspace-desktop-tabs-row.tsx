@@ -10,7 +10,7 @@ import React, {
   type Dispatch,
   type SetStateAction,
 } from "react";
-import { Pressable, Text, View, type LayoutChangeEvent } from "react-native";
+import { Pressable, Text, View, type LayoutChangeEvent, type ScrollView } from "react-native";
 import { useFilePanelOpenWithMenu } from "@/file-panels";
 import {
   CopyX,
@@ -40,6 +40,7 @@ import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuLabel,
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
@@ -113,6 +114,7 @@ const TAB_DROP_INDICATOR_WIDTH = 4;
 const TAB_MODIFIED_DOT_SIZE = 8;
 const TAB_MIN_WIDTH = 64;
 const TAB_MAX_WIDTH = 160;
+const TOUCH_ACTIVE_TAB_MAX_WIDTH = 240;
 const TAB_CLOSE_BUTTON_RESERVED_WIDTH = 0;
 const TAB_LABEL_LAYOUT_ALLOWANCE = 4;
 const AGENT_TOOLTIP_TITLE_MAX_LENGTH = 80;
@@ -950,6 +952,10 @@ function TabChip({
           pages={openWith.pages}
           testID={contextMenuTestId}
         >
+          <ContextMenuLabel testID={`workspace-tab-title-${testIdentity}`}>
+            {accessibilityLabel}
+          </ContextMenuLabel>
+          <ContextMenuSeparator />
           {menuEntries.map((entry) => {
             if (entry.kind === "separator") return <ContextMenuSeparator key={entry.key} />;
             if (entry.kind === "file-panel-open-with") {
@@ -1062,6 +1068,10 @@ function ResolvedWorkspaceDesktopTabsRow({
   const [tabsContainerWidth, setTabsContainerWidth] = useState<number>(0);
   const [exitFocusModeWidth, setExitFocusModeWidth] = useState<number>(0);
   const tabScrollBoundary = useHorizontalScrollBoundary();
+  const { onContentSizeChange } = tabScrollBoundary;
+  const tabScrollRef = useRef<ScrollView>(null);
+  const isCompact = useIsCompactFormFactor();
+  const prioritizeActiveTab = isNative && !isCompact;
   const [labelMeasurements, setLabelMeasurements] = useState(
     () => new Map<string, WorkspaceTabLabelMeasurement>(),
   );
@@ -1217,11 +1227,45 @@ function ResolvedWorkspaceDesktopTabsRow({
     });
   }, [tabLabels, tabs, trackSnapshot]);
 
+  const activeTabIndex = displayedTabs.findIndex((item) => item.isActive);
+  const activeTab = useMemo(() => {
+    if (!prioritizeActiveTab || activeTabIndex < 0) return null;
+    return { index: activeTabIndex, maxWidth: TOUCH_ACTIVE_TAB_MAX_WIDTH };
+  }, [activeTabIndex, prioritizeActiveTab]);
+
   const { layout } = useWorkspaceTabLayout({
+    activeTab,
     tabLabelWidths: trackSnapshot?.labelWidths ?? [],
     viewportWidthOverride: tabsContainerWidth > 0 ? tabsContainerWidth : null,
     metrics: layoutMetrics,
   });
+
+  const activeTabOffset = useMemo(() => {
+    if (!activeTab) return 0;
+    return layout.items
+      .slice(0, activeTab.index)
+      .reduce((offset, item) => offset + item.width + TAB_CHIP_GAP, 0);
+  }, [activeTab, layout.items]);
+  const revealActiveTab = useCallback(() => {
+    if (!prioritizeActiveTab || tabsContainerWidth <= 0) return;
+    const x = layout.requiresHorizontalScrollFallback ? activeTabOffset : 0;
+    tabScrollRef.current?.scrollTo({ x, animated: false });
+  }, [
+    activeTabOffset,
+    layout.requiresHorizontalScrollFallback,
+    prioritizeActiveTab,
+    tabsContainerWidth,
+  ]);
+  useEffect(() => {
+    revealActiveTab();
+  }, [revealActiveTab]);
+  const handleTabsContentSizeChange = useCallback(
+    (width: number) => {
+      onContentSizeChange(width);
+      revealActiveTab();
+    },
+    [revealActiveTab, onContentSizeChange],
+  );
 
   const handleDragEnd = useCallback(
     (nextTabs: ResolvedWorkspaceDesktopTabRowItem[]) => {
@@ -1379,6 +1423,7 @@ function ResolvedWorkspaceDesktopTabsRow({
       />
       <View style={styles.tabsScrollContainer}>
         <Animated.ScrollView
+          ref={tabScrollRef}
           horizontal
           scrollEnabled={layout.requiresHorizontalScrollFallback}
           testID="workspace-tabs-scroll"
@@ -1386,7 +1431,7 @@ function ResolvedWorkspaceDesktopTabsRow({
           contentContainerStyle={styles.tabsContent}
           showsHorizontalScrollIndicator={false}
           onLayout={tabScrollBoundary.onLayout}
-          onContentSizeChange={tabScrollBoundary.onContentSizeChange}
+          onContentSizeChange={handleTabsContentSizeChange}
           onScroll={tabScrollBoundary.onScroll}
           scrollEventThrottle={16}
         >
