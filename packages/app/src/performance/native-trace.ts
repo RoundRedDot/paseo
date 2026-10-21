@@ -36,3 +36,11 @@ export function traceInstant(name: string, args?: Record<string, string>): void 
   nativePerformanceTrace.beginSection(name, args);
   nativePerformanceTrace.endSection();
 }
+
+// MEASURE(temporary): lets the relay transport mark decrypt time in profile builds.
+if (nativePerformanceTrace.isEnabled()) {
+  (globalThis as { __paseoMeasureTrace?: unknown }).__paseoMeasureTrace = {
+    beginSection: (name: string) => traceModule?.beginSection(name),
+    endSection: () => traceModule?.endSection(),
+  };
+}

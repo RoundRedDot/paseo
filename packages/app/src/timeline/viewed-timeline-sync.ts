@@ -1,3 +1,4 @@
+import { traceInstant } from "@/performance/native-trace";
 import {
   planTimelineCatchUpAfter,
   planTimelineResumeFetch,
@@ -42,10 +43,17 @@ async function prepareCachedTimeline(input: {
   const before = useSessionStore.getState().sessions[input.serverId];
   const beforeTimeline = selectAgentTimelineState(before, input.agentId);
   if (beforeTimeline.status === "synced") return undefined;
+  traceInstant("paseo.measure.cache.read.start", { agentId: input.agentId });
   const [stored] = await Promise.all([
     input.storage.readTimeline(input.serverId, input.agentId),
     input.prepareAgent(input.agentId),
   ]);
+  traceInstant("paseo.measure.cache.read.done", {
+    agentId: input.agentId,
+    hit: stored ? "yes" : "no",
+    items: String(stored?.items.length ?? 0),
+    range: stored?.range ? "yes" : "no",
+  });
   if (!stored) return undefined;
   const session = useSessionStore.getState().sessions[input.serverId];
   const currentTimeline = selectAgentTimelineState(session, input.agentId);
@@ -568,11 +576,19 @@ export function createViewedTimelineSync(ports: ViewedTimelineSyncPorts): Viewed
     if (!ownsCatchUp(agentId, generation)) return;
 
     try {
+      traceInstant("paseo.measure.fetch.start", { agentId, kind: "page" });
       const page = await ports.fetchPage(agentId, request);
+      traceInstant("paseo.measure.fetch.done", {
+        agentId,
+        kind: "page",
+        hasNewer: page.hasNewer ? "yes" : "no",
+      });
       if (!ownsCatchUp(agentId, generation)) return;
       if (page.hasNewer && page.endCursor) {
         if (fallbackToLatestTailOnOverflow) {
+          traceInstant("paseo.measure.fetch.start", { agentId, kind: "tail-after-overflow" });
           await ports.fetchLatestTail(agentId);
+          traceInstant("paseo.measure.fetch.done", { agentId, kind: "tail-after-overflow" });
           if (!ownsCatchUp(agentId, generation)) return;
           catchUps.set(agentId, { generation, status: "complete" });
           setVisibilityCatchUpReady(agentId);
@@ -728,7 +744,9 @@ export function createViewedTimelineSync(ports: ViewedTimelineSyncPorts): Viewed
       const handle = ports.observe(requested);
       observation = { handle, agentIds: requested };
       void previous?.handle.release().catch(ports.reportError);
+      traceInstant("paseo.measure.observe.sent", { agents: String(requested.length) });
       await handle.ready;
+      traceInstant("paseo.measure.observe.ready", { agents: String(requested.length) });
     } catch (error) {
       if (disposed || !connected || generation !== membershipGeneration) return;
       membershipNeedsRetry = true;

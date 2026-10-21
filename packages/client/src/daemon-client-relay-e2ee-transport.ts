@@ -125,7 +125,16 @@ export function createEncryptedTransport(
     void startHandshake();
   });
   base.onMessage((data, isBinary) => {
-    relayTransport.onmessage?.(extractRelayMessage(data, isBinary));
+    // MEASURE(temporary): decrypt plus the synchronous handling nested inside it.
+    const trace = (globalThis as { __paseoMeasureTrace?: { beginSection(name: string): void; endSection(): void } })
+      .__paseoMeasureTrace;
+    const size = typeof data === "string" ? data.length : (data as ArrayBuffer).byteLength ?? 0;
+    trace?.beginSection(`paseo.measure.relay.decryptAndHandle|size=${size}`);
+    try {
+      relayTransport.onmessage?.(extractRelayMessage(data, isBinary));
+    } finally {
+      trace?.endSection();
+    }
   });
   base.onClose((event) => {
     const record = event as { code?: number; reason?: string } | undefined;

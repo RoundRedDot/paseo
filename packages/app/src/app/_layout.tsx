@@ -1,3 +1,5 @@
+import { traceInstant as measureTraceInstant } from "@/performance/native-trace";
+measureTraceInstant("paseo.measure.app.jsStart");
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useActiveWorkspaceSelection } from "@/stores/navigation-active-workspace-store";
 import { ComposerEditingSessionsProvider } from "@/composer/editing-session";

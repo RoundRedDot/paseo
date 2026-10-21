@@ -1354,6 +1354,7 @@ export class DaemonClient {
   // ============================================================================
 
   async connect(): Promise<void> {
+    this.traceInstant("paseo.measure.conn.connect.start");
     if (this.connectionState.status === "disposed") {
       throw new Error("Daemon client is disposed");
     }
@@ -1620,10 +1621,13 @@ export class DaemonClient {
     const transport = this.transport;
     if (!transport || this.connectionVerification === transport) return;
     this.connectionVerification = transport;
+    this.traceInstant("paseo.measure.conn.verify.start");
     // A session probe has its own deadline, independent of a heartbeat that the OS
     // may have suspended. A successful response also proves the session can serve RPCs.
     void this.ping({ timeoutMs: 3_000 })
+      .then(() => this.traceInstant("paseo.measure.conn.verify.ok"))
       .catch((error: unknown) => {
+        this.traceInstant("paseo.measure.conn.verify.failed");
         if (this.transport !== transport || this.connectionState.status !== "connected") return;
         this.disposeTransport(1001, "Connection verification failed");
         this.scheduleReconnect({
@@ -6805,6 +6809,7 @@ export class DaemonClient {
         if (this.connectionState.status === "connecting") {
           this.resetConnectTimeout();
           this.reconnectAttempt = 0;
+          this.traceInstant("paseo.measure.conn.connected");
           this.updateConnectionState({ status: "connected" }, { event: "HELLO_SERVER_INFO" });
           this.startLivenessHeartbeat();
           this.owned.restore(serverInfo, {

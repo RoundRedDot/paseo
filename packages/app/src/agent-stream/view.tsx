@@ -1,3 +1,4 @@
+import { traceInstant } from "@/performance/native-trace";
 import { ChatFind, ChatFindExpansion } from "@/agent-stream/chat-find";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import React, {
@@ -506,6 +507,16 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
     const effectiveTurnPresentation = useRetainedValue(turnPresentation, isActive);
     const isTurnActive = effectiveTurnPresentation.isActive;
     const presentStream = useMemo(() => createStreamPresentation(), []);
+    // MEASURE(temporary): when this agent's timeline first has rows to draw.
+    const firstContentTraced = useRef(false);
+    useEffect(() => {
+      if (firstContentTraced.current || effectiveStreamItems.length === 0) return;
+      firstContentTraced.current = true;
+      traceInstant("paseo.measure.timeline.firstContent", {
+        agentId,
+        items: String(effectiveStreamItems.length),
+      });
+    }, [agentId, effectiveStreamItems.length]);
     const presentation = useMemo(
       () =>
         presentStream({
