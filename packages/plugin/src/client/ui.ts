@@ -186,3 +186,10 @@ export interface ForkMenuProps {
 
 /** Renders nothing outside an eligible timeline renderer, including read-only views. */
 export declare const ForkMenu: ComponentType<ForkMenuProps>;
+
+export interface MarkdownProps {
+  children: string;
+}
+
+/** Renders Markdown using Paseo’s theme, selection, and link behavior. */
+export declare const Markdown: ComponentType<MarkdownProps>;
