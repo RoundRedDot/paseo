@@ -48,6 +48,7 @@ const TIMELINE_ITEM_TYPES = new Set([
   "reasoning",
   "tool_call",
   "todo",
+  "notification",
   "error",
   "compaction",
 ]);
