@@ -435,6 +435,8 @@ export interface DaemonClientTrace {
 
 export interface SendMessageOptions {
   sourceAgentId?: string;
+  sourceAgentServerId?: string;
+  sessionMode?: string;
   messageId?: string;
   /** What happens when the agent is mid-turn. The daemon interrupts the turn when omitted. */
   activeTurnBehavior?: ActiveTurnBehavior;
@@ -3732,26 +3734,34 @@ export class DaemonClient {
   async sendAgentMessage(
     agentId: string,
     text: string,
-    options?: SendMessageOptions,
-  ): Promise<void> {
+    options: SendMessageOptions = {},
+  ): Promise<{ deliveryStatus?: "queued" }> {
     if (
-      options?.sourceAgentId &&
+      options.sourceAgentId &&
       this.lastServerInfoMessage?.features?.agentMessageProvenance !== true
     ) {
       throw new Error("Update the Paseo host to send messages with agent provenance.");
     }
+    if (
+      options.sourceAgentServerId &&
+      this.lastServerInfoMessage?.features?.agentMessageBatching !== true
+    ) {
+      throw new Error("Update the Paseo host to send messages with a qualified agent address.");
+    }
     const requestId = this.createRequestId();
-    const messageId = options?.messageId ?? crypto.randomUUID();
+    const messageId = options.messageId ?? crypto.randomUUID();
     const message = SessionInboundMessageSchema.parse({
       type: "send_agent_message_request",
       requestId,
       agentId,
       text,
-      sourceAgentId: options?.sourceAgentId,
+      sourceAgentId: options.sourceAgentId,
+      sourceAgentServerId: options.sourceAgentServerId,
+      sessionMode: options.sessionMode,
       ...(messageId ? { messageId } : {}),
-      ...(options?.activeTurnBehavior ? { activeTurnBehavior: options.activeTurnBehavior } : {}),
-      ...(options?.images ? { images: options.images } : {}),
-      ...(options?.attachments ? { attachments: options.attachments } : {}),
+      activeTurnBehavior: options.activeTurnBehavior,
+      images: options.images,
+      attachments: options.attachments,
     });
     const payload = await this.sendRequest({
       requestId,
@@ -3770,10 +3780,15 @@ export class DaemonClient {
     if (!payload.accepted) {
       throw new Error(payload.error ?? "sendAgentMessage rejected");
     }
+    return payload.deliveryStatus ? { deliveryStatus: payload.deliveryStatus } : {};
   }
 
-  async sendMessage(agentId: string, text: string, options?: SendMessageOptions): Promise<void> {
-    await this.sendAgentMessage(agentId, text, options);
+  async sendMessage(
+    agentId: string,
+    text: string,
+    options?: SendMessageOptions,
+  ): Promise<{ deliveryStatus?: "queued" }> {
+    return this.sendAgentMessage(agentId, text, options);
   }
 
   async rewindAgent(
@@ -4380,10 +4395,10 @@ export class DaemonClient {
   }
 
   private normalizeCheckoutDiffCompare(compare: {
-    mode: "uncommitted" | "base";
+    mode: "uncommitted" | "base" | "all";
     baseRef?: string;
     ignoreWhitespace?: boolean;
-  }): { mode: "uncommitted" | "base"; baseRef?: string; ignoreWhitespace?: boolean } {
+  }): { mode: "uncommitted" | "base" | "all"; baseRef?: string; ignoreWhitespace?: boolean } {
     if (compare.mode === "uncommitted") {
       return compare.ignoreWhitespace === true
         ? { mode: "uncommitted", ignoreWhitespace: true }
@@ -4392,17 +4407,17 @@ export class DaemonClient {
     const trimmedBaseRef = compare.baseRef?.trim();
     if (!trimmedBaseRef) {
       return compare.ignoreWhitespace === true
-        ? { mode: "base", ignoreWhitespace: true }
-        : { mode: "base" };
+        ? { mode: compare.mode, ignoreWhitespace: true }
+        : { mode: compare.mode };
     }
     return compare.ignoreWhitespace === true
-      ? { mode: "base", baseRef: trimmedBaseRef, ignoreWhitespace: true }
-      : { mode: "base", baseRef: trimmedBaseRef };
+      ? { mode: compare.mode, baseRef: trimmedBaseRef, ignoreWhitespace: true }
+      : { mode: compare.mode, baseRef: trimmedBaseRef };
   }
 
   async getCheckoutDiff(
     cwd: string,
-    compare: { mode: "uncommitted" | "base"; baseRef?: string; ignoreWhitespace?: boolean },
+    compare: { mode: "uncommitted" | "base" | "all"; baseRef?: string; ignoreWhitespace?: boolean },
     requestId?: string,
   ): Promise<CheckoutDiffPayload> {
     return this.sendCorrelatedSessionRequest({
@@ -4418,7 +4433,7 @@ export class DaemonClient {
 
   observeCheckoutDiff(
     cwd: string,
-    compare: { mode: "uncommitted" | "base"; baseRef?: string; ignoreWhitespace?: boolean },
+    compare: { mode: "uncommitted" | "base" | "all"; baseRef?: string; ignoreWhitespace?: boolean },
     options?: { requestId?: string; signal?: AbortSignal },
   ): OwnedSubscription<SubscribeCheckoutDiffPayload> {
     return this.observe(
