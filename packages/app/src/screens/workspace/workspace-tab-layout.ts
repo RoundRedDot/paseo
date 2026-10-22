@@ -1,4 +1,4 @@
-export type WorkspaceTabCloseButtonPolicy = "all";
+export type WorkspaceTabCloseButtonPolicy = "all" | "none";
 
 export interface WorkspaceTabLayoutMetrics {
   rowHorizontalInset: number;
@@ -16,6 +16,12 @@ export interface WorkspaceTabLayoutInput {
   viewportWidth: number;
   tabLabelWidths: number[];
   metrics: WorkspaceTabLayoutMetrics;
+  /**
+   * Compact layouts are touch-first. Tabs keep their natural width and the row scrolls as soon as
+   * they overflow, so a label is never squeezed to make room; chips carry no inline close because a
+   * narrow X beside the label is easy to hit by accident and the tab's long-press menu closes it.
+   */
+  compact: boolean;
 }
 
 export interface WorkspaceTabLayoutItem {
@@ -90,10 +96,11 @@ export function computeWorkspaceTabLayout(
   input: WorkspaceTabLayoutInput,
 ): WorkspaceTabLayoutResult {
   const tabCount = input.tabLabelWidths.length;
+  const closeButtonPolicy: WorkspaceTabCloseButtonPolicy = input.compact ? "none" : "all";
   if (tabCount === 0) {
     return {
       items: [],
-      closeButtonPolicy: "all",
+      closeButtonPolicy,
       requiresHorizontalScrollFallback: false,
     };
   }
@@ -111,12 +118,20 @@ export function computeWorkspaceTabLayout(
     input.metrics.tabHorizontalPadding * 2 +
     input.metrics.closeButtonWidth;
   const labelNeeds = input.tabLabelWidths.map((labelWidth) => tabChromeWidth + labelWidth);
+  const naturalWidths = labelNeeds.map((need) => Math.max(need, input.metrics.minTabWidth));
+  const naturalTotalWidth = naturalWidths.reduce((total, width) => total + width, 0);
   const minimumTotalWidth = input.metrics.minTabWidth * tabCount;
-  const requiresHorizontalScrollFallback = availableTabsWidth < minimumTotalWidth;
+  // A row that scrolls has no reason to truncate: the tabs keep their natural widths and the
+  // viewport pans over them. Pointer layouts first shrink toward the clickable minimum and scroll
+  // only once even that does not fit; compact layouts skip the shrink.
+  const requiresHorizontalScrollFallback = input.compact
+    ? naturalTotalWidth > availableTabsWidth
+    : availableTabsWidth < minimumTotalWidth;
 
-  const resolvedWidths = requiresHorizontalScrollFallback
-    ? Array.from({ length: tabCount }, () => input.metrics.minTabWidth)
-    : allocateTabWidths(labelNeeds, availableTabsWidth, input.metrics.minTabWidth);
+  const resolvedWidths =
+    input.compact || requiresHorizontalScrollFallback
+      ? naturalWidths
+      : allocateTabWidths(labelNeeds, availableTabsWidth, input.metrics.minTabWidth);
 
   const roundedWidths = roundTabWidths(resolvedWidths);
 
@@ -125,7 +140,7 @@ export function computeWorkspaceTabLayout(
       width,
       showLabel: width > tabChromeWidth,
     })),
-    closeButtonPolicy: "all",
+    closeButtonPolicy,
     requiresHorizontalScrollFallback,
   };
 }
