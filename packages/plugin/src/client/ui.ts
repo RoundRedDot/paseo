@@ -195,3 +195,10 @@ export interface RewindMenuProps {
  * nothing when there are none. Undefined on older hosts: feature-detect it.
  */
 export declare const RewindMenu: ComponentType<RewindMenuProps> | undefined;
+
+export interface MarkdownProps {
+  children: string;
+}
+
+/** Renders Markdown using Paseo’s theme, selection, and link behavior. */
+export declare const Markdown: ComponentType<MarkdownProps>;

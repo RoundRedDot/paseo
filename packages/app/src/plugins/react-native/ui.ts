@@ -28,3 +28,5 @@ export { useToast } from "./toast";
 export { StreamedText } from "./streamed-text";
 
 export { PluginRewindMenu as RewindMenu } from "./rewind-menu";
+
+export { Markdown } from "./markdown";
