@@ -26,7 +26,7 @@ export type {
   PluginSidebarContribution,
   PluginTimelineTransformerContribution,
   PluginTimelineItemProps,
-  PluginFileLocation,
+  PluginOpenFileLocation,
   PluginTimelineRendererContribution,
   PluginCommandCapabilities,
   PluginGlobalCommandContext,

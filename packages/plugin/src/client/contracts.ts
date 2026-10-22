@@ -231,7 +231,7 @@ export type PluginTimelineTransformerContribution<
     }
   : never;
 
-export interface PluginFileLocation {
+export interface PluginOpenFileLocation {
   /** Absolute path, or a path relative to the agent's working directory. */
   readonly path: string;
   readonly lineStart?: number;
@@ -241,7 +241,7 @@ export interface PluginFileLocation {
 export interface PluginTimelineItemProps<Data = unknown> extends PluginHostProps {
   agentId: string;
   /** Opens in the file pane belonging to this stream. Absent on older app clients. */
-  openFile?: (location: PluginFileLocation) => void;
+  openFile?: (location: PluginOpenFileLocation) => void;
   item: {
     type: "plugin";
     kind: string;
