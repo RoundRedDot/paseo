@@ -5,10 +5,21 @@ import type { DaemonClient } from "@getpaseo/client/internal/daemon-client";
 import { act, render } from "@testing-library/react";
 import React from "react";
 import { afterEach, expect, it, vi } from "vitest";
+import type { CachedPluginCatalogEntry } from "./catalog-cache";
 import type { InstalledPlugin } from "./types";
 import { PluginCatalogSync } from "./catalog-sync";
 import { pluginRegistry } from "./registry";
 import { readPluginTimelinePaint, resetPluginTimelinePaintState } from "./timeline-paint";
+
+const catalogCache = vi.hoisted(() => ({
+  read: vi.fn(async () => null as CachedPluginCatalogEntry[] | null),
+  write: vi.fn(async () => undefined),
+}));
+
+vi.mock("./catalog-cache", () => ({
+  readCachedPluginCatalog: catalogCache.read,
+  writeCachedPluginCatalog: catalogCache.write,
+}));
 
 vi.mock("./registry", () => ({
   pluginRegistry: {
@@ -105,9 +116,14 @@ afterEach(() => {
   host.connected = true;
   host.plugins = true;
   registry.removeHost.mockClear();
-  registry.installCatalog.mockClear();
+  registry.installCatalog.mockReset();
+  registry.installCatalog.mockReturnValue(false);
   registry.getSnapshot.mockReset();
   registry.getSnapshot.mockReturnValue([]);
+  catalogCache.read.mockReset();
+  catalogCache.read.mockResolvedValue(null);
+  catalogCache.write.mockReset();
+  catalogCache.write.mockResolvedValue(undefined);
 });
 
 it("requests the catalog without waiting for the event subscription snapshot", async () => {
@@ -166,6 +182,53 @@ it("remembers a timeline plugin and holds source rows until that catalog is inst
 
   expect(storage.raw).toBe(JSON.stringify({ host: true }));
   expect(readPluginTimelinePaint("host", true)).toBe("paint");
+});
+
+it("installs the cached catalog and opens the timeline before the network catalog returns", async () => {
+  let resolveCatalog: (catalog: CachedPluginCatalogEntry[]) => void = () => {};
+  const client = daemonClient();
+  const cached = [
+    { id: "better-paseo", clientBundle: "cached", requirements: { paseo: ">=0.12.0" } },
+  ];
+  const network = [{ id: "better-paseo", clientBundle: "network" }];
+  catalogCache.read.mockResolvedValue(cached);
+  client.getPluginCatalog.mockReturnValue(
+    new Promise((resolve) => {
+      resolveCatalog = resolve;
+    }),
+  );
+  registry.installCatalog.mockImplementation(
+    (serverId: string, catalog: CachedPluginCatalogEntry[]) => {
+      if (catalog[0]?.clientBundle === "cached") {
+        registry.getSnapshot.mockReturnValue([
+          { serverId, timelineTransformers: [{ id: "assistant" }] } as InstalledPlugin,
+        ]);
+      }
+      return false;
+    },
+  );
+
+  expect(readPluginTimelinePaint("host", true)).toBe("wait");
+  render(<PluginCatalogSync serverId="host" client={client} />);
+  await flush();
+
+  expect(registry.installCatalog).toHaveBeenCalledWith(
+    "host",
+    cached,
+    expect.objectContaining({ client }),
+  );
+  expect(readPluginTimelinePaint("host", true)).toBe("paint");
+  expect(catalogCache.write).not.toHaveBeenCalled();
+
+  resolveCatalog(network);
+  await flush();
+
+  expect(registry.installCatalog).toHaveBeenCalledWith(
+    "host",
+    network,
+    expect.objectContaining({ client }),
+  );
+  expect(catalogCache.write).toHaveBeenCalledWith("host", network);
 });
 
 it("drops plugins when the daemon does not support them", async () => {

@@ -1,7 +1,9 @@
+import type { AudioEngine } from "@/audio";
 import { useVoiceAudioEngineOptional } from "@/contexts/voice-context";
 import type { DaemonClient } from "@getpaseo/client/internal/daemon-client";
 import { useEffect, useRef } from "react";
 import { useHostRuntimeIsConnected } from "@/runtime/host-runtime";
+import { readCachedPluginCatalog, writeCachedPluginCatalog } from "./catalog-cache";
 import { pluginRegistry } from "./registry";
 import { pluginSettingsKey } from "./settings/use-settings";
 import {
@@ -17,6 +19,19 @@ function hostHasTimelineTransformers(serverId: string): boolean {
   return pluginRegistry
     .getSnapshot()
     .some((plugin) => plugin.serverId === serverId && plugin.timelineTransformers.length > 0);
+}
+
+async function restoreCachedCatalog(
+  serverId: string,
+  client: DaemonClient,
+  audio: Pick<AudioEngine, "play">,
+): Promise<void> {
+  const cached = await readCachedPluginCatalog(serverId);
+  if (!cached) return;
+  // installCatalog rechecks compatibility, so an app upgrade does not skip a bundle
+  // that the new host can no longer evaluate. An identical network catalog then
+  // preserves this installation instead of evaluating it again.
+  pluginRegistry.installCatalog(serverId, cached, { client, audio });
 }
 
 export function PluginCatalogSync({
@@ -73,7 +88,6 @@ export function PluginCatalogSync({
       return;
     }
 
-    const hasTransformers = hostHasTimelineTransformers(serverId);
     if (!audio || pluginsFeature !== true || !connected || !client) {
       return;
     }
@@ -91,6 +105,7 @@ export function PluginCatalogSync({
             });
             rememberPluginTimelineExpectation(serverId, hostHasTimelineTransformers(serverId));
             markPluginCatalogReady(serverId);
+            void writeCachedPluginCatalog(serverId, catalog);
             return undefined;
           })
           .catch((error) => {
@@ -104,40 +119,49 @@ export function PluginCatalogSync({
       return refreshQueue;
     };
 
-    beginPluginCatalogLoad(serverId, {
-      hasTransformers,
-      forceWait: clientChanged || featureBecameEnabled,
-    });
-    // The subscription snapshot used to be the only fetch, so the bundle waited
-    // out an extra round trip before the chat could leave its native rows.
-    void refresh();
-    const observation = client.observeEvents([
-      "status.plugin_catalog_changed",
-      "status.plugin_settings_changed",
-    ]);
-    observation.subscribe({
-      snapshot: () => {
-        void refresh();
-      },
-      update: (message) => {
-        if (message.type !== "status") return;
-        if (message.payload.status === "plugin_settings_changed") {
-          const { pluginId, settingsId } = message.payload;
-          if (typeof settingsId === "string") {
-            const plugin = pluginRegistry
-              .getSnapshot()
-              .find((item) => item.serverId === serverId && item.id === pluginId);
-            void plugin?.queryClient.invalidateQueries({ queryKey: pluginSettingsKey(settingsId) });
+    let observation: ReturnType<DaemonClient["observeEvents"]> | null = null;
+    const start = async () => {
+      await restoreCachedCatalog(serverId, client, audio);
+      if (cancelled) return;
+      beginPluginCatalogLoad(serverId, {
+        hasTransformers: hostHasTimelineTransformers(serverId),
+        forceWait: clientChanged || featureBecameEnabled,
+      });
+      // The subscription snapshot used to be the only fetch, so the bundle waited
+      // out an extra round trip before the chat could leave its native rows.
+      void refresh();
+      observation = client.observeEvents([
+        "status.plugin_catalog_changed",
+        "status.plugin_settings_changed",
+      ]);
+      observation.subscribe({
+        snapshot: () => {
+          void refresh();
+        },
+        update: (message) => {
+          if (message.type !== "status") return;
+          if (message.payload.status === "plugin_settings_changed") {
+            const { pluginId, settingsId } = message.payload;
+            if (typeof settingsId === "string") {
+              const plugin = pluginRegistry
+                .getSnapshot()
+                .find((item) => item.serverId === serverId && item.id === pluginId);
+              void plugin?.queryClient.invalidateQueries({
+                queryKey: pluginSettingsKey(settingsId),
+              });
+            }
           }
-        }
-        if (message.payload.status === "plugin_catalog_changed") {
-          const pluginId = message.payload.pluginId;
-          if (typeof pluginId === "string") void refresh(pluginId);
-        }
-      },
-    });
+          if (message.payload.status === "plugin_catalog_changed") {
+            const pluginId = message.payload.pluginId;
+            if (typeof pluginId === "string") void refresh(pluginId);
+          }
+        },
+      });
+    };
+    void start();
     return () => {
       cancelled = true;
+      if (!observation) return;
       void observation
         .release()
         .catch((error) => console.warn("[Plugins] Failed to release catalog", error));
