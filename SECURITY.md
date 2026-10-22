@@ -22,11 +22,16 @@ The relay is designed to be untrusted. All traffic between your phone and daemon
 1. The daemon generates a persistent Curve25519 keypair on first run and stores it at `$PASEO_HOME/daemon-keypair.json` with mode `0600`
 2. The pairing URL (rendered as a QR code or opened directly) carries the daemon's public key in its URL fragment (`https://app.paseo.sh/#offer=...`). Fragments are not sent to the web server, so `app.paseo.sh` never sees the key.
 3. When the phone connects via the relay, it generates a fresh ephemeral Curve25519 keypair and sends an `e2ee_hello` message containing its public key. The daemon will not process any application messages until this handshake completes.
-4. Both sides perform a Curve25519 ECDH key exchange to derive a shared key. All subsequent messages are encrypted with XSalsa20-Poly1305 (NaCl `box`). The encrypted bundle is `[24-byte nonce][ciphertext]`. Peers optionally negotiate `binaryCiphertext` in `e2ee_hello` / `e2ee_ready`: negotiated application text is carried as a base64 WebSocket text frame, while application binary is carried as a raw WebSocket binary frame. A peer that does not negotiate the capability uses base64 text frames for both kinds.
+4. Both sides perform a Curve25519 ECDH key exchange to derive a shared key. All subsequent messages are encrypted with XSalsa20-Poly1305 (NaCl `box`). The encrypted bundle is `[24-byte nonce][ciphertext]`. Peers negotiate the wire format with capabilities in `e2ee_hello` / `e2ee_ready`:
+   - **`binaryCiphertext` and `deflatePayloads`:** every message is a raw WebSocket binary frame. The plaintext starts with a one-byte kind (binary, text, or compressed text). Text of 1 KiB or more is compressed with raw DEFLATE before encryption.
+   - **`binaryCiphertext` only:** text is a base64 WebSocket text frame and binary is a raw binary frame. The opcode carries the kind.
+   - **Neither:** base64 text frames for both kinds.
 
-The WebSocket opcode is preserved end to end after negotiation; the receiver never guesses whether authenticated plaintext is text or binary from its byte contents. The plaintext handshake remains WebSocket text and contains only public keys and capability declarations.
+The receiver never guesses whether authenticated plaintext is text or binary from its byte contents. The plaintext handshake remains WebSocket text and contains only public keys and capability declarations.
 
 The relay sees only: IP addresses, timing, message sizes, session IDs, and the plaintext `e2ee_hello` / `e2ee_ready` handshake frames (which contain only public keys). It cannot read message contents, forge messages, or derive encryption keys from observing the handshake.
+
+Compression makes message sizes depend on content. When one compressed message holds both a secret and text an attacker controls, for example a token and a file the attacker wrote in the same timeline page, anyone who sees message sizes and can repeatedly change that text may recover parts of the secret. This is the CRIME/BREACH class of attack. Each message is compressed on its own, with no dictionary or state carried between messages, so only content inside one message can leak this way. Messages are not padded, so sizes reveal coarse information about content with or without compression.
 
 ### Why the relay can't attack you
 
