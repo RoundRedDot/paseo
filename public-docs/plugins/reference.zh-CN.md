@@ -25,6 +25,25 @@ nav: 参考
 
 插件代码是受信任的，没有沙盒。客户端界面在 Paseo 应用中运行。后端贡献在一个子进程中运行，可以访问 daemon 所在的机器，包括它的文件、进程、凭据和网络。
 
+## 已连接的主机 {#connected-hosts}
+
+客户端界面中的 `usePaseo().hosts` 与服务端处理函数或生命周期钩子中的 `context.paseo.hosts`
+使用相同的 [SDK 主机 API](/sdk/reference#clienthosts)。它们描述所选 daemon 保存的连接。
+现有的 `useHosts()` 和 `getPaseoClient(serverId)` 仍描述应用已知的主机。
+
+```ts
+const remote = await context.paseo.hosts.client("srv_build_box");
+try {
+  return await remote.workspaces.list();
+} finally {
+  await remote.dispose();
+}
+```
+
+返回的 API 拥有自己的观察。销毁插件 API 时也会释放由它派生的作用域。
+远程调用应留在拥有它的处理函数或生命周期作用域内。调用 B 不会把 B 的插件生命周期钩子转发到 A。
+通过路由插件创建的注册项保留其来源身份，其中包含经过认证的链路和发起调用的插件。
+
 ## 项目文件 {#project-files}
 
 `paseo plugin init /absolute/path/to/my-plugin` 会创建：
@@ -1041,6 +1060,24 @@ export function IssueActions({ theme }: PluginSurfaceProps) {
   );
 }
 ```
+
+### Markdown {#markdown}
+
+从 `@getpaseo/plugin/client/ui` 导入 `Markdown`，即可在网页、iOS 和 Android 上
+使用 Paseo 的 Markdown 样式渲染字符串：
+
+```tsx
+import { Markdown } from "@getpaseo/plugin/client/ui";
+
+<Markdown>{"## 审查\n\n检查**通过**。"}</Markdown>;
+```
+
+`children` 是唯一的属性，必须为字符串。更新它会立即渲染新内容；空字符串不渲染任何内容。
+宿主提供主题、文本选择、代码块、表格、图表和链接处理。
+当所在界面提供工作区上下文时，工作区文件链接和图片会使用该上下文。
+
+组件不添加页面内边距或滚动容器。需要时请在外层使用布局或滚动视图。
+内容获取以及加载和错误状态由插件负责。
 
 ### Modal {#modal}
 
