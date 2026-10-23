@@ -1,11 +1,13 @@
+import { indexedDB as fakeIndexedDB } from "fake-indexeddb";
+import * as webCatalogCache from "./catalog-cache.web";
 import { afterEach, expect, it, vi } from "vitest";
-import {
+const {
   parseCachedPluginCatalog,
   readCachedPluginCatalog,
   serializeCachedPluginCatalog,
   writeCachedPluginCatalog,
-  type CachedPluginCatalogEntry,
-} from "./catalog-cache";
+} = await vi.importActual<typeof import("./catalog-cache")>("./catalog-cache.ts");
+import type { CachedPluginCatalogEntry } from "./catalog-cache-format";
 
 const files = vi.hoisted(() => new Map<string, string>());
 
@@ -62,4 +64,28 @@ it("does not persist a placeholder server id", async () => {
 
   expect(files.size).toBe(0);
   await expect(readCachedPluginCatalog("local:dev")).resolves.toBeNull();
+});
+
+it("persists web catalogs across module reloads without losing exact host identities", async () => {
+  vi.stubGlobal("indexedDB", fakeIndexedDB);
+  try {
+    await webCatalogCache.writeCachedPluginCatalog("host/one", [entry]);
+    await webCatalogCache.writeCachedPluginCatalog("host_one", [
+      { ...entry, clientBundle: "other host" },
+    ]);
+    vi.resetModules();
+    const reopened = await import("./catalog-cache.web");
+    await expect(reopened.readCachedPluginCatalog("host/one")).resolves.toEqual([entry]);
+    await expect(reopened.readCachedPluginCatalog("host_one")).resolves.toEqual([
+      { ...entry, clientBundle: "other host" },
+    ]);
+    await reopened.writeCachedPluginCatalog("host/one", [{ ...entry, clientBundle: "updated" }]);
+    await expect(reopened.readCachedPluginCatalog("host/one")).resolves.toEqual([
+      { ...entry, clientBundle: "updated" },
+    ]);
+    await reopened.writeCachedPluginCatalog("local:pending", [entry]);
+    await expect(reopened.readCachedPluginCatalog("local:pending")).resolves.toBeNull();
+  } finally {
+    vi.unstubAllGlobals();
+  }
 });
