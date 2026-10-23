@@ -1,0 +1,9 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6737-delivery-20261023/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  150 passed (150)
+   Start at  17:08:31
+   Duration  10.23s (transform 6.55s, setup 37ms, import 8.47s, tests 1.60s, environment 0ms)
+

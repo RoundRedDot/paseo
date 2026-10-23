@@ -1,0 +1,17 @@
+[
+  {
+    "title": "manually expands complete reasoning through collapse and reload",
+    "status": "failed",
+    "durationMs": 25350,
+    "errors": [
+      {
+        "location": {
+          "file": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7006-delivery-20261023/packages/app/e2e/browser/agent-stream-closing-fence.spec.ts",
+          "column": 31,
+          "line": 445
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('tool-call-badge').filter({ hasText: /thinking/i }).first().getByRole('button').first()\nExpected: \u001b[32m\"false\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('tool-call-badge').filter({ hasText: /thinking/i }).first().getByRole('button').first()\u001b[22m\n\u001b[2m    14 \u00d7 locator resolved to <button tabindex=\"0\" role=\"button\" type=\"button\" class=\"css-view-g5y9jx r-cursor-1loqt21 r-touchAction-1otgn73 unistyles_1tr28apukrs \">\u2026</button>\u001b[22m\n\u001b[2m       - unexpected value \"null\"\u001b[22m\n\n\n  443 |         const badge = badges.nth(index);\n  444 |         const trigger = badge.getByRole(\"button\").first();\n> 445 |         await expect(trigger).toHaveAttribute(\"aria-expanded\", \"false\");\n      |                               ^\n  446 |         await trigger.click();\n  447 |         await expect(trigger).toHaveAttribute(\"aria-expanded\", \"true\");\n  448 |         const text = badge.getByText(canonical[index]!.text, { exact: true });\n    at assertExpanded (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7006-delivery-20261023/packages/app/e2e/browser/agent-stream-closing-fence.spec.ts:445:31)\n    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7006-delivery-20261023/packages/app/e2e/browser/agent-stream-closing-fence.spec.ts:455:21"
+      }
+    ]
+  }
+]

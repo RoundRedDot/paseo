@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-6699-delivery-20261023/packages/app
+
+
+ Test Files  3 passed (3)
+      Tests  126 passed (126)
+   Start at  17:07:37
+   Duration  552ms (transform 398ms, setup 51ms, import 564ms, tests 41ms, environment 1ms)
+

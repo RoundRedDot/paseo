@@ -1,0 +1,14 @@
+{
+  "relayDistUnchangedAfterFinalHeadRebuild": true,
+  "baseline": "582beeb10bf7a0dc2297f35529f78df89dee9358",
+  "sourceHeads": {
+    "7629": "b709c36a05d75bea7a08baeed5d323276023f8b9",
+    "7153": "f3e80fd9df4bafc296d1552f0bc422b3cc803487",
+    "6737": "14577138a0646bd64f07fac6855ae3bd46254403",
+    "6736": "4fe7d0e9ee0e4dfe99f14471fd255ab846d7600b",
+    "6732": "b74cb0a5b34bdee5331fe01a8f264a26375d6301",
+    "6699": "050db982885d700460e8c28c2a9f72f3ec8ed3b6",
+    "7620": "f4aef636e74b26d1785a99620c40db153ea54e06",
+    "7624": "2b201cea58c13d95954584c2fefa5f8f64d6d0c7"
+  }
+}

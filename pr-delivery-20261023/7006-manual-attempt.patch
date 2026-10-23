@@ -1,0 +1,58 @@
+diff --git a/packages/app/e2e/browser/agent-stream-closing-fence.spec.ts b/packages/app/e2e/browser/agent-stream-closing-fence.spec.ts
+index 8d37be7e6..55ffc02a7 100644
+--- a/packages/app/e2e/browser/agent-stream-closing-fence.spec.ts
++++ b/packages/app/e2e/browser/agent-stream-closing-fence.spec.ts
+@@ -417,3 +417,53 @@ test("records equal-input long-reply rendering metrics", async ({ page }, testIn
+     await agent.cleanup();
+   }
+ });
++
++
++test("manually expands complete reasoning through collapse and reload", async ({ page }, info) => {
++  test.setTimeout(120_000);
++  await page.setViewportSize({ width: 1280, height: 900 });
++  await page.addInitScript(() => {
++    localStorage.setItem("@paseo:app-settings", JSON.stringify({ toolCallDetailLevel: "detailed", autoExpandReasoning: false }));
++  });
++  const agent = await seedMockAgentWorkspace({ repoPrefix: "manual-finished-reasoning-", title: "Manual finished reasoning", model: "ten-second-stream" });
++  const history = await connectDaemonClient<Pick<DaemonClient, "connect" | "close" | "fetchAgentTimeline">>({ clientIdPrefix: "manual-finished-reasoning" });
++  try {
++    await openAgentRoute(page, agent);
++    await expectComposerVisible(page);
++    await agent.client.sendAgentMessage(agent.agentId, "Stream briefly to check manual reasoning expansion.");
++    await agent.client.waitForFinish(agent.agentId, 30_000);
++    const canonical = (await history.fetchAgentTimeline(agent.agentId, { limit: 500 })).entries.map((entry) => entry.item).filter((item) => item.type === "reasoning");
++    expect(canonical.length).toBeGreaterThan(0);
++    await info.attach("manual-canonical-reasoning", { body: JSON.stringify(canonical, null, 2), contentType: "application/json" });
++    const badges = page.getByTestId("tool-call-badge").filter({ hasText: /thinking/i });
++    const assertExpanded = async () => {
++      await expect(badges).toHaveCount(canonical.length);
++      const rendered: string[] = [];
++      for (let index = 0; index < canonical.length; index++) {
++        const badge = badges.nth(index);
++        const trigger = badge.getByRole("button").first();
++        await expect(badge.getByText(canonical[index]!.text, { exact: true })).toBeHidden();
++        await trigger.click();
++        const text = badge.getByText(canonical[index]!.text, { exact: true });
++        await expect(text).toBeVisible();
++        rendered.push(await text.textContent() ?? "");
++      }
++      expect(rendered).toEqual(canonical.map((item) => item.text));
++      return rendered;
++    };
++    const initial = await assertExpanded();
++    const first = badges.first().getByRole("button").first();
++    await first.click();
++    await expect(badges.first().getByText(canonical[0]!.text, { exact: true })).toBeHidden();
++    await first.click();
++    await expect(badges.first().getByText(canonical[0]!.text, { exact: true })).toBeVisible();
++    await info.attach("manual-reasoning-reopened", { body: await page.screenshot(), contentType: "image/png" });
++    await page.reload();
++    const reloaded = await assertExpanded();
++    await info.attach("manual-reasoning-dom-readback", { body: JSON.stringify({ initial, reloaded }, null, 2), contentType: "application/json" });
++    await info.attach("manual-reasoning-reloaded", { body: await page.screenshot(), contentType: "image/png" });
++  } catch (error) {
++    await info.attach("manual-reasoning-before-cleanup", { body: await page.screenshot(), contentType: "image/png" });
++    throw error;
++  } finally { await history.close(); await agent.cleanup(); }
++});

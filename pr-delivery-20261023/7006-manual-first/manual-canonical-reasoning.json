@@ -1,0 +1,14 @@
+[
+  {
+    "type": "reasoning",
+    "text": "Need to find the scroll container, the layout effect that watches for new messages, and any gesture handler that might fight with programmatic scrolling. Probably a ref on the FlatList plus a near-bottom threshold."
+  },
+  {
+    "type": "reasoning",
+    "text": "Need to find the scroll container, the layout effect that watches for new messages, and any gesture handler that might fight with programmatic scrolling. Probably a ref on the FlatList plus a near-bottom threshold."
+  },
+  {
+    "type": "reasoning",
+    "text": "Need to find the scroll container, the layout effect that watches for new messages, and any gesture handler that might fight with programmatic scrolling. Probably a ref on the FlatList plus a near-bottom threshold."
+  }
+]

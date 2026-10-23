@@ -1,0 +1,9 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7629-delivery-20261023/packages/relay
+
+
+ Test Files  2 passed (2)
+      Tests  55 passed (55)
+   Start at  17:05:37
+   Duration  4.69s (transform 267ms, setup 0ms, import 372ms, tests 3.99s, environment 0ms)
+

@@ -1,0 +1,8 @@
+[
+  {
+    "title": "pinned workspace and tab reorder propagate to an independent compact client and survive reload",
+    "status": "passed",
+    "durationMs": 16672,
+    "errors": []
+  }
+]

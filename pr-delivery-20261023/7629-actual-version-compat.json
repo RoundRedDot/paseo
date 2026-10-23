@@ -1,0 +1,110 @@
+{
+  "baseline": "582beeb10bf7a0dc2297f35529f78df89dee9358",
+  "results": [
+    {
+      "label": "new-new protected",
+      "clientMode": "protected",
+      "daemonMode": "protected",
+      "plaintextBytes": 100103,
+      "frames": [
+        {
+          "kind": "text",
+          "bytes": 239
+        },
+        {
+          "kind": "binary",
+          "bytes": 1098
+        },
+        {
+          "kind": "binary",
+          "bytes": 29
+        }
+      ],
+      "roundTrip": true
+    },
+    {
+      "label": "new-old protected",
+      "clientMode": "protected",
+      "daemonMode": "protected",
+      "plaintextBytes": 100103,
+      "frames": [
+        {
+          "kind": "text",
+          "bytes": 239
+        },
+        {
+          "kind": "text",
+          "bytes": 133536
+        },
+        {
+          "kind": "binary",
+          "bytes": 28
+        }
+      ],
+      "roundTrip": true
+    },
+    {
+      "label": "old-new protected",
+      "clientMode": "protected",
+      "daemonMode": "protected",
+      "plaintextBytes": 100103,
+      "frames": [
+        {
+          "kind": "text",
+          "bytes": 216
+        },
+        {
+          "kind": "text",
+          "bytes": 133536
+        },
+        {
+          "kind": "binary",
+          "bytes": 28
+        }
+      ],
+      "roundTrip": true
+    },
+    {
+      "label": "new-old legacy",
+      "clientMode": "legacy",
+      "daemonMode": "legacy",
+      "plaintextBytes": 100103,
+      "frames": [
+        {
+          "kind": "text",
+          "bytes": 239
+        },
+        {
+          "kind": "text",
+          "bytes": 133524
+        },
+        {
+          "kind": "binary",
+          "bytes": 44
+        }
+      ],
+      "roundTrip": true
+    },
+    {
+      "label": "old-new legacy",
+      "clientMode": "legacy",
+      "daemonMode": "legacy",
+      "plaintextBytes": 100103,
+      "frames": [
+        {
+          "kind": "text",
+          "bytes": 115
+        },
+        {
+          "kind": "text",
+          "bytes": 133524
+        },
+        {
+          "kind": "binary",
+          "bytes": 44
+        }
+      ],
+      "roundTrip": true
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  {
+    "title": "holds cached source rows until a delayed plugin catalog arrives",
+    "status": "passed",
+    "durationMs": 15403,
+    "errors": []
+  }
+]

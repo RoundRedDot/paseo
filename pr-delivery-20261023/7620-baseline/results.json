@@ -1,0 +1,17 @@
+[
+  {
+    "title": "holds cached source rows until a delayed plugin catalog arrives",
+    "status": "failed",
+    "durationMs": 15478,
+    "errors": [
+      {
+        "location": {
+          "file": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7620-delivery-20261023/packages/app/e2e/browser/plugin-timeline.spec.ts",
+          "column": 94,
+          "line": 87
+        },
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  85 |       const samples = await page.evaluate(() => (window as unknown as { timelinePaintSamples: unknown[] }).timelinePaintSamples);\n  86 |       await info.attach(\"catalog-delayed-dom-samples\", { body: JSON.stringify(samples), contentType: \"application/json\" });\n> 87 |       expect(samples.every((sample) => (sample as { nativeRows: number }).nativeRows === 0)).toBe(true);\n     |                                                                                              ^\n  88 |       await expect(page.getByTestId(\"assistant-message\")).toHaveCount(0);\n  89 |     } finally {\n  90 |       delayCatalog = false;\n    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7620-delivery-20261023/packages/app/e2e/browser/plugin-timeline.spec.ts:87:94\n    at run (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7620-delivery-20261023/packages/app/e2e/support/helpers/plugin-timeline.ts:144:11)\n    at withDirectoryPlugin (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7620-delivery-20261023/packages/app/e2e/support/helpers/plugin-timeline.ts:98:5)\n    at withTimelinePlugin (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7620-delivery-20261023/packages/app/e2e/support/helpers/plugin-timeline.ts:135:5)\n    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7620-delivery-20261023/packages/app/e2e/browser/plugin-timeline.spec.ts:67:3"
+      }
+    ]
+  }
+]

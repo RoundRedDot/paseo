@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-7629-delivery-20261023/packages/client
+
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  17:07:54
+   Duration  590ms (transform 124ms, setup 0ms, import 179ms, tests 301ms, environment 0ms)
+

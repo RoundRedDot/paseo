@@ -1,0 +1,14 @@
+{
+  "title": "manually expands complete reasoning through collapse and reload",
+  "status": "failed",
+  "errors": [
+    {
+      "location": {
+        "file": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7006-delivery-20261023/packages/app/e2e/browser/agent-stream-closing-fence.spec.ts",
+        "column": 28,
+        "line": 448
+      },
+      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('tool-call-badge').filter({ hasText: /thinking/i }).first().getByText('Need to find the scroll container, the layout effect that watches for new messages, and any gesture handler that might fight with programmatic scrolling. Probably a ref on the FlatList plus a near-bottom threshold.', { exact: true })\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('tool-call-badge').filter({ hasText: /thinking/i }).first().getByText('Need to find the scroll container, the layout effect that watches for new messages, and any gesture handler that might fight with programmatic scrolling. Probably a ref on the FlatList plus a near-bottom threshold.', { exact: true })\u001b[22m\n\n\n  446 |         await trigger.click();\n  447 |         const text = badge.getByText(canonical[index]!.text, { exact: true });\n> 448 |         await expect(text).toBeVisible();\n      |                            ^\n  449 |         rendered.push(await text.textContent() ?? \"\");\n  450 |       }\n  451 |       expect(rendered).toEqual(canonical.map((item) => item.text));\n    at assertExpanded (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7006-delivery-20261023/packages/app/e2e/browser/agent-stream-closing-fence.spec.ts:448:28)\n    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/qa-7006-delivery-20261023/packages/app/e2e/browser/agent-stream-closing-fence.spec.ts:454:21"
+    }
+  ]
+}
