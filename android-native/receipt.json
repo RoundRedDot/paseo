@@ -1,0 +1,202 @@
+{
+  "sourceCommit": "0eb6c2dfec82d48a7919e578452f9303e236f098",
+  "host": "rrd-mac-studio",
+  "avd": "paseo-pr7776-pad",
+  "serial": "emulator-5572",
+  "deviceProfile": "Pixel Tablet",
+  "os": "Android 17 / API 37",
+  "abi": "arm64-v8a",
+  "screenPx": [
+    2560,
+    1600
+  ],
+  "dpi": 320,
+  "density": 2,
+  "build": "development debug, Expo SDK 57, React Native 0.86.3",
+  "appId": "sh.paseo.debug",
+  "apkSha256": "cb1ad96f72502ab457bfb2a399b4c20df1a108a19f31a665f6a458ab174a78eb",
+  "androidBundleSha256": "8ff7153f8b2cf145710309f40c3bc47dc3347a618a66b8de4109891bbf91fde4",
+  "geometry": {
+    "sliderDp": [
+      20,
+      64
+    ],
+    "touchTargetDp": [
+      44,
+      88
+    ]
+  },
+  "widthReadbackDp": {
+    "06-main-resized": 460.375,
+    "07-settings-shared": 460.375,
+    "08-settings-resized": 388.5751953125,
+    "09-main-synchronized": 388.5751953125,
+    "13-restart-confirmed": 388.5751953125,
+    "14-compact-confirmed": 388.5751953125,
+    "15-expanded-confirmed": 388.5751953125,
+    "16-settings-dark": 388.5751953125,
+    "17-medium-clamped": 388.5751953125,
+    "19-dark-touch-resized": 421.4794921875
+  },
+  "visibleBoundsPx": {
+    "05-main-ready": {
+      "left-sidebar-resize-handle": [
+        550,
+        712,
+        638,
+        888
+      ]
+    },
+    "06-main-resized": {
+      "left-sidebar-resize-handle": [
+        831,
+        712,
+        919,
+        888
+      ]
+    },
+    "07-settings-shared": {
+      "settings-sidebar": [
+        0,
+        0,
+        921,
+        1600
+      ],
+      "settings-sidebar-resize-handle": [
+        833,
+        712,
+        921,
+        888
+      ],
+      "settings-detail-pane": [
+        921,
+        0,
+        2560,
+        1600
+      ]
+    },
+    "08-settings-resized": {
+      "settings-sidebar": [
+        0,
+        0,
+        777,
+        1600
+      ],
+      "settings-sidebar-resize-handle": [
+        689,
+        712,
+        777,
+        888
+      ],
+      "settings-detail-pane": [
+        777,
+        0,
+        2560,
+        1600
+      ]
+    },
+    "09-main-synchronized": {
+      "left-sidebar-resize-handle": [
+        687,
+        712,
+        775,
+        888
+      ]
+    },
+    "13-restart-confirmed": {
+      "left-sidebar-resize-handle": [
+        687,
+        712,
+        775,
+        888
+      ]
+    },
+    "14-compact-confirmed": {},
+    "15-expanded-confirmed": {
+      "left-sidebar-resize-handle": [
+        687,
+        712,
+        775,
+        888
+      ]
+    },
+    "16-settings-dark": {
+      "settings-sidebar": [
+        0,
+        0,
+        777,
+        1600
+      ],
+      "settings-sidebar-resize-handle": [
+        689,
+        712,
+        777,
+        888
+      ],
+      "settings-detail-pane": [
+        777,
+        0,
+        2560,
+        1600
+      ]
+    },
+    "17-medium-clamped": {
+      "settings-sidebar": [
+        0,
+        0,
+        400,
+        1600
+      ],
+      "settings-sidebar-resize-handle": [
+        312,
+        712,
+        400,
+        888
+      ],
+      "settings-detail-pane": [
+        400,
+        0,
+        1200,
+        1600
+      ]
+    },
+    "19-dark-touch-resized": {
+      "settings-sidebar": [
+        0,
+        0,
+        843,
+        1600
+      ],
+      "settings-sidebar-resize-handle": [
+        755,
+        712,
+        843,
+        888
+      ],
+      "settings-detail-pane": [
+        843,
+        0,
+        2560,
+        1600
+      ]
+    }
+  },
+  "checks": {
+    "touchSliderVisible": true,
+    "mainToSettingsSharedWidth": true,
+    "settingsToMainSharedWidth": true,
+    "coldRestartPersistence": true,
+    "compact550dpHidesHandlesAndPreservesWidth": true,
+    "expanded1280dpRestoresWidth": true,
+    "medium600dpClampsVisible200dpAndPreservesSavedWidth": true,
+    "nativeDarkThemeTouchResize": true,
+    "crashBufferEmpty": true
+  },
+  "limits": [
+    "Development emulator proof, not release or physical foldable proof",
+    "Window-size changes simulate compact/expanded layouts; no hinge posture hardware validation",
+    "Native iPad/iOS and packaged Electron remain untested",
+    "Development startup emitted React/Reanimated soft mounting warnings; not claimed fixed"
+  ],
+  "cleanup": "Owned Metro, daemon, screen recording and emulator stopped; existing devices left intact"
+}
