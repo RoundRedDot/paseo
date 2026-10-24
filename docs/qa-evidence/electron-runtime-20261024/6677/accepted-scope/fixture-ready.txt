@@ -1,0 +1,30 @@
+New workspace
+History
+Search
+Schedules
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+QA ALPHA
+workspace-ALPHA
+QA ALPHA agent
+QA ALPHA agent
+/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/workspace-ALPHA
+
+Echo: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/workspace-ALPHA
+
+Plugin timeline item unavailable.
+7:51 PM
+7:51 PM
+1 working
+Example 1
+Build
+Voice
+Updating messages
+Drop files here

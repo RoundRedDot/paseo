@@ -1,0 +1,16 @@
+import React from "react";
+import { Text, View } from "react-native";
+import { z } from "zod";
+import type { PluginTimelineItemProps } from "@getpaseo/plugin/client";
+import { RewindMenu } from "@getpaseo/plugin/client/ui";
+
+export const promptSchema = z.object({ text: z.string(), messageId: z.string().nullable() });
+
+export function Prompt({ agentId, host, item, theme }: PluginTimelineItemProps<z.infer<typeof promptSchema>>) {
+  if (!RewindMenu) throw new Error("This QA fixture requires a host with RewindMenu");
+  return <View testID="plugin-rewind-prompt">
+    <Text style={{ color: theme.colors.foreground }}>{item.data.text}</Text>
+    <RewindMenu hostId={host.id} agentId={agentId}
+      messageId={item.data.messageId ?? undefined} text={item.data.text} />
+  </View>;
+}

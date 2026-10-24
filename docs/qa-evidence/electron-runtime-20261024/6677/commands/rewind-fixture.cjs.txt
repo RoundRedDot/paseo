@@ -1,0 +1,37 @@
+module.exports=function({root,evidence,fs,path}){
+ const dir=path.join(evidence,'fixture-plugin');fs.cpSync(path.join(root,'plugin-examples/provider-direct'),dir,{recursive:true});
+ const supplied='/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-plugin-actions-6677/.dev/plugin-actions-evidence/rewind-fixture';
+ fs.copyFileSync(path.join(supplied,'index.client.tsx'),path.join(dir,'index.client.tsx'));
+ fs.cpSync(path.join(supplied,'client'),path.join(dir,'client'),{recursive:true});
+ fs.writeFileSync(path.join(dir,'paseo-plugin.json'),JSON.stringify({id:'provider-direct-example',requirements:{paseo:'>='+JSON.parse(fs.readFileSync(path.join(root,'packages/app/package.json'),'utf8')).version}}));
+ const file=path.join(dir,'server/provider.ts');let server=fs.readFileSync(file,'utf8');
+ server='import fs from "node:fs";\nimport path from "node:path";\n'+server;
+ server=server.replace('  "session.persistence",','  "session.persistence",\n  "session.revert.files",');
+ server=server.replace('  session.turn += 1;',`  session.turn += 1;
+  const filePath = path.join(session.config.cwd, "qa-rewind.txt");
+  const previousFile = fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf8") : null;
+  fs.writeFileSync(filePath, "TURN_" + session.turn + "\\n");`);
+ server=server.replace('      id: `user-${session.turn}`,\n      text,','      id: `user-${session.turn}`,\n      revertToken: { turn: session.turn, previousFile },\n      text,');
+ const old='    case "session.revert":\n      state.emit({ type: "request.completed", requestId: input.requestId });\n      return;';
+ if(!server.includes(old))throw new Error('Direct provider revert case changed');
+ server=server.replace(old,'    case "session.revert":\n      void revertFiles(input, state);\n      return;');
+ server+=`
+async function revertFiles(input: Extract<ProviderInput, {type:"session.revert"}>, state: ExampleState) {
+ try {
+  if(input.scope!=="files") throw new Error("Only file rewind is implemented by this QA provider");
+  const session=requireSession(state,input.sessionId);
+  const token=input.token as {previousFile:string|null;turn:number};
+  if(!token||!Number.isInteger(token.turn)) throw new Error("Missing file checkpoint");
+  const target=path.join(session.config.cwd,"qa-rewind.txt");
+  const fail=path.join(session.config.cwd,"fail-next-file-rewind");
+  await new Promise(resolve=>setTimeout(resolve,300));
+  if(fs.existsSync(fail)){fs.unlinkSync(fail);throw new Error("QA deliberate file restore failure");}
+  if(token.previousFile===null){if(fs.existsSync(target))fs.unlinkSync(target);}else{fs.writeFileSync(target,token.previousFile);if(fs.readFileSync(target,"utf8")!==token.previousFile)throw new Error("File restore readback mismatch");}
+  fs.appendFileSync(path.join(session.config.cwd,"rewind-audit.jsonl"),JSON.stringify({scope:input.scope,turn:token.turn,restored:token.previousFile})+"\\n");
+  state.emit({type:"request.completed",requestId:input.requestId});
+ }catch(error){state.emit({type:"request.failed",requestId:input.requestId,error:{message:error instanceof Error?error.message:String(error)}});}
+}
+`;
+ fs.writeFileSync(file,server);
+ return {dir,id:'provider-direct-example',source:fs.readFileSync(path.join(dir,'index.client.tsx'),'utf8')};
+};

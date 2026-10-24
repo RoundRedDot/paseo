@@ -1,0 +1,178 @@
+{
+  "mode": "6677",
+  "startedAt": "2026-10-24T11:50:58.746Z",
+  "head": "a166fa771671b78f8af3ee39b406d2980e6bf383",
+  "evidence": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746",
+  "steps": [
+    {
+      "name": "private-codex-profile",
+      "at": "2026-10-24T11:50:58.757Z",
+      "model": "gpt-6.1-sol",
+      "thinking": "medium",
+      "homeMode": "0700",
+      "authMode": "0600",
+      "copied": "existing auth only; no existing sessions/config/plugins copied"
+    },
+    {
+      "name": "launch",
+      "at": "2026-10-24T11:50:58.758Z",
+      "exe": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/packages/desktop/release/mac-arm64/Paseo.app/Contents/MacOS/Paseo",
+      "listen": "127.0.0.1:50468",
+      "cdpPort": 50469,
+      "userData": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/user-data",
+      "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/home",
+      "flags": "--remote-debugging-address=127.0.0.1 --remote-debugging-port=50469"
+    },
+    {
+      "name": "packaged-renderer-preload",
+      "at": "2026-10-24T11:51:03.996Z",
+      "status": "PASS",
+      "url": "paseo://app/",
+      "bridge": [
+        "platform",
+        "windowChromeMode",
+        "invoke",
+        "getPendingOpenProject",
+        "agentNavigation",
+        "events",
+        "window",
+        "dialog",
+        "notification",
+        "opener",
+        "editor",
+        "webUtils",
+        "menu",
+        "browser"
+      ]
+    },
+    {
+      "name": "renderer-managed-daemon",
+      "at": "2026-10-24T11:51:05.974Z",
+      "status": "PASS",
+      "daemon": {
+        "serverId": "srv_FxyoBWHlARcm",
+        "status": "running",
+        "listen": "127.0.0.1:50468",
+        "hostname": "luoph-mbp",
+        "pid": 20302,
+        "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/home",
+        "version": "0.13.0",
+        "desktopManaged": true,
+        "startedAt": "2026-10-24T11:51:04.370Z",
+        "ownedByDesktop": true,
+        "error": null
+      }
+    },
+    {
+      "name": "production-sandbox-diagnostics",
+      "at": "2026-10-24T11:51:05.975Z",
+      "status": "PASS",
+      "sandbox": {
+        "enabled": true,
+        "reason": "Chromium default"
+      }
+    },
+    {
+      "name": "fixture-installed",
+      "at": "2026-10-24T11:51:07.054Z",
+      "id": "provider-direct-example",
+      "dir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/fixture-plugin"
+    },
+    {
+      "name": "codex-cli-identity",
+      "at": "2026-10-24T11:51:08.145Z",
+      "version": "codex-cli 0.164.0",
+      "exit": 0,
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "name": "files-only-capability-menu",
+      "at": "2026-10-24T11:51:08.927Z",
+      "status": "PASS"
+    },
+    {
+      "name": "real-temporary-file-restoration",
+      "at": "2026-10-24T11:51:09.584Z",
+      "status": "PASS",
+      "restored": "TURN_1\n",
+      "audit": "{\"scope\":\"files\",\"turn\":2,\"restored\":\"TURN_1\\n\"}\n"
+    },
+    {
+      "name": "file-failure-visible-and-unlocked",
+      "at": "2026-10-24T11:51:11.269Z",
+      "status": "PASS"
+    },
+    {
+      "name": "file-retry-restores-real-content",
+      "at": "2026-10-24T11:51:11.942Z",
+      "status": "PASS",
+      "restored": "TURN_1\n"
+    },
+    {
+      "name": "real-codex-agent",
+      "at": "2026-10-24T11:51:19.979Z",
+      "agentId": "81254137-a50a-4b47-8fc6-4a5a9929d098",
+      "workspaceId": "wks_a5de8a066e3556c4",
+      "model": "gpt-6.1-sol",
+      "capabilities": {
+        "supportsStreaming": true,
+        "supportsSessionPersistence": true,
+        "supportsSessionListing": true,
+        "supportsDynamicModes": false,
+        "supportsMcpServers": true,
+        "supportsReasoningStream": true,
+        "supportsToolInvocations": true,
+        "supportsRewindConversation": true,
+        "supportsRewindFiles": false,
+        "supportsRewindBoth": false
+      }
+    },
+    {
+      "name": "real-codex-first-sentinel",
+      "at": "2026-10-24T11:51:19.980Z",
+      "status": "PASS",
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "name": "real-codex-two-turn-history",
+      "at": "2026-10-24T11:51:22.393Z",
+      "status": "PASS",
+      "threadId": "01a16dc0-2906-7443-a235-72accfcda0d3",
+      "turnCount": 2
+    },
+    {
+      "name": "real-codex-conversation-only-menu",
+      "at": "2026-10-24T11:51:22.508Z",
+      "status": "PASS"
+    },
+    {
+      "name": "real-codex-native-conversation-rewind",
+      "at": "2026-10-24T11:51:23.041Z",
+      "status": "PASS",
+      "oldThreadId": "01a16dc0-2906-7443-a235-72accfcda0d3",
+      "threadId": "01a16dc0-5143-72b1-a916-e7bafea1c270",
+      "nativeTurns": 1,
+      "canonicalUserRows": 1,
+      "composerRestored": "Reply with exactly QA_CODEX_SECOND_REPLY. Do not use tools, inspect files, edit files, or spawn agents."
+    },
+    {
+      "name": "private-auth-copy-removed",
+      "at": "2026-10-24T11:51:34.943Z",
+      "removed": true
+    }
+  ],
+  "workspaces": {
+    "a": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/workspace-ALPHA",
+      "workspaceId": "wks_3db507ae2be8aa84",
+      "agentId": "0acee85a-929a-42b3-a387-eedd50a5a92a"
+    },
+    "b": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/workspace-BRAVO",
+      "workspaceId": "wks_9d33b4e421eb7e57",
+      "agentId": "85cbd019-b7c9-41b3-bdd3-a900e1aa2334"
+    }
+  },
+  "status": "PASS",
+  "finishedAt": "2026-10-24T11:51:34.943Z"
+}

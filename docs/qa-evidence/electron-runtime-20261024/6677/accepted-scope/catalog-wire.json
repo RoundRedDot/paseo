@@ -1,0 +1,928 @@
+[
+  {
+    "phase": "startup",
+    "event": "framesent",
+    "payloadBytes": 117,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:06.592Z",
+    "message": {
+      "type": "plugin.catalog.get.request",
+      "requestId": "0338ba8c-efd2-4e52-ac01-a3feb0435c2d"
+    }
+  },
+  {
+    "phase": "startup",
+    "event": "framereceived",
+    "payloadBytes": 1121,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:06.593Z",
+    "message": {
+      "type": "plugin.catalog.get.response",
+      "payload": {
+        "requestId": "0338ba8c-efd2-4e52-ac01-a3feb0435c2d",
+        "plugins": [
+          {
+            "id": "antigravity-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.10.0"
+            }
+          },
+          {
+            "id": "claude-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "codex-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "copilot-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "cursor-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "grok-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "hoplite-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "kimi-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "minimax-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "muse-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "opencode-go-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "zai-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "phase": "cold",
+    "event": "framesent",
+    "payloadBytes": 117,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:07.080Z",
+    "message": {
+      "type": "plugin.catalog.get.request",
+      "requestId": "b3dc18a6-e75f-4224-a87a-52b4204f1ba2"
+    }
+  },
+  {
+    "phase": "cold",
+    "event": "framereceived",
+    "payloadBytes": 4083,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:07.081Z",
+    "message": {
+      "type": "plugin.catalog.get.response",
+      "payload": {
+        "requestId": "b3dc18a6-e75f-4224-a87a-52b4204f1ba2",
+        "plugins": [
+          {
+            "id": "antigravity-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.10.0"
+            }
+          },
+          {
+            "id": "claude-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "codex-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "copilot-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "cursor-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "grok-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "hoplite-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "kimi-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "minimax-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "muse-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "opencode-go-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "provider-direct-example",
+            "clientBundle": {
+              "bytes": 2772,
+              "sha256": "517d47dec42680632305c7435d91a17c108a3ccad561819a1496d043dfc24234"
+            },
+            "requirements": {
+              "paseo": ">=0.13.0"
+            }
+          },
+          {
+            "id": "zai-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "phase": "cold",
+    "event": "framesent",
+    "payloadBytes": 117,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:07.725Z",
+    "message": {
+      "type": "plugin.catalog.get.request",
+      "requestId": "1f8ca3fc-963a-4bc4-a44e-1515087449a4"
+    }
+  },
+  {
+    "phase": "cold",
+    "event": "framereceived",
+    "payloadBytes": 4083,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:07.825Z",
+    "message": {
+      "type": "plugin.catalog.get.response",
+      "payload": {
+        "requestId": "1f8ca3fc-963a-4bc4-a44e-1515087449a4",
+        "plugins": [
+          {
+            "id": "antigravity-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.10.0"
+            }
+          },
+          {
+            "id": "claude-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "codex-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "copilot-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "cursor-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "grok-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "hoplite-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "kimi-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "minimax-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "muse-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "opencode-go-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "provider-direct-example",
+            "clientBundle": {
+              "bytes": 2772,
+              "sha256": "517d47dec42680632305c7435d91a17c108a3ccad561819a1496d043dfc24234"
+            },
+            "requirements": {
+              "paseo": ">=0.13.0"
+            }
+          },
+          {
+            "id": "zai-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "phase": "cold",
+    "event": "framesent",
+    "payloadBytes": 117,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:08.537Z",
+    "message": {
+      "type": "plugin.catalog.get.request",
+      "requestId": "6123c7f7-2fc6-4d76-80e6-c75437cc02df"
+    }
+  },
+  {
+    "phase": "cold",
+    "event": "framereceived",
+    "payloadBytes": 4083,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:08.581Z",
+    "message": {
+      "type": "plugin.catalog.get.response",
+      "payload": {
+        "requestId": "6123c7f7-2fc6-4d76-80e6-c75437cc02df",
+        "plugins": [
+          {
+            "id": "antigravity-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.10.0"
+            }
+          },
+          {
+            "id": "claude-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "codex-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "copilot-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "cursor-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "grok-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "hoplite-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "kimi-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "minimax-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "muse-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "opencode-go-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "provider-direct-example",
+            "clientBundle": {
+              "bytes": 2772,
+              "sha256": "517d47dec42680632305c7435d91a17c108a3ccad561819a1496d043dfc24234"
+            },
+            "requirements": {
+              "paseo": ">=0.13.0"
+            }
+          },
+          {
+            "id": "zai-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "phase": "cold",
+    "event": "framesent",
+    "payloadBytes": 117,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:09.976Z",
+    "message": {
+      "type": "plugin.catalog.get.request",
+      "requestId": "8a5925c7-817b-4531-b426-d9243a5f060d"
+    }
+  },
+  {
+    "phase": "cold",
+    "event": "framereceived",
+    "payloadBytes": 4083,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:10.042Z",
+    "message": {
+      "type": "plugin.catalog.get.response",
+      "payload": {
+        "requestId": "8a5925c7-817b-4531-b426-d9243a5f060d",
+        "plugins": [
+          {
+            "id": "antigravity-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.10.0"
+            }
+          },
+          {
+            "id": "claude-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "codex-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "copilot-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "cursor-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "grok-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "hoplite-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "kimi-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "minimax-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "muse-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "opencode-go-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "provider-direct-example",
+            "clientBundle": {
+              "bytes": 2772,
+              "sha256": "517d47dec42680632305c7435d91a17c108a3ccad561819a1496d043dfc24234"
+            },
+            "requirements": {
+              "paseo": ">=0.13.0"
+            }
+          },
+          {
+            "id": "zai-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "phase": "cold",
+    "event": "framesent",
+    "payloadBytes": 117,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:19.816Z",
+    "message": {
+      "type": "plugin.catalog.get.request",
+      "requestId": "6be839d1-a02b-49b5-9a32-f5810652ad9c"
+    }
+  },
+  {
+    "phase": "cold",
+    "event": "framereceived",
+    "payloadBytes": 4083,
+    "url": "ws://localhost:50468/ws",
+    "at": "2026-10-24T11:51:19.856Z",
+    "message": {
+      "type": "plugin.catalog.get.response",
+      "payload": {
+        "requestId": "6be839d1-a02b-49b5-9a32-f5810652ad9c",
+        "plugins": [
+          {
+            "id": "antigravity-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.10.0"
+            }
+          },
+          {
+            "id": "claude-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "codex-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "copilot-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "cursor-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "grok-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "hoplite-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "kimi-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "minimax-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "muse-provider",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.11.0"
+            }
+          },
+          {
+            "id": "opencode-go-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          },
+          {
+            "id": "provider-direct-example",
+            "clientBundle": {
+              "bytes": 2772,
+              "sha256": "517d47dec42680632305c7435d91a17c108a3ccad561819a1496d043dfc24234"
+            },
+            "requirements": {
+              "paseo": ">=0.13.0"
+            }
+          },
+          {
+            "id": "zai-usage-source",
+            "clientBundle": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "requirements": {
+              "paseo": ">=0.9.2"
+            }
+          }
+        ]
+      }
+    }
+  }
+]

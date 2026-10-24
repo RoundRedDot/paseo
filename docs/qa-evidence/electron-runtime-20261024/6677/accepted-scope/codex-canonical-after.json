@@ -1,0 +1,179 @@
+{
+  "requestId": "9614ae0a-4925-4701-b1d9-b95ecb2f1ee4",
+  "agentId": "81254137-a50a-4b47-8fc6-4a5a9929d098",
+  "agent": {
+    "id": "81254137-a50a-4b47-8fc6-4a5a9929d098",
+    "provider": "codex",
+    "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/workspace-CODEX",
+    "workspaceId": "wks_a5de8a066e3556c4",
+    "model": "gpt-6.1-sol",
+    "thinkingOptionId": "medium",
+    "effectiveThinkingOptionId": "medium",
+    "runtimeInfo": {
+      "provider": "codex",
+      "sessionId": "01a16dc0-5143-72b1-a916-e7bafea1c270",
+      "model": "gpt-6.1-sol",
+      "thinkingOptionId": "medium",
+      "modeId": "full-access",
+      "extra": {
+        "collaborationMode": "Default"
+      }
+    },
+    "createdAt": "2026-10-24T11:51:12.386Z",
+    "updatedAt": "2026-10-24T11:51:22.734Z",
+    "lastUserMessageAt": "2026-10-24T11:51:19.986Z",
+    "status": "idle",
+    "activeTurn": null,
+    "capabilities": {
+      "supportsStreaming": true,
+      "supportsSessionPersistence": true,
+      "supportsSessionListing": true,
+      "supportsDynamicModes": false,
+      "supportsMcpServers": true,
+      "supportsReasoningStream": true,
+      "supportsToolInvocations": true,
+      "supportsRewindConversation": true,
+      "supportsRewindFiles": false,
+      "supportsRewindBoth": false
+    },
+    "currentModeId": "full-access",
+    "availableModes": [
+      {
+        "id": "auto",
+        "label": "Default Permissions",
+        "description": "Edit files and run commands with Codex's default approval flow."
+      },
+      {
+        "id": "auto-review",
+        "label": "Auto-review",
+        "description": "Same workspace-write permissions as Default, but eligible `on-request` approvals are routed through the auto-reviewer subagent."
+      },
+      {
+        "id": "full-access",
+        "label": "Full Access",
+        "description": "Edit files, run commands, and access the network without additional prompts."
+      }
+    ],
+    "features": [
+      {
+        "type": "select",
+        "id": "service_tier",
+        "label": "Speed",
+        "description": "Choose processing speed. Faster tiers increase usage.",
+        "tooltip": "Select speed",
+        "icon": "zap",
+        "desktopTrigger": "icon",
+        "value": "default",
+        "options": [
+          {
+            "id": "default",
+            "label": "Normal",
+            "isDefault": true
+          },
+          {
+            "id": "priority",
+            "label": "Fast"
+          }
+        ]
+      },
+      {
+        "type": "toggle",
+        "id": "plan_mode",
+        "label": "Plan",
+        "description": "Switch Codex into planning-only collaboration mode",
+        "tooltip": "Toggle plan mode",
+        "icon": "list-todo",
+        "value": false
+      }
+    ],
+    "pendingPermissions": [],
+    "persistence": {
+      "provider": "codex",
+      "sessionId": "01a16dc0-5143-72b1-a916-e7bafea1c270",
+      "nativeHandle": "01a16dc0-5143-72b1-a916-e7bafea1c270",
+      "metadata": {
+        "provider": "codex",
+        "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/workspace-CODEX",
+        "title": "Real Codex rewind QA",
+        "threadId": "01a16dc0-5143-72b1-a916-e7bafea1c270",
+        "modeId": "full-access",
+        "model": "gpt-6.1-sol",
+        "thinkingOptionId": "medium",
+        "asyncQuestions": []
+      }
+    },
+    "title": "Real Codex rewind QA",
+    "labels": {},
+    "archivedAt": null,
+    "lastUsage": {
+      "inputTokens": 14300,
+      "cachedInputTokens": 14080,
+      "outputTokens": 9,
+      "contextWindowMaxTokens": 475000,
+      "contextWindowUsedTokens": 14309
+    },
+    "requiresAttention": true,
+    "attentionReason": "finished",
+    "attentionTimestamp": "2026-10-24T11:51:22.150Z"
+  },
+  "direction": "tail",
+  "projection": "projected",
+  "epoch": "42c6131c-8977-4690-a501-abb7cd3a3c96",
+  "reset": false,
+  "staleCursor": false,
+  "gap": false,
+  "window": {
+    "minSeq": 1,
+    "maxSeq": 2,
+    "nextSeq": 3
+  },
+  "startCursor": {
+    "epoch": "42c6131c-8977-4690-a501-abb7cd3a3c96",
+    "seq": 1
+  },
+  "endCursor": {
+    "epoch": "42c6131c-8977-4690-a501-abb7cd3a3c96",
+    "seq": 2
+  },
+  "hasOlder": false,
+  "hasNewer": false,
+  "entries": [
+    {
+      "provider": "codex",
+      "item": {
+        "type": "user_message",
+        "text": "Reply with exactly QA_CODEX_FIRST_REPLY. Do not use tools, inspect files, edit files, or spawn agents.",
+        "messageId": "01a16dc0-3ac0-7f31-9a7c-e844bbf4ad25"
+      },
+      "timestamp": "2026-10-24T11:51:12.000Z",
+      "seqStart": 1,
+      "seqEnd": 1,
+      "sourceSeqRanges": [
+        {
+          "startSeq": 1,
+          "endSeq": 1
+        }
+      ],
+      "collapsed": []
+    },
+    {
+      "provider": "codex",
+      "item": {
+        "type": "assistant_message",
+        "text": "QA_CODEX_FIRST_REPLY",
+        "messageId": "msg_02db4e818c002a18016adc9bb68458819a96a8a349cb75c030"
+      },
+      "timestamp": "2026-10-24T11:51:19.000Z",
+      "seqStart": 2,
+      "seqEnd": 2,
+      "sourceSeqRanges": [
+        {
+          "startSeq": 2,
+          "endSeq": 2
+        }
+      ],
+      "collapsed": []
+    }
+  ],
+  "error": null
+}

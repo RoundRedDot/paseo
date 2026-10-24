@@ -1,0 +1,17 @@
+import type { PluginClientContext } from "@getpaseo/plugin/client";
+import { Prompt, promptSchema } from "./client/prompt";
+
+export default function contribute(client: PluginClientContext) {
+  client.addTimelineTransformer({
+    id: "prompt",
+    query: { itemType: "user_message" },
+    transform({ item }) {
+      return {
+        items: [{ type: "plugin", kind: "prompt", version: 1,
+          data: { text: item.text, messageId: item.messageId ?? null } }],
+      };
+    },
+  });
+  client.addTimelineRenderer({ kind: "prompt", version: 1, schema: promptSchema, Component: Prompt });
+  return () => {};
+}

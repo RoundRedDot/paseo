@@ -1,0 +1,41 @@
+New workspace
+History
+Search
+Schedules
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+Set up worktree scripts
+Add setup commands so new worktrees can install dependencies and prepare themselves automatically.
+Open project settings
+QA ALPHA
+workspace-ALPHA
+Commit
+QA ALPHA agent
+QA ALPHA agent
+/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/workspace-ALPHA
+
+Echo: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6677/.dev/electron-qa-evidence/runtime-6677-1792842658746/workspace-ALPHA
+
+Plugin timeline item unavailable.
+QA FILE TURN TWO
+
+Echo: QA FILE TURN TWO
+
+Plugin timeline item unavailable.
+7:51 PM
+7:51 PM
+2 working
+⌘L to focus
+Example 1
+Build
+Voice
+Drop files here
+This action cannot be undone
+Rewind files

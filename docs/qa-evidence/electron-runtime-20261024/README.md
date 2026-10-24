@@ -6,6 +6,8 @@ Executed by Codex (`gpt-6.1-sol`, high). These are local macOS arm64 package che
 | ----- | ------------------------------------------ | --------------------------------------------------------------------------------------------------- |
 | #7318 | `03b7b80b00b7ad4990232e7d992c77cbf6274701` | Ten file-pane business cases passed in the real packaged app.                                       |
 | #6732 | `b74cb0a5b34bdee5331fe01a8f264a26375d6301` | Catalog/hash/storage/footer execution cases passed. Provider timeline restoration remains unproven. |
+| #7462 | `346acf34cf544ff207c4ebb1fa069de7cd3c2394` | Seven fork business cases passed.                                                                   |
+| #6677 | `a166fa771671b78f8af3ee39b406d2980e6bf383` | Real Codex conversation rewind and concrete file-adapter cases passed; both remains unverified.     |
 
 Both packages were built from separate clean worktrees with fresh Metro exports and isolated temporary caches. `package-receipt.json` records source SHA, executable/asar hashes, byte equality of compiled main/preload and exported JS against the package, and successful `codesign --verify --deep --strict`.
 
@@ -82,3 +84,44 @@ Seven business cases passed:
 The timeout harness drops a request using the repository's existing WebSocket routing pattern; all other traffic reaches the real daemon. `fork-wire.json` records actual context responses and their complete attachment text. The first attempt's stale file-test selector is retained with its failure; only the external controller selector was corrected, and the same signed package was reused. No product source changed.
 
 The source owner's 143 focused tests and build/static/hook evidence were not rerun. This package build independently rebuilt its required production stack. Cold application relaunch, daemon-restart restoration and non-macOS/native platforms remain outside this run.
+
+## #6677 — final source `a166fa771671b78f8af3ee39b406d2980e6bf383`
+
+Production app version: `0.13.0`. The English-only temporary builder configuration, full production source/package/config hashes, Developer ID signature verification and normal sandbox readback are under `6677/commands/` and `6677/accepted-scope/`. The app, preload, real renderer and renderer-managed isolated daemon all ran from this package.
+
+The client fixture imports the actual host `RewindMenu` and replaces user-message rows while retaining their canonical message IDs and text. The menu's available modes come from the real selected provider. The product source was unchanged.
+
+### Codex conversation rewind
+
+This case used the existing configured default `gpt-6.1-sol`, medium reasoning, with the installed Codex CLI `0.164.0`. A new private Codex home contained a minimal profile and a copy of existing local authentication; it contained no existing user sessions, plugins or global configuration. Private directories were mode 0700 and the authentication file mode 0600. Authentication contents are excluded from all published artifacts. The private authentication copy was removed after the run.
+
+Passed:
+
+- A first sentinel prompt produced `QA_CODEX_FIRST_REPLY`.
+- A second sentinel prompt produced `QA_CODEX_SECOND_REPLY`.
+- An independent native app-server `thread/read` with `includeTurns: true` returned two completed turns before rewind.
+- The real Codex-backed plugin menu offered conversation rewind and exposed neither files nor both.
+- Selecting conversation rewind preserved the first reply, removed the second reply from the UI, and restored the full second prompt into the previously empty composer.
+- The native adapter moved the Paseo session from `01a16dc0-2906-7443-a235-72accfcda0d3` to `01a16dc0-5143-72b1-a916-e7bafea1c270`. A fresh independent native app-server read returned exactly one retained turn. This is a new retained-prefix thread, not an assertion that the original thread was modified in place.
+- The daemon's canonical timeline readback contained exactly one user row with the first prompt.
+
+The native before/after responses and canonical readback are retained as `codex-native-before.json`, `codex-native-after.json` and `codex-canonical-after.json`; screenshots show the real composer and retained reply. Only this newly created QA session was read. No other user threads or project files were used.
+
+### File rewind and failure recovery
+
+The trusted directory QA provider declares only the file rewind scope it implements. It records a real filesystem checkpoint before a prompt, writes a new value, and restores that checkpoint before reporting completion. It does not declare conversation or both capabilities.
+
+Passed:
+
+- The menu offers files only.
+- Rewinding the second prompt changes the actual temporary file from `TURN_2` to `TURN_1`; the transcript remains at two prompts and the composer remains empty.
+- A deliberate real provider failure produces the visible `QA deliberate file restore failure` toast, leaves the actual file at `TURN_2`, and unlocks the menu.
+- Retrying restores `TURN_1`. File contents and the provider's restoration audit are retained under `file-readback/`.
+
+This verifies the host integration with that concrete file adapter. Claude/OpenCode vendor file restoration and the `both` mode remain unverified. No provider capability was fabricated to expose an unimplemented operation.
+
+### Remaining scope
+
+The production plugin-provider history stream currently has no replacement/reset event, so an append-only direct-provider example cannot prove conversation truncation by returning request completion. The real built-in Codex route above was used for conversation acceptance. That SDK limitation comes from the frozen main baseline; this report does not classify it as a new #6677 regression.
+
+The controller snapshot includes additional absolute-deadline credential cleanup hardening applied after the successful business actions; that timeout path was not exercised. The installed fixture source and actual business workflow are retained separately. The source owner's 135 focused tests and static/hook results were trusted and were not rerun. Other providers, the `both` operation, non-English locale, native mobile and other desktop platforms remain unverified.
