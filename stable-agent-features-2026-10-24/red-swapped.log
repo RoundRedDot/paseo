@@ -1,0 +1,48 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/stable-agent-features/packages/app
+
+(node:40675) [DEP0151] DeprecationWarning: Package /Users/luopeihuan/workspace/rrd/paseo/.worktrees/stable-agent-features/node_modules/react-native-worklets/ has a "main" field set to "./lib/module/index", excluding the full filename and extension to the resolved file at "lib/module/index.js", imported from /Users/luopeihuan/workspace/rrd/paseo/.worktrees/stable-agent-features/node_modules/react-native-reanimated/lib/module/initializers.js.
+ Automatic extension resolution of the "main" field is deprecated for ES modules.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+stderr | src/runtime/directory-sync/agent-replica.test.ts > AgentDirectoryReplica > preserves equal features across delta updates while accepting real changes
+[DraftStore] Attachment garbage collection failed Error: IndexedDB is unavailable in this runtime.
+    at ensureIndexedDb (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/stable-agent-features/packages/app/src/attachments/web/indexeddb-attachment-store.ts:27:11)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/stable-agent-features/packages/app/src/attachments/web/indexeddb-attachment-store.ts:34:21
+    at new Promise (<anonymous>)
+    at openAttachmentDb (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/stable-agent-features/packages/app/src/attachments/web/indexeddb-attachment-store.ts:33:10)
+    at Object.garbageCollect (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/stable-agent-features/packages/app/src/attachments/web/indexeddb-attachment-store.ts:192:24)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/stable-agent-features/packages/app/src/attachments/service.ts:188:17
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+ ❯ |unit| src/runtime/directory-sync/agent-replica.test.ts (14 tests | 1 failed) 5ms
+     × preserves equal features across delta updates while accepting real changes 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/runtime/directory-sync/agent-replica.test.ts > AgentDirectoryReplica > preserves equal features across delta updates while accepting real changes
+AssertionError: expected [] to be [] // Object.is equality
+
+If it should pass with deep equality, replace "toBe" with "toStrictEqual"
+
+Expected: []
+Received: serializes to the same string
+
+
+Compared values have no visual difference.
+
+ ❯ src/runtime/directory-sync/agent-replica.test.ts:89:30
+     87|       expect(empty.title).toBe("empty update");
+     88|       expect(empty.updatedAt.toISOString()).toBe("2026-07-17T00:02:00.…
+     89|       expect(empty.features).toBe(initial.features);
+       |                              ^
+     90|
+     91|       const feature = {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (14)
+   Start at  09:36:12
+   Duration  4.93s (transform 3.98s, setup 18ms, import 4.85s, tests 5ms, environment 0ms)
+
