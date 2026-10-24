@@ -35,6 +35,17 @@ describe("selectPluginRewindCapabilities", () => {
     ).toBe(codex);
   });
 
+  test("keeps capabilities scoped to the selected host for equal agent ids", () => {
+    const sessions = { a: session({ agent: claude }), b: session({ agent: codex }) };
+    expect(selectPluginRewindCapabilities(sessions, "a", "agent")).toBe(claude);
+    expect(selectPluginRewindCapabilities(sessions, "b", "agent")).toBe(codex);
+  });
+
+  test("uses the live agent capabilities ahead of cached details", () => {
+    const sessions = { a: session({ agent: codex }, { agent: claude }) };
+    expect(selectPluginRewindCapabilities(sessions, "a", "agent")).toBe(codex);
+  });
+
   test("is null for an unknown host or agent", () => {
     const sessions = { a: session({ claude: claude }) };
     expect(selectPluginRewindCapabilities(sessions, "missing", "claude")).toBeNull();
