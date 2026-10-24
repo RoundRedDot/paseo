@@ -1,0 +1,36 @@
+New workspace
+History
+Search
+Schedules
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+Set up worktree scripts
+Add setup commands so new worktrees can install dependencies and prepare themselves automatically.
+Open project settings
+QA BRAVO
+workspace-BRAVO
+Commit
+QA BRAVO agent
+target.txt
+outside.txt
+QA BRAVO agent
+target.txt
+outside.txt
+Access outside of workspace is not allowed
+Retry
+Files
+Changes
+Files
+Changes
+Name
+.git
+src
+invalid-lines.txt
+target.txt

@@ -1,0 +1,30 @@
+新建工作区
+历史
+搜索
+计划
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+设置 worktree scripts
+添加 setup 命令，让新的 worktree 自动安装依赖并完成准备。
+打开 project 设置
+QA ALPHA
+workspace-ALPHA
+Commit
+QA ALPHA agent
+QA ALPHA agent
+
+Restored from persistence
+
+19:20
+19:20
+Example 1
+Build
+Voice
+Drop files here

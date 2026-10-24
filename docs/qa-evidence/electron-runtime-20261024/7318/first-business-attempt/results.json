@@ -1,0 +1,121 @@
+{
+  "mode": "7318",
+  "startedAt": "2026-10-24T11:20:29.121Z",
+  "head": "03b7b80b00b7ad4990232e7d992c77cbf6274701",
+  "evidence": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792840829120",
+  "steps": [
+    {
+      "name": "launch",
+      "at": "2026-10-24T11:20:29.145Z",
+      "exe": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/packages/desktop/release/mac-arm64/Paseo.app/Contents/MacOS/Paseo",
+      "listen": "127.0.0.1:51591",
+      "cdpPort": 51592,
+      "userData": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792840829120/user-data",
+      "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792840829120/home",
+      "flags": "--remote-debugging-address=127.0.0.1 --remote-debugging-port=51592"
+    },
+    {
+      "name": "packaged-renderer-preload",
+      "at": "2026-10-24T11:20:34.930Z",
+      "status": "PASS",
+      "url": "paseo://app/",
+      "bridge": [
+        "platform",
+        "windowChromeMode",
+        "invoke",
+        "getPendingOpenProject",
+        "agentNavigation",
+        "events",
+        "window",
+        "dialog",
+        "notification",
+        "opener",
+        "editor",
+        "webUtils",
+        "menu",
+        "browser"
+      ]
+    },
+    {
+      "name": "renderer-managed-daemon",
+      "at": "2026-10-24T11:20:38.624Z",
+      "status": "PASS",
+      "daemon": {
+        "serverId": "srv_cSvZsi6mbG4n",
+        "status": "running",
+        "listen": "127.0.0.1:51591",
+        "hostname": "luoph-mbp",
+        "pid": 42987,
+        "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792840829120/home",
+        "version": "0.12.0",
+        "desktopManaged": true,
+        "startedAt": "2026-10-24T11:20:35.515Z",
+        "ownedByDesktop": true,
+        "error": null
+      }
+    },
+    {
+      "name": "production-sandbox-diagnostics",
+      "at": "2026-10-24T11:20:38.627Z",
+      "status": "PASS",
+      "sandbox": {
+        "enabled": true,
+        "reason": "Chromium default"
+      }
+    },
+    {
+      "name": "fixture-installed",
+      "at": "2026-10-24T11:20:40.347Z",
+      "id": "provider-direct-example",
+      "dir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792840829120/fixture-plugin"
+    },
+    {
+      "name": "relative-path-line-range",
+      "at": "2026-10-24T11:20:42.580Z",
+      "status": "349 B\n25 行\nLn 6, Col 14",
+      "text": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\nALPHA_LINE_01\nALPHA_LINE_02\nALPHA_LINE_03\nALPHA_LINE_04\nALPHA_LINE_05\nALPHA_LINE_06\nALPHA_LINE_07\nALPHA_LINE_08\nALPHA_LINE_09\nALPHA_LINE_10\nALPHA_LINE_11\nALPHA_LINE_12\nALPHA_LINE_13\nALPHA_LINE_14\nALPHA_LINE_15\nALPHA_LINE_16\nALPHA_LINE_17\nALPHA_LINE_18\nALPHA_LINE_19\nALPHA_LINE_20\nALPHA_LINE_21\nALPHA_LINE_22\nALPHA_LINE_23\nALPHA_LINE_24\nALPHA_LINE_25",
+      "url": "paseo://app/h/srv_cSvZsi6mbG4n/workspace/wks_d770ec3930c04fe0"
+    },
+    {
+      "name": "absolute-path-single-line",
+      "at": "2026-10-24T11:20:43.894Z",
+      "status": "349 B\n25 行\nLn 8, Col 1",
+      "text": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\nALPHA_LINE_01\nALPHA_LINE_02\nALPHA_LINE_03\nALPHA_LINE_04\nALPHA_LINE_05\nALPHA_LINE_06\nALPHA_LINE_07\nALPHA_LINE_08\nALPHA_LINE_09\nALPHA_LINE_10\nALPHA_LINE_11\nALPHA_LINE_12\nALPHA_LINE_13\nALPHA_LINE_14\nALPHA_LINE_15\nALPHA_LINE_16\nALPHA_LINE_17\nALPHA_LINE_18\nALPHA_LINE_19\nALPHA_LINE_20\nALPHA_LINE_21\nALPHA_LINE_22\nALPHA_LINE_23\nALPHA_LINE_24\nALPHA_LINE_25",
+      "url": "paseo://app/h/srv_cSvZsi6mbG4n/workspace/wks_d770ec3930c04fe0"
+    },
+    {
+      "name": "workspace-routing",
+      "at": "2026-10-24T11:20:45.112Z",
+      "status": "349 B\n25 行\nLn 10, Col 1",
+      "text": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\nBRAVO_LINE_01\nBRAVO_LINE_02\nBRAVO_LINE_03\nBRAVO_LINE_04\nBRAVO_LINE_05\nBRAVO_LINE_06\nBRAVO_LINE_07\nBRAVO_LINE_08\nBRAVO_LINE_09\nBRAVO_LINE_10\nBRAVO_LINE_11\nBRAVO_LINE_12\nBRAVO_LINE_13\nBRAVO_LINE_14\nBRAVO_LINE_15\nBRAVO_LINE_16\nBRAVO_LINE_17\nBRAVO_LINE_18\nBRAVO_LINE_19\nBRAVO_LINE_20\nBRAVO_LINE_21\nBRAVO_LINE_22\nBRAVO_LINE_23\nBRAVO_LINE_24\nBRAVO_LINE_25",
+      "url": "paseo://app/h/srv_cSvZsi6mbG4n/workspace/wks_d9edce568f724a07"
+    },
+    {
+      "name": "folder-opens-explorer",
+      "at": "2026-10-24T11:20:46.425Z",
+      "status": "PASS",
+      "url": "paseo://app/h/srv_cSvZsi6mbG4n/workspace/wks_d9edce568f724a07"
+    },
+    {
+      "name": "empty-and-escaping-path",
+      "at": "2026-10-24T11:21:02.020Z",
+      "status": "FAIL",
+      "error": "locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'QA Relative', exact: true }).first() to be visible\u001b[22m\n\n    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/run-packaged.cjs:131:234\n    at async step (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/run-packaged.cjs:19:51)\n    at async /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/run-packaged.cjs:131:4"
+    }
+  ],
+  "workspaces": {
+    "a": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792840829120/workspace-ALPHA",
+      "workspaceId": "wks_d770ec3930c04fe0",
+      "agentId": "2e4364f3-9f11-4aee-b496-00cb1ba924cf"
+    },
+    "b": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792840829120/workspace-BRAVO",
+      "workspaceId": "wks_d9edce568f724a07",
+      "agentId": "793d8604-51a9-43d7-a12a-6ec161e65622"
+    }
+  },
+  "status": "FAIL",
+  "error": "locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'QA Relative', exact: true }).first() to be visible\u001b[22m\n\n    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/run-packaged.cjs:131:234\n    at async step (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/run-packaged.cjs:19:51)\n    at async /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/run-packaged.cjs:131:4",
+  "finishedAt": "2026-10-24T11:21:14.485Z"
+}

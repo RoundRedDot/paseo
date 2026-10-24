@@ -1,0 +1,11 @@
+{
+  "v1": {
+    "sha256": "a6af432b3b08b7c0e5dfefb87abd43ac9447acabf2a0efb6a6aa32215b2acde7",
+    "source": "reconstructed by reversing the one marker constant replacement in captured v2; controller source and wire hashes retained"
+  },
+  "v2": {
+    "sha256": "ad10153f9eb4b7f014427ca6e2fecf95dee88ff2de701897b065f26112ac241c",
+    "source": "captured installed source"
+  },
+  "scope": "Footer probe proves catalog bundle execution, not provider timeline restoration"
+}

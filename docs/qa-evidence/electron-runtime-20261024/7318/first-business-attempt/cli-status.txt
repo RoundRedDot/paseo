@@ -1,0 +1,25 @@
+{
+  "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792840829120/home",
+  "pid": 42987,
+  "startedAt": "2026-10-24T11:20:35.515Z",
+  "listen": "127.0.0.1:51591",
+  "serverId": "srv_cSvZsi6mbG4n",
+  "hostname": "luoph-mbp",
+  "configuredListen": "127.0.0.1:51591",
+  "localDaemon": "running",
+  "desktopManaged": true,
+  "logPath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792840829120/home/daemon.log",
+  "daemonVersion": "0.12.0",
+  "workerPid": 43001,
+  "daemonNode": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/packages/desktop/release/mac-arm64/Paseo.app/Contents/Frameworks/Paseo Helper.app/Contents/MacOS/Paseo Helper",
+  "providers": [],
+  "relay": {
+    "enabled": false,
+    "endpoint": "relay.paseo.sh:443",
+    "publicEndpoint": "relay.paseo.sh:443",
+    "useTls": true,
+    "publicUseTls": true
+  },
+  "connectedDaemon": "reachable"
+}
+

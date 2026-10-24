@@ -1,0 +1,41 @@
+新建工作区
+历史
+搜索
+计划
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+设置 worktree scripts
+添加 setup 命令，让新的 worktree 自动安装依赖并完成准备。
+打开 project 设置
+QA ALPHA
+workspace-ALPHA
+Commit
+QA ALPHA agent
+QA ALPHA agent
+QA_CATALOG_V2 srv_zmZa9YVijB5T
+QA Relative
+QA Single
+QA Absolute
+QA Folder
+QA Empty
+QA Escape
+QA Bad Lines
+QA Missing
+
+Echo: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792840802535/workspace-ALPHA
+
+Plugin timeline item unavailable.
+19:20
+19:20
+1 个 subagent
+Example 1
+Build
+Voice
+Drop files here

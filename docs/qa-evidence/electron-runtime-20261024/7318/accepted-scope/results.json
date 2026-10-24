@@ -1,0 +1,157 @@
+{
+  "mode": "7318",
+  "startedAt": "2026-10-24T11:24:04.039Z",
+  "head": "03b7b80b00b7ad4990232e7d992c77cbf6274701",
+  "evidence": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792841044038",
+  "steps": [
+    {
+      "name": "launch",
+      "at": "2026-10-24T11:24:04.065Z",
+      "exe": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/packages/desktop/release/mac-arm64/Paseo.app/Contents/MacOS/Paseo",
+      "listen": "127.0.0.1:54162",
+      "cdpPort": 54163,
+      "userData": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792841044038/user-data",
+      "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792841044038/home",
+      "flags": "--remote-debugging-address=127.0.0.1 --remote-debugging-port=54163"
+    },
+    {
+      "name": "packaged-renderer-preload",
+      "at": "2026-10-24T11:24:08.181Z",
+      "status": "PASS",
+      "url": "paseo://app/",
+      "bridge": [
+        "platform",
+        "windowChromeMode",
+        "invoke",
+        "getPendingOpenProject",
+        "agentNavigation",
+        "events",
+        "window",
+        "dialog",
+        "notification",
+        "opener",
+        "editor",
+        "webUtils",
+        "menu",
+        "browser"
+      ]
+    },
+    {
+      "name": "renderer-managed-daemon",
+      "at": "2026-10-24T11:24:12.429Z",
+      "status": "PASS",
+      "daemon": {
+        "serverId": "srv_FcAtqRA5zH4J",
+        "status": "running",
+        "listen": "127.0.0.1:54162",
+        "hostname": "luoph-mbp",
+        "pid": 18892,
+        "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792841044038/home",
+        "version": "0.12.0",
+        "desktopManaged": true,
+        "startedAt": "2026-10-24T11:24:08.570Z",
+        "ownedByDesktop": true,
+        "error": null
+      }
+    },
+    {
+      "name": "production-sandbox-diagnostics",
+      "at": "2026-10-24T11:24:12.434Z",
+      "status": "PASS",
+      "sandbox": {
+        "enabled": true,
+        "reason": "Chromium default"
+      }
+    },
+    {
+      "name": "fixture-installed",
+      "at": "2026-10-24T11:24:14.573Z",
+      "id": "provider-direct-example",
+      "dir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792841044038/fixture-plugin"
+    },
+    {
+      "name": "relative-path-line-range",
+      "at": "2026-10-24T11:24:18.263Z",
+      "status": "PASS",
+      "text": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\nALPHA_LINE_01\nALPHA_LINE_02\nALPHA_LINE_03\nALPHA_LINE_04\nALPHA_LINE_05\nALPHA_LINE_06\nALPHA_LINE_07\nALPHA_LINE_08\nALPHA_LINE_09\nALPHA_LINE_10\nALPHA_LINE_11\nALPHA_LINE_12\nALPHA_LINE_13\nALPHA_LINE_14\nALPHA_LINE_15\nALPHA_LINE_16\nALPHA_LINE_17\nALPHA_LINE_18\nALPHA_LINE_19\nALPHA_LINE_20\nALPHA_LINE_21\nALPHA_LINE_22\nALPHA_LINE_23\nALPHA_LINE_24\nALPHA_LINE_25",
+      "editorStatus": "349 B\n25 lines\nLn 6, Col 14",
+      "url": "paseo://app/h/srv_FcAtqRA5zH4J/workspace/wks_12df3efad02e3d61"
+    },
+    {
+      "name": "absolute-path-single-line",
+      "at": "2026-10-24T11:24:19.479Z",
+      "status": "PASS",
+      "text": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\nALPHA_LINE_01\nALPHA_LINE_02\nALPHA_LINE_03\nALPHA_LINE_04\nALPHA_LINE_05\nALPHA_LINE_06\nALPHA_LINE_07\nALPHA_LINE_08\nALPHA_LINE_09\nALPHA_LINE_10\nALPHA_LINE_11\nALPHA_LINE_12\nALPHA_LINE_13\nALPHA_LINE_14\nALPHA_LINE_15\nALPHA_LINE_16\nALPHA_LINE_17\nALPHA_LINE_18\nALPHA_LINE_19\nALPHA_LINE_20\nALPHA_LINE_21\nALPHA_LINE_22\nALPHA_LINE_23\nALPHA_LINE_24\nALPHA_LINE_25",
+      "editorStatus": "349 B\n25 lines\nLn 8, Col 1",
+      "url": "paseo://app/h/srv_FcAtqRA5zH4J/workspace/wks_12df3efad02e3d61"
+    },
+    {
+      "name": "workspace-routing",
+      "at": "2026-10-24T11:24:20.640Z",
+      "status": "PASS",
+      "text": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\nBRAVO_LINE_01\nBRAVO_LINE_02\nBRAVO_LINE_03\nBRAVO_LINE_04\nBRAVO_LINE_05\nBRAVO_LINE_06\nBRAVO_LINE_07\nBRAVO_LINE_08\nBRAVO_LINE_09\nBRAVO_LINE_10\nBRAVO_LINE_11\nBRAVO_LINE_12\nBRAVO_LINE_13\nBRAVO_LINE_14\nBRAVO_LINE_15\nBRAVO_LINE_16\nBRAVO_LINE_17\nBRAVO_LINE_18\nBRAVO_LINE_19\nBRAVO_LINE_20\nBRAVO_LINE_21\nBRAVO_LINE_22\nBRAVO_LINE_23\nBRAVO_LINE_24\nBRAVO_LINE_25",
+      "editorStatus": "349 B\n25 lines\nLn 10, Col 1",
+      "url": "paseo://app/h/srv_FcAtqRA5zH4J/workspace/wks_2c99a97873115a99"
+    },
+    {
+      "name": "folder-opens-explorer",
+      "at": "2026-10-24T11:24:21.826Z",
+      "status": "PASS",
+      "url": "paseo://app/h/srv_FcAtqRA5zH4J/workspace/wks_2c99a97873115a99"
+    },
+    {
+      "name": "empty-path-ignored",
+      "at": "2026-10-24T11:24:22.188Z",
+      "status": "PASS",
+      "url": "paseo://app/h/srv_FcAtqRA5zH4J/workspace/wks_2c99a97873115a99"
+    },
+    {
+      "name": "escaping-path-visible-denial",
+      "at": "2026-10-24T11:24:22.348Z",
+      "status": "PASS",
+      "url": "paseo://app/h/srv_FcAtqRA5zH4J/workspace/wks_2c99a97873115a99"
+    },
+    {
+      "name": "invalid-line-normalization",
+      "at": "2026-10-24T11:24:23.452Z",
+      "status": "PASS",
+      "text": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\nBRAVO_LINE_01\nBRAVO_LINE_02\nBRAVO_LINE_03\nBRAVO_LINE_04\nBRAVO_LINE_05\nBRAVO_LINE_06\nBRAVO_LINE_07\nBRAVO_LINE_08\nBRAVO_LINE_09\nBRAVO_LINE_10\nBRAVO_LINE_11\nBRAVO_LINE_12\nBRAVO_LINE_13\nBRAVO_LINE_14\nBRAVO_LINE_15\nBRAVO_LINE_16\nBRAVO_LINE_17\nBRAVO_LINE_18\nBRAVO_LINE_19\nBRAVO_LINE_20\nBRAVO_LINE_21\nBRAVO_LINE_22\nBRAVO_LINE_23\nBRAVO_LINE_24\nBRAVO_LINE_25",
+      "editorStatus": "349 B\n25 lines\nLn 1, Col 1",
+      "url": "paseo://app/h/srv_FcAtqRA5zH4J/workspace/wks_2c99a97873115a99"
+    },
+    {
+      "name": "split-pane-origin",
+      "at": "2026-10-24T11:24:25.002Z",
+      "status": "PASS",
+      "url": "paseo://app/h/srv_FcAtqRA5zH4J/workspace/wks_2c99a97873115a99"
+    },
+    {
+      "name": "compact-file-open",
+      "at": "2026-10-24T11:24:27.378Z",
+      "status": "PASS",
+      "text": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\nALPHA_LINE_01\nALPHA_LINE_02\nALPHA_LINE_03\nALPHA_LINE_04\nALPHA_LINE_05\nALPHA_LINE_06\nALPHA_LINE_07\nALPHA_LINE_08\nALPHA_LINE_09\nALPHA_LINE_10\nALPHA_LINE_11\nALPHA_LINE_12\nALPHA_LINE_13\nALPHA_LINE_14\nALPHA_LINE_15\nALPHA_LINE_16\nALPHA_LINE_17\nALPHA_LINE_18\nALPHA_LINE_19\nALPHA_LINE_20\nALPHA_LINE_21\nALPHA_LINE_22\nALPHA_LINE_23\nALPHA_LINE_24\nALPHA_LINE_25",
+      "editorStatus": "349 B\n25 lines\nLn 10, Col 1",
+      "url": "paseo://app/h/srv_FcAtqRA5zH4J/workspace/wks_12df3efad02e3d61"
+    },
+    {
+      "name": "missing-file-visible-error",
+      "at": "2026-10-24T11:24:29.256Z",
+      "status": "PASS",
+      "url": "paseo://app/h/srv_FcAtqRA5zH4J/workspace/wks_2c99a97873115a99"
+    }
+  ],
+  "workspaces": {
+    "a": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792841044038/workspace-ALPHA",
+      "workspaceId": "wks_12df3efad02e3d61",
+      "agentId": "219b7341-2415-4deb-9878-1572f793164c"
+    },
+    "b": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792841044038/workspace-BRAVO",
+      "workspaceId": "wks_2c99a97873115a99",
+      "agentId": "f424a270-abdd-4b30-bece-fa69ac6cede1"
+    }
+  },
+  "status": "PASS",
+  "finishedAt": "2026-10-24T11:24:41.614Z"
+}

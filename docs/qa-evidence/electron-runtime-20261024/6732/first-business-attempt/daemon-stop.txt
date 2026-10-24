@@ -1,0 +1,2 @@
+stopped: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792840802535/home
+

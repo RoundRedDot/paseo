@@ -1,0 +1,66 @@
+{
+  "at": "2026-10-24T11:20:00.469Z",
+  "head": "b74cb0a5b34bdee5331fe01a8f264a26375d6301",
+  "platform": "darwin",
+  "arch": "arm64",
+  "versions": {
+    "electron": "44.2.0",
+    "node": "v24.18.0",
+    "npm": "11.16.0"
+  },
+  "packagePath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/packages/desktop/release/mac-arm64/Paseo.app/Contents",
+  "sourceStatus": "",
+  "files": [
+    {
+      "file": "app.asar",
+      "sha256": "dc4ea7ca3bd48083e10144bd623d8fed46debd2810df2677b7b1ce0e8a369c97"
+    },
+    {
+      "file": "../MacOS/Paseo",
+      "sha256": "b4953470aa9d5a786ee7807019a84e0de8608ad2469c035ef4dc737dcbda5243"
+    },
+    {
+      "file": "bin/paseo",
+      "sha256": "b33edf195d8161770993a229e474a8e9a8cd5562793704697839c00ef59ae08c"
+    }
+  ],
+  "producerMatches": [
+    {
+      "file": "dist/main.js",
+      "sha256": "c719e3d30bd64de227294f723af46aabdbc83b0e8976a36d28afe1c08fe42295"
+    },
+    {
+      "file": "dist/preload.js",
+      "sha256": "40364419f0c47afb64b80242a3459045e72db73b57c1abf504e2a33e127504e7"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/desktop-attachment-bridge-d36d34325c4ee0528b72c7f8b5a74c0d.js",
+      "sha256": "1db4f7e7041776d5d395d1cd2c142814349daa98064d87d8474975e1eafe5b1a"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/desktop-attachment-store-95319e0809cc2bab2bdfc9eeecf25007.js",
+      "sha256": "f93a75b3cd7da86d0cef96d6831707afc25ad0e3db5249d88b9981090004edf7"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/index-1b64806b76b01380551b39182fd5b3cb.js",
+      "sha256": "27f404e4fa7a4b5332bd8e165756610359eeee273ed41317b4b2491de8054614"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/index-6d4d990eae66a31787abea350777511f.js",
+      "sha256": "9cbeabe57f8bd8c7a53a0a2759366892d7a628ea7f274b0749ed655d9ce3a36d"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/indexeddb-attachment-store-b3748b2203b3d43b0e4f47f7ee217a63.js",
+      "sha256": "f77a055398beeb113b855304ba60a01f1b8fa880dcd3ec7a51a20a881a0cd2c8"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/native-file-attachment-store-f68b1a4115c6207e3be860acb5b21294.js",
+      "sha256": "b46dcd4b0be9ebaf104610a52859f472f897f58190558fb432d0f3d29b6e7d20"
+    }
+  ],
+  "signature": {
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}

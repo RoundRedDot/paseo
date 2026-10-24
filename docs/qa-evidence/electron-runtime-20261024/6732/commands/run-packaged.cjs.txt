@@ -1,0 +1,176 @@
+const fs = require('node:fs');
+const path = require('node:path');
+const net = require('node:net');
+const assert = require('node:assert/strict');
+const {spawn, spawnSync} = require('node:child_process');
+const {setTimeout: delay} = require('node:timers/promises');
+const {pathToFileURL} = require('node:url');
+const {createRequire} = require('node:module');
+const root = process.cwd();
+const req = createRequire(path.join(root,'package.json'));
+const {chromium} = req('playwright');
+const {WebSocket} = req('ws');
+const mode = process.argv[2] || '7318';
+const evidence = path.join(root, '.dev/electron-qa-evidence', `runtime-${mode}-${Date.now()}`);
+fs.mkdirSync(evidence, {recursive:true});
+const results = {mode, startedAt:new Date().toISOString(), head:spawnSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).stdout.trim(), evidence, steps:[]};
+function save(){fs.writeFileSync(path.join(evidence,'results.json'),JSON.stringify(results,null,2));}
+function record(name, details={}){ results.steps.push({name,at:new Date().toISOString(),...details}); save(); console.log(name,JSON.stringify(details));}
+async function step(name, action){try{const value=await action();record(name,{status:'PASS',...value});return value;}catch(error){record(name,{status:'FAIL',error:String(error.stack||error)});throw error;}}
+async function port(){return new Promise((resolve,reject)=>{const server=net.createServer();server.on('error',reject);server.listen(0,'127.0.0.1',()=>{const p=server.address().port;server.close(()=>resolve(p));});});}
+async function until(fn,timeout=60000){const end=Date.now()+timeout;let last;while(Date.now()<end){try{const value=await fn();if(value)return value;}catch(e){last=e;}await delay(200);}throw new Error(`Timeout: ${last||'condition not satisfied'}`);}
+const home=path.join(evidence,'home'), userData=path.join(evidence,'user-data');
+fs.mkdirSync(home);fs.mkdirSync(userData);
+const appPath=path.join(root,'packages/desktop/release/mac-arm64/Paseo.app');
+const exe=path.join(appPath,'Contents/MacOS/Paseo');
+const cli=path.join(appPath,'Contents/Resources/bin/paseo');
+let child,browser,page,client,env;
+const stdout=fs.createWriteStream(path.join(evidence,'app.stdout.log'));
+const stderr=fs.createWriteStream(path.join(evidence,'app.stderr.log'));
+const wire=[];
+let currentPhase='startup';
+function observe(p){
+ p.on('console',msg=>fs.appendFileSync(path.join(evidence,'console.log'),`${msg.type()}: ${msg.text()}\n`));
+ p.on('pageerror',error=>fs.appendFileSync(path.join(evidence,'page-errors.log'),`${error.stack||error}\n`));
+ p.on('websocket',socket=>{
+  for(const event of ['framesent','framereceived'])socket.on(event,frame=>{
+   try{const frameData=JSON.parse(String(frame.payload));const message=frameData.message||frameData;
+    if(String(message.type).includes('plugin.catalog')){
+     const value=JSON.parse(JSON.stringify(message));
+     if(value.payload?.plugins)value.payload.plugins=value.payload.plugins.map(p=>({...p,clientBundle:typeof p.clientBundle==='string'?{bytes:Buffer.byteLength(p.clientBundle),sha256:req('node:crypto').createHash('sha256').update(p.clientBundle).digest('hex')}:p.clientBundle}));
+     wire.push({phase:currentPhase,event,payloadBytes:Buffer.byteLength(frame.payload),url:socket.url(),at:new Date().toISOString(),message:value});
+     fs.writeFileSync(path.join(evidence,'catalog-wire.json'),JSON.stringify(wire,null,2));
+    }
+   }catch{}
+  });
+ });
+}
+async function capture(name){await page.screenshot({path:path.join(evidence,`${name}.png`),fullPage:true});fs.writeFileSync(path.join(evidence,`${name}.txt`),await page.locator('body').innerText());}
+function providerFixture(){
+ const dir=path.join(evidence,'fixture-plugin');fs.cpSync(path.join(root,'plugin-examples/provider-direct'),dir,{recursive:true});
+ const targetSource=`import React from "react";
+import {Text,View,Pressable} from "react-native";
+import {z} from "zod";
+const version="QA_CATALOG_V1";
+function Card({openFile,item,host}){return <View><Text>{version+" "+host.id}</Text>{[
+ ["QA Relative",{path:"src/target.txt",lineStart:4,lineEnd:6}],
+ ["QA Single",{path:"src/target.txt",lineStart:10}],
+ ["QA Absolute",{path:item.data.root+"/src/target.txt",lineStart:8}],
+ ["QA Folder",{path:"src"}],
+ ["QA Empty",{path:"   "}],
+ ["QA Escape",{path:"../outside.txt"}],
+ ["QA Bad Lines",{path:"src/invalid-lines.txt",lineStart:-1,lineEnd:3}],
+ ["QA Missing",{path:"src/missing.txt",lineStart:2}],
+ ].map(([label,location])=><Pressable key={label} accessibilityRole="button" onPress={()=>openFile?.(location)}><Text>{label}</Text></Pressable>)}</View>}
+export default function contribute(client){
+client.addSidebarFooterItem({id:"qa-catalog",title:"QA Catalog",Component:()=> <Text>{version}</Text>});
+client.addTimelineTransformer({id:"qa-files",query:{itemType:"user_message"},transform({item}){return {items:[{type:"plugin",kind:"qa-files",version:1,data:{root:item.text}}]};}});
+client.addTimelineRenderer({kind:"qa-files",version:1,schema:z.object({root:z.string()}),Component:Card});
+return ()=>{};
+}`;
+ fs.writeFileSync(path.join(dir,'index.client.tsx'),targetSource);fs.writeFileSync(path.join(dir,'paseo-plugin.json'),JSON.stringify({id:'provider-direct-example',requirements:{paseo:'>='+JSON.parse(fs.readFileSync(path.join(root,'packages/app/package.json'),'utf8')).version}}));
+ return {dir,source:targetSource,id:JSON.parse(fs.readFileSync(path.join(dir,'paseo-plugin.json'),'utf8')).id};
+}
+async function workspace(label){
+ const cwd=path.join(evidence,`workspace-${label}`);fs.mkdirSync(path.join(cwd,'src'),{recursive:true});
+ fs.writeFileSync(path.join(cwd,'src/target.txt'),Array.from({length:25},(_,i)=>`${label}_LINE_${String(i+1).padStart(2,'0')}`).join('\n'));
+ fs.copyFileSync(path.join(cwd,'src/target.txt'),path.join(cwd,'src/invalid-lines.txt'));spawnSync('git',['init','--quiet',cwd]);
+ const workspace=await client.createWorkspace({source:{kind:'directory',path:cwd},title:`QA ${label}`});
+ const workspaceId=workspace.workspaceId||workspace.workspace?.id;
+ assert.equal(typeof workspaceId,'string');
+ const agent=await client.createAgent({provider:'direct-example',cwd,workspaceId,title:`QA ${label} agent`,initialPrompt:cwd});
+ return {cwd,workspaceId,agentId:agent.id};
+}
+async function openAgent(a,status){
+ const url=`paseo://app/h/${encodeURIComponent(status.serverId)}/workspace/${a.workspaceId}?open=${encodeURIComponent('agent:'+a.agentId)}`;
+ await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
+ await page.getByRole('button',{name:'QA Relative',exact:true}).first().waitFor({timeout:60000});
+}
+async function click(name){await page.getByRole('button',{name,exact:true}).first().click({timeout:10000});}
+async function editor(){return page.getByTestId('file-source-editor').filter({visible:true}).first();}
+async function checkEditor(label,line,column){
+ const ed=await editor();await ed.waitFor({state:'visible',timeout:15000});
+ assert.ok((await ed.innerText()).includes(`${label}_LINE_01`));
+ await page.getByTestId('file-source-status').filter({visible:true}).getByText(`Ln ${line}, Col ${column}`,{exact:true}).waitFor({timeout:15000});
+ return {text:await ed.innerText(),editorStatus:await page.getByTestId('file-source-status').filter({visible:true}).first().innerText(),url:page.url()};
+}
+async function sourceAgent(a,status){
+ await page.goto(`paseo://app/h/${encodeURIComponent(status.serverId)}/workspace/${a.workspaceId}?open=${encodeURIComponent('agent:'+a.agentId)}`,{waitUntil:'domcontentloaded'});
+ await page.getByRole('button',{name:'QA Relative',exact:true}).first().waitFor({timeout:60000});
+}
+(async()=>{
+ const deadline=setTimeout(()=>{record('absolute-deadline',{status:'FAIL'});try{if(child?.pid)process.kill(-child.pid,'SIGTERM');}catch{}process.exitCode=1;setTimeout(()=>process.exit(1),3000).unref();},8*60*1000);
+ try{
+  const daemonPort=await port(),cdpPort=await port();const listen=`127.0.0.1:${daemonPort}`;
+  fs.writeFileSync(path.join(home,'config.json'),JSON.stringify({version:1,pluginsEnabled:true,daemon:{listen,relay:{enabled:false},mcp:{enabled:false,injectIntoAgents:false}},agents:{providers:Object.fromEntries(['claude','codex','opencode','copilot','cursor','pi','omp','antigravity','muse'].map(id=>[id,{enabled:false}]))}}));
+  env={...Object.fromEntries(Object.entries(process.env).filter(([k])=>!k.startsWith('PASEO_')&&k!=='ELECTRON_RUN_AS_NODE')),HOME:home,USERPROFILE:home,PASEO_HOME:home,PASEO_LISTEN:listen,PASEO_ELECTRON_USER_DATA_DIR:userData,PASEO_ELECTRON_FLAGS:`--remote-debugging-address=127.0.0.1 --remote-debugging-port=${cdpPort}`};
+  record('launch',{exe,listen,cdpPort,userData,home,flags:env.PASEO_ELECTRON_FLAGS});
+  child=spawn(exe,[],{env,detached:true,stdio:['ignore','pipe','pipe']});child.stdout.pipe(stdout);child.stderr.pipe(stderr);
+  child.on('error',error=>record('launch-error',{error:String(error)}));
+  browser=await until(async()=>{if(child.exitCode!==null||child.signalCode!==null)throw new Error(`app exited ${child.exitCode}`);return await chromium.connectOverCDP(`http://127.0.0.1:${cdpPort}`,{timeout:2000});},60000);
+  page=await until(()=>browser.contexts().flatMap(c=>c.pages()).find(p=>p.url().startsWith('paseo://app/')));
+  observe(page);page.setDefaultTimeout(15000);await page.setViewportSize({width:1400,height:900});await page.addInitScript(()=>{const settings=JSON.parse(localStorage.getItem('@paseo:app-settings')||'{}');localStorage.setItem('@paseo:app-settings',JSON.stringify({...settings,language:'en'}));});
+  await step('packaged-renderer-preload',async()=>{await page.waitForFunction(()=>document.querySelector('#root')?.childElementCount>0);const bridge=await page.evaluate(()=>Object.keys(window.paseoDesktop||{}));for(const key of ['invoke','browser','dialog','events'])assert.ok(bridge.includes(key));return {url:page.url(),bridge};});
+  const status=await until(async()=>{const s=await page.evaluate(()=>window.paseoDesktop.invoke('desktop_daemon_status'));return s.status==='running'&&s.desktopManaged===true&&s.listen===listen&&path.resolve(s.home)===home?s:null;});
+  record('renderer-managed-daemon',{status:'PASS',daemon:status});
+  await step('production-sandbox-diagnostics',async()=>{const sandbox=await page.evaluate(()=>window.paseoDesktop.invoke('desktop_sandbox_diagnostics'));assert.equal(sandbox.enabled,true);return {sandbox};});
+  const statusCmd=spawnSync(cli,['--json','daemon','status'],{env,encoding:'utf8',timeout:20000});fs.writeFileSync(path.join(evidence,'cli-status.txt'),statusCmd.stdout+'\n'+statusCmd.stderr);assert.equal(statusCmd.status,0);
+  const {DaemonClient}=await import(pathToFileURL(path.join(root,'packages/client/dist/daemon-client.js')).href);
+  client=new DaemonClient({url:`ws://${listen}/ws`,clientId:`qa-${mode}`,localCredential:()=>page.evaluate((listen)=>window.paseoDesktop.invoke('desktop_local_credential',{listen}),listen),webSocketFactory:(url,opts)=>new WebSocket(url,opts?.protocols,{headers:opts?.headers})});await client.connect();await client.fetchAgents({subscribe:{}});
+  currentPhase='cold';const fixture=providerFixture();await client.installDirectoryPlugin(fixture.dir);record('fixture-installed',{id:fixture.id,dir:fixture.dir});
+  const a=await workspace('ALPHA'),b=await workspace('BRAVO');results.workspaces={a,b};save();
+  await openAgent(a,status);
+  await capture('fixture-ready');
+  if(mode==='7318'){
+   await step('relative-path-line-range',async()=>{await click('QA Relative');const result=await checkEditor('ALPHA',6,14);assert.ok(page.url().includes(a.workspaceId));await capture('relative-range');return result;});
+   await sourceAgent(a,status);
+   await step('absolute-path-single-line',async()=>{await click('QA Absolute');const result=await checkEditor('ALPHA',8,1);await capture('absolute-line');return result;});
+   await sourceAgent(b,status);
+   await step('workspace-routing',async()=>{await click('QA Single');const result=await checkEditor('BRAVO',10,1);assert.ok(page.url().includes(b.workspaceId));assert.ok(!result.text.includes('ALPHA_LINE'));await capture('workspace-bravo');return result;});
+   await sourceAgent(b,status);
+   await step('folder-opens-explorer',async()=>{await click('QA Folder');await page.getByTestId('file-explorer-tree-scroll').filter({visible:true}).getByText('target.txt',{exact:true}).waitFor({timeout:15000});await capture('folder-explorer');return {url:page.url()};});
+   await step('empty-and-escaping-path',async()=>{await click('QA Empty');await click('QA Escape');await delay(500);assert.ok(page.url().includes(b.workspaceId));await page.getByRole('button',{name:'QA Relative',exact:true}).first().waitFor();await capture('invalid-paths');return {url:page.url()};});
+   await step('invalid-line-normalization',async()=>{await click('QA Bad Lines');const result=await checkEditor('BRAVO',1,1);await capture('bad-lines');return result;});
+   await sourceAgent(b,status);
+   await step('missing-file-visible-error',async()=>{await click('QA Missing');await page.getByText(/not found|no such file|does not exist|failed to/i).filter({visible:true}).first().waitFor({timeout:15000});await capture('missing-file');return {url:page.url()};});
+  }else{
+   await step('catalog-cold-load',async()=>{await page.getByText(/QA_CATALOG_V1/).first().waitFor({timeout:60000});return {phase:currentPhase};});
+   await step('catalog-warm-reload',async()=>{currentPhase='warm';await delay(1500);await page.reload({waitUntil:'domcontentloaded'});await page.getByText(/QA_CATALOG_V1/).first().waitFor({timeout:60000});await capture('catalog-warm');return {phase:currentPhase};});
+   await step('catalog-plugin-update',async()=>{currentPhase='update';fs.writeFileSync(path.join(fixture.dir,'index.client.tsx'),fixture.source.replace('QA_CATALOG_V1','QA_CATALOG_V2'));await client.reloadPlugin(fixture.id);await page.getByText(/QA_CATALOG_V2/).first().waitFor({timeout:60000});await capture('catalog-update');return {phase:currentPhase};});
+   await step('catalog-post-update-reload',async()=>{currentPhase='updated-warm';await delay(1500);await page.reload({waitUntil:'domcontentloaded'});await page.getByText(/QA_CATALOG_V2/).first().waitFor({timeout:60000});await capture('catalog-updated-warm');return {phase:currentPhase};});
+   await step('catalog-corrupt-storage-refetch',async()=>{
+    currentPhase='corrupt';
+    await page.evaluate(async(id)=>{const db=await new Promise((resolve,reject)=>{const r=indexedDB.open('paseo-plugin-client-bundles',1);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});await new Promise((resolve,reject)=>{const tx=db.transaction('bundles','readwrite');const store=tx.objectStore('bundles');const keys=store.getAllKeys();keys.onsuccess=()=>{const key=keys.result.find(key=>String(key).includes('/'+id+'.'));if(!key){reject(new Error('fixture cache record missing'));return;}const value=store.get(key);value.onsuccess=()=>store.put('X'+value.result.slice(1),key);};tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});db.close();},fixture.id);
+    await page.reload({waitUntil:'domcontentloaded'});await page.getByText(/QA_CATALOG_V2/).first().waitFor({timeout:60000});await capture('catalog-corrupt-refetched');return {phase:currentPhase};
+   });
+   await step('catalog-daemon-disconnect-reconnect',async()=>{
+    currentPhase='disconnect';const oldPid=status.pid;
+    const stop=spawnSync(cli,['daemon','stop','--home',home,'--force'],{env,encoding:'utf8',timeout:20000});assert.equal(stop.status,0);
+    record('isolated-daemon-stopped',{pid:oldPid,home});await delay(1000);await capture('catalog-disconnected');
+    await page.evaluate(()=>window.paseoDesktop.invoke('start_desktop_daemon'));
+    const fresh=await until(async()=>{const value=await page.evaluate(()=>window.paseoDesktop.invoke('desktop_daemon_status'));return value.status==='running'&&value.pid!==oldPid?value:null;});
+    await until(()=>wire.some(x=>x.phase==='disconnect'&&x.event==='framereceived'&&x.message.type==='plugin.catalog.get.response'));
+    await page.getByText(/QA_CATALOG_V2/).first().waitFor({timeout:60000});await capture('catalog-reconnected');return {oldPid,newPid:fresh.pid};
+   });
+   await step('catalog-wire-assertions',async()=>{
+    const entries=phase=>wire.filter(x=>x.phase===phase&&x.event==='framereceived').flatMap(x=>x.message.payload?.plugins||[]).filter(p=>p.id===fixture.id);
+    assert.ok(entries('cold').some(p=>p.clientBundle?.bytes>0));
+    assert.ok(entries('warm').some(p=>p.clientBundle===undefined));
+    assert.ok(entries('update').some(p=>p.clientBundle?.bytes>0));
+    assert.ok(entries('updated-warm').some(p=>p.clientBundle===undefined));
+    assert.ok(entries('corrupt').some(p=>p.clientBundle?.bytes>0));
+    assert.ok(entries('disconnect').some(p=>p.clientBundle===undefined));
+    const hashes=Object.fromEntries(['cold','warm','update','updated-warm','corrupt','disconnect'].map(phase=>[phase,entries(phase).map(p=>({hash:p.clientBundleHash,bundleBytes:p.clientBundle?.bytes||0}))]));
+    assert.notEqual(hashes.cold[0].hash,hashes.update[0].hash);return {count:wire.length,hashes};
+   });
+  }
+  results.status='PASS';
+ }catch(error){results.status='FAIL';results.error=String(error.stack||error);console.error(results.error);if(page)await capture('failure').catch(()=>{});process.exitCode=1;
+ }finally{
+  clearTimeout(deadline);await client?.close().catch(()=>{});
+  if(env){const stop=spawnSync(cli,['daemon','stop','--home',home,'--force'],{env,encoding:'utf8',timeout:20000});fs.writeFileSync(path.join(evidence,'daemon-stop.txt'),String(stop.stdout)+'\n'+String(stop.stderr));}
+  await browser?.close().catch(()=>{});
+  if(child?.pid){try{process.kill(-child.pid,'SIGTERM');}catch{}await delay(1500);try{process.kill(-child.pid,'SIGKILL');}catch{}}
+  stdout.end();stderr.end();results.finishedAt=new Date().toISOString();save();console.log(`RESULT ${results.status} ${evidence}`);
+ }
+})();

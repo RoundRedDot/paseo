@@ -1,0 +1,53 @@
+新建工作区
+历史
+搜索
+计划
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+设置 worktree scripts
+添加 setup 命令，让新的 worktree 自动安装依赖并完成准备。
+打开 project 设置
+QA BRAVO
+workspace-BRAVO
+Commit
+QA BRAVO agent
+target.txt
+QA BRAVO agent
+target.txt
+QA_CATALOG_V1 srv_cSvZsi6mbG4n
+QA Relative
+QA Single
+QA Absolute
+QA Folder
+QA Empty
+QA Escape
+QA Bad Lines
+QA Missing
+
+Echo: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792840829120/workspace-BRAVO
+
+Plugin timeline item unavailable.
+19:20
+19:20
+1 个运行中
+⌘L 聚焦
+Example 1
+Build
+Voice
+Drop files here
+文件
+更改
+文件
+更改
+名称
+.git
+src
+invalid-lines.txt
+target.txt

@@ -1,0 +1,20 @@
+import React from "react";
+import {Text,View,Pressable} from "react-native";
+import {z} from "zod";
+const version="QA_CATALOG_V1";
+function Card({openFile,item,host}){return <View><Text>{version+" "+host.id}</Text>{[
+ ["QA Relative",{path:"src/target.txt",lineStart:4,lineEnd:6}],
+ ["QA Single",{path:"src/target.txt",lineStart:10}],
+ ["QA Absolute",{path:item.data.root+"/src/target.txt",lineStart:8}],
+ ["QA Folder",{path:"src"}],
+ ["QA Empty",{path:"   "}],
+ ["QA Escape",{path:"../outside.txt"}],
+ ["QA Bad Lines",{path:"src/invalid-lines.txt",lineStart:-1,lineEnd:3}],
+ ["QA Missing",{path:"src/missing.txt",lineStart:2}],
+ ].map(([label,location])=><Pressable key={label} accessibilityRole="button" onPress={()=>openFile?.(location)}><Text>{label}</Text></Pressable>)}</View>}
+export default function contribute(client){
+client.addSidebarFooterItem({id:"qa-catalog",title:"QA Catalog",Component:()=> <Text>{version}</Text>});
+client.addTimelineTransformer({id:"qa-files",query:{itemType:"user_message"},transform({item}){return {items:[{type:"plugin",kind:"qa-files",version:1,data:{root:item.text}}]};}});
+client.addTimelineRenderer({kind:"qa-files",version:1,schema:z.object({root:z.string()}),Component:Card});
+return ()=>{};
+}

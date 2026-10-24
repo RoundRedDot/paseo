@@ -1,0 +1,64 @@
+# Packaged macOS Electron runtime evidence — 2026-10-24
+
+Executed by Codex (`gpt-6.1-sol`, high). These are local macOS arm64 package checks, not a notarized release or iOS/Android/Windows/Linux acceptance.
+
+| PR    | Product source SHA                         | Result                                                                                              |
+| ----- | ------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| #7318 | `03b7b80b00b7ad4990232e7d992c77cbf6274701` | Ten file-pane business cases passed in the real packaged app.                                       |
+| #6732 | `b74cb0a5b34bdee5331fe01a8f264a26375d6301` | Catalog/hash/storage/footer execution cases passed. Provider timeline restoration remains unproven. |
+
+Both packages were built from separate clean worktrees with fresh Metro exports and isolated temporary caches. `package-receipt.json` records source SHA, executable/asar hashes, byte equality of compiled main/preload and exported JS against the package, and successful `codesign --verify --deep --strict`.
+
+The successful packages use the existing Developer ID Application identity through electron-builder. They preserve the repository's hardened runtime, entitlements and Chromium sandbox. No `--no-sandbox`, disabled library validation, fake packaged flag or thin renderer was used. Notarization is disabled for local QA. Each app used new user data, a new daemon home and random ports. The real renderer started its desktop-managed daemon; the bundled CLI queried it. The production bridge reported sandbox enabled with reason `Chromium default`.
+
+The UI preference in the final run is English. These two packages retain the default Chromium language resources. The subsequent fork/rewind QA configuration is separate.
+
+## #7318
+
+The installed trusted directory plugin uses the repository's direct provider example, a user-message transformer and real file-opening buttons. There is no host transport or file-pane mock.
+
+Passed at the source SHA above:
+
+1. Relative `src/target.txt`, selecting lines 4–6; the real source editor reports `Ln 6, Col 14`.
+2. Absolute path to the same file, line 8.
+3. The BRAVO agent opens BRAVO content at line 10 in BRAVO's workspace, rather than ALPHA's content.
+4. A directory target opens the Files explorer with its children.
+5. An empty path leaves the card usable.
+6. An escaping path displays `Access outside of workspace is not allowed`.
+7. Invalid line numbers normalize to a fresh file's initial cursor.
+8. Opening from the source pane leaves a new split pane's launcher unchanged.
+9. A 390×844 Electron viewport opens the file at line 10.
+10. A missing file displays an error.
+
+The API has no column target. Cursor column readback above is an observation of range selection, not a new column capability. Synthetic provider-subagent panes, iOS, Android, Windows and Linux are not verified by this run.
+
+At the same source SHA, root typecheck/lint passed, SDK boundary tests passed 58/58, and the focused timeline-view file passed 5/5. No product source was changed.
+
+## #6732
+
+The same real plugin loader installs a client bundle with timeline and sidebar-footer contributions. The footer is an independent execution marker for the catalog bundle.
+
+| Scenario                                                         | Bundle hash                                                        | Bundle bytes in the fixture entry |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------ | --------------------------------: |
+| Cold install                                                     | `44eadf8a186d1c626636da5d2582647778d68752d28d2b2d1dd53211d677cb26` |                              2966 |
+| Warm reload                                                      | same V1 hash                                                       |                           omitted |
+| Explicit plugin reload after V2 source update                    | `5e462099ecfb11921536c56975913cc12a7d0a399bf8457cecd43d465d696cf5` |                              2966 |
+| Reload after update                                              | same V2 hash                                                       |                           omitted |
+| Same-length corruption of the real IndexedDB record, then reload | same V2 hash                                                       |                              2966 |
+| Stop and restart only this isolated daemon                       | same V2 hash                                                       |                           omitted |
+
+The wire capture correlates the renderer's actual catalog requests/responses. The real daemon PID changed from 21685 to 25479. The V2 footer rendered after reconnect. The source fixture and its source hashes are retained; the V1 source file is explicitly labeled as reconstructed by reversing the controller's single marker replacement in the captured V2 file. Both actual compiled bundle hashes are in the wire capture.
+
+The timeline card rendered before the daemon restart and across renderer reloads. **Timeline restoration across the daemon restart is not passed:** the direct provider example's replay emits only `Restored from persistence`, so the original user-message card is absent. The first attempt's screenshot and failed timeline-marker assertion are retained. The independent footer probe does not establish restoration of timeline contributions or every plugin surface. The reconnect screenshot still shows the provider replay and an `Updating messages` state; no catch-up completion or performance claim is made.
+
+Root typecheck/lint passed. The initial three-file focused command failed at the first dynamic-import case under the default 5-second timeout, after three passing cases. The log records 5.47 seconds of import time and 8.88 seconds of transformation. One isolated diagnostic with a 20-second budget completed all six storage cases in 2.37 seconds; it did not reach that budget. The remaining two files passed 46/46 at their default budget. The initial failure is retained, its cause is not conclusively established, and no timeout or test-source change was committed. Relay throughput, native hashing and iOS/Android acceptance remain open.
+
+## Retained attempts and reproducibility
+
+`accepted-scope/` contains the final raw results, actual wire summaries, screenshots, rendered text and app output. `first-business-attempt/` retains incorrect-oracle/fixture assumptions and their failures. The original file-pane oracle expected escaping paths to be ignored; it was corrected to require the daemon's visible denial. The original catalog reconnect oracle incorrectly depended on the direct example's replay preserving user rows.
+
+`ad-hoc-environment-failure/` retains the earlier real launch failures. Ad-hoc signatures passed strict signature verification, but dyld rejected framework mapping because hardened runtime requires compatible Team IDs. No renderer or business case ran in those attempts. The standard Developer ID route resolved that environment blocker.
+
+`commands/` contains the executed scripts and command outputs. Private daemon homes, local credentials and browser user data are excluded. Logs are redacted if a credential-shaped value is found; `manifest.json` records original/published hashes and whether redaction changed a copied file. Original private evidence remains in the named worktrees.
+
+Executable source snapshots use a `.txt` suffix so repository formatting and linting do not rewrite the captured fixture/controller code. Remove that suffix when reproducing a run.

@@ -1,0 +1,55 @@
+New workspace
+History
+Search
+Schedules
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+Set up worktree scripts
+Add setup commands so new worktrees can install dependencies and prepare themselves automatically.
+Open project settings
+QA BRAVO
+workspace-BRAVO
+Commit
+QA BRAVO agent
+target.txt
+outside.txt
+invalid-lines.txt
+missing.txt
+QA BRAVO agent
+target.txt
+outside.txt
+invalid-lines.txt
+missing.txt
+File not found
+Retry
+New tab
+New tab
+Agent
+⇧⌘A
+Terminal
+⇧⌘T
+Diff
+⇧⌘G
+Browser
+⇧⌘B
+Terminal profiles
+Claude Code
+Codex
+OpenCode
+Pi
+Files
+Changes
+Files
+Changes
+Name
+.git
+src
+invalid-lines.txt
+target.txt

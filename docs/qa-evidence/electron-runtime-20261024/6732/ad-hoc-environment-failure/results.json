@@ -1,0 +1,21 @@
+{
+  "mode": "6732",
+  "startedAt": "2026-10-24T11:03:38.063Z",
+  "head": "b74cb0a5b34bdee5331fe01a8f264a26375d6301",
+  "evidence": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792839818062",
+  "steps": [
+    {
+      "name": "launch",
+      "at": "2026-10-24T11:03:38.074Z",
+      "exe": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/packages/desktop/release/mac-arm64/Paseo.app/Contents/MacOS/Paseo",
+      "listen": "127.0.0.1:57151",
+      "cdpPort": 57152,
+      "userData": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792839818062/user-data",
+      "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792839818062/home",
+      "flags": "--remote-debugging-address=127.0.0.1 --remote-debugging-port=57152"
+    }
+  ],
+  "status": "FAIL",
+  "error": "Error: Timeout: Error: browserType.connectOverCDP: connect ECONNREFUSED 127.0.0.1:57152\nCall log:\n\u001b[2m  - <ws preparing> retrieving websocket url from http://127.0.0.1:57152\u001b[22m\n\n    at until (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/run-packaged.cjs:21:191)\n    at async /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/run-packaged.cjs:109:11",
+  "finishedAt": "2026-10-24T11:04:39.802Z"
+}

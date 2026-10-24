@@ -1,0 +1,53 @@
+New workspace
+History
+Search
+Schedules
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+Set up worktree scripts
+Add setup commands so new worktrees can install dependencies and prepare themselves automatically.
+Open project settings
+QA BRAVO
+workspace-BRAVO
+Commit
+QA BRAVO agent
+target.txt
+QA BRAVO agent
+target.txt
+QA_CATALOG_V1 srv_FcAtqRA5zH4J
+QA Relative
+QA Single
+QA Absolute
+QA Folder
+QA Empty
+QA Escape
+QA Bad Lines
+QA Missing
+
+Echo: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa/.dev/electron-qa-evidence/runtime-7318-1792841044038/workspace-BRAVO
+
+Plugin timeline item unavailable.
+19:24
+19:24
+1 working
+⌘L to focus
+Example 1
+Build
+Voice
+Drop files here
+Files
+Changes
+Files
+Changes
+Name
+.git
+src
+invalid-lines.txt
+target.txt

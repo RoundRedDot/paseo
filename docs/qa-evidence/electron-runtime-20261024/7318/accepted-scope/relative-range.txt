@@ -1,0 +1,76 @@
+New workspace
+History
+Search
+Schedules
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+Set up worktree scripts
+Add setup commands so new worktrees can install dependencies and prepare themselves automatically.
+Open project settings
+QA ALPHA
+workspace-ALPHA
+Commit
+QA ALPHA agent
+target.txt
+QA ALPHA agent
+target.txt
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+ALPHA_LINE_01
+ALPHA_LINE_02
+ALPHA_LINE_03
+ALPHA_LINE_04
+ALPHA_LINE_05
+ALPHA_LINE_06
+ALPHA_LINE_07
+ALPHA_LINE_08
+ALPHA_LINE_09
+ALPHA_LINE_10
+ALPHA_LINE_11
+ALPHA_LINE_12
+ALPHA_LINE_13
+ALPHA_LINE_14
+ALPHA_LINE_15
+ALPHA_LINE_16
+ALPHA_LINE_17
+ALPHA_LINE_18
+ALPHA_LINE_19
+ALPHA_LINE_20
+ALPHA_LINE_21
+ALPHA_LINE_22
+ALPHA_LINE_23
+ALPHA_LINE_24
+ALPHA_LINE_25
+349 B
+25 lines
+Ln 6, Col 14

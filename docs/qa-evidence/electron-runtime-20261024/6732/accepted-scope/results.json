@@ -1,0 +1,178 @@
+{
+  "mode": "6732",
+  "startedAt": "2026-10-24T11:24:14.014Z",
+  "head": "b74cb0a5b34bdee5331fe01a8f264a26375d6301",
+  "evidence": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792841054014",
+  "steps": [
+    {
+      "name": "launch",
+      "at": "2026-10-24T11:24:14.038Z",
+      "exe": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/packages/desktop/release/mac-arm64/Paseo.app/Contents/MacOS/Paseo",
+      "listen": "127.0.0.1:54328",
+      "cdpPort": 54329,
+      "userData": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792841054014/user-data",
+      "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792841054014/home",
+      "flags": "--remote-debugging-address=127.0.0.1 --remote-debugging-port=54329"
+    },
+    {
+      "name": "packaged-renderer-preload",
+      "at": "2026-10-24T11:24:16.518Z",
+      "status": "PASS",
+      "url": "paseo://app/",
+      "bridge": [
+        "platform",
+        "windowChromeMode",
+        "invoke",
+        "getPendingOpenProject",
+        "agentNavigation",
+        "events",
+        "window",
+        "dialog",
+        "notification",
+        "opener",
+        "editor",
+        "webUtils",
+        "menu",
+        "browser"
+      ]
+    },
+    {
+      "name": "renderer-managed-daemon",
+      "at": "2026-10-24T11:24:20.997Z",
+      "status": "PASS",
+      "daemon": {
+        "serverId": "srv_QreooP14xsd6",
+        "status": "running",
+        "listen": "127.0.0.1:54328",
+        "hostname": "luoph-mbp",
+        "pid": 21685,
+        "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792841054014/home",
+        "version": "0.13.0-beta.1",
+        "desktopManaged": true,
+        "startedAt": "2026-10-24T11:24:16.894Z",
+        "ownedByDesktop": true,
+        "error": null
+      }
+    },
+    {
+      "name": "production-sandbox-diagnostics",
+      "at": "2026-10-24T11:24:21.000Z",
+      "status": "PASS",
+      "sandbox": {
+        "enabled": true,
+        "reason": "Chromium default"
+      }
+    },
+    {
+      "name": "fixture-installed",
+      "at": "2026-10-24T11:24:23.502Z",
+      "id": "provider-direct-example",
+      "dir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792841054014/fixture-plugin"
+    },
+    {
+      "name": "catalog-cold-load",
+      "at": "2026-10-24T11:24:27.555Z",
+      "status": "PASS",
+      "phase": "cold"
+    },
+    {
+      "name": "catalog-warm-reload",
+      "at": "2026-10-24T11:24:29.888Z",
+      "status": "PASS",
+      "phase": "warm"
+    },
+    {
+      "name": "catalog-plugin-update",
+      "at": "2026-10-24T11:24:30.764Z",
+      "status": "PASS",
+      "phase": "update"
+    },
+    {
+      "name": "catalog-post-update-reload",
+      "at": "2026-10-24T11:24:32.942Z",
+      "status": "PASS",
+      "phase": "updated-warm"
+    },
+    {
+      "name": "catalog-corrupt-storage-refetch",
+      "at": "2026-10-24T11:24:33.598Z",
+      "status": "PASS",
+      "phase": "corrupt"
+    },
+    {
+      "name": "isolated-daemon-stopped",
+      "at": "2026-10-24T11:24:44.142Z",
+      "pid": 21685,
+      "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792841054014/home"
+    },
+    {
+      "name": "catalog-daemon-disconnect-reconnect",
+      "at": "2026-10-24T11:24:56.898Z",
+      "status": "PASS",
+      "oldPid": 21685,
+      "newPid": 25479
+    },
+    {
+      "name": "catalog-wire-assertions",
+      "at": "2026-10-24T11:24:56.898Z",
+      "status": "PASS",
+      "count": 16,
+      "hashes": {
+        "cold": [
+          {
+            "hash": "44eadf8a186d1c626636da5d2582647778d68752d28d2b2d1dd53211d677cb26",
+            "bundleBytes": 2966
+          },
+          {
+            "hash": "44eadf8a186d1c626636da5d2582647778d68752d28d2b2d1dd53211d677cb26",
+            "bundleBytes": 0
+          }
+        ],
+        "warm": [
+          {
+            "hash": "44eadf8a186d1c626636da5d2582647778d68752d28d2b2d1dd53211d677cb26",
+            "bundleBytes": 0
+          }
+        ],
+        "update": [
+          {
+            "hash": "5e462099ecfb11921536c56975913cc12a7d0a399bf8457cecd43d465d696cf5",
+            "bundleBytes": 2966
+          }
+        ],
+        "updated-warm": [
+          {
+            "hash": "5e462099ecfb11921536c56975913cc12a7d0a399bf8457cecd43d465d696cf5",
+            "bundleBytes": 0
+          }
+        ],
+        "corrupt": [
+          {
+            "hash": "5e462099ecfb11921536c56975913cc12a7d0a399bf8457cecd43d465d696cf5",
+            "bundleBytes": 2966
+          }
+        ],
+        "disconnect": [
+          {
+            "hash": "5e462099ecfb11921536c56975913cc12a7d0a399bf8457cecd43d465d696cf5",
+            "bundleBytes": 0
+          }
+        ]
+      }
+    }
+  ],
+  "workspaces": {
+    "a": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792841054014/workspace-ALPHA",
+      "workspaceId": "wks_e13d70adb5995dbf",
+      "agentId": "e6dd7594-d0d1-42bd-bdad-c8acd38743f5"
+    },
+    "b": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-6732/.dev/electron-qa-evidence/runtime-6732-1792841054014/workspace-BRAVO",
+      "workspaceId": "wks_38170f44d35ac6a7",
+      "agentId": "05ef121c-01a9-416a-99ed-fc46115cf3a3"
+    }
+  },
+  "status": "PASS",
+  "finishedAt": "2026-10-24T11:25:08.884Z"
+}

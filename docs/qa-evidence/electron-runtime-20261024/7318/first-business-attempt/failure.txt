@@ -1,0 +1,36 @@
+新建工作区
+历史
+搜索
+计划
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+设置 worktree scripts
+添加 setup 命令，让新的 worktree 自动安装依赖并完成准备。
+打开 project 设置
+QA BRAVO
+workspace-BRAVO
+Commit
+QA BRAVO agent
+target.txt
+outside.txt
+QA BRAVO agent
+target.txt
+outside.txt
+Access outside of workspace is not allowed
+重试
+文件
+更改
+文件
+更改
+名称
+.git
+src
+invalid-lines.txt
+target.txt
