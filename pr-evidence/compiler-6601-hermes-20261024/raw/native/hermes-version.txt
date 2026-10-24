@@ -1,0 +1,11 @@
+LLVM (http://llvm.org/):
+  LLVH version 8.0.0svn
+  Optimized build
+
+Hermes JavaScript compiler and Virtual Machine.
+  Hermes release version: for RN 0.81.5
+  HBC bytecode version: 96
+
+  Features:
+    Unicode RegExp Property Escapes
+    Zip file input

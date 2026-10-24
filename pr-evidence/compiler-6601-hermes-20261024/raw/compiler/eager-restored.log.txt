@@ -1,0 +1,9 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed | 84 skipped (86)
+   Start at  18:52:55
+   Duration  329ms (transform 45ms, setup 17ms, import 93ms, tests 152ms, environment 0ms)
+

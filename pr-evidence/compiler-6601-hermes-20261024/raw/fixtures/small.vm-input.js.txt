@@ -1,0 +1,146 @@
+var host = {first: "first export", second: "second export"};
+var factory = (function(require) {
+const module = { exports: {} };
+const exports = module.exports;
+"use strict";
+
+function _wrapNativeSuper(t) { var r = "function" == typeof Map ? new Map() : void 0; return _wrapNativeSuper = function (t) { if (null === t || !_isNativeFunction(t)) return t; if ("function" != typeof t) throw new TypeError("Super expression must either be null or a function"); if (void 0 !== r) { if (r.has(t)) return r.get(t); r.set(t, Wrapper); } function Wrapper() { return _construct(t, arguments, _getPrototypeOf(this).constructor); } return Wrapper.prototype = Object.create(t.prototype, { constructor: { value: Wrapper, enumerable: !1, writable: !0, configurable: !0 } }), _setPrototypeOf(Wrapper, t); }, _wrapNativeSuper(t); }
+function _construct(t, e, r) { if (_isNativeReflectConstruct()) return Reflect.construct.apply(null, arguments); var o = [null]; o.push.apply(o, e); var p = new (t.bind.apply(t, o))(); return r && _setPrototypeOf(p, r.prototype), p; }
+function _isNativeFunction(t) { try { return -1 !== Function.toString.call(t).indexOf("[native code]"); } catch (n) { return "function" == typeof t; } }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == typeof e || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function () { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, e) { if ("object" != typeof t || !t) return t; var r; if ("undefined" != typeof Symbol && void 0 !== (r = t[Symbol.toPrimitive])) { var i = r.call(t, e || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === e ? String : Number)(t); }
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __typeError = msg => {
+  throw TypeError(msg);
+};
+var __export = (target, all) => {
+  for (var name in all) __defProp(target, name, {
+    get: all[name],
+    enumerable: true
+  });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from)) if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
+      value: from[key],
+      enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
+    });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
+  value: mod,
+  enumerable: true
+}) : target, mod));
+var __toCommonJS = mod => __copyProps(__defProp({}, "__esModule", {
+  value: true
+}), mod);
+var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot " + msg);
+var __privateIn = (member, obj) => Object(obj) !== obj ? __typeError('Cannot use the "in" operator on this value') : member.has(obj);
+var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
+var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
+var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "access private method"), method);
+var index_client_exports = {};
+__export(index_client_exports, {
+  default: () => contribute
+});
+module.exports = __toCommonJS(index_client_exports);
+var host = __toESM(require("zod"));
+var _count, _secret, _Base_instances, bump_fn;
+var _Base = function () {
+  function _Base() {
+    _classCallCheck(this, _Base);
+    __privateAdd(this, _Base_instances);
+    __privateAdd(this, _secret, 1);
+    this.label = "base";
+  }
+  return _createClass(_Base, [{
+    key: "doubled",
+    get: function () {
+      return __privateMethod(this, _Base_instances, bump_fn).call(this) * 2;
+    }
+  }], [{
+    key: "total",
+    value: function total() {
+      return __privateGet(_Base, _count);
+    }
+  }, {
+    key: "isBase",
+    value: function isBase(value) {
+      return __privateIn(_secret, value);
+    }
+  }]);
+}();
+_count = new WeakMap();
+_secret = new WeakMap();
+_Base_instances = new WeakSet();
+bump_fn = function () {
+  return __privateGet(this, _secret) + 1;
+};
+_Base.registry = new Set(["a"]);
+__privateAdd(_Base, _count, 0);
+__privateSet(_Base, _count, 10);
+var Base = _Base;
+var Child = function (_Base2) {
+  function Child() {
+    var _this;
+    _classCallCheck(this, Child);
+    _this = _callSuper(this, Child, arguments);
+    _this.label = "child";
+    return _this;
+  }
+  _inherits(Child, _Base2);
+  return _createClass(Child);
+}(Base);
+var ProbeError = function (_Error) {
+  function ProbeError() {
+    var _this2;
+    _classCallCheck(this, ProbeError);
+    _this2 = _callSuper(this, ProbeError, arguments);
+    _this2.code = "probe";
+    return _this2;
+  }
+  _inherits(ProbeError, _Error);
+  return _createClass(ProbeError);
+}(_wrapNativeSuper(Error));
+function contribute() {
+  const child = new Child();
+  const error = new ProbeError("probe message");
+  return {
+    label: child.label,
+    doubled: child.doubled,
+    total: Base.total(),
+    isBase: Base.isBase(child),
+    registry: Base.registry.size,
+    error: [error instanceof Error, error.message, error.code],
+    imports: [host.first, host.second]
+  };
+}
+return module.exports;
+});
+var exports = factory(function (specifier) {
+  if (specifier !== "zod") throw new Error("Unexpected host module " + specifier);
+  return host;
+});
+host.first = "changed first export";
+host.second = "changed second export";
+var actual = exports.default();
+var expected = {"label":"child","doubled":4,"total":10,"isBase":true,"registry":1,"error":[true,"probe message","probe"],"imports":["first export","second export"]};
+if (JSON.stringify(actual) !== JSON.stringify(expected)) throw new Error(JSON.stringify({actual:actual, expected:expected}));
+print(JSON.stringify({probe:"small", ok:true, actual:actual}));

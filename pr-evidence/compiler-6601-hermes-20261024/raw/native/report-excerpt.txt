@@ -1,0 +1,27 @@
+
+HEAD `02177550c5e448b652cbde625e86ec8d1e9cc37f`，parents `6f118cfb43bb0738b4a285e68d199bfbc774a680` `b8bb335c563279be45544b1b20a1fa5b3e56d422`。没有改 compiler worktree 的源码或 PR 正文。没有把这次结果写成设备或插件 UI 验收。
+
+VM 是本机 React Native 0.81.5 自带的 Hermes 可执行文件，不是 `hermesc`，也不是 Node。compiler worktree 的 app 依赖是 React Native 0.86.3，那里只有 `hermesc`，没有对应的 VM 二进制。0.81.5 是类降级要保住的旧客户端 VM。
+
+- 二进制：`/Users/luopeihuan/workspace/rrd/paseo/node_modules/react-native/sdks/hermesc/osx-bin/hermes`
+- sha256：`c5f2cf15564076966fbb4eb921f517bedcc08cf45be23fdc27996bfe8dc2bbe3`
+- `hermes -version`：Hermes release version for RN 0.81.5，HBC bytecode version 96
+- 输入哈希与 compiler 的 `probe-hashes.txt` 一致
+  - small.vm-input.js `a3e1b61098eb4b359c7ce32fb5bb50e1068461b7238f1fc398ab905bdc730dde`
+  - large.vm-input.js `d4aca2f07a2634ce433568de4588199646be1f44c6ae774fefcba6443cc47e90`
+  - small.bundle.js 7703 bytes，`9293fd736b8201e0a0a715cc7a6febc17571b7a0a39fa8143aec90c39ffe4b23`
+  - large.bundle.js 207203 bytes，`bddde9101ca4c2c715cc2f4a2ead0a935756e2154a5f88684d086085d27a2e49`
+
+直接把两个 `.vm-input.js` 交给 Hermes VM。stdout 和退出码：
+
+```
+small exit 0
+{"probe":"small","ok":true,"actual":{"label":"child","doubled":4,"total":10,"isBase":true,"registry":1,"error":[true,"probe message","probe"],"imports":["first export","second export"]}}
+
+large exit 0
+{"probe":"large","ok":true,"actual":400}
+```
+
+stderr 都是空的。small 的 imports 在 factory 之后改了 host 字段，仍是 `first export` 和 `second export`。原始输出在 `.dev/pr-parallel-20261024/native-qa-fixtures/6601-hermes/`。
+
+设备上安装或加载插件：NOT_RUN。

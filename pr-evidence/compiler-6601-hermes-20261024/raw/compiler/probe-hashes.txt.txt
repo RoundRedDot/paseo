@@ -1,0 +1,4 @@
+bddde9101ca4c2c715cc2f4a2ead0a935756e2154a5f88684d086085d27a2e49  .dev/compiler-evidence/hermes-fixtures/large.bundle.js
+d4aca2f07a2634ce433568de4588199646be1f44c6ae774fefcba6443cc47e90  .dev/compiler-evidence/hermes-fixtures/large.vm-input.js
+9293fd736b8201e0a0a715cc7a6febc17571b7a0a39fa8143aec90c39ffe4b23  .dev/compiler-evidence/hermes-fixtures/small.bundle.js
+a3e1b61098eb4b359c7ce32fb5bb50e1068461b7238f1fc398ab905bdc730dde  .dev/compiler-evidence/hermes-fixtures/small.vm-input.js

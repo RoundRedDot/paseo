@@ -1,0 +1,5 @@
+    7703 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/.dev/compiler-evidence/hermes-fixtures/small.bundle.js
+  207203 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/.dev/compiler-evidence/hermes-fixtures/large.bundle.js
+    8391 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/.dev/compiler-evidence/hermes-fixtures/small.vm-input.js
+  207745 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/.dev/compiler-evidence/hermes-fixtures/large.vm-input.js
+  431042 total

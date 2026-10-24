@@ -1,0 +1,27 @@
+import * as host from "zod";
+class Base {
+  static registry = new Set(["a"]);
+  static #count = 0;
+  #secret = 1;
+  label = "base";
+  static { Base.#count = 10; }
+  static total() { return Base.#count; }
+  #bump() { return this.#secret + 1; }
+  static isBase(value) { return #secret in value; }
+  get doubled() { return this.#bump() * 2; }
+}
+class Child extends Base { label = "child"; }
+class ProbeError extends Error { code = "probe"; }
+export default function contribute() {
+  const child = new Child();
+  const error = new ProbeError("probe message");
+  return {
+    label: child.label,
+    doubled: child.doubled,
+    total: Base.total(),
+    isBase: Base.isBase(child),
+    registry: Base.registry.size,
+    error: [error instanceof Error, error.message, error.code],
+    imports: [host.first, host.second],
+  };
+}

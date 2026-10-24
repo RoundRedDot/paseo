@@ -1,0 +1,28 @@
+import { readFile, writeFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { compilePlugin } from "../../packages/server/dist/server/server/plugins/compiler.js";
+const root = new URL("./hermes-fixtures/", import.meta.url);
+const expected = JSON.parse(await readFile(new URL("expected.json", root), "utf8"));
+for (const name of ["small", "large"]) {
+  const { clientBundle } = await compilePlugin({
+    client: fileURLToPath(new URL(`${name}/index.client.ts`, root)),
+    server: null,
+  });
+  if (!clientBundle) throw new Error("No client bundle");
+  const vmSource = `var host = {first: "first export", second: "second export"};
+var factory = ${clientBundle};
+var exports = factory(function (specifier) {
+  if (specifier !== "zod") throw new Error("Unexpected host module " + specifier);
+  return host;
+});
+host.first = "changed first export";
+host.second = "changed second export";
+var actual = exports.default();
+var expected = ${JSON.stringify(expected[name])};
+if (JSON.stringify(actual) !== JSON.stringify(expected)) throw new Error(JSON.stringify({actual:actual, expected:expected}));
+print(JSON.stringify({probe:${JSON.stringify(name)}, ok:true, actual:actual}));
+`;
+  await writeFile(new URL(`${name}.bundle.js`, root), clientBundle);
+  await writeFile(new URL(`${name}.vm-input.js`, root), vmSource);
+  console.log(`${name}: bundle=${Buffer.byteLength(clientBundle)} bytes; expected=${JSON.stringify(expected[name])}`);
+}

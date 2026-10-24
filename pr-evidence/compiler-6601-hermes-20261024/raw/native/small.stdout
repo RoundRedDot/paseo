@@ -1,0 +1,1 @@
+{"probe":"small","ok":true,"actual":{"label":"child","doubled":4,"total":10,"isBase":true,"registry":1,"error":[true,"probe message","probe"],"imports":["first export","second export"]}}

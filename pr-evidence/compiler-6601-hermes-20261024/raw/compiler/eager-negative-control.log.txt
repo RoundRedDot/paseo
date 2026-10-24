@@ -1,0 +1,41 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/packages/server
+
+stdout | src/server/plugins/compiler.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: ⚙️  suppress all logs with { quiet: true }
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+
+ ❯ src/server/plugins/compiler.test.ts (86 tests | 1 failed | 85 skipped) 260ms
+       × captures distinct host exports eagerly in the client bundle 258ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/plugins/compiler.test.ts > plugin runtime entries > Hermes class lowering > captures distinct host exports eagerly in the client bundle
+AssertionError: expected [ 'changed first export', …(1) ] to deeply equal [ 'first export', 'second export' ]
+
+- Expected
++ Received
+
+  [
+-   "first export",
+-   "second export",
++   "changed first export",
++   "changed second export",
+  ]
+
+ ❯ src/server/plugins/compiler.test.ts:636:35
+    634|         host.second = "changed second export";
+    635|
+    636|         expect(exports.default()).toEqual(["first export", "second exp…
+       |                                   ^
+    637|         expect(classSyntaxCount(bundle)).toBe(target === "client" ? 0 …
+    638|       },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 85 skipped (86)
+   Start at  18:52:54
+   Duration  709ms (transform 110ms, setup 26ms, import 313ms, tests 260ms, environment 0ms)
+

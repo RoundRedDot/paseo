@@ -1,0 +1,51 @@
+{
+  "compiledSourceHead": "02177550c5e448b652cbde625e86ec8d1e9cc37f",
+  "vmBinary": "/Users/luopeihuan/workspace/rrd/paseo/node_modules/react-native/sdks/hermesc/osx-bin/hermes",
+  "vmBinarySha256": "c5f2cf15564076966fbb4eb921f517bedcc08cf45be23fdc27996bfe8dc2bbe3",
+  "reactNativeVersion": "0.81.5",
+  "hbcVersion": 96,
+  "inputs": [
+    {
+      "originalPath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/.dev/compiler-evidence/hermes-fixtures/small.vm-input.js",
+      "sha256": "a3e1b61098eb4b359c7ce32fb5bb50e1068461b7238f1fc398ab905bdc730dde",
+      "bytes": 8391
+    },
+    {
+      "originalPath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/.dev/compiler-evidence/hermes-fixtures/large.vm-input.js",
+      "sha256": "d4aca2f07a2634ce433568de4588199646be1f44c6ae774fefcba6443cc47e90",
+      "bytes": 207745
+    },
+    {
+      "originalPath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/.dev/compiler-evidence/hermes-fixtures/small.bundle.js",
+      "sha256": "9293fd736b8201e0a0a715cc7a6febc17571b7a0a39fa8143aec90c39ffe4b23",
+      "bytes": 7703
+    },
+    {
+      "originalPath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/.dev/compiler-evidence/hermes-fixtures/large.bundle.js",
+      "sha256": "bddde9101ca4c2c715cc2f4a2ead0a935756e2154a5f88684d086085d27a2e49",
+      "bytes": 207203
+    },
+    {
+      "originalPath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/.dev/compiler-evidence/hermes-fixtures/expected.json",
+      "sha256": "62490cce04c9879ac96104cf6003d9d89dd00860a62f0b2837c31daff1b203e5",
+      "bytes": 271
+    },
+    {
+      "originalPath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/.dev/compiler-evidence/hermes-fixtures/small/index.client.ts",
+      "sha256": "9bb2c1a646556c043dd17ade6941abb293d051754093ee8d7556d61456a5583d",
+      "bytes": 821
+    },
+    {
+      "originalPath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-compiler/.dev/compiler-evidence/hermes-fixtures/large/index.client.ts",
+      "sha256": "4fa6838959894d72c41720a55f63ba62b3d0ea795a509e24ec155a52de2b2b57",
+      "bytes": 47644
+    }
+  ],
+  "bothExitZero": true,
+  "bothStderrEmpty": true,
+  "bothOutputsExactlyMatchExpected": true,
+  "wrapperContainsOriginalBundle": true,
+  "inputHashesMatchOriginalCompilerProbeHashes": true,
+  "scope": "RN 0.81.5 Hermes VM probes only; RN 0.86.3 VM/device installation/plugin UI NOT_RUN",
+  "validation": "Read and hash existing native-qa output; no rerun of VM or test suites"
+}

@@ -1,0 +1,2 @@
+binary=/Users/luopeihuan/workspace/rrd/paseo/node_modules/react-native/sdks/hermesc/osx-bin/hermes
+c5f2cf15564076966fbb4eb921f517bedcc08cf45be23fdc27996bfe8dc2bbe3  /Users/luopeihuan/workspace/rrd/paseo/node_modules/react-native/sdks/hermesc/osx-bin/hermes
