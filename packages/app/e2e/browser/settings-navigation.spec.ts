@@ -52,6 +52,62 @@ async function openWorkspace(
   await expect(page.getByTestId("menu-button")).toBeVisible();
 }
 
+test.describe("Settings shared sidebar width on touch tablets", () => {
+  test.use({ hasTouch: true, viewport: { width: 1366, height: 1024 } });
+
+  test("touch resizing stays discoverable and settings preserve the saved width", async ({
+    page,
+    context,
+  }, testInfo) => {
+    await gotoAppShell(page);
+    const handle = page.getByTestId("left-sidebar-resize-handle");
+    const grip = page.getByTestId("left-sidebar-resize-handle-grip");
+    await expect(grip).toHaveCSS("opacity", "0.15");
+    const box = await handle.boundingBox();
+    if (!box) throw new Error("Expected the touch resize target to be visible.");
+    const x = box.x + box.width / 2;
+    const y = box.y + box.height / 2;
+    await page.screenshot({ path: testInfo.outputPath("tablet-before-drag.png") });
+    const session = await context.newCDPSession(page);
+    await session.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x, y }],
+    });
+    for (const delta of [10, 30, 60, 80]) {
+      await session.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ x: x + delta, y }],
+      });
+    }
+    await expect(grip).toHaveCSS("opacity", "0.3");
+    await session.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    await session.detach();
+    await expect(grip).toHaveCSS("opacity", "0.15");
+    const savedWidth = await page.evaluate(() => {
+      const stored = localStorage.getItem("panel-state");
+      return stored ? (JSON.parse(stored).state.sidebarWidth as number) : 0;
+    });
+    expect(savedWidth).toBeGreaterThan(350);
+
+    await openSettings(page);
+    const settingsSidebar = page.getByTestId("settings-sidebar");
+    await expect(settingsSidebar).toHaveCSS("width", `${savedWidth}px`);
+    await page.screenshot({ path: testInfo.outputPath("tablet-settings-wide.png") });
+    await page.reload();
+    await expect(settingsSidebar).toHaveCSS("width", `${savedWidth}px`);
+    await page.setViewportSize({ width: 1000, height: 1024 });
+    await expect(handle).toHaveCount(0);
+    await expect(settingsSidebar).toHaveCSS("width", `${savedWidth}px`);
+    await expectSettingsHeader(page, "General");
+    await page.screenshot({ path: testInfo.outputPath("tablet-settings-narrow.png") });
+    await page.setViewportSize({ width: 1366, height: 1024 });
+    await expect(settingsSidebar).toHaveCSS("width", `${savedWidth}px`);
+    await clickSettingsBackToWorkspace(page);
+    await expect(handle).toBeVisible();
+    await expect(grip).toHaveCSS("opacity", "0.15");
+  });
+});
+
 test.describe("Settings sidebar navigation", () => {
   test("clicking a sidebar section updates the URL and renders the section", async ({ page }) => {
     await gotoAppShell(page);
