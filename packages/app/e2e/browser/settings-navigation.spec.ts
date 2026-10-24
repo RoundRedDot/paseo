@@ -54,9 +54,13 @@ async function savedSidebarWidth(page: Page) {
 
 async function dragTouchSidebar(page: Page, testID: string, delta: number) {
   const grip = page.getByTestId(`${testID}-grip`);
-  await expect(grip).toHaveCSS("opacity", "0.15");
+  await expect(grip).toHaveCSS("opacity", "1");
+  await expect(grip).toHaveCSS("width", "20px");
+  await expect(grip).toHaveCSS("height", "64px");
+  const idleColor = await grip.evaluate((element) => getComputedStyle(element).backgroundColor);
   const box = await page.getByTestId(testID).boundingBox();
   if (!box) throw new Error("Expected the touch resize target to be visible.");
+  expect(box.width).toBeGreaterThanOrEqual(44);
   const x = box.x + box.width / 2;
   const y = box.y + box.height / 2;
   const session = await page.context().newCDPSession(page);
@@ -70,10 +74,11 @@ async function dragTouchSidebar(page: Page, testID: string, delta: number) {
       touchPoints: [{ x: x + delta * progress, y }],
     });
   }
-  await expect(grip).toHaveCSS("opacity", "0.3");
+  await expect(grip).not.toHaveCSS("background-color", idleColor);
   await session.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
   await session.detach();
-  await expect(grip).toHaveCSS("opacity", "0.15");
+  await expect(grip).toHaveCSS("opacity", "1");
+  await expect(grip).toHaveCSS("background-color", idleColor);
 }
 
 async function openWorkspace(
@@ -93,7 +98,7 @@ test.describe("Settings shared sidebar width on touch tablets", () => {
     await gotoAppShell(page);
     const handle = page.getByTestId("left-sidebar-resize-handle");
     const grip = page.getByTestId("left-sidebar-resize-handle-grip");
-    await expect(grip).toHaveCSS("opacity", "0.15");
+    await expect(grip).toHaveCSS("opacity", "1");
     await page.screenshot({ path: testInfo.outputPath("tablet-before-drag.png") });
     await dragTouchSidebar(page, "left-sidebar-resize-handle", 80);
     let savedWidth = await savedSidebarWidth(page);
@@ -118,11 +123,27 @@ test.describe("Settings shared sidebar width on touch tablets", () => {
     await expect(settingsSidebar).toHaveCSS("width", `${savedWidth}px`);
     await clickSettingsBackToWorkspace(page);
     await expect(handle).toBeVisible();
-    await expect(grip).toHaveCSS("opacity", "0.15");
+    await expect(grip).toHaveCSS("opacity", "1");
     const restoredHandle = await handle.boundingBox();
     expect(restoredHandle).not.toBeNull();
     // The touch target sits inside the sidebar's one-pixel border.
     expect(restoredHandle!.x + restoredHandle!.width + 1).toBeCloseTo(savedWidth, 0);
+  });
+
+  test("touch resize slider is visible in dark mode", async ({ page }, testInfo) => {
+    await page.emulateMedia({ colorScheme: "dark" });
+    await gotoAppShell(page);
+    await expect(page.getByTestId("left-sidebar-resize-handle-grip")).toHaveCSS("opacity", "1");
+    await page.screenshot({ path: testInfo.outputPath("tablet-slider-dark.png") });
+    await openSettings(page);
+    const previousWidth = await savedSidebarWidth(page);
+    await dragTouchSidebar(page, "settings-sidebar-resize-handle", -80);
+    await expect.poll(() => savedSidebarWidth(page)).toBeLessThan(previousWidth);
+    await expect(page.getByTestId("settings-sidebar")).toHaveCSS(
+      "width",
+      `${await savedSidebarWidth(page)}px`,
+    );
+    await page.screenshot({ path: testInfo.outputPath("settings-slider-dark.png") });
   });
 });
 
