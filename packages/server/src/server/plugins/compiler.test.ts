@@ -605,6 +605,39 @@ export default function contribute(client) {
   });
 
   describe("Hermes class lowering", () => {
+    it.each(["client", "server"] as const)(
+      "captures distinct host exports eagerly in the %s bundle",
+      async (target) => {
+        const entries = await createSplitPlugin();
+        await writeFile(
+          entries[target],
+          `import * as host from "zod";
+class Probe { read() { return [host.first, host.second]; } }
+export default function contribute() { return new Probe().read(); }`,
+        );
+        const result = await compilePlugin({
+          client: target === "client" ? entries.client : null,
+          server: target === "server" ? entries.server : null,
+        });
+        const bundle = result[`${target}Bundle`]!;
+        const host = { first: "first export", second: "second export" };
+        const factory = new Function(`return ${bundle}`)() as (
+          require: (specifier: string) => typeof host,
+        ) => { default: () => unknown };
+        function requireHost(specifier: string): typeof host {
+          expect(specifier).toBe("zod");
+          return host;
+        }
+        const exports = factory(requireHost);
+
+        host.first = "changed first export";
+        host.second = "changed second export";
+
+        expect(exports.default()).toEqual(["first export", "second export"]);
+        expect(classSyntaxCount(bundle)).toBe(target === "client" ? 0 : 1);
+      },
+    );
+
     const classSource = `class Base {
   static registry = new Set(["a"]);
   static #count = 0;
