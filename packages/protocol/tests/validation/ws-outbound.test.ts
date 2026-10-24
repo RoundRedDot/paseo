@@ -170,14 +170,14 @@ const SourceSchema = z.object({
         message: { type: "fetch_agent_timeline_response", payload: value },
       };
     }
-    expect(GeneratedWSOutboundMessageSchema.safeParse(envelope(payload)).success).toBe(true);
+    expect(validateWSOutboundMessage(envelope(payload)).success).toBe(true);
     const timed = envelope({ ...payload, turnTimings: [timing] });
-    expect(GeneratedWSOutboundMessageSchema.safeParse(timed)).toEqual({
+    expect(validateWSOutboundMessage(timed)).toEqual({
       success: true,
       data: timed,
     });
     expect(
-      GeneratedWSOutboundMessageSchema.safeParse(
+      validateWSOutboundMessage(
         envelope({ ...payload, turnTimings: [{ ...timing, status: "running" }] }),
       ).success,
     ).toBe(false);
