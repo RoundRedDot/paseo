@@ -1,0 +1,24 @@
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/baseline-1-trace.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/baseline-1-wire.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/baseline-2-trace.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/baseline-2-wire.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/baseline-control-1-trace.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/baseline-control-1-wire.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/baseline-control-2-trace.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/baseline-control-2-wire.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/candidate-1-trace.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/candidate-1-wire.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/candidate-2-trace.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/candidate-2-wire.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/history/baseline-history-1-trace.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/history/baseline-history-1-wire.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/history/candidate-history-1-trace.json.gz
+gzip -t PASS docs/qa-evidence/pr7774-perf-impact-20261024/raw/history/candidate-history-1-wire.json.gz
+{"file":"docs/qa-evidence/pr7774-perf-impact-20261024/raw/history/videos/15d81406641988247822db4c8025782a.webm","programs":[],"stream_groups":[],"streams":[{"codec_name":"vp8","width":1280,"height":900}],"format":{"duration":"29.160000"}}
+{"file":"docs/qa-evidence/pr7774-perf-impact-20261024/raw/history/videos/96aed2deb26291dbb38e769e278d48e8.webm","programs":[],"stream_groups":[],"streams":[{"codec_name":"vp8","width":1280,"height":900}],"format":{"duration":"29.960000"}}
+{"file":"docs/qa-evidence/pr7774-perf-impact-20261024/raw/videos/0c3fd3afcee147769f8151d67ea2e4ec.webm","programs":[],"stream_groups":[],"streams":[{"codec_name":"vp8","width":1280,"height":900}],"format":{"duration":"29.760000"}}
+{"file":"docs/qa-evidence/pr7774-perf-impact-20261024/raw/videos/230abce0d977844ed0cabbc3775dac6c.webm","programs":[],"stream_groups":[],"streams":[{"codec_name":"vp8","width":1280,"height":900}],"format":{"duration":"29.240000"}}
+{"file":"docs/qa-evidence/pr7774-perf-impact-20261024/raw/videos/4964444d72146b2b1a7d63c03d56a3d7.webm","programs":[],"stream_groups":[],"streams":[{"codec_name":"vp8","width":1280,"height":900}],"format":{"duration":"29.920000"}}
+{"file":"docs/qa-evidence/pr7774-perf-impact-20261024/raw/videos/74fbe51668b332eec461ef5f2b4de2f2.webm","programs":[],"stream_groups":[],"streams":[{"codec_name":"vp8","width":1280,"height":900}],"format":{"duration":"53.240000"}}
+{"file":"docs/qa-evidence/pr7774-perf-impact-20261024/raw/videos/a7a8381db1aa2076b2f2e93098d8916e.webm","programs":[],"stream_groups":[],"streams":[{"codec_name":"vp8","width":1280,"height":900}],"format":{"duration":"32.920000"}}
+{"file":"docs/qa-evidence/pr7774-perf-impact-20261024/raw/videos/fe5b1a74f9769039e164c7ca18d7c346.webm","programs":[],"stream_groups":[],"streams":[{"codec_name":"vp8","width":1280,"height":900}],"format":{"duration":"30.320000"}}

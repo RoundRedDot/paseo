@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/packages/app
+
+(node:69184) [DEP0151] DeprecationWarning: Package /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/node_modules/react-native-worklets/ has a "main" field set to "./lib/module/index", excluding the full filename and extension to the resolved file at "lib/module/index.js", imported from /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/node_modules/react-native-reanimated/lib/module/initializers.js.
+ Automatic extension resolution of the "main" field is deprecated for ES modules.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  14 passed (14)
+   Start at  19:04:56
+   Duration  6.55s (transform 5.26s, setup 26ms, import 6.44s, tests 7ms, environment 0ms)
+

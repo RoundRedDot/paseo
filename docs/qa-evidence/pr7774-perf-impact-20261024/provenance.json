@@ -1,0 +1,15 @@
+{
+  "provider": "codex",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "thread": "01a16d7b-1907-7ed0-b23d-17d878fba74d",
+  "createdAt": "2026-10-24T10:48:53.432Z",
+  "cpu": "Apple M5 Pro",
+  "cpus": 15,
+  "memory": 51539607552,
+  "notes": [
+    "Batch heavy slots 1+2 held for capture; other machine workloads are not controlled.",
+    "No full test suite, real provider, remote device, production daemon, or latest-main integration proof.",
+    "Setup failures occurred before any completed benchmark sample; all resulting logs retained."
+  ]
+}

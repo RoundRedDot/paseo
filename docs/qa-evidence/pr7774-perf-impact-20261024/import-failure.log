@@ -1,0 +1,10 @@
+/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/.dev/perf-impact/measure.mts:10
+import { buildSeededHost } from '../../packages/app/e2e/support/helpers/daemon-registry.ts';
+         ^
+SyntaxError: The requested module '../../packages/app/e2e/support/helpers/daemon-registry.ts' does not provide an export named 'buildSeededHost'
+    at #asyncInstantiate (node:internal/modules/esm/module_job:327:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:431:5)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.18.0

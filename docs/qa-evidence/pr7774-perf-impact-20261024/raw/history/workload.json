@@ -1,0 +1,20 @@
+{
+  "sha": "72886023ca99dd990337a8f70cdef2a6d304395e",
+  "baseline": "48623801a1bba8f1c259212d37f56a504812e42d",
+  "candidateStoreHash": "3910213ed6e27df2ee272a67c607e793d3be61750ff055faca619f5a32ec2a09",
+  "baselineStoreHash": "ceb05079bfe561817df437be94831a158bc4d513471d78cc1c8c8d0762a7b066",
+  "response": "## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE",
+  "responseSha256": "15c5fd023ac04c0a5d3d674888d26fa46504ba46f05f510ace40368c86781f1d",
+  "draft": "Please keep the response concise and explain the next step.",
+  "labelCount": 12,
+  "labelIntervalMs": 1000,
+  "typingCadenceMs": 100,
+  "scrollCount": 20,
+  "scrollIntervalMs": 100,
+  "scrollDelta": -160,
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "note": "One existing completed reply before measured second turn; No CPU throttling, no render profiler, one visible agent, fresh context each run; development Metro app. Key-to-rAF is a rendering opportunity proxy, not presentation latency."
+}

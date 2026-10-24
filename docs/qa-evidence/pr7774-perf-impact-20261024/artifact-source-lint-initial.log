@@ -1,0 +1,468 @@
+
+> paseo@0.13.0-beta.2 lint
+> oxlint docs/qa-evidence/pr7774-perf-impact-20261024
+
+
+  x eslint(max-depth): Blocks are nested too deeply (5). Maximum allowed is 4.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:238:11]
+ 237 |               const buffers = [];
+ 238 | ,->           for (;;) {
+ 239 | |               const chunk = await cdp.send("IO.read", { handle: stream });
+ 240 | |               buffers.push(Buffer.from(chunk.data, chunk.base64Encoded ? "base64" : "utf8"));
+ 241 | |               if (chunk.eof) break;
+ 242 | `->           }
+ 243 |               await cdp.send("IO.close", { handle: stream });
+     `----
+  help: Consider refactoring your code.
+
+  x eslint(max-depth): Blocks are nested too deeply (6). Maximum allowed is 4.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:241:13]
+ 240 |             buffers.push(Buffer.from(chunk.data, chunk.base64Encoded ? "base64" : "utf8"));
+ 241 |             if (chunk.eof) break;
+     :             ^^^^^^^^^^^^^^^^^^^^^
+ 242 |           }
+     `----
+  help: Consider refactoring your code.
+
+  x eslint(max-depth): Blocks are nested too deeply (5). Maximum allowed is 4.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:284:11]
+ 283 |           console.log(id, JSON.stringify(result.summary), "draftEqual", result.draftEqual);
+ 284 |           if (!result.draftEqual || errors.length) throw Error("identity/pageerror check failed");
+     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 285 |         } catch (e) {
+     `----
+  help: Consider refactoring your code.
+
+  x eslint(max-depth): Blocks are nested too deeply (5). Maximum allowed is 4.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:290:11]
+ 289 |         } finally {
+ 290 |           if (tracing) await cdp.send("Tracing.end").catch(() => {});
+     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 291 |           await context.close();
+     `----
+  help: Consider refactoring your code.
+
+  x eslint(no-shadow): 'host' is already declared in the upper scope.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:108:15]
+ 107 |         await hideDeveloperToasts(page);
+ 108 |         const host = buildSeededHost({
+     :               ^^|^
+     :                 `-- shadowed declaration is here
+ 109 |           serverId: daemon.serverId,
+ 110 |           endpoint: `127.0.0.1:${daemon.port}`,
+ 111 |           nowIso: new Date().toISOString(),
+ 112 |         });
+ 113 |         await page.addInitScript(
+ 114 |           ({ host }) => {
+     :              ^^|^
+     :                `-- 'host' is declared here
+ 115 |             localStorage.setItem("@paseo:e2e", "1");
+     `----
+  help: Consider renaming 'host' to avoid shadowing the variable from the outer scope.
+
+  x eslint(no-unused-vars): Parameter 'i' is declared but never used. Unused parameters should start with a '_'.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:62:14]
+ 61 |     .split(",")
+ 62 |     .map((x, i) => [x, x.startsWith("baseline") ? "baseline" : "candidate"] as const)) {
+    :              |
+    :              `-- 'i' is declared here
+ 63 |     let stopMetro: any, daemon: any, browser: any;
+    `----
+  help: Consider removing this parameter.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:30:20]
+ 29 |   const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+ 30 |   const hash = (s: any) => createHash("sha256").update(s).digest("hex");
+    :                    ^^^
+ 31 |   const percentile = (xs: number[], p: number) =>
+    `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:63:20]
+ 62 |     .map((x, i) => [x, x.startsWith("baseline") ? "baseline" : "candidate"] as const)) {
+ 63 |     let stopMetro: any, daemon: any, browser: any;
+    :                    ^^^
+ 64 |     try {
+    `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:63:33]
+ 62 |     .map((x, i) => [x, x.startsWith("baseline") ? "baseline" : "candidate"] as const)) {
+ 63 |     let stopMetro: any, daemon: any, browser: any;
+    :                                 ^^^
+ 64 |     try {
+    `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:63:47]
+ 62 |     .map((x, i) => [x, x.startsWith("baseline") ? "baseline" : "candidate"] as const)) {
+ 63 |     let stopMetro: any, daemon: any, browser: any;
+    :                                               ^^^
+ 64 |     try {
+    `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:89:21]
+ 88 |         const errors: string[] = [];
+ 89 |         const wire: any[] = [];
+    :                     ^^^
+ 90 |         page.on("pageerror", (e) => errors.push(e.message));
+    `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:170:41]
+ 169 |     })()`);
+ 170 |           const completed = new Promise<any>((resolve) =>
+     :                                         ^^^
+ 171 |             cdp.once("Tracing.tracingComplete", resolve),
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:184:29]
+ 183 |           );
+ 184 |           const labelTimes: any[] = [];
+     :                             ^^^
+ 185 |           const keys: any[] = [];
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:185:23]
+ 184 |           const labelTimes: any[] = [];
+ 185 |           const keys: any[] = [];
+     :                       ^^^
+ 186 |           const wheels: any[] = [];
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:186:25]
+ 185 |           const keys: any[] = [];
+ 186 |           const wheels: any[] = [];
+     :                         ^^^
+ 187 |           await Promise.all([
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:192:40]
+ 191 |                 const sent = Date.now();
+ 192 |                 await (agent.client as any).updateAgent(agent.agentId, {
+     :                                        ^^^
+ 193 |                   labels: { "benchmark-phase": String(i) },
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:223:56]
+ 222 |           const actualDraft = await input.inputValue();
+ 223 |           const finalSnapshot = await (agent.client as any).fetchAgent({ agentId: agent.agentId });
+     :                                                        ^^^
+ 224 |           const timeline = await (agent.client as any).fetchAgentTimeline(agent.agentId, {
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:224:51]
+ 223 |           const finalSnapshot = await (agent.client as any).fetchAgent({ agentId: agent.agentId });
+ 224 |           const timeline = await (agent.client as any).fetchAgentTimeline(agent.agentId, {
+     :                                                   ^^^
+ 225 |             direction: "tail",
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:229:38]
+ 228 |           const probe = await page.evaluate(() => {
+ 229 |             const s = (globalThis as any).__impact;
+     :                                      ^^^
+ 230 |             s.stop = true;
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:248:22]
+ 247 |             .slice(1)
+ 248 |             .map((x: any, i: number) => x.at - probe.frames[i].at);
+     :                      ^^^
+ 249 |           const keyRaf = probe.keys
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:250:25]
+ 249 |           const keyRaf = probe.keys
+ 250 |             .filter((x: any) => Number.isFinite(x.raf))
+     :                         ^^^
+ 251 |             .map((x: any) => x.raf - x.keydown);
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:251:22]
+ 250 |             .filter((x: any) => Number.isFinite(x.raf))
+ 251 |             .map((x: any) => x.raf - x.keydown);
+     :                      ^^^
+ 252 |           const result = {
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure-history.cts:278:68]
+ 277 |               longTaskCount: probe.longTasks.length,
+ 278 |               longTaskTotal: probe.longTasks.reduce((a: number, x: any) => a + x.duration, 0),
+     :                                                                    ^^^
+ 279 |             },
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x eslint-plugin-unicorn(no-new-array): Do not use `new Array(singleArgument)`.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/analyze.cjs:52:26]
+ 51 |     const missing = r.probe.keys.length - observed.length;
+ 52 |     const censored = [...new Array(missing).fill(0), ...observed];
+    :                          ^^^^^^^^^^^^^^^^^^
+ 53 |     const summary = {
+    `----
+  help: It's not clear whether the argument is meant to be the length of the array or the only element. If the argument is the array's length, consider using `Array.from({ length: n })`. If the argument is the only element, use `[element]`.
+
+  x oxc(no-map-spread): Spreading to modify object properties in `map` calls is inefficient
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/analyze.cjs:26:27]
+ 25 |     const wire = JSON.parse(z.gunzipSync(fs.readFileSync(path.join(dir, r.id + "-wire.json.gz"))));
+ 26 |     const messages = wire.map((x) => ({ at: x.at, ...JSON.parse(x.payload).message }));
+    :                           ^|^                     ^^^^^^^^^^^^^^^^|^^^^^^^^^^^^^^^
+    :                            |                                      `-- This spread allocates a new value on each iteration
+    :                            `-- This map call spreads an object
+ 27 |     const upserts = messages.filter(
+    `----
+  help: If in-place mutation is acceptable, use `Object.assign` or direct property assignment instead of spreading
+  note: `Object.assign` mutates the first argument. Disable this rule if copy-on-write behavior is required.
+
+  x eslint(max-depth): Blocks are nested too deeply (5). Maximum allowed is 4.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:228:11]
+ 227 |               const buffers = [];
+ 228 | ,->           for (;;) {
+ 229 | |               const chunk = await cdp.send("IO.read", { handle: stream });
+ 230 | |               buffers.push(Buffer.from(chunk.data, chunk.base64Encoded ? "base64" : "utf8"));
+ 231 | |               if (chunk.eof) break;
+ 232 | `->           }
+ 233 |               await cdp.send("IO.close", { handle: stream });
+     `----
+  help: Consider refactoring your code.
+
+  x eslint(max-depth): Blocks are nested too deeply (6). Maximum allowed is 4.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:231:13]
+ 230 |             buffers.push(Buffer.from(chunk.data, chunk.base64Encoded ? "base64" : "utf8"));
+ 231 |             if (chunk.eof) break;
+     :             ^^^^^^^^^^^^^^^^^^^^^
+ 232 |           }
+     `----
+  help: Consider refactoring your code.
+
+  x eslint(max-depth): Blocks are nested too deeply (5). Maximum allowed is 4.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:274:11]
+ 273 |           console.log(id, JSON.stringify(result.summary), "draftEqual", result.draftEqual);
+ 274 |           if (!result.draftEqual || errors.length) throw Error("identity/pageerror check failed");
+     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 275 |         } catch (e) {
+     `----
+  help: Consider refactoring your code.
+
+  x eslint(max-depth): Blocks are nested too deeply (5). Maximum allowed is 4.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:280:11]
+ 279 |         } finally {
+ 280 |           if (tracing) await cdp.send("Tracing.end").catch(() => {});
+     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 281 |           await context.close();
+     `----
+  help: Consider refactoring your code.
+
+  x eslint(no-shadow): 'host' is already declared in the upper scope.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:106:15]
+ 105 |         await hideDeveloperToasts(page);
+ 106 |         const host = buildSeededHost({
+     :               ^^|^
+     :                 `-- shadowed declaration is here
+ 107 |           serverId: daemon.serverId,
+ 108 |           endpoint: `127.0.0.1:${daemon.port}`,
+ 109 |           nowIso: new Date().toISOString(),
+ 110 |         });
+ 111 |         await page.addInitScript(
+ 112 |           ({ host }) => {
+     :              ^^|^
+     :                `-- 'host' is declared here
+ 113 |             localStorage.setItem("@paseo:e2e", "1");
+     `----
+  help: Consider renaming 'host' to avoid shadowing the variable from the outer scope.
+
+  x eslint(no-unused-vars): Parameter 'i' is declared but never used. Unused parameters should start with a '_'.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:62:14]
+ 61 |     .split(",")
+ 62 |     .map((x, i) => [x, x.startsWith("baseline") ? "baseline" : "candidate"] as const)) {
+    :              |
+    :              `-- 'i' is declared here
+ 63 |     let stopMetro: any, daemon: any, browser: any;
+    `----
+  help: Consider removing this parameter.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:30:20]
+ 29 |   const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+ 30 |   const hash = (s: any) => createHash("sha256").update(s).digest("hex");
+    :                    ^^^
+ 31 |   const percentile = (xs: number[], p: number) =>
+    `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:63:20]
+ 62 |     .map((x, i) => [x, x.startsWith("baseline") ? "baseline" : "candidate"] as const)) {
+ 63 |     let stopMetro: any, daemon: any, browser: any;
+    :                    ^^^
+ 64 |     try {
+    `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:63:33]
+ 62 |     .map((x, i) => [x, x.startsWith("baseline") ? "baseline" : "candidate"] as const)) {
+ 63 |     let stopMetro: any, daemon: any, browser: any;
+    :                                 ^^^
+ 64 |     try {
+    `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:63:47]
+ 62 |     .map((x, i) => [x, x.startsWith("baseline") ? "baseline" : "candidate"] as const)) {
+ 63 |     let stopMetro: any, daemon: any, browser: any;
+    :                                               ^^^
+ 64 |     try {
+    `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+    ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:87:21]
+ 86 |         const errors: string[] = [];
+ 87 |         const wire: any[] = [];
+    :                     ^^^
+ 88 |         page.on("pageerror", (e) => errors.push(e.message));
+    `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:160:41]
+ 159 |     })()`);
+ 160 |           const completed = new Promise<any>((resolve) =>
+     :                                         ^^^
+ 161 |             cdp.once("Tracing.tracingComplete", resolve),
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:174:29]
+ 173 |           );
+ 174 |           const labelTimes: any[] = [];
+     :                             ^^^
+ 175 |           const keys: any[] = [];
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:175:23]
+ 174 |           const labelTimes: any[] = [];
+ 175 |           const keys: any[] = [];
+     :                       ^^^
+ 176 |           const wheels: any[] = [];
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:176:25]
+ 175 |           const keys: any[] = [];
+ 176 |           const wheels: any[] = [];
+     :                         ^^^
+ 177 |           await Promise.all([
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:182:40]
+ 181 |                 const sent = Date.now();
+ 182 |                 await (agent.client as any).updateAgent(agent.agentId, {
+     :                                        ^^^
+ 183 |                   labels: { "benchmark-phase": String(i) },
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:213:56]
+ 212 |           const actualDraft = await input.inputValue();
+ 213 |           const finalSnapshot = await (agent.client as any).fetchAgent({ agentId: agent.agentId });
+     :                                                        ^^^
+ 214 |           const timeline = await (agent.client as any).fetchAgentTimeline(agent.agentId, {
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:214:51]
+ 213 |           const finalSnapshot = await (agent.client as any).fetchAgent({ agentId: agent.agentId });
+ 214 |           const timeline = await (agent.client as any).fetchAgentTimeline(agent.agentId, {
+     :                                                   ^^^
+ 215 |             direction: "tail",
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:219:38]
+ 218 |           const probe = await page.evaluate(() => {
+ 219 |             const s = (globalThis as any).__impact;
+     :                                      ^^^
+ 220 |             s.stop = true;
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:238:22]
+ 237 |             .slice(1)
+ 238 |             .map((x: any, i: number) => x.at - probe.frames[i].at);
+     :                      ^^^
+ 239 |           const keyRaf = probe.keys
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:240:25]
+ 239 |           const keyRaf = probe.keys
+ 240 |             .filter((x: any) => Number.isFinite(x.raf))
+     :                         ^^^
+ 241 |             .map((x: any) => x.raf - x.keydown);
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:241:22]
+ 240 |             .filter((x: any) => Number.isFinite(x.raf))
+ 241 |             .map((x: any) => x.raf - x.keydown);
+     :                      ^^^
+ 242 |           const result = {
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+  x typescript-eslint(no-explicit-any): Unexpected `any`. Specify a different type.
+     ,-[docs/qa-evidence/pr7774-perf-impact-20261024/measure.cts:268:68]
+ 267 |               longTaskCount: probe.longTasks.length,
+ 268 |               longTaskTotal: probe.longTasks.reduce((a: number, x: any) => a + x.duration, 0),
+     :                                                                    ^^^
+ 269 |             },
+     `----
+  help: Use `unknown` instead, this will force you to explicitly, and safely, assert the type is correct.
+
+Found 0 warnings and 48 errors.
+Finished in 60ms on 3 files with 177 rules using 15 threads.

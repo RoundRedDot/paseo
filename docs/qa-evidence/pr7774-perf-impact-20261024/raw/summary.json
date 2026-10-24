@@ -1,0 +1,984 @@
+{
+  "createdAt": "2026-10-24T10:50:48.421Z",
+  "note": "Key-to-rAF and RAF gaps are proxies. Chrome trace is primary event/rendering evidence. DOM mutation gaps include deliberate pacing and scrolling; they are not token latency.",
+  "rows": [
+    {
+      "id": "baseline-1",
+      "sha": "72886023ca99dd990337a8f70cdef2a6d304395e",
+      "storeHash": "ceb05079bfe561817df437be94831a158bc4d513471d78cc1c8c8d0762a7b066",
+      "browser": "145.0.7632.6",
+      "start": "2026-10-24T10:46:41.930Z",
+      "load": "18:46  up 3 days,  3:58, 7 users, load averages: 14.07 20.96 20.76",
+      "labels": 12,
+      "wheels": 20,
+      "draftEqual": true,
+      "errors": 0,
+      "keyCount": 59,
+      "keyRafP95": 12.900000035762787,
+      "keyRafMax": 15.399999976158142,
+      "frameGapP95": 17.5,
+      "frameGapMax": 100.10000000000218,
+      "frameGapOver50": 3,
+      "longTaskCount": 2,
+      "longTaskTotal": 144,
+      "streamMutationGapP95": 33.69999998807907,
+      "streamMutationGapMax": 99.59999996423721,
+      "timeline": {
+        "requestId": "308e16d6-b2ea-41a9-8fa1-653e84f8a671",
+        "agentId": "fe27d9e4-4757-4593-9737-f4a0f86e0a42",
+        "agent": {
+          "id": "fe27d9e4-4757-4593-9737-f4a0f86e0a42",
+          "provider": "mock",
+          "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-W8PYD1",
+          "workspaceId": "wks_06f1ff67a9b90ee5",
+          "model": "e2e-fast-stream",
+          "thinkingOptionId": null,
+          "effectiveThinkingOptionId": null,
+          "runtimeInfo": {
+            "provider": "mock",
+            "sessionId": "14fd16d4-c328-4915-b009-546d59e6bd25",
+            "model": "e2e-fast-stream",
+            "modeId": "load-test"
+          },
+          "createdAt": "2026-10-24T10:46:37.146Z",
+          "updatedAt": "2026-10-24T10:47:02.714Z",
+          "lastUserMessageAt": "2026-10-24T10:46:42.194Z",
+          "status": "idle",
+          "activeTurn": null,
+          "capabilities": {
+            "supportsStreaming": true,
+            "supportsSessionPersistence": true,
+            "supportsSessionListing": true,
+            "supportsDynamicModes": false,
+            "supportsMcpServers": false,
+            "supportsReasoningStream": true,
+            "supportsToolInvocations": true,
+            "supportsRewindConversation": true,
+            "supportsRewindFiles": true,
+            "supportsRewindBoth": true
+          },
+          "currentModeId": "load-test",
+          "availableModes": [
+            {
+              "id": "load-test",
+              "label": "Load Test",
+              "description": "Streams repeated markdown, reasoning, and tool calls for app stress testing",
+              "icon": "ShieldOff",
+              "colorTier": "dangerous"
+            },
+            {
+              "id": "approval-test",
+              "label": "Approval Test",
+              "description": "Alternate development-only permission mode for preference tests",
+              "icon": "ShieldCheck",
+              "colorTier": "safe"
+            }
+          ],
+          "features": [],
+          "pendingPermissions": [],
+          "persistence": {
+            "provider": "mock",
+            "sessionId": "14fd16d4-c328-4915-b009-546d59e6bd25",
+            "metadata": {
+              "model": "e2e-fast-stream",
+              "modeId": "load-test",
+              "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-W8PYD1"
+            }
+          },
+          "title": "Review streaming reply",
+          "labels": {
+            "benchmark-phase": "11"
+          },
+          "archivedAt": null,
+          "lastUsage": {
+            "inputTokens": 0,
+            "outputTokens": 496,
+            "contextWindowMaxTokens": 128000,
+            "contextWindowUsedTokens": 992
+          },
+          "requiresAttention": true,
+          "attentionReason": "finished",
+          "attentionTimestamp": "2026-10-24T10:47:02.713Z"
+        },
+        "direction": "tail",
+        "projection": "projected",
+        "epoch": "297ae75b-fa81-4ac0-8825-7a1f963750ba",
+        "reset": false,
+        "staleCursor": false,
+        "gap": false,
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 250,
+          "nextSeq": 251
+        },
+        "startCursor": {
+          "epoch": "297ae75b-fa81-4ac0-8825-7a1f963750ba",
+          "seq": 1
+        },
+        "endCursor": {
+          "epoch": "297ae75b-fa81-4ac0-8825-7a1f963750ba",
+          "seq": 250
+        },
+        "hasOlder": false,
+        "hasNewer": false,
+        "entries": [
+          {
+            "provider": "mock",
+            "item": {
+              "type": "user_message",
+              "text": "Review the small change and explain the verification steps.",
+              "clientMessageId": "54928e37-a50a-471c-8520-a4aca91dc890",
+              "messageId": "54928e37-a50a-471c-8520-a4aca91dc890"
+            },
+            "timestamp": "2026-10-24T10:46:42.194Z",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "turnId": "e1e6e41b-8ef9-42b3-ba17-4d73087d6519",
+            "collapsed": []
+          },
+          {
+            "provider": "mock",
+            "item": {
+              "type": "assistant_message",
+              "text": "## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE",
+              "messageId": "569be883-6811-4514-a80e-c6c565423fd9"
+            },
+            "timestamp": "2026-10-24T10:47:02.713Z",
+            "seqStart": 2,
+            "seqEnd": 250,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 250
+              }
+            ],
+            "turnId": "e1e6e41b-8ef9-42b3-ba17-4d73087d6519",
+            "collapsed": ["assistant_merge"]
+          }
+        ],
+        "error": null
+      }
+    },
+    {
+      "id": "baseline-2",
+      "sha": "72886023ca99dd990337a8f70cdef2a6d304395e",
+      "storeHash": "ceb05079bfe561817df437be94831a158bc4d513471d78cc1c8c8d0762a7b066",
+      "browser": "145.0.7632.6",
+      "start": "2026-10-24T10:47:40.359Z",
+      "load": "18:47  up 3 days,  3:59, 7 users, load averages: 65.48 34.23 25.71",
+      "labels": 12,
+      "wheels": 20,
+      "draftEqual": true,
+      "errors": 0,
+      "keyCount": 59,
+      "keyRafP95": 15.899999976158142,
+      "keyRafMax": 16.400000035762787,
+      "frameGapP95": 17.599999999998545,
+      "frameGapMax": 66.89999999999782,
+      "frameGapOver50": 6,
+      "longTaskCount": 2,
+      "longTaskTotal": 127,
+      "streamMutationGapP95": 33.90000003576279,
+      "streamMutationGapMax": 83.30000001192093,
+      "timeline": {
+        "requestId": "b22fcf46-60b6-4dbc-809f-24e2c2c92d32",
+        "agentId": "e8a2461c-aa8f-4a58-bac7-beedadd40192",
+        "agent": {
+          "id": "e8a2461c-aa8f-4a58-bac7-beedadd40192",
+          "provider": "mock",
+          "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-mH2fuu",
+          "workspaceId": "wks_2fdef4bcc5a47998",
+          "model": "e2e-fast-stream",
+          "thinkingOptionId": null,
+          "effectiveThinkingOptionId": null,
+          "runtimeInfo": {
+            "provider": "mock",
+            "sessionId": "70020530-f462-4b07-9b72-a9c506d8c662",
+            "model": "e2e-fast-stream",
+            "modeId": "load-test"
+          },
+          "createdAt": "2026-10-24T10:47:34.712Z",
+          "updatedAt": "2026-10-24T10:48:00.737Z",
+          "lastUserMessageAt": "2026-10-24T10:47:40.403Z",
+          "status": "idle",
+          "activeTurn": null,
+          "capabilities": {
+            "supportsStreaming": true,
+            "supportsSessionPersistence": true,
+            "supportsSessionListing": true,
+            "supportsDynamicModes": false,
+            "supportsMcpServers": false,
+            "supportsReasoningStream": true,
+            "supportsToolInvocations": true,
+            "supportsRewindConversation": true,
+            "supportsRewindFiles": true,
+            "supportsRewindBoth": true
+          },
+          "currentModeId": "load-test",
+          "availableModes": [
+            {
+              "id": "load-test",
+              "label": "Load Test",
+              "description": "Streams repeated markdown, reasoning, and tool calls for app stress testing",
+              "icon": "ShieldOff",
+              "colorTier": "dangerous"
+            },
+            {
+              "id": "approval-test",
+              "label": "Approval Test",
+              "description": "Alternate development-only permission mode for preference tests",
+              "icon": "ShieldCheck",
+              "colorTier": "safe"
+            }
+          ],
+          "features": [],
+          "pendingPermissions": [],
+          "persistence": {
+            "provider": "mock",
+            "sessionId": "70020530-f462-4b07-9b72-a9c506d8c662",
+            "metadata": {
+              "model": "e2e-fast-stream",
+              "modeId": "load-test",
+              "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-mH2fuu"
+            }
+          },
+          "title": "Review streaming reply",
+          "labels": {
+            "benchmark-phase": "11"
+          },
+          "archivedAt": null,
+          "lastUsage": {
+            "inputTokens": 0,
+            "outputTokens": 496,
+            "contextWindowMaxTokens": 128000,
+            "contextWindowUsedTokens": 992
+          },
+          "requiresAttention": true,
+          "attentionReason": "finished",
+          "attentionTimestamp": "2026-10-24T10:48:00.736Z"
+        },
+        "direction": "tail",
+        "projection": "projected",
+        "epoch": "d1c257d6-3bce-4ac3-b238-923e0675f30e",
+        "reset": false,
+        "staleCursor": false,
+        "gap": false,
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 250,
+          "nextSeq": 251
+        },
+        "startCursor": {
+          "epoch": "d1c257d6-3bce-4ac3-b238-923e0675f30e",
+          "seq": 1
+        },
+        "endCursor": {
+          "epoch": "d1c257d6-3bce-4ac3-b238-923e0675f30e",
+          "seq": 250
+        },
+        "hasOlder": false,
+        "hasNewer": false,
+        "entries": [
+          {
+            "provider": "mock",
+            "item": {
+              "type": "user_message",
+              "text": "Review the small change and explain the verification steps.",
+              "clientMessageId": "f14be206-a07b-49fa-a16a-ddc9ba8a2081",
+              "messageId": "f14be206-a07b-49fa-a16a-ddc9ba8a2081"
+            },
+            "timestamp": "2026-10-24T10:47:40.403Z",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "turnId": "0b492ee9-596f-4631-975a-b9151591f5a9",
+            "collapsed": []
+          },
+          {
+            "provider": "mock",
+            "item": {
+              "type": "assistant_message",
+              "text": "## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE",
+              "messageId": "f5ec8f51-4a55-4ba1-a998-3a653a3c67b2"
+            },
+            "timestamp": "2026-10-24T10:48:00.736Z",
+            "seqStart": 2,
+            "seqEnd": 250,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 250
+              }
+            ],
+            "turnId": "0b492ee9-596f-4631-975a-b9151591f5a9",
+            "collapsed": ["assistant_merge"]
+          }
+        ],
+        "error": null
+      }
+    },
+    {
+      "id": "baseline-control-1",
+      "sha": "72886023ca99dd990337a8f70cdef2a6d304395e",
+      "storeHash": "ceb05079bfe561817df437be94831a158bc4d513471d78cc1c8c8d0762a7b066",
+      "browser": "145.0.7632.6",
+      "start": "2026-10-24T10:49:30.718Z",
+      "load": "18:49  up 3 days,  4:01, 7 users, load averages: 21.25 28.51 24.55",
+      "labels": 12,
+      "wheels": 20,
+      "draftEqual": true,
+      "errors": 0,
+      "keyCount": 59,
+      "keyRafP95": 9.400000035762787,
+      "keyRafMax": 16.69999998807907,
+      "frameGapP95": 17.5,
+      "frameGapMax": 66.89999999999964,
+      "frameGapOver50": 1,
+      "longTaskCount": 1,
+      "longTaskTotal": 61,
+      "streamMutationGapP95": 33.60000002384186,
+      "streamMutationGapMax": 70.30000001192093,
+      "timeline": {
+        "requestId": "cb8efee6-0342-4c75-bf41-c5bb44b67ab1",
+        "agentId": "7924662a-4ee4-4e5f-bc5d-5942e1c74936",
+        "agent": {
+          "id": "7924662a-4ee4-4e5f-bc5d-5942e1c74936",
+          "provider": "mock",
+          "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-ZoPILA",
+          "workspaceId": "wks_c629951705686ec6",
+          "model": "e2e-fast-stream",
+          "thinkingOptionId": null,
+          "effectiveThinkingOptionId": null,
+          "runtimeInfo": {
+            "provider": "mock",
+            "sessionId": "83413e0a-4fd1-4931-aa60-ea50a444fcc3",
+            "model": "e2e-fast-stream",
+            "modeId": "load-test"
+          },
+          "createdAt": "2026-10-24T10:49:27.391Z",
+          "updatedAt": "2026-10-24T10:49:50.931Z",
+          "lastUserMessageAt": "2026-10-24T10:49:30.782Z",
+          "status": "idle",
+          "activeTurn": null,
+          "capabilities": {
+            "supportsStreaming": true,
+            "supportsSessionPersistence": true,
+            "supportsSessionListing": true,
+            "supportsDynamicModes": false,
+            "supportsMcpServers": false,
+            "supportsReasoningStream": true,
+            "supportsToolInvocations": true,
+            "supportsRewindConversation": true,
+            "supportsRewindFiles": true,
+            "supportsRewindBoth": true
+          },
+          "currentModeId": "load-test",
+          "availableModes": [
+            {
+              "id": "load-test",
+              "label": "Load Test",
+              "description": "Streams repeated markdown, reasoning, and tool calls for app stress testing",
+              "icon": "ShieldOff",
+              "colorTier": "dangerous"
+            },
+            {
+              "id": "approval-test",
+              "label": "Approval Test",
+              "description": "Alternate development-only permission mode for preference tests",
+              "icon": "ShieldCheck",
+              "colorTier": "safe"
+            }
+          ],
+          "features": [],
+          "pendingPermissions": [],
+          "persistence": {
+            "provider": "mock",
+            "sessionId": "83413e0a-4fd1-4931-aa60-ea50a444fcc3",
+            "metadata": {
+              "model": "e2e-fast-stream",
+              "modeId": "load-test",
+              "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-ZoPILA"
+            }
+          },
+          "title": "Review streaming reply",
+          "labels": {
+            "benchmark-phase": "11"
+          },
+          "archivedAt": null,
+          "lastUsage": {
+            "inputTokens": 0,
+            "outputTokens": 496,
+            "contextWindowMaxTokens": 128000,
+            "contextWindowUsedTokens": 992
+          },
+          "requiresAttention": true,
+          "attentionReason": "finished",
+          "attentionTimestamp": "2026-10-24T10:49:50.931Z"
+        },
+        "direction": "tail",
+        "projection": "projected",
+        "epoch": "16cb5882-5eb0-4ee3-a350-66a699e90388",
+        "reset": false,
+        "staleCursor": false,
+        "gap": false,
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 250,
+          "nextSeq": 251
+        },
+        "startCursor": {
+          "epoch": "16cb5882-5eb0-4ee3-a350-66a699e90388",
+          "seq": 1
+        },
+        "endCursor": {
+          "epoch": "16cb5882-5eb0-4ee3-a350-66a699e90388",
+          "seq": 250
+        },
+        "hasOlder": false,
+        "hasNewer": false,
+        "entries": [
+          {
+            "provider": "mock",
+            "item": {
+              "type": "user_message",
+              "text": "Review the small change and explain the verification steps.",
+              "clientMessageId": "6ae5b719-39a4-4b02-92d5-dcf1ba1dee4e",
+              "messageId": "6ae5b719-39a4-4b02-92d5-dcf1ba1dee4e"
+            },
+            "timestamp": "2026-10-24T10:49:30.782Z",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "turnId": "8f2090bf-ce01-4a2b-a091-e908e10a3a06",
+            "collapsed": []
+          },
+          {
+            "provider": "mock",
+            "item": {
+              "type": "assistant_message",
+              "text": "## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE",
+              "messageId": "a7ac4bdc-9da0-4c47-ad3f-cf2c0c413aaa"
+            },
+            "timestamp": "2026-10-24T10:49:50.930Z",
+            "seqStart": 2,
+            "seqEnd": 250,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 250
+              }
+            ],
+            "turnId": "8f2090bf-ce01-4a2b-a091-e908e10a3a06",
+            "collapsed": ["assistant_merge"]
+          }
+        ],
+        "error": null
+      }
+    },
+    {
+      "id": "baseline-control-2",
+      "sha": "72886023ca99dd990337a8f70cdef2a6d304395e",
+      "storeHash": "ceb05079bfe561817df437be94831a158bc4d513471d78cc1c8c8d0762a7b066",
+      "browser": "145.0.7632.6",
+      "start": "2026-10-24T10:50:00.158Z",
+      "load": "18:50  up 3 days,  4:01, 7 users, load averages: 16.12 26.60 24.00",
+      "labels": 12,
+      "wheels": 20,
+      "draftEqual": true,
+      "errors": 0,
+      "keyCount": 59,
+      "keyRafP95": 12.199999988079071,
+      "keyRafMax": 14.100000023841858,
+      "frameGapP95": 17.400000000001455,
+      "frameGapMax": 66.59999999999991,
+      "frameGapOver50": 1,
+      "longTaskCount": 1,
+      "longTaskTotal": 58,
+      "streamMutationGapP95": 33.30000001192093,
+      "streamMutationGapMax": 64.10000002384186,
+      "timeline": {
+        "requestId": "cd08024e-80f1-45a9-bbc4-65b1ae8d8216",
+        "agentId": "9ac23ed5-ba30-40bb-9ff4-fc93bb7950f0",
+        "agent": {
+          "id": "9ac23ed5-ba30-40bb-9ff4-fc93bb7950f0",
+          "provider": "mock",
+          "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-khS2hQ",
+          "workspaceId": "wks_72d42a7ebca89690",
+          "model": "e2e-fast-stream",
+          "thinkingOptionId": null,
+          "effectiveThinkingOptionId": null,
+          "runtimeInfo": {
+            "provider": "mock",
+            "sessionId": "148a90a9-4d2e-4b24-b731-b30dd99efcc4",
+            "model": "e2e-fast-stream",
+            "modeId": "load-test"
+          },
+          "createdAt": "2026-10-24T10:49:56.697Z",
+          "updatedAt": "2026-10-24T10:50:20.350Z",
+          "lastUserMessageAt": "2026-10-24T10:50:00.205Z",
+          "status": "idle",
+          "activeTurn": null,
+          "capabilities": {
+            "supportsStreaming": true,
+            "supportsSessionPersistence": true,
+            "supportsSessionListing": true,
+            "supportsDynamicModes": false,
+            "supportsMcpServers": false,
+            "supportsReasoningStream": true,
+            "supportsToolInvocations": true,
+            "supportsRewindConversation": true,
+            "supportsRewindFiles": true,
+            "supportsRewindBoth": true
+          },
+          "currentModeId": "load-test",
+          "availableModes": [
+            {
+              "id": "load-test",
+              "label": "Load Test",
+              "description": "Streams repeated markdown, reasoning, and tool calls for app stress testing",
+              "icon": "ShieldOff",
+              "colorTier": "dangerous"
+            },
+            {
+              "id": "approval-test",
+              "label": "Approval Test",
+              "description": "Alternate development-only permission mode for preference tests",
+              "icon": "ShieldCheck",
+              "colorTier": "safe"
+            }
+          ],
+          "features": [],
+          "pendingPermissions": [],
+          "persistence": {
+            "provider": "mock",
+            "sessionId": "148a90a9-4d2e-4b24-b731-b30dd99efcc4",
+            "metadata": {
+              "model": "e2e-fast-stream",
+              "modeId": "load-test",
+              "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-khS2hQ"
+            }
+          },
+          "title": "Review streaming reply",
+          "labels": {
+            "benchmark-phase": "11"
+          },
+          "archivedAt": null,
+          "lastUsage": {
+            "inputTokens": 0,
+            "outputTokens": 496,
+            "contextWindowMaxTokens": 128000,
+            "contextWindowUsedTokens": 992
+          },
+          "requiresAttention": true,
+          "attentionReason": "finished",
+          "attentionTimestamp": "2026-10-24T10:50:20.349Z"
+        },
+        "direction": "tail",
+        "projection": "projected",
+        "epoch": "a3b5f283-a9c8-45b1-ad36-c7f47bb69848",
+        "reset": false,
+        "staleCursor": false,
+        "gap": false,
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 250,
+          "nextSeq": 251
+        },
+        "startCursor": {
+          "epoch": "a3b5f283-a9c8-45b1-ad36-c7f47bb69848",
+          "seq": 1
+        },
+        "endCursor": {
+          "epoch": "a3b5f283-a9c8-45b1-ad36-c7f47bb69848",
+          "seq": 250
+        },
+        "hasOlder": false,
+        "hasNewer": false,
+        "entries": [
+          {
+            "provider": "mock",
+            "item": {
+              "type": "user_message",
+              "text": "Review the small change and explain the verification steps.",
+              "clientMessageId": "769e1060-c1bf-4939-b2da-5d6c9a82c068",
+              "messageId": "769e1060-c1bf-4939-b2da-5d6c9a82c068"
+            },
+            "timestamp": "2026-10-24T10:50:00.205Z",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "turnId": "8710e02b-e928-43f8-a208-70ca440d58fe",
+            "collapsed": []
+          },
+          {
+            "provider": "mock",
+            "item": {
+              "type": "assistant_message",
+              "text": "## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE",
+              "messageId": "08702b96-5e01-4071-9d34-cffbfe02b5b9"
+            },
+            "timestamp": "2026-10-24T10:50:20.349Z",
+            "seqStart": 2,
+            "seqEnd": 250,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 250
+              }
+            ],
+            "turnId": "8710e02b-e928-43f8-a208-70ca440d58fe",
+            "collapsed": ["assistant_merge"]
+          }
+        ],
+        "error": null
+      }
+    },
+    {
+      "id": "candidate-1",
+      "sha": "72886023ca99dd990337a8f70cdef2a6d304395e",
+      "storeHash": "3910213ed6e27df2ee272a67c607e793d3be61750ff055faca619f5a32ec2a09",
+      "browser": "145.0.7632.6",
+      "start": "2026-10-24T10:48:22.390Z",
+      "load": "18:48  up 3 days, 4 hrs, 7 users, load averages: 45.32 33.21 25.77",
+      "labels": 12,
+      "wheels": 20,
+      "draftEqual": true,
+      "errors": 0,
+      "keyCount": 59,
+      "keyRafP95": 16.19999998807907,
+      "keyRafMax": 16.5,
+      "frameGapP95": 17.5,
+      "frameGapMax": 99.30000000000018,
+      "frameGapOver50": 2,
+      "longTaskCount": 2,
+      "longTaskTotal": 141,
+      "streamMutationGapP95": 34,
+      "streamMutationGapMax": 102.80000001192093,
+      "timeline": {
+        "requestId": "f32d6c18-2083-4610-a607-1d3df729276c",
+        "agentId": "3222d4da-dd5c-40b7-be8d-7049b2c61f5e",
+        "agent": {
+          "id": "3222d4da-dd5c-40b7-be8d-7049b2c61f5e",
+          "provider": "mock",
+          "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-gPRrdp",
+          "workspaceId": "wks_8b98c1922ec91c0e",
+          "model": "e2e-fast-stream",
+          "thinkingOptionId": null,
+          "effectiveThinkingOptionId": null,
+          "runtimeInfo": {
+            "provider": "mock",
+            "sessionId": "eafa143a-4f2c-420c-b4d0-b30907393d94",
+            "model": "e2e-fast-stream",
+            "modeId": "load-test"
+          },
+          "createdAt": "2026-10-24T10:48:18.576Z",
+          "updatedAt": "2026-10-24T10:48:42.821Z",
+          "lastUserMessageAt": "2026-10-24T10:48:22.505Z",
+          "status": "idle",
+          "activeTurn": null,
+          "capabilities": {
+            "supportsStreaming": true,
+            "supportsSessionPersistence": true,
+            "supportsSessionListing": true,
+            "supportsDynamicModes": false,
+            "supportsMcpServers": false,
+            "supportsReasoningStream": true,
+            "supportsToolInvocations": true,
+            "supportsRewindConversation": true,
+            "supportsRewindFiles": true,
+            "supportsRewindBoth": true
+          },
+          "currentModeId": "load-test",
+          "availableModes": [
+            {
+              "id": "load-test",
+              "label": "Load Test",
+              "description": "Streams repeated markdown, reasoning, and tool calls for app stress testing",
+              "icon": "ShieldOff",
+              "colorTier": "dangerous"
+            },
+            {
+              "id": "approval-test",
+              "label": "Approval Test",
+              "description": "Alternate development-only permission mode for preference tests",
+              "icon": "ShieldCheck",
+              "colorTier": "safe"
+            }
+          ],
+          "features": [],
+          "pendingPermissions": [],
+          "persistence": {
+            "provider": "mock",
+            "sessionId": "eafa143a-4f2c-420c-b4d0-b30907393d94",
+            "metadata": {
+              "model": "e2e-fast-stream",
+              "modeId": "load-test",
+              "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-gPRrdp"
+            }
+          },
+          "title": "Review streaming reply",
+          "labels": {
+            "benchmark-phase": "11"
+          },
+          "archivedAt": null,
+          "lastUsage": {
+            "inputTokens": 0,
+            "outputTokens": 496,
+            "contextWindowMaxTokens": 128000,
+            "contextWindowUsedTokens": 992
+          },
+          "requiresAttention": true,
+          "attentionReason": "finished",
+          "attentionTimestamp": "2026-10-24T10:48:42.820Z"
+        },
+        "direction": "tail",
+        "projection": "projected",
+        "epoch": "336e2bd2-ce7e-412d-8515-62fe9390bab7",
+        "reset": false,
+        "staleCursor": false,
+        "gap": false,
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 250,
+          "nextSeq": 251
+        },
+        "startCursor": {
+          "epoch": "336e2bd2-ce7e-412d-8515-62fe9390bab7",
+          "seq": 1
+        },
+        "endCursor": {
+          "epoch": "336e2bd2-ce7e-412d-8515-62fe9390bab7",
+          "seq": 250
+        },
+        "hasOlder": false,
+        "hasNewer": false,
+        "entries": [
+          {
+            "provider": "mock",
+            "item": {
+              "type": "user_message",
+              "text": "Review the small change and explain the verification steps.",
+              "clientMessageId": "44e3fdbf-91fa-4a1f-a406-cf7bb0907084",
+              "messageId": "44e3fdbf-91fa-4a1f-a406-cf7bb0907084"
+            },
+            "timestamp": "2026-10-24T10:48:22.505Z",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "turnId": "128db2dd-df5b-4524-9b81-d5809aa07110",
+            "collapsed": []
+          },
+          {
+            "provider": "mock",
+            "item": {
+              "type": "assistant_message",
+              "text": "## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE",
+              "messageId": "2e3db816-0487-45ec-b663-d21fd32b436c"
+            },
+            "timestamp": "2026-10-24T10:48:42.820Z",
+            "seqStart": 2,
+            "seqEnd": 250,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 250
+              }
+            ],
+            "turnId": "128db2dd-df5b-4524-9b81-d5809aa07110",
+            "collapsed": ["assistant_merge"]
+          }
+        ],
+        "error": null
+      }
+    },
+    {
+      "id": "candidate-2",
+      "sha": "72886023ca99dd990337a8f70cdef2a6d304395e",
+      "storeHash": "3910213ed6e27df2ee272a67c607e793d3be61750ff055faca619f5a32ec2a09",
+      "browser": "145.0.7632.6",
+      "start": "2026-10-24T10:48:52.013Z",
+      "load": "18:48  up 3 days, 4 hrs, 7 users, load averages: 32.77 31.23 25.27",
+      "labels": 12,
+      "wheels": 20,
+      "draftEqual": true,
+      "errors": 0,
+      "keyCount": 59,
+      "keyRafP95": 16.69999998807907,
+      "keyRafMax": 16.80000001192093,
+      "frameGapP95": 17.5,
+      "frameGapMax": 50.80000000000018,
+      "frameGapOver50": 2,
+      "longTaskCount": 1,
+      "longTaskTotal": 59,
+      "streamMutationGapP95": 33.69999998807907,
+      "streamMutationGapMax": 63.09999996423721,
+      "timeline": {
+        "requestId": "21471cc4-75ea-4b61-bc6d-bf10ec521986",
+        "agentId": "8eecf0d2-0d45-4648-90db-237b60a40fde",
+        "agent": {
+          "id": "8eecf0d2-0d45-4648-90db-237b60a40fde",
+          "provider": "mock",
+          "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-GyjwKG",
+          "workspaceId": "wks_cc8783a6dfc029df",
+          "model": "e2e-fast-stream",
+          "thinkingOptionId": null,
+          "effectiveThinkingOptionId": null,
+          "runtimeInfo": {
+            "provider": "mock",
+            "sessionId": "80361f7f-3ff5-47ce-bb1c-5a855c7358f9",
+            "model": "e2e-fast-stream",
+            "modeId": "load-test"
+          },
+          "createdAt": "2026-10-24T10:48:48.417Z",
+          "updatedAt": "2026-10-24T10:49:12.241Z",
+          "lastUserMessageAt": "2026-10-24T10:48:52.043Z",
+          "status": "idle",
+          "activeTurn": null,
+          "capabilities": {
+            "supportsStreaming": true,
+            "supportsSessionPersistence": true,
+            "supportsSessionListing": true,
+            "supportsDynamicModes": false,
+            "supportsMcpServers": false,
+            "supportsReasoningStream": true,
+            "supportsToolInvocations": true,
+            "supportsRewindConversation": true,
+            "supportsRewindFiles": true,
+            "supportsRewindBoth": true
+          },
+          "currentModeId": "load-test",
+          "availableModes": [
+            {
+              "id": "load-test",
+              "label": "Load Test",
+              "description": "Streams repeated markdown, reasoning, and tool calls for app stress testing",
+              "icon": "ShieldOff",
+              "colorTier": "dangerous"
+            },
+            {
+              "id": "approval-test",
+              "label": "Approval Test",
+              "description": "Alternate development-only permission mode for preference tests",
+              "icon": "ShieldCheck",
+              "colorTier": "safe"
+            }
+          ],
+          "features": [],
+          "pendingPermissions": [],
+          "persistence": {
+            "provider": "mock",
+            "sessionId": "80361f7f-3ff5-47ce-bb1c-5a855c7358f9",
+            "metadata": {
+              "model": "e2e-fast-stream",
+              "modeId": "load-test",
+              "cwd": "/private/var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/perf-impact-GyjwKG"
+            }
+          },
+          "title": "Review streaming reply",
+          "labels": {
+            "benchmark-phase": "11"
+          },
+          "archivedAt": null,
+          "lastUsage": {
+            "inputTokens": 0,
+            "outputTokens": 496,
+            "contextWindowMaxTokens": 128000,
+            "contextWindowUsedTokens": 992
+          },
+          "requiresAttention": true,
+          "attentionReason": "finished",
+          "attentionTimestamp": "2026-10-24T10:49:12.240Z"
+        },
+        "direction": "tail",
+        "projection": "projected",
+        "epoch": "63fe8479-4991-462b-a0af-c8ed25869aa0",
+        "reset": false,
+        "staleCursor": false,
+        "gap": false,
+        "window": {
+          "minSeq": 1,
+          "maxSeq": 250,
+          "nextSeq": 251
+        },
+        "startCursor": {
+          "epoch": "63fe8479-4991-462b-a0af-c8ed25869aa0",
+          "seq": 1
+        },
+        "endCursor": {
+          "epoch": "63fe8479-4991-462b-a0af-c8ed25869aa0",
+          "seq": 250
+        },
+        "hasOlder": false,
+        "hasNewer": false,
+        "entries": [
+          {
+            "provider": "mock",
+            "item": {
+              "type": "user_message",
+              "text": "Review the small change and explain the verification steps.",
+              "clientMessageId": "863dd7d6-0841-4c6b-8fa3-b03d10ca81bb",
+              "messageId": "863dd7d6-0841-4c6b-8fa3-b03d10ca81bb"
+            },
+            "timestamp": "2026-10-24T10:48:52.043Z",
+            "seqStart": 1,
+            "seqEnd": 1,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 1,
+                "endSeq": 1
+              }
+            ],
+            "turnId": "4a1d6e75-7b4f-4a0e-927e-d5edcf5e3203",
+            "collapsed": []
+          },
+          {
+            "provider": "mock",
+            "item": {
+              "type": "assistant_message",
+              "text": "## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE",
+              "messageId": "c9823860-df55-46c0-9bb7-25c4e32e057e"
+            },
+            "timestamp": "2026-10-24T10:49:12.240Z",
+            "seqStart": 2,
+            "seqEnd": 250,
+            "sourceSeqRanges": [
+              {
+                "startSeq": 2,
+                "endSeq": 250
+              }
+            ],
+            "turnId": "4a1d6e75-7b4f-4a0e-927e-d5edcf5e3203",
+            "collapsed": ["assistant_merge"]
+          }
+        ],
+        "error": null
+      }
+    }
+  ]
+}

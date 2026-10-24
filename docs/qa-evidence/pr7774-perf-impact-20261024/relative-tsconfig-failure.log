@@ -1,0 +1,36 @@
+GROUP baseline 2026-10-24T10:44:36.829Z
+[metro] Skipping web setup: EXPO_NO_WEB_SETUP is enabled.
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Waiting on http://localhost:60015
+[metro] Logs for your project will appear below.
+[metro] | (node:82068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] Web Bundled 2682ms packages/app/index.ts (5691 modules)
+[e2e] Metro warmed on port 60015
+[e2e] Metro stopped
+Error: Isolated host daemon exited before listening (code 1, signal null)
+Daemon stderr:
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+Error: Cannot resolve tsconfig at path: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/packages/server/packages/app/tsconfig.json
+    at _parseTsconfig (file:///Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/node_modules/get-tsconfig/dist/index.mjs:7:8058)
+    at parseTsconfig (file:///Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/node_modules/get-tsconfig/dist/index.mjs:7:13385)
+    at loadTsconfig (file:///Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/node_modules/tsx/dist/register-CFH5oNdT.mjs:1:1455)
+    at initialize (file:///Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/node_modules/tsx/dist/esm/index.mjs?1792838683983:2:106)
+    at AsyncLoaderHooksOnLoaderHookWorker.addCustomLoader (node:internal/modules/esm/hooks:212:24)
+    at AsyncLoaderHooksOnLoaderHookWorker.register (node:internal/modules/esm/hooks:186:16)
+    at async MessagePort.handleMessage (node:internal/modules/esm/worker:251:18)
+
+Node.js v24.18.0
+
+    at spawnDaemon (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/packages/app/e2e/support/helpers/isolated-host-daemon.ts:187:13)
+    at async startIsolatedHostDaemon (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/packages/app/e2e/support/helpers/isolated-host-daemon.ts:196:13)
+    at async main (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/.dev/perf-impact/measure.cts:32:10) {
+  [cause]: Error: Isolated host daemon exited before listening (code 1, signal null)
+      at waitForServer (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/packages/app/e2e/support/helpers/isolated-host-daemon.ts:57:13)
+      at async spawnDaemon (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/packages/app/e2e/support/helpers/isolated-host-daemon.ts:183:7)
+      at async startIsolatedHostDaemon (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/packages/app/e2e/support/helpers/isolated-host-daemon.ts:196:13)
+      at async main (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-perf-impact/.dev/perf-impact/measure.cts:32:10)
+}

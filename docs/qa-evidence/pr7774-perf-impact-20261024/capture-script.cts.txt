@@ -1,0 +1,108 @@
+import { chromium } from 'playwright';
+import { writeFile, readFile, mkdir } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { gzipSync } from 'node:zlib';
+import path from 'node:path';
+import globalSetup from '../../packages/app/e2e/support/global-setup.ts';
+import { startIsolatedHostDaemon } from '../../packages/app/e2e/support/helpers/isolated-host-daemon.ts';
+import { seedMockAgentWorkspace } from '../../packages/app/e2e/support/helpers/mock-agent.ts';
+import { buildSeededHost } from '../../packages/app/e2e/support/helpers/daemon-registry.ts';
+import { hideDeveloperToasts } from '../../packages/app/e2e/support/developer-ui.mjs';
+async function main(){
+const root=process.cwd();
+const out=path.join(root,'.dev/perf-impact/evidence');
+const store=path.join(root,'packages/app/src/runtime/directory-sync/internal/agent-store.ts');
+const original=await readFile(store);
+const base=execFileSync('git',['show','72886023^:packages/app/src/runtime/directory-sync/internal/agent-store.ts']);
+const sha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+const text=Array.from({length:8},(_,i)=>`## Review step ${i+1}\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n`).join('\n')+'\nPERF-IMPACT-RESPONSE-COMPLETE';
+const draft='Please keep the response concise and explain the next step.';
+const wait=(ms:number)=>new Promise(r=>setTimeout(r,ms));
+const hash=(s:any)=>createHash('sha256').update(s).digest('hex');
+const percentile=(xs:number[],p:number)=>xs.length?[...xs].sort((a,b)=>a-b)[Math.min(xs.length-1,Math.floor(xs.length*p))]:null;
+await mkdir(out,{recursive:true});
+await writeFile(path.join(out,'workload.json'),JSON.stringify({sha,baseline:'48623801a1bba8f1c259212d37f56a504812e42d',candidateStoreHash:hash(original),baselineStoreHash:hash(base),response:text,responseSha256:hash(text),draft,labelCount:12,labelIntervalMs:1000,typingCadenceMs:100,scrollCount:20,scrollIntervalMs:100,scrollDelta:-160,viewport:{width:1280,height:900},note:'No CPU throttling, no render profiler, one visible agent, fresh context each run; development Metro app. Key-to-rAF is a rendering opportunity proxy, not presentation latency.'},null,2));
+for(const [group,variant] of (process.env.PERF_GROUPS??'baseline,candidate,baseline-control').split(',').map((x,i)=>[x,x.startsWith('baseline')?'baseline':'candidate'] as const)){
+ let stopMetro:any,daemon:any,browser:any;
+ try{
+  await writeFile(store,variant==='baseline'?base:original);
+  console.log('GROUP',group,new Date().toISOString());
+  stopMetro=await globalSetup();
+  daemon=await startIsolatedHostDaemon('srv_perf_impact');
+  browser=await chromium.launch({headless:true});
+  for(let run=0;run<Number(process.env.PERF_REPEATS??'2');run++){
+   const id=`${group}-${run+1}`;
+   const agent=await seedMockAgentWorkspace({repoPrefix:'perf-impact-',port:daemon.port,title:'Review streaming reply',featureValues:{mockStreamingAssistantResponse:text,mockStreamingAssistantIntervalMs:40}});
+   const context=await browser.newContext({viewport:{width:1280,height:900},recordVideo:{dir:path.join(out,'videos'),size:{width:1280,height:900}}});
+   const page=await context.newPage();
+   const errors:string[]=[]; const wire:any[]=[];
+   page.on('pageerror',e=>errors.push(e.message));
+   page.on('websocket',socket=>socket.on('framereceived',({payload})=>{const s=payload.toString();if(s.includes(agent.agentId))wire.push({at:Date.now(),bytes:Buffer.byteLength(s),sha256:hash(s),payload:s});}));
+   await page.route(/:(6767)\b/,r=>r.abort());
+   await page.routeWebSocket(/:(6767)\b/,async ws=>{await ws.close();});
+   await hideDeveloperToasts(page);
+   const host=buildSeededHost({serverId:daemon.serverId,endpoint:`127.0.0.1:${daemon.port}`,nowIso:new Date().toISOString()});
+   await page.addInitScript(({host})=>{localStorage.setItem('@paseo:e2e','1');localStorage.setItem('@paseo:daemon-registry',JSON.stringify([host]));localStorage.removeItem('@paseo:settings');},{host});
+   const url=`http://localhost:${process.env.E2E_METRO_PORT}/h/${daemon.serverId}/workspace/${agent.workspaceId}?open=agent:${agent.agentId}`;
+   const cdp=await context.newCDPSession(page);
+   let tracing=false;
+   try{
+    await page.goto(url,{waitUntil:'domcontentloaded',timeout:120000});
+    const input=page.getByRole('textbox',{name:'Message agent...',exact:true}).first();
+    await input.waitFor({timeout:60000});
+    await page.getByTestId('agent-chat-scroll').waitFor({timeout:30000});
+    await input.fill('warmup');await input.fill('');await wait(1500);
+    await input.focus();
+    const env={date:new Date().toISOString(),load:execFileSync('uptime',{encoding:'utf8'}),vm:execFileSync('vm_stat',{encoding:'utf8'}),os:execFileSync('sw_vers',{encoding:'utf8'}),browser:browser.version(),sha,variant,storeHash:hash(await readFile(store)),url,daemonPort:daemon.port};
+    await writeFile(path.join(out,`${id}-env.json`),JSON.stringify(env,null,2));
+    await page.evaluate(`(()=>{
+      const el=document.querySelector('[data-testid="agent-chat-scroll"]');
+      const input=document.activeElement;
+      const w=globalThis;
+      const s=w.__impact={keys:[],frames:[],mutations:[],longTasks:[],events:[],scrolls:[],started:performance.now(),stop:false};
+      input.addEventListener('keydown',e=>s.keys.push({key:e.key,keydown:performance.now()}));
+      input.addEventListener('input',()=>{const k=s.keys.at(-1);if(k){k.input=performance.now();requestAnimationFrame(()=>{k.raf=performance.now();k.valueLength=input.value.length;});}});
+      new PerformanceObserver(list=>{for(const e of list.getEntries())s.longTasks.push({at:e.startTime,duration:e.duration});}).observe({type:'longtask',buffered:false});
+      new PerformanceObserver(list=>{for(const e of list.getEntries())s.events.push(e.toJSON());}).observe({type:'event',durationThreshold:16,buffered:false});
+      const mo=new MutationObserver(()=>s.mutations.push(performance.now()));mo.observe(el,{subtree:true,childList:true,characterData:true});
+      el.addEventListener('scroll',()=>s.scrolls.push({at:performance.now(),top:el.scrollTop}));
+      const frame=(t)=>{if(s.stop){mo.disconnect();return;}s.frames.push({at:t,top:el.scrollTop});requestAnimationFrame(frame);};requestAnimationFrame(frame);
+      performance.mark('perf-impact-start');
+    })()`);
+    const completed=new Promise<any>(resolve=>cdp.once('Tracing.tracingComplete',resolve));
+    await cdp.send('Tracing.start',{categories:'toplevel,devtools.timeline,blink.user_timing,latencyInfo,disabled-by-default-devtools.timeline.frame',transferMode:'ReturnAsStream'});tracing=true;
+    const started=Date.now();
+    await agent.client.sendAgentMessage(agent.agentId,'Review the small change and explain the verification steps.');
+    const labelTimes:any[]=[];const keys:any[]=[];const wheels:any[]=[];
+    await Promise.all([
+     (async()=>{for(let i=0;i<12;i++){await wait(Math.max(0,started+500+i*1000-Date.now()));const sent=Date.now();await (agent.client as any).updateAgent(agent.agentId,{labels:{'benchmark-phase':String(i)}});labelTimes.push({i,sent,ack:Date.now()});}})(),
+     (async()=>{await wait(Math.max(0,started+1000-Date.now()));for(const ch of draft){const sent=Date.now();await page.keyboard.type(ch);keys.push({ch,sent,ack:Date.now()});await wait(Math.max(0,started+1000+keys.length*100-Date.now()));}})(),
+     (async()=>{await wait(Math.max(0,started+8000-Date.now()));const box=await page.getByTestId('agent-chat-scroll').boundingBox();if(!box)throw Error('missing scroll viewport');await page.mouse.move(box.x+box.width/2,box.y+box.height/2);for(let i=0;i<20;i++){const sent=Date.now();await page.mouse.wheel(0,-160);wheels.push({sent,ack:Date.now()});await wait(Math.max(0,started+8000+(i+1)*100-Date.now()));}})(),
+    ]);
+    await agent.client.waitForFinish(agent.agentId,60000);
+    await wait(1500);
+    const actualDraft=await input.inputValue();
+    const finalSnapshot=await (agent.client as any).fetchAgent({agentId:agent.agentId});
+    const timeline=await (agent.client as any).fetchAgentTimeline(agent.agentId,{direction:'tail',limit:100});
+    const probe=await page.evaluate(()=>{const s=(globalThis as any).__impact;s.stop=true;performance.mark('perf-impact-end');return s;});
+    await cdp.send('Tracing.end');tracing=false;
+    const {stream}=await completed;const buffers=[];for(;;){const chunk=await cdp.send('IO.read',{handle:stream});buffers.push(Buffer.from(chunk.data,chunk.base64Encoded?'base64':'utf8'));if(chunk.eof)break;}await cdp.send('IO.close',{handle:stream});
+    await writeFile(path.join(out,`${id}-trace.json.gz`),gzipSync(Buffer.concat(buffers)));
+    await page.screenshot({path:path.join(out,`${id}.png`)});
+    const frameGaps=probe.frames.slice(1).map((x:any,i:number)=>x.at-probe.frames[i].at);
+    const keyRaf=probe.keys.filter((x:any)=>Number.isFinite(x.raf)).map((x:any)=>x.raf-x.keydown);
+    const result={id,env,videoPath:await page.video()?.path(),agentId:agent.agentId,agentWorkspaceId:agent.workspaceId,started,ended:Date.now(),labelTimes,keys,wheels,errors,actualDraft,expectedDraft:draft,draftEqual:actualDraft===draft,finalSnapshot,timeline,probe,summary:{keyCount:probe.keys.length,keyRafP95:percentile(keyRaf,.95),keyRafMax:Math.max(...keyRaf),frameGapP95:percentile(frameGaps,.95),frameGapMax:Math.max(...frameGaps),frameGapOver50:frameGaps.filter((x:number)=>x>50).length,longTaskCount:probe.longTasks.length,longTaskTotal:probe.longTasks.reduce((a:number,x:any)=>a+x.duration,0)}};
+    await writeFile(path.join(out,`${id}.json`),JSON.stringify(result,null,2));
+    await writeFile(path.join(out,`${id}-wire.json.gz`),gzipSync(JSON.stringify(wire)));
+    console.log(id,JSON.stringify(result.summary),'draftEqual',result.draftEqual);
+    if(!result.draftEqual||errors.length)throw Error('identity/pageerror check failed');
+   }catch(e){await page.screenshot({path:path.join(out,`${id}-failure.png`)}).catch(()=>{});await writeFile(path.join(out,`${id}-failure.txt`),String((e as Error).stack));throw e;}
+   finally{if(tracing)await cdp.send('Tracing.end').catch(()=>{});await context.close();await agent.cleanup();}
+  }
+ }finally{await browser?.close();await daemon?.close();await stopMetro?.();await writeFile(store,original);}
+}
+console.log('FINISHED',new Date().toISOString());
+
+}
+main().catch(e=>{console.error(e);process.exitCode=1;});

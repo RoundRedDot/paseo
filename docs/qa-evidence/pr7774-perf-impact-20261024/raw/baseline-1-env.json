@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-24T10:46:41.930Z",
+  "load": "18:46  up 3 days,  3:58, 7 users, load averages: 14.07 20.96 20.76\n",
+  "vm": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                     3738.\nPages active:                                 825763.\nPages inactive:                               818029.\nPages speculative:                              6322.\nPages throttled:                                   0.\nPages wired down:                             623450.\nPages purgeable:                               15560.\n\"Translation faults\":                     9823708412.\nPages copy-on-write:                      5643050989.\nPages zero filled:                       10460165563.\nPages reactivated:                         645040402.\nPages purged:                              118727512.\nFile-backed pages:                            377121.\nAnonymous pages:                             1272993.\nPages stored in compressor:                  1486413.\nPages occupied by compressor:                 809676.\nDecompressions:                            535728492.\nCompressions:                              691124808.\nPageins:                                   176876112.\nPageouts:                                     119617.\nSwapins:                                    16620770.\nSwapouts:                                   26724541.\nPages tagged:                                 226620.\nPages tagged resident:                        189720.\nPages tagged compressed:                       36900.\nPages tag-storage:                             98304.\nPages tag-storage holding tags:                 7315.\nPages tag-storage free:                           52.\nPages tag-storage non-tag pageable:            90813.\nPages tag-storage non-tag wired:                  13.\nBytes of compressed tags:                    5605824.\nTagged compressions:                         8322369.\nTagged decompressions:                       7858211.\n",
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434\n",
+  "browser": "145.0.7632.6",
+  "sha": "72886023ca99dd990337a8f70cdef2a6d304395e",
+  "variant": "baseline",
+  "storeHash": "ceb05079bfe561817df437be94831a158bc4d513471d78cc1c8c8d0762a7b066",
+  "url": "http://localhost:61529/h/srv_perf_impact/workspace/wks_06f1ff67a9b90ee5?open=agent:fe27d9e4-4757-4593-9737-f4a0f86e0a42",
+  "daemonPort": 61590
+}

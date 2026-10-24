@@ -1,0 +1,23 @@
+const fs=require('fs'),path=require('path'),z=require('zlib'),crypto=require('crypto');
+const root=path.join(__dirname,'evidence'),work=JSON.parse(fs.readFileSync(path.join(root,'workload.json'),'utf8'));
+const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
+const pct=(xs,p)=>xs.length?[...xs].sort((a,b)=>a-b)[Math.min(xs.length-1,Math.floor(xs.length*p))]:null;
+const rows=[];
+for(const [dir,history] of [[root,false],[path.join(root,'history'),true]])for(const name of fs.readdirSync(dir).filter(x=>/^(baseline|candidate|baseline-control|baseline-history|candidate-history)-\d+\.json$/.test(x))){
+ const r=JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'));
+ const wire=JSON.parse(z.gunzipSync(fs.readFileSync(path.join(dir,r.id+'-wire.json.gz'))));
+ const messages=wire.map(x=>({at:x.at,...JSON.parse(x.payload).message}));
+ const upserts=messages.filter(x=>x.type==='agent_update'&&x.payload.kind==='upsert'&&x.payload.agent.id===r.agentId);
+ const labels=[...new Set(upserts.map(x=>x.payload.agent.labels?.['benchmark-phase']).filter(x=>x!==undefined))];
+ const features=[...new Set(upserts.map(x=>JSON.stringify(x.payload.agent.features)))];
+ const texts=r.timeline.entries.filter(x=>x.item.type==='assistant_message').map(x=>x.item.text);
+ const frames=r.probe.frames.filter(x=>x.at-r.probe.started>=8000&&x.at-r.probe.started<=10500);
+ const scrollMin=Math.min(...frames.map(x=>x.top)),scrollMax=Math.max(...frames.map(x=>x.top));
+ const keyEvents=r.probe.events.filter(x=>x.name==='keydown');const observed=keyEvents.map(x=>x.duration);
+ const missing=r.probe.keys.length-observed.length;const censored=[...new Array(missing).fill(0),...observed];
+ const summary={id:r.id,scenario:history?'one-existing-reply':'first-reply',sha:r.env.sha,storeHash:r.env.storeHash,sourceExpected:r.env.storeHash===(r.env.variant==='baseline'?work.baselineStoreHash:work.candidateStoreHash),browser:r.env.browser,date:r.env.date,load:r.env.load.trim(),draftEqual:r.draftEqual,keyCount:r.probe.keys.length,completedResponseCount:texts.length,responseEqual:texts.length===(history?2:1)&&texts.every(x=>x===work.response),responseHashes:texts.map(hash),idle:r.finalSnapshot.agent.status==='idle',finalLabel:r.finalSnapshot.agent.labels['benchmark-phase'],distinctLabels:labels,upserts:upserts.length,distinctSerializedFeatures:features.length,errors:r.errors,...r.summary,eventTimingObservedCount:observed.length,eventTimingUnobservedBelow16:missing,eventTimingKeyP95:pct(censored,.95),eventTimingKeyMax:Math.max(...observed),keyDispatchAckP95:pct(r.keys.map(x=>x.ack-x.sent),.95),wheelCount:r.wheels.length,wheelPhaseScrollTopMin:scrollMin,wheelPhaseScrollTopMax:scrollMax,wheelEffective:scrollMax-scrollMin>100};
+ rows.push(summary);
+}
+rows.sort((a,b)=>a.date.localeCompare(b.date));
+const report={createdAt:new Date().toISOString(),verdict:'No demonstrated user-visible benefit; maintainer actual-impact requirement remains unmet.',eventTimingNote:'Chromium EventTiming durations are quantized; durationThreshold16 censors shorter entries. p95 rank is within observed entries in every sample; zero placeholders for censored entries do not alter the reported percentile. Not an INP field metric.',rafNote:'keydown-to-next-rAF is a rendering opportunity proxy, not presentation latency. RAF intervals are not a native frame-performance result.',scopeNote:'The original six first-reply samples had no effective wheel scroll in the scripted8-10s phase. Only the separate two history samples validate actual scroll. Do not pool these workloads as equivalent repeats.',rows};fs.writeFileSync(path.join(root,'analysis.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
+if(rows.length!==8||rows.some(r=>!r.sourceExpected||!r.draftEqual||!r.responseEqual||!r.idle||r.finalLabel!=='11'||r.distinctLabels.length!==12||r.errors.length))process.exitCode=1;
