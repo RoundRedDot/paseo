@@ -1,0 +1,75 @@
+{
+  "at": "2026-10-24T11:32:08.402Z",
+  "head": "346acf34cf544ff207c4ebb1fa069de7cd3c2394",
+  "platform": "darwin",
+  "arch": "arm64",
+  "versions": {
+    "electron": "44.2.0",
+    "node": "v24.18.0",
+    "npm": "11.16.0"
+  },
+  "packagePath": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/packages/desktop/release/mac-arm64/Paseo.app/Contents",
+  "sourceStatus": "",
+  "files": [
+    {
+      "file": "app.asar",
+      "sha256": "946e8bee9f87ed20f230ad82475d48ce212a9c413a99ba5b77cc70ff8ab28a7d"
+    },
+    {
+      "file": "../MacOS/Paseo",
+      "sha256": "3fbdaa69366a8d84834f70a6879ea755456855354f07ee2d5c9fe41efa1b4e7b"
+    },
+    {
+      "file": "bin/paseo",
+      "sha256": "b33edf195d8161770993a229e474a8e9a8cd5562793704697839c00ef59ae08c"
+    }
+  ],
+  "producerMatches": [
+    {
+      "file": "dist/main.js",
+      "sha256": "c719e3d30bd64de227294f723af46aabdbc83b0e8976a36d28afe1c08fe42295"
+    },
+    {
+      "file": "dist/preload.js",
+      "sha256": "40364419f0c47afb64b80242a3459045e72db73b57c1abf504e2a33e127504e7"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/desktop-attachment-bridge-ae3d4e0e6f054a5cfbc4b8ea54f7c92b.js",
+      "sha256": "36e0810b212908c4745ca301842a1da95be114e0c15281d7c53a1458802a9fd4"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/desktop-attachment-store-1536961fc5035c448cc91607b0b8af4f.js",
+      "sha256": "7b72c7f78530508a769ba38631535c70bacd5c74590db07d2f23e382d3fc80fa"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/index-81ea7e5ef61cf4dfb7e3e87ca5602e84.js",
+      "sha256": "8bcbc7d73e3600247b57a8a9a00c086f87eb11d14cbcf485336dda9f34c49064"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/index-fbf775173ab7d6e3f9b4bc657e896244.js",
+      "sha256": "3c09e47556d5124c1e45b9899a092d8f4e8dc61dd7bc87c415ca760f6098bbbc"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/indexeddb-attachment-store-e0a032fc5ac03fe9cfc0898de3150a9a.js",
+      "sha256": "676f8ddb7d69d755cf4f50468ac795d3ce023e07ecef7f986ab03aae1aa70072"
+    },
+    {
+      "file": "app-dist/_expo/static/js/web/native-file-attachment-store-506aba972a5814f6af76d936b25dfcf8.js",
+      "sha256": "77c8834b09fb5a168bb3ceac44b0c603113f0f9774409c42dc31ec29a548c80c"
+    }
+  ],
+  "qaConfiguration": {
+    "extends": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/packages/desktop/electron-builder.yml",
+    "electronLanguages": ["en-US"],
+    "mac": {
+      "identity": "715F3345FF5B6594F0A46F830BEC540487202B37",
+      "notarize": false
+    }
+  },
+  "qaConfigurationHash": "b7c86c2a6a3beefe1a2f5fca385918c972489d7c6dbbd8448b8dd964d5805c16",
+  "signature": {
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}

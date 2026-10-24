@@ -1,0 +1,30 @@
+New workspace
+History
+Search
+Schedules
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+QA ALPHA
+workspace-ALPHA
+QA ALPHA agent
+QA ALPHA agent
+/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-ALPHA
+7:34 PM
+Assistant complete
+Skill header
+
+# Inst
+Card clicks 0
+0s
+Example 1
+Build
+Voice
+Updating messages
+Drop files here

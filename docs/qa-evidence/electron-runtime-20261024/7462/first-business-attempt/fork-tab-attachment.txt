@@ -1,0 +1,30 @@
+New workspace
+History
+Search
+Schedules
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+Set up worktree scripts
+Add setup commands so new worktrees can install dependencies and prepare themselves automatically.
+Open project settings
+QA ALPHA
+workspace-ALPHA
+Commit
+QA ALPHA agent
+New Agent
+QA ALPHA agent
+New Agent
+Import session
+Chat history
+Previous conversation
+Example 1
+Build
+Voice
+Drop files here

@@ -1,0 +1,22 @@
+module.exports=async function({page,status,a,b,step,record,capture,sourceAgent,until,delay,assert,forkMessages,listen}){
+ const full='Skill header\n\n# Instructions\n\nRead every paragraph and preserve the full message while this response is still streaming.';
+ await step('streaming-reply-hides-fork',async()=>{await page.getByRole('heading',{name:'Assistant streaming',exact:true}).waitFor({timeout:10000});assert.equal(await page.getByTestId('plugin-reply-fork-trigger').count(),0);await capture('fork-streaming');return {};});
+ await step('completed-reply-has-one-fork',async()=>{await page.getByRole('heading',{name:'Assistant complete',exact:true}).waitFor({timeout:30000});await page.getByText(full,{exact:true}).waitFor();assert.equal(await page.getByTestId('plugin-reply-fork-trigger').count(),1);await capture('fork-complete');return {};});
+ async function fork(target){
+  await page.getByTestId('plugin-reply-fork-trigger').click();
+  await page.getByTestId('plugin-reply-fork-new-tab').waitFor();await page.getByTestId('plugin-reply-fork-new-workspace').waitFor();await capture('fork-menu-'+target);
+  await page.getByTestId('plugin-reply-fork-new-'+target).click();
+  await page.getByRole('button',{name:'Open chat history attachment',exact:true}).first().waitFor({timeout:30000});
+  const response=await until(()=>forkMessages.filter(x=>x.event==='framereceived'&&x.message.type==='agent.fork_context.response').at(-1));
+  assert.ok(response.message.payload.attachment.text.includes(full));await capture('fork-'+target+'-attachment');
+  return {url:page.url(),attachment:response.message.payload.attachment};
+ }
+ await step('fork-new-tab-wide',async()=>{await page.setViewportSize({width:1100,height:900});return await fork('tab');});
+ await step('source-restores-after-fork-and-reload',async()=>{await sourceAgent(a,status);await page.reload({waitUntil:'domcontentloaded'});await page.getByText(full,{exact:true}).waitFor({timeout:30000});assert.equal(await page.getByTestId('plugin-reply-fork-trigger').count(),1);await capture('fork-source-reload');return {url:page.url()};});
+ await step('fork-new-workspace-compact',async()=>{await sourceAgent(b,status);await page.setViewportSize({width:390,height:844});const result=await fork('workspace');assert.ok(new URL(page.url()).pathname==='/new');assert.ok(new URL(page.url()).searchParams.has('draftId'));return result;});
+ let dropped=0,drop=false;
+ await page.routeWebSocket(new RegExp(':'+listen.split(':').at(-1)+'\\b'),socket=>{const server=socket.connectToServer();socket.onMessage(payload=>{let message;try{message=JSON.parse(String(payload));message=message.message||message;}catch{}if(drop&&dropped===0&&message?.type==='agent.fork_context.request'){dropped++;record('fork-request-dropped',{count:dropped});return;}server.send(payload);});});
+ await page.setViewportSize({width:1100,height:900});await sourceAgent(a,status);
+ await step('timeout-shows-toast-and-unlocks-retry',async()=>{drop=true;await page.getByTestId('plugin-reply-fork-trigger').click();await page.getByTestId('plugin-reply-fork-new-tab').click();await until(()=>dropped===1);const trigger=page.getByTestId('plugin-reply-fork-trigger');await until(async()=>await trigger.getAttribute('aria-disabled')==='true');await page.getByTestId('app-toast-message').filter({hasText:'Timeout waiting for message (15000ms)'}).first().waitFor({timeout:25000});await until(async()=>await trigger.getAttribute('aria-disabled')!=='true');await capture('fork-timeout-unlocked');return {dropped};});
+ await step('retry-after-timeout-preserves-source',async()=>{const result=await fork('tab');await sourceAgent(a,status);await page.getByText(full,{exact:true}).waitFor({timeout:30000});assert.equal(await page.getByTestId('plugin-reply-fork-trigger').count(),1);await capture('fork-retry-source');return result;});
+};

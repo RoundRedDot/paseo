@@ -1,0 +1,15 @@
+Import session
+Project
+W
+workspace-BRAVO
+Host
+luoph-mbp
+Isolation
+Local
+What to launch
+Chat
+Chat history
+Previous conversation
+⌘L to focus
+Example 1
+Drop files here

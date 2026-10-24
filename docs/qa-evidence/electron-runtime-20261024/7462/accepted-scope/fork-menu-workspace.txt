@@ -1,0 +1,18 @@
+QA BRAVO
+workspace-BRAVO
+1
+/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-BRAVO
+7:34 PM
+Assistant complete
+Skill header
+
+# Instructions
+
+Read every paragraph and preserve the full message while this response is still streaming.
+Card clicks 0
+1 working
+⌘L to focus
+Example 1
+Drop files here
+Fork in a new tab
+Fork in a new workspace

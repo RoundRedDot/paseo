@@ -1,0 +1,117 @@
+{
+  "mode": "7462",
+  "startedAt": "2026-10-24T11:32:09.536Z",
+  "head": "346acf34cf544ff207c4ebb1fa069de7cd3c2394",
+  "evidence": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841529536",
+  "steps": [
+    {
+      "name": "launch",
+      "at": "2026-10-24T11:32:09.548Z",
+      "exe": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/packages/desktop/release/mac-arm64/Paseo.app/Contents/MacOS/Paseo",
+      "listen": "127.0.0.1:59066",
+      "cdpPort": 59067,
+      "userData": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841529536/user-data",
+      "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841529536/home",
+      "flags": "--remote-debugging-address=127.0.0.1 --remote-debugging-port=59067"
+    },
+    {
+      "name": "packaged-renderer-preload",
+      "at": "2026-10-24T11:32:13.248Z",
+      "status": "PASS",
+      "url": "paseo://app/",
+      "bridge": [
+        "platform",
+        "windowChromeMode",
+        "invoke",
+        "getPendingOpenProject",
+        "agentNavigation",
+        "events",
+        "window",
+        "dialog",
+        "notification",
+        "opener",
+        "editor",
+        "webUtils",
+        "menu",
+        "browser"
+      ]
+    },
+    {
+      "name": "renderer-managed-daemon",
+      "at": "2026-10-24T11:32:16.614Z",
+      "status": "PASS",
+      "daemon": {
+        "serverId": "srv_hi_lT6coc7Fj",
+        "status": "running",
+        "listen": "127.0.0.1:59066",
+        "hostname": "luoph-mbp",
+        "pid": 17095,
+        "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841529536/home",
+        "version": "0.13.0",
+        "desktopManaged": true,
+        "startedAt": "2026-10-24T11:32:13.742Z",
+        "ownedByDesktop": true,
+        "error": null
+      }
+    },
+    {
+      "name": "production-sandbox-diagnostics",
+      "at": "2026-10-24T11:32:16.620Z",
+      "status": "PASS",
+      "sandbox": {
+        "enabled": true,
+        "reason": "Chromium default"
+      }
+    },
+    {
+      "name": "fixture-installed",
+      "at": "2026-10-24T11:32:17.999Z",
+      "id": "provider-direct-example",
+      "dir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841529536/fixture-plugin"
+    },
+    {
+      "name": "streaming-reply-hides-fork",
+      "at": "2026-10-24T11:32:20.195Z",
+      "status": "PASS"
+    },
+    {
+      "name": "completed-reply-has-one-fork",
+      "at": "2026-10-24T11:32:26.062Z",
+      "status": "PASS"
+    },
+    {
+      "name": "fork-new-tab-wide",
+      "at": "2026-10-24T11:32:26.552Z",
+      "status": "PASS",
+      "url": "paseo://app/h/srv_hi_lT6coc7Fj/workspace/wks_5c3f788aa5af5317",
+      "attachment": {
+        "type": "text",
+        "mimeType": "text/plain",
+        "contextKind": "chat_history",
+        "title": "Chat history",
+        "text": "<chat-history-summary>\nChat history from a previous Paseo agent.\nSource agent: QA ALPHA agent\nSource directory: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841529536/workspace-ALPHA\n\n[User] /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841529536/workspace-ALPHA\n[Assistant] Skill header\n\n# Instructions\n\nRead every paragraph and preserve the full message while this response is still streaming.\n</chat-history-summary>"
+      }
+    },
+    {
+      "name": "source-restores-after-fork-and-reload",
+      "at": "2026-10-24T11:33:26.612Z",
+      "status": "FAIL",
+      "error": "locator.waitFor: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'QA Relative', exact: true }).first() to be visible\u001b[22m\n\n    at sourceAgent (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/run-packaged.cjs:110:73)\n    at async /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/fork-workflow.cjs:15:63\n    at async step (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/run-packaged.cjs:19:51)\n    at async module.exports (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/fork-workflow.cjs:15:2)\n    at async /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/run-packaged.cjs:135:21"
+    }
+  ],
+  "workspaces": {
+    "a": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841529536/workspace-ALPHA",
+      "workspaceId": "wks_5c3f788aa5af5317",
+      "agentId": "b2eea13d-954b-43f3-a565-d791f024f106"
+    },
+    "b": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841529536/workspace-BRAVO",
+      "workspaceId": "wks_3dd1ea6bcde40743",
+      "agentId": "50e9b06f-8cc5-4703-b717-739e8bfbfffe"
+    }
+  },
+  "status": "FAIL",
+  "error": "locator.waitFor: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'QA Relative', exact: true }).first() to be visible\u001b[22m\n\n    at sourceAgent (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/run-packaged.cjs:110:73)\n    at async /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/fork-workflow.cjs:15:63\n    at async step (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/run-packaged.cjs:19:51)\n    at async module.exports (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/fork-workflow.cjs:15:2)\n    at async /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/run-packaged.cjs:135:21",
+  "finishedAt": "2026-10-24T11:33:41.551Z"
+}

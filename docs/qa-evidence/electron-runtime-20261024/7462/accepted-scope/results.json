@@ -1,0 +1,153 @@
+{
+  "mode": "7462",
+  "startedAt": "2026-10-24T11:34:08.452Z",
+  "head": "346acf34cf544ff207c4ebb1fa069de7cd3c2394",
+  "evidence": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452",
+  "steps": [
+    {
+      "name": "launch",
+      "at": "2026-10-24T11:34:08.464Z",
+      "exe": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/packages/desktop/release/mac-arm64/Paseo.app/Contents/MacOS/Paseo",
+      "listen": "127.0.0.1:60060",
+      "cdpPort": 60061,
+      "userData": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/user-data",
+      "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/home",
+      "flags": "--remote-debugging-address=127.0.0.1 --remote-debugging-port=60061"
+    },
+    {
+      "name": "packaged-renderer-preload",
+      "at": "2026-10-24T11:34:09.408Z",
+      "status": "PASS",
+      "url": "paseo://app/",
+      "bridge": [
+        "platform",
+        "windowChromeMode",
+        "invoke",
+        "getPendingOpenProject",
+        "agentNavigation",
+        "events",
+        "window",
+        "dialog",
+        "notification",
+        "opener",
+        "editor",
+        "webUtils",
+        "menu",
+        "browser"
+      ]
+    },
+    {
+      "name": "renderer-managed-daemon",
+      "at": "2026-10-24T11:34:11.185Z",
+      "status": "PASS",
+      "daemon": {
+        "serverId": "srv_sfnK3cSoK_3Q",
+        "status": "running",
+        "listen": "127.0.0.1:60060",
+        "hostname": "luoph-mbp",
+        "pid": 95460,
+        "home": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/home",
+        "version": "0.13.0",
+        "desktopManaged": true,
+        "startedAt": "2026-10-24T11:34:09.754Z",
+        "ownedByDesktop": true,
+        "error": null
+      }
+    },
+    {
+      "name": "production-sandbox-diagnostics",
+      "at": "2026-10-24T11:34:11.187Z",
+      "status": "PASS",
+      "sandbox": {
+        "enabled": true,
+        "reason": "Chromium default"
+      }
+    },
+    {
+      "name": "fixture-installed",
+      "at": "2026-10-24T11:34:12.050Z",
+      "id": "provider-direct-example",
+      "dir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/fixture-plugin"
+    },
+    {
+      "name": "streaming-reply-hides-fork",
+      "at": "2026-10-24T11:34:13.763Z",
+      "status": "PASS"
+    },
+    {
+      "name": "completed-reply-has-one-fork",
+      "at": "2026-10-24T11:34:20.139Z",
+      "status": "PASS"
+    },
+    {
+      "name": "fork-new-tab-wide",
+      "at": "2026-10-24T11:34:20.609Z",
+      "status": "PASS",
+      "url": "paseo://app/h/srv_sfnK3cSoK_3Q/workspace/wks_4af9df56e2c33572",
+      "attachment": {
+        "type": "text",
+        "mimeType": "text/plain",
+        "contextKind": "chat_history",
+        "title": "Chat history",
+        "text": "<chat-history-summary>\nChat history from a previous Paseo agent.\nSource agent: QA ALPHA agent\nSource directory: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-ALPHA\n\n[User] /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-ALPHA\n[Assistant] Skill header\n\n# Instructions\n\nRead every paragraph and preserve the full message while this response is still streaming.\n</chat-history-summary>"
+      }
+    },
+    {
+      "name": "source-restores-after-fork-and-reload",
+      "at": "2026-10-24T11:34:21.513Z",
+      "status": "PASS",
+      "url": "paseo://app/h/srv_sfnK3cSoK_3Q/workspace/wks_4af9df56e2c33572"
+    },
+    {
+      "name": "fork-new-workspace-compact",
+      "at": "2026-10-24T11:34:22.481Z",
+      "status": "PASS",
+      "url": "paseo://app/new?serverId=srv_sfnK3cSoK_3Q&dir=%2FUsers%2Fluopeihuan%2Fworkspace%2Frrd%2Fpaseo%2F.worktrees%2Fpr-parallel-20261024-electron-qa-7462%2F.dev%2Felectron-qa-evidence%2Fruntime-7462-1792841648452%2Fworkspace-BRAVO&name=workspace-BRAVO&projectId=prj_c98e487452dd73a9&draftId=draft_msg_1792841662390_5pua8n9b8",
+      "attachment": {
+        "type": "text",
+        "mimeType": "text/plain",
+        "contextKind": "chat_history",
+        "title": "Chat history",
+        "text": "<chat-history-summary>\nChat history from a previous Paseo agent.\nSource agent: QA BRAVO agent\nSource directory: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-BRAVO\n\n[User] /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-BRAVO\n[Assistant] Skill header\n\n# Instructions\n\nRead every paragraph and preserve the full message while this response is still streaming.\n</chat-history-summary>"
+      }
+    },
+    {
+      "name": "fork-request-dropped",
+      "at": "2026-10-24T11:34:23.342Z",
+      "count": 1
+    },
+    {
+      "name": "timeout-shows-toast-and-unlocks-retry",
+      "at": "2026-10-24T11:34:38.884Z",
+      "status": "PASS",
+      "dropped": 1
+    },
+    {
+      "name": "retry-after-timeout-preserves-source",
+      "at": "2026-10-24T11:34:39.804Z",
+      "status": "PASS",
+      "url": "paseo://app/h/srv_sfnK3cSoK_3Q/workspace/wks_4af9df56e2c33572",
+      "attachment": {
+        "type": "text",
+        "mimeType": "text/plain",
+        "contextKind": "chat_history",
+        "title": "Chat history",
+        "text": "<chat-history-summary>\nChat history from a previous Paseo agent.\nSource agent: QA ALPHA agent\nSource directory: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-ALPHA\n\n[User] /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-ALPHA\n[Assistant] Skill header\n\n# Instructions\n\nRead every paragraph and preserve the full message while this response is still streaming.\n</chat-history-summary>"
+      }
+    }
+  ],
+  "workspaces": {
+    "a": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-ALPHA",
+      "workspaceId": "wks_4af9df56e2c33572",
+      "agentId": "3fbdfac7-4319-4448-9e04-548351a5d092"
+    },
+    "b": {
+      "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-BRAVO",
+      "workspaceId": "wks_59454493f323a5e3",
+      "agentId": "5ba80a5d-a527-43ac-beaf-eecd23a6cd5b"
+    }
+  },
+  "status": "PASS",
+  "finishedAt": "2026-10-24T11:34:54.669Z"
+}

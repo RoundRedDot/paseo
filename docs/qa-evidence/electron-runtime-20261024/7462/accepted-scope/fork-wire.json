@@ -1,0 +1,119 @@
+[
+  {
+    "event": "framesent",
+    "phase": "cold",
+    "message": {
+      "type": "agent.fork_context.request",
+      "agentId": "3fbdfac7-4319-4448-9e04-548351a5d092",
+      "boundaryCursor": {
+        "epoch": "8e571a95-2691-4b1b-9ea1-ed145d96951f",
+        "seq": 6
+      },
+      "boundaryMessageId": "assistant-1",
+      "requestId": "892e12bc-317f-4c07-a33d-d032546fac54"
+    }
+  },
+  {
+    "event": "framereceived",
+    "phase": "cold",
+    "message": {
+      "type": "agent.fork_context.response",
+      "payload": {
+        "requestId": "892e12bc-317f-4c07-a33d-d032546fac54",
+        "agentId": "3fbdfac7-4319-4448-9e04-548351a5d092",
+        "attachment": {
+          "type": "text",
+          "mimeType": "text/plain",
+          "contextKind": "chat_history",
+          "title": "Chat history",
+          "text": "<chat-history-summary>\nChat history from a previous Paseo agent.\nSource agent: QA ALPHA agent\nSource directory: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-ALPHA\n\n[User] /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-ALPHA\n[Assistant] Skill header\n\n# Instructions\n\nRead every paragraph and preserve the full message while this response is still streaming.\n</chat-history-summary>"
+        },
+        "itemCount": 2,
+        "boundaryCursor": {
+          "epoch": "8e571a95-2691-4b1b-9ea1-ed145d96951f",
+          "seq": 6
+        },
+        "boundaryMessageId": "assistant-1",
+        "error": null
+      }
+    }
+  },
+  {
+    "event": "framesent",
+    "phase": "cold",
+    "message": {
+      "type": "agent.fork_context.request",
+      "agentId": "5ba80a5d-a527-43ac-beaf-eecd23a6cd5b",
+      "boundaryCursor": {
+        "epoch": "69479884-68d0-48f9-99ca-d2ac8758a31c",
+        "seq": 6
+      },
+      "boundaryMessageId": "assistant-1",
+      "requestId": "f91f1d93-8941-48af-8cb9-84d9da051c15"
+    }
+  },
+  {
+    "event": "framereceived",
+    "phase": "cold",
+    "message": {
+      "type": "agent.fork_context.response",
+      "payload": {
+        "requestId": "f91f1d93-8941-48af-8cb9-84d9da051c15",
+        "agentId": "5ba80a5d-a527-43ac-beaf-eecd23a6cd5b",
+        "attachment": {
+          "type": "text",
+          "mimeType": "text/plain",
+          "contextKind": "chat_history",
+          "title": "Chat history",
+          "text": "<chat-history-summary>\nChat history from a previous Paseo agent.\nSource agent: QA BRAVO agent\nSource directory: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-BRAVO\n\n[User] /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-BRAVO\n[Assistant] Skill header\n\n# Instructions\n\nRead every paragraph and preserve the full message while this response is still streaming.\n</chat-history-summary>"
+        },
+        "itemCount": 2,
+        "boundaryCursor": {
+          "epoch": "69479884-68d0-48f9-99ca-d2ac8758a31c",
+          "seq": 6
+        },
+        "boundaryMessageId": "assistant-1",
+        "error": null
+      }
+    }
+  },
+  {
+    "event": "framesent",
+    "phase": "cold",
+    "message": {
+      "type": "agent.fork_context.request",
+      "agentId": "3fbdfac7-4319-4448-9e04-548351a5d092",
+      "boundaryCursor": {
+        "epoch": "8e571a95-2691-4b1b-9ea1-ed145d96951f",
+        "seq": 6
+      },
+      "boundaryMessageId": "assistant-1",
+      "requestId": "f56cc505-03ca-4fea-8c51-3a525306df0b"
+    }
+  },
+  {
+    "event": "framereceived",
+    "phase": "cold",
+    "message": {
+      "type": "agent.fork_context.response",
+      "payload": {
+        "requestId": "f56cc505-03ca-4fea-8c51-3a525306df0b",
+        "agentId": "3fbdfac7-4319-4448-9e04-548351a5d092",
+        "attachment": {
+          "type": "text",
+          "mimeType": "text/plain",
+          "contextKind": "chat_history",
+          "title": "Chat history",
+          "text": "<chat-history-summary>\nChat history from a previous Paseo agent.\nSource agent: QA ALPHA agent\nSource directory: /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-ALPHA\n\n[User] /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841648452/workspace-ALPHA\n[Assistant] Skill header\n\n# Instructions\n\nRead every paragraph and preserve the full message while this response is still streaming.\n</chat-history-summary>"
+        },
+        "itemCount": 2,
+        "boundaryCursor": {
+          "epoch": "8e571a95-2691-4b1b-9ea1-ed145d96951f",
+          "seq": 6
+        },
+        "boundaryMessageId": "assistant-1",
+        "error": null
+      }
+    }
+  }
+]

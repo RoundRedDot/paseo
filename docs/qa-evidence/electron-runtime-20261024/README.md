@@ -62,3 +62,23 @@ Root typecheck/lint passed. The initial three-file focused command failed at the
 `commands/` contains the executed scripts and command outputs. Private daemon homes, local credentials and browser user data are excluded. Logs are redacted if a credential-shaped value is found; `manifest.json` records original/published hashes and whether redaction changed a copied file. Original private evidence remains in the named worktrees.
 
 Executable source snapshots use a `.txt` suffix so repository formatting and linting do not rewrite the captured fixture/controller code. Remove that suffix when reproducing a run.
+
+## #7462 — final source `346acf34cf544ff207c4ebb1fa069de7cd3c2394`
+
+The isolated package uses a temporary QA configuration extending the product's normal electron-builder file, with `electronLanguages: ["en-US"]` and the normal Developer ID identity. All renderer/main/preload/daemon code, entitlements, hardened runtime and Chromium sandbox remain present. `7462/commands/qa-builder.json` and `package-receipt.json` record the exact configuration, source/config/package hashes and successful strict signature verification. This run covers English locale only.
+
+The trusted production directory plugin uses the actual direct-provider example, emitting cumulative assistant text in a live turn; the maintained timeline transformer renders the real host `ForkMenu`. No dev-only provider or packaged-flag bypass is used.
+
+Seven business cases passed:
+
+1. No fork trigger during the streaming plugin reply.
+2. Exactly one trigger after the reply completes.
+3. A wide-layout fork into a new tab carries the full original reply in a Chat history attachment.
+4. Returning to the source and reloading preserves the reply and one trigger.
+5. A 390px fork into a new workspace reaches the real `/new?...draftId=...` flow with the full attachment.
+6. Dropping exactly one real fork request produces the 15-second timeout toast and unlocks the trigger.
+7. Retrying succeeds and the original source reply remains intact.
+
+The timeout harness drops a request using the repository's existing WebSocket routing pattern; all other traffic reaches the real daemon. `fork-wire.json` records actual context responses and their complete attachment text. The first attempt's stale file-test selector is retained with its failure; only the external controller selector was corrected, and the same signed package was reused. No product source changed.
+
+The source owner's 143 focused tests and build/static/hook evidence were not rerun. This package build independently rebuilt its required production stack. Cold application relaunch, daemon-restart restoration and non-macOS/native platforms remain outside this run.

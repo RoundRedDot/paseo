@@ -1,0 +1,35 @@
+New workspace
+History
+Search
+Schedules
+Workspaces
+W
+workspace-ALPHA
+QA ALPHA
+now
+W
+workspace-BRAVO
+QA BRAVO
+now
+Set up worktree scripts
+Add setup commands so new worktrees can install dependencies and prepare themselves automatically.
+Open project settings
+QA ALPHA
+workspace-ALPHA
+Commit
+QA ALPHA agent
+QA ALPHA agent
+/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7462/.dev/electron-qa-evidence/runtime-7462-1792841529536/workspace-ALPHA
+7:32 PM
+Assistant streaming
+Skill header
+
+# Instructions
+
+Read every para
+Card clicks 0
+1s
+Example 1
+Build
+Voice
+Drop files here
