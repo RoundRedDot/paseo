@@ -44,6 +44,32 @@ function makeDeps(
 }
 
 describe("loadAppSettingsFromStorage", () => {
+  it.each([0, 2, 3] as const)(
+    "persists tab title line limit %i",
+    async (workspaceTabTitleLines) => {
+      const deps = makeDeps();
+      const queryClient = new QueryClient();
+      await saveAppSettings({ queryClient, deps, updates: { workspaceTabTitleLines } });
+      expect((await loadAppSettingsFromStorage(deps)).workspaceTabTitleLines).toBe(
+        workspaceTabTitleLines,
+      );
+    },
+  );
+
+  it.each([undefined, null, 1, 4, -1, "2"])(
+    "defaults invalid tab title limits: %j",
+    async (workspaceTabTitleLines) => {
+      const deps = makeDeps({
+        storage: createInMemoryKeyValueStorage({
+          [APP_SETTINGS_KEY]: JSON.stringify({ workspaceTabTitleLines, vimKeybindings: true }),
+        }),
+      });
+      const settings = await loadAppSettingsFromStorage(deps);
+      expect(settings.workspaceTabTitleLines).toBe(3);
+      expect(settings.vimKeybindings).toBe(true);
+    },
+  );
+
   it("persists file panel associations, including panels absent from this host", async () => {
     const deps = makeDeps();
     const queryClient = new QueryClient();
