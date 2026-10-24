@@ -1,10 +1,12 @@
 {
-  "tablet-before-drag.png": "db02207dfc71c24375b3b88aa7ae6ed44f5741bf16c5bbc9281b611e58772a6a",
-  "tablet-settings-wide.png": "6262a334dec302440a8937a5e08b198a65c4bb2b8baa43774e38cd711c436d3d",
-  "tablet-settings-narrow.png": "acd3d111e1a27b0846ad1c9e1b8b35940d9756e4c4555e723f66f6a07320abfb",
-  "mouse-settings-resize.webm": "16e2eaf8c21f863f759f35292f51c7998a0a906ba08ec32b683a517227df7a46",
-  "README.md": "6233aae8b87d1131d46575a15a4706b3e03c3b97cda549abf1c5ea4b5563db38",
-  "baseline-settings-no-handle.png": "a9a991918c98e1db454ea596c9e23fb953d47e81300835833ab760acf76ade8a",
-  "settings-mouse-resized.png": "06f49b4a162a1f44b002a115e524f8d9307513b6d76de4da5bbf3b86b8ddf800",
-  "touch-settings-resize.webm": "d49ab7d785c5826b3d814957767cec1a4002490b67b77c80dc0bd64b6925cbf9"
+  "tablet-before-drag.png": "9ae0f17ba190667f75d046bb52e66c0806ba7a55b2a644c7f1046844750403ae",
+  "tablet-settings-wide.png": "c2f99c11570dd115843a63a900f73e5e3b920e5d73d4ad5681b1e260cfcbbb38",
+  "tablet-settings-narrow.png": "01e179c1cdf21d9de9eb2fb699e675b2b395bcd0139b5f7a69161e5f1af9bcec",
+  "settings-slider-dark.png": "6dd11b891328f6ba36e4063a6368520d49603dba5e0547af3110df2acba0d11f",
+  "tablet-slider-dark.png": "2aa627ea5ba9db4922ef7a15e320459fa3669afac0581e2b8442dfb7cb3d79c9",
+  "mouse-settings-resize.webm": "87c6dd93d691cbcb988e558d23a83632cbf17d91b67aa4246becb7606b9c87bc",
+  "README.md": "f8a541a06901db73f06a5a8d4534e475ef9e61c0648042737a87c0fdf6fc80c4",
+  "touch-shared-width.webm": "8d6f46a48b237ba57080390faff8a77a27f0b33f91822faeb3319ae03d0ef5a4",
+  "dark-slider.webm": "8224074fc6632e88eef2ddc1d4f245f6c0ab1eb2bfbaed1426ddd6538b85bf1a",
+  "settings-mouse-resized.png": "e5d5181caa5e1ca53734f8c6cfea44731cfdeaed996aec5abd69c39ee17ed276"
 }

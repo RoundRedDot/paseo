@@ -1,24 +1,20 @@
-# Direct Settings sidebar resize QA
+# Visible Pad resize slider and shared width
 
-Source: `a20b70c16c2089bc89234e1d2ed417c0838b5178`. Previous PR head used for baseline: `65f04f15892e66470d62e6e9667482981abd1069`.
+Source: `0eb6c2dfec82d48a7919e578452f9303e236f098`. Previous source: `a20b70c16c2089bc89234e1d2ed417c0838b5178`.
 
-Browser evidence only. iPad/iOS native, Android native, and packaged Electron remain untested.
-
-Passing run: 2 browser tests, 19.2s total.
-
-- Chromium touch emulation: resize app navigation, then directly drag the Settings sidebar. Verify idle 0.15 / pressed 0.3 / release 0.15 opacity, saved width, reload, 1366x1024 -> 1000x1024 -> 1366x1024, then return to app navigation at the same width.
-- Chromium mouse: directly drag Settings, verify live resizing before release and stored limits 200–600px. A 720px viewport temporarily clamps the 600px width to 320px without overwriting the saved value. Widen and reload restores 600px. At 390px compact navigation has no resize handle.
-- Baseline: same touch test against previous PR settings implementation fails because settings-sidebar-resize-handle-grip does not exist. baseline-settings-no-handle.png is that expected failure.
-- Existing targeted layout/handle unit suites: 14 passed. Gesture behavior is covered by browser input rather than mocked unit tests.
-- Full npm run typecheck, npm run lint, npm run format passed. Commit hooks format/lint/typecheck passed. No full suite run.
-- Both published WebM recordings passed full ffmpeg -xerror decode. Screenshots were visually reviewed.
-- Existing development warnings and icon console errors are outside this change.
+- Touch handle is a permanent 20x64px bordered capsule with six grab dots and a 44x88px touch target. Pressing changes its border and fill; no opacity fade hides the slider.
+- Shared component applies to app navigation, Settings, Explorer, and tree rails. Pointer hover behavior is unchanged.
+- App navigation and Settings read/write the same sidebarWidth. The browser workflow drags app navigation, opens Settings at that width, directly resizes Settings, reloads, narrows/widens, and returns to app navigation at the updated width.
+- Chromium: 3 targeted browser tests passed in 22.2s. Touch light/dark themes and mouse resize/limits/compact navigation covered. Screenshots visually reviewed; all three recordings passed full ffmpeg -xerror decode.
+- Changed geometry unit suite: 2 passed. Against previous geometry the updated test fails because a 24px target does not meet the 44px minimum.
+- npm run format, npm run lint, npm run typecheck and commit hooks passed. Full suite not run.
+- Browser touch emulation only; native iPad/iOS, Android, packaged Electron, Explorer/tree-rail runtime interactions remain unverified. Existing development/icon console diagnostics remain outside this change.
 
 ```sh
 # packages/app
-npx vitest run src/components/desktop-sidebar-layout.test.ts src/components/sidebar-resize-handle-layout.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/components/sidebar-resize-handle-layout.test.ts --bail=1 --maxWorkers=1
 # repository root
-npm run test:e2e --workspace=@getpaseo/app -- e2e/browser/settings-navigation.spec.ts --grep 'touch resizing stays discoverable|settings sidebar mouse resizing' --workers=1 --trace=on
+npm run test:e2e --workspace=@getpaseo/app -- e2e/browser/settings-navigation.spec.ts --grep 'touch resizing stays discoverable|touch resize slider is visible|settings sidebar mouse resizing' --workers=1 --trace=on
 npm run format
 npm run lint
 npm run typecheck
