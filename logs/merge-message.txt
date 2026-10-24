@@ -1,0 +1,7 @@
+chore(app): merge main into tablet sidebar resize branch
+
+Merge frozen main b8bb335c563279be45544b1b20a1fa5b3e56d422.
+Keep both shared-width resize coverage and upstream Settings popover regressions.
+Preserve the shared sidebar width, visible touch grips, and panel architecture.
+
+Co-authored-by: RoundRedDot <roundreddot@gmail.com>

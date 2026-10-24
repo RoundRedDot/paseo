@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-slider/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  18:59:32
+   Duration  148ms (transform 32ms, setup 30ms, import 13ms, tests 2ms, environment 0ms)
+

@@ -1,0 +1,542 @@
+
+> @getpaseo/app@0.13.0 test:e2e
+> playwright test --project=browser e2e/browser/settings-navigation.spec.ts --grep touch resizing stays discoverable|touch resize slider is visible|settings sidebar mouse resizing|opening Settings closes|opens compact app and host details --workers=1 --trace=on
+
+[metro] Skipping web setup: EXPO_NO_WEB_SETUP is enabled.
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Waiting on http://localhost:54539
+[metro] Logs for your project will appear below.
+[metro] | (node:49144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:49144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:49144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] Web Bundled 2607ms packages/app/index.ts (5690 modules)
+[e2e] Metro warmed on port 54539
+
+Running 6 tests using 1 worker
+
+(node:50153) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:50153) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 0 daemon started on port 54667, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-0-ix6znr
+[metro] Web Bundled 320ms packages/app/index.ts (1 module)
+[metro] Web  INFO  %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[metro] Web  LOG  Running application "main" with appParams:
+[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+[metro] Development-level warnings: ON.
+[metro] Performance optimizations: OFF.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+[metro] Web Bundled 63ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web  WARN  Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+[metro] Web  ERROR  
+[metro] Code: sidebar-menu-toggle.tsx
+[metro] [0m [90m 84 |[39m       accessibilityState[33m=[39m{accessibilityState}
+[metro]  [90m 85 |[39m     [33m>[39m
+[metro] [31m[1m>[22m[39m[90m 86 |[39m       {isMobile [33m?[39m (
+[metro]  [90m    |[39m        [31m[1m^[22m[39m
+[metro]  [90m 87 |[39m         [33m<[39m[33mMobileMenuIcon[39m extraMuted[33m=[39m{extraMutedIdleIcon} [33m/[39m[33m>[39m
+[metro]  [90m 88 |[39m       ) [33m:[39m (
+[metro]  [90m 89 |[39m         [33m<[39m[33mThemedPanelLeft[39m[0m
+[metro] Call Stack
+[metro]   SidebarMenuToggleButton (packages/app/src/components/headers/sidebar-menu-toggle.tsx:86:8)
+[metro]   SidebarMenuToggle (packages/app/src/components/headers/sidebar-menu-toggle.tsx:121:10)
+[metro]   MenuHeader (packages/app/src/components/headers/menu-header.tsx:24:11)
+[metro]   OpenProjectScreen (packages/app/src/screens/open-project-screen.tsx:64:7)
+[metro]   OpenProjectRoute (packages/app/src/app/open-project.tsx:7:7)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:795:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:841:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:895:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:915:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+[metro] Web Bundled 346ms packages/app/index.ts (1 module)
+[metro] Web Bundled 6ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web  INFO  %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[metro] Web  LOG  Running application "main" with appParams:
+[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+[metro] Development-level warnings: ON.
+[metro] Performance optimizations: OFF.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+[metro] Web  ERROR  
+[metro] Code: dropdown-trigger.tsx
+[metro] [0m [90m 65 |[39m       [33m<[39m[33m/[39m[33mText[39m[33m>[39m
+[metro]  [90m 66 |[39m       [33m<[39m[33mView[39m style[33m=[39m{styles[33m.[39mchevron}[33m>[39m
+[metro] [31m[1m>[22m[39m[90m 67 |[39m         [33m<[39m[33mThemedChevronDown[39m size[33m=[39m{buttonIconSize[size]} uniProps[33m=[39m{chevronColorMapping} [33m/[39m[33m>[39m
+[metro]  [90m    |[39m         [31m[1m^[22m[39m
+[metro]  [90m 68 |[39m       [33m<[39m[33m/[39m[33mView[39m[33m>[39m
+[metro]  [90m 69 |[39m     [33m<[39m[33m/[39m[33mDropdownMenuTrigger[39m[33m>[39m
+[metro]  [90m 70 |[39m   )[33m;[39m[0m
+[metro] Call Stack
+[metro]   DropdownTrigger (packages/app/src/components/ui/dropdown-trigger.tsx:67:9)
+[metro]   GeneralSection (packages/app/src/screens/settings-screen.tsx:375:13)
+[metro]   <anonymous> (packages/app/src/screens/settings-screen.tsx:1426:15)
+[metro]   SettingsScreen (packages/app/src/screens/settings-screen.tsx:1453:4)
+[metro]   SettingsSectionRoute (packages/app/src/app/settings/[section].tsx:53:10)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:795:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:841:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:895:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:915:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+  ✓  1 [browser] › e2e/browser/settings-navigation.spec.ts:97:7 › Settings shared sidebar width on touch tablets › touch resizing stays discoverable and settings preserve the saved width (7.0s)
+[metro] Web Bundled 268ms packages/app/index.ts (1 module)
+[metro] Web Bundled 6ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web  INFO  %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[metro] Web  LOG  Running application "main" with appParams:
+[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+[metro] Development-level warnings: ON.
+[metro] Performance optimizations: OFF.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+[metro] Web  WARN  Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+[metro] Web  ERROR  
+[metro] Code: sidebar-menu-toggle.tsx
+[metro] [0m [90m 84 |[39m       accessibilityState[33m=[39m{accessibilityState}
+[metro]  [90m 85 |[39m     [33m>[39m
+[metro] [31m[1m>[22m[39m[90m 86 |[39m       {isMobile [33m?[39m (
+[metro]  [90m    |[39m        [31m[1m^[22m[39m
+[metro]  [90m 87 |[39m         [33m<[39m[33mMobileMenuIcon[39m extraMuted[33m=[39m{extraMutedIdleIcon} [33m/[39m[33m>[39m
+[metro]  [90m 88 |[39m       ) [33m:[39m (
+[metro]  [90m 89 |[39m         [33m<[39m[33mThemedPanelLeft[39m[0m
+[metro] Call Stack
+[metro]   SidebarMenuToggleButton (packages/app/src/components/headers/sidebar-menu-toggle.tsx:86:8)
+[metro]   SidebarMenuToggle (packages/app/src/components/headers/sidebar-menu-toggle.tsx:121:10)
+[metro]   MenuHeader (packages/app/src/components/headers/menu-header.tsx:24:11)
+[metro]   OpenProjectScreen (packages/app/src/screens/open-project-screen.tsx:64:7)
+[metro]   OpenProjectRoute (packages/app/src/app/open-project.tsx:7:7)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:795:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:841:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:895:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:915:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+  ✓  2 [browser] › e2e/browser/settings-navigation.spec.ts:135:7 › Settings shared sidebar width on touch tablets › touch resize slider is visible in dark mode (3.7s)
+[metro] Web Bundled 245ms packages/app/index.ts (1 module)
+[metro] Web Bundled 6ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web  INFO  %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[metro] Web  LOG  Running application "main" with appParams:
+[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+[metro] Development-level warnings: ON.
+[metro] Performance optimizations: OFF.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+[metro] Web  WARN  Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+[metro] Web  ERROR  
+[metro] Code: sidebar-menu-toggle.tsx
+[metro] [0m [90m 84 |[39m       accessibilityState[33m=[39m{accessibilityState}
+[metro]  [90m 85 |[39m     [33m>[39m
+[metro] [31m[1m>[22m[39m[90m 86 |[39m       {isMobile [33m?[39m (
+[metro]  [90m    |[39m        [31m[1m^[22m[39m
+[metro]  [90m 87 |[39m         [33m<[39m[33mMobileMenuIcon[39m extraMuted[33m=[39m{extraMutedIdleIcon} [33m/[39m[33m>[39m
+[metro]  [90m 88 |[39m       ) [33m:[39m (
+[metro]  [90m 89 |[39m         [33m<[39m[33mThemedPanelLeft[39m[0m
+[metro] Call Stack
+[metro]   SidebarMenuToggleButton (packages/app/src/components/headers/sidebar-menu-toggle.tsx:86:8)
+[metro]   SidebarMenuToggle (packages/app/src/components/headers/sidebar-menu-toggle.tsx:121:10)
+[metro]   MenuHeader (packages/app/src/components/headers/menu-header.tsx:24:11)
+[metro]   OpenProjectScreen (packages/app/src/screens/open-project-screen.tsx:64:7)
+[metro]   OpenProjectRoute (packages/app/src/app/open-project.tsx:7:7)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:795:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:841:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:895:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:915:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+[metro] Web Bundled 235ms packages/app/index.ts (1 module)
+[metro] Web Bundled 5ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web  INFO  %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[metro] Web  LOG  Running application "main" with appParams:
+[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+[metro] Development-level warnings: ON.
+[metro] Performance optimizations: OFF.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+[metro] Web  ERROR  
+[metro] Code: dropdown-trigger.tsx
+[metro] [0m [90m 65 |[39m       [33m<[39m[33m/[39m[33mText[39m[33m>[39m
+[metro]  [90m 66 |[39m       [33m<[39m[33mView[39m style[33m=[39m{styles[33m.[39mchevron}[33m>[39m
+[metro] [31m[1m>[22m[39m[90m 67 |[39m         [33m<[39m[33mThemedChevronDown[39m size[33m=[39m{buttonIconSize[size]} uniProps[33m=[39m{chevronColorMapping} [33m/[39m[33m>[39m
+[metro]  [90m    |[39m         [31m[1m^[22m[39m
+[metro]  [90m 68 |[39m       [33m<[39m[33m/[39m[33mView[39m[33m>[39m
+[metro]  [90m 69 |[39m     [33m<[39m[33m/[39m[33mDropdownMenuTrigger[39m[33m>[39m
+[metro]  [90m 70 |[39m   )[33m;[39m[0m
+[metro] Call Stack
+[metro]   DropdownTrigger (packages/app/src/components/ui/dropdown-trigger.tsx:67:9)
+[metro]   GeneralSection (packages/app/src/screens/settings-screen.tsx:375:13)
+[metro]   <anonymous> (packages/app/src/screens/settings-screen.tsx:1426:15)
+[metro]   SettingsScreen (packages/app/src/screens/settings-screen.tsx:1453:4)
+[metro]   SettingsSectionRoute (packages/app/src/app/settings/[section].tsx:53:10)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:795:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:841:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:895:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:915:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+  ✓  3 [browser] › e2e/browser/settings-navigation.spec.ts:152:5 › settings sidebar mouse resizing preserves limits and compact navigation (6.2s)
+[metro] Web Bundled 227ms packages/app/index.ts (1 module)
+[metro] Web Bundled 5ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web  INFO  %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[metro] Web  LOG  Running application "main" with appParams:
+[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+[metro] Development-level warnings: ON.
+[metro] Performance optimizations: OFF.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+[metro] Web  ERROR  
+[metro] Code: sidebar-menu-toggle.tsx
+[metro] [0m [90m 84 |[39m       accessibilityState[33m=[39m{accessibilityState}
+[metro]  [90m 85 |[39m     [33m>[39m
+[metro] [31m[1m>[22m[39m[90m 86 |[39m       {isMobile [33m?[39m (
+[metro]  [90m    |[39m        [31m[1m^[22m[39m
+[metro]  [90m 87 |[39m         [33m<[39m[33mMobileMenuIcon[39m extraMuted[33m=[39m{extraMutedIdleIcon} [33m/[39m[33m>[39m
+[metro]  [90m 88 |[39m       ) [33m:[39m (
+[metro]  [90m 89 |[39m         [33m<[39m[33mThemedPanelLeft[39m[0m
+[metro] Call Stack
+[metro]   SidebarMenuToggleButton (packages/app/src/components/headers/sidebar-menu-toggle.tsx:86:8)
+[metro]   SidebarMenuToggle (packages/app/src/components/headers/sidebar-menu-toggle.tsx:121:10)
+[metro]   MenuHeader (packages/app/src/components/headers/menu-header.tsx:24:11)
+[metro]   WorkspaceScreenGateFrame (packages/app/src/screens/workspace/workspace-screen.tsx:756:7)
+[metro]   renderWorkspaceScreenGateShell (packages/app/src/screens/workspace/workspace-screen.tsx:816:13)
+[metro]   WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3165:32)
+[metro]   WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)
+[metro]   WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)
+[metro]   renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)
+[metro]   WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)
+[metro]   HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)
+[metro]   HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)
+[metro]   HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:795:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:841:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:895:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:915:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+[metro] Web  WARN  Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+  ✓  4 [browser] › e2e/browser/settings-navigation.spec.ts:195:7 › Settings sidebar navigation › opening Settings closes the composer model selector until it is opened again (5.7s)
+[metro] Web Bundled 434ms packages/app/index.ts (1 module)
+[metro] Web Bundled 6ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web  INFO  %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[metro] Web  LOG  Running application "main" with appParams:
+[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+[metro] Development-level warnings: ON.
+[metro] Performance optimizations: OFF.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+[metro] Web  ERROR  
+[metro] Code: sidebar-menu-toggle.tsx
+[metro] [0m [90m 84 |[39m       accessibilityState[33m=[39m{accessibilityState}
+[metro]  [90m 85 |[39m     [33m>[39m
+[metro] [31m[1m>[22m[39m[90m 86 |[39m       {isMobile [33m?[39m (
+[metro]  [90m    |[39m        [31m[1m^[22m[39m
+[metro]  [90m 87 |[39m         [33m<[39m[33mMobileMenuIcon[39m extraMuted[33m=[39m{extraMutedIdleIcon} [33m/[39m[33m>[39m
+[metro]  [90m 88 |[39m       ) [33m:[39m (
+[metro]  [90m 89 |[39m         [33m<[39m[33mThemedPanelLeft[39m[0m
+[metro] Call Stack
+[metro]   SidebarMenuToggleButton (packages/app/src/components/headers/sidebar-menu-toggle.tsx:86:8)
+[metro]   SidebarMenuToggle (packages/app/src/components/headers/sidebar-menu-toggle.tsx:121:10)
+[metro]   MenuHeader (packages/app/src/components/headers/menu-header.tsx:24:11)
+[metro]   WorkspaceScreenGateFrame (packages/app/src/screens/workspace/workspace-screen.tsx:756:7)
+[metro]   renderWorkspaceScreenGateShell (packages/app/src/screens/workspace/workspace-screen.tsx:816:13)
+[metro]   WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3165:32)
+[metro]   WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)
+[metro]   WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)
+[metro]   renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)
+[metro]   WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)
+[metro]   HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)
+[metro]   HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)
+[metro]   HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:795:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:841:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:895:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:915:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+[metro] Web  WARN  Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+[metro] Web  ERROR  
+[metro] Code: context-window-meter.tsx
+[metro] [0m [90m 109 |[39m   [36mconst[39m circumference [33m=[39m [35m2[39m [33m*[39m [33mMath[39m[33m.[39m[33mPI[39m [33m*[39m radius[33m;[39m
+[metro]  [90m 110 |[39m   [36mreturn[39m (
+[metro] [31m[1m>[22m[39m[90m 111 |[39m     [33m<[39m[33mSvg[39m
+[metro]  [90m     |[39m     [31m[1m^[22m[39m
+[metro]  [90m 112 |[39m       width[33m=[39m{size}
+[metro]  [90m 113 |[39m       height[33m=[39m{size}
+[metro]  [90m 114 |[39m       viewBox[33m=[39m{[32m`0 0 ${size} ${size}`[39m}[0m
+[metro] Call Stack
+[metro]   ContextWindowRing (packages/app/src/components/context-window-meter.tsx:111:5)
+[metro]   ContextWindowMeter (packages/app/src/components/context-window-meter.tsx:186:5)
+[metro]   useMemo$argument_0 (packages/app/src/composer/index.tsx:2066:11)
+[metro]   ComposerContentImpl (packages/app/src/composer/index.tsx:2062:37)
+[metro]   Composer (packages/app/src/composer/index.tsx:1215:9)
+[metro]   ActiveAgentComposer (packages/app/src/panels/agent-panel.tsx:1578:7)
+[metro]   AgentComposerSection (packages/app/src/panels/agent-panel.tsx:1462:5)
+[metro]   ChatAgentReadyContent (packages/app/src/panels/agent-panel.tsx:1166:7)
+[metro]   ChatAgentContent (packages/app/src/panels/agent-panel.tsx:1012:5)
+[metro]   AgentPanelBody (packages/app/src/panels/agent-panel.tsx:654:5)
+[metro]   AgentPanelContent (packages/app/src/panels/agent-panel.tsx:499:5)
+[metro]   AgentPanel (packages/app/src/panels/agent-panel.tsx:312:7)
+[metro]   AgentConversationPanel (packages/app/src/panels/agent-panel.tsx:367:12)
+[metro]   WorkspacePaneContent (packages/app/src/screens/workspace/workspace-pane-content.tsx:164:13)
+[metro]   MountedTab (packages/app/src/screens/workspace/workspace-panel-host.tsx:55:9)
+[metro]   mountedIds.map$argument_0 (packages/app/src/screens/workspace/workspace-panel-host.tsx:126:7)
+[metro]   WorkspacePanelHost (packages/app/src/screens/workspace/workspace-panel-host.tsx:121:20)
+[metro]   SplitPaneView (packages/app/src/components/split-container.tsx:750:11)
+[metro]   SplitNodeView (packages/app/src/components/split-container.tsx:462:11)
+[metro]   node.group.children.map$argument_0 (packages/app/src/components/split-container.tsx:513:13)
+[metro]   SplitNodeView (packages/app/src/components/split-container.tsx:506:28)
+[metro]   SplitContainer (packages/app/src/components/split-container.tsx:241:14)
+[metro]   useMemo$argument_0 (packages/app/src/screens/workspace/workspace-screen.tsx:3445:7)
+[metro]   WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3440:38)
+[metro]   WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)
+[metro]   WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)
+[metro]   renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)
+[metro]   WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)
+[metro]   HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)
+[metro]   HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)
+[metro]   HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:795:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:841:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:895:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:915:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+[metro] Web  ERROR  
+[metro] Code: context-window-meter.tsx
+[metro] [0m [90m 109 |[39m   [36mconst[39m circumference [33m=[39m [35m2[39m [33m*[39m [33mMath[39m[33m.[39m[33mPI[39m [33m*[39m radius[33m;[39m
+[metro]  [90m 110 |[39m   [36mreturn[39m (
+[metro] [31m[1m>[22m[39m[90m 111 |[39m     [33m<[39m[33mSvg[39m
+[metro]  [90m     |[39m     [31m[1m^[22m[39m
+[metro]  [90m 112 |[39m       width[33m=[39m{size}
+[metro]  [90m 113 |[39m       height[33m=[39m{size}
+[metro]  [90m 114 |[39m       viewBox[33m=[39m{[32m`0 0 ${size} ${size}`[39m}[0m
+[metro] Call Stack
+[metro]   ContextWindowRing (packages/app/src/components/context-window-meter.tsx:111:5)
+[metro]   ContextWindowMeter (packages/app/src/components/context-window-meter.tsx:186:5)
+[metro]   useMemo$argument_0 (packages/app/src/composer/index.tsx:2066:11)
+[metro]   ComposerContentImpl (packages/app/src/composer/index.tsx:2062:37)
+[metro]   Composer (packages/app/src/composer/index.tsx:1215:9)
+[metro]   ActiveAgentComposer (packages/app/src/panels/agent-panel.tsx:1578:7)
+[metro]   AgentComposerSection (packages/app/src/panels/agent-panel.tsx:1462:5)
+[metro]   ChatAgentReadyContent (packages/app/src/panels/agent-panel.tsx:1166:7)
+[metro]   ChatAgentContent (packages/app/src/panels/agent-panel.tsx:1012:5)
+[metro]   AgentPanelBody (packages/app/src/panels/agent-panel.tsx:654:5)
+[metro]   AgentPanelContent (packages/app/src/panels/agent-panel.tsx:499:5)
+[metro]   AgentPanel (packages/app/src/panels/agent-panel.tsx:312:7)
+[metro]   AgentConversationPanel (packages/app/src/panels/agent-panel.tsx:367:12)
+[metro]   WorkspacePaneContent (packages/app/src/screens/workspace/workspace-pane-content.tsx:164:13)
+[metro]   MountedTab (packages/app/src/screens/workspace/workspace-panel-host.tsx:55:9)
+[metro]   mountedIds.map$argument_0 (packages/app/src/screens/workspace/workspace-panel-host.tsx:126:7)
+[metro]   WorkspacePanelHost (packages/app/src/screens/workspace/workspace-panel-host.tsx:121:20)
+[metro]   SplitPaneView (packages/app/src/components/split-container.tsx:750:11)
+[metro]   SplitNodeView (packages/app/src/components/split-container.tsx:462:11)
+[metro]   node.group.children.map$argument_0 (packages/app/src/components/split-container.tsx:513:13)
+[metro]   SplitNodeView (packages/app/src/components/split-container.tsx:506:28)
+[metro]   SplitContainer (packages/app/src/components/split-container.tsx:241:14)
+[metro]   useMemo$argument_0 (packages/app/src/screens/workspace/workspace-screen.tsx:3445:7)
+[metro]   WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3440:38)
+[metro]   WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)
+[metro]   WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)
+[metro]   renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)
+[metro]   WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)
+[metro]   HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)
+[metro]   HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)
+[metro]   HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:795:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:841:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:895:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:915:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+  ✓  5 [browser] › e2e/browser/settings-navigation.spec.ts:224:7 › Settings sidebar navigation › opening Settings closes an existing chat's model selector until it is opened again (6.2s)
+[metro] Web Bundled 287ms packages/app/index.ts (1 module)
+[metro] Web Bundled 5ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web  INFO  %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[metro] Web  LOG  Running application "main" with appParams:
+[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+[metro] Development-level warnings: ON.
+[metro] Performance optimizations: OFF.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+[metro] Web  ERROR  
+[metro] Code: sidebar-close-button.tsx
+[metro] [0m [90m 49 |[39m         accessibilityState[33m=[39m{accessibilityState}
+[metro]  [90m 50 |[39m       [33m>[39m
+[metro] [31m[1m>[22m[39m[90m 51 |[39m         [33m<[39m[33mThemedX[39m
+[metro]  [90m    |[39m         [31m[1m^[22m[39m
+[metro]  [90m 52 |[39m           size[33m=[39m{iconButtonChromeGlyphSize([32m"large"[39m)}
+[metro]  [90m 53 |[39m           strokeWidth[33m=[39m{[35m1.5[39m}
+[metro]  [90m 54 |[39m           uniProps[33m=[39m{mutedIconColorMapping}[0m
+[metro] Call Stack
+[metro]   SidebarCloseButton (packages/app/src/components/headers/sidebar-close-button.tsx:51:9)
+[metro]   useMemo$argument_0 (packages/app/src/components/left-sidebar.tsx:548:7)
+[metro]   LeftSidebar (packages/app/src/components/left-sidebar.tsx:246:11)
+[metro]   SidebarChrome (packages/app/src/app/_layout.tsx:551:8)
+[metro]   AppContainer (packages/app/src/app/_layout.tsx:432:5)
+[metro]   AppWithSidebar (packages/app/src/app/_layout.tsx:778:10)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:839:9)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:895:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:915:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+  ✓  6 [browser] › e2e/browser/settings-navigation.spec.ts:393:7 › Settings — compact master-detail › opens compact app and host details and returns through the settings list (4.1s)
+[e2e] Worker 0 daemon stopped
+[e2e] Metro stopped
+
+  6 passed (50.8s)

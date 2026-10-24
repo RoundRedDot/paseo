@@ -1,0 +1,100 @@
+╭───────────────────────────────────╮
+│ lefthook v2.1.6  hook: pre-commit │
+╰───────────────────────────────────╯
+┃  lint ❯ 
+
+
+> paseo@0.13.0 lint
+> oxlint packages/app/e2e/browser/settings-navigation.spec.ts packages/app/e2e/browser/settings-toggle-tab-regression.spec.ts packages/app/src/components/ui/combobox.tsx packages/app/src/data/acp-provider-catalog.ts packages/app/src/hooks/use-acp-provider-catalog.test.ts packages/app/src/plugins/evaluate.test.ts packages/app/src/plugins/evaluate.ts packages/plugin/src/boundaries.test.ts packages/plugin/src/client/react-native.ts plugins/cursor-usage-source/server/usage-reported-pools.test.ts plugins/cursor-usage-source/server/usage.ts
+
+Found 0 warnings and 0 errors.
+Finished in 1.6s on 11 files with 177 rules using 15 threads.
+
+┃  format ❯ 
+
+
+> paseo@0.13.0 format:check:files
+> oxfmt --check CHANGELOG.md CHANGELOG.zh-CN.md package.json packages/app/e2e/browser/settings-navigation.spec.ts packages/app/e2e/browser/settings-toggle-tab-regression.spec.ts packages/app/package.json packages/app/src/components/ui/combobox.tsx packages/app/src/data/acp-provider-catalog.ts packages/app/src/hooks/use-acp-provider-catalog.test.ts packages/app/src/plugins/evaluate.test.ts packages/app/src/plugins/evaluate.ts packages/cli/package.json packages/client/package.json packages/desktop/package.json packages/expo-two-way-audio/package.json packages/highlight/package.json packages/plugin/package.json packages/plugin/src/boundaries.test.ts packages/plugin/src/client/react-native.ts packages/protocol/package.json packages/relay/package.json packages/server/package.json packages/website/package.json plugins/cursor-usage-source/server/usage-reported-pools.test.ts plugins/cursor-usage-source/server/usage.ts plugins/package.json public-docs/plugins/migration.md
+
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 2995ms on 27 files using 15 threads.
+
+┃  typecheck ❯ 
+
+
+> paseo@0.13.0 typecheck
+> npm run typecheck --workspaces --if-present
+
+
+> @getpaseo/builtin-plugins@0.13.0 typecheck
+> tsgo -p tsconfig.json --noEmit
+
+
+> @getpaseo/expo-two-way-audio@0.13.0 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/highlight@0.13.0 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/plugin@0.13.0 typecheck
+> tsgo --noEmit && npm run typecheck:examples
+
+
+> @getpaseo/plugin@0.13.0 typecheck:examples
+> npm --prefix ../../plugin-examples/markdown-panel install --ignore-scripts --no-audit --no-fund && tsgo -p tsconfig.examples.json --noEmit
+
+
+up to date in 315ms
+
+> @getpaseo/protocol@0.13.0 pretypecheck
+> npm run generate:validators
+
+
+> @getpaseo/protocol@0.13.0 generate:validators
+> node scripts/generate-validation-aot.mjs
+
+generated src/generated/validation/ws-outbound.aot.ts: envelope + 234 session message validators
+
+> @getpaseo/protocol@0.13.0 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/client@0.13.0 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/server@0.13.0 typecheck
+> tsgo -p tsconfig.server.typecheck.json --noEmit
+
+
+> @getpaseo/app@0.13.0 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/relay@0.13.0 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/website@0.13.0 typecheck
+> tsgo --noEmit
+
+
+> @getpaseo/desktop@0.13.0 typecheck
+> tsgo --noEmit -p tsconfig.json
+
+
+> @getpaseo/cli@0.13.0 typecheck
+> tsgo --noEmit
+
+
+                                      
+  ────────────────────────────────────
+summary: (done in 30.94 seconds)      
+✓ lint (2.76 seconds)
+✓ format (4.16 seconds)
+✓ typecheck (30.68 seconds)
+[detached HEAD 325fd53cd] chore(app): merge main into tablet sidebar resize branch
