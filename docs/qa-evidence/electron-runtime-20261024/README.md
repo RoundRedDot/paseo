@@ -125,3 +125,7 @@ This verifies the host integration with that concrete file adapter. Claude/OpenC
 The production plugin-provider history stream currently has no replacement/reset event, so an append-only direct-provider example cannot prove conversation truncation by returning request completion. The real built-in Codex route above was used for conversation acceptance. That SDK limitation comes from the frozen main baseline; this report does not classify it as a new #6677 regression.
 
 The controller snapshot includes additional absolute-deadline credential cleanup hardening applied after the successful business actions; that timeout path was not exercised. The installed fixture source and actual business workflow are retained separately. The source owner's 135 focused tests and static/hook results were trusted and were not rerun. Other providers, the `both` operation, non-English locale, native mobile and other desktop platforms remain unverified.
+
+## Mac Studio follow-up
+
+The separate [Mac Studio record](macstudio/README.md) covers the current #7318/#6732 merge heads. Earlier sections remain LOCAL historical evidence. No old result is promoted to a different source SHA or host.

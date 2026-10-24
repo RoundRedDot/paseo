@@ -1,0 +1,2 @@
+returncode=1\n\n/Users/rrd/workspace/rrd/paseo/.dev/pr-parallel-20261024/electron-qa-signing-probe/true: replacing existing signature
+/Users/rrd/workspace/rrd/paseo/.dev/pr-parallel-20261024/electron-qa-signing-probe/true: errSecInternalComponent

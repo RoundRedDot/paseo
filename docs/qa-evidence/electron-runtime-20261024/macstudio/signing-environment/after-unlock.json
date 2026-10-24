@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-24T12:43:16.550054+00:00",
+  "unlocked": false,
+  "keychainStatus": 0,
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "/Users/rrd/workspace/rrd/paseo/.dev/pr-parallel-20261024/electron-qa-signing-probe/true: replacing existing signature\n/Users/rrd/workspace/rrd/paseo/.dev/pr-parallel-20261024/electron-qa-signing-probe/true: errSecInternalComponent\n"
+}

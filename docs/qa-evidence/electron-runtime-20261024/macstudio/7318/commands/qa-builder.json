@@ -1,0 +1,8 @@
+{
+  "extends": "/Users/rrd/workspace/rrd/paseo/.worktrees/pr-parallel-20261024-electron-qa-7318-final/packages/desktop/electron-builder.yml",
+  "electronLanguages": ["en-US"],
+  "mac": {
+    "identity": "715F3345FF5B6594F0A46F830BEC540487202B37",
+    "notarize": false
+  }
+}

@@ -1,0 +1,12 @@
+import ctypes,ctypes.util,subprocess,pathlib,json,datetime
+s=ctypes.CDLL(ctypes.util.find_library("Security"));s.SecKeychainOpen.argtypes=[ctypes.c_char_p,ctypes.POINTER(ctypes.c_void_p)];s.SecKeychainGetStatus.argtypes=[ctypes.c_void_p,ctypes.POINTER(ctypes.c_uint32)]
+ref=ctypes.c_void_p();opened=s.SecKeychainOpen(str(pathlib.Path.home()/"Library/Keychains/login.keychain-db").encode(),ctypes.byref(ref));status=ctypes.c_uint32();code=s.SecKeychainGetStatus(ref,ctypes.byref(status)) if opened==0 else opened
+base=pathlib.Path(__file__).parent
+result={"at":datetime.datetime.now(datetime.timezone.utc).isoformat(),"context":"gui/501 LaunchAgent","keychainStatus":code,"unlocked":bool(status.value&1)}
+try:
+ r=subprocess.run(["/usr/bin/nice","-n","19","/usr/bin/codesign","--force","--sign","715F3345FF5B6594F0A46F830BEC540487202B37","--timestamp","--options","runtime",str(base/"true")],capture_output=True,text=True,timeout=30)
+ result.update(returncode=r.returncode,stdout=r.stdout,stderr=r.stderr)
+ if r.returncode==0:
+  v=subprocess.run(["/usr/bin/codesign","--verify","--strict",str(base/"true")],capture_output=True,text=True);result["verify"]={"returncode":v.returncode,"stdout":v.stdout,"stderr":v.stderr}
+except subprocess.TimeoutExpired: result.update(returncode=124,error="normal codesign timeout after 30s; no prompt accepted")
+(base/"gui-result.json").write_text(json.dumps(result,indent=2));print(json.dumps(result));raise SystemExit(result["returncode"])

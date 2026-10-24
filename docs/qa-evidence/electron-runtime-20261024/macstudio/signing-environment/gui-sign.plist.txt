@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>HOME</key>
+		<string>/Users/rrd</string>
+		<key>PATH</key>
+		<string>/usr/bin:/bin:/usr/sbin:/sbin</string>
+	</dict>
+	<key>KeepAlive</key>
+	<false/>
+	<key>Label</key>
+	<string>sh.paseo.qa.electron-signing-20261024-electron-qa</string>
+	<key>Nice</key>
+	<integer>19</integer>
+	<key>ProcessType</key>
+	<string>Background</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/usr/bin/python3</string>
+		<string>/Users/rrd/workspace/rrd/paseo/.dev/pr-parallel-20261024/electron-qa-signing-probe/gui-sign.py</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardErrorPath</key>
+	<string>/Users/rrd/workspace/rrd/paseo/.dev/pr-parallel-20261024/electron-qa-signing-probe/gui.stderr.log</string>
+	<key>StandardOutPath</key>
+	<string>/Users/rrd/workspace/rrd/paseo/.dev/pr-parallel-20261024/electron-qa-signing-probe/gui.stdout.log</string>
+</dict>
+</plist>

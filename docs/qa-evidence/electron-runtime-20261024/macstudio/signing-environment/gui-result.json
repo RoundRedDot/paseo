@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-24T12:44:45.699989+00:00",
+  "context": "gui/501 LaunchAgent",
+  "keychainStatus": 0,
+  "unlocked": true,
+  "returncode": 124,
+  "error": "normal codesign timeout after 30s; no prompt accepted"
+}

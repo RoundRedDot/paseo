@@ -1,0 +1,17 @@
+{
+  "host": "rrd-mac-studio",
+  "sources": [
+    {
+      "pr": 7318,
+      "head": "feba7784f7be7829e654f0bbbad2676c6998ac1d",
+      "runs": [],
+      "scope": "file-pane 10 business cases"
+    },
+    {
+      "pr": 6732,
+      "head": "975a89e9d55fa677b771a141507f9f9b93545d12",
+      "runs": [],
+      "scope": "catalog/cache/wire/footer only; timeline persistence NOT PASSED"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+# Mac Studio current-head follow-up
+
+Host: `rrd-mac-studio`, macOS arm64. Agent: `codex/gpt-6.1-sol`, high. Date: 2026-10-24 UTC.
+
+| PR    | Source SHA                                 | Completed remotely                                                                                           | Packaged business                                                                   |
+| ----- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| #7318 | `feba7784f7be7829e654f0bbbad2676c6998ac1d` | Fresh clean renderer/daemon/CLI/main builds, root typecheck/lint, SDK boundaries 63/63 and timeline view 5/5 | BLOCKED on usable Developer ID private-key signing; no remote business case has run |
+| #6732 | `975a89e9d55fa677b771a141507f9f9b93545d12` | Fresh clean renderer/daemon/CLI/main builds, root typecheck/lint, 52 focused cases at default timeout        | NOT_RUN; normal signing is a prerequisite                                           |
+
+The initial remote signing attempt failed with `errSecInternalComponent`. A standalone owned copy of `/usr/bin/true` reproduced this failure. The remote certificate identity exists, but the SSH security session reported a locked login Keychain. After the user confirmed a normal UI unlock, one SSH probe still reported locked and failed. An explicitly authorized one-shot LaunchAgent in the same user GUI session reported unlocked, but standard codesign timed out after 30 seconds. No permission prompt was accepted automatically. The temporary job exited and was unloaded; the lookup afterward returned 113 (not found). This does not establish whether the remaining wait was private-key authorization or timestamp communication. Those failures and stdout/exit codes are retained under `signing-environment`.
+
+No ACL/partition-list edit, password-based unlock, private-key export/transfer, ad-hoc substitution, sandbox weakening, or production port 6767 operation was used. Builder configuration keeps normal Developer ID signing, hardened runtime and product entitlements; temporary QA language selection is English only. No current signed package receipt or business PASS is inferred from a successful producer build.
+
+The independent registry runs at a random loopback port and its real Git worktrees are registered to the verified remote main project. The dirty main checkout and existing worktrees were preserved. Dictation and voice mode are disabled explicitly in both registry and runtime fixture environments; an initially observed own-registry speech initialization was stopped without deleting model data. Work ran serially at nice 19, Expo max-workers 1, focused Vitest maxWorkers 1. All later checks and normal hooks run remotely; earlier LOCAL evidence is separate.
+
+For #6732 the planned business scope is cold/warm/update/corrupt-cache/refetch and actual footer execution after isolated-daemon reconnect. The example provider replays only `Restored from persistence`; timeline restoration remains unproven independently of footer/cache success. Relay/native/other desktop platforms remain unverified. The #7318 API exposes `path/lineStart/lineEnd`; explicit column targeting is not part of its API.
+
+`manifest.json` records original and published SHA-256 values. Code snapshots use `.txt` suffixes to preserve their original bytes through repository formatting. No daemon home, browser userData, credential files, private signing material or original user session files are included. Retained logs can contain temporary QA workspace paths and synthetic prompts.
