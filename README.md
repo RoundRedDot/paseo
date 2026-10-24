@@ -1,34 +1,25 @@
-# Tablet sidebar width QA — 2026-10-24
+# Direct Settings sidebar resize QA
 
-Source commit: `65f04f15892e66470d62e6e9667482981abd1069`. Baseline: `686588c44be479ee3b5de04ed576ae0a97d3c915`.
+Source: `a20b70c16c2089bc89234e1d2ed417c0838b5178`. Previous PR head used for baseline: `65f04f15892e66470d62e6e9667482981abd1069`.
 
-Chromium browser, touch emulation enabled, 1366×1024 then 1000×1024. This is browser evidence; iPad/iOS native, Android native, and packaged Electron were not tested.
+Browser evidence only. iPad/iOS native, Android native, and packaged Electron remain untested.
 
-- Real CDP touchStart/touchMove/touchEnd input resizes the app sidebar. Idle grip opacity is 0.15, active is 0.3, release returns to 0.15.
-- Open Settings through its app control: its sidebar uses the saved width. Reload and narrow/widen the viewport: the saved width remains the same. Back returns to the resizable app sidebar.
-- Same regression against baseline production files fails at idle opacity: received 0, expected 0.15. Unit regression fails at settings content minimum: received 720, expected 640.
-- Fixed source: two targeted unit files / 14 tests passed; one targeted browser test passed (3.9 s test, 13.2 s run).
-- Full npm run typecheck, npm run lint, npm run format passed; pre-commit format/lint/typecheck hooks passed. No full test suite run.
-- Browser run emitted existing development warnings and icon console errors; these are not claimed fixed by this change.
+Passing run: 2 browser tests, 19.2s total.
 
-Commands:
+- Chromium touch emulation: resize app navigation, then directly drag the Settings sidebar. Verify idle 0.15 / pressed 0.3 / release 0.15 opacity, saved width, reload, 1366x1024 -> 1000x1024 -> 1366x1024, then return to app navigation at the same width.
+- Chromium mouse: directly drag Settings, verify live resizing before release and stored limits 200–600px. A 720px viewport temporarily clamps the 600px width to 320px without overwriting the saved value. Widen and reload restores 600px. At 390px compact navigation has no resize handle.
+- Baseline: same touch test against previous PR settings implementation fails because settings-sidebar-resize-handle-grip does not exist. baseline-settings-no-handle.png is that expected failure.
+- Existing targeted layout/handle unit suites: 14 passed. Gesture behavior is covered by browser input rather than mocked unit tests.
+- Full npm run typecheck, npm run lint, npm run format passed. Commit hooks format/lint/typecheck passed. No full suite run.
+- Both published WebM recordings passed full ffmpeg -xerror decode. Screenshots were visually reviewed.
+- Existing development warnings and icon console errors are outside this change.
 
 ```sh
-npm run build:server
-npm run build --workspace=@getpaseo/expo-two-way-audio
-# from packages/app
+# packages/app
 npx vitest run src/components/desktop-sidebar-layout.test.ts src/components/sidebar-resize-handle-layout.test.ts --bail=1 --maxWorkers=1
-# from repository root
-npm run test:e2e --workspace=@getpaseo/app -- e2e/browser/settings-navigation.spec.ts --grep 'touch resizing stays discoverable' --workers=1 --trace=on
-npm run typecheck
-npm run lint
+# repository root
+npm run test:e2e --workspace=@getpaseo/app -- e2e/browser/settings-navigation.spec.ts --grep 'touch resizing stays discoverable|settings sidebar mouse resizing' --workers=1 --trace=on
 npm run format
+npm run lint
+npm run typecheck
 ```
-
-Artifacts:
-
-- baseline-idle-grip.png: baseline invisible grip (expected regression failure).
-- tablet-before-drag.png: fixed idle grip before interaction.
-- tablet-settings-wide.png: Settings after resizing.
-- tablet-settings-narrow.png: Settings at 1000px after reload.
-- video.webm: full passing browser test, 4.72 seconds; ffmpeg -xerror decode passed.
