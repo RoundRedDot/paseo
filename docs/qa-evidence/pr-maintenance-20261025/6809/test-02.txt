@@ -1,0 +1,10 @@
+$ npx vitest run src/server/agent/providers/claude/agent.sub-agent-sidechain.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  18:08:06
+   Duration  407ms (transform 191ms, setup 16ms, import 286ms, tests 46ms, environment 0ms)
+

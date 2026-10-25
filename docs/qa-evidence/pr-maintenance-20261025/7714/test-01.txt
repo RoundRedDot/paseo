@@ -1,0 +1,10 @@
+$ npx vitest run src/server/agent/providers/claude/agent.sub-agent-replay.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  32 passed (32)
+   Start at  18:11:16
+   Duration  7.73s (transform 413ms, setup 30ms, import 603ms, tests 6.99s, environment 0ms)
+

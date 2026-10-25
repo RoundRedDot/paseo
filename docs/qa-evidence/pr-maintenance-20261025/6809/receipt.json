@@ -1,0 +1,142 @@
+{
+  "number": 6809,
+  "oldHead": "792d930ebaa5817cb730df4d0c7c60f096d7e6b0",
+  "base": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "workspaceId": "wks_4df79ebdc808d70f",
+  "overlap": ["packages/server/src/server/agent/providers/claude/agent.ts"],
+  "checks": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "4845e1da5851cc049809fb7cfb8e4ce9e3999c03"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.05,
+      "output": "6809/merge.txt"
+    },
+    {
+      "command": ["npm", "run", "build:server"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 23.17,
+      "output": "6809/build.txt"
+    },
+    {
+      "command": ["npm", "run", "build", "--workspace=@getpaseo/expo-two-way-audio"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.38,
+      "output": "6809/audio-build.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/server/agent/providers/claude/agent.history-load.test.ts",
+        "--bail=1",
+        "--maxWorkers=1"
+      ],
+      "cwd": "packages/server",
+      "exitCode": 0,
+      "seconds": 0.94,
+      "output": "6809/test-00.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/server/agent/providers/claude/agent.sub-agent-replay.test.ts",
+        "--bail=1",
+        "--maxWorkers=1"
+      ],
+      "cwd": "packages/server",
+      "exitCode": 0,
+      "seconds": 4.23,
+      "output": "6809/test-01.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/server/agent/providers/claude/agent.sub-agent-sidechain.test.ts",
+        "--bail=1",
+        "--maxWorkers=1"
+      ],
+      "cwd": "packages/server",
+      "exitCode": 0,
+      "seconds": 0.72,
+      "output": "6809/test-02.txt"
+    },
+    {
+      "command": ["npm", "run", "format"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.47,
+      "output": "6809/format.txt"
+    },
+    {
+      "command": ["npm", "run", "lint"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.57,
+      "output": "6809/lint.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check"],
+      "cwd": ".",
+      "exitCode": 2,
+      "seconds": 0.02,
+      "output": "6809/diff-check.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check", "--", ".", ":(exclude)patches/*.patch"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.01,
+      "output": "6809/diff-check-source.txt"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "commit",
+        "-F",
+        "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/6809/commit-message.txt"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 10.25,
+      "output": "6809/commit-hooks.txt"
+    },
+    {
+      "command": ["git", "push", "fork", "HEAD:refs/heads/feat/claude-subagent-prompt"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 2.37,
+      "output": "6809/push.txt"
+    }
+  ],
+  "sourceTree": "2c03f56dcc8ca8bdd8f710295eb989b01265c30a",
+  "head": "64e486f46e8fb477a19db97bb4f82fee4de7dc66",
+  "pushed": true,
+  "readback": {
+    "headRefOid": "64e486f46e8fb477a19db97bb4f82fee4de7dc66",
+    "baseRefName": "main",
+    "state": "OPEN"
+  },
+  "readbackNote": "GitHub PR metadata briefly lagged the successful push; a fresh PR query and fork ref both confirmed this head."
+}

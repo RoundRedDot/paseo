@@ -1,0 +1,9 @@
+{
+  "head": "1ed1ec018df61c4f0da8822645c1a6db0532a699",
+  "tree": "ae5bc844ca84984255e4996fb5be35bee0a1e62d",
+  "sha256": {
+    "packages/app/src/agent-stream/text-reveal.ts": "da78b4e82e2a3ece25ff3ec1fcd5f55ab34910fe6b56c82b3f9c7d39122f16d7",
+    "packages/app/src/hooks/use-revealed-text.ts": "63f1df3aa7166c96d2814b12e79e6fe7270667326d4992260fb8e3b9a9108b73"
+  },
+  "clean": true
+}

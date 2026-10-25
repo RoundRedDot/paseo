@@ -1,0 +1,120 @@
+{
+  "number": 7637,
+  "oldHead": "259e9069e11ddf18adff682b521677c3ddf4a460",
+  "base": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "workspaceId": "wks_4df79ebdc808d70f",
+  "overlap": ["packages/server/src/server/agent/providers/claude/agent.ts"],
+  "checks": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "4845e1da5851cc049809fb7cfb8e4ce9e3999c03"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.05,
+      "output": "7637/merge.txt"
+    },
+    {
+      "command": ["npm", "run", "build:server"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 19.81,
+      "output": "7637/build.txt"
+    },
+    {
+      "command": ["npm", "run", "build", "--workspace=@getpaseo/expo-two-way-audio"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.38,
+      "output": "7637/audio-build.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/server/agent/providers/claude/agent.history-load.test.ts",
+        "--bail=1",
+        "--maxWorkers=1"
+      ],
+      "cwd": "packages/server",
+      "exitCode": 0,
+      "seconds": 0.73,
+      "output": "7637/test-00.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/server/agent/providers/claude/agent.error-result.test.ts",
+        "--bail=1",
+        "--maxWorkers=1"
+      ],
+      "cwd": "packages/server",
+      "exitCode": 0,
+      "seconds": 0.74,
+      "output": "7637/test-01.txt"
+    },
+    {
+      "command": ["npm", "run", "format"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.22,
+      "output": "7637/format.txt"
+    },
+    {
+      "command": ["npm", "run", "lint"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.97,
+      "output": "7637/lint.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check", "--", ".", ":(exclude)patches/*.patch"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.02,
+      "output": "7637/diff-check-source.txt"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "commit",
+        "-F",
+        "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7637/commit-message.txt"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 13.08,
+      "output": "7637/commit-hooks.txt"
+    },
+    {
+      "command": ["git", "push", "fork", "HEAD:refs/heads/fix/claude-error-result"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.84,
+      "output": "7637/push.txt"
+    }
+  ],
+  "sourceTree": "399d913f729ae1f291e7eda91b080f5ba9d54098",
+  "head": "3e225cf8a9f066f2d339118117d3c6aa4fb18d76",
+  "pushed": true,
+  "readback": {
+    "baseRefName": "main",
+    "headRefOid": "3e225cf8a9f066f2d339118117d3c6aa4fb18d76",
+    "state": "OPEN"
+  }
+}

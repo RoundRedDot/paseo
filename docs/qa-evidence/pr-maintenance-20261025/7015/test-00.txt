@@ -1,0 +1,10 @@
+$ npx vitest run src/server/agent/providers/acp-agent.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  145 passed (145)
+   Start at  18:21:31
+   Duration  3.93s (transform 636ms, setup 18ms, import 940ms, tests 2.91s, environment 0ms)
+

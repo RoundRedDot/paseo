@@ -1,0 +1,18 @@
+import pathlib,json,base64,hashlib
+folder=pathlib.Path('/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input')
+rows=json.loads((folder/'receipts.json').read_text())
+for row in rows:
+ raw=(folder/(row['label']+'-command.txt')).read_text()
+ start=raw.index('\n{\n  "config":')+1
+ report,_=json.JSONDecoder().raw_decode(raw[start:])
+ attachments=[a for s in report['suites'] for spec in s.get('specs',[]) for t in spec['tests'] for r in t['results'] for a in r['attachments'] if a['name']=='equal-input-rendering']
+ assert len(attachments)==1
+ data=json.loads(base64.b64decode(attachments[0]['body']))
+ (folder/row['label']/'equal-input-rendering.json').write_text(json.dumps(data,indent=2))
+ before={m['name']:m['value'] for m in data['before']};after={m['name']:m['value'] for m in data['after']}
+ row.update({'fixtureSha256':hashlib.sha256(data['markdown'].encode()).hexdigest(),'characters':len(data['markdown']),'viewport':data['viewport'],'intervalMs':data['intervalMs'],'frameCount':data['frameCount'],'frameP95Ms':data['frameP95Ms'],'maxFrameMs':data['maxFrameMs'],'longTasksMs':data['longTasksMs'],'deltas':{k:after[k]-before[k] for k in ['TaskDuration','ScriptDuration','LayoutDuration','RecalcStyleDuration']},'extraction':'Decoded the application/json attachment embedded by Playwright JSON reporter; the original encoded body remains in command output.'})
+ print(row['label'],'p95',round(row['frameP95Ms'],2),'script',round(row['deltas']['ScriptDuration'],3),'task',round(row['deltas']['TaskDuration'],3),'longTasks',len(row['longTasksMs']))
+assert len(rows)==4 and len({r['fixtureSha256'] for r in rows})==1 and all(r['exitCode']==0 and r['characters']==4513 for r in rows)
+assert json.loads((folder/'source-restored.json').read_text())['clean']
+(folder/'receipts.json').write_text(json.dumps(rows,indent=2))
+print('ALL FOUR MATCHED FIXTURE AND RESTORATION VERIFIED')

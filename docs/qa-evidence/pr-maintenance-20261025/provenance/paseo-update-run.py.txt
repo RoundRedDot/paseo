@@ -1,0 +1,139 @@
+import json,subprocess,pathlib,time,hashlib,sys,os
+ROOT=pathlib.Path('/Users/luopeihuan/workspace/rrd/paseo')
+WT=ROOT/'.worktrees/pr-maintenance-20261025'
+OUT=WT/'.dev/pr-maintenance-20261025'; OUT.mkdir(parents=True,exist_ok=True)
+PS=json.load(open('/tmp/paseo-update-preflight.json'))
+BASE=PS[0]['frozenBase']
+STATE=OUT/'results.json'
+results=json.loads(STATE.read_text()) if STATE.exists() else []
+DONE={x['number'] for x in results if x.get('pushed')}
+IDENT=['-c','user.name=luke','-c','user.email=luopeihuan@gmail.com']
+TESTS={
+6601:['server:src/server/plugins/compiler.test.ts'],
+6602:['app:src/agent-stream/spacing.test.ts','app:src/agent-stream/layout.test.ts'],
+6677:['app:src/plugins/react-native/rewind-target.test.ts','app:src/plugins/evaluate.test.ts'],
+6699:['app:src/types/stream.test.ts','app:src/timeline/turn-time.test.ts'],
+6731:['app:src/plugins/catalog-sync-model.test.ts','app:src/plugins/registry-lifecycle.test.ts'],
+6732:['app:src/plugins/client-bundle-store.test.ts','app:src/plugins/catalog-refresh.test.ts'],
+6736:['server:src/server/agent/agent-manager.test.ts','app:src/types/stream.test.ts'],
+6737:['app:src/ordering/index.test.ts','app:src/ordering/replica.test.ts','server:src/server/ordering/index.test.ts'],
+6762:['server:src/server/agent/agent-projections.test.ts'],
+6773:['app:src/agent-stream/chat-outline/model.test.ts','app:src/agent-stream/chat-outline/navigation.test.ts'],
+6809:['server:src/server/agent/providers/claude/agent.history-load.test.ts','server:src/server/agent/providers/claude/agent.sub-agent-replay.test.ts','server:src/server/agent/providers/claude/agent.sub-agent-sidechain.test.ts'],
+7000:['server:src/server/agent/providers/claude/agent.history-load.test.ts','server:src/server/agent/providers/claude/agent.history.test.ts','server:src/server/agent/agent-storage.test.ts'],
+7006:['app:src/agent-stream/text-reveal.test.ts','app:src/components/markdown/renderer.test.ts'],
+7014:['server:src/server/agent/providers/codex-async-questions.test.ts','server:src/server/agent/providers/opencode/tool-call-mapper.test.ts'],
+7015:['server:src/server/agent/providers/acp-agent.test.ts','protocol:src/question-answers.test.ts'],
+7153:['app:src/components/desktop-sidebar-layout.test.ts','app:src/components/explorer-sidebar-layout.test.ts'],
+7186:['app:src/runtime/replica-cache/index.test.ts'],
+7289:['app:app.config.test.ts'],
+7318:['app:src/plugins/timeline/view.test.tsx'],
+7385:['app:src/screens/workspace/workspace-tab-layout.test.ts'],
+7462:['app:src/plugins/timeline/fork.test.ts','app:src/plugins/evaluate.test.ts'],
+7467:['app:src/hooks/use-settings/storage.test.ts'],
+7482:['client:src/index.test.ts'],7495:['app:src/plugins/timeline/projection.test.ts'],
+7539:['app:src/screens/workspace/workspace-tab-layout.test.ts'],7543:['app:src/types/stream.test.ts'],
+7556:['app:src/components/status-ring/geometry.test.ts','app:src/components/markdown/streaming.test.ts','app:src/components/markdown/renderer.test.ts','app:src/voice/voice-runtime.test.ts','app:src/runtime/replica-cache/index.test.ts'],
+7572:['server:src/server/plugins/managed-source.posix.test.ts'],
+7620:['app:src/plugins/timeline-paint.test.ts','app:src/plugins/catalog-sync.test.tsx'],
+7624:['app:src/plugins/catalog-cache.test.ts','app:src/plugins/catalog-sync.test.tsx'],
+7625:['server:src/server/plugins/compiler.test.ts'],
+7628:['app:src/runtime/replica-cache/index.test.ts','app:src/timeline/replica.test.ts'],
+7629:['relay:src/encrypted-channel.test.ts','client:src/daemon-client-transport.test.ts'],
+7637:['server:src/server/agent/providers/claude/agent.history-load.test.ts','server:src/server/agent/providers/claude/agent.error-result.test.ts'],
+7647:['cli:src/commands/agent/mark-read.test.ts'],7654:['app:src/plugins/react-native/screen-header.test.ts','app:src/plugins/evaluate.test.ts'],
+7714:['server:src/server/agent/providers/claude/agent.history-load.test.ts','server:src/server/agent/providers/claude/agent.sub-agent-replay.test.ts','server:src/server/agent/providers/claude/subagents/live-source.test.ts'],
+7774:['app:src/runtime/directory-sync/agent-replica.test.ts'],
+7776:['app:src/components/desktop-sidebar-layout.test.ts','app:src/components/sidebar-resize-handle-layout.test.ts'],
+7802:['app:src/components/markdown/renderer.test.ts'],
+7807:['app:src/hooks/use-settings/storage.test.ts','app:src/screens/workspace/workspace-tab-agent-details.test.ts'],
+7861:['server:src/server/agent/providers/cursor-acp-agent.test.ts']}
+def capture(args,cwd=WT):
+ return subprocess.check_output(args,cwd=cwd,text=True,stderr=subprocess.PIPE).strip()
+def git(*args): return capture(['git',*args])
+def run(args,log,cwd=WT):
+ previous=next((c for c in row['checks'] if c['command']==args and c['exitCode']==0),None)
+ if previous: return previous
+ start=time.monotonic()
+ with log.open('w') as f:
+  f.write('$ '+ ' '.join(args)+'\n');f.flush()
+  r=subprocess.run(args,cwd=cwd,stdout=f,stderr=subprocess.STDOUT,text=True)
+ receipt={'command':args,'cwd':str(cwd.relative_to(WT)) or '.', 'exitCode':r.returncode,'seconds':round(time.monotonic()-start,2),'output':str(log.relative_to(OUT))}
+ row['checks'].append(receipt)
+ (folder/'receipt.json').write_text(json.dumps(row,indent=2))
+ if r.returncode: raise RuntimeError('command failed: '+str(log))
+ return receipt
+# The baseline already has a clean installation and generated workspace declarations.
+installed_lock=git('rev-parse',BASE+':package-lock.json')
+installed_patch=git('rev-parse',BASE+':patches')
+built_stack=tuple(git('rev-parse',BASE+':packages/'+s) for s in ['highlight','plugin','relay','protocol','client','server','cli'])
+order=[6809,7000,7637,7714]+[p['number'] for p in PS if p['number'] not in [6809,7000,7637,7714,6601,7629,7802]]+[7629,6601,7802]
+if len(sys.argv)>1: order=[int(n) for n in sys.argv[1:]]
+for n in order:
+ if n in DONE: continue
+ p=next(p for p in PS if p['number']==n)
+ folder=OUT/str(n);folder.mkdir(exist_ok=True)
+ row=json.loads((folder/'receipt.json').read_text()) if (folder/'receipt.json').exists() else {'number':n,'oldHead':p['headRefOid'],'base':BASE,'workspaceId':'wks_4df79ebdc808d70f','overlap':p['overlap'],'checks':[]}
+ row.pop('error',None)
+ print('START',n,flush=True)
+ try:
+  resuming=(WT/'.git').exists() and git('rev-parse','HEAD')==p['headRefOid'] and subprocess.run(['git','rev-parse','--verify','MERGE_HEAD'],cwd=WT,capture_output=True,text=True).stdout.strip()==BASE
+  if git('status','--porcelain') and not resuming: raise RuntimeError('worktree is dirty')
+  git('update-ref','refs/pr-maintenance-backups/20261025/'+str(n),p['headRefOid'])
+  if not resuming:
+   git('switch','--detach',p['headRefOid'])
+   run(['git',*IDENT,'merge','--no-ff','--no-commit',BASE],folder/'merge.txt')
+  tree=git('write-tree');row['sourceTree']=tree
+  if tree!=p['mergeTree']: raise RuntimeError('merged tree differs from preflight')
+  lock=git('rev-parse',tree+':package-lock.json');patch=git('rev-parse',tree+':patches')
+  if (lock,patch)!=(installed_lock,installed_patch):
+   run(['npm','ci','--no-audit','--no-fund'],folder/'install.txt')
+   installed_lock,installed_patch=lock,patch
+   built_stack=None
+  stack=tuple(git('rev-parse',tree+':packages/'+s) for s in ['highlight','plugin','relay','protocol','client','server','cli'])
+  if stack!=built_stack:
+   run(['npm','run','build:server'],folder/'build.txt')
+   run(['npm','run','build','--workspace=@getpaseo/expo-two-way-audio'],folder/'audio-build.txt')
+   built_stack=stack
+  for idx,test in enumerate(TESTS[n]):
+   pkg,file=test.split(':',1)
+   args=['npx','vitest','run',file,'--bail=1','--maxWorkers=1']
+   if pkg=='app': args+=['--project','unit']
+   run(args,folder/('test-%02d.txt'%idx),WT/'packages'/pkg)
+  if n==7802:
+   run(['node','--test','scripts/postinstall-patches.test.mjs'],folder/'patch-tests.txt')
+   run(['xcrun','clang','-fobjc-arc','-framework','Foundation','-I','packages/app/node_modules/react-native-enriched-markdown/ios/utils','packages/app/native-tests/markdown-block-selection.m','-o','/tmp/paseo-update-markdown-block-selection'],folder/'clang.txt')
+   run(['/tmp/paseo-update-markdown-block-selection'],folder/'selection-range.txt')
+  run(['npm','run','format'],folder/'format.txt')
+  if git('diff','--name-only'): raise RuntimeError('formatter changed tracked source; manual review required')
+  run(['npm','run','lint'],folder/'lint.txt')
+  run(['git','diff','--cached','--check','--','.',':(exclude)patches/*.patch'],folder/'diff-check-source.txt')
+  message='chore: merge main baseline into PR #%d\n\nIntegrate upstream %s while preserving this PR scope.\n\nCo-authored-by: RoundRedDot <roundreddot@gmail.com>\n'%(n,BASE)
+  msg=folder/'commit-message.txt';msg.write_text(message)
+  # Normal hooks execute the mandatory complete workspace typecheck plus staged lint/format.
+  run(['git',*IDENT,'commit','-F',str(msg)],folder/'commit-hooks.txt')
+  head=git('rev-parse','HEAD');row['head']=head
+  if git('rev-parse','HEAD^{tree}')!=tree: raise RuntimeError('commit tree changed unexpectedly')
+  if git('status','--porcelain'): raise RuntimeError('worktree dirty after hooks')
+  remotehead=capture(['gh','pr','view',str(n),'--repo','getpaseo/paseo','--json','headRefOid','--jq','.headRefOid'])
+  if remotehead!=p['headRefOid']: raise RuntimeError('remote PR moved; do not push')
+  remote='fork' if p['headRepositoryOwner']['login']=='RoundRedDot' else 'luoph-fork'
+  run(['git','push',remote,'HEAD:refs/heads/'+p['headRefName']],folder/'push.txt')
+  for attempt in range(6):
+   readback=json.loads(capture(['gh','pr','view',str(n),'--repo','getpaseo/paseo','--json','headRefOid,baseRefName,state']))
+   if readback['headRefOid']==head: break
+   time.sleep(3)
+  if readback['baseRefName']!=p['baseRefName']: raise RuntimeError('remote target mismatch')
+  if readback['headRefOid']!=head:
+   actual=capture(['git','ls-remote',remote,'refs/heads/'+p['headRefName']]).split()[0]
+   if actual!=head or readback['headRefOid']!=p['headRefOid']: raise RuntimeError('remote readback mismatch')
+   row['prReadbackPending']=True
+  row['pushed']=True;row['readback']=readback
+  (folder/'receipt.json').write_text(json.dumps(row,indent=2))
+  results.append(row);STATE.write_text(json.dumps(results,indent=2))
+  print('PUSHED',n,head[:10],flush=True)
+ except Exception as e:
+  row['error']=str(e);(folder/'receipt.json').write_text(json.dumps(row,indent=2))
+  print('STOP',n,str(e),flush=True)
+  sys.exit(1)
+print('ALL COMPLETE',len(results),flush=True)

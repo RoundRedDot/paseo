@@ -1,0 +1,31 @@
+
+> paseo@0.13.0 postinstall
+> node scripts/postinstall-patches.mjs
+
+patch-package 8.0.1
+Applying patches...
+expo-modules-core@57.0.23 ✔
+patch-package 8.0.1
+Applying patches...
+react-native-enriched-markdown@1.2.0-nightly-20261014-766fc0e67 ✔
+patch-package 8.0.1
+Applying patches...
+react-native-unistyles@3.2.4 ✔
+patch-package 8.0.1
+Applying patches...
+react-native-draggable-flatlist@4.0.3 ✔
+patch-package 8.0.1
+Applying patches...
+react-native-gesture-handler@2.32.0 ✔
+patch-package 8.0.1
+Applying patches...
+@gorhom/bottom-sheet@5.2.14 ✔
+patch-package 8.0.1
+Applying patches...
+react-native-svg@15.15.4 ✔
+patch-package 8.0.1
+Applying patches...
+@mattermost/react-native-paste-input@2.0.1 ✔
+patch-package 8.0.1
+Applying patches...
+@opencode-ai/sdk@1.14.46 ✔

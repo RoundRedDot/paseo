@@ -1,0 +1,131 @@
+{
+  "number": 7153,
+  "oldHead": "deb15d5b9f9cbcb30a500981a23aa09a57a411ec",
+  "base": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "workspaceId": "wks_4df79ebdc808d70f",
+  "overlap": [],
+  "checks": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "4845e1da5851cc049809fb7cfb8e4ce9e3999c03"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.05,
+      "output": "7153/merge.txt"
+    },
+    {
+      "command": ["npm", "ci", "--no-audit", "--no-fund"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 48.75,
+      "output": "7153/install.txt"
+    },
+    {
+      "command": ["npm", "run", "build:server"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 20.39,
+      "output": "7153/build.txt"
+    },
+    {
+      "command": ["npm", "run", "build", "--workspace=@getpaseo/expo-two-way-audio"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.38,
+      "output": "7153/audio-build.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/components/desktop-sidebar-layout.test.ts",
+        "--bail=1",
+        "--maxWorkers=1",
+        "--project",
+        "unit"
+      ],
+      "cwd": "packages/app",
+      "exitCode": 0,
+      "seconds": 1.25,
+      "output": "7153/test-00.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/components/explorer-sidebar-layout.test.ts",
+        "--bail=1",
+        "--maxWorkers=1",
+        "--project",
+        "unit"
+      ],
+      "cwd": "packages/app",
+      "exitCode": 0,
+      "seconds": 0.48,
+      "output": "7153/test-01.txt"
+    },
+    {
+      "command": ["npm", "run", "format"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.87,
+      "output": "7153/format.txt"
+    },
+    {
+      "command": ["npm", "run", "lint"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.94,
+      "output": "7153/lint.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check", "--", ".", ":(exclude)patches/*.patch"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.03,
+      "output": "7153/diff-check-source.txt"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "commit",
+        "-F",
+        "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7153/commit-message.txt"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 11.31,
+      "output": "7153/commit-hooks.txt"
+    },
+    {
+      "command": ["git", "push", "luoph-fork", "HEAD:refs/heads/fix/android-pad-layout"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.73,
+      "output": "7153/push.txt"
+    }
+  ],
+  "sourceTree": "c15f97df8403c10aba12486f5ff82ae53629e234",
+  "head": "ca356293c57db754fb505a205c1ee89745bfc4bf",
+  "pushed": true,
+  "readback": {
+    "baseRefName": "main",
+    "headRefOid": "ca356293c57db754fb505a205c1ee89745bfc4bf",
+    "state": "OPEN"
+  }
+}

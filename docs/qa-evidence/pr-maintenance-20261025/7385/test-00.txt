@@ -1,0 +1,10 @@
+$ npx vitest run src/screens/workspace/workspace-tab-layout.test.ts --bail=1 --maxWorkers=1 --project unit
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+   Start at  18:26:25
+   Duration  1.04s (transform 725ms, setup 17ms, import 961ms, tests 5ms, environment 0ms)
+

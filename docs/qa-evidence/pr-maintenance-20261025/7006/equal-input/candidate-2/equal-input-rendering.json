@@ -1,0 +1,304 @@
+{
+  "markdown": "### Block 0\n\n```ts\nconst value_0_0 = 0;\nconst value_0_1 = 1;\nconst value_0_2 = 2;\nconst value_0_3 = 3;\nconst value_0_4 = 4;\nconst value_0_5 = 5;\nconst value_0_6 = 6;\nconst value_0_7 = 7;\nconst value_0_8 = 8;\nconst value_0_9 = 9;\nconst value_0_10 = 10;\nconst value_0_11 = 11;\n```\n\n### Block 1\n\n```ts\nconst value_1_0 = 12;\nconst value_1_1 = 13;\nconst value_1_2 = 14;\nconst value_1_3 = 15;\nconst value_1_4 = 16;\nconst value_1_5 = 17;\nconst value_1_6 = 18;\nconst value_1_7 = 19;\nconst value_1_8 = 20;\nconst value_1_9 = 21;\nconst value_1_10 = 22;\nconst value_1_11 = 23;\n```\n\n### Block 2\n\n```ts\nconst value_2_0 = 24;\nconst value_2_1 = 25;\nconst value_2_2 = 26;\nconst value_2_3 = 27;\nconst value_2_4 = 28;\nconst value_2_5 = 29;\nconst value_2_6 = 30;\nconst value_2_7 = 31;\nconst value_2_8 = 32;\nconst value_2_9 = 33;\nconst value_2_10 = 34;\nconst value_2_11 = 35;\n```\n\n### Block 3\n\n```ts\nconst value_3_0 = 36;\nconst value_3_1 = 37;\nconst value_3_2 = 38;\nconst value_3_3 = 39;\nconst value_3_4 = 40;\nconst value_3_5 = 41;\nconst value_3_6 = 42;\nconst value_3_7 = 43;\nconst value_3_8 = 44;\nconst value_3_9 = 45;\nconst value_3_10 = 46;\nconst value_3_11 = 47;\n```\n\n### Block 4\n\n```ts\nconst value_4_0 = 48;\nconst value_4_1 = 49;\nconst value_4_2 = 50;\nconst value_4_3 = 51;\nconst value_4_4 = 52;\nconst value_4_5 = 53;\nconst value_4_6 = 54;\nconst value_4_7 = 55;\nconst value_4_8 = 56;\nconst value_4_9 = 57;\nconst value_4_10 = 58;\nconst value_4_11 = 59;\n```\n\n### Block 5\n\n```ts\nconst value_5_0 = 60;\nconst value_5_1 = 61;\nconst value_5_2 = 62;\nconst value_5_3 = 63;\nconst value_5_4 = 64;\nconst value_5_5 = 65;\nconst value_5_6 = 66;\nconst value_5_7 = 67;\nconst value_5_8 = 68;\nconst value_5_9 = 69;\nconst value_5_10 = 70;\nconst value_5_11 = 71;\n```\n\n### Block 6\n\n```ts\nconst value_6_0 = 72;\nconst value_6_1 = 73;\nconst value_6_2 = 74;\nconst value_6_3 = 75;\nconst value_6_4 = 76;\nconst value_6_5 = 77;\nconst value_6_6 = 78;\nconst value_6_7 = 79;\nconst value_6_8 = 80;\nconst value_6_9 = 81;\nconst value_6_10 = 82;\nconst value_6_11 = 83;\n```\n\n### Block 7\n\n```ts\nconst value_7_0 = 84;\nconst value_7_1 = 85;\nconst value_7_2 = 86;\nconst value_7_3 = 87;\nconst value_7_4 = 88;\nconst value_7_5 = 89;\nconst value_7_6 = 90;\nconst value_7_7 = 91;\nconst value_7_8 = 92;\nconst value_7_9 = 93;\nconst value_7_10 = 94;\nconst value_7_11 = 95;\n```\n\n### Block 8\n\n```ts\nconst value_8_0 = 96;\nconst value_8_1 = 97;\nconst value_8_2 = 98;\nconst value_8_3 = 99;\nconst value_8_4 = 100;\nconst value_8_5 = 101;\nconst value_8_6 = 102;\nconst value_8_7 = 103;\nconst value_8_8 = 104;\nconst value_8_9 = 105;\nconst value_8_10 = 106;\nconst value_8_11 = 107;\n```\n\n### Block 9\n\n```ts\nconst value_9_0 = 108;\nconst value_9_1 = 109;\nconst value_9_2 = 110;\nconst value_9_3 = 111;\nconst value_9_4 = 112;\nconst value_9_5 = 113;\nconst value_9_6 = 114;\nconst value_9_7 = 115;\nconst value_9_8 = 116;\nconst value_9_9 = 117;\nconst value_9_10 = 118;\nconst value_9_11 = 119;\n```\n\n### Block 10\n\n```ts\nconst value_10_0 = 120;\nconst value_10_1 = 121;\nconst value_10_2 = 122;\nconst value_10_3 = 123;\nconst value_10_4 = 124;\nconst value_10_5 = 125;\nconst value_10_6 = 126;\nconst value_10_7 = 127;\nconst value_10_8 = 128;\nconst value_10_9 = 129;\nconst value_10_10 = 130;\nconst value_10_11 = 131;\n```\n\n### Block 11\n\n```ts\nconst value_11_0 = 132;\nconst value_11_1 = 133;\nconst value_11_2 = 134;\nconst value_11_3 = 135;\nconst value_11_4 = 136;\nconst value_11_5 = 137;\nconst value_11_6 = 138;\nconst value_11_7 = 139;\nconst value_11_8 = 140;\nconst value_11_9 = 141;\nconst value_11_10 = 142;\nconst value_11_11 = 143;\n```\n\n### Block 12\n\n```ts\nconst value_12_0 = 144;\nconst value_12_1 = 145;\nconst value_12_2 = 146;\nconst value_12_3 = 147;\nconst value_12_4 = 148;\nconst value_12_5 = 149;\nconst value_12_6 = 150;\nconst value_12_7 = 151;\nconst value_12_8 = 152;\nconst value_12_9 = 153;\nconst value_12_10 = 154;\nconst value_12_11 = 155;\n```\n\n### Block 13\n\n```ts\nconst value_13_0 = 156;\nconst value_13_1 = 157;\nconst value_13_2 = 158;\nconst value_13_3 = 159;\nconst value_13_4 = 160;\nconst value_13_5 = 161;\nconst value_13_6 = 162;\nconst value_13_7 = 163;\nconst value_13_8 = 164;\nconst value_13_9 = 165;\nconst value_13_10 = 166;\nconst value_13_11 = 167;\n```\n\n### Block 14\n\n```ts\nconst value_14_0 = 168;\nconst value_14_1 = 169;\nconst value_14_2 = 170;\nconst value_14_3 = 171;\nconst value_14_4 = 172;\nconst value_14_5 = 173;\nconst value_14_6 = 174;\nconst value_14_7 = 175;\nconst value_14_8 = 176;\nconst value_14_9 = 177;\nconst value_14_10 = 178;\nconst value_14_11 = 179;\n```\n\nEqual-input stream complete.",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "intervalMs": 5,
+  "frameCount": 410,
+  "frameP95Ms": 18.5,
+  "maxFrameMs": 50,
+  "longTasksMs": [],
+  "before": [
+    {
+      "name": "Timestamp",
+      "value": 358125.711199
+    },
+    {
+      "name": "AudioHandlers",
+      "value": 0
+    },
+    {
+      "name": "AudioWorkletProcessors",
+      "value": 0
+    },
+    {
+      "name": "Documents",
+      "value": 3
+    },
+    {
+      "name": "Frames",
+      "value": 2
+    },
+    {
+      "name": "JSEventListeners",
+      "value": 739
+    },
+    {
+      "name": "LayoutObjects",
+      "value": 457
+    },
+    {
+      "name": "MediaKeySessions",
+      "value": 0
+    },
+    {
+      "name": "MediaKeys",
+      "value": 0
+    },
+    {
+      "name": "Nodes",
+      "value": 3181
+    },
+    {
+      "name": "Resources",
+      "value": 4
+    },
+    {
+      "name": "ContextLifecycleStateObservers",
+      "value": 22
+    },
+    {
+      "name": "V8PerContextDatas",
+      "value": 2
+    },
+    {
+      "name": "WorkerGlobalScopes",
+      "value": 0
+    },
+    {
+      "name": "UACSSResources",
+      "value": 0
+    },
+    {
+      "name": "RTCPeerConnections",
+      "value": 0
+    },
+    {
+      "name": "ResourceFetchers",
+      "value": 3
+    },
+    {
+      "name": "AdSubframes",
+      "value": 0
+    },
+    {
+      "name": "DetachedScriptStates",
+      "value": 1
+    },
+    {
+      "name": "ArrayBufferContents",
+      "value": 122
+    },
+    {
+      "name": "LayoutCount",
+      "value": 0
+    },
+    {
+      "name": "RecalcStyleCount",
+      "value": 0
+    },
+    {
+      "name": "LayoutDuration",
+      "value": 0
+    },
+    {
+      "name": "RecalcStyleDuration",
+      "value": 0
+    },
+    {
+      "name": "DevToolsCommandDuration",
+      "value": 7e-6
+    },
+    {
+      "name": "ScriptDuration",
+      "value": 0
+    },
+    {
+      "name": "V8CompileDuration",
+      "value": 0
+    },
+    {
+      "name": "TaskDuration",
+      "value": 9e-6
+    },
+    {
+      "name": "TaskOtherDuration",
+      "value": 2e-6
+    },
+    {
+      "name": "ThreadTime",
+      "value": 3.1e-5
+    },
+    {
+      "name": "ProcessTime",
+      "value": 2.521969
+    },
+    {
+      "name": "JSHeapUsedSize",
+      "value": 116236716
+    },
+    {
+      "name": "JSHeapTotalSize",
+      "value": 181272576
+    },
+    {
+      "name": "FirstMeaningfulPaint",
+      "value": 0
+    },
+    {
+      "name": "DomContentLoaded",
+      "value": 358124.321023
+    },
+    {
+      "name": "NavigationStart",
+      "value": 358123.517874
+    }
+  ],
+  "after": [
+    {
+      "name": "Timestamp",
+      "value": 358132.619857
+    },
+    {
+      "name": "AudioHandlers",
+      "value": 0
+    },
+    {
+      "name": "AudioWorkletProcessors",
+      "value": 0
+    },
+    {
+      "name": "Documents",
+      "value": 2
+    },
+    {
+      "name": "Frames",
+      "value": 2
+    },
+    {
+      "name": "JSEventListeners",
+      "value": 725
+    },
+    {
+      "name": "LayoutObjects",
+      "value": 3775
+    },
+    {
+      "name": "MediaKeySessions",
+      "value": 0
+    },
+    {
+      "name": "MediaKeys",
+      "value": 0
+    },
+    {
+      "name": "Nodes",
+      "value": 8534
+    },
+    {
+      "name": "Resources",
+      "value": 2
+    },
+    {
+      "name": "ContextLifecycleStateObservers",
+      "value": 19
+    },
+    {
+      "name": "V8PerContextDatas",
+      "value": 2
+    },
+    {
+      "name": "WorkerGlobalScopes",
+      "value": 0
+    },
+    {
+      "name": "UACSSResources",
+      "value": 0
+    },
+    {
+      "name": "RTCPeerConnections",
+      "value": 0
+    },
+    {
+      "name": "ResourceFetchers",
+      "value": 2
+    },
+    {
+      "name": "AdSubframes",
+      "value": 0
+    },
+    {
+      "name": "DetachedScriptStates",
+      "value": 1
+    },
+    {
+      "name": "ArrayBufferContents",
+      "value": 104
+    },
+    {
+      "name": "LayoutCount",
+      "value": 432
+    },
+    {
+      "name": "RecalcStyleCount",
+      "value": 868
+    },
+    {
+      "name": "LayoutDuration",
+      "value": 0.07872
+    },
+    {
+      "name": "RecalcStyleDuration",
+      "value": 0.340976
+    },
+    {
+      "name": "DevToolsCommandDuration",
+      "value": 0.086383
+    },
+    {
+      "name": "ScriptDuration",
+      "value": 2.176499
+    },
+    {
+      "name": "V8CompileDuration",
+      "value": 0
+    },
+    {
+      "name": "TaskDuration",
+      "value": 3.106715
+    },
+    {
+      "name": "TaskOtherDuration",
+      "value": 0.424137
+    },
+    {
+      "name": "ThreadTime",
+      "value": 3.234856
+    },
+    {
+      "name": "ProcessTime",
+      "value": 6.787773
+    },
+    {
+      "name": "JSHeapUsedSize",
+      "value": 160644528
+    },
+    {
+      "name": "JSHeapTotalSize",
+      "value": 271876096
+    },
+    {
+      "name": "FirstMeaningfulPaint",
+      "value": 358125.222608
+    },
+    {
+      "name": "DomContentLoaded",
+      "value": 358124.321023
+    },
+    {
+      "name": "NavigationStart",
+      "value": 358123.517874
+    }
+  ]
+}

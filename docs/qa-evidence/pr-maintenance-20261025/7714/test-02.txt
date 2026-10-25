@@ -1,0 +1,10 @@
+$ npx vitest run src/server/agent/providers/claude/subagents/live-source.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  53 passed (53)
+   Start at  18:11:25
+   Duration  255ms (transform 79ms, setup 35ms, import 68ms, tests 14ms, environment 0ms)
+

@@ -1,0 +1,10 @@
+$ npx vitest run src/hooks/use-settings/storage.test.ts --bail=1 --maxWorkers=1 --project unit
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  113 passed (113)
+   Start at  18:37:28
+   Duration  868ms (transform 582ms, setup 20ms, import 769ms, tests 17ms, environment 0ms)
+

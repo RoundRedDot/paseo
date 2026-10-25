@@ -1,0 +1,182 @@
+[
+  {
+    "label": "baseline-1",
+    "exitCode": 0,
+    "seconds": 24.1,
+    "sourceHead": "1ed1ec018df61c4f0da8822645c1a6db0532a699",
+    "baseline": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+    "substitutedFiles": {
+      "packages/app/src/agent-stream/text-reveal.ts": "8c4c632834a1b75022130e6305d4a2c0d5459a2b01232bf3a4646a6ae5303d9c",
+      "packages/app/src/hooks/use-revealed-text.ts": "52f91ba7c17b3b88b25f4a62b6622fdadc716c576732f7928d6bc3902eabb618"
+    },
+    "command": [
+      "npm",
+      "run",
+      "test:e2e",
+      "--",
+      "e2e/browser/agent-stream-closing-fence.spec.ts",
+      "--grep",
+      "records equal-input long-reply rendering metrics",
+      "--workers=1",
+      "--retries=0",
+      "--output",
+      "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/baseline-1",
+      "--reporter=json"
+    ],
+    "sampleFinishedAt": "2026-10-25T10:46:01.553173+00:00",
+    "loadAfter": [6.173828125, 9.49853515625, 10.92529296875],
+    "fixtureSha256": "76a96f9cbae31ab8ca1fe8e59ee7c7f8290ca0e3f4c7d770893032199ce24510",
+    "characters": 4513,
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "intervalMs": 5,
+    "frameCount": 406,
+    "frameP95Ms": 18.400000000000546,
+    "maxFrameMs": 66.69999999999891,
+    "longTasksMs": [],
+    "deltas": {
+      "TaskDuration": 2.938741,
+      "ScriptDuration": 2.074118,
+      "LayoutDuration": 0.078497,
+      "RecalcStyleDuration": 0.279895
+    },
+    "extraction": "Decoded the application/json attachment embedded by Playwright JSON reporter; the original encoded body remains in command output."
+  },
+  {
+    "label": "candidate-1",
+    "exitCode": 0,
+    "seconds": 19.31,
+    "sourceHead": "1ed1ec018df61c4f0da8822645c1a6db0532a699",
+    "baseline": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+    "substitutedFiles": {
+      "packages/app/src/agent-stream/text-reveal.ts": "da78b4e82e2a3ece25ff3ec1fcd5f55ab34910fe6b56c82b3f9c7d39122f16d7",
+      "packages/app/src/hooks/use-revealed-text.ts": "63f1df3aa7166c96d2814b12e79e6fe7270667326d4992260fb8e3b9a9108b73"
+    },
+    "command": [
+      "npm",
+      "run",
+      "test:e2e",
+      "--",
+      "e2e/browser/agent-stream-closing-fence.spec.ts",
+      "--grep",
+      "records equal-input long-reply rendering metrics",
+      "--workers=1",
+      "--retries=0",
+      "--output",
+      "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/candidate-1",
+      "--reporter=json"
+    ],
+    "sampleFinishedAt": "2026-10-25T10:46:20.861206+00:00",
+    "loadAfter": [6.20751953125, 9.27490234375, 10.810546875],
+    "fixtureSha256": "76a96f9cbae31ab8ca1fe8e59ee7c7f8290ca0e3f4c7d770893032199ce24510",
+    "characters": 4513,
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "intervalMs": 5,
+    "frameCount": 412,
+    "frameP95Ms": 18.200000000000273,
+    "maxFrameMs": 50,
+    "longTasksMs": [],
+    "deltas": {
+      "TaskDuration": 2.996966,
+      "ScriptDuration": 2.132488,
+      "LayoutDuration": 0.076455,
+      "RecalcStyleDuration": 0.304942
+    },
+    "extraction": "Decoded the application/json attachment embedded by Playwright JSON reporter; the original encoded body remains in command output."
+  },
+  {
+    "label": "candidate-2",
+    "exitCode": 0,
+    "seconds": 19.22,
+    "sourceHead": "1ed1ec018df61c4f0da8822645c1a6db0532a699",
+    "baseline": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+    "substitutedFiles": {
+      "packages/app/src/agent-stream/text-reveal.ts": "da78b4e82e2a3ece25ff3ec1fcd5f55ab34910fe6b56c82b3f9c7d39122f16d7",
+      "packages/app/src/hooks/use-revealed-text.ts": "63f1df3aa7166c96d2814b12e79e6fe7270667326d4992260fb8e3b9a9108b73"
+    },
+    "command": [
+      "npm",
+      "run",
+      "test:e2e",
+      "--",
+      "e2e/browser/agent-stream-closing-fence.spec.ts",
+      "--grep",
+      "records equal-input long-reply rendering metrics",
+      "--workers=1",
+      "--retries=0",
+      "--output",
+      "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/candidate-2",
+      "--reporter=json"
+    ],
+    "sampleFinishedAt": "2026-10-25T10:46:40.083887+00:00",
+    "loadAfter": [5.89990234375, 8.99853515625, 10.6748046875],
+    "fixtureSha256": "76a96f9cbae31ab8ca1fe8e59ee7c7f8290ca0e3f4c7d770893032199ce24510",
+    "characters": 4513,
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "intervalMs": 5,
+    "frameCount": 410,
+    "frameP95Ms": 18.5,
+    "maxFrameMs": 50,
+    "longTasksMs": [],
+    "deltas": {
+      "TaskDuration": 3.106706,
+      "ScriptDuration": 2.176499,
+      "LayoutDuration": 0.07872,
+      "RecalcStyleDuration": 0.340976
+    },
+    "extraction": "Decoded the application/json attachment embedded by Playwright JSON reporter; the original encoded body remains in command output."
+  },
+  {
+    "label": "baseline-2",
+    "exitCode": 0,
+    "seconds": 19.76,
+    "sourceHead": "1ed1ec018df61c4f0da8822645c1a6db0532a699",
+    "baseline": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+    "substitutedFiles": {
+      "packages/app/src/agent-stream/text-reveal.ts": "8c4c632834a1b75022130e6305d4a2c0d5459a2b01232bf3a4646a6ae5303d9c",
+      "packages/app/src/hooks/use-revealed-text.ts": "52f91ba7c17b3b88b25f4a62b6622fdadc716c576732f7928d6bc3902eabb618"
+    },
+    "command": [
+      "npm",
+      "run",
+      "test:e2e",
+      "--",
+      "e2e/browser/agent-stream-closing-fence.spec.ts",
+      "--grep",
+      "records equal-input long-reply rendering metrics",
+      "--workers=1",
+      "--retries=0",
+      "--output",
+      "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/baseline-2",
+      "--reporter=json"
+    ],
+    "sampleFinishedAt": "2026-10-25T10:46:59.844591+00:00",
+    "loadAfter": [11.833984375, 10.083984375, 11.02001953125],
+    "fixtureSha256": "76a96f9cbae31ab8ca1fe8e59ee7c7f8290ca0e3f4c7d770893032199ce24510",
+    "characters": 4513,
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "intervalMs": 5,
+    "frameCount": 410,
+    "frameP95Ms": 18.5,
+    "maxFrameMs": 49.09999999999991,
+    "longTasksMs": [],
+    "deltas": {
+      "TaskDuration": 3.2524480000000002,
+      "ScriptDuration": 2.380382,
+      "LayoutDuration": 0.085101,
+      "RecalcStyleDuration": 0.2639
+    },
+    "extraction": "Decoded the application/json attachment embedded by Playwright JSON reporter; the original encoded body remains in command output."
+  }
+]

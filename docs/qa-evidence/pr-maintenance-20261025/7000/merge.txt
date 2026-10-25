@@ -1,0 +1,4 @@
+$ git -c user.name=luke -c user.email=luopeihuan@gmail.com merge --no-ff --no-commit 4845e1da5851cc049809fb7cfb8e4ce9e3999c03
+Auto-merging packages/server/src/server/agent/providers/claude/agent.history-load.test.ts
+Auto-merging packages/server/src/server/agent/providers/claude/agent.ts
+Automatic merge went well; stopped before committing as requested

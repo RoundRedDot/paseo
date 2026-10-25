@@ -1,0 +1,33 @@
+import pathlib,subprocess,json,concurrent.futures,datetime
+WT=pathlib.Path('/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025')
+OUT=WT/'.dev/pr-maintenance-20261025'
+rows=json.loads((OUT/'results.json').read_text())
+def gh(*args):return json.loads(subprocess.check_output(['gh',*args],cwd=WT,text=True))
+def details(batch):
+ fields='number state headRefOid headRef{target{oid}} baseRefName mergeable reviewDecision updatedAt reviewThreads(first:100){pageInfo{hasNextPage} nodes{isResolved isOutdated path}} reviews(last:30){nodes{author{login}state commit{oid} submittedAt url}}'
+ q='{repository(owner:"getpaseo",name:"paseo"){'+''.join('p%d:pullRequest(number:%d){%s}'%(r['number'],r['number'],fields) for r in batch)+'}}'
+ d=gh('api','graphql','-f','query='+q)
+ if 'errors' in d:raise RuntimeError('GraphQL errors')
+ return list(d['data']['repository'].values())
+with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+ prs=sum(list(pool.map(details,[rows[i:i+7] for i in range(0,len(rows),7)])),[])
+def workflows(r):
+ d=gh('api','repos/getpaseo/paseo/actions/runs?event=pull_request&head_sha='+r['head']+'&per_page=100')
+ runs=[]
+ for x in d['workflow_runs']:
+  entry={k:x.get(k) for k in ['id','name','head_sha','status','conclusion','html_url','created_at']}
+  jobs=gh('api','repos/getpaseo/paseo/actions/runs/'+str(x['id'])+'/jobs?per_page=100')
+  entry['jobs']=jobs['total_count'];entry['jobConclusions']=[{'name':j['name'],'conclusion':j['conclusion']} for j in jobs['jobs']]
+  runs.append(entry)
+ return {'number':r['number'],'head':r['head'],'runs':runs,'total':d['total_count']}
+with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:runs=list(pool.map(workflows,rows))
+now=datetime.datetime.now(datetime.timezone.utc).isoformat()
+main=gh('api','repos/getpaseo/paseo/commits/main')['sha']
+data={'checkedAt':now,'frozenBase':rows[0]['base'],'upstreamMainAtReadback':main,'prs':prs,'workflows':runs}
+(OUT/'delivery-snapshot.json').write_text(json.dumps(data,indent=2))
+print('SNAPSHOT',len(prs),'main',main)
+for p in prs:
+ r=next(r for r in rows if r['number']==p['number'])
+ if p['headRef']['target']['oid']!=r['head']:print('BRANCH DRIFT',p['number'])
+ if p['headRefOid']!=r['head']:print('PR METADATA PENDING',p['number'])
+print('CI',[(r['number'],[(w['conclusion'],w['jobs']) for w in r['runs']]) for r in runs])

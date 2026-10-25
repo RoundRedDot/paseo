@@ -1,0 +1,1 @@
+$ xcrun clang -fobjc-arc -framework Foundation -I packages/app/node_modules/react-native-enriched-markdown/ios/utils packages/app/native-tests/markdown-block-selection.m -o /tmp/paseo-update-markdown-block-selection

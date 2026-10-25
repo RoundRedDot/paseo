@@ -1,0 +1,9 @@
+{
+  "os": "27.0.1",
+  "architecture": "arm64",
+  "cpu": "Apple M5 Pro",
+  "node": "v24.18.0",
+  "sourceHead": "1ed1ec018df61c4f0da8822645c1a6db0532a699",
+  "baseline": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "execution": "local macOS development browser; not Mac Studio/native/release acceptance"
+}

@@ -1,0 +1,10 @@
+$ npx vitest run src/types/stream.test.ts --bail=1 --maxWorkers=1 --project unit
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  69 passed (69)
+   Start at  18:17:16
+   Duration  171ms (transform 71ms, setup 18ms, import 82ms, tests 8ms, environment 0ms)
+

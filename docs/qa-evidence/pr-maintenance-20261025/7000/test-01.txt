@@ -1,0 +1,10 @@
+$ npx vitest run src/server/agent/providers/claude/agent.history.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/server
+
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  18:09:44
+   Duration  350ms (transform 183ms, setup 16ms, import 270ms, tests 3ms, environment 0ms)
+

@@ -1,0 +1,106 @@
+{
+  "number": 7625,
+  "oldHead": "a460eb2c96975621f5c6cf7e83cc5d918936b6ab",
+  "base": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "workspaceId": "wks_4df79ebdc808d70f",
+  "overlap": [],
+  "checks": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "4845e1da5851cc049809fb7cfb8e4ce9e3999c03"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.06,
+      "output": "7625/merge.txt"
+    },
+    {
+      "command": ["npm", "run", "build:server"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 18.82,
+      "output": "7625/build.txt"
+    },
+    {
+      "command": ["npm", "run", "build", "--workspace=@getpaseo/expo-two-way-audio"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.38,
+      "output": "7625/audio-build.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/server/plugins/compiler.test.ts",
+        "--bail=1",
+        "--maxWorkers=1"
+      ],
+      "cwd": "packages/server",
+      "exitCode": 0,
+      "seconds": 4.13,
+      "output": "7625/test-00.txt"
+    },
+    {
+      "command": ["npm", "run", "format"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.4,
+      "output": "7625/format.txt"
+    },
+    {
+      "command": ["npm", "run", "lint"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.93,
+      "output": "7625/lint.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check", "--", ".", ":(exclude)patches/*.patch"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.02,
+      "output": "7625/diff-check-source.txt"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "commit",
+        "-F",
+        "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7625/commit-message.txt"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 10.28,
+      "output": "7625/commit-hooks.txt"
+    },
+    {
+      "command": ["git", "push", "fork", "HEAD:refs/heads/perf/minify-plugin-client-bundle"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.75,
+      "output": "7625/push.txt"
+    }
+  ],
+  "sourceTree": "872821c804113037d61c21a6ac1e0e7ffac3aecd",
+  "head": "679130a7c30fdcf1c59b864680d1cd1fbf9b3bd8",
+  "pushed": true,
+  "readback": {
+    "baseRefName": "main",
+    "headRefOid": "679130a7c30fdcf1c59b864680d1cd1fbf9b3bd8",
+    "state": "OPEN"
+  }
+}

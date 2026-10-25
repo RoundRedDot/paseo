@@ -1,0 +1,331 @@
+$ npm run test:e2e -- e2e/browser/agent-stream-closing-fence.spec.ts --grep records equal-input long-reply rendering metrics --workers=1 --retries=0 --output /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/candidate-1 --reporter=json
+
+> @getpaseo/app@0.13.0 test:e2e
+> playwright test --project=browser e2e/browser/agent-stream-closing-fence.spec.ts --grep records equal-input long-reply rendering metrics --workers=1 --retries=0 --output /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/candidate-1 --reporter=json
+
+[metro] Skipping web setup: EXPO_NO_WEB_SETUP is enabled.
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Waiting on http://localhost:63782
+[metro] Logs for your project will appear below.
+[metro] | (node:23363) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] Web Bundled 1152ms packages/app/index.ts (5694 modules)
+[e2e] Metro warmed on port 63782
+[metro] Web Bundled 144ms packages/app/index.ts (1 module)
+[metro] Web  INFO  %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[metro] Web  LOG  Running application "main" with appParams:
+[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+[metro] Development-level warnings: ON.
+[metro] Performance optimizations: OFF.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+[metro] Web  WARN  props.pointerEvents is deprecated. Use style.pointerEvents
+[metro] Web Bundled 31ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
+[metro] Web  WARN  Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+[metro] Web  ERROR  
+[metro] Code: sidebar-menu-toggle.tsx
+[metro] [0m [90m 84 |[39m       accessibilityState[33m=[39m{accessibilityState}
+[metro]  [90m 85 |[39m     [33m>[39m
+[metro] [31m[1m>[22m[39m[90m 86 |[39m       {isMobile [33m?[39m (
+[metro]  [90m    |[39m        [31m[1m^[22m[39m
+[metro]  [90m 87 |[39m         [33m<[39m[33mMobileMenuIcon[39m extraMuted[33m=[39m{extraMutedIdleIcon} [33m/[39m[33m>[39m
+[metro]  [90m 88 |[39m       ) [33m:[39m (
+[metro]  [90m 89 |[39m         [33m<[39m[33mThemedPanelLeft[39m[0m
+[metro] Call Stack
+[metro]   SidebarMenuToggleButton (packages/app/src/components/headers/sidebar-menu-toggle.tsx:86:8)
+[metro]   SidebarMenuToggle (packages/app/src/components/headers/sidebar-menu-toggle.tsx:121:10)
+[metro]   MenuHeader (packages/app/src/components/headers/menu-header.tsx:24:11)
+[metro]   WorkspaceScreenGateFrame (packages/app/src/screens/workspace/workspace-screen.tsx:756:7)
+[metro]   renderWorkspaceScreenGateShell (packages/app/src/screens/workspace/workspace-screen.tsx:816:13)
+[metro]   WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3165:32)
+[metro]   WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)
+[metro]   WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)
+[metro]   renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)
+[metro]   WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)
+[metro]   HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)
+[metro]   HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)
+[metro]   HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:793:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:839:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:893:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:913:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+[metro] Web  ERROR  
+[metro] Code: context-window-meter.tsx
+[metro] [0m [90m 109 |[39m   [36mconst[39m circumference [33m=[39m [35m2[39m [33m*[39m [33mMath[39m[33m.[39m[33mPI[39m [33m*[39m radius[33m;[39m
+[metro]  [90m 110 |[39m   [36mreturn[39m (
+[metro] [31m[1m>[22m[39m[90m 111 |[39m     [33m<[39m[33mSvg[39m
+[metro]  [90m     |[39m     [31m[1m^[22m[39m
+[metro]  [90m 112 |[39m       width[33m=[39m{size}
+[metro]  [90m 113 |[39m       height[33m=[39m{size}
+[metro]  [90m 114 |[39m       viewBox[33m=[39m{[32m`0 0 ${size} ${size}`[39m}[0m
+[metro] Call Stack
+[metro]   ContextWindowRing (packages/app/src/components/context-window-meter.tsx:111:5)
+[metro]   ContextWindowMeter (packages/app/src/components/context-window-meter.tsx:186:5)
+[metro]   useMemo$argument_0 (packages/app/src/composer/index.tsx:2066:11)
+[metro]   ComposerContentImpl (packages/app/src/composer/index.tsx:2062:37)
+[metro]   Composer (packages/app/src/composer/index.tsx:1215:9)
+[metro]   ActiveAgentComposer (packages/app/src/panels/agent-panel.tsx:1578:7)
+[metro]   AgentComposerSection (packages/app/src/panels/agent-panel.tsx:1462:5)
+[metro]   ChatAgentReadyContent (packages/app/src/panels/agent-panel.tsx:1166:7)
+[metro]   ChatAgentContent (packages/app/src/panels/agent-panel.tsx:1012:5)
+[metro]   AgentPanelBody (packages/app/src/panels/agent-panel.tsx:654:5)
+[metro]   AgentPanelContent (packages/app/src/panels/agent-panel.tsx:499:5)
+[metro]   AgentPanel (packages/app/src/panels/agent-panel.tsx:312:7)
+[metro]   AgentConversationPanel (packages/app/src/panels/agent-panel.tsx:367:12)
+[metro]   WorkspacePaneContent (packages/app/src/screens/workspace/workspace-pane-content.tsx:164:13)
+[metro]   MountedTab (packages/app/src/screens/workspace/workspace-panel-host.tsx:55:9)
+[metro]   mountedIds.map$argument_0 (packages/app/src/screens/workspace/workspace-panel-host.tsx:126:7)
+[metro]   WorkspacePanelHost (packages/app/src/screens/workspace/workspace-panel-host.tsx:121:20)
+[metro]   SplitPaneView (packages/app/src/components/split-container.tsx:750:11)
+[metro]   SplitNodeView (packages/app/src/components/split-container.tsx:462:11)
+[metro]   node.group.children.map$argument_0 (packages/app/src/components/split-container.tsx:513:13)
+[metro]   SplitNodeView (packages/app/src/components/split-container.tsx:506:28)
+[metro]   SplitContainer (packages/app/src/components/split-container.tsx:241:14)
+[metro]   useMemo$argument_0 (packages/app/src/screens/workspace/workspace-screen.tsx:3445:7)
+[metro]   WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3440:38)
+[metro]   WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)
+[metro]   WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)
+[metro]   renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)
+[metro]   WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)
+[metro]   HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)
+[metro]   HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)
+[metro]   HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:793:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:839:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:893:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:913:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+[metro] Web  ERROR  
+[metro] Code: context-window-meter.tsx
+[metro] [0m [90m 109 |[39m   [36mconst[39m circumference [33m=[39m [35m2[39m [33m*[39m [33mMath[39m[33m.[39m[33mPI[39m [33m*[39m radius[33m;[39m
+[metro]  [90m 110 |[39m   [36mreturn[39m (
+[metro] [31m[1m>[22m[39m[90m 111 |[39m     [33m<[39m[33mSvg[39m
+[metro]  [90m     |[39m     [31m[1m^[22m[39m
+[metro]  [90m 112 |[39m       width[33m=[39m{size}
+[metro]  [90m 113 |[39m       height[33m=[39m{size}
+[metro]  [90m 114 |[39m       viewBox[33m=[39m{[32m`0 0 ${size} ${size}`[39m}[0m
+[metro] Call Stack
+[metro]   ContextWindowRing (packages/app/src/components/context-window-meter.tsx:111:5)
+[metro]   ContextWindowMeter (packages/app/src/components/context-window-meter.tsx:186:5)
+[metro]   useMemo$argument_0 (packages/app/src/composer/index.tsx:2066:11)
+[metro]   ComposerContentImpl (packages/app/src/composer/index.tsx:2062:37)
+[metro]   Composer (packages/app/src/composer/index.tsx:1215:9)
+[metro]   ActiveAgentComposer (packages/app/src/panels/agent-panel.tsx:1578:7)
+[metro]   AgentComposerSection (packages/app/src/panels/agent-panel.tsx:1462:5)
+[metro]   ChatAgentReadyContent (packages/app/src/panels/agent-panel.tsx:1166:7)
+[metro]   ChatAgentContent (packages/app/src/panels/agent-panel.tsx:1012:5)
+[metro]   AgentPanelBody (packages/app/src/panels/agent-panel.tsx:654:5)
+[metro]   AgentPanelContent (packages/app/src/panels/agent-panel.tsx:499:5)
+[metro]   AgentPanel (packages/app/src/panels/agent-panel.tsx:312:7)
+[metro]   AgentConversationPanel (packages/app/src/panels/agent-panel.tsx:367:12)
+[metro]   WorkspacePaneContent (packages/app/src/screens/workspace/workspace-pane-content.tsx:164:13)
+[metro]   MountedTab (packages/app/src/screens/workspace/workspace-panel-host.tsx:55:9)
+[metro]   mountedIds.map$argument_0 (packages/app/src/screens/workspace/workspace-panel-host.tsx:126:7)
+[metro]   WorkspacePanelHost (packages/app/src/screens/workspace/workspace-panel-host.tsx:121:20)
+[metro]   SplitPaneView (packages/app/src/components/split-container.tsx:750:11)
+[metro]   SplitNodeView (packages/app/src/components/split-container.tsx:462:11)
+[metro]   node.group.children.map$argument_0 (packages/app/src/components/split-container.tsx:513:13)
+[metro]   SplitNodeView (packages/app/src/components/split-container.tsx:506:28)
+[metro]   SplitContainer (packages/app/src/components/split-container.tsx:241:14)
+[metro]   useMemo$argument_0 (packages/app/src/screens/workspace/workspace-screen.tsx:3445:7)
+[metro]   WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3440:38)
+[metro]   WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)
+[metro]   WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)
+[metro]   renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)
+[metro]   WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)
+[metro]   HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)
+[metro]   HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)
+[metro]   HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)
+[metro]   ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)
+[metro]   RootStack (packages/app/src/app/_layout.tsx:793:5)
+[metro]   AppShell (packages/app/src/app/_layout.tsx:839:11)
+[metro]   RootAppTree (packages/app/src/app/_layout.tsx:893:15)
+[metro]   RootLayout (packages/app/src/app/_layout.tsx:913:10)
+[metro]   RootRouter (packages/app/src/root-app.tsx:35:15)
+[metro]   RootApp (packages/app/src/root-app.tsx:19:7)
+[e2e] Metro stopped
+{
+  "config": {
+    "configFile": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/playwright.config.ts",
+    "rootDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/e2e/browser",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/e2e/support/global-setup.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/candidate-1",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "browser",
+        "name": "browser",
+        "testDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/e2e/browser",
+        "testIgnore": [
+          "**/*.real.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/candidate-1",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "real-provider",
+        "name": "real-provider",
+        "testDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/e2e/browser",
+        "testIgnore": [
+          "**/relay-deployment-reconnect.real.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.real.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/candidate-1",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "relay-deployment",
+        "name": "relay-deployment",
+        "testDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/e2e/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/relay-deployment-reconnect.real.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "agent-stream-closing-fence.spec.ts",
+      "file": "agent-stream-closing-fence.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "records equal-input long-reply rendering metrics",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "browser",
+              "projectName": "browser",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9630,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "[e2e] Worker 0 daemon started on port 63825, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-0-vtUf7M\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-25T10:46:05.645Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "equal-input-rendering",
+                      "contentType": "application/json",
+                      "body": "ewogICJtYXJrZG93biI6ICIjIyMgQmxvY2sgMFxuXG5gYGB0c1xuY29uc3QgdmFsdWVfMF8wID0gMDtcbmNvbnN0IHZhbHVlXzBfMSA9IDE7XG5jb25zdCB2YWx1ZV8wXzIgPSAyO1xuY29uc3QgdmFsdWVfMF8zID0gMztcbmNvbnN0IHZhbHVlXzBfNCA9IDQ7XG5jb25zdCB2YWx1ZV8wXzUgPSA1O1xuY29uc3QgdmFsdWVfMF82ID0gNjtcbmNvbnN0IHZhbHVlXzBfNyA9IDc7XG5jb25zdCB2YWx1ZV8wXzggPSA4O1xuY29uc3QgdmFsdWVfMF85ID0gOTtcbmNvbnN0IHZhbHVlXzBfMTAgPSAxMDtcbmNvbnN0IHZhbHVlXzBfMTEgPSAxMTtcbmBgYFxuXG4jIyMgQmxvY2sgMVxuXG5gYGB0c1xuY29uc3QgdmFsdWVfMV8wID0gMTI7XG5jb25zdCB2YWx1ZV8xXzEgPSAxMztcbmNvbnN0IHZhbHVlXzFfMiA9IDE0O1xuY29uc3QgdmFsdWVfMV8zID0gMTU7XG5jb25zdCB2YWx1ZV8xXzQgPSAxNjtcbmNvbnN0IHZhbHVlXzFfNSA9IDE3O1xuY29uc3QgdmFsdWVfMV82ID0gMTg7XG5jb25zdCB2YWx1ZV8xXzcgPSAxOTtcbmNvbnN0IHZhbHVlXzFfOCA9IDIwO1xuY29uc3QgdmFsdWVfMV85ID0gMjE7XG5jb25zdCB2YWx1ZV8xXzEwID0gMjI7XG5jb25zdCB2YWx1ZV8xXzExID0gMjM7XG5gYGBcblxuIyMjIEJsb2NrIDJcblxuYGBgdHNcbmNvbnN0IHZhbHVlXzJfMCA9IDI0O1xuY29uc3QgdmFsdWVfMl8xID0gMjU7XG5jb25zdCB2YWx1ZV8yXzIgPSAyNjtcbmNvbnN0IHZhbHVlXzJfMyA9IDI3O1xuY29uc3QgdmFsdWVfMl80ID0gMjg7XG5jb25zdCB2YWx1ZV8yXzUgPSAyOTtcbmNvbnN0IHZhbHVlXzJfNiA9IDMwO1xuY29uc3QgdmFsdWVfMl83ID0gMzE7XG5jb25zdCB2YWx1ZV8yXzggPSAzMjtcbmNvbnN0IHZhbHVlXzJfOSA9IDMzO1xuY29uc3QgdmFsdWVfMl8xMCA9IDM0O1xuY29uc3QgdmFsdWVfMl8xMSA9IDM1O1xuYGBgXG5cbiMjIyBCbG9jayAzXG5cbmBgYHRzXG5jb25zdCB2YWx1ZV8zXzAgPSAzNjtcbmNvbnN0IHZhbHVlXzNfMSA9IDM3O1xuY29uc3QgdmFsdWVfM18yID0gMzg7XG5jb25zdCB2YWx1ZV8zXzMgPSAzOTtcbmNvbnN0IHZhbHVlXzNfNCA9IDQwO1xuY29uc3QgdmFsdWVfM181ID0gNDE7XG5jb25zdCB2YWx1ZV8zXzYgPSA0MjtcbmNvbnN0IHZhbHVlXzNfNyA9IDQzO1xuY29uc3QgdmFsdWVfM184ID0gNDQ7XG5jb25zdCB2YWx1ZV8zXzkgPSA0NTtcbmNvbnN0IHZhbHVlXzNfMTAgPSA0NjtcbmNvbnN0IHZhbHVlXzNfMTEgPSA0NztcbmBgYFxuXG4jIyMgQmxvY2sgNFxuXG5gYGB0c1xuY29uc3QgdmFsdWVfNF8wID0gNDg7XG5jb25zdCB2YWx1ZV80XzEgPSA0OTtcbmNvbnN0IHZhbHVlXzRfMiA9IDUwO1xuY29uc3QgdmFsdWVfNF8zID0gNTE7XG5jb25zdCB2YWx1ZV80XzQgPSA1MjtcbmNvbnN0IHZhbHVlXzRfNSA9IDUzO1xuY29uc3QgdmFsdWVfNF82ID0gNTQ7XG5jb25zdCB2YWx1ZV80XzcgPSA1NTtcbmNvbnN0IHZhbHVlXzRfOCA9IDU2O1xuY29uc3QgdmFsdWVfNF85ID0gNTc7XG5jb25zdCB2YWx1ZV80XzEwID0gNTg7XG5jb25zdCB2YWx1ZV80XzExID0gNTk7XG5gYGBcblxuIyMjIEJsb2NrIDVcblxuYGBgdHNcbmNvbnN0IHZhbHVlXzVfMCA9IDYwO1xuY29uc3QgdmFsdWVfNV8xID0gNjE7XG5jb25zdCB2YWx1ZV81XzIgPSA2MjtcbmNvbnN0IHZhbHVlXzVfMyA9IDYzO1xuY29uc3QgdmFsdWVfNV80ID0gNjQ7XG5jb25zdCB2YWx1ZV81XzUgPSA2NTtcbmNvbnN0IHZhbHVlXzVfNiA9IDY2O1xuY29uc3QgdmFsdWVfNV83ID0gNjc7XG5jb25zdCB2YWx1ZV81XzggPSA2ODtcbmNvbnN0IHZhbHVlXzVfOSA9IDY5O1xuY29uc3QgdmFsdWVfNV8xMCA9IDcwO1xuY29uc3QgdmFsdWVfNV8xMSA9IDcxO1xuYGBgXG5cbiMjIyBCbG9jayA2XG5cbmBgYHRzXG5jb25zdCB2YWx1ZV82XzAgPSA3MjtcbmNvbnN0IHZhbHVlXzZfMSA9IDczO1xuY29uc3QgdmFsdWVfNl8yID0gNzQ7XG5jb25zdCB2YWx1ZV82XzMgPSA3NTtcbmNvbnN0IHZhbHVlXzZfNCA9IDc2O1xuY29uc3QgdmFsdWVfNl81ID0gNzc7XG5jb25zdCB2YWx1ZV82XzYgPSA3ODtcbmNvbnN0IHZhbHVlXzZfNyA9IDc5O1xuY29uc3QgdmFsdWVfNl84ID0gODA7XG5jb25zdCB2YWx1ZV82XzkgPSA4MTtcbmNvbnN0IHZhbHVlXzZfMTAgPSA4MjtcbmNvbnN0IHZhbHVlXzZfMTEgPSA4MztcbmBgYFxuXG4jIyMgQmxvY2sgN1xuXG5gYGB0c1xuY29uc3QgdmFsdWVfN18wID0gODQ7XG5jb25zdCB2YWx1ZV83XzEgPSA4NTtcbmNvbnN0IHZhbHVlXzdfMiA9IDg2O1xuY29uc3QgdmFsdWVfN18zID0gODc7XG5jb25zdCB2YWx1ZV83XzQgPSA4ODtcbmNvbnN0IHZhbHVlXzdfNSA9IDg5O1xuY29uc3QgdmFsdWVfN182ID0gOTA7XG5jb25zdCB2YWx1ZV83XzcgPSA5MTtcbmNvbnN0IHZhbHVlXzdfOCA9IDkyO1xuY29uc3QgdmFsdWVfN185ID0gOTM7XG5jb25zdCB2YWx1ZV83XzEwID0gOTQ7XG5jb25zdCB2YWx1ZV83XzExID0gOTU7XG5gYGBcblxuIyMjIEJsb2NrIDhcblxuYGBgdHNcbmNvbnN0IHZhbHVlXzhfMCA9IDk2O1xuY29uc3QgdmFsdWVfOF8xID0gOTc7XG5jb25zdCB2YWx1ZV84XzIgPSA5ODtcbmNvbnN0IHZhbHVlXzhfMyA9IDk5O1xuY29uc3QgdmFsdWVfOF80ID0gMTAwO1xuY29uc3QgdmFsdWVfOF81ID0gMTAxO1xuY29uc3QgdmFsdWVfOF82ID0gMTAyO1xuY29uc3QgdmFsdWVfOF83ID0gMTAzO1xuY29uc3QgdmFsdWVfOF84ID0gMTA0O1xuY29uc3QgdmFsdWVfOF85ID0gMTA1O1xuY29uc3QgdmFsdWVfOF8xMCA9IDEwNjtcbmNvbnN0IHZhbHVlXzhfMTEgPSAxMDc7XG5gYGBcblxuIyMjIEJsb2NrIDlcblxuYGBgdHNcbmNvbnN0IHZhbHVlXzlfMCA9IDEwODtcbmNvbnN0IHZhbHVlXzlfMSA9IDEwOTtcbmNvbnN0IHZhbHVlXzlfMiA9IDExMDtcbmNvbnN0IHZhbHVlXzlfMyA9IDExMTtcbmNvbnN0IHZhbHVlXzlfNCA9IDExMjtcbmNvbnN0IHZhbHVlXzlfNSA9IDExMztcbmNvbnN0IHZhbHVlXzlfNiA9IDExNDtcbmNvbnN0IHZhbHVlXzlfNyA9IDExNTtcbmNvbnN0IHZhbHVlXzlfOCA9IDExNjtcbmNvbnN0IHZhbHVlXzlfOSA9IDExNztcbmNvbnN0IHZhbHVlXzlfMTAgPSAxMTg7XG5jb25zdCB2YWx1ZV85XzExID0gMTE5O1xuYGBgXG5cbiMjIyBCbG9jayAxMFxuXG5gYGB0c1xuY29uc3QgdmFsdWVfMTBfMCA9IDEyMDtcbmNvbnN0IHZhbHVlXzEwXzEgPSAxMjE7XG5jb25zdCB2YWx1ZV8xMF8yID0gMTIyO1xuY29uc3QgdmFsdWVfMTBfMyA9IDEyMztcbmNvbnN0IHZhbHVlXzEwXzQgPSAxMjQ7XG5jb25zdCB2YWx1ZV8xMF81ID0gMTI1O1xuY29uc3QgdmFsdWVfMTBfNiA9IDEyNjtcbmNvbnN0IHZhbHVlXzEwXzcgPSAxMjc7XG5jb25zdCB2YWx1ZV8xMF84ID0gMTI4O1xuY29uc3QgdmFsdWVfMTBfOSA9IDEyOTtcbmNvbnN0IHZhbHVlXzEwXzEwID0gMTMwO1xuY29uc3QgdmFsdWVfMTBfMTEgPSAxMzE7XG5gYGBcblxuIyMjIEJsb2NrIDExXG5cbmBgYHRzXG5jb25zdCB2YWx1ZV8xMV8wID0gMTMyO1xuY29uc3QgdmFsdWVfMTFfMSA9IDEzMztcbmNvbnN0IHZhbHVlXzExXzIgPSAxMzQ7XG5jb25zdCB2YWx1ZV8xMV8zID0gMTM1O1xuY29uc3QgdmFsdWVfMTFfNCA9IDEzNjtcbmNvbnN0IHZhbHVlXzExXzUgPSAxMzc7XG5jb25zdCB2YWx1ZV8xMV82ID0gMTM4O1xuY29uc3QgdmFsdWVfMTFfNyA9IDEzOTtcbmNvbnN0IHZhbHVlXzExXzggPSAxNDA7XG5jb25zdCB2YWx1ZV8xMV85ID0gMTQxO1xuY29uc3QgdmFsdWVfMTFfMTAgPSAxNDI7XG5jb25zdCB2YWx1ZV8xMV8xMSA9IDE0MztcbmBgYFxuXG4jIyMgQmxvY2sgMTJcblxuYGBgdHNcbmNvbnN0IHZhbHVlXzEyXzAgPSAxNDQ7XG5jb25zdCB2YWx1ZV8xMl8xID0gMTQ1O1xuY29uc3QgdmFsdWVfMTJfMiA9IDE0NjtcbmNvbnN0IHZhbHVlXzEyXzMgPSAxNDc7XG5jb25zdCB2YWx1ZV8xMl80ID0gMTQ4O1xuY29uc3QgdmFsdWVfMTJfNSA9IDE0OTtcbmNvbnN0IHZhbHVlXzEyXzYgPSAxNTA7XG5jb25zdCB2YWx1ZV8xMl83ID0gMTUxO1xuY29uc3QgdmFsdWVfMTJfOCA9IDE1MjtcbmNvbnN0IHZhbHVlXzEyXzkgPSAxNTM7XG5jb25zdCB2YWx1ZV8xMl8xMCA9IDE1NDtcbmNvbnN0IHZhbHVlXzEyXzExID0gMTU1O1xuYGBgXG5cbiMjIyBCbG9jayAxM1xuXG5gYGB0c1xuY29uc3QgdmFsdWVfMTNfMCA9IDE1NjtcbmNvbnN0IHZhbHVlXzEzXzEgPSAxNTc7XG5jb25zdCB2YWx1ZV8xM18yID0gMTU4O1xuY29uc3QgdmFsdWVfMTNfMyA9IDE1OTtcbmNvbnN0IHZhbHVlXzEzXzQgPSAxNjA7XG5jb25zdCB2YWx1ZV8xM181ID0gMTYxO1xuY29uc3QgdmFsdWVfMTNfNiA9IDE2MjtcbmNvbnN0IHZhbHVlXzEzXzcgPSAxNjM7XG5jb25zdCB2YWx1ZV8xM184ID0gMTY0O1xuY29uc3QgdmFsdWVfMTNfOSA9IDE2NTtcbmNvbnN0IHZhbHVlXzEzXzEwID0gMTY2O1xuY29uc3QgdmFsdWVfMTNfMTEgPSAxNjc7XG5gYGBcblxuIyMjIEJsb2NrIDE0XG5cbmBgYHRzXG5jb25zdCB2YWx1ZV8xNF8wID0gMTY4O1xuY29uc3QgdmFsdWVfMTRfMSA9IDE2OTtcbmNvbnN0IHZhbHVlXzE0XzIgPSAxNzA7XG5jb25zdCB2YWx1ZV8xNF8zID0gMTcxO1xuY29uc3QgdmFsdWVfMTRfNCA9IDE3MjtcbmNvbnN0IHZhbHVlXzE0XzUgPSAxNzM7XG5jb25zdCB2YWx1ZV8xNF82ID0gMTc0O1xuY29uc3QgdmFsdWVfMTRfNyA9IDE3NTtcbmNvbnN0IHZhbHVlXzE0XzggPSAxNzY7XG5jb25zdCB2YWx1ZV8xNF85ID0gMTc3O1xuY29uc3QgdmFsdWVfMTRfMTAgPSAxNzg7XG5jb25zdCB2YWx1ZV8xNF8xMSA9IDE3OTtcbmBgYFxuXG5FcXVhbC1pbnB1dCBzdHJlYW0gY29tcGxldGUuIiwKICAidmlld3BvcnQiOiB7CiAgICAid2lkdGgiOiAxMjgwLAogICAgImhlaWdodCI6IDkwMAogIH0sCiAgImludGVydmFsTXMiOiA1LAogICJmcmFtZUNvdW50IjogNDEyLAogICJmcmFtZVA5NU1zIjogMTguMjAwMDAwMDAwMDAwMjczLAogICJtYXhGcmFtZU1zIjogNTAsCiAgImxvbmdUYXNrc01zIjogW10sCiAgImJlZm9yZSI6IFsKICAgIHsKICAgICAgIm5hbWUiOiAiVGltZXN0YW1wIiwKICAgICAgInZhbHVlIjogMzU4MTA2LjQ5NzkzNgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiQXVkaW9IYW5kbGVycyIsCiAgICAgICJ2YWx1ZSI6IDAKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIkF1ZGlvV29ya2xldFByb2Nlc3NvcnMiLAogICAgICAidmFsdWUiOiAwCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJEb2N1bWVudHMiLAogICAgICAidmFsdWUiOiAyCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJGcmFtZXMiLAogICAgICAidmFsdWUiOiAyCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJKU0V2ZW50TGlzdGVuZXJzIiwKICAgICAgInZhbHVlIjogNzcyCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJMYXlvdXRPYmplY3RzIiwKICAgICAgInZhbHVlIjogNTEyCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJNZWRpYUtleVNlc3Npb25zIiwKICAgICAgInZhbHVlIjogMAogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiTWVkaWFLZXlzIiwKICAgICAgInZhbHVlIjogMAogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiTm9kZXMiLAogICAgICAidmFsdWUiOiAzMTkyCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJSZXNvdXJjZXMiLAogICAgICAidmFsdWUiOiA0CiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJDb250ZXh0TGlmZWN5Y2xlU3RhdGVPYnNlcnZlcnMiLAogICAgICAidmFsdWUiOiAxOAogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiVjhQZXJDb250ZXh0RGF0YXMiLAogICAgICAidmFsdWUiOiAyCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJXb3JrZXJHbG9iYWxTY29wZXMiLAogICAgICAidmFsdWUiOiAwCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJVQUNTU1Jlc291cmNlcyIsCiAgICAgICJ2YWx1ZSI6IDAKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIlJUQ1BlZXJDb25uZWN0aW9ucyIsCiAgICAgICJ2YWx1ZSI6IDAKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIlJlc291cmNlRmV0Y2hlcnMiLAogICAgICAidmFsdWUiOiAyCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJBZFN1YmZyYW1lcyIsCiAgICAgICJ2YWx1ZSI6IDAKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIkRldGFjaGVkU2NyaXB0U3RhdGVzIiwKICAgICAgInZhbHVlIjogMQogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiQXJyYXlCdWZmZXJDb250ZW50cyIsCiAgICAgICJ2YWx1ZSI6IDEyMgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiTGF5b3V0Q291bnQiLAogICAgICAidmFsdWUiOiAwCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJSZWNhbGNTdHlsZUNvdW50IiwKICAgICAgInZhbHVlIjogMAogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiTGF5b3V0RHVyYXRpb24iLAogICAgICAidmFsdWUiOiAwCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJSZWNhbGNTdHlsZUR1cmF0aW9uIiwKICAgICAgInZhbHVlIjogMAogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiRGV2VG9vbHNDb21tYW5kRHVyYXRpb24iLAogICAgICAidmFsdWUiOiAwLjAwMDAwNAogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiU2NyaXB0RHVyYXRpb24iLAogICAgICAidmFsdWUiOiAwCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJWOENvbXBpbGVEdXJhdGlvbiIsCiAgICAgICJ2YWx1ZSI6IDAKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIlRhc2tEdXJhdGlvbiIsCiAgICAgICJ2YWx1ZSI6IDAuMDAwMDA1CiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJUYXNrT3RoZXJEdXJhdGlvbiIsCiAgICAgICJ2YWx1ZSI6IDAuMDAwMDAxCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJUaHJlYWRUaW1lIiwKICAgICAgInZhbHVlIjogMC4wMDAwMjMKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIlByb2Nlc3NUaW1lIiwKICAgICAgInZhbHVlIjogMi41MTczMjQKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIkpTSGVhcFVzZWRTaXplIiwKICAgICAgInZhbHVlIjogMTE5ODI5OTcyCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJKU0hlYXBUb3RhbFNpemUiLAogICAgICAidmFsdWUiOiAxODEyNzI1NzYKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIkZpcnN0TWVhbmluZ2Z1bFBhaW50IiwKICAgICAgInZhbHVlIjogMAogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiRG9tQ29udGVudExvYWRlZCIsCiAgICAgICJ2YWx1ZSI6IDM1ODEwNS4wOTY0ODMKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIk5hdmlnYXRpb25TdGFydCIsCiAgICAgICJ2YWx1ZSI6IDM1ODEwNC4zMDEyODQKICAgIH0KICBdLAogICJhZnRlciI6IFsKICAgIHsKICAgICAgIm5hbWUiOiAiVGltZXN0YW1wIiwKICAgICAgInZhbHVlIjogMzU4MTEzLjQ1MDMxOAogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiQXVkaW9IYW5kbGVycyIsCiAgICAgICJ2YWx1ZSI6IDAKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIkF1ZGlvV29ya2xldFByb2Nlc3NvcnMiLAogICAgICAidmFsdWUiOiAwCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJEb2N1bWVudHMiLAogICAgICAidmFsdWUiOiAyCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJGcmFtZXMiLAogICAgICAidmFsdWUiOiAyCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJKU0V2ZW50TGlzdGVuZXJzIiwKICAgICAgInZhbHVlIjogNzM2CiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJMYXlvdXRPYmplY3RzIiwKICAgICAgInZhbHVlIjogMzc3NQogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiTWVkaWFLZXlTZXNzaW9ucyIsCiAgICAgICJ2YWx1ZSI6IDAKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIk1lZGlhS2V5cyIsCiAgICAgICJ2YWx1ZSI6IDAKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIk5vZGVzIiwKICAgICAgInZhbHVlIjogODUzNAogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiUmVzb3VyY2VzIiwKICAgICAgInZhbHVlIjogMQogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiQ29udGV4dExpZmVjeWNsZVN0YXRlT2JzZXJ2ZXJzIiwKICAgICAgInZhbHVlIjogMTkKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIlY4UGVyQ29udGV4dERhdGFzIiwKICAgICAgInZhbHVlIjogMgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiV29ya2VyR2xvYmFsU2NvcGVzIiwKICAgICAgInZhbHVlIjogMAogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiVUFDU1NSZXNvdXJjZXMiLAogICAgICAidmFsdWUiOiAwCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJSVENQZWVyQ29ubmVjdGlvbnMiLAogICAgICAidmFsdWUiOiAwCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJSZXNvdXJjZUZldGNoZXJzIiwKICAgICAgInZhbHVlIjogMgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiQWRTdWJmcmFtZXMiLAogICAgICAidmFsdWUiOiAwCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJEZXRhY2hlZFNjcmlwdFN0YXRlcyIsCiAgICAgICJ2YWx1ZSI6IDAKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIkFycmF5QnVmZmVyQ29udGVudHMiLAogICAgICAidmFsdWUiOiAxMDQKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIkxheW91dENvdW50IiwKICAgICAgInZhbHVlIjogNDQ0CiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJSZWNhbGNTdHlsZUNvdW50IiwKICAgICAgInZhbHVlIjogODc3CiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJMYXlvdXREdXJhdGlvbiIsCiAgICAgICJ2YWx1ZSI6IDAuMDc2NDU1CiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJSZWNhbGNTdHlsZUR1cmF0aW9uIiwKICAgICAgInZhbHVlIjogMC4zMDQ5NDIKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIkRldlRvb2xzQ29tbWFuZER1cmF0aW9uIiwKICAgICAgInZhbHVlIjogMC4wNzg0MQogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiU2NyaXB0RHVyYXRpb24iLAogICAgICAidmFsdWUiOiAyLjEzMjQ4OAogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiVjhDb21waWxlRHVyYXRpb24iLAogICAgICAidmFsdWUiOiAwCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJUYXNrRHVyYXRpb24iLAogICAgICAidmFsdWUiOiAyLjk5Njk3MQogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiVGFza090aGVyRHVyYXRpb24iLAogICAgICAidmFsdWUiOiAwLjQwNDY3NgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiVGhyZWFkVGltZSIsCiAgICAgICJ2YWx1ZSI6IDMuMTI2NzUxCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJQcm9jZXNzVGltZSIsCiAgICAgICJ2YWx1ZSI6IDYuNjQ2NjI3CiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJKU0hlYXBVc2VkU2l6ZSIsCiAgICAgICJ2YWx1ZSI6IDE0ODI4MTgxMgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiSlNIZWFwVG90YWxTaXplIiwKICAgICAgInZhbHVlIjogMjcwMzAzMjMyCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJGaXJzdE1lYW5pbmdmdWxQYWludCIsCiAgICAgICJ2YWx1ZSI6IDM1ODEwNi4wMjQ4CiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJEb21Db250ZW50TG9hZGVkIiwKICAgICAgInZhbHVlIjogMzU4MTA1LjA5NjQ4MwogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiTmF2aWdhdGlvblN0YXJ0IiwKICAgICAgInZhbHVlIjogMzU4MTA0LjMwMTI4NAogICAgfQogIF0KfQ=="
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/candidate-1/agent-stream-closing-fence-da010-ong-reply-rendering-metrics-browser/video.webm"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "80d40e964b838a28f635-19e17e9d6aa70e0acfcd",
+          "file": "agent-stream-closing-fence.spec.ts",
+          "line": 327,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-25T10:46:02.119Z",
+    "duration": 18726.054,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

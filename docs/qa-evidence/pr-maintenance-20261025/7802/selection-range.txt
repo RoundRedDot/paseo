@@ -1,0 +1,2 @@
+$ /tmp/paseo-update-markdown-block-selection
+Markdown block selection range: 12 cases passed

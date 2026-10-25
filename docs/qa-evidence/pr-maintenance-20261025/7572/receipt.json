@@ -1,0 +1,106 @@
+{
+  "number": 7572,
+  "oldHead": "0d4cbce52d222b0e3a5f9367831188166c73ea78",
+  "base": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "workspaceId": "wks_4df79ebdc808d70f",
+  "overlap": [],
+  "checks": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "4845e1da5851cc049809fb7cfb8e4ce9e3999c03"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.05,
+      "output": "7572/merge.txt"
+    },
+    {
+      "command": ["npm", "run", "build:server"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 22.87,
+      "output": "7572/build.txt"
+    },
+    {
+      "command": ["npm", "run", "build", "--workspace=@getpaseo/expo-two-way-audio"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.59,
+      "output": "7572/audio-build.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/server/plugins/managed-source.posix.test.ts",
+        "--bail=1",
+        "--maxWorkers=1"
+      ],
+      "cwd": "packages/server",
+      "exitCode": 0,
+      "seconds": 9.5,
+      "output": "7572/test-00.txt"
+    },
+    {
+      "command": ["npm", "run", "format"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 2.2,
+      "output": "7572/format.txt"
+    },
+    {
+      "command": ["npm", "run", "lint"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 2.51,
+      "output": "7572/lint.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check", "--", ".", ":(exclude)patches/*.patch"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.03,
+      "output": "7572/diff-check-source.txt"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "commit",
+        "-F",
+        "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7572/commit-message.txt"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 14.26,
+      "output": "7572/commit-hooks.txt"
+    },
+    {
+      "command": ["git", "push", "fork", "HEAD:refs/heads/fix/plugin-blobless-clone"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.69,
+      "output": "7572/push.txt"
+    }
+  ],
+  "sourceTree": "05fe8638d9c751c33ab48bbf9c2af2e221cf51ed",
+  "head": "06c9b67b7b30ba7748c273f426efba20b0f91389",
+  "pushed": true,
+  "readback": {
+    "baseRefName": "main",
+    "headRefOid": "06c9b67b7b30ba7748c273f426efba20b0f91389",
+    "state": "OPEN"
+  }
+}

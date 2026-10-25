@@ -1,0 +1,113 @@
+{
+  "number": 6601,
+  "oldHead": "02177550c5e448b652cbde625e86ec8d1e9cc37f",
+  "base": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "workspaceId": "wks_4df79ebdc808d70f",
+  "overlap": [],
+  "checks": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "4845e1da5851cc049809fb7cfb8e4ce9e3999c03"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.06,
+      "output": "6601/merge.txt"
+    },
+    {
+      "command": ["npm", "ci", "--no-audit", "--no-fund"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 41.81,
+      "output": "6601/install.txt"
+    },
+    {
+      "command": ["npm", "run", "build:server"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 20.28,
+      "output": "6601/build.txt"
+    },
+    {
+      "command": ["npm", "run", "build", "--workspace=@getpaseo/expo-two-way-audio"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.39,
+      "output": "6601/audio-build.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/server/plugins/compiler.test.ts",
+        "--bail=1",
+        "--maxWorkers=1"
+      ],
+      "cwd": "packages/server",
+      "exitCode": 0,
+      "seconds": 5.19,
+      "output": "6601/test-00.txt"
+    },
+    {
+      "command": ["npm", "run", "format"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 2.21,
+      "output": "6601/format.txt"
+    },
+    {
+      "command": ["npm", "run", "lint"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.85,
+      "output": "6601/lint.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check", "--", ".", ":(exclude)patches/*.patch"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.03,
+      "output": "6601/diff-check-source.txt"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "commit",
+        "-F",
+        "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/6601/commit-message.txt"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 15.36,
+      "output": "6601/commit-hooks.txt"
+    },
+    {
+      "command": ["git", "push", "fork", "HEAD:refs/heads/fix/plugin-client-hermes-classes"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.71,
+      "output": "6601/push.txt"
+    }
+  ],
+  "sourceTree": "e90a7e2ac82df14ab3a49e3ca0649847a3591eff",
+  "head": "fb42cf98c393e359b5d4da76486ecc445dd6383f",
+  "pushed": true,
+  "readback": {
+    "baseRefName": "main",
+    "headRefOid": "fb42cf98c393e359b5d4da76486ecc445dd6383f",
+    "state": "OPEN"
+  }
+}

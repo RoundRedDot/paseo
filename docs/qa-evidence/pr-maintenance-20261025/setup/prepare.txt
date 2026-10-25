@@ -1,0 +1,5 @@
+
+> paseo@0.13.0 prepare
+> lefthook install --force
+
+sync hooks: ✔️ (pre-commit)

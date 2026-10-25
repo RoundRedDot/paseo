@@ -1,0 +1,29 @@
+[
+  {
+    "label": "baseline-1",
+    "exitCode": 1,
+    "seconds": 10.0,
+    "sourceHead": "1ed1ec018df61c4f0da8822645c1a6db0532a699",
+    "baseline": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+    "substitutedFiles": {
+      "packages/app/src/agent-stream/text-reveal.ts": "8c4c632834a1b75022130e6305d4a2c0d5459a2b01232bf3a4646a6ae5303d9c",
+      "packages/app/src/hooks/use-revealed-text.ts": "52f91ba7c17b3b88b25f4a62b6622fdadc716c576732f7928d6bc3902eabb618"
+    },
+    "command": [
+      "npm",
+      "run",
+      "test:e2e",
+      "--",
+      "e2e/browser/agent-stream-closing-fence.spec.ts",
+      "--grep",
+      "records equal-input long-reply rendering metrics",
+      "--workers=1",
+      "--retries=0",
+      "--output",
+      "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/baseline-1",
+      "--reporter=json"
+    ],
+    "sampleFinishedAt": "2026-10-25T10:44:01.096024+00:00",
+    "loadAfter": [8.47314453125, 11.68798828125, 11.83251953125]
+  }
+]

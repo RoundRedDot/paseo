@@ -1,0 +1,185 @@
+$ npm run test:e2e -- e2e/browser/agent-stream-closing-fence.spec.ts --grep records equal-input long-reply rendering metrics --workers=1 --retries=0 --output /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/baseline-1 --reporter=json
+
+> @getpaseo/app@0.13.0 test:e2e
+> playwright test --project=browser e2e/browser/agent-stream-closing-fence.spec.ts --grep records equal-input long-reply rendering metrics --workers=1 --retries=0 --output /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/baseline-1 --reporter=json
+
+[metro] Skipping web setup: EXPO_NO_WEB_SETUP is enabled.
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Waiting on http://localhost:62471
+[metro] Logs for your project will appear below.
+[metro] | (node:13472) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] Web Bundled 1377ms packages/app/index.ts (5694 modules)
+[e2e] Metro warmed on port 62471
+[e2e] Metro stopped
+{
+  "config": {
+    "configFile": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/playwright.config.ts",
+    "rootDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/e2e/browser",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/e2e/support/global-setup.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/baseline-1",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "browser",
+        "name": "browser",
+        "testDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/e2e/browser",
+        "testIgnore": [
+          "**/*.real.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/baseline-1",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "real-provider",
+        "name": "real-provider",
+        "testDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/e2e/browser",
+        "testIgnore": [
+          "**/relay-deployment-reconnect.real.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.real.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/baseline-1",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "relay-deployment",
+        "name": "relay-deployment",
+        "testDir": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app/e2e/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/relay-deployment-reconnect.real.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "agent-stream-closing-fence.spec.ts",
+      "file": "agent-stream-closing-fence.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "records equal-input long-reply rendering metrics",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "browser",
+              "projectName": "browser",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6,
+                  "error": {
+                    "message": "Error: browserType.launch: Executable doesn't exist at /Users/luopeihuan/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔═════════════════════════════════════════════════════════════════════════╗\n║ Looks like Playwright Test or Playwright was just installed or updated. ║\n║ Please run the following command to download new browsers:              ║\n║                                                                         ║\n║     npx playwright install                                              ║\n║                                                                         ║\n║ <3 Playwright Team                                                      ║\n╚═════════════════════════════════════════════════════════════════════════╝",
+                    "stack": "Error: browserType.launch: Executable doesn't exist at /Users/luopeihuan/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔═════════════════════════════════════════════════════════════════════════╗\n║ Looks like Playwright Test or Playwright was just installed or updated. ║\n║ Please run the following command to download new browsers:              ║\n║                                                                         ║\n║     npx playwright install                                              ║\n║                                                                         ║\n║ <3 Playwright Team                                                      ║\n╚═════════════════════════════════════════════════════════════════════════╝"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Executable doesn't exist at /Users/luopeihuan/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔═════════════════════════════════════════════════════════════════════════╗\n║ Looks like Playwright Test or Playwright was just installed or updated. ║\n║ Please run the following command to download new browsers:              ║\n║                                                                         ║\n║     npx playwright install                                              ║\n║                                                                         ║\n║ <3 Playwright Team                                                      ║\n╚═════════════════════════════════════════════════════════════════════════╝"
+                    }
+                  ],
+                  "stdout": [
+                    {
+                      "text": "[e2e] Worker 0 daemon started on port 62507, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-0-Zl3rWd\n"
+                    },
+                    {
+                      "text": "[e2e] Worker 0 daemon stopped\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-25T10:43:55.577Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/baseline-1/agent-stream-closing-fence-da010-ong-reply-rendering-metrics-browser/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "80d40e964b838a28f635-19e17e9d6aa70e0acfcd",
+          "file": "agent-stream-closing-fence.spec.ts",
+          "line": 327,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-25T10:43:51.724Z",
+    "duration": 9340.71,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}
+npm error Lifecycle script `test:e2e` failed with error:
+npm error code 1
+npm error path /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app
+npm error workspace @getpaseo/app@0.13.0
+npm error location /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app
+npm error command failed
+npm error command sh -c playwright test --project=browser e2e/browser/agent-stream-closing-fence.spec.ts --grep 'records equal-input long-reply rendering metrics' --workers=1 --retries=0 --output /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7006/equal-input/baseline-1 --reporter=json

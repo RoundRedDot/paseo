@@ -1,0 +1,3 @@
+$ git push fork HEAD:refs/heads/perf/plugin-catalog-bundle-hash
+To github.com:RoundRedDot/paseo.git
+   975a89e9d..3437948d1  HEAD -> perf/plugin-catalog-bundle-hash

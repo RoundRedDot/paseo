@@ -1,0 +1,111 @@
+{
+  "number": 6762,
+  "oldHead": "b112c49f4bbf4891df9bb3218772f34c5791e7da",
+  "base": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "workspaceId": "wks_4df79ebdc808d70f",
+  "overlap": [],
+  "checks": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "4845e1da5851cc049809fb7cfb8e4ce9e3999c03"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.07,
+      "output": "6762/merge.txt"
+    },
+    {
+      "command": ["npm", "run", "build:server"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 19.53,
+      "output": "6762/build.txt"
+    },
+    {
+      "command": ["npm", "run", "build", "--workspace=@getpaseo/expo-two-way-audio"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.37,
+      "output": "6762/audio-build.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/server/agent/agent-projections.test.ts",
+        "--bail=1",
+        "--maxWorkers=1"
+      ],
+      "cwd": "packages/server",
+      "exitCode": 0,
+      "seconds": 0.74,
+      "output": "6762/test-00.txt"
+    },
+    {
+      "command": ["npm", "run", "format"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.4,
+      "output": "6762/format.txt"
+    },
+    {
+      "command": ["npm", "run", "lint"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.23,
+      "output": "6762/lint.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check", "--", ".", ":(exclude)patches/*.patch"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.03,
+      "output": "6762/diff-check-source.txt"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "commit",
+        "-F",
+        "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/6762/commit-message.txt"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 11.2,
+      "output": "6762/commit-hooks.txt"
+    },
+    {
+      "command": [
+        "git",
+        "push",
+        "fork",
+        "HEAD:refs/heads/perf/omit-async-questions-from-snapshots"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.9,
+      "output": "6762/push.txt"
+    }
+  ],
+  "sourceTree": "fc33562e01d9bd601c56259c41514a1f01fd3a95",
+  "head": "e5825052371f7745738cc4fde95cdea3d316cbdb",
+  "pushed": true,
+  "readback": {
+    "baseRefName": "main",
+    "headRefOid": "e5825052371f7745738cc4fde95cdea3d316cbdb",
+    "state": "OPEN"
+  }
+}

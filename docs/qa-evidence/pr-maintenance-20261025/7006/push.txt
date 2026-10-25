@@ -1,0 +1,3 @@
+$ git push fork HEAD:refs/heads/fix/hold-partial-closing-fence
+To github.com:RoundRedDot/paseo.git
+   8b776e1af..1ed1ec018  HEAD -> fix/hold-partial-closing-fence

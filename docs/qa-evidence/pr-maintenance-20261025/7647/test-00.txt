@@ -1,0 +1,10 @@
+$ npx vitest run src/commands/agent/mark-read.test.ts --bail=1 --maxWorkers=1
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/cli
+
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  18:35:12
+   Duration  2.08s (transform 1.70s, setup 0ms, import 2.02s, tests 3ms, environment 0ms)
+

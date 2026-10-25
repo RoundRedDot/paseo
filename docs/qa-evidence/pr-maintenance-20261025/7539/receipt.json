@@ -1,0 +1,94 @@
+{
+  "number": 7539,
+  "oldHead": "9cb99aca728a8192938fb17b70a510dc9644a182",
+  "base": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "workspaceId": "wks_4df79ebdc808d70f",
+  "overlap": [],
+  "checks": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "4845e1da5851cc049809fb7cfb8e4ce9e3999c03"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.06,
+      "output": "7539/merge.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/screens/workspace/workspace-tab-layout.test.ts",
+        "--bail=1",
+        "--maxWorkers=1",
+        "--project",
+        "unit"
+      ],
+      "cwd": "packages/app",
+      "exitCode": 0,
+      "seconds": 1.34,
+      "output": "7539/test-00.txt"
+    },
+    {
+      "command": ["npm", "run", "format"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.27,
+      "output": "7539/format.txt"
+    },
+    {
+      "command": ["npm", "run", "lint"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.02,
+      "output": "7539/lint.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check", "--", ".", ":(exclude)patches/*.patch"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.02,
+      "output": "7539/diff-check-source.txt"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "commit",
+        "-F",
+        "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7539/commit-message.txt"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 8.99,
+      "output": "7539/commit-hooks.txt"
+    },
+    {
+      "command": ["git", "push", "fork", "HEAD:refs/heads/fix/pad-active-tab-title"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.87,
+      "output": "7539/push.txt"
+    }
+  ],
+  "sourceTree": "81a18f79d38bcefd4cf8604efc1cbbe067a7c631",
+  "head": "73545abfc5dd9e9ef885e6b7e35c8e5531bcc06a",
+  "pushed": true,
+  "readback": {
+    "baseRefName": "main",
+    "headRefOid": "73545abfc5dd9e9ef885e6b7e35c8e5531bcc06a",
+    "state": "OPEN"
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "number": 7482,
+  "oldHead": "15a7f2a3b2d7bf819dc36a47248300c90bda0032",
+  "base": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "workspaceId": "wks_4df79ebdc808d70f",
+  "overlap": [],
+  "checks": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "4845e1da5851cc049809fb7cfb8e4ce9e3999c03"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.05,
+      "output": "7482/merge.txt"
+    },
+    {
+      "command": ["npm", "run", "build:server"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 18.98,
+      "output": "7482/build.txt"
+    },
+    {
+      "command": ["npm", "run", "build", "--workspace=@getpaseo/expo-two-way-audio"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.36,
+      "output": "7482/audio-build.txt"
+    },
+    {
+      "command": ["npx", "vitest", "run", "src/index.test.ts", "--bail=1", "--maxWorkers=1"],
+      "cwd": "packages/client",
+      "exitCode": 0,
+      "seconds": 3.12,
+      "output": "7482/test-00.txt"
+    },
+    {
+      "command": ["npm", "run", "format"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.28,
+      "output": "7482/format.txt"
+    },
+    {
+      "command": ["npm", "run", "lint"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.97,
+      "output": "7482/lint.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check", "--", ".", ":(exclude)patches/*.patch"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.03,
+      "output": "7482/diff-check-source.txt"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "commit",
+        "-F",
+        "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7482/commit-message.txt"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 9.78,
+      "output": "7482/commit-hooks.txt"
+    },
+    {
+      "command": [
+        "git",
+        "push",
+        "fork",
+        "HEAD:refs/heads/feat/plugin-workspace-labels-project-icon"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.8,
+      "output": "7482/push.txt"
+    }
+  ],
+  "sourceTree": "aa63d14245e5ec373c80443e0f4fa83290d1b26a",
+  "head": "b16c8459c7d90997a06d355448343d7fa9b40254",
+  "pushed": true,
+  "readback": {
+    "baseRefName": "main",
+    "headRefOid": "b16c8459c7d90997a06d355448343d7fa9b40254",
+    "state": "OPEN"
+  }
+}

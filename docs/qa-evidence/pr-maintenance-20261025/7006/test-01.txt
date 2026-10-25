@@ -1,0 +1,10 @@
+$ npx vitest run src/components/markdown/renderer.test.ts --bail=1 --maxWorkers=1 --project unit
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  146 passed (146)
+   Start at  18:20:10
+   Duration  1.17s (transform 598ms, setup 18ms, import 801ms, tests 292ms, environment 0ms)
+

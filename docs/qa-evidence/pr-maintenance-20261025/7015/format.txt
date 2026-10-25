@@ -1,0 +1,6 @@
+$ npm run format
+
+> paseo@0.13.0 format
+> oxfmt .
+
+Finished in 1103ms on 5364 files using 15 threads.

@@ -1,0 +1,5 @@
+$ npm run build --workspace=@getpaseo/expo-two-way-audio
+
+> @getpaseo/expo-two-way-audio@0.13.0 build
+> tsc
+

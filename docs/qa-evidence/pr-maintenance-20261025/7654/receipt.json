@@ -1,0 +1,124 @@
+{
+  "number": 7654,
+  "oldHead": "8b854c19e7af3c8df2faf22818c9ec5b0e68ef9d",
+  "base": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "workspaceId": "wks_4df79ebdc808d70f",
+  "overlap": [],
+  "checks": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "4845e1da5851cc049809fb7cfb8e4ce9e3999c03"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.05,
+      "output": "7654/merge.txt"
+    },
+    {
+      "command": ["npm", "run", "build:server"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 18.99,
+      "output": "7654/build.txt"
+    },
+    {
+      "command": ["npm", "run", "build", "--workspace=@getpaseo/expo-two-way-audio"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.39,
+      "output": "7654/audio-build.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/plugins/react-native/screen-header.test.ts",
+        "--bail=1",
+        "--maxWorkers=1",
+        "--project",
+        "unit"
+      ],
+      "cwd": "packages/app",
+      "exitCode": 0,
+      "seconds": 1.72,
+      "output": "7654/test-00.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/plugins/evaluate.test.ts",
+        "--bail=1",
+        "--maxWorkers=1",
+        "--project",
+        "unit"
+      ],
+      "cwd": "packages/app",
+      "exitCode": 0,
+      "seconds": 5.46,
+      "output": "7654/test-01.txt"
+    },
+    {
+      "command": ["npm", "run", "format"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.34,
+      "output": "7654/format.txt"
+    },
+    {
+      "command": ["npm", "run", "lint"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.07,
+      "output": "7654/lint.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check", "--", ".", ":(exclude)patches/*.patch"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.03,
+      "output": "7654/diff-check-source.txt"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "commit",
+        "-F",
+        "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7654/commit-message.txt"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 9.79,
+      "output": "7654/commit-hooks.txt"
+    },
+    {
+      "command": ["git", "push", "fork", "HEAD:refs/heads/feat/plugin-screen-header-actions"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.76,
+      "output": "7654/push.txt"
+    }
+  ],
+  "sourceTree": "406d377c18b7fccd9af5a5ba1c552827f07d0808",
+  "head": "5b2e9c00dfe45ee76ecd5920babf3f33be8e6f63",
+  "pushed": true,
+  "readback": {
+    "baseRefName": "main",
+    "headRefOid": "5b2e9c00dfe45ee76ecd5920babf3f33be8e6f63",
+    "state": "OPEN"
+  }
+}

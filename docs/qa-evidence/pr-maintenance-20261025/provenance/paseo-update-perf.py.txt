@@ -1,0 +1,42 @@
+import pathlib,json,subprocess,hashlib,time,os,platform,datetime
+WT=pathlib.Path('/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025')
+OUT=WT/'.dev/pr-maintenance-20261025'
+rows=json.loads((OUT/'results.json').read_text())
+r=next(r for r in rows if r['number']==7006)
+HEAD=r['head'];BASE=r['base'];folder=OUT/'7006/equal-input';folder.mkdir(parents=True,exist_ok=True)
+FILES=['packages/app/src/agent-stream/text-reveal.ts','packages/app/src/hooks/use-revealed-text.ts']
+def git(*args):return subprocess.check_output(['git',*args],cwd=WT,text=True).strip()
+if git('status','--porcelain'): raise RuntimeError('worktree dirty before experiment')
+git('switch','--detach',HEAD)
+saved={f:(WT/f).read_bytes() for f in FILES}
+base={f:subprocess.check_output(['git','show',BASE+':'+f],cwd=WT) for f in FILES}
+environment={'os':platform.mac_ver()[0],'architecture':platform.machine(),'cpu':subprocess.check_output(['sysctl','-n','machdep.cpu.brand_string'],text=True).strip(),'node':subprocess.check_output(['node','--version'],text=True).strip(),'sourceHead':HEAD,'baseline':BASE,'execution':'local macOS development browser; not Mac Studio/native/release acceptance'}
+(folder/'environment.json').write_text(json.dumps(environment,indent=2))
+receipts=[]
+try:
+ with (folder/'build.txt').open('w') as log:
+  subprocess.run(['npm','run','build:server'],cwd=WT,stdout=log,stderr=subprocess.STDOUT,check=True)
+  subprocess.run(['npm','run','build','--workspace=@getpaseo/expo-two-way-audio'],cwd=WT,stdout=log,stderr=subprocess.STDOUT,check=True)
+ for index,label in enumerate(['baseline-1','candidate-1','candidate-2','baseline-2']):
+  content=base if label.startswith('baseline') else saved
+  for f,b in content.items():(WT/f).write_bytes(b)
+  sample=folder/label;sample.mkdir(exist_ok=True)
+  args=['npm','run','test:e2e','--','e2e/browser/agent-stream-closing-fence.spec.ts','--grep','records equal-input long-reply rendering metrics','--workers=1','--retries=0','--output',str(sample),'--reporter=json']
+  env=os.environ.copy();env['E2E_RECORD_VIDEO']='1'
+  print('PERF START',label,flush=True)
+  start=time.monotonic()
+  with (folder/(label+'-command.txt')).open('w') as log:
+   log.write('$ '+' '.join(args)+'\n');log.flush()
+   result=subprocess.run(args,cwd=WT/'packages/app',stdout=log,stderr=subprocess.STDOUT,env=env)
+  receipt={'label':label,'exitCode':result.returncode,'seconds':round(time.monotonic()-start,2),'sourceHead':HEAD,'baseline':BASE,'substitutedFiles':{f:hashlib.sha256(b).hexdigest() for f,b in content.items()},'command':args,'sampleFinishedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'loadAfter':os.getloadavg()}
+  reports=list(sample.rglob('*equal-input-rendering*.json'))
+  if reports:
+   data=json.loads(reports[0].read_text());before={m['name']:m['value'] for m in data['before']};after={m['name']:m['value'] for m in data['after']}
+   receipt.update({'fixtureSha256':hashlib.sha256(data['markdown'].encode()).hexdigest(),'characters':len(data['markdown']),'viewport':data['viewport'],'intervalMs':data['intervalMs'],'frameCount':data['frameCount'],'frameP95Ms':data['frameP95Ms'],'maxFrameMs':data['maxFrameMs'],'longTasksMs':data['longTasksMs'],'deltas':{k:after[k]-before[k] for k in ['TaskDuration','ScriptDuration','LayoutDuration','RecalcStyleDuration']}})
+  receipts.append(receipt);(folder/'receipts.json').write_text(json.dumps(receipts,indent=2))
+  print('PERF END',label,'exit',result.returncode,flush=True)
+  if result.returncode: raise RuntimeError('performance harness failed; retain failure and investigate before further runs')
+finally:
+ for f,b in saved.items():(WT/f).write_bytes(b)
+ if git('status','--porcelain'): raise RuntimeError('source restoration failed')
+ (folder/'source-restored.json').write_text(json.dumps({'head':git('rev-parse','HEAD'),'tree':git('rev-parse','HEAD^{tree}'),'sha256':{f:hashlib.sha256((WT/f).read_bytes()).hexdigest() for f in FILES},'clean':True},indent=2))

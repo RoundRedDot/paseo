@@ -1,0 +1,5 @@
+chore: merge main baseline into PR #6731
+
+Integrate upstream 4845e1da5851cc049809fb7cfb8e4ce9e3999c03 while preserving this PR scope.
+
+Co-authored-by: RoundRedDot <roundreddot@gmail.com>

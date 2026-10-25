@@ -1,0 +1,147 @@
+{
+  "number": 7802,
+  "oldHead": "786e08293413edb6c9b1cb2d8bdef1528f794695",
+  "base": "4845e1da5851cc049809fb7cfb8e4ce9e3999c03",
+  "workspaceId": "wks_4df79ebdc808d70f",
+  "overlap": ["patches/react-native-enriched-markdown+1.2.0-nightly-20261014-766fc0e67.patch"],
+  "checks": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "merge",
+        "--no-ff",
+        "--no-commit",
+        "4845e1da5851cc049809fb7cfb8e4ce9e3999c03"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.06,
+      "output": "7802/merge.txt"
+    },
+    {
+      "command": ["npm", "ci", "--no-audit", "--no-fund"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 45.7,
+      "output": "7802/install.txt"
+    },
+    {
+      "command": ["npm", "run", "build:server"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 19.4,
+      "output": "7802/build.txt"
+    },
+    {
+      "command": ["npm", "run", "build", "--workspace=@getpaseo/expo-two-way-audio"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.37,
+      "output": "7802/audio-build.txt"
+    },
+    {
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "src/components/markdown/renderer.test.ts",
+        "--bail=1",
+        "--maxWorkers=1",
+        "--project",
+        "unit"
+      ],
+      "cwd": "packages/app",
+      "exitCode": 0,
+      "seconds": 1.74,
+      "output": "7802/test-00.txt"
+    },
+    {
+      "command": ["node", "--test", "scripts/postinstall-patches.test.mjs"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.46,
+      "output": "7802/patch-tests.txt"
+    },
+    {
+      "command": [
+        "xcrun",
+        "clang",
+        "-fobjc-arc",
+        "-framework",
+        "Foundation",
+        "-I",
+        "packages/app/node_modules/react-native-enriched-markdown/ios/utils",
+        "packages/app/native-tests/markdown-block-selection.m",
+        "-o",
+        "/tmp/paseo-update-markdown-block-selection"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.32,
+      "output": "7802/clang.txt"
+    },
+    {
+      "command": ["/tmp/paseo-update-markdown-block-selection"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.26,
+      "output": "7802/selection-range.txt"
+    },
+    {
+      "command": ["npm", "run", "format"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.48,
+      "output": "7802/format.txt"
+    },
+    {
+      "command": ["npm", "run", "lint"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.51,
+      "output": "7802/lint.txt"
+    },
+    {
+      "command": ["git", "diff", "--cached", "--check", "--", ".", ":(exclude)patches/*.patch"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 0.01,
+      "output": "7802/diff-check-source.txt"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "user.name=luke",
+        "-c",
+        "user.email=luopeihuan@gmail.com",
+        "commit",
+        "-F",
+        "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/.dev/pr-maintenance-20261025/7802/commit-message.txt"
+      ],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 13.42,
+      "output": "7802/commit-hooks.txt"
+    },
+    {
+      "command": ["git", "push", "fork", "HEAD:refs/heads/feat/ios-paragraph-selection"],
+      "cwd": ".",
+      "exitCode": 0,
+      "seconds": 1.77,
+      "output": "7802/push.txt"
+    }
+  ],
+  "sourceTree": "32389c54012dc9f408721ede29a087f60332151c",
+  "head": "23bf6de49113437af8721f90acf64afbd5c79451",
+  "pushed": true,
+  "readback": {
+    "baseRefName": "main",
+    "headRefOid": "23bf6de49113437af8721f90acf64afbd5c79451",
+    "state": "OPEN"
+  }
+}

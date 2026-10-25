@@ -1,0 +1,3 @@
+$ git push fork HEAD:refs/heads/fix/cursor-mode-catalog-latency
+To github.com:RoundRedDot/paseo.git
+   24146f345..d0b01dded  HEAD -> fix/cursor-mode-catalog-latency

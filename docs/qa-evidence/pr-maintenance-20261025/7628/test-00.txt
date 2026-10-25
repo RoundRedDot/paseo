@@ -1,0 +1,10 @@
+$ npx vitest run src/runtime/replica-cache/index.test.ts --bail=1 --maxWorkers=1 --project unit
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maintenance-20261025/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  52 passed (52)
+   Start at  18:34:32
+   Duration  348ms (transform 171ms, setup 19ms, import 251ms, tests 18ms, environment 0ms)
+
