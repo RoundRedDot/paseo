@@ -22,7 +22,7 @@ import {
 } from "react-native";
 import { withUnistyles } from "react-native-unistyles";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import type { StreamItem } from "@/types/stream";
+import { getStreamItemMessageId, type StreamItem } from "@/types/stream";
 import type { Theme } from "@/styles/theme";
 import { useStableEvent } from "@/hooks/use-stable-event";
 import { useKeyboardStreamInset } from "@/keyboard/shift";
@@ -50,7 +50,6 @@ import {
   type HistoryStartPaginationTransition,
 } from "./history-start-pagination";
 import { useStreamTopOverlayInset } from "./top-overlay";
-import { getStreamItemMessageId } from "./presentation";
 import {
   createNativePromptJumpSession,
   NATIVE_PROMPT_JUMP_APPROACH_BUDGET,
@@ -638,6 +637,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
         bottomAnchorController.prepareForStickyViewportChange();
         markNativeViewportSettling();
       },
+      holdReadingPosition: () => bottomAnchorController.detachByUser(),
     };
     viewportRef.current = handle;
     return () => {

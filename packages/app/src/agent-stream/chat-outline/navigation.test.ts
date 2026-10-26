@@ -86,6 +86,7 @@ function createHarness() {
       current: {
         scrollToBottom() {},
         prepareForViewportChange() {},
+        holdReadingPosition() {},
         scrollToMessage(id) {
           scrolls.push(id);
         },
@@ -305,6 +306,7 @@ describe("outline navigation", () => {
         current: {
           scrollToBottom() {},
           prepareForViewportChange() {},
+          holdReadingPosition() {},
           scrollToMessage(id) {
             jump.begin(id);
             jump.schedule(() => writes.push(id));
