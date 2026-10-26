@@ -1,0 +1,9 @@
+npm run format
+npx vitest run --project unit src/types/stream.test.ts --bail=1 --maxWorkers=1
+npx vitest run --project unit src/timeline/turn-time.test.ts --bail=1 --maxWorkers=1
+npx vitest run --project unit src/timeline/session-stream-reducers.test.ts --bail=1 --maxWorkers=1
+npx vitest run --project unit src/runtime/replica-cache/index.test.ts --bail=1 --maxWorkers=1
+npx vitest run --project unit src/agent-stream/presentation.test.ts --bail=1 --maxWorkers=1
+npx vitest run --project unit src/plugins/timeline/projection.test.ts --bail=1 --maxWorkers=1
+npm run typecheck
+npm run lint

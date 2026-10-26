@@ -1,0 +1,10 @@
+npm run build:server
+npm run build:app-deps
+npm run format
+npx vitest run --project unit src/plugins/timeline/fork.test.ts --bail=1 --maxWorkers=1
+npx vitest run --project unit src/plugins/timeline/view.test.tsx --bail=1 --maxWorkers=1
+npx vitest run --project unit src/plugins/evaluate.test.ts --bail=1 --maxWorkers=1
+npx vitest run --project unit src/agent-stream/turn-boundary.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/boundaries.test.ts --bail=1 --maxWorkers=1
+npm run typecheck
+npm run lint

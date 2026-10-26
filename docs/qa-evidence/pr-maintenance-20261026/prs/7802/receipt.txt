@@ -1,0 +1,103 @@
+{
+  "pr": 7802,
+  "title": "feat(ios): select paragraphs and list items on double tap",
+  "source_state": "delivered",
+  "delivered_sha": "a5b0248ec7d917dd809c090ccac0dee2fb3f4bbc",
+  "tree_sha": "da5bcbf0bbf13b4b216b2b2c24c7deec7af7448f",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "ios/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": [
+    {
+      "name": "build-app-deps",
+      "exit": 0,
+      "log": "/tmp/paseo-pr-maintenance-20261026/ios/build-app-deps.log"
+    },
+    {
+      "name": "build-server",
+      "exit": 0,
+      "log": "/tmp/paseo-pr-maintenance-20261026/ios/build-server.log"
+    },
+    {
+      "name": "format",
+      "exit": 0,
+      "log": "/tmp/paseo-pr-maintenance-20261026/ios/format.log"
+    },
+    {
+      "name": "foundation-build",
+      "exit": 0,
+      "log": "/tmp/paseo-pr-maintenance-20261026/ios/foundation-build.log"
+    },
+    {
+      "name": "foundation",
+      "exit": 0,
+      "log": "/tmp/paseo-pr-maintenance-20261026/ios/foundation.log"
+    },
+    {
+      "name": "lint",
+      "exit": 0,
+      "log": "/tmp/paseo-pr-maintenance-20261026/ios/lint.log"
+    },
+    {
+      "name": "native-syntax",
+      "exit": 0,
+      "log": "/tmp/paseo-pr-maintenance-20261026/ios/native-syntax.log"
+    },
+    {
+      "name": "patch-script",
+      "exit": 0,
+      "log": "/tmp/paseo-pr-maintenance-20261026/ios/patch-script.log"
+    },
+    {
+      "name": "postinstall",
+      "exit": 0,
+      "log": "/tmp/paseo-pr-maintenance-20261026/ios/postinstall.log"
+    },
+    {
+      "name": "renderer",
+      "exit": 0,
+      "log": "/tmp/paseo-pr-maintenance-20261026/ios/renderer.log"
+    },
+    {
+      "name": "typecheck",
+      "exit": 0,
+      "log": "/tmp/paseo-pr-maintenance-20261026/ios/typecheck.log"
+    }
+  ],
+  "test_counts": null,
+  "check_summary": null,
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "jobs": 0,
+        "checkRuns": 0,
+        "passing": false,
+        "gateReason": "ACTION_REQUIRED observed; exact GitHub gate is not inferred",
+        "checkedAt": "2026-10-26T10:07:28.504Z"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Current-head GitHub Actions completed/action_required, no passing CI result.",
+    "No recorded review for delivered head.",
+    "Rebuilt iPhone/iPad UIKit acceptance: double tap, both selection handles, Copy, cross-block adjustments, links/images/task taps and scrolling. No full native client build or performance claim."
+  ],
+  "included_raw_outputs": [
+    "build-app-deps.log",
+    "build-server.log",
+    "format.log",
+    "foundation-build.log",
+    "foundation.log",
+    "lint.log",
+    "native-syntax.log",
+    "patch-script.log",
+    "renderer.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [],
+  "scope_note": null
+}

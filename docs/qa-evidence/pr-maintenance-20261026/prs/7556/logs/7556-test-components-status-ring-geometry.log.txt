@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-app/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  18:03:53
+   Duration  197ms (transform 40ms, setup 35ms, import 22ms, tests 3ms, environment 0ms)
+

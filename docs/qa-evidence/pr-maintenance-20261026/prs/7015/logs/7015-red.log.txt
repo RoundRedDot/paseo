@@ -1,0 +1,37 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-server/packages/server
+
+stdout | src/server/agent/providers/acp-agent.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: 🛡️ auth for agents: https://vestauth.com
+
+ ❯ src/server/agent/providers/acp-agent.test.ts (150 tests | 1 failed | 148 skipped) 10ms
+     × pending 'grok' questions veto cleanup until answered 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/agent/providers/acp-agent.test.ts > ACP idle runtime cleanup > pending 'grok' questions veto cleanup until answered
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/server/agent/providers/acp-agent.test.ts:5084:46
+    5082|         questions: [question],
+    5083|       });
+    5084|       expect(await session.canStopRuntime()).toBe(false);
+       |                                              ^
+    5085|       const request = session.getPendingPermissions()[0]!;
+    5086|       await session.respondToPermission(request.id, questionFormRespon…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 148 skipped (150)
+   Start at  18:17:01
+   Duration  1.76s (transform 1.06s, setup 32ms, import 1.60s, tests 10ms, environment 0ms)
+

@@ -1,0 +1,9 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-compiler/packages/relay
+
+
+ Test Files  1 passed (1)
+      Tests  28 passed (28)
+   Start at  18:23:58
+   Duration  1.40s (transform 74ms, setup 0ms, import 103ms, tests 1.16s, environment 0ms)
+

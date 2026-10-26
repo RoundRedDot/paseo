@@ -1,0 +1,50 @@
+{
+  "pr": 7807,
+  "title": "feat(app): enrich and reorder mobile workspace tabs",
+  "source_state": "delivered",
+  "delivered_sha": "15f49892f0189a2c5d9ec45449ba827f9a906ed3",
+  "tree_sha": "f3787a05b52828041a001bb6ffdf8e0bf32ef000",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "tablet/7807-result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "architecture": "arm64",
+    "node": "v24.18.0",
+    "npm": "11.16.0",
+    "runtimeBoundary": "Local macOS Chromium, isolated E2E daemon and Metro; not a packaged desktop or native build."
+  },
+  "validation_status": "Clean install, build:server/build:app-deps, format, full typecheck/lint and normal format/lint/typecheck hooks passed. Settings storage 117/117, agent details 5/5, locale parity 40/40. All 6 tab-switcher Chromium tests passed (1.1m): rename/footer, 2/3/unlimited titles, provider/model/thinking details, active-turn elapsed updates/cancellation, sorting and persisted reload order, Appearance preference. The existing Settings hidden-workspace/tab-switcher lifetime regression also passed (14.0s).",
+  "test_counts": null,
+  "check_summary": null,
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "head": "15f49892f0189a2c5d9ec45449ba827f9a906ed3",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Native iOS/iPadOS long-press sorting and timer interaction, native Android revalidation, physical hinges, release APK and packaged Electron were not run. Prior Android phone/tablet gesture recordings remain historical at their recorded source/build identities; browser pointer dragging is not new native acceptance."
+  ],
+  "included_raw_outputs": [
+    "7807-browser.log",
+    "7807-build-app-deps.log",
+    "7807-commit.log",
+    "7807-format.log",
+    "7807-lint.log",
+    "7807-merge.log",
+    "7807-resources.test.ts.log",
+    "7807-settings-browser.log",
+    "7807-typecheck.log",
+    "7807-workspace-tab-agent-details.test.ts.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "7807-auto-overlaps.diff"
+  ],
+  "scope_note": null
+}

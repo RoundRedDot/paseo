@@ -1,0 +1,59 @@
+{
+  "pr": 7015,
+  "title": "fix(acp): bridge native Grok and Cursor question requests",
+  "source_state": "delivered",
+  "delivered_sha": "9e4023926c7dabff69acc07360e2b1c3dd4387cb",
+  "tree_sha": "e255a2e985c010eb5596a8de55c96e8b71880ef7",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "server/7015-result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": "build:server and red regression awaiting shared validation.lock",
+  "test_counts": {
+    "acp": 150,
+    "protocol": 2,
+    "core": 10,
+    "browserChromium": 7
+  },
+  "check_summary": [
+    "npm ci",
+    "npm run build:server",
+    "npm run build --workspace=@getpaseo/expo-two-way-audio",
+    "npm run format",
+    "npm run typecheck",
+    "npm run lint"
+  ],
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "exactSha": "9e4023926c7dabff69acc07360e2b1c3dd4387cb",
+        "status": "COMPLETED",
+        "conclusion": "ACTION_REQUIRED",
+        "runId": 40307730899,
+        "runUrl": "https://github.com/getpaseo/paseo/actions/runs/40307730899"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Grok downstream label conflation remains FAIL at historical captured source; shared-answer decision stays #3490",
+    "Cursor native-question emission not available in historical tested sessions; no new real-provider run",
+    "Native, offline cancellation and packaged Electron not accepted in this integration"
+  ],
+  "included_raw_outputs": [
+    "7015-acp.log",
+    "7015-browser.log",
+    "7015-build-final.log",
+    "7015-commit.log",
+    "7015-format.log",
+    "7015-lint.log",
+    "7015-merge.log",
+    "7015-protocol.log",
+    "7015-red.log",
+    "7015-typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [],
+  "scope_note": null
+}

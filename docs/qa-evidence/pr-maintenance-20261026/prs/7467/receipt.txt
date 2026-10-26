@@ -1,0 +1,36 @@
+{
+  "pr": 7467,
+  "title": "fix(android): default interface, content, and code text to 13px",
+  "source_state": "pushed",
+  "delivered_sha": "8dbc6a9961b0b29ecd234a2b8aac182ea13da05a",
+  "tree_sha": "93d22097e28b58d0feeb5bfcf71918bf6d8d8e34",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "app/7467-result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": "build-server 0\nbuild-app-deps 0\ntest-hooks-use-settings-storage 0\nformat 0\ntypecheck 0\nlint 0",
+  "test_counts": null,
+  "check_summary": [
+    "`src/hooks/use-settings/storage.test.ts`: **109 passed**"
+  ],
+  "ci_review": {
+    "observations": [],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Historical development-emulator Appearance/default/storage/relaunch proof remains scoped to its named JS/native inputs. Current-head chat/code/plugin visual acceptance and physical-device coverage remain unverified."
+  ],
+  "included_raw_outputs": [
+    "7467-build-app-deps.log",
+    "7467-commit.log",
+    "7467-format.log",
+    "7467-lint.log",
+    "7467-merge.log",
+    "7467-typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "7467-incoming-overlap.diff"
+  ],
+  "scope_note": null
+}

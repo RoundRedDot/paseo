@@ -1,0 +1,7 @@
+Auto-merging packages/protocol/src/messages.ts
+Auto-merging packages/server/src/server/agent/agent-manager.test.ts
+Auto-merging packages/server/src/server/agent/agent-manager.ts
+Auto-merging packages/server/src/server/agent/providers/claude/agent.ts
+Auto-merging packages/server/src/server/session.ts
+Auto-merging packages/server/src/server/websocket-server.ts
+Automatic merge went well; stopped before committing as requested

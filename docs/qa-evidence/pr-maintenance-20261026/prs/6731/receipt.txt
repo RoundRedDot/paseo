@@ -1,0 +1,59 @@
+{
+  "pr": 6731,
+  "title": "fix(app): keep installed plugins across a host disconnect",
+  "source_state": "pushed",
+  "delivered_sha": "ac19eed979213b90670f401b636ae05cf05c7db7",
+  "tree_sha": "28380f6e79b9e204fbaa2714617c285a80509ec9",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "compiler/6731/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": [
+    "npm-ci PASS",
+    "build-server PASS",
+    "build-audio PASS",
+    "catalog-tests PASS",
+    "lifecycle-tests PASS",
+    "registry-tests PASS",
+    "requirements-tests PASS",
+    "boundaries-tests PASS",
+    "runtime-tests PASS",
+    "format PASS",
+    "typecheck PASS",
+    "lint PASS",
+    "commit PASS"
+  ],
+  "test_counts": null,
+  "check_summary": null,
+  "ci_review": {
+    "observations": [
+      {
+        "source": "checkSuites",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "The plugin cleanup/lifetime decision remains open on #7088. The retained-installation contract still differs from disconnect-teardown wording in the existing docs; maintainer agreement is required. No new native, encrypted-relay, browser-interaction or packaged-desktop acceptance is claimed."
+  ],
+  "included_raw_outputs": [
+    "boundaries-tests.log",
+    "build-audio.log",
+    "catalog-tests.log",
+    "commit-receipt.log",
+    "commit.log",
+    "format.log",
+    "lifecycle-tests.log",
+    "lint.log",
+    "merge.log",
+    "registry-tests.log",
+    "requirements-tests.log",
+    "runtime-tests.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [],
+  "scope_note": null
+}

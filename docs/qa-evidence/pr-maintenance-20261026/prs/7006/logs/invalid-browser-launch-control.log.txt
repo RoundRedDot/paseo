@@ -1,0 +1,41 @@
+[metro] Skipping web setup: EXPO_NO_WEB_SETUP is enabled.
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Waiting on http://localhost:50567
+[metro] Logs for your project will appear below.
+[metro] Web Bundled 1153ms packages/app/index.ts (5720 modules)
+[e2e] Metro warmed on port 50567
+
+Running 1 test using 1 worker
+
+(node:85297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:85297) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 0 daemon started on port 50617, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-0-TFhe2T
+[e2e] Worker 0 daemon stopped
+  ✘  1 ../../../../../../../../../private/tmp/paseo-pr-maintenance-20261026/app/7006-manual.spec.ts:36:5 › shows the complete reasoning after a streamed turn finishes (manual initial expansion) (17ms)
+[e2e] Metro stopped
+
+
+  1) ../../../../../../../../../private/tmp/paseo-pr-maintenance-20261026/app/7006-manual.spec.ts:36:5 › shows the complete reasoning after a streamed turn finishes (manual initial expansion) 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/luopeihuan/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../../../../tmp/paseo-pr-maintenance-20261026/app/7006-baseline-control/control-results/7006-manual-shows-the-comp-3708e-s-manual-initial-expansion-/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../../../../tmp/paseo-pr-maintenance-20261026/app/7006-baseline-control/control-results/7006-manual-shows-the-comp-3708e-s-manual-initial-expansion-/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    ../../../../../../../../../private/tmp/paseo-pr-maintenance-20261026/app/7006-manual.spec.ts:36:5 › shows the complete reasoning after a streamed turn finishes (manual initial expansion) 

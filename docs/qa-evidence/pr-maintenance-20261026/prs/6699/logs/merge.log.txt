@@ -1,0 +1,3 @@
+Auto-merging packages/app/src/agent-stream/presentation.test.ts
+Auto-merging packages/app/src/types/stream.ts
+Automatic merge went well; stopped before committing as requested

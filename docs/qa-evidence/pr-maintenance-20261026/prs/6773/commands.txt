@@ -1,0 +1,8 @@
+npm run format
+npx vitest run --project unit src/agent-stream/chat-outline/model.test.ts --bail=1 --maxWorkers=1
+npx vitest run --project unit src/agent-stream/chat-outline/navigation.test.ts --bail=1 --maxWorkers=1
+npx vitest run --project unit src/agent-stream/prompt-jump-native.test.ts --bail=1 --maxWorkers=1
+npx vitest run --project unit src/agent-stream/reading-anchor.test.ts --bail=1 --maxWorkers=1
+npx vitest run --project unit src/agent-stream/turn-collapse/model.test.ts --bail=1 --maxWorkers=1
+npm run typecheck
+npm run lint

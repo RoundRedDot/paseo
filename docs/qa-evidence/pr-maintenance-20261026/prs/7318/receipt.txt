@@ -1,0 +1,46 @@
+{
+  "pr": 7318,
+  "title": "feat(plugin): let timeline renderers open files in the native file pane",
+  "source_state": "pushed",
+  "delivered_sha": "b2fd0d1311425cc3ba8f626af8b6425acf6ab994",
+  "tree_sha": "4fbd2915b6741ff8f8e5711451211a5254c6dc0e",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "timeline/7318/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": null,
+  "test_counts": null,
+  "check_summary": "build-server 0\nbuild-app-deps 0\nformat 0\ntest-src_plugins_timeline_view.test.tsx 0\ntest-src_plugins_evaluate.test.ts 0\ntest-plugin:src_boundaries.test.ts 0\ntest-server:src_server_plugins_runtime.posix.test.ts 0\ntypecheck 0\nlint 0\n",
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "headSha": "b2fd0d1311425cc3ba8f626af8b6425acf6ab994",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "The renderer unit suite does not substitute for native or packaged file-pane interaction. Existing runtime receipts keep their recorded build/source boundaries."
+  ],
+  "included_raw_outputs": [
+    "build-app-deps.log",
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "test-plugin:src_boundaries.test.ts.log",
+    "test-server:src_server_plugins_runtime.posix.test.ts.log",
+    "test-src_plugins_evaluate.test.ts.log",
+    "test-src_plugins_timeline_view.test.tsx.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "auto-overlap.patch",
+    "resolution.patch"
+  ],
+  "scope_note": null
+}

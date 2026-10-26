@@ -1,0 +1,66 @@
+{
+  "pr": 6732,
+  "title": "perf(plugins): skip client bundles the app already holds in catalog fetches",
+  "source_state": "pushed",
+  "delivered_sha": "0b2e04a1a54b2ce6ce0163921a94f4804ff33ff3",
+  "tree_sha": "4bd8f668214e579fa6e165bebc0b8043a50f8c7b",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "compiler/6732/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": [
+    "npm-ci PASS",
+    "build-server PASS",
+    "build-audio PASS",
+    "protocol-tests PASS",
+    "client-tests PASS",
+    "session-tests PASS",
+    "builtin-tests PASS",
+    "runtime-tests PASS",
+    "store-tests PASS",
+    "refresh-tests PASS",
+    "viewed-tests PASS",
+    "storage-browser-tests PASS",
+    "boundaries-tests PASS",
+    "format PASS",
+    "typecheck PASS",
+    "lint PASS",
+    "commit PASS"
+  ],
+  "test_counts": null,
+  "check_summary": null,
+  "ci_review": {
+    "observations": [
+      {
+        "source": "checkSuites",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Browser IndexedDB and local real-daemon wire/cache evidence do not establish all plugin surfaces or timeline restoration. The earlier failed timeline-marker oracle and Mac Studio signing-blocked packaged run remain failures/limits. No new native/production-relay/packaged-desktop acceptance is claimed."
+  ],
+  "included_raw_outputs": [
+    "boundaries-tests.log",
+    "build-audio.log",
+    "builtin-tests.log",
+    "client-tests.log",
+    "commit-receipt.log",
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "protocol-tests.log",
+    "refresh-tests.log",
+    "runtime-tests.log",
+    "session-tests.log",
+    "store-tests.log",
+    "typecheck.log",
+    "viewed-tests.log"
+  ],
+  "included_conflict_or_repair_diffs": [],
+  "scope_note": null
+}

@@ -1,0 +1,62 @@
+diff --git a/packages/app/src/agent-stream/chat-outline/navigation.test.ts b/packages/app/src/agent-stream/chat-outline/navigation.test.ts
+index 50e6b8f14..4b05651ba 100644
+--- a/packages/app/src/agent-stream/chat-outline/navigation.test.ts
++++ b/packages/app/src/agent-stream/chat-outline/navigation.test.ts
+@@ -86,6 +86,7 @@ function createHarness() {
+       current: {
+         scrollToBottom() {},
+         prepareForViewportChange() {},
++        holdReadingPosition() {},
+         scrollToMessage(id) {
+           scrolls.push(id);
+         },
+@@ -305,6 +306,7 @@ describe("outline navigation", () => {
+         current: {
+           scrollToBottom() {},
+           prepareForViewportChange() {},
++          holdReadingPosition() {},
+           scrollToMessage(id) {
+             jump.begin(id);
+             jump.schedule(() => writes.push(id));
+diff --git a/packages/app/src/agent-stream/strategy-native.tsx b/packages/app/src/agent-stream/strategy-native.tsx
+index 31294e407..606c9832c 100644
+--- a/packages/app/src/agent-stream/strategy-native.tsx
++++ b/packages/app/src/agent-stream/strategy-native.tsx
+@@ -22,7 +22,7 @@ import {
+ } from "react-native";
+ import { withUnistyles } from "react-native-unistyles";
+ import { LoadingSpinner } from "@/components/ui/loading-spinner";
+-import type { StreamItem } from "@/types/stream";
++import { getStreamItemMessageId, type StreamItem } from "@/types/stream";
+ import type { Theme } from "@/styles/theme";
+ import { useStableEvent } from "@/hooks/use-stable-event";
+ import { useKeyboardStreamInset } from "@/keyboard/shift";
+@@ -50,7 +50,6 @@ import {
+   type HistoryStartPaginationTransition,
+ } from "./history-start-pagination";
+ import { useStreamTopOverlayInset } from "./top-overlay";
+-import { getStreamItemMessageId } from "./presentation";
+ import {
+   createNativePromptJumpSession,
+   NATIVE_PROMPT_JUMP_APPROACH_BUDGET,
+@@ -638,6 +637,7 @@ function NativeStreamViewport(props: StreamRenderInput & { strategy: StreamStrat
+         bottomAnchorController.prepareForStickyViewportChange();
+         markNativeViewportSettling();
+       },
++      holdReadingPosition: () => bottomAnchorController.detachByUser(),
+     };
+     viewportRef.current = handle;
+     return () => {
+diff --git a/packages/app/src/agent-stream/strategy.ts b/packages/app/src/agent-stream/strategy.ts
+index ad587dac6..eb84a4310 100644
+--- a/packages/app/src/agent-stream/strategy.ts
++++ b/packages/app/src/agent-stream/strategy.ts
+@@ -55,6 +55,8 @@ export interface StreamViewportHandle {
+   focus?: () => void;
+   scrollToBottom: (reason?: BottomAnchorLocalRequest["reason"]) => void;
+   prepareForViewportChange: () => void;
++  /** Stop following output so the rows on screen stay put while rows below them open or close. */
++  holdReadingPosition: () => void;
+   scrollToMessage?: (messageId: string, occurrence?: ScrollToMessageOccurrence) => void;
+   cancelScrollToMessage?: () => void;
+ }

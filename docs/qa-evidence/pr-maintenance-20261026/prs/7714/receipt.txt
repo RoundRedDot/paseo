@@ -1,0 +1,111 @@
+{
+  "pr": 7714,
+  "title": "fix(claude): keep a resumed subagent on its row after the session reopens",
+  "source_state": "delivered",
+  "delivered_sha": "d90ef6503cf3e3e40ee7b964f8f82f8c6f839b0d",
+  "tree_sha": "7b2c835501db54fdbf289db4280b696bf14d4ce0",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "providers/7714/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": null,
+  "test_counts": null,
+  "check_summary": [
+    {
+      "name": "build-app-deps",
+      "command": "npm run build:app-deps",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "build-server",
+      "command": "npm run build:server",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "format",
+      "command": "npm run format",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "lint",
+      "command": "npm run lint",
+      "passedTests": null,
+      "summary": [
+        "Found 0 warnings and 0 errors."
+      ]
+    },
+    {
+      "name": "server-0",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.history-load.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 11,
+      "summary": [
+        "      Tests  11 passed (11)"
+      ]
+    },
+    {
+      "name": "server-1",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.sub-agent-replay.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 32,
+      "summary": [
+        "      Tests  32 passed (32)"
+      ]
+    },
+    {
+      "name": "server-2",
+      "command": "npx vitest run src/server/agent/providers/claude/subagents/live-source.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 53,
+      "summary": [
+        "      Tests  53 passed (53)"
+      ]
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "passedTests": null,
+      "summary": []
+    }
+  ],
+  "ci_review": {
+    "observations": [
+      {
+        "source": "actions",
+        "id": 40306867517,
+        "head": "d90ef6503cf3e3e40ee7b964f8f82f8c6f839b0d",
+        "status": "completed",
+        "conclusion": "action_required",
+        "jobs": 0
+      },
+      {
+        "source": "checkSuites",
+        "id": 109239772834,
+        "head_sha": "d90ef6503cf3e3e40ee7b964f8f82f8c6f839b0d",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Real Claude reopen/resume and device UI not rerun",
+    "Packaged desktop lifecycle not exercised",
+    "Upstream CI and current-head maintainer review remain separate gates"
+  ],
+  "included_raw_outputs": [
+    "build-app-deps.log",
+    "build-server.log",
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "server-0.log",
+    "server-1.log",
+    "server-2.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [],
+  "scope_note": null
+}

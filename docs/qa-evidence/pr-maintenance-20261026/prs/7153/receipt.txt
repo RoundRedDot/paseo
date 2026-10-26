@@ -1,0 +1,57 @@
+{
+  "pr": 7153,
+  "title": "fix(app): use tablet layout on Android foldables",
+  "source_state": "delivered",
+  "delivered_sha": "2d6ad36f42764f6de0cd6f909c91e13cfa850a11",
+  "tree_sha": "d945033fe74a9cf4722f9173c2aea52617297f37",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "tablet/7153-result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "architecture": "arm64",
+    "node": "v24.18.0",
+    "npm": "11.16.0",
+    "runtimeBoundary": "Local macOS Chromium, isolated E2E daemon and Metro; not a packaged desktop or native build."
+  },
+  "validation_status": "Clean install and declaration builds, format, full typecheck/lint and normal hooks passed. Layout units: 29 desktop + 6 Explorer + 6 breakpoint cases passed. Chromium: 4 resize/restore/fold cases passed; the extra theme-retention case initially failed on the baseline macOS shortcut mismatch, then passed after the one-line test-helper correction (17.3s). All 7 Settings scroll/host-selection cases passed (41.9s). Product source was unchanged by the helper correction; already-green suites were not repeated.",
+  "test_counts": null,
+  "check_summary": null,
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "head": "2d6ad36f42764f6de0cd6f909c91e13cfa850a11",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "No new native Android build or physical hinge test, native iPad acceptance, release APK or packaged Electron run. Browser viewport changes prove browser layout only. Existing Android emulator/device evidence retains its recorded source/build identity."
+  ],
+  "included_raw_outputs": [
+    "7153-breakpoints.test.ts.log",
+    "7153-build-app-deps.log",
+    "7153-commit.log",
+    "7153-desktop-sidebar-layout.test.ts.log",
+    "7153-explorer-browser.log",
+    "7153-explorer-followup-browser.log",
+    "7153-explorer-sidebar-layout.test.ts.log",
+    "7153-followup-format.log",
+    "7153-followup-lint.log",
+    "7153-followup-typecheck.log",
+    "7153-format.log",
+    "7153-lint.log",
+    "7153-merge.log",
+    "7153-settings-browser.log",
+    "7153-typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "7153-auto-overlaps.diff",
+    "7153-conflict-resolution.diff",
+    "7153-test-shortcut-adjustment.diff"
+  ],
+  "scope_note": null
+}

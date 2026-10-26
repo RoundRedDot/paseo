@@ -1,0 +1,43 @@
+{
+  "pr": 7543,
+  "title": "fix(app): stop a late update from an earlier turn relabelling the newest row",
+  "source_state": "pushed",
+  "delivered_sha": "92026c3d6ee7987462b080e990e30f515a82aced",
+  "tree_sha": "329bea6c0b6462fe9a8de9e75872e5815d4a4503",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "timeline/7543/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": null,
+  "test_counts": null,
+  "check_summary": "build-server 0\nbuild-app-deps 0\nformat 0\ntest-src_types_stream.test.ts 0\ntypecheck 0\nlint 0\n",
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "headSha": "92026c3d6ee7987462b080e990e30f515a82aced",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Stream reducer tests cover a late update from a previous turn; this run adds no live-provider or native runtime claim."
+  ],
+  "included_raw_outputs": [
+    "build-app-deps.log",
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "test-src_types_stream.test.ts.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "auto-overlap.patch",
+    "resolution.patch"
+  ],
+  "scope_note": null
+}

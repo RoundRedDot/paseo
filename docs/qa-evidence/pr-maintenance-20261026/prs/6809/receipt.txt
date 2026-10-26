@@ -1,0 +1,147 @@
+{
+  "pr": 6809,
+  "title": "feat(claude): show the Task prompt on expanded subagent cards",
+  "source_state": "delivered",
+  "delivered_sha": "3789dc8dccd626f3e496e0afc6f43e627e873428",
+  "tree_sha": "5d774bc32935954a5d8b1c402e2de19d8d525485",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "providers/6809/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": null,
+  "test_counts": null,
+  "check_summary": [
+    {
+      "name": "app-0",
+      "command": "npx vitest run src/utils/tool-call-detail-state.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 9,
+      "summary": [
+        "      Tests  9 passed (9)"
+      ]
+    },
+    {
+      "name": "build-app-deps",
+      "command": "npm run build:app-deps",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "build-server",
+      "command": "npm run build:server",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "format",
+      "command": "npm run format",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "lint",
+      "command": "npm run lint",
+      "passedTests": null,
+      "summary": [
+        "Found 0 warnings and 0 errors."
+      ]
+    },
+    {
+      "name": "plugin-0",
+      "command": "npx vitest run src/server/provider.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 1,
+      "summary": [
+        "      Tests  1 passed (1)"
+      ]
+    },
+    {
+      "name": "protocol-0",
+      "command": "npx vitest run src/messages.tool-call-schema.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 8,
+      "summary": [
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "name": "server-0",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.history-load.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 11,
+      "summary": [
+        "      Tests  11 passed (11)"
+      ]
+    },
+    {
+      "name": "server-1",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.background-subagent.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 11,
+      "summary": [
+        "      Tests  11 passed (11)"
+      ]
+    },
+    {
+      "name": "server-2",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.sub-agent-replay.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 33,
+      "summary": [
+        "      Tests  33 passed (33)"
+      ]
+    },
+    {
+      "name": "server-3",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.sub-agent-sidechain.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 7,
+      "summary": [
+        "      Tests  7 passed (7)"
+      ]
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "passedTests": null,
+      "summary": []
+    }
+  ],
+  "ci_review": {
+    "observations": [
+      {
+        "source": "actions",
+        "id": 40311264678,
+        "head": "3789dc8dccd626f3e496e0afc6f43e627e873428",
+        "status": "completed",
+        "conclusion": "action_required",
+        "jobs": 0
+      },
+      {
+        "source": "checkSuites",
+        "id": 109251785819,
+        "head_sha": "3789dc8dccd626f3e496e0afc6f43e627e873428",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Real Claude expanded-card/native UI and prompt selection not rerun",
+    "Packaged desktop lifecycle not exercised",
+    "Upstream CI and current-head maintainer review remain separate gates"
+  ],
+  "included_raw_outputs": [
+    "app-0.log",
+    "build-app-deps.log",
+    "build-server.log",
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "plugin-0.log",
+    "protocol-0.log",
+    "server-0.log",
+    "server-1.log",
+    "server-2.log",
+    "server-3.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [],
+  "scope_note": null
+}

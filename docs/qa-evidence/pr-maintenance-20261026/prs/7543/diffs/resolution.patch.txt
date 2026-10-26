@@ -1,0 +1,100 @@
+diff --git a/packages/app/src/types/stream.test.ts b/packages/app/src/types/stream.test.ts
+index 62e26698d..030e7b2a7 100644
+--- a/packages/app/src/types/stream.test.ts
++++ b/packages/app/src/types/stream.test.ts
+@@ -661,6 +661,63 @@ describe("stream reducer canonical tool calls", () => {
+     expect(new Set(tools.map((tool) => tool.id)).size).toBe(2);
+   });
+ 
++  it("keeps the newest call's turn when an earlier turn's call reports late", () => {
++    const background = "tool-background-subagent";
++    const question = "tool-current-question";
++    const state = hydrateStreamState([
++      {
++        event: canonicalToolTimeline({
++          provider: "claude",
++          callId: background,
++          turnId: "foreground-turn-1",
++          name: "Agent",
++          status: "running",
++        }),
++        timestamp: new Date("2025-01-01T09:00:00Z"),
++      },
++      {
++        event: canonicalToolTimeline({
++          provider: "claude",
++          callId: question,
++          turnId: "foreground-turn-2",
++          name: "AskUserQuestion",
++          status: "running",
++        }),
++        timestamp: new Date("2025-01-01T09:01:00Z"),
++      },
++      {
++        event: canonicalToolTimeline({
++          provider: "claude",
++          callId: background,
++          turnId: "foreground-turn-1",
++          name: "Agent",
++          status: "running",
++          output: "still working",
++        }),
++        timestamp: new Date("2025-01-01T09:02:00Z"),
++      },
++      {
++        event: canonicalToolTimeline({
++          provider: "claude",
++          callId: question,
++          turnId: "foreground-turn-2",
++          name: "AskUserQuestion",
++          status: "completed",
++        }),
++        timestamp: new Date("2025-01-01T09:03:00Z"),
++      },
++    ]);
++
++    const tools = state.filter(isAgentToolCallItem);
++    expect(
++      tools.map((tool) => [tool.payload.data.callId, tool.turnId, tool.payload.data.status]),
++    ).toEqual([
++      [background, "foreground-turn-1", "running"],
++      [question, "foreground-turn-2", "completed"],
++    ]);
++    expect(new Set(state.map((item) => item.id)).size).toBe(state.length);
++  });
++
+   it("merges lifecycle updates for the same call occurrence", () => {
+     const callId = "tool-updated-within-turn";
+     const turnId = "autonomous-turn-1";
+diff --git a/packages/app/src/types/stream.ts b/packages/app/src/types/stream.ts
+index 657d218b3..31d0fc2cf 100644
+--- a/packages/app/src/types/stream.ts
++++ b/packages/app/src/types/stream.ts
+@@ -1603,6 +1603,7 @@ export function reduceStreamUpdate(
+   switch (event.type) {
+     case "timeline":
+       return applyTimelineTurnId(
++        state,
+         reduceTimelineEvent(
+           state,
+           event,
+@@ -1628,6 +1629,7 @@ export function reduceStreamUpdate(
+ }
+ 
+ function applyTimelineTurnId(
++  previous: StreamItem[],
+   items: StreamItem[],
+   event: Extract<AgentStreamEventPayload, { type: "timeline" }>,
+ ): StreamItem[] {
+@@ -1641,6 +1643,11 @@ function applyTimelineTurnId(
+   const index = items.length - 1;
+   const last = items[index];
+   if (!last || last.turnId === event.turnId) return items;
++  // Only the row this event wrote joins its turn. A late update to an earlier
++  // row (a background subagent from a previous turn) must not relabel the
++  // newest row: its identity would change under its id, and its next update
++  // would append a second row with the same id.
++  if (items.length === previous.length && last === previous[index]) return items;
+   return [
+     ...items.slice(0, index),
+     { ...last, turnId: event.turnId } as StreamItem,

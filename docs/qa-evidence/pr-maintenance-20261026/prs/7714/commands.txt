@@ -1,0 +1,8 @@
+npm run build:app-deps
+npm run build:server
+npm run format
+npm run lint
+npx vitest run src/server/agent/providers/claude/agent.history-load.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/agent/providers/claude/agent.sub-agent-replay.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/agent/providers/claude/subagents/live-source.test.ts --bail=1 --maxWorkers=1
+npm run typecheck

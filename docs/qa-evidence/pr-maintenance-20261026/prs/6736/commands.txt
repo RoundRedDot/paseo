@@ -1,0 +1,16 @@
+npm run build:app-deps
+npm run build:server
+npm run format
+npm run lint
+npx vitest run src/server/agent/agent-manager.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/agent/providers/omp/agent.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/agent/providers/omp/history-mapper.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/agent/providers/pi/agent.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/agent/providers/pi/history-mapper.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/plugins/timeline/projection.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/runtime/replica-cache/index.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/types/stream.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/daemon-e2e/timeline-window.e2e.test.ts --bail=1 --maxWorkers=1
+npm run typecheck
+npx vitest run src/agent-stream/web-virtualization.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/messages.wire-compat.test.ts --bail=1 --maxWorkers=1

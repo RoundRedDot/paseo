@@ -1,0 +1,295 @@
+diff --git a/packages/app/e2e/browser/settings-navigation.spec.ts b/packages/app/e2e/browser/settings-navigation.spec.ts
+index 579d560ae..334635e25 100644
+--- a/packages/app/e2e/browser/settings-navigation.spec.ts
++++ b/packages/app/e2e/browser/settings-navigation.spec.ts
+@@ -10,6 +10,15 @@ import { gotoAppShell, openSettings } from "../support/helpers/app";
+ import { getE2EDaemonPort } from "../support/helpers/daemon-port";
+ import {
+   closeCompactSettings,
++  scrollSettingsSidebarToEnd,
++  revealSettingsSidebarSection,
++  expectSettingsSidebarScrollSettled,
++  scrollSettingsSidebarUp,
++  changeSettingsInterfaceFontSize,
++  selectSettingsHostSectionsRapidly,
++  expectSettingsSidebarScrollOffset,
++  scrollSettingsDetailDown,
++  expectSettingsDetailScrollOffset,
+   openSettingsSection,
+   expectSettingsHeader,
+   openAddHostFlow,
+@@ -191,6 +200,98 @@ test("settings sidebar mouse resizing preserves limits and compact navigation",
+   await expectSettingsBackButton(page);
+ });
+ 
++test.describe("Settings sidebar scroll position", () => {
++  test.use({ viewport: { width: 1000, height: 500 } });
++
++  test("clamps after resizing and starts a fresh visit at the top", async ({ page }) => {
++    await gotoAppShell(page);
++    await openSettings(page);
++    await scrollSettingsSidebarToEnd(page);
++    await page.setViewportSize({ width: 1000, height: 1100 });
++    await expectSettingsSidebarScrollOffset(page, 0);
++    await page.setViewportSize({ width: 1000, height: 500 });
++    await openSettingsSection(page, "appearance");
++    await expectSettingsSidebarScrollOffset(page, 0);
++    await scrollSettingsSidebarToEnd(page);
++    await clickSettingsBackToWorkspace(page);
++    await openSettings(page);
++    await expectSettingsSidebarScrollOffset(page, 0);
++  });
++
++  test("keeps the sidebar position through interface font changes", async ({ page }) => {
++    await gotoAppShell(page);
++    await openSettings(page);
++    await openSettingsSection(page, "appearance");
++    const offset = await scrollSettingsSidebarToEnd(page);
++    await changeSettingsInterfaceFontSize(page, 20);
++    await expectSettingsSidebarScrollOffset(page, offset);
++    await openSettingsHostSection(page, getServerId(), "providers");
++    await expectSettingsSidebarScrollOffset(page, offset);
++  });
++
++  test("scrolls the sidebar and detail pane independently", async ({ page }) => {
++    await gotoAppShell(page);
++    await openSettings(page);
++    const sidebarOffset = await scrollSettingsSidebarToEnd(page);
++    await openSettingsHostSection(page, getServerId(), "providers");
++    await expect(page.getByTestId("host-page-providers-card")).toBeVisible();
++    const detailOffset = await scrollSettingsDetailDown(page);
++    await expectSettingsSidebarScrollOffset(page, sidebarOffset);
++
++    await scrollSettingsSidebarUp(page, 60);
++    await expectSettingsSidebarScrollOffset(page, sidebarOffset - 60);
++    await expectSettingsDetailScrollOffset(page, detailOffset);
++  });
++
++  test("keeps the sidebar position after rapid consecutive selections", async ({ page }) => {
++    await gotoAppShell(page);
++    await openSettings(page);
++
++    const scrollTop = await scrollSettingsSidebarToEnd(page);
++
++    await selectSettingsHostSectionsRapidly(page);
++    await expectSettingsSidebarScrollOffset(page, scrollTop);
++
++    await expectSettingsSidebarScrollSettled(page, scrollTop);
++  });
++
++  test("keeps the sidebar position when switching between app and host sections", async ({
++    page,
++  }) => {
++    await gotoAppShell(page);
++    await openSettings(page);
++
++    const hostScrollTop = await scrollSettingsSidebarToEnd(page);
++    await expect(page.getByTestId("settings-host-section-providers")).toBeInViewport();
++
++    for (const section of [
++      "providers",
++      "terminals",
++      "providers",
++      "terminals",
++      "providers",
++    ] as const) {
++      await openSettingsHostSection(page, getServerId(), section);
++      await expect(page.getByTestId("page-title")).toHaveText(
++        section === "providers" ? "Providers" : "Terminals",
++      );
++      await expectSettingsSidebarScrollOffset(page, hostScrollTop);
++    }
++
++    const sidebar = page.getByTestId("settings-sidebar");
++    const appScrollTop = await revealSettingsSidebarSection(page, "diagnostics");
++    await expect(sidebar.getByRole("button", { name: "About", exact: true })).toBeInViewport();
++
++    await openSettingsSection(page, "about");
++    await expectAboutContent(page);
++    await expectSettingsSidebarScrollOffset(page, appScrollTop);
++
++    await openSettingsSection(page, "diagnostics");
++    await expectDiagnosticsContent(page);
++    await expectSettingsSidebarScrollOffset(page, appScrollTop);
++  });
++});
++
+ test.describe("Settings sidebar navigation", () => {
+   test("opening Settings closes the composer model selector until it is opened again", async ({
+     page,
+@@ -284,6 +385,28 @@ test.describe("Settings sidebar navigation", () => {
+     await expect(page).not.toHaveURL(/\/settings(\/|$)/);
+   });
+ 
++  test("host choice survives app sections and host screen replacements", async ({ page }) => {
++    const primaryServerId = getServerId();
++    const secondaryServerId = "srv_e2e_settings_secondary";
++    const endpoint = `127.0.0.1:${getE2EDaemonPort()}`;
++    await seedSavedSettingsHosts(page, [
++      { serverId: primaryServerId, label: "First horse", endpoint },
++      { serverId: secondaryServerId, label: "Stable horse", endpoint },
++    ]);
++    await gotoAppShell(page);
++    await openSettings(page);
++    await selectSettingsHost(page, secondaryServerId);
++    await openSettingsHostSection(page, secondaryServerId, "connections");
++    await openSettingsSection(page, "appearance");
++    await expectSettingsHostPickerLabel(page, "Stable horse");
++    await openSettingsSection(page, "general");
++    await expectSettingsHostPickerLabel(page, "Stable horse");
++    await openSettingsHostSection(page, secondaryServerId, "connections");
++    await selectSettingsHost(page, primaryServerId);
++    await openSettingsSection(page, "about");
++    await expectSettingsHostPickerLabel(page, "First horse");
++  });
++
+   test("/h/[serverId]/settings redirects to the host connections section", async ({ page }) => {
+     await gotoAppShell(page);
+     await verifyLegacyHostSettingsRedirect(page);
+@@ -466,6 +589,15 @@ test.describe("Settings — compact master-detail", () => {
+     await expectSettingsHostPickerLabel(page, secondaryHostLabel);
+ 
+     await openSettingsHostSection(page, secondaryServerId, "connections");
++    await goBackInSettings(page);
++    await expectSettingsHostPickerLabel(page, secondaryHostLabel);
++
++    await openSettingsSection(page, "appearance");
++    await goBackInSettings(page);
++    await expectSettingsHostPickerLabel(page, secondaryHostLabel);
++    await openSettingsHostSection(page, secondaryServerId, "connections");
++    await goBackInSettings(page);
++    await expectSettingsHostPickerLabel(page, secondaryHostLabel);
+   });
+ 
+   test("removing the last active host returns to welcome after settings closes", async ({
+diff --git a/packages/app/src/app/_layout.tsx b/packages/app/src/app/_layout.tsx
+index a1851b029..78848299a 100644
+--- a/packages/app/src/app/_layout.tsx
++++ b/packages/app/src/app/_layout.tsx
+@@ -72,6 +72,7 @@ import {
+   type StartupBlocker,
+ } from "@/navigation/host-runtime-bootstrap";
+ import { registerWorkspaceRouteNavigationRef } from "@/navigation/workspace-route-navigation";
++import { useSettingsRouteEntry } from "@/navigation/settings-presentation";
+ import { ThemedStack } from "@/navigation/themed-stack";
+ import { shouldUseDesktopDaemon } from "@/desktop/daemon/desktop-daemon";
+ import { AgentNavigationListener } from "@/desktop/agent-navigation";
+@@ -761,6 +762,7 @@ function OpenProjectListener() {
+ }
+ 
+ function AppWithSidebar({ children }: { children: ReactNode }) {
++  useSettingsRouteEntry();
+   const pathname = usePathname();
+   const hosts = useHosts();
+   const storeReady = useStoreReady();
+diff --git a/packages/app/src/screens/settings-screen.tsx b/packages/app/src/screens/settings-screen.tsx
+index 4e80889ac..85368eb20 100644
+--- a/packages/app/src/screens/settings-screen.tsx
++++ b/packages/app/src/screens/settings-screen.tsx
+@@ -42,6 +42,7 @@ import {
+   Files,
+   Smartphone,
+   Sparkles,
++  Mic,
+   Blocks,
+   Globe,
+   PanelLeft,
+@@ -123,6 +124,7 @@ import { PluginSettingsContent } from "@/plugins/settings";
+ import { useInstalledPlugins } from "@/plugins/registry";
+ import { HostPluginsPage } from "@/screens/settings/plugins-page";
+ import { MetadataGenerationPage } from "@/screens/settings/metadata-generation-page";
++import { HostVoicePage } from "@/screens/settings/voice/voice-page";
+ import ProjectsScreen from "@/screens/projects-screen";
+ import ProjectSettingsScreen from "@/screens/project-settings-screen";
+ import { useIsCompactFormFactor } from "@/constants/layout";
+@@ -145,7 +147,11 @@ import {
+   type HostSectionSlug,
+   type SettingsSectionSlug,
+ } from "@/utils/host-routes";
+-import { useLastWorkspaceSelection } from "@/stores/navigation-active-workspace-store";
++import {
++  selectSettingsHost,
++  useSettingsHostSelection,
++  useSettingsSidebarScroll,
++} from "@/navigation/settings-presentation";
+ import { returnFromSettings, type SettingsView } from "@/navigation/settings-navigation";
+ import { isWeb } from "@/constants/platform";
+ 
+@@ -248,6 +254,7 @@ const HOST_SECTION_ITEMS: HostSectionItem[] = [
+   { id: "pair-device", labelKey: "openProject.tiles.pairDevice.title", icon: Smartphone },
+   { id: "agents", labelKey: "settings.hostSections.agents", icon: Bot },
+   { id: "metadata", labelKey: "settings.hostSections.metadata", icon: Sparkles },
++  { id: "voice", labelKey: "settings.hostSections.voice", icon: Mic },
+   { id: "workspaces", labelKey: "settings.hostSections.workspaces", icon: FolderGit2 },
+   { id: "providers", labelKey: "settings.hostSections.providers", icon: Boxes },
+   { id: "usage", labelKey: "settings.hostSections.usage", icon: Gauge },
+@@ -270,6 +277,8 @@ function renderHostSettingsContent(
+       return <HostAgentsPage serverId={view.serverId} />;
+     case "metadata":
+       return <MetadataGenerationPage serverId={view.serverId} />;
++    case "voice":
++      return <HostVoicePage serverId={view.serverId} />;
+     case "workspaces":
+       return <HostWorkspacesPage serverId={view.serverId} />;
+     case "providers":
+@@ -965,6 +974,7 @@ function SettingsSidebar({
+     requestedWidth: sidebarWidth,
+     viewportWidth,
+   });
++  const sidebarScroll = useSettingsSidebarScroll(isDesktop);
+   const outerContainerStyle = useMemo(
+     () => [isDesktop ? sidebarStyles.desktopContainer : sidebarStyles.mobileContainer],
+     [isDesktop],
+@@ -1117,6 +1127,7 @@ function SettingsSidebar({
+             style={sidebarStyles.scrollBody}
+             showsVerticalScrollIndicator={false}
+             testID="settings-sidebar-scroll-body"
++            {...sidebarScroll}
+           >
+             {sidebarBody}
+           </ScrollView>
+@@ -1171,21 +1182,7 @@ export default function SettingsScreen({ view, openAddHostIntent = null }: Setti
+   const hosts = useHosts();
+   const localServerId = useLocalDaemonServerId();
+   const sortedHosts = useSortedHosts(hosts, localServerId);
+-  const lastWorkspaceSelection = useLastWorkspaceSelection();
+-  const routedSettingsHostServerId =
+-    view.kind === "host" || view.kind === "project" || view.kind === "plugin"
+-      ? view.serverId
+-      : null;
+-  const [selectedSettingsHostServerId, setSelectedSettingsHostServerId] = useState<string | null>(
+-    routedSettingsHostServerId ?? lastWorkspaceSelection?.serverId ?? null,
+-  );
+-  useFocusEffect(
+-    useCallback(() => {
+-      setSelectedSettingsHostServerId(
+-        routedSettingsHostServerId ?? lastWorkspaceSelection?.serverId ?? null,
+-      );
+-    }, [lastWorkspaceSelection?.serverId, routedSettingsHostServerId]),
+-  );
++  const selectedSettingsHostServerId = useSettingsHostSelection();
+ 
+   // The host the four sections scope to: the host on the active view, otherwise
+   // the picker choice, otherwise the connected local daemon, otherwise the first host.
+@@ -1305,7 +1302,7 @@ export default function SettingsScreen({ view, openAddHostIntent = null }: Setti
+   // host detail route, keep that detail section and swap only the host segment.
+   const handleSelectHost = useCallback(
+     (serverId: string) => {
+-      setSelectedSettingsHostServerId(serverId);
++      selectSettingsHost(serverId);
+       if (view.kind === "project") {
+         const target = buildSettingsHostSectionRoute(serverId, "projects");
+         if (isCompactLayout) {
+@@ -1544,7 +1541,11 @@ export default function SettingsScreen({ view, openAddHostIntent = null }: Setti
+         </WindowChromeRegion>
+         <WindowChromeRegion corners="top-right">
+           <View style={desktopStyles.contentPane} testID="settings-detail-pane">
+-            <PageLayout title={detailTitle} titleTestID="settings-detail-header-title">
++            <PageLayout
++              title={detailTitle}
++              titleTestID="settings-detail-header-title"
++              testID="settings-detail-scroll-body"
++            >
+               {content}
+             </PageLayout>
+           </View>

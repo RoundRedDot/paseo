@@ -1,0 +1,132 @@
+diff --git a/packages/app/src/components/markdown/renderer.tsx b/packages/app/src/components/markdown/renderer.tsx
+index 94dbd3371..4596f7922 100644
+--- a/packages/app/src/components/markdown/renderer.tsx
++++ b/packages/app/src/components/markdown/renderer.tsx
+@@ -23,14 +23,29 @@ const ThemedMarkdown = withUnistyles(EnrichedMarkdownText);
+ const MD4C_FLAGS = { latexMath: false, hardSoftBreaks: true, admonitions: true };
+ 
+ // Reading the breakpoint here makes Unistyles restyle the text when the layout crosses it.
+-const markdownStyle = (compact: boolean) => (theme: Theme, rt: { breakpoint?: string }) =>
+-  createMarkdownStyles(theme, { compact, blockGap: resolveDensity(rt, density.blockGap) });
++const markdownStyle =
++  (compact: boolean, muted = false) =>
++  (theme: Theme, rt: { breakpoint?: string }) =>
++    createMarkdownStyles(theme, {
++      compact,
++      muted,
++      blockGap: resolveDensity(rt, density.blockGap),
++    });
+ const regularStyle = markdownStyle(false);
+ const compactStyle = markdownStyle(true);
++const compactMutedStyle = markdownStyle(true, true);
++
++function pickMarkdownStyle(compact: boolean, muted: boolean) {
++  if (!compact) return regularStyle;
++  return muted ? compactMutedStyle : compactStyle;
++}
+ 
+ export interface MarkdownRendererProps extends MarkdownImageContext {
+   text: string;
+   compact?: boolean;
++  /** Muted text colour. Compact surfaces only. */
++  muted?: boolean;
++  selectable?: boolean;
+   streaming?: boolean;
+   onLinkPress?: (url: string) => unknown;
+ }
+@@ -54,6 +69,8 @@ export const MarkdownRenderer = memo(function MarkdownRenderer(props: MarkdownRe
+ const MarkdownPart = memo(function MarkdownPart({
+   text,
+   compact = false,
++  muted = false,
++  selectable = true,
+   streaming = false,
+   onLinkPress,
+   ...imageContext
+@@ -96,9 +113,9 @@ const MarkdownPart = memo(function MarkdownPart({
+             <ThemedMarkdown
+               key={`${segment.kind}:${segment.id}`}
+               markdown={segment.source}
+-              uniProps={compact ? compactStyle : regularStyle}
++              uniProps={pickMarkdownStyle(compact, muted)}
+               flavor="github"
+-              selectable
++              selectable={selectable}
+               md4cFlags={MD4C_FLAGS}
+               linkRecognition={linkRecognition}
+               enableTaskListItemToggle={false}
+diff --git a/packages/server/src/server/session.ts b/packages/server/src/server/session.ts
+index 9ebce4d3f..eb2da9c2a 100644
+--- a/packages/server/src/server/session.ts
++++ b/packages/server/src/server/session.ts
+@@ -182,6 +182,10 @@ import {
+ import { ScheduleSession } from "./session/schedule/schedule-session.js";
+ import { ProviderCatalogSession } from "./session/provider/provider-catalog-session.js";
+ import { UsageSession } from "./session/usage/usage-session.js";
++import {
++  SpeechModelsSession,
++  type SpeechModelsSessionOptions,
++} from "./session/speech/speech-models-session.js";
+ import { WorkspaceFilesSession } from "./session/files/workspace-files-session.js";
+ import { AgentConfigSession } from "./session/agent-config/agent-config-session.js";
+ import { ProjectConfigSession } from "./session/project-config/project-config-session.js";
+@@ -528,6 +532,7 @@ export interface SessionOptions {
+   stt: Resolvable<SpeechToTextProvider | null>;
+   sttLanguage?: string;
+   tts: Resolvable<TextToSpeechProvider | null>;
++  speechModels?: SpeechModelsSessionOptions["runtime"];
+   terminalManager: TerminalManager | null;
+   providerSnapshotManager: ProviderSnapshotManager;
+   hubExecutionAgents?: HubExecutionAgents;
+@@ -811,6 +816,7 @@ export class Session {
+   private readonly scheduleSession: ScheduleSession;
+   private readonly providerCatalogSession: ProviderCatalogSession;
+   private readonly usageSession: UsageSession;
++  private readonly speechModelsSession: SpeechModelsSession;
+   private readonly workspaceFilesSession: WorkspaceFilesSession;
+   private readonly agentConfigSession: AgentConfigSession;
+   private readonly projectConfigSession: ProjectConfigSession;
+@@ -861,6 +867,7 @@ export class Session {
+       stt,
+       sttLanguage,
+       tts,
++      speechModels,
+       terminalManager,
+       providerSnapshotManager,
+       serviceProxy,
+@@ -1037,6 +1044,10 @@ export class Session {
+       runtime: pluginRuntime,
+       logger: this.sessionLogger,
+     });
++    this.speechModelsSession = new SpeechModelsSession({
++      emit: (msg) => this.emit(msg),
++      runtime: speechModels,
++    });
+     this.agentConfigSession = new AgentConfigSession({
+       host: {
+         emit: (msg) => this.emit(msg),
+@@ -2424,8 +2435,7 @@ export class Session {
+       this.dispatchOrchestrationSkillsMessage(msg) ??
+       this.dispatchPluginDirectoryMessage(msg) ??
+       this.dispatchPluginMessage(msg) ??
+-      this.dispatchTerminalMessage(msg) ??
+-      this.dispatchScheduleMessage(msg) ??
++      this.dispatchHostServiceMessage(msg) ??
+       this.dispatchMiscMessage(msg);
+     if (promise) await promise;
+   }
+@@ -2441,6 +2451,14 @@ export class Session {
+     );
+   }
+ 
++  private dispatchHostServiceMessage(msg: SessionInboundMessage): Promise<void> | undefined {
++    return (
++      this.dispatchTerminalMessage(msg) ??
++      this.dispatchScheduleMessage(msg) ??
++      this.speechModelsSession.dispatch(msg)
++    );
++  }
++
+   private dispatchWorkspaceLifecycleMessage(msg: SessionInboundMessage): Promise<void> | undefined {
+     return (
+       this.dispatchWorkspaceStateMessage(msg) ??

@@ -1,0 +1,164 @@
+diff --git a/packages/app/src/app/_layout.tsx b/packages/app/src/app/_layout.tsx
+index 083c6b214..8aa967a3f 100644
+--- a/packages/app/src/app/_layout.tsx
++++ b/packages/app/src/app/_layout.tsx
+@@ -1,6 +1,5 @@
+ import { useSafeAreaInsets } from "react-native-safe-area-context";
+ import { useActiveWorkspaceSelection } from "@/stores/navigation-active-workspace-store";
+-import { useIsExplorerSidebarOpen } from "@/workspace-tabs/explorer-sidebar";
+ import { ComposerEditingSessionsProvider } from "@/composer/editing-session";
+ import { SheetHostScope } from "@/components/ui/isolated-bottom-sheet-modal";
+ import "@/styles/unistyles";
+@@ -89,6 +88,9 @@ import { useGlobalNewWorkspaceAction } from "@/hooks/use-global-new-workspace-ac
+ import { useLatchedBoolean } from "@/hooks/use-latched-boolean";
+ import { useFaviconStatus } from "@/hooks/use-favicon-status";
+ import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
++import { useIsExplorerSidebarOpen } from "@/workspace-tabs/explorer-sidebar";
++import { buildWorkspaceTabPersistenceKey } from "@/workspace-tabs/model";
++import { useWorkspaceLayoutStore } from "@/stores/workspace-layout-store";
+ import { KeyboardShiftProvider } from "@/keyboard/shift";
+ import { useCompactWebViewportZoomLock } from "@/hooks/use-compact-web-viewport-zoom-lock";
+ import { useOpenProject } from "@/hooks/use-open-project";
+@@ -122,11 +124,7 @@ import {
+   WindowChromeRegion,
+   WindowChromeSafeArea,
+ } from "@/utils/desktop-window";
+-import {
+-  buildOpenProjectRoute,
+-  parseHostWorkspaceRouteFromPathname,
+-  parseServerIdFromPathname,
+-} from "@/utils/host-routes";
++import { buildOpenProjectRoute, parseServerIdFromPathname } from "@/utils/host-routes";
+ import { PluginCatalogSync } from "@/plugins";
+ import { NotificationOpenRouter } from "@/notification-open/react";
+ import { ensureOsNotificationPermission } from "@/utils/os-notifications";
+@@ -363,7 +361,17 @@ function AppContainer({ children, chromeEnabled: chromeEnabledOverride }: AppCon
+   const isCompactLayout = useIsCompactFormFactor();
+   useCompactWebViewportZoomLock(isCompactLayout);
+   const pathname = usePathname();
+-  const isWorkspaceRoute = parseHostWorkspaceRouteFromPathname(pathname) !== null;
++  const workspaceRoute = useActiveWorkspaceSelection();
++  const isWorkspaceRoute = workspaceRoute !== null;
++  const workspaceKey = workspaceRoute ? buildWorkspaceTabPersistenceKey(workspaceRoute) : null;
++  const isExplorerOpen = useIsExplorerSidebarOpen({
++    isCompact: isCompactLayout,
++    workspaceKey,
++  });
++  const requestedExplorerSidebarWidth = useWorkspaceLayoutStore((state) =>
++    workspaceKey ? state.explorerSidebarWidthByWorkspace[workspaceKey] : undefined,
++  );
++  const isWorkspaceExplorerOpen = isWorkspaceRoute && isExplorerOpen;
+   const isWorkspaceFocusModeEnabled = isWorkspaceRoute && isFocusModeEnabled;
+   const chromeEnabled = chromeEnabledOverride ?? daemons.length > 0;
+   const hasMountedDesktopSidebar = useLatchedBoolean(chromeEnabled);
+@@ -398,16 +406,12 @@ function AppContainer({ children, chromeEnabled: chromeEnabledOverride }: AppCon
+   useActiveWorktreeNewAction();
+   useGlobalNewWorkspaceAction();
+ 
+-  const activeWorkspace = useActiveWorkspaceSelection();
+-  const explorerVisible = useIsExplorerSidebarOpen({
+-    isCompact: isCompactLayout,
+-    workspaceKey: activeWorkspace
+-      ? `${activeWorkspace.serverId}:${activeWorkspace.workspaceId}`
+-      : null,
+-  });
+   const appContentMinimumWidth = resolveDesktopAppContentMinimum({
+-    explorerVisible: isWorkspaceRoute && explorerVisible,
+     isSettingsRoute: pathname.includes("/settings"),
++    isWorkspaceExplorerOpen,
++    requestedSidebarWidth: sidebarWidth,
++    requestedExplorerSidebarWidth,
++    viewportWidth,
+   });
+   const desktopSidebarMounted = hasMountedDesktopSidebar && !isWorkspaceFocusModeEnabled;
+   const desktopSidebarVisible = resolveDesktopSidebarVisibility({
+diff --git a/patches/react-native-unistyles+3.2.4.patch b/patches/react-native-unistyles+3.2.4.patch
+index 7f40053f1..8825d98bb 100644
+--- a/patches/react-native-unistyles+3.2.4.patch
++++ b/patches/react-native-unistyles+3.2.4.patch
+@@ -1,5 +1,75 @@
++diff --git a/node_modules/react-native-unistyles/android/src/main/java/com/unistyles/NativePlatform+android.kt b/node_modules/react-native-unistyles/android/src/main/java/com/unistyles/NativePlatform+android.kt
++index 0f8d1f0..bd83b13 100644
++--- a/node_modules/react-native-unistyles/android/src/main/java/com/unistyles/NativePlatform+android.kt
+++++ b/node_modules/react-native-unistyles/android/src/main/java/com/unistyles/NativePlatform+android.kt
++@@ -30,6 +30,16 @@ class NativePlatformAndroid(private val reactContext: ReactApplicationContext):
++     private val _insets = NativePlatformInsets(reactContext, this::getMiniRuntime) { this.onConfigChange() }
++     private var _miniRuntime: UnistylesNativeMiniRuntime = buildMiniRuntime()
++     private val _listener = NativePlatformListener(reactContext, this::getMiniRuntime) { this.diffMiniRuntime() }
+++    private var _observedDecorView: View? = null
+++    private val _windowLayoutListener = View.OnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+++        if (right - left != oldRight - oldLeft || bottom - top != oldBottom - oldTop) {
+++            view.post {
+++                if (_observedDecorView === view) {
+++                    onConfigChange()
+++                }
+++            }
+++        }
+++    }
++ 
++     init {
++         checkEdgeToEdge()
++@@ -37,6 +47,7 @@ class NativePlatformAndroid(private val reactContext: ReactApplicationContext):
++     }
++ 
++     fun onDestroy() {
+++        stopWindowLayoutListener()
++         _listener.onDestroy()
++         _insets.onDestroy()
++         reactContext.removeLifecycleEventListener(this)
++@@ -45,9 +56,11 @@ class NativePlatformAndroid(private val reactContext: ReactApplicationContext):
++     override fun onHostResume() {
++         _insets.getInitialInsets(false)
++         _insets.startInsetsListener()
+++        startWindowLayoutListener()
++     }
++ 
++     override fun onHostPause() {
+++        stopWindowLayoutListener()
++         _insets.stopInsetsListener()
++     }
++ 
++@@ -273,6 +286,28 @@ class NativePlatformAndroid(private val reactContext: ReactApplicationContext):
++         this._listener.onConfigChange()
++     }
++ 
+++    private fun startWindowLayoutListener() {
+++        val decorView = reactContext.currentActivity?.window?.decorView ?: return
+++
+++        if (_observedDecorView !== decorView) {
+++            stopWindowLayoutListener()
+++            decorView.addOnLayoutChangeListener(_windowLayoutListener)
+++            _observedDecorView = decorView
+++        }
+++
+++        // The fold may change window metrics while the host is paused, without a later broadcast.
+++        decorView.post {
+++            if (_observedDecorView === decorView) {
+++                onConfigChange()
+++            }
+++        }
+++    }
+++
+++    private fun stopWindowLayoutListener() {
+++        _observedDecorView?.removeOnLayoutChangeListener(_windowLayoutListener)
+++        _observedDecorView = null
+++    }
+++
++     override fun registerPlatformListener(callback: (dependencies: Array<UnistyleDependency>, miniRuntime: UnistylesNativeMiniRuntime) -> Unit) {
++         this._listener.addPlatformListener(callback)
++     }
+ diff --git a/node_modules/react-native-unistyles/lib/commonjs/web/registry.js b/node_modules/react-native-unistyles/lib/commonjs/web/registry.js
+-index 120ff60..d1ff102 100644
++index 120ff60..5e724b2 100644
+ --- a/node_modules/react-native-unistyles/lib/commonjs/web/registry.js
+ +++ b/node_modules/react-native-unistyles/lib/commonjs/web/registry.js
+ @@ -10,6 +10,17 @@ class UnistylesRegistry {
+@@ -98,7 +168,7 @@ index 120ff60..d1ff102 100644
+      this.dependenciesMap.clear();
+      this.disposeListenersMap.clear();
+ diff --git a/node_modules/react-native-unistyles/lib/module/web/registry.js b/node_modules/react-native-unistyles/lib/module/web/registry.js
+-index 6362f43..8e769f8 100644
++index 6362f43..31e3190 100644
+ --- a/node_modules/react-native-unistyles/lib/module/web/registry.js
+ +++ b/node_modules/react-native-unistyles/lib/module/web/registry.js
+ @@ -6,6 +6,17 @@ export class UnistylesRegistry {

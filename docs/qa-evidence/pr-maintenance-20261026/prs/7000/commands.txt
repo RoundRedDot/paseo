@@ -1,0 +1,11 @@
+npm run build:app-deps
+npm run build:server
+npm run format
+npm run lint
+npx vitest run src/messages.wire-compat.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/agent/agent-manager.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/agent/agent-storage.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/agent/providers/claude/agent.history-load.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/agent/providers/claude/agent.history.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/daemon-e2e/timeline-window.e2e.test.ts --bail=1 --maxWorkers=1
+npm run typecheck

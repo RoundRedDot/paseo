@@ -1,0 +1,7 @@
+Auto-merging docs/design.md
+Auto-merging packages/app/e2e/browser/settings-navigation.spec.ts
+CONFLICT (content): Merge conflict in packages/app/e2e/browser/settings-navigation.spec.ts
+Auto-merging packages/app/src/app/_layout.tsx
+Auto-merging packages/app/src/screens/settings-screen.tsx
+CONFLICT (content): Merge conflict in packages/app/src/screens/settings-screen.tsx
+Automatic merge failed; fix conflicts and then commit the result.

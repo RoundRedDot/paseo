@@ -1,0 +1,9 @@
+npm run build:server
+npm run build --workspace=@getpaseo/expo-two-way-audio
+npm run format
+npm run typecheck
+npm run lint
+npx vitest run src/server/agent/providers/acp-agent.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/question-answers.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/components/question-form-card-core.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/components/question-form-card.browser.test.tsx --bail=1 --maxWorkers=1

@@ -1,0 +1,9 @@
+bash setup.sh
+bash validate.sh
+bash native-syntax.sh
+bash commit.sh
+npm run postinstall
+npm exec --workspace=@getpaseo/app -- vitest run src/components/markdown/renderer.test.ts --bail=1 --maxWorkers=1
+npm run format
+npm run typecheck
+npm run lint

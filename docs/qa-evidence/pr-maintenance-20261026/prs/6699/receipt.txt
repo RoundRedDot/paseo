@@ -1,0 +1,47 @@
+{
+  "pr": 6699,
+  "title": "fix(app): preserve tool row arrival timestamps during lifecycle updates",
+  "source_state": "pushed",
+  "delivered_sha": "f072bdfb06c55d231bb72126761d16b9ec0f1b9c",
+  "tree_sha": "8599ef9b0b77c4abb2efc9eff24d35c279020935",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "timeline/6699/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": null,
+  "test_counts": null,
+  "check_summary": "format 0\ntest-src_types_stream.test.ts 0\ntest-src_timeline_turn-time.test.ts 0\ntest-src_timeline_session-stream-reducers.test.ts 0\ntest-src_runtime_replica-cache_index.test.ts 0\ntest-src_agent-stream_presentation.test.ts 0\ntest-src_plugins_timeline_projection.test.ts 0\ntypecheck 0\nlint 0\n",
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "headSha": "f072bdfb06c55d231bb72126761d16b9ec0f1b9c",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "The public renderer timestamp decision remains open on #7196: first observed arrival versus latest lifecycle update. The merge does not decide that contract or broaden plugin props."
+  ],
+  "included_raw_outputs": [
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "test-src_agent-stream_presentation.test.ts.log",
+    "test-src_plugins_timeline_projection.test.ts.log",
+    "test-src_runtime_replica-cache_index.test.ts.log",
+    "test-src_timeline_session-stream-reducers.test.ts.log",
+    "test-src_timeline_turn-time.test.ts.log",
+    "test-src_types_stream.test.ts.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "auto-overlap.patch",
+    "resolution.patch"
+  ],
+  "scope_note": null
+}

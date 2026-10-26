@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-tablet/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  18:15:22
+   Duration  231ms (transform 64ms, setup 58ms, import 29ms, tests 3ms, environment 0ms)
+

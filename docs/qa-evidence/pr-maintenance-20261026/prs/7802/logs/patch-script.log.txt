@@ -1,0 +1,11 @@
+✔ a patch that changed since it was applied removes the package for a clean reinstall (292.281291ms)
+✔ an already applied patch leaves the package in place (243.812625ms)
+✔ a missing patch-package fails the install and leaves the package in place (37.994958ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 631.321875

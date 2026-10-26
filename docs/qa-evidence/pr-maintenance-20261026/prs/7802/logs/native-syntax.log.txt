@@ -1,0 +1,91 @@
+xcrun clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0-simulator -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -I packages/app/node_modules/react-native-enriched-markdown/ios -I packages/app/node_modules/react-native-enriched-markdown/ios/attachments -I packages/app/node_modules/react-native-enriched-markdown/ios/generated -I packages/app/node_modules/react-native-enriched-markdown/ios/input -I packages/app/node_modules/react-native-enriched-markdown/ios/internals -I packages/app/node_modules/react-native-enriched-markdown/ios/math -I packages/app/node_modules/react-native-enriched-markdown/ios/parser -I packages/app/node_modules/react-native-enriched-markdown/ios/renderer -I packages/app/node_modules/react-native-enriched-markdown/ios/segments -I packages/app/node_modules/react-native-enriched-markdown/ios/styles -I packages/app/node_modules/react-native-enriched-markdown/ios/utils -I packages/app/node_modules/react-native-enriched-markdown/ios/views -I packages/app/node_modules/react-native-enriched-markdown/ios/generated/ReactCodegen -I packages/app/node_modules/react-native-enriched-markdown/ios/input/internals -I packages/app/node_modules/react-native-enriched-markdown/ios/input/styles -I packages/app/node_modules/react-native-enriched-markdown/ios/generated/ReactCodegen/EnrichedMarkdownTextSpec packages/app/node_modules/react-native-enriched-markdown/ios/renderer/ListItemRenderer.m
+In file included from packages/app/node_modules/react-native-enriched-markdown/ios/renderer/ListItemRenderer.m:1:
+In file included from packages/app/node_modules/react-native-enriched-markdown/ios/renderer/ListItemRenderer.h:1:
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:21:4: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   21 | - (instancetype)initWithRendererFactory:(id)rendererFactory config:(id)config;
+      |    ^
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:21:4: note: insert '_Nullable' if the pointer may be null
+   21 | - (instancetype)initWithRendererFactory:(id)rendererFactory config:(id)config;
+      |    ^           
+      |                 _Nullable 
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:21:4: note: insert '_Nonnull' if the pointer should never be null
+   21 | - (instancetype)initWithRendererFactory:(id)rendererFactory config:(id)config;
+      |    ^           
+      |                 _Nonnull 
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:28:51: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   28 | - (nullable id)takeContextSnapshot:(RenderContext *)context;
+      |                                                   ^
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:28:51: note: insert '_Nullable' if the pointer may be null
+   28 | - (nullable id)takeContextSnapshot:(RenderContext *)context;
+      |                                                   ^
+      |                                                    _Nullable
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:28:51: note: insert '_Nonnull' if the pointer should never be null
+   28 | - (nullable id)takeContextSnapshot:(RenderContext *)context;
+      |                                                   ^
+      |                                                    _Nonnull
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:31:77: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   31 | - (void)restoreContextSnapshot:(nullable id)snapshot context:(RenderContext *)context;
+      |                                                                             ^
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:31:77: note: insert '_Nullable' if the pointer may be null
+   31 | - (void)restoreContextSnapshot:(nullable id)snapshot context:(RenderContext *)context;
+      |                                                                             ^
+      |                                                                              _Nullable
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:31:77: note: insert '_Nonnull' if the pointer should never be null
+   31 | - (void)restoreContextSnapshot:(nullable id)snapshot context:(RenderContext *)context;
+      |                                                                             ^
+      |                                                                              _Nonnull
+3 warnings generated.
+renderer/ListItemRenderer.m syntax PASS
+xcrun clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0-simulator -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -I packages/app/node_modules/react-native-enriched-markdown/ios -I packages/app/node_modules/react-native-enriched-markdown/ios/attachments -I packages/app/node_modules/react-native-enriched-markdown/ios/generated -I packages/app/node_modules/react-native-enriched-markdown/ios/input -I packages/app/node_modules/react-native-enriched-markdown/ios/internals -I packages/app/node_modules/react-native-enriched-markdown/ios/math -I packages/app/node_modules/react-native-enriched-markdown/ios/parser -I packages/app/node_modules/react-native-enriched-markdown/ios/renderer -I packages/app/node_modules/react-native-enriched-markdown/ios/segments -I packages/app/node_modules/react-native-enriched-markdown/ios/styles -I packages/app/node_modules/react-native-enriched-markdown/ios/utils -I packages/app/node_modules/react-native-enriched-markdown/ios/views -I packages/app/node_modules/react-native-enriched-markdown/ios/generated/ReactCodegen -I packages/app/node_modules/react-native-enriched-markdown/ios/input/internals -I packages/app/node_modules/react-native-enriched-markdown/ios/input/styles -I packages/app/node_modules/react-native-enriched-markdown/ios/generated/ReactCodegen/EnrichedMarkdownTextSpec packages/app/node_modules/react-native-enriched-markdown/ios/renderer/ParagraphRenderer.m
+In file included from packages/app/node_modules/react-native-enriched-markdown/ios/renderer/ParagraphRenderer.m:1:
+In file included from packages/app/node_modules/react-native-enriched-markdown/ios/renderer/ParagraphRenderer.h:1:
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:21:4: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   21 | - (instancetype)initWithRendererFactory:(id)rendererFactory config:(id)config;
+      |    ^
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:21:4: note: insert '_Nullable' if the pointer may be null
+   21 | - (instancetype)initWithRendererFactory:(id)rendererFactory config:(id)config;
+      |    ^           
+      |                 _Nullable 
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:21:4: note: insert '_Nonnull' if the pointer should never be null
+   21 | - (instancetype)initWithRendererFactory:(id)rendererFactory config:(id)config;
+      |    ^           
+      |                 _Nonnull 
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:28:51: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   28 | - (nullable id)takeContextSnapshot:(RenderContext *)context;
+      |                                                   ^
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:28:51: note: insert '_Nullable' if the pointer may be null
+   28 | - (nullable id)takeContextSnapshot:(RenderContext *)context;
+      |                                                   ^
+      |                                                    _Nullable
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:28:51: note: insert '_Nonnull' if the pointer should never be null
+   28 | - (nullable id)takeContextSnapshot:(RenderContext *)context;
+      |                                                   ^
+      |                                                    _Nonnull
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:31:77: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+   31 | - (void)restoreContextSnapshot:(nullable id)snapshot context:(RenderContext *)context;
+      |                                                                             ^
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:31:77: note: insert '_Nullable' if the pointer may be null
+   31 | - (void)restoreContextSnapshot:(nullable id)snapshot context:(RenderContext *)context;
+      |                                                                             ^
+      |                                                                              _Nullable
+packages/app/node_modules/react-native-enriched-markdown/ios/renderer/BaseRenderer.h:31:77: note: insert '_Nonnull' if the pointer should never be null
+   31 | - (void)restoreContextSnapshot:(nullable id)snapshot context:(RenderContext *)context;
+      |                                                                             ^
+      |                                                                              _Nonnull
+3 warnings generated.
+renderer/ParagraphRenderer.m syntax PASS
+xcrun clang -fsyntax-only -fobjc-arc -fblocks -target arm64-apple-ios16.0-simulator -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator27.1.sdk -I packages/app/node_modules/react-native-enriched-markdown/ios -I packages/app/node_modules/react-native-enriched-markdown/ios/attachments -I packages/app/node_modules/react-native-enriched-markdown/ios/generated -I packages/app/node_modules/react-native-enriched-markdown/ios/input -I packages/app/node_modules/react-native-enriched-markdown/ios/internals -I packages/app/node_modules/react-native-enriched-markdown/ios/math -I packages/app/node_modules/react-native-enriched-markdown/ios/parser -I packages/app/node_modules/react-native-enriched-markdown/ios/renderer -I packages/app/node_modules/react-native-enriched-markdown/ios/segments -I packages/app/node_modules/react-native-enriched-markdown/ios/styles -I packages/app/node_modules/react-native-enriched-markdown/ios/utils -I packages/app/node_modules/react-native-enriched-markdown/ios/views -I packages/app/node_modules/react-native-enriched-markdown/ios/generated/ReactCodegen -I packages/app/node_modules/react-native-enriched-markdown/ios/input/internals -I packages/app/node_modules/react-native-enriched-markdown/ios/input/styles -I packages/app/node_modules/react-native-enriched-markdown/ios/generated/ReactCodegen/EnrichedMarkdownTextSpec packages/app/node_modules/react-native-enriched-markdown/ios/views/ENRMMarkdownTextView.m
+In file included from packages/app/node_modules/react-native-enriched-markdown/ios/views/ENRMMarkdownTextView.m:7:
+packages/app/node_modules/react-native-enriched-markdown/ios/utils/PasteboardUtils.h:7:17: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+    7 | static NSString *const kUTIPlainText = @"public.utf8-plain-text";
+      |                 ^
+packages/app/node_modules/react-native-enriched-markdown/ios/utils/PasteboardUtils.h:7:17: note: insert '_Nullable' if the pointer may be null
+    7 | static NSString *const kUTIPlainText = @"public.utf8-plain-text";
+      |                 ^
+      |                   _Nullable 
+packages/app/node_modules/react-native-enriched-markdown/ios/utils/PasteboardUtils.h:7:17: note: insert '_Nonnull' if the pointer should never be null
+    7 | static NSString *const kUTIPlainText = @"public.utf8-plain-text";
+      |                 ^
+      |                   _Nonnull 
+1 warning generated.
+views/ENRMMarkdownTextView.m syntax PASS

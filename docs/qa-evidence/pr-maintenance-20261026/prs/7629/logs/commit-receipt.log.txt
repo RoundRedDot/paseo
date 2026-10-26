@@ -1,0 +1,13 @@
+commit 8239861ddce82a64ffba8284d16416581b0e35ec
+Merge: be6224df1 902b0c7a1
+Author:     luke <luopeihuan@gmail.com>
+AuthorDate: Mon Oct 26 18:25:54 2026 +0800
+Commit:     luke <luopeihuan@gmail.com>
+CommitDate: Mon Oct 26 18:25:54 2026 +0800
+
+    chore: merge main baseline into PR #7629
+    
+    Merge frozen upstream 902b0c7a1637cc7a6c2ee268dca8161965a35def while
+    preserving the original PR feature and current upstream changes.
+    
+    Co-authored-by: RoundRedDot <roundreddot@gmail.com>

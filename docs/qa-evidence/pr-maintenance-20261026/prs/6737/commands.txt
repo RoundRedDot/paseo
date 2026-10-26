@@ -1,0 +1,13 @@
+npm run format
+npm run build:server
+npm run typecheck
+npm run lint
+npx vitest run src/server/ordering/index.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/ordering/index.e2e.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/server/session.test.ts -t ordering preferences isolate --bail=1 --maxWorkers=1
+npx vitest run src/ordering.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/messages.wire-compat.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/ordering/index.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/ordering/replica.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/ordering/layout.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/runtime/directory-sync/index.test.ts --bail=1 --maxWorkers=1

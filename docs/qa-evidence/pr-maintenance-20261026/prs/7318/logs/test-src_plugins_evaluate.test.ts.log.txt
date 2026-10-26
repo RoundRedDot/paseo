@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-timeline/packages/app
+
+(node:93870) [DEP0151] DeprecationWarning: Package /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-timeline/node_modules/react-native-worklets/ has a "main" field set to "./lib/module/index", excluding the full filename and extension to the resolved file at "lib/module/index.js", imported from /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-timeline/node_modules/react-native-reanimated/lib/module/initializers.js.
+ Automatic extension resolution of the "main" field is deprecated for ES modules.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  62 passed (62)
+   Start at  18:29:16
+   Duration  6.70s (transform 5.28s, setup 31ms, import 6.57s, tests 9ms, environment 0ms)
+

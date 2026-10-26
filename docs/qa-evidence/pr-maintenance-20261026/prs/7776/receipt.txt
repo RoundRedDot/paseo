@@ -1,0 +1,49 @@
+{
+  "pr": 7776,
+  "title": "fix(app): add visible tablet resize sliders and shared settings width",
+  "source_state": "delivered",
+  "delivered_sha": "071af538237ed298a3ac4472c507137564c42d1a",
+  "tree_sha": "677ab7a35d1371dafb1dff0b1acdc1d3081bacf3",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "tablet/7776-result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "architecture": "arm64",
+    "node": "v24.18.0",
+    "npm": "11.16.0",
+    "runtimeBoundary": "Local macOS Chromium, isolated E2E daemon and Metro; not a packaged desktop or native build."
+  },
+  "validation_status": "`build:server`, `build:app-deps`, format, full typecheck and lint passed; sidebar layout 12/12, handle geometry 2/2, Settings presentation 7/7; all 20 Settings Chromium E2E passed (1.8m). Normal format/lint/typecheck commit hooks passed.",
+  "test_counts": null,
+  "check_summary": null,
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "head": "071af538237ed298a3ac4472c507137564c42d1a",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Native iPad, physical hinges/release APK, packaged Electron, and Explorer/tree-rail runtime interactions were not revalidated. Prior Android debug/Metro evidence remains historical at its recorded revision."
+  ],
+  "included_raw_outputs": [
+    "7776-build-app-deps.log",
+    "7776-commit.log",
+    "7776-desktop-sidebar-layout.test.ts.log",
+    "7776-format.log",
+    "7776-lint.log",
+    "7776-merge.log",
+    "7776-model.test.ts.log",
+    "7776-sidebar-resize-handle-layout.test.ts.log",
+    "7776-typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "7776-conflict-resolution.diff"
+  ],
+  "scope_note": null
+}

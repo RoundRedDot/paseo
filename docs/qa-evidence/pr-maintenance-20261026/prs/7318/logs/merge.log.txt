@@ -1,0 +1,2 @@
+Auto-merging packages/app/src/agent-stream/view.tsx
+Automatic merge went well; stopped before committing as requested

@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-compiler/packages/client
+
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  18:24:02
+   Duration  427ms (transform 93ms, setup 0ms, import 128ms, tests 218ms, environment 0ms)
+

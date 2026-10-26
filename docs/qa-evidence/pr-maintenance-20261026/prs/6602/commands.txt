@@ -1,0 +1,9 @@
+npm run build:server
+npm run build:app-deps
+npm run format
+npm run typecheck
+npm run lint
+cd packages/app && npx vitest run src/agent-stream/spacing.test.ts --bail=1 --maxWorkers=1
+cd packages/app && npx vitest run src/agent-stream/layout.test.ts --bail=1 --maxWorkers=1
+cd packages/app && npx vitest run src/plugins/timeline/projection.test.ts --bail=1 --maxWorkers=1
+cd packages/app && npx vitest run src/types/stream.test.ts --bail=1 --maxWorkers=1

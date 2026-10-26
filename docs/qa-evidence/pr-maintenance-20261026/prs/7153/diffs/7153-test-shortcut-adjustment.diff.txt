@@ -1,0 +1,13 @@
+diff --git a/packages/app/e2e/browser/explorer-sidebar.spec.ts b/packages/app/e2e/browser/explorer-sidebar.spec.ts
+index 3797f5818..6d5cdb582 100644
+--- a/packages/app/e2e/browser/explorer-sidebar.spec.ts
++++ b/packages/app/e2e/browser/explorer-sidebar.spec.ts
+@@ -452,7 +452,7 @@ async function revealPhoneExplorer(page: Parameters<typeof ensureExplorerSidebar
+ }
+ 
+ async function cycleWorkspaceTheme(page: Parameters<typeof ensureExplorerSidebar>[0]) {
+-  await page.keyboard.press("Control+Alt+t");
++  await pressWorkspaceShortcut(page, "Alt+t");
+ }
+ 
+ test("retains the Explorer host through appearance changes and folding", async ({ page }) => {

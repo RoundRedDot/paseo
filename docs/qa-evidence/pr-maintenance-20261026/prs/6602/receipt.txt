@@ -1,0 +1,44 @@
+{
+  "pr": 6602,
+  "title": "fix(app): stack plugin-projected tool rows like native tool rows",
+  "source_state": "pushed",
+  "delivered_sha": "7718e0dc555b669f51bee46812559186ecf05bbf",
+  "tree_sha": "4904876e7597d9e573ade73ca7ec3368876d58d6",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "app/6602-result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": "build-server 0\nbuild-app-deps 0\ntest-agent-stream-spacing 0\ntest-agent-stream-layout 0\ntest-plugins-timeline-projection 0\ntest-types-stream 0\nformat 0\ntypecheck 0\nlint 0",
+  "test_counts": null,
+  "check_summary": [
+    "`src/agent-stream/layout.test.ts`: **30 passed**",
+    "`src/agent-stream/spacing.test.ts`: **14 passed**",
+    "`src/plugins/timeline/projection.test.ts`: **7 passed**",
+    "`src/types/stream.test.ts`: **66 passed**"
+  ],
+  "ci_review": {
+    "observations": [],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Transformer-projected rows remain the scope. timeline.append opt-in is a separate API/design decision; current-head native/Electron acceptance remains unverified."
+  ],
+  "included_raw_outputs": [
+    "6602-build-app-deps.log",
+    "6602-commit.log",
+    "6602-format.log",
+    "6602-lint.log",
+    "6602-merge.log",
+    "6602-precommit-check.log",
+    "6602-test-agent-stream-layout.log",
+    "6602-test-agent-stream-spacing.log",
+    "6602-test-plugins-timeline-projection.log",
+    "6602-test-types-stream.log",
+    "6602-typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "6602-incoming-overlap.diff"
+  ],
+  "scope_note": null
+}

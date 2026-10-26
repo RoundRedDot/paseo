@@ -1,0 +1,41 @@
+{
+  "pr": 7620,
+  "title": "fix(app): hold timeline rows until plugin transformers exist",
+  "source_state": "pushed",
+  "delivered_sha": "71a3b922e15c9a004605417c57e6e8fb7d72f371",
+  "tree_sha": "d3743bc0eb675d3c7a96c58b33c99d43613a766a",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "timeline/7620/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": null,
+  "test_counts": null,
+  "check_summary": "format 0\ntest-catalog-sync.test.tsx 0\ntypecheck 0\nlint 0\n",
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "headSha": "71a3b922e15c9a004605417c57e6e8fb7d72f371",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "First-paint gating and catalog-sync regressions complement the prior held-catalog browser recording; that recording retains its own source. Native and packaged Electron acceptance remain open."
+  ],
+  "included_raw_outputs": [
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "test-catalog-sync.test.tsx.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "resolution.patch"
+  ],
+  "scope_note": null
+}

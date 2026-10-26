@@ -1,0 +1,15 @@
+npm run build:server
+npm run build --workspace=@getpaseo/expo-two-way-audio
+npm exec --workspace=@getpaseo/protocol -- vitest run src/messages.plugins.test.ts --bail=1 --maxWorkers=1
+npm exec --workspace=@getpaseo/client -- vitest run src/daemon-client.test.ts --bail=1 --maxWorkers=1
+npm exec --workspace=@getpaseo/server -- vitest run src/server/session.test.ts --bail=1 --maxWorkers=1 -t catalog\|bundles\ a\ catalog
+npm exec --workspace=@getpaseo/server -- vitest run src/server/plugins/builtin/index.test.ts --bail=1 --maxWorkers=1
+npm exec --workspace=@getpaseo/server -- vitest run src/server/plugins/runtime.posix.test.ts --bail=1 --maxWorkers=1
+npm exec --workspace=@getpaseo/app -- vitest run src/plugins/client-bundle-store.test.ts --bail=1 --maxWorkers=1 --project=unit
+npm exec --workspace=@getpaseo/app -- vitest run src/plugins/catalog-refresh.test.ts --bail=1 --maxWorkers=1 --project=unit
+npm exec --workspace=@getpaseo/app -- vitest run src/timeline/viewed-timeline-sync.test.ts --bail=1 --maxWorkers=1 --project=unit
+npm exec --workspace=@getpaseo/app -- vitest run src/plugins/client-bundle-storage.browser.test.ts --bail=1 --maxWorkers=1 --project=browser
+npm exec --workspace=@getpaseo/plugin -- vitest run src/boundaries.test.ts --bail=1 --maxWorkers=1
+npm run format
+npm run typecheck
+npm run lint

@@ -1,0 +1,189 @@
+{
+  "pr": 6736,
+  "title": "fix: preserve image messages across clients and reloads",
+  "source_state": "delivered",
+  "delivered_sha": "bc3c3d3dbdb067f437c3125812388d6d925c713a",
+  "tree_sha": "f321f43018ae55f1d00265550dd7df9c6b0be6e7",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "providers/6736/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": null,
+  "test_counts": null,
+  "check_summary": [
+    {
+      "name": "build-app-deps",
+      "command": "npm run build:app-deps",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "build-server",
+      "command": "npm run build:server",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "format",
+      "command": "npm run format",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "lint",
+      "command": "npm run lint",
+      "passedTests": null,
+      "summary": [
+        "Found 0 warnings and 0 errors."
+      ]
+    },
+    {
+      "name": "manager",
+      "command": "npx vitest run src/server/agent/agent-manager.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 223,
+      "summary": [
+        "      Tests  223 passed (223)"
+      ]
+    },
+    {
+      "name": "omp-agent",
+      "command": "npx vitest run src/server/agent/providers/omp/agent.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 82,
+      "summary": [
+        "      Tests  82 passed (82)"
+      ]
+    },
+    {
+      "name": "omp-history",
+      "command": "npx vitest run src/server/agent/providers/omp/history-mapper.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 21,
+      "summary": [
+        "      Tests  21 passed (21)"
+      ]
+    },
+    {
+      "name": "pi-agent",
+      "command": "npx vitest run src/server/agent/providers/pi/agent.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 128,
+      "summary": [
+        "      Tests  128 passed (128)"
+      ]
+    },
+    {
+      "name": "pi-history",
+      "command": "npx vitest run src/server/agent/providers/pi/history-mapper.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 8,
+      "summary": [
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "name": "plugin-projection",
+      "command": "npx vitest run src/plugins/timeline/projection.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 8,
+      "summary": [
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "name": "replica-cache",
+      "command": "npx vitest run src/runtime/replica-cache/index.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 49,
+      "summary": [
+        "      Tests  49 passed (49)"
+      ]
+    },
+    {
+      "name": "stream",
+      "command": "npx vitest run src/types/stream.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 69,
+      "summary": [
+        "      Tests  69 passed (69)"
+      ]
+    },
+    {
+      "name": "timeline-window",
+      "command": "npx vitest run src/server/daemon-e2e/timeline-window.e2e.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 16,
+      "summary": [
+        "      Tests  16 passed (16)"
+      ]
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "virtualization",
+      "command": "npx vitest run src/agent-stream/web-virtualization.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 8,
+      "summary": [
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "name": "wire-compat",
+      "command": "npx vitest run src/messages.wire-compat.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 19,
+      "summary": [
+        "      Tests  19 passed (19)"
+      ]
+    }
+  ],
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "status": "completed/action_required; 0 jobs"
+      },
+      {
+        "source": "actions",
+        "id": 40304040797,
+        "head": "bc3c3d3dbdb067f437c3125812388d6d925c713a",
+        "status": "completed",
+        "conclusion": "action_required",
+        "jobs": 0
+      },
+      {
+        "source": "checkSuites",
+        "id": 109232009167,
+        "head_sha": "bc3c3d3dbdb067f437c3125812388d6d925c713a",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Real OMP/native image/lightbox/reload not exercised",
+    "Packaged desktop not exercised",
+    "Upstream Actions action_required; no current-head approval"
+  ],
+  "included_raw_outputs": [
+    "build-app-deps.log",
+    "build-server.log",
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "manager.log",
+    "merge.log",
+    "omp-agent.log",
+    "omp-history.log",
+    "pi-agent.log",
+    "pi-history.log",
+    "plugin-projection.log",
+    "replica-cache.log",
+    "stream.log",
+    "timeline-window.log",
+    "typecheck.log",
+    "virtualization.log",
+    "wire-compat.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "resolution.diff"
+  ],
+  "scope_note": null
+}

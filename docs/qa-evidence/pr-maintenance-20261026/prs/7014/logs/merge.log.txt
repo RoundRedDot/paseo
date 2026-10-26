@@ -1,0 +1,7 @@
+Auto-merging packages/server/src/server/agent/providers/omp/agent.test.ts
+CONFLICT (content): Merge conflict in packages/server/src/server/agent/providers/omp/agent.test.ts
+Auto-merging packages/server/src/server/agent/providers/omp/agent.ts
+Auto-merging packages/server/src/server/agent/providers/pi/agent.test.ts
+CONFLICT (content): Merge conflict in packages/server/src/server/agent/providers/pi/agent.test.ts
+Auto-merging packages/server/src/server/agent/providers/pi/agent.ts
+Automatic merge failed; fix conflicts and then commit the result.

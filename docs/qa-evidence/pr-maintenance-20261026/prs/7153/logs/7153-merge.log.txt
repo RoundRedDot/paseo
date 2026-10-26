@@ -1,0 +1,6 @@
+Auto-merging docs/design.md
+Auto-merging packages/app/src/app/_layout.tsx
+Auto-merging packages/app/src/screens/settings-screen.tsx
+CONFLICT (content): Merge conflict in packages/app/src/screens/settings-screen.tsx
+Auto-merging patches/react-native-unistyles+3.2.4.patch
+Automatic merge failed; fix conflicts and then commit the result.

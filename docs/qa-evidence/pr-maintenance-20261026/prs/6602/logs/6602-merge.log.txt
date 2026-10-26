@@ -1,0 +1,2 @@
+Auto-merging packages/app/src/types/stream.ts
+Automatic merge went well; stopped before committing as requested

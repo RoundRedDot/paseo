@@ -1,0 +1,6 @@
+npm run build:server
+npm run build:app-deps
+npm run format
+npm run typecheck
+npm run lint
+cd packages/app && npx vitest run src/hooks/use-settings/storage.test.ts --bail=1 --maxWorkers=1

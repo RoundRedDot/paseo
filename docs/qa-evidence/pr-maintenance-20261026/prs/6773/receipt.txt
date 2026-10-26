@@ -1,0 +1,45 @@
+{
+  "pr": 6773,
+  "title": "feat(app): scrub the chat outline from the left edge on touch devices",
+  "source_state": "pushed",
+  "delivered_sha": "2bacd637da86474faf0f41aa4d66a322f47a3c38",
+  "tree_sha": "524ecac74087d7d89742f852bcc53a3c2f3e995b",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "timeline/6773/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": null,
+  "test_counts": null,
+  "check_summary": "format 0\ntest-model.test.ts 0\ntest-navigation.test.ts 0\ntest-prompt-jump-native.test.ts 0\ntest-reading-anchor.test.ts 0\ntest-model.test.ts 0\ntypecheck 2\nlint 0\nformat 0\ntypecheck 0\nlint 0\n",
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "headSha": "2bacd637da86474faf0f41aa4d66a322f47a3c38",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Touch-outline model/navigation coverage does not establish native gestures, system text selection, or packaged-device acceptance on this merged head."
+  ],
+  "included_raw_outputs": [
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "test-model.test.ts.log",
+    "test-navigation.test.ts.log",
+    "test-prompt-jump-native.test.ts.log",
+    "test-reading-anchor.test.ts.log",
+    "typecheck-initial-failed.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "resolution.patch"
+  ],
+  "scope_note": null
+}

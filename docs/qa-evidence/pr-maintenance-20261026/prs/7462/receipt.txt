@@ -1,0 +1,47 @@
+{
+  "pr": 7462,
+  "title": "feat(plugin): expose host fork menu for transformed replies",
+  "source_state": "pushed",
+  "delivered_sha": "86006dd5fc4fda3562f85a3889b02ada5b353011",
+  "tree_sha": "8fa2a0b5e25bbd0247b787038e27f6d4701b816d",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "timeline/7462/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": null,
+  "test_counts": null,
+  "check_summary": "build-server 0\nbuild-app-deps 0\nformat 0\ntest-src_plugins_timeline_fork.test.ts 0\ntest-src_plugins_timeline_view.test.tsx 0\ntest-src_plugins_evaluate.test.ts 0\ntest-src_agent-stream_turn-boundary.test.ts 0\ntest-plugin_src_boundaries.test.ts 0\ntypecheck 0\nlint 0\n",
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "headSha": "86006dd5fc4fda3562f85a3889b02ada5b353011",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Existing signed packaged fork evidence retains its recorded source. Cold application relaunch, daemon-restart restoration and unsupported provider/platform checks remain open."
+  ],
+  "included_raw_outputs": [
+    "build-app-deps.log",
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "test-plugin_src_boundaries.test.ts.log",
+    "test-src_agent-stream_turn-boundary.test.ts.log",
+    "test-src_plugins_evaluate.test.ts.log",
+    "test-src_plugins_timeline_fork.test.ts.log",
+    "test-src_plugins_timeline_view.test.tsx.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "auto-overlap.patch",
+    "resolution.patch"
+  ],
+  "scope_note": null
+}

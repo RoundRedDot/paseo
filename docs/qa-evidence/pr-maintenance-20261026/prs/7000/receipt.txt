@@ -1,0 +1,138 @@
+{
+  "pr": 7000,
+  "title": "feat(server): expose persisted timing for completed agent turns",
+  "source_state": "delivered",
+  "delivered_sha": "85b5d1dd65ba80fc669951c209d4d39fbf81c0c1",
+  "tree_sha": "a701ace5c3f0410b3f4872bc4a014dd51c62cfe5",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "providers/7000/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": null,
+  "test_counts": null,
+  "check_summary": [
+    {
+      "name": "build-app-deps",
+      "command": "npm run build:app-deps",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "build-server",
+      "command": "npm run build:server",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "format",
+      "command": "npm run format",
+      "passedTests": null,
+      "summary": []
+    },
+    {
+      "name": "lint",
+      "command": "npm run lint",
+      "passedTests": null,
+      "summary": [
+        "Found 0 warnings and 0 errors."
+      ]
+    },
+    {
+      "name": "protocol-0",
+      "command": "npx vitest run src/messages.wire-compat.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 18,
+      "summary": [
+        "      Tests  18 passed (18)"
+      ]
+    },
+    {
+      "name": "server-0",
+      "command": "npx vitest run src/server/agent/agent-manager.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 222,
+      "summary": [
+        "      Tests  222 passed (222)"
+      ]
+    },
+    {
+      "name": "server-1",
+      "command": "npx vitest run src/server/agent/agent-storage.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 19,
+      "summary": [
+        "      Tests  19 passed (19)"
+      ]
+    },
+    {
+      "name": "server-2",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.history-load.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 14,
+      "summary": [
+        "      Tests  14 passed (14)"
+      ]
+    },
+    {
+      "name": "server-3",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.history.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 8,
+      "summary": [
+        "      Tests  8 passed (8)"
+      ]
+    },
+    {
+      "name": "server-4",
+      "command": "npx vitest run src/server/daemon-e2e/timeline-window.e2e.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 13,
+      "summary": [
+        "      Tests  13 passed (13)"
+      ]
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "passedTests": null,
+      "summary": []
+    }
+  ],
+  "ci_review": {
+    "observations": [
+      {
+        "source": "actions",
+        "id": 40312362512,
+        "head": "85b5d1dd65ba80fc669951c209d4d39fbf81c0c1",
+        "status": "completed",
+        "conclusion": "action_required",
+        "jobs": 0
+      },
+      {
+        "source": "checkSuites",
+        "id": 109254835807,
+        "head_sha": "85b5d1dd65ba80fc669951c209d4d39fbf81c0c1",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Real Claude timing/native-device display not exercised",
+    "Pre-upgrade missing timing is not backfilled",
+    "Upstream CI and current-head maintainer review remain separate gates"
+  ],
+  "included_raw_outputs": [
+    "build-app-deps.log",
+    "build-server.log",
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "protocol-0.log",
+    "server-0.log",
+    "server-1.log",
+    "server-2.log",
+    "server-3.log",
+    "server-4.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [],
+  "scope_note": null
+}

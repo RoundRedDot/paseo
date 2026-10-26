@@ -1,0 +1,54 @@
+{
+  "pr": 7629,
+  "title": "perf(relay): compress relay payloads before encryption",
+  "source_state": "pushed",
+  "delivered_sha": "8239861ddce82a64ffba8284d16416581b0e35ec",
+  "tree_sha": "2cf696d61688c9ab7747cc1df219b9ffa6f396cf",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "compiler/7629/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": [
+    "npm-ci PASS",
+    "build-server PASS",
+    "build-audio PASS",
+    "encrypted-tests PASS",
+    "secure-tests PASS",
+    "transport-tests PASS",
+    "relay-e2e PASS",
+    "format PASS",
+    "typecheck PASS",
+    "lint PASS",
+    "commit PASS"
+  ],
+  "test_counts": null,
+  "check_summary": null,
+  "ci_review": {
+    "observations": [
+      {
+        "source": "checkSuites",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "The relay E2E uses an isolated local relay and daemon. It does not establish deployed production relay, phone foreground/background/reconnect, device CPU/battery, or app UI acceptance. Historical measurements below retain their original revisions."
+  ],
+  "included_raw_outputs": [
+    "build-audio.log",
+    "commit-receipt.log",
+    "commit.log",
+    "encrypted-tests.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "secure-tests.log",
+    "transport-tests.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [],
+  "scope_note": null
+}

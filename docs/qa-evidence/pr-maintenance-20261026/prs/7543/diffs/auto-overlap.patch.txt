@@ -1,0 +1,17 @@
+diff --git a/packages/app/src/types/stream.ts b/packages/app/src/types/stream.ts
+index 3c037a6e2..31d0fc2cf 100644
+--- a/packages/app/src/types/stream.ts
++++ b/packages/app/src/types/stream.ts
+@@ -771,6 +771,12 @@ export type AgentToolCallItem = ToolCallItem & {
+   payload: { source: "agent"; data: AgentToolCallData };
+ };
+ 
++/** Find and scrolling address a plugin row by the source it replaces. */
++export function getStreamItemMessageId(item: StreamItem): string {
++  if (item.kind === "plugin") return item.sourceId ?? item.id;
++  return item.id;
++}
++
+ export function isAgentToolCallItem(item: StreamItem): item is AgentToolCallItem {
+   return item.kind === "tool_call" && item.payload.source === "agent";
+ }

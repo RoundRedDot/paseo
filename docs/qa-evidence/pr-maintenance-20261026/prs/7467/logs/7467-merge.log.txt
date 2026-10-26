@@ -1,0 +1,3 @@
+Auto-merging packages/app/src/hooks/use-settings/storage.test.ts
+Auto-merging packages/app/src/hooks/use-settings/storage.ts
+Automatic merge went well; stopped before committing as requested

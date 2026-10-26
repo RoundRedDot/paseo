@@ -1,0 +1,49 @@
+{
+  "pr": 6601,
+  "title": "fix(server): lower classes in plugin client bundles for Hermes",
+  "source_state": "pushed",
+  "delivered_sha": "53a592e4040f7b3e1d22ffa79ea883101d144581",
+  "tree_sha": "124494fab68c11bbd4dcd5b67389c31a279cc438",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "compiler/6601/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": [
+    "npm-ci PASS",
+    "build-server PASS",
+    "build-audio PASS",
+    "compiler-tests PASS",
+    "format PASS",
+    "typecheck PASS",
+    "lint PASS",
+    "commit PASS"
+  ],
+  "test_counts": null,
+  "check_summary": null,
+  "ci_review": {
+    "observations": [
+      {
+        "source": "checkSuites",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Existing RN 0.81.5 Hermes VM evidence below remains historical and source-scoped. This maintenance run does not add RN 0.86.3 VM/device installation, plugin UI, packaged desktop or Windows/Linux acceptance."
+  ],
+  "included_raw_outputs": [
+    "build-audio.log",
+    "commit-receipt.log",
+    "commit.log",
+    "compiler-tests.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [],
+  "scope_note": null
+}

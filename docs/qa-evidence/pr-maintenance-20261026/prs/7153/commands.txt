@@ -1,0 +1,6 @@
+npx vitest run <file> --bail=1 --maxWorkers=1
+npx playwright test e2e/browser/explorer-sidebar.spec.ts --project=browser --workers=1 --grep "yields navigation|restores Explorer on a narrow workspace reload|tablet prototype|retains the Explorer host"
+npx playwright test e2e/browser/settings-navigation.spec.ts --project=browser --workers=1 --grep "Settings sidebar scroll position|host choice survives|switching the host picker"
+npx vitest run src/components/desktop-sidebar-layout.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/components/explorer-sidebar-layout.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/styles/breakpoints.test.ts --bail=1 --maxWorkers=1

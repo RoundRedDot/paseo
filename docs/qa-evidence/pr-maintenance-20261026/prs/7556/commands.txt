@@ -1,0 +1,10 @@
+npm run build:server
+npm run build:app-deps
+npm run format
+npm run typecheck
+npm run lint
+cd packages/app && npx vitest run src/components/status-ring/geometry.test.ts --bail=1 --maxWorkers=1
+cd packages/app && npx vitest run src/components/markdown/streaming.test.ts --bail=1 --maxWorkers=1
+cd packages/app && npx vitest run src/components/markdown/renderer.test.ts --bail=1 --maxWorkers=1
+cd packages/app && npx vitest run src/voice/voice-runtime.test.ts --bail=1 --maxWorkers=1
+cd packages/app && npx vitest run src/runtime/replica-cache/index.test.ts --bail=1 --maxWorkers=1

@@ -1,0 +1,82 @@
+{
+  "browser_identity": {
+    "version": "Google Chrome for Testing 145.0.7632.6",
+    "revision": "1208",
+    "sha256": "a46b3b1e63163fa2d2437fb6ae967cb5a73b50050bca32f1964e6129b6228244"
+  },
+  "invalid_browser_launch_attempt": {
+    "classification": "invalid launch attempt, excluded from valid candidate/control comparison",
+    "candidate": {
+      "expected": 0,
+      "unexpected": 1,
+      "exit_code": 1
+    },
+    "control": {
+      "expected": 0,
+      "unexpected": 1,
+      "exit_code": 1
+    }
+  },
+  "candidate_head": "708e303fd8cf2951bbf06b3757c756d417cf7b4c",
+  "candidate_tree": "7c69b35ab1581602d5cd469ff6d5575c30a55df7",
+  "control_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "scope": "Only two reveal modules substituted; not full frozen-main baseline",
+  "harness_sha256": "c86a749f8d94d3ee0a21597d4b2bff1e49e176ecf68b06d474686d1ebe66fc0d",
+  "mock_provider_sha256": "1433ac9a3dbf4dfcb09032ffb77c927ca5a5b21c8d2e5dcdaefa3b09b2ed1d6d",
+  "modules": [
+    {
+      "path": "packages/app/src/agent-stream/text-reveal.ts",
+      "candidateSha256": "da78b4e82e2a3ece25ff3ec1fcd5f55ab34910fe6b56c82b3f9c7d39122f16d7",
+      "controlSha256": "8c4c632834a1b75022130e6305d4a2c0d5459a2b01232bf3a4646a6ae5303d9c"
+    },
+    {
+      "path": "packages/app/src/hooks/use-revealed-text.ts",
+      "candidateSha256": "63f1df3aa7166c96d2814b12e79e6fe7270667326d4992260fb8e3b9a9108b73",
+      "controlSha256": "52f91ba7c17b3b88b25f4a62b6622fdadc716c576732f7928d6bc3902eabb618"
+    }
+  ],
+  "candidate": {
+    "status": "failed",
+    "unexpected": 1,
+    "expected": 0
+  },
+  "two_module_control": {
+    "status": "failed",
+    "unexpected": 1,
+    "expected": 0
+  },
+  "initial_manual_expansion": {
+    "candidate": {
+      "status": "failed",
+      "canonicalCount": 3,
+      "canonicalLengths": [
+        214,
+        214,
+        214
+      ],
+      "canonicalTextSha256": [
+        "48cd8691ae79c1b6e7c7cc417dc936710a7a719a77d76dd76ac714e1c3ef513a",
+        "48cd8691ae79c1b6e7c7cc417dc936710a7a719a77d76dd76ac714e1c3ef513a",
+        "48cd8691ae79c1b6e7c7cc417dc936710a7a719a77d76dd76ac714e1c3ef513a"
+      ]
+    },
+    "control": {
+      "status": "failed",
+      "canonicalCount": 3,
+      "canonicalLengths": [
+        214,
+        214,
+        214
+      ],
+      "canonicalTextSha256": [
+        "48cd8691ae79c1b6e7c7cc417dc936710a7a719a77d76dd76ac714e1c3ef513a",
+        "48cd8691ae79c1b6e7c7cc417dc936710a7a719a77d76dd76ac714e1c3ef513a",
+        "48cd8691ae79c1b6e7c7cc417dc936710a7a719a77d76dd76ac714e1c3ef513a"
+      ]
+    }
+  },
+  "automatic_scenario": "passed earlier; not rerun",
+  "source_restored": true,
+  "comparison": "Both pinned-browser initial manual-expansion runs failed with identical canonical output count and length (3 x 214); the gate is NOT PASSED. This does not establish a reveal-module regression.",
+  "excluded_evidence": "Pinned-browser captures, traces, videos, storage, network data and private app state are not included."
+}

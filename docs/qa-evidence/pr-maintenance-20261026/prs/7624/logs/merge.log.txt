@@ -1,0 +1,4 @@
+Auto-merging packages/app/src/agent-stream/view.tsx
+CONFLICT (content): Merge conflict in packages/app/src/agent-stream/view.tsx
+Auto-merging packages/app/src/app/_layout.tsx
+Automatic merge failed; fix conflicts and then commit the result.

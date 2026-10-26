@@ -1,0 +1,4 @@
+npx vitest run src/components/desktop-sidebar-layout.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/components/sidebar-resize-handle-layout.test.ts --bail=1 --maxWorkers=1
+npx vitest run src/navigation/settings-presentation/model.test.ts --bail=1 --maxWorkers=1
+npx playwright test e2e/browser/settings-navigation.spec.ts --project=browser --workers=1

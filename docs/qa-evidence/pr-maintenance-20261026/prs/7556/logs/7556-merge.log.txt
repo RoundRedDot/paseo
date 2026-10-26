@@ -1,0 +1,3 @@
+Auto-merging packages/app/src/components/markdown/renderer.tsx
+Auto-merging packages/server/src/server/session.ts
+Automatic merge went well; stopped before committing as requested

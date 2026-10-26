@@ -1,0 +1,11 @@
+npm run build:server
+npm run build --workspace=@getpaseo/expo-two-way-audio
+npm exec --workspace=@getpaseo/app -- vitest run src/plugins/catalog-sync-model.test.ts --bail=1 --maxWorkers=1 --project=unit
+npm exec --workspace=@getpaseo/app -- vitest run src/plugins/registry-lifecycle.test.ts --bail=1 --maxWorkers=1 --project=unit
+npm exec --workspace=@getpaseo/app -- vitest run src/plugins/registry.test.ts --bail=1 --maxWorkers=1 --project=unit
+npm exec --workspace=@getpaseo/app -- vitest run src/plugins/registry-requirements.test.ts --bail=1 --maxWorkers=1 --project=unit
+npm exec --workspace=@getpaseo/plugin -- vitest run src/boundaries.test.ts --bail=1 --maxWorkers=1
+npm exec --workspace=@getpaseo/server -- vitest run src/server/plugins/runtime.posix.test.ts --bail=1 --maxWorkers=1
+npm run format
+npm run typecheck
+npm run lint

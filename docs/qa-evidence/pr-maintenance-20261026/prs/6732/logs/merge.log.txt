@@ -1,0 +1,5 @@
+Auto-merging docs/plugins.md
+Auto-merging packages/client/src/daemon-client.ts
+Auto-merging packages/protocol/src/messages.ts
+Auto-merging packages/server/src/server/session.ts
+Automatic merge went well; stopped before committing as requested

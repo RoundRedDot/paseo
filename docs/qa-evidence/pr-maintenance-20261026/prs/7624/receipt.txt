@@ -1,0 +1,45 @@
+{
+  "pr": 7624,
+  "title": "perf(app): open plugin timelines from the last catalog",
+  "source_state": "pushed",
+  "delivered_sha": "e170ecf33430246031d34938e6a7fe5c7539b034",
+  "tree_sha": "86ca68fc1530f5c66ff607af76a07113468cf354",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "timeline/7624/result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": null,
+  "test_counts": null,
+  "check_summary": "build-server 0\nbuild-app-deps 0\nformat 0\ntest-catalog-cache.test.ts 0\ntest-catalog-sync.test.tsx 0\ntest-timeline-paint.test.ts 0\ntest-presentation.test.ts 0\ntypecheck 0\nlint 0\n",
+  "ci_review": {
+    "observations": [
+      {
+        "source": "ci",
+        "headSha": "e170ecf33430246031d34938e6a7fe5c7539b034",
+        "status": "completed",
+        "conclusion": "action_required"
+      }
+    ],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Catalog-cache tests exercise the current parser/cache synchronization. The earlier browser warm-reload proof does not establish native persistence/performance, multi-version replacement or relay handover."
+  ],
+  "included_raw_outputs": [
+    "build-app-deps.log",
+    "commit.log",
+    "format.log",
+    "lint.log",
+    "merge.log",
+    "test-catalog-cache.test.ts.log",
+    "test-catalog-sync.test.tsx.log",
+    "test-presentation.test.ts.log",
+    "test-timeline-paint.test.ts.log",
+    "typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "resolution.patch"
+  ],
+  "scope_note": null
+}

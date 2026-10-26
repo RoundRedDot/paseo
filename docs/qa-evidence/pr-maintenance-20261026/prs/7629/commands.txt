@@ -1,0 +1,9 @@
+npm run build:server
+npm run build --workspace=@getpaseo/expo-two-way-audio
+npm exec --workspace=@getpaseo/relay -- vitest run src/encrypted-channel.test.ts --bail=1 --maxWorkers=1
+npm exec --workspace=@getpaseo/relay -- vitest run src/secure-channel.test.ts --bail=1 --maxWorkers=1
+npm exec --workspace=@getpaseo/client -- vitest run src/daemon-client-transport.test.ts --bail=1 --maxWorkers=1
+npm exec --workspace=@getpaseo/server -- vitest run src/server/daemon-e2e/relay-transport.e2e.test.ts --bail=1 --maxWorkers=1
+npm run format
+npm run typecheck
+npm run lint

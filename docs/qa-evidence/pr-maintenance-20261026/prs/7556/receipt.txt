@@ -1,0 +1,46 @@
+{
+  "pr": 7556,
+  "title": "perf(app): cut idle repaints and streaming parse cost on Android",
+  "source_state": "pushed",
+  "delivered_sha": "890497e3f9b1baf61c42eb287910c17ad5dc2f08",
+  "tree_sha": "1fe0cf087969b8b3ffa49735c4130a46ba15469b",
+  "frozen_baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+  "report_path": "app/7556-result.json",
+  "host_platform": {
+    "verified_execution_host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64 reported by parent"
+  },
+  "validation_status": "build-server 0\nbuild-app-deps 0\ntest-components-status-ring-geometry 0\ntest-components-markdown-streaming 0\ntest-components-markdown-renderer 0\ntest-voice-voice-runtime 0\ntest-runtime-replica-cache-index 0\nformat 0\ntypecheck 0\nlint 0",
+  "test_counts": null,
+  "check_summary": [
+    "`components-markdown-renderer`: **148 passed**",
+    "`components-markdown-streaming`: **19 passed**",
+    "`components-status-ring-geometry`: **1 passed**",
+    "`runtime-replica-cache-index`: **49 passed**",
+    "`voice-voice-runtime`: **20 passed**"
+  ],
+  "ci_review": {
+    "observations": [],
+    "interpretation": "Recorded checks are scoped to their reported SHA. action_required is not labeled a pass; no exact gate reason is inferred."
+  },
+  "remaining_gaps": [
+    "Native patched-app performance and iOS acceptance remain unverified. Twelve-step native ring cadence still needs maintainer animation-design acceptance. Historical benchmarks below retain their original revision/device scope; this integration adds no performance claim."
+  ],
+  "included_raw_outputs": [
+    "7556-build-app-deps.log",
+    "7556-commit.log",
+    "7556-format.log",
+    "7556-lint.log",
+    "7556-merge.log",
+    "7556-test-components-markdown-renderer.log",
+    "7556-test-components-markdown-streaming.log",
+    "7556-test-components-status-ring-geometry.log",
+    "7556-test-runtime-replica-cache-index.log",
+    "7556-test-voice-voice-runtime.log",
+    "7556-typecheck.log"
+  ],
+  "included_conflict_or_repair_diffs": [
+    "7556-incoming-overlap.diff",
+    "7556-overlap.diff"
+  ],
+  "scope_note": null
+}

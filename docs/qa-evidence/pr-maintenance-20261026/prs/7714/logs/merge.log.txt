@@ -1,0 +1,2 @@
+Auto-merging packages/server/src/server/agent/providers/claude/agent.ts
+Automatic merge went well; stopped before committing as requested

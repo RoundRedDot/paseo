@@ -1,0 +1,4 @@
+npm run format
+npx vitest run --project unit src/plugins/catalog-sync.test.tsx --bail=1 --maxWorkers=1
+npm run typecheck
+npm run lint
