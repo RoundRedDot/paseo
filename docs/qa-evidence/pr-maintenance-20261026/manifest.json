@@ -7,15 +7,127 @@
   "files": [
     {
       "path": "README.md",
-      "bytes": 5983,
-      "sha256": "6f28da0c4f1cc5aa78c203bbc64f70341641a1e16a43df0fe2a20a35427d42a1",
+      "bytes": 6271,
+      "sha256": "a583ab2bf690daa1a66e1dc364f44cf05670ccb55fe63906c7842ca34850ea18",
       "source": "collected.json + per-PR receipts",
       "kind": "index"
     },
     {
+      "path": "followups/6601-main-678fe308/README.md",
+      "bytes": 3900,
+      "sha256": "9081eeeac09aaa8c9e346d1210c61cf507447eea80124f677a5c8ecb903072ac",
+      "source": "compiler/6601-final-refresh",
+      "kind": "followup_index"
+    },
+    {
+      "path": "followups/6601-main-678fe308/ci-jobs.txt",
+      "bytes": 36,
+      "sha256": "627e06a296915112acdd5b92895b015846f491083891bc844451a3e9919d6b3c",
+      "source": "compiler/6601-final-refresh",
+      "kind": "raw_ci_receipt"
+    },
+    {
+      "path": "followups/6601-main-678fe308/ci-receipt.txt",
+      "bytes": 730,
+      "sha256": "212b794a9dfc9306be83786fd546eeb4a3e5e6ef46e6f40b8f34ae159be5f8bd",
+      "source": "compiler/6601-final-refresh",
+      "kind": "reduced_ci"
+    },
+    {
+      "path": "followups/6601-main-678fe308/commands.txt",
+      "bytes": 262,
+      "sha256": "8cd7348c527108ae5460dc7b46580a01ca2669b9f5aceb85ae48cfbcb7159a9f",
+      "source": "compiler/6601-final-refresh",
+      "kind": "command_receipt"
+    },
+    {
+      "path": "followups/6601-main-678fe308/dependency-audit.txt",
+      "bytes": 591,
+      "sha256": "272becbd99da4ceda3b5c3566ecbe7e5bb968c740d6a4a8f97f381c27c39c1dd",
+      "source": "compiler/6601-final-refresh",
+      "kind": "reduced_metadata"
+    },
+    {
+      "path": "followups/6601-main-678fe308/diffs/conflict.diff.txt",
+      "bytes": 2489,
+      "sha256": "a0e9dd1277b926989e4656caa154f0d796731cef678e6418c38532509dcfdb0d",
+      "source": "compiler/6601-final-refresh",
+      "kind": "raw_diff"
+    },
+    {
+      "path": "followups/6601-main-678fe308/logs/build-audio.log.txt",
+      "bytes": 52,
+      "sha256": "60b31a3a94f15315f2aecb7567175e62581e3424aa936f3d9c915af3bbfbe9fd",
+      "source": "compiler/6601-final-refresh",
+      "kind": "raw_stdout"
+    },
+    {
+      "path": "followups/6601-main-678fe308/logs/build-server.log.txt",
+      "bytes": 3525,
+      "sha256": "604604679b1fdf5c3f8e39ae2a31b0992892ba754e4fd238c6f024623c3cd2f1",
+      "source": "compiler/6601-final-refresh",
+      "kind": "raw_stdout"
+    },
+    {
+      "path": "followups/6601-main-678fe308/logs/commit-receipt.log.txt",
+      "bytes": 503,
+      "sha256": "ebd6e1d10e8117cb38c043e3d77c45b28f22451c45a5d0b70c12b7b0686c9f2f",
+      "source": "compiler/6601-final-refresh",
+      "kind": "raw_stdout"
+    },
+    {
+      "path": "followups/6601-main-678fe308/logs/commit.log.txt",
+      "bytes": 2901,
+      "sha256": "75c4ea477942a8b4f84b7ac53ff3a3cc8af2e0ca34d830176a70040467c79c2c",
+      "source": "compiler/6601-final-refresh",
+      "kind": "raw_stdout"
+    },
+    {
+      "path": "followups/6601-main-678fe308/logs/compiler-tests.log.txt",
+      "bytes": 277,
+      "sha256": "7209ee7a668d3629ebc54f8fb184f328021a7968096fb4884080770f081becb1",
+      "source": "compiler/6601-final-refresh",
+      "kind": "raw_stdout"
+    },
+    {
+      "path": "followups/6601-main-678fe308/logs/format.log.txt",
+      "bytes": 85,
+      "sha256": "9ca4626690b1532fa8a3f51e6d323a401e26c53be3451a56e9204af2102a60fa",
+      "source": "compiler/6601-final-refresh",
+      "kind": "raw_stdout"
+    },
+    {
+      "path": "followups/6601-main-678fe308/logs/lint.log.txt",
+      "bytes": 127,
+      "sha256": "7a18cfe8507175916d99fb891aa8c2d748a00f6f63f1a5935f5a6459e308d7d2",
+      "source": "compiler/6601-final-refresh",
+      "kind": "raw_stdout"
+    },
+    {
+      "path": "followups/6601-main-678fe308/logs/merge.log.txt",
+      "bytes": 262,
+      "sha256": "ae1c61140718f0989853f3a42df08e8e241896a060c8b9891083d15a5f721cae",
+      "source": "compiler/6601-final-refresh",
+      "kind": "raw_stdout"
+    },
+    {
+      "path": "followups/6601-main-678fe308/logs/typecheck.log.txt",
+      "bytes": 1312,
+      "sha256": "be89f3b2323b01bdd8f3e0d7e574a356c5cef424f29bbd80dcddb4912a59a359",
+      "source": "compiler/6601-final-refresh",
+      "kind": "raw_stdout"
+    },
+    {
+      "path": "followups/6601-main-678fe308/receipt.txt",
+      "bytes": 2434,
+      "sha256": "9f5267733da1ada52c3d91236368c38c4658de70bf458659280069ca7a38ddf9",
+      "source": "compiler/6601-final-refresh",
+      "kind": "reduced_metadata"
+    },
+    {
       "path": "prs/6601/README.md",
-      "bytes": 2113,
-      "sha256": "d1c21b53bba99b75ee931613c4be4716be37a8ae4bf91496765c7a4881cda8c9",
+      "bytes": 2813,
+      "sha256": "a18072b2e77725b4cc6dd155ac0b33e92fcefed5f34766047ef1fb267c6ee8d3",
       "source": "collected report + source logs",
       "kind": "pr_index"
     },
@@ -2876,5 +2988,15 @@
       "kind": "reduced_metadata"
     }
   ],
-  "manifest_hash_note": "manifest.json does not self-hash; the prepared checkpoint records its SHA-256."
+  "manifest_hash_note": "manifest.json does not self-hash; the prepared checkpoint records its SHA-256.",
+  "follow_up_snapshots": [
+    {
+      "pr": 6601,
+      "source_head": "7af4968ea43c76fd26c0e98790ac079700735bdd",
+      "source_tree": "79f542f46f1cd830c878c0558a4e9390cd11a5bc",
+      "baseline": "678fe308db3acfa3b58866cb7ae603a9a331a07b",
+      "previous_snapshot_head": "53a592e4040f7b3e1d22ffa79ea883101d144581",
+      "path": "followups/6601-main-678fe308/README.md"
+    }
+  ]
 }

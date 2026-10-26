@@ -1,0 +1,13 @@
+commit 7af4968ea43c76fd26c0e98790ac079700735bdd
+Merge: 53a592e40 678fe308d
+Author:     luke <luopeihuan@gmail.com>
+AuthorDate: Mon Oct 26 19:42:19 2026 +0800
+Commit:     luke <luopeihuan@gmail.com>
+CommitDate: Mon Oct 26 19:42:19 2026 +0800
+
+    chore: reconcile PR #6601 with 0.13.2 baseline
+    
+    Preserve the six Babel runtime dependencies and type dependency while
+    merging frozen upstream 678fe308db3acfa3b58866cb7ae603a9a331a07b.
+    
+    Co-authored-by: RoundRedDot <roundreddot@gmail.com>

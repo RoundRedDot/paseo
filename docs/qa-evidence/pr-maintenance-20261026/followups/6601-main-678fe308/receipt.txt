@@ -1,0 +1,71 @@
+{
+  "pr": 6601,
+  "snapshot": "later source refresh after release 0.13.2 and main baseline 678fe308",
+  "previous_snapshot": {
+    "head": "53a592e4040f7b3e1d22ffa79ea883101d144581",
+    "baseline": "902b0c7a1637cc7a6c2ee268dca8161965a35def",
+    "page": "../../prs/6601/README.md"
+  },
+  "source_head": "7af4968ea43c76fd26c0e98790ac079700735bdd",
+  "source_tree": "79f542f46f1cd830c878c0558a4e9390cd11a5bc",
+  "parents": [
+    "53a592e4040f7b3e1d22ffa79ea883101d144581",
+    "678fe308db3acfa3b58866cb7ae603a9a331a07b"
+  ],
+  "baseline": "678fe308db3acfa3b58866cb7ae603a9a331a07b",
+  "target": "main",
+  "state": "OPEN",
+  "draft": false,
+  "mergeable_api": true,
+  "mergeable_graphql": "MERGEABLE",
+  "merge_state_status": "BLOCKED",
+  "source_validation": [
+    "npm-ci PASS",
+    "build-server PASS",
+    "build-audio PASS",
+    "compiler-tests PASS",
+    "format PASS",
+    "typecheck PASS",
+    "lint PASS",
+    "commit PASS"
+  ],
+  "compiler_test_summary": [
+    "compiler-tests: 86 passed"
+  ],
+  "dependency_resolution": {
+    "workspace_version": "0.13.2",
+    "babel_dependencies": {
+      "@babel/core": "^7.29.7",
+      "@babel/plugin-transform-class-properties": "^7.29.7",
+      "@babel/plugin-transform-class-static-block": "^7.29.7",
+      "@babel/plugin-transform-classes": "^7.29.7",
+      "@babel/plugin-transform-private-methods": "^7.29.7",
+      "@babel/plugin-transform-private-property-in-object": "^7.29.7"
+    },
+    "types_dependency": "^7.20.5",
+    "upstream_nix_hash": "retained from baseline 678fe308",
+    "unmatched_dependency_records": [],
+    "upstream_integrity_signature_fields_preserved": 6328,
+    "compiler_test_and_docs_bytes_unchanged_from_previous_head": true
+  },
+  "host": "self server srv_IZjHxwClUB6G (luoph-mbp), shared local filesystem; Darwin arm64",
+  "raw_outputs": [
+    "logs/build-audio.log.txt",
+    "logs/build-server.log.txt",
+    "logs/compiler-tests.log.txt",
+    "logs/format.log.txt",
+    "logs/typecheck.log.txt",
+    "logs/lint.log.txt",
+    "logs/commit.log.txt",
+    "logs/commit-receipt.log.txt",
+    "logs/merge.log.txt"
+  ],
+  "raw_diffs": [
+    "diffs/conflict.diff.txt"
+  ],
+  "ci_receipt": "ci-receipt.txt",
+  "remaining_gaps": [
+    "Older RN 0.81.5 Hermes VM proof remains historical and source-scoped. No new RN 0.86.3 VM/device installation, plugin UI, packaged desktop, Windows, or Linux acceptance."
+  ],
+  "publication_did_not_rerun_source_tests": true
+}

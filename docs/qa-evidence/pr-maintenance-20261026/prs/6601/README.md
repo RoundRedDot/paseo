@@ -39,3 +39,9 @@ CI observations apply only to the SHA recorded in `receipt.txt`. An `ACTION_REQU
 - Existing RN 0.81.5 Hermes VM evidence below remains historical and source-scoped. This maintenance run does not add RN 0.86.3 VM/device installation, plugin UI, packaged desktop or Windows/Linux acceptance.
 
 This publication contains selected allowlisted source-owner logs and receipts; source tests were not rerun for publication. No full-suite, new device, or new provider acceptance is claimed.
+
+## Later source refresh — baseline 678fe308
+
+The later validated refresh is a separate snapshot from this original delivery at baseline `902b0c7a1637cc7a6c2ee268dca8161965a35def`. It records source `7af4968ea43c76fd26c0e98790ac079700735bdd`, tree `79f542f46f1cd830c878c0558a4e9390cd11a5bc`, and parent baseline `678fe308db3acfa3b58866cb7ae603a9a331a07b`. The compiler test and documentation bytes are unchanged from the previous source head; dependency conflict resolution and the later validation/CI readback are recorded separately.
+
+[Later source and CI follow-up evidence](../../followups/6601-main-678fe308/README.md). The earlier 902 baseline receipt above remains historical and unchanged.

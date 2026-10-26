@@ -1,12 +1,12 @@
 # PR maintenance evidence — 2026-10-26
 
-Frozen source baseline: `902b0c7a1637cc7a6c2ee268dca8161965a35def`. This bundle contains selected technical reports for 27 delivered PR heads. Each PR page records its exact delivered SHA/tree, original commands, byte-preserved raw stdout, conflict/repair diffs, reduced CI/review evidence, and remaining gaps. Raw files use `.txt` suffixes and are hashed in `manifest.json`. [`manifest.sha256.txt`](manifest.sha256.txt) records the manifest SHA-256.
+Frozen source baseline: `902b0c7a1637cc7a6c2ee268dca8161965a35def`. This bundle contains selected technical reports for 27 delivered PR snapshots, plus a later #6601 source refresh against baseline `678fe308`. Each PR page records its exact delivered SHA/tree, original commands, byte-preserved raw stdout, conflict/repair diffs, reduced CI/review evidence, and remaining gaps. Raw files use `.txt` suffixes and are hashed in `manifest.json`. [`manifest.sha256.txt`](manifest.sha256.txt) records the manifest SHA-256.
 
 No full test suite was run for this publication. No new device or provider acceptance is claimed. CI, review, tests, and device evidence remain independent. Private conversations, environment/configuration data, credentials, databases, browser storage, large traces, screenshots, and videos are excluded.
 
 ## PRs
 
-- [PR #6601 — fix(server): lower classes in plugin client bundles for Hermes](prs/6601/README.md) — `53a592e4040f7b3e1d22ffa79ea883101d144581`; 8 stdout files, 0 conflict/repair diffs.
+- [PR #6601 — fix(server): lower classes in plugin client bundles for Hermes](prs/6601/README.md) — original source `53a592e4040f7b3e1d22ffa79ea883101d144581` at baseline `902b0c7a1637cc7a6c2ee268dca8161965a35def`; [later validated source `7af4968ea43c76fd26c0e98790ac079700735bdd` at baseline `678fe308db3acfa3b58866cb7ae603a9a331a07b` and its follow-up receipts](followups/6601-main-678fe308/README.md).
 - [PR #6602 — fix(app): stack plugin-projected tool rows like native tool rows](prs/6602/README.md) — `7718e0dc555b669f51bee46812559186ecf05bbf`; 11 stdout files, 1 conflict/repair diffs.
 - [PR #6699 — fix(app): preserve tool row arrival timestamps during lifecycle updates](prs/6699/README.md) — `f072bdfb06c55d231bb72126761d16b9ec0f1b9c`; 11 stdout files, 2 conflict/repair diffs.
 - [PR #6731 — fix(app): keep installed plugins across a host disconnect](prs/6731/README.md) — `ac19eed979213b90670f401b636ae05cf05c7db7`; 13 stdout files, 0 conflict/repair diffs.

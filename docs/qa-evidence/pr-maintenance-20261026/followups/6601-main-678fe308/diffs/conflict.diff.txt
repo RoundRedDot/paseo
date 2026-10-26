@@ -1,0 +1,60 @@
+diff --cc package-lock.json
+index a8458e7fe,847bd24eb..000000000
+--- a/package-lock.json
++++ b/package-lock.json
+@@@ -42388,17 -42414,11 +42388,25 @@@
+          "@agentclientprotocol/sdk": "^0.17.1",
+          "@anthropic-ai/claude-agent-sdk": "0.3.246",
+          "@anthropic-ai/sdk": "^0.104.2",
+++<<<<<<< HEAD
+ +        "@babel/core": "^7.29.7",
+ +        "@babel/plugin-transform-class-properties": "^7.29.7",
+ +        "@babel/plugin-transform-class-static-block": "^7.29.7",
+ +        "@babel/plugin-transform-classes": "^7.29.7",
+ +        "@babel/plugin-transform-private-methods": "^7.29.7",
+ +        "@babel/plugin-transform-private-property-in-object": "^7.29.7",
+ +        "@getpaseo/client": "0.13.1",
+ +        "@getpaseo/highlight": "0.13.1",
+ +        "@getpaseo/plugin": "0.13.1",
+ +        "@getpaseo/protocol": "0.13.1",
+ +        "@getpaseo/relay": "0.13.1",
+++=======
++         "@getpaseo/client": "0.13.2",
++         "@getpaseo/highlight": "0.13.2",
++         "@getpaseo/plugin": "0.13.2",
++         "@getpaseo/protocol": "0.13.2",
++         "@getpaseo/relay": "0.13.2",
+++>>>>>>> 678fe308db3acfa3b58866cb7ae603a9a331a07b
+          "@isaacs/ttlcache": "^2.1.4",
+          "@modelcontextprotocol/sdk": "1.29.0",
+          "@opencode-ai/sdk": "1.14.46",
+diff --cc packages/server/package.json
+index d55d540bf,4aeb01dc3..000000000
+--- a/packages/server/package.json
++++ b/packages/server/package.json
+@@@ -107,17 -107,11 +107,25 @@@
+      "@agentclientprotocol/sdk": "^0.17.1",
+      "@anthropic-ai/claude-agent-sdk": "0.3.246",
+      "@anthropic-ai/sdk": "^0.104.2",
+++<<<<<<< HEAD
+ +    "@babel/core": "^7.29.7",
+ +    "@babel/plugin-transform-class-properties": "^7.29.7",
+ +    "@babel/plugin-transform-class-static-block": "^7.29.7",
+ +    "@babel/plugin-transform-classes": "^7.29.7",
+ +    "@babel/plugin-transform-private-methods": "^7.29.7",
+ +    "@babel/plugin-transform-private-property-in-object": "^7.29.7",
+ +    "@getpaseo/client": "0.13.1",
+ +    "@getpaseo/highlight": "0.13.1",
+ +    "@getpaseo/plugin": "0.13.1",
+ +    "@getpaseo/protocol": "0.13.1",
+ +    "@getpaseo/relay": "0.13.1",
+++=======
++     "@getpaseo/client": "0.13.2",
++     "@getpaseo/highlight": "0.13.2",
++     "@getpaseo/plugin": "0.13.2",
++     "@getpaseo/protocol": "0.13.2",
++     "@getpaseo/relay": "0.13.2",
+++>>>>>>> 678fe308db3acfa3b58866cb7ae603a9a331a07b
+      "@isaacs/ttlcache": "^2.1.4",
+      "@modelcontextprotocol/sdk": "1.29.0",
+      "@opencode-ai/sdk": "1.14.46",

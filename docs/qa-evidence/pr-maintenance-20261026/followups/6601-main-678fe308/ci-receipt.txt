@@ -1,0 +1,21 @@
+{
+  "head": "7af4968ea43c76fd26c0e98790ac079700735bdd",
+  "readback_at_utc": "2026-10-26T11:45:20.988461+00:00",
+  "workflow_run_id": 40317224032,
+  "workflow_status": "COMPLETED",
+  "workflow_conclusion": "ACTION_REQUIRED",
+  "jobs_total": 0,
+  "jobs_returned": 0,
+  "individual_check_suite_count": 0,
+  "review_decision": "APPROVED",
+  "review_threads": 2,
+  "resolved_review_threads": 2,
+  "outdated_review_threads": 2,
+  "pr_state": "OPEN",
+  "draft": false,
+  "base": "main",
+  "mergeable_api": true,
+  "mergeable_graphql": "MERGEABLE",
+  "merge_state_status": "BLOCKED",
+  "interpretation": "ACTION_REQUIRED is not a passing result. No underlying gate reason is inferred; mergeability and review are reported separately."
+}
