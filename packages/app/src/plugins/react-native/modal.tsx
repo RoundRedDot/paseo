@@ -10,16 +10,20 @@ interface ModalContextValue {
   header: {
     title: string;
     leading?: ReactNode;
+    actions?: ReactNode;
   };
 }
 
 const ModalContext = createContext<ModalContextValue | null>(null);
 
-function ModalRoot({ title, icon, open, onOpenChange, children }: ModalProps) {
+function ModalRoot({ title, icon, headerActions, open, onOpenChange, children }: ModalProps) {
   const onOpenChangeRef = useRef(onOpenChange);
   onOpenChangeRef.current = onOpenChange;
   const dismiss = useCallback(() => onOpenChangeRef.current(false), []);
-  const header = useMemo(() => ({ title, leading: icon }), [icon, title]);
+  const header = useMemo(
+    () => ({ title, leading: icon, actions: headerActions }),
+    [headerActions, icon, title],
+  );
   const value = useMemo(() => ({ open, dismiss, header }), [dismiss, header, open]);
   return <ModalContext.Provider value={value}>{children}</ModalContext.Provider>;
 }

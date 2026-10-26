@@ -1245,13 +1245,14 @@ to your plugin.
 `Modal` uses a bottom sheet on compact layouts and a centered dialog otherwise. The plugin owns
 the `open` state.
 
-| Prop           | Type                      | Required | Behavior                                     |
-| -------------- | ------------------------- | -------- | -------------------------------------------- |
-| `title`        | `string`                  | Yes      | Labels the modal and its visible header.     |
-| `icon`         | `ReactNode`               | No       | Renders before the title in the header.      |
-| `open`         | `boolean`                 | Yes      | Shows the modal content when `true`.         |
-| `onOpenChange` | `(open: boolean) => void` | Yes      | Receives `false` when the user dismisses it. |
-| `children`     | `ReactNode`               | Yes      | Contains `Modal.Content`.                    |
+| Prop            | Type                      | Required | Behavior                                           |
+| --------------- | ------------------------- | -------- | -------------------------------------------------- |
+| `title`         | `string`                  | Yes      | Labels the modal and its visible header.           |
+| `icon`          | `ReactNode`               | No       | Renders before the title in the header.            |
+| `headerActions` | `ReactNode`               | No       | Renders beside the title, before the close button. |
+| `open`          | `boolean`                 | Yes      | Shows the modal content when `true`.               |
+| `onOpenChange`  | `(open: boolean) => void` | Yes      | Receives `false` when the user dismisses it.       |
+| `children`      | `ReactNode`               | Yes      | Contains `Modal.Content`.                          |
 
 `Modal.Content` owns the body below the host-rendered header:
 

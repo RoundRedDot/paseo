@@ -24,6 +24,8 @@ import type { PluginIcon } from "./contracts.js";
 export interface ModalProps {
   title: string;
   icon?: ReactNode;
+  /** Renders beside the title, before the host's close button. */
+  headerActions?: ReactNode;
   open: boolean;
   onOpenChange(open: boolean): void;
   children: ReactNode;
