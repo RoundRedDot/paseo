@@ -192,6 +192,7 @@ describe("loadAppSettingsFromStorage", () => {
 
     expect(result).toEqual(DEFAULT_CLIENT_SETTINGS);
     expect(DEFAULT_CLIENT_SETTINGS.language).toBe("system");
+    expect(DEFAULT_CLIENT_SETTINGS.chatDisplay).toBe("collapseTurns");
     expect(JSON.parse(deps.storage.entries.get(APP_SETTINGS_KEY) ?? "null")).toEqual(
       DEFAULT_CLIENT_SETTINGS,
     );
@@ -461,6 +462,7 @@ describe("loadAppSettingsFromStorage", () => {
       ...DEFAULT_CLIENT_SETTINGS,
       theme: "dark",
       contentFontSize: DEFAULT_UI_BASE_FONT_SIZE,
+      chatDisplay: "full",
     });
     expect(JSON.parse(deps.storage.entries.get(APP_SETTINGS_KEY) ?? "null")).toEqual({
       manageBuiltInDaemon: false,
@@ -599,6 +601,7 @@ describe("loadSettingsFromStorage", () => {
       ...DEFAULT_APP_SETTINGS,
       theme: "light",
       contentFontSize: DEFAULT_UI_BASE_FONT_SIZE,
+      chatDisplay: "full",
     });
   });
 
@@ -643,6 +646,7 @@ describe("loadSettingsFromStorage", () => {
       ...DEFAULT_APP_SETTINGS,
       theme: "light",
       contentFontSize: DEFAULT_UI_BASE_FONT_SIZE,
+      chatDisplay: "full",
       manageBuiltInDaemon: false,
       releaseChannel: "beta",
     });
@@ -664,6 +668,7 @@ describe("loadSettingsFromStorage", () => {
       ...DEFAULT_APP_SETTINGS,
       theme: "light",
       contentFontSize: DEFAULT_UI_BASE_FONT_SIZE,
+      chatDisplay: "full",
     });
   });
 });
@@ -739,7 +744,7 @@ describe("saveAppSettings", () => {
       ...DEFAULT_CLIENT_SETTINGS,
       theme: "light",
       contentFontSize: DEFAULT_UI_BASE_FONT_SIZE,
-      toolCallDetailLevel: "overview",
+      chatDisplay: "collapseToolCalls",
     });
   });
 
@@ -794,27 +799,45 @@ describe("appearance settings", () => {
     expect(result.contentFontSize).toBe(DEFAULT_UI_BASE_FONT_SIZE);
     expect(result.codeFontSize).toBe(DEFAULT_CODE_FONT_SIZE);
     expect(result.syntaxTheme).toBe("one");
-    expect(result.toolCallDetailLevel).toBe("detailed");
+    expect(result.chatDisplay).toBe("full");
   });
 
-  it("migrates the enabled compact tool call preference to overview", async () => {
+  it("migrates the enabled compact tool call preference to collapsed tool calls", async () => {
     const deps = makeDeps({
       storage: createInMemoryKeyValueStorage({
         [APP_SETTINGS_KEY]: JSON.stringify({ compactToolCalls: true }),
       }),
     });
 
-    expect((await loadAppSettingsFromStorage(deps)).toolCallDetailLevel).toBe("overview");
+    expect((await loadAppSettingsFromStorage(deps)).chatDisplay).toBe("collapseToolCalls");
   });
 
-  it("clears settings with an unrecognized tool call detail level", async () => {
+  it.each([
+    ["overview", "collapseToolCalls"],
+    ["concise", "collapseToolCalls"],
+    ["detailed", "full"],
+    ["unknown", "full"],
+  ])("reads the %s tool call detail level as the %s chat display", async (legacy, display) => {
     const deps = makeDeps({
       storage: createInMemoryKeyValueStorage({
-        [APP_SETTINGS_KEY]: JSON.stringify({ toolCallDetailLevel: "unknown" }),
+        [APP_SETTINGS_KEY]: JSON.stringify({ toolCallDetailLevel: legacy }),
       }),
     });
 
-    expect((await loadAppSettingsFromStorage(deps)).toolCallDetailLevel).toBe("detailed");
+    expect((await loadAppSettingsFromStorage(deps)).chatDisplay).toBe(display);
+  });
+
+  it("keeps a stored chat display over the tool call detail level it replaced", async () => {
+    const deps = makeDeps({
+      storage: createInMemoryKeyValueStorage({
+        [APP_SETTINGS_KEY]: JSON.stringify({
+          chatDisplay: "collapseTurns",
+          toolCallDetailLevel: "detailed",
+        }),
+      }),
+    });
+
+    expect((await loadAppSettingsFromStorage(deps)).chatDisplay).toBe("collapseTurns");
   });
 
   it("migrates a switched-off checks row item to the hidden checks display", async () => {
