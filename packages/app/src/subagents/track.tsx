@@ -24,6 +24,7 @@ import {
   buildSubagentPillPresentation,
   buildSubagentRowPresentationData,
   countFinishedSubagents,
+  sortSubagentRows,
 } from "./track-presentation";
 
 const ThemedArchive = withUnistyles(Archive);
@@ -78,6 +79,7 @@ export function SubagentsTrack({
   onDetachSubagent,
 }: SubagentsTrackProps): ReactElement | null {
   const { t } = useTranslation();
+  const sortedRows = useMemo(() => sortSubagentRows(rows), [rows]);
 
   const isArchivingFinished = archiveFinishedStatus.kind === "archiving";
   const isArchiveFinishedFailed = archiveFinishedStatus.kind === "failed";
@@ -105,7 +107,7 @@ export function SubagentsTrack({
           />
         </ComposerTrackActions>
       ) : null}
-      {rows.map((row) => (
+      {sortedRows.map((row) => (
         <SubagentsTrackRow
           key={row.kind === "paseo" ? `${row.address.serverId}:${row.id}` : row.id}
           row={row}
