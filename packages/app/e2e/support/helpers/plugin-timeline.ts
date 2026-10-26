@@ -119,7 +119,7 @@ export async function withTimelinePlugin(
   await page.addInitScript(() => {
     localStorage.setItem(
       "@paseo:app-settings",
-      JSON.stringify({ toolCallDetailLevel: "overview" }),
+      JSON.stringify({ chatDisplay: "collapseToolCalls" }),
     );
   });
   const agent = await seedMockAgentWorkspace({
