@@ -1,5 +1,5 @@
 const DEFAULT_EXPLORER_SIDEBAR_WIDTH = 320;
-const MIN_EXPLORER_SIDEBAR_WIDTH = 240;
+const MIN_EXPLORER_SIDEBAR_WIDTH = 200;
 export const MIN_WORKSPACE_BODY_WIDTH = 400;
 
 export function resolveExplorerSidebarWidth(input: {

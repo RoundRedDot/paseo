@@ -32,8 +32,9 @@ describe("desktop sidebar layout", () => {
   });
 
   it.each([
-    { viewportWidth: 600, explorerWidth: 240, centerWidth: 360, canShare: false },
-    { viewportWidth: 639, explorerWidth: 240, centerWidth: 399, canShare: false },
+    { viewportWidth: 560, explorerWidth: 200, centerWidth: 360, canShare: false },
+    { viewportWidth: 600, explorerWidth: 200, centerWidth: 400, canShare: false },
+    { viewportWidth: 639, explorerWidth: 239, centerWidth: 400, canShare: false },
     { viewportWidth: 640, explorerWidth: 240, centerWidth: 400, canShare: false },
     { viewportWidth: 960, explorerWidth: 320, centerWidth: 640, canShare: false },
     { viewportWidth: 1000, explorerWidth: 320, centerWidth: 680, canShare: false },

@@ -75,7 +75,7 @@ async function expectNarrowExplorerLayouts(page: ExplorerPage, testInfo: TestInf
   for (const width of [600, 639, 640, 960, 1000]) {
     await page.setViewportSize({ width, height: 900 });
     await expect(page.getByTestId("sidebar-footer")).toBeHidden();
-    const explorerWidth = width < 640 ? 240 : Math.min(320, width - 400);
+    const explorerWidth = Math.max(200, Math.min(320, width - 400));
     await expect.poll(() => explorerSidebar(page).evaluate(renderedWidth)).toBe(explorerWidth);
     await expect
       .poll(() => page.getByTestId("workspace-pane-main").evaluate(renderedWidth))

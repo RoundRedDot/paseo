@@ -14,15 +14,16 @@ describe("Explorer sidebar layout", () => {
   });
 
   it("has no fixed maximum while preserving room for the workspace body", () => {
-    expect(resolveExplorerSidebarWidth({ requestedWidth: 100, containerWidth: 1200 })).toBe(240);
+    expect(resolveExplorerSidebarWidth({ requestedWidth: 100, containerWidth: 1200 })).toBe(200);
     expect(resolveExplorerSidebarWidth({ requestedWidth: 900, containerWidth: 1600 })).toBe(900);
     expect(resolveExplorerSidebarWidth({ requestedWidth: 900, containerWidth: 1200 })).toBe(800);
     expect(resolveExplorerSidebarWidth({ requestedWidth: 600, containerWidth: 750 })).toBe(350);
   });
 
   it.each([
-    { containerWidth: 600, explorerWidth: 240, bodyWidth: 360 },
-    { containerWidth: 639, explorerWidth: 240, bodyWidth: 399 },
+    { containerWidth: 560, explorerWidth: 200, bodyWidth: 360 },
+    { containerWidth: 600, explorerWidth: 200, bodyWidth: 400 },
+    { containerWidth: 639, explorerWidth: 239, bodyWidth: 400 },
     { containerWidth: 640, explorerWidth: 240, bodyWidth: 400 },
     { containerWidth: 720, explorerWidth: 320, bodyWidth: 400 },
   ])(
