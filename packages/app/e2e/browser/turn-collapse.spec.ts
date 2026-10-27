@@ -1,12 +1,28 @@
+import type { DaemonClient } from "@getpaseo/client/internal/daemon-client";
+import path from "node:path";
 import {
   holdOlderHistoryPages,
   userScrollsTimelineToHistoryStart,
 } from "../support/helpers/timeline-pagination";
 import { getActiveTabTestId } from "../support/helpers/launcher";
-import type { Page } from "@playwright/test";
+import type { Page, Locator } from "@playwright/test";
 import { test, expect } from "../support/fixtures";
 import { expectComposerVisible } from "../support/helpers/composer";
 import { openAgentRoute, seedMockAgentWorkspace } from "../support/helpers/mock-agent";
+
+test.use({
+  e2eDaemonConfig: {
+    version: 1,
+    agents: {
+      providers: {
+        codex: {
+          enabled: true,
+          command: [process.execPath, path.resolve("e2e/fixtures/catalog-codex.mjs")],
+        },
+      },
+    },
+  },
+});
 
 type ChatDisplay = "full" | "collapseToolCalls" | "collapseTurns";
 
@@ -59,6 +75,21 @@ async function groupedToolsInsideLatestTurn(page: Page): Promise<string[]> {
   });
 }
 
+async function expectCompactMessageToggle(prompt: Locator, label: string) {
+  const button = prompt.getByRole("button", { name: label, exact: true });
+  const text = prompt.getByText(label, { exact: true });
+  await expect
+    .poll(
+      async () => {
+        const control = (await button.boundingBox())!;
+        const glyphs = (await text.boundingBox())!;
+        return control.height - glyphs.height;
+      },
+      { message: "The inline toggle adds no vertical space beyond its text" },
+    )
+    .toBe(0);
+}
+
 async function expandAndCollapseLongPrompt(page: Page) {
   const prompt = page.getByTestId("user-message").last();
   const before = await prompt.boundingBox();
@@ -67,6 +98,7 @@ async function expandAndCollapseLongPrompt(page: Page) {
   await expect
     .poll(async () => (await prompt.getByText("Show more", { exact: true }).boundingBox())!.x)
     .toBe(messageLeft);
+  await expectCompactMessageToggle(prompt, "Show more");
   await prompt.getByRole("button", { name: "Show more", exact: true }).click();
   await expect(prompt.getByRole("button", { name: "Show less", exact: true })).toBeVisible();
   await expect
@@ -75,6 +107,7 @@ async function expandAndCollapseLongPrompt(page: Page) {
   await expect
     .poll(async () => (await prompt.boundingBox())?.height ?? 0)
     .toBeGreaterThan(before!.height);
+  await expectCompactMessageToggle(prompt, "Show less");
   await prompt.getByRole("button", { name: "Show less", exact: true }).click();
   await expect.poll(async () => (await prompt.boundingBox())?.height ?? 0).toBe(before!.height);
   await prompt.scrollIntoViewIfNeeded();
@@ -128,18 +161,21 @@ test.describe("Turn collapse", () => {
 });
 
 test("received messages show their sender and open that agent", async ({ page }) => {
+  await page.addInitScript(() =>
+    localStorage.setItem("@paseo:app-settings", JSON.stringify({ theme: "dark" })),
+  );
   const recipient = await seedMockAgentWorkspace({
     repoPrefix: "sender-attribution-",
     title: "Implementation",
   });
   try {
     const sender = await recipient.client.createAgent({
-      provider: "mock",
+      provider: "codex",
       cwd: recipient.cwd,
       workspaceId: recipient.workspaceId,
       title: "Reviewer",
-      model: "e2e-fast-stream",
-      modeId: "load-test",
+      model: "gpt-6.1-sol",
+      modeId: "full-access",
     });
     await recipient.client.sendAgentMessage(
       recipient.agentId,
@@ -153,6 +189,10 @@ test("received messages show their sender and open that agent", async ({ page })
     await expect(page.getByTestId("user-message").filter({ has: attribution })).toContainText(
       "I reviewed the turn-grouping changes.",
     );
+    const labelColor = await attribution
+      .getByText("Sent by Reviewer", { exact: true })
+      .evaluate((element) => getComputedStyle(element).color);
+    await expect(attribution.locator("svg")).toHaveCSS("fill", labelColor);
     await attribution.scrollIntoViewIfNeeded();
     await page.screenshot({ path: "/tmp/sender-attribution.png" });
     await attribution.click();
@@ -237,7 +277,7 @@ async function useThinkingDisplay(
 }
 
 for (const autoExpandReasoning of [false, true]) {
-  test(`reasoning follows Expand thinking (${autoExpandReasoning}) and opens fully with its turn`, async ({
+  test(`reasoning follows Expand thinking (${autoExpandReasoning}) when opening its turn`, async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 1000 });
@@ -261,13 +301,30 @@ for (const autoExpandReasoning of [false, true]) {
       await expectComposerVisible(page);
       const summary = page.getByTestId("turn-summary").last().getByRole("button");
       await expect(summary).toBeVisible();
+      await expect(reasoning).toHaveCount(0);
       await summary.click();
-      await expect(reasoning).toBeVisible();
+      await expect(reasoning).toHaveCount(autoExpandReasoning ? 1 : 0);
       await expect.poll(() => groupedToolsInsideLatestTurn(page)).toEqual([]);
+      await openOneToolOutput(page);
+      await summary.click();
+      await expect(reasoning).toHaveCount(0);
     } finally {
       await agent.cleanup();
     }
   });
+}
+
+async function openOneToolOutput(page: Page) {
+  const output = page.getByText(/\[burst\] tick 1 userIsAtBottom=true/).filter({ visible: true });
+  await expect(output).toHaveCount(0);
+  const command = page
+    .getByTestId("tool-call-badge")
+    .filter({ hasText: "node scripts/simulate-stream-burst.mjs" })
+    .first();
+  await command.getByRole("button").first().click();
+  await expect(output.first()).toBeVisible();
+  await command.getByRole("button").first().click();
+  await expect(output).toHaveCount(0);
 }
 
 async function expectThinkingPresentation(page: Page, autoExpandReasoning: boolean) {
@@ -296,3 +353,61 @@ async function switchToCollapsedTurns(page: Page) {
   });
   await page.reload();
 }
+
+test("a scheduled heartbeat opens a separate turn without reopening the previous response", async ({
+  page,
+}) => {
+  test.setTimeout(90_000);
+  await useChatDisplay(page, "collapseTurns");
+  const agent = await seedMockAgentWorkspace({
+    repoPrefix: "heartbeat-turn-",
+    title: "Heartbeat turns",
+    model: "ten-second-stream",
+    initialPrompt: "Inspect the scroll container",
+  });
+  const schedules = agent.client as unknown as Pick<
+    DaemonClient,
+    "scheduleCreate" | "scheduleRunOnce" | "scheduleDelete"
+  >;
+  let scheduleId: string | undefined;
+  try {
+    await agent.client.waitForFinish(agent.agentId, 30_000);
+    await openAgentRoute(page, agent);
+    await expectComposerVisible(page);
+    const summaries = page.getByTestId("turn-summary");
+    await expect(summaries).toHaveCount(1);
+    const previousSummary = await summaries.first().innerText();
+    const previousReplyId = await page
+      .getByTestId("assistant-message")
+      .last()
+      .evaluate((element) => element.closest("[data-message-id]")!.getAttribute("data-message-id"));
+    const created = await schedules.scheduleCreate({
+      name: "Check the completed work",
+      prompt: "Inspect the scroll container again",
+      cadence: { type: "cron", expression: "0 0 1 1 *" },
+      target: { type: "self", agentId: agent.agentId },
+      runOnCreate: false,
+    });
+    expect(created.error).toBeNull();
+    scheduleId = created.schedule!.id;
+    const fired = await schedules.scheduleRunOnce({ id: scheduleId });
+    expect(fired.error).toBeNull();
+    await expect(
+      page.getByTestId("tool-call-badge").filter({ hasText: /^Heartbeat/ }),
+    ).toBeVisible();
+    await expect(summaries.first()).toHaveText(previousSummary);
+    const previousReply = page
+      .locator(`[data-message-id="${previousReplyId}"]`)
+      .getByTestId("assistant-message");
+    await expect(previousReply).toBeVisible();
+    await expect(previousReply).toContainText("(end of synthetic stream)");
+    await agent.client.waitForFinish(agent.agentId, 30_000);
+    await expect(summaries).toHaveCount(2);
+    await expect.poll(() => rowsBetweenLatestSummaryAndReply(page)).toBe(0);
+    await expect(page.getByRole("button", { name: /^Worked for/ })).toHaveCount(2);
+    await page.screenshot({ path: "/tmp/heartbeat-turn-footer.png" });
+  } finally {
+    if (scheduleId) await schedules.scheduleDelete({ id: scheduleId });
+    await agent.cleanup();
+  }
+});
