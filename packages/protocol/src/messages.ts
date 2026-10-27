@@ -1768,8 +1768,7 @@ export const CreateAgentRequestMessageSchema = z.object({
   autoArchive: z.boolean().optional(),
   // An ephemeral helper: the daemon never persists, lists, flags or announces
   // it, and plugin lifecycle hooks skip it. Lives on the request rather than
-  // in the config schema, which is reused for updates. Retained for wire parsing;
-  // public internal creation is no longer supported.
+  // in the config schema, which is reused for updates. Requires an existing workspace.
   internal: z.boolean().optional(),
   // Workspace creation intent, rejected when selecting an existing workspace.
   background: z.boolean().optional(),
@@ -3652,6 +3651,7 @@ export const ServerInfoStatusPayloadSchema = z
         hubAgentRpc: z.boolean().optional(),
         // COMPAT(internalAgents): added in v0.9.0; remove gate after 2027-03-17.
         internalAgents: z.boolean().optional(),
+        internalAgentCreation: z.boolean().optional(),
         // COMPAT(internalWorkspaces): added in v0.9.0; remove gate after 2027-03-17.
         internalWorkspaces: z.boolean().optional(),
         backgroundWorkspaces: z.boolean().optional(),
