@@ -1243,6 +1243,7 @@ export const ja: TranslationResources = {
       hosts: "ホスト",
       settings: "設定",
       closeSidebar: "サイドバーを閉じる",
+      more: "その他",
     },
     footer: {
       usage: "使用状況",

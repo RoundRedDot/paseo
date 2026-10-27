@@ -1247,6 +1247,7 @@ export const ru: TranslationResources = {
       hosts: "Хосты",
       settings: "Настройки",
       closeSidebar: "Закрыть боковую панель",
+      more: "Ещё",
     },
     footer: {
       usage: "Использование",

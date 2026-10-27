@@ -1221,6 +1221,7 @@ export const zhCN: TranslationResources = {
       hosts: "Hosts",
       settings: "设置",
       closeSidebar: "关闭侧边栏",
+      more: "更多",
     },
     footer: {
       usage: "使用情况",

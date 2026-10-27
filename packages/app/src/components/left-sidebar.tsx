@@ -15,6 +15,7 @@ import {
   Text,
   useWindowDimensions,
   View,
+  type LayoutChangeEvent,
 } from "react-native";
 import { Gesture } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
@@ -33,6 +34,12 @@ import { SidebarDisplayPreferencesMenu } from "@/components/sidebar/display-pref
 import { SidebarSeparator } from "@/components/sidebar/sidebar-separator";
 import { SidebarNavRows } from "@/components/sidebar/sidebar-nav-rows";
 import { SidebarFooterIconHighlight } from "@/components/sidebar/sidebar-footer-icon-highlight";
+import {
+  resolveSidebarFooterButtonWidth,
+  resolveSidebarFooterSlots,
+  type SidebarFooterSlot,
+} from "@/components/sidebar/sidebar-footer-overflow";
+import { SidebarFooterOverflowMenu } from "@/components/sidebar/sidebar-footer-overflow-menu";
 import { SidebarHelpMenu } from "@/components/sidebar/sidebar-help-menu";
 import { SidebarResizeHandle } from "@/components/sidebar-resize-handle";
 import { DensityIcon } from "@/components/ui/density-icon";
@@ -109,6 +116,7 @@ interface SidebarLabels {
   settings: string;
   searchHosts: string;
   usage: string;
+  more: string;
   closeSidebar: string;
 }
 
@@ -214,6 +222,7 @@ export const LeftSidebar = memo(function LeftSidebar({ active }: { active: boole
       settings: t("sidebar.actions.settings"),
       searchHosts: t("sidebar.host.searchPlaceholder"),
       usage: t(builtinSidebarNavLabelKey("usage")),
+      more: t("sidebar.actions.more"),
       closeSidebar: t("sidebar.actions.closeSidebar"),
     }),
     [t],
@@ -404,6 +413,11 @@ function IconTooltipContent({
   );
 }
 
+/** Help and Settings sit at the end of the footer line, after its spacer. */
+function isSidebarFooterEndSlot(slot: SidebarFooterSlot): boolean {
+  return slot === "help" || slot === "settings";
+}
+
 function SidebarFooter({
   handleOpenProject,
   handleSettings,
@@ -420,6 +434,7 @@ function SidebarFooter({
     settings: string;
     searchHosts: string;
     usage: string;
+    more: string;
   };
   handleAddHost: () => void;
   handleOpenHostSettings: (serverId: string) => void;
@@ -427,35 +442,79 @@ function SidebarFooter({
 }) {
   const newAgentKeys = useShortcutKeys("new-agent");
   const settingsKeys = useShortcutKeys("toggle-settings");
+  const { width: windowWidth } = useWindowDimensions();
+  const [lineWidth, setLineWidth] = useState(0);
+  const handleLineLayout = useCallback((event: LayoutChangeEvent) => {
+    setLineWidth(event.nativeEvent.layout.width);
+  }, []);
+  const { visible, hidden } = resolveSidebarFooterSlots({
+    availableWidth: lineWidth,
+    buttonWidth: resolveSidebarFooterButtonWidth(windowWidth),
+  });
 
-  // One line of icons: Add project, Usage, Hosts, then Help and Settings at the end.
-  return (
-    <UsageSidebarRoot>
-      <View style={styles.footerContainer} testID="sidebar-footer">
-        <SidebarFooterRows onBeforeNavigate={onBeforeNavigate} />
-        <View style={styles.sidebarFooter} testID="sidebar-footer-bottom-line">
+  function renderSlot(slot: SidebarFooterSlot) {
+    switch (slot) {
+      case "addProject":
+        return (
           <FooterIconButton
+            key={slot}
             onPress={handleOpenProject}
             testID="sidebar-add-project"
             label={labels.addProject}
             icon={FolderPlus}
             shortcutKeys={newAgentKeys}
           />
-          <SidebarUsageIcon label={labels.usage} />
+        );
+      case "usage":
+        return <SidebarUsageIcon key={slot} label={labels.usage} />;
+      case "hosts":
+        return (
           <SidebarHostPicker
+            key={slot}
             label={labels.hosts}
             onAddHost={handleAddHost}
             onOpenHostSettings={handleOpenHostSettings}
           />
-          <View style={styles.footerSpacer} />
-          <SidebarHelpMenu />
+        );
+      case "help":
+        return <SidebarHelpMenu key={slot} />;
+      case "settings":
+        return (
           <FooterIconButton
+            key={slot}
             onPress={handleSettings}
             testID="sidebar-settings"
             label={labels.settings}
             icon={Settings}
             shortcutKeys={settingsKeys}
           />
+        );
+    }
+  }
+
+  // One line of icons: Add project, Usage, Hosts, then Help and Settings at the end. On a line too
+  // narrow for every finger-sized target, the slots from the end move behind a More menu.
+
+  return (
+    <UsageSidebarRoot>
+      <View style={styles.footerContainer} testID="sidebar-footer">
+        <SidebarFooterRows onBeforeNavigate={onBeforeNavigate} />
+        <View style={styles.sidebarFooter} testID="sidebar-footer-bottom-line">
+          <View style={styles.footerIconLine} onLayout={handleLineLayout}>
+            {visible.filter((slot) => !isSidebarFooterEndSlot(slot)).map(renderSlot)}
+            <View style={styles.footerSpacer} />
+            {visible.filter(isSidebarFooterEndSlot).map(renderSlot)}
+            {hidden.length > 0 ? (
+              <SidebarFooterOverflowMenu
+                slots={hidden}
+                labels={labels}
+                onOpenProject={handleOpenProject}
+                onSettings={handleSettings}
+                onAddHost={handleAddHost}
+                onOpenHostSettings={handleOpenHostSettings}
+              />
+            ) : null}
+          </View>
         </View>
       </View>
     </UsageSidebarRoot>
@@ -901,6 +960,12 @@ const styles = StyleSheet.create((theme) => ({
     alignItems: "center",
     paddingHorizontal: theme.spacing[2],
     paddingVertical: theme.spacing[1.5],
+  },
+  // Fills the footer between its insets, so its measured width is the room the icons have.
+  footerIconLine: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
   },
   // Pushes Help and Settings to the end of the icon line.
   footerSpacer: {
