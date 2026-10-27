@@ -58,40 +58,53 @@ describe("daemon E2E - timeline window", () => {
     await ctx.cleanup();
   }, 60_000);
 
-  test("returns only the completed turn timings referenced by each projected page", async () => {
-    const cwd = tmpCwd();
-    try {
-      const agent = await ctx.client.createAgent({ provider: "codex", cwd, title: "Turn timing" });
-      expect(ctx.client.getLastServerInfoMessage()?.features?.agentTurnTiming).toBe(true);
-      await ctx.client.sendMessage(agent.id, "Respond with exactly: FIRST");
-      expect((await ctx.client.waitForFinish(agent.id, 5_000)).status).toBe("idle");
-      await ctx.client.sendMessage(agent.id, "Respond with exactly: SECOND");
-      expect((await ctx.client.waitForFinish(agent.id, 5_000)).status).toBe("idle");
-      const tail = await ctx.client.fetchAgentTimeline(agent.id, { direction: "tail", limit: 1 });
-      expect(tail.turnTimings).toHaveLength(1);
-      expect(tail.turnTimings![0]).toMatchObject({
-        turnId: tail.entries[0]!.turnId,
-        status: "turn_completed",
-      });
-      const latest = tail.turnTimings![0]!;
-      expect(Date.parse(latest.completedAt)).toBeGreaterThanOrEqual(Date.parse(latest.startedAt));
-      const older = await ctx.client.fetchAgentTimeline(agent.id, {
-        direction: "before",
-        cursor: tail.startCursor!,
-        limit: 0,
-      });
-      expect(older.turnTimings!.some((timing) => timing.turnId !== latest.turnId)).toBe(true);
-      const after = await ctx.client.fetchAgentTimeline(agent.id, {
-        direction: "after",
-        cursor: tail.endCursor!,
-        limit: 1,
-      });
-      expect(after.entries).toEqual([]);
-      expect(after.turnTimings).toEqual([]);
-    } finally {
-      rmSync(cwd, { recursive: true, force: true });
-    }
-  });
+  test.each([false, true])(
+    "returns only page-scoped timings with wholeTurns=%s",
+    async (wholeTurns) => {
+      const cwd = tmpCwd();
+      try {
+        const agent = await ctx.client.createAgent({
+          provider: "codex",
+          cwd,
+          title: "Turn timing",
+        });
+        expect(ctx.client.getLastServerInfoMessage()?.features?.agentTurnTiming).toBe(true);
+        expect(ctx.client.getLastServerInfoMessage()?.features?.wholeTurnTimeline).toBe(true);
+        await ctx.client.sendMessage(agent.id, "Respond with exactly: FIRST");
+        expect((await ctx.client.waitForFinish(agent.id, 5_000)).status).toBe("idle");
+        await ctx.client.sendMessage(agent.id, "Respond with exactly: SECOND");
+        expect((await ctx.client.waitForFinish(agent.id, 5_000)).status).toBe("idle");
+        const tail = await ctx.client.fetchAgentTimeline(agent.id, {
+          direction: "tail",
+          limit: 1,
+          wholeTurns,
+        });
+        expect(tail.turnTimings).toHaveLength(1);
+        expect(tail.turnTimings![0]).toMatchObject({
+          turnId: tail.entries[0]!.turnId,
+          status: "turn_completed",
+        });
+        const latest = tail.turnTimings![0]!;
+        expect(Date.parse(latest.completedAt)).toBeGreaterThanOrEqual(Date.parse(latest.startedAt));
+        const older = await ctx.client.fetchAgentTimeline(agent.id, {
+          direction: "before",
+          cursor: tail.startCursor!,
+          limit: 0,
+          wholeTurns,
+        });
+        expect(older.turnTimings!.some((timing) => timing.turnId !== latest.turnId)).toBe(true);
+        const after = await ctx.client.fetchAgentTimeline(agent.id, {
+          direction: "after",
+          cursor: tail.endCursor!,
+          limit: 1,
+        });
+        expect(after.entries).toEqual([]);
+        expect(after.turnTimings).toEqual([]);
+      } finally {
+        rmSync(cwd, { recursive: true, force: true });
+      }
+    },
+  );
 
   test("associates a rehydrated assistant message with stored timing without a runtime turn ID", async () => {
     const cwd = tmpCwd();
