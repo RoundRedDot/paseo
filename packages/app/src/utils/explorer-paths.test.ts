@@ -2,6 +2,12 @@ import { describe, expect, it } from "vitest";
 import { buildAbsoluteExplorerPath } from "./explorer-paths";
 
 describe("buildAbsoluteExplorerPath", () => {
+  it("keeps the filesystem root absolute", () => {
+    expect(buildAbsoluteExplorerPath({ workspaceRoot: "/", entryPath: "etc/hosts" })).toBe(
+      "/etc/hosts",
+    );
+    expect(buildAbsoluteExplorerPath({ workspaceRoot: "/", entryPath: "." })).toBe("/");
+  });
   it("builds a POSIX absolute path from a relative explorer path", () => {
     expect(
       buildAbsoluteExplorerPath({

@@ -1311,7 +1311,14 @@ return `undefined` until recognizable if the first text is insufficient to ident
 Each replacement may set an optional plugin-local `id`; otherwise Paseo uses its index within that
 source item's output.
 
-Renderers receive `agentId`, `item`, `timestamp`, `theme`, `host`, and `layout`. Paseo validates
+Renderers receive `agentId`, `item`, `timestamp`, `theme`, `host`, and `layout`. They also receive
+optional `openFile({ path, lineStart?, lineEnd? })` on app clients that support file navigation.
+It opens the native file pane from the pane displaying this stream, on the same host and workspace.
+Paths may be absolute or relative to the agent's working directory; line numbers are one-based.
+Check that `openFile` exists before offering a file-open action. Updating the daemon or plugin
+alone does not add this capability to an older app client.
+
+Paseo validates
 `item.data` with the registered schema before rendering. Keep transformers synchronous and
 deterministic. Paseo memoizes results by source-item reference and derives replacement identity from
 the source row, so updates to one streaming item do not remount its renderer. Use the exported

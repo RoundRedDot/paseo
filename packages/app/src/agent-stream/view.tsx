@@ -52,6 +52,7 @@ import type {
 } from "@getpaseo/protocol/agent-types";
 import type { AgentScreenAgent } from "@/hooks/use-agent-screen-state-machine";
 import { useSessionStore } from "@/stores/session-store";
+import { selectWorkspaceDirectory } from "@/stores/session-store-hooks/selectors";
 import { useRevealedText } from "@/hooks/use-revealed-text";
 import { useFileExplorerActions } from "@/hooks/use-file-explorer-actions";
 import { useLoadOlderAgentHistory } from "@/hooks/use-load-older-agent-history";
@@ -384,6 +385,9 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
     );
 
     const workspaceRoot = context.cwd?.trim() || "";
+    const fileRoot = useSessionStore((state) =>
+      selectWorkspaceDirectory(state, resolvedServerId, context.workspaceId ?? null),
+    );
     const { revealDirectory } = useFileExplorerActions({
       serverId: resolvedServerId,
       workspaceId: context.workspaceId,
@@ -457,11 +461,12 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
       () =>
         createInlinePathOpener({
           workspaceRoot,
+          fileRoot: fileRoot ?? undefined,
           client,
           openFile: openInlineFile,
           openDirectory: openInlineDirectory,
         }),
-      [workspaceRoot, client, openInlineFile, openInlineDirectory],
+      [workspaceRoot, fileRoot, client, openInlineFile, openInlineDirectory],
     );
     useEffect(() => {
       if (!isActive) inlinePathOpener.cancel();
@@ -475,6 +480,10 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
 
     const handleToolCallOpenFile = useStableEvent((filePath: string) => {
       handleInlinePathPress({ raw: filePath, path: filePath }, "preferred");
+    });
+
+    const handlePluginOpenFile = useStableEvent((location: WorkspaceFileLocation) => {
+      handleInlinePathPress({ raw: location.path, ...location }, "preferred");
     });
 
     const handleForkAssistantTurn: AssistantTurnForkHandler = useStableEvent(
@@ -873,7 +882,12 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
 
           case "plugin":
             return (
-              <PluginTimelineItemView agentId={agentId} item={item} serverId={resolvedServerId} />
+              <PluginTimelineItemView
+                agentId={agentId}
+                item={item}
+                serverId={resolvedServerId}
+                openFile={handlePluginOpenFile}
+              />
             );
 
           default:
@@ -886,6 +900,7 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
         renderAssistantMessageItem,
         renderThoughtItem,
         renderToolCallItem,
+        handlePluginOpenFile,
         resolvedServerId,
       ],
     );

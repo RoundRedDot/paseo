@@ -102,3 +102,43 @@ it("ignores a pending probe when its view is left", async () => {
   await pending;
   expect(opened).toEqual([]);
 });
+
+it("anchors subdirectory-agent files to the stream cwd instead of the file pane root", async () => {
+  const { createInlinePathOpener } = await import("./path-open");
+  const opened: unknown[] = [];
+  const opener = createInlinePathOpener({
+    workspaceRoot: "/repo/packages/app",
+    fileRoot: "/repo",
+    client: null,
+    openFile: (location, disposition) => opened.push({ location, disposition }),
+    openDirectory: () => {},
+  });
+  for (const file of ["src/a.ts", "/repo/packages/app/src/a.ts", "/outside/a.ts", "~/notes.md"]) {
+    await opener.open({ raw: file, path: file, lineStart: 12, lineEnd: 20 }, "preferred");
+  }
+  expect(opened).toEqual(
+    [
+      "/repo/packages/app/src/a.ts",
+      "/repo/packages/app/src/a.ts",
+      "/outside/a.ts",
+      "~/notes.md",
+    ].map((filePath) => ({
+      location: { path: filePath, lineStart: 12, lineEnd: 20 },
+      disposition: "preferred",
+    })),
+  );
+});
+
+it("keeps filesystem-root agent paths absolute when the pane belongs to another root", async () => {
+  const { createInlinePathOpener } = await import("./path-open");
+  const opened: string[] = [];
+  const opener = createInlinePathOpener({
+    workspaceRoot: "/",
+    fileRoot: "/repo",
+    client: null,
+    openFile: (location) => opened.push(location.path),
+    openDirectory: () => {},
+  });
+  await opener.open({ raw: "etc/hosts", path: "etc/hosts" }, "preferred");
+  expect(opened).toEqual(["/etc/hosts"]);
+});

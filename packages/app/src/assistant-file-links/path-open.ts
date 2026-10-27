@@ -5,6 +5,7 @@ import {
   type OpenFileDisposition,
 } from "@/workspace/file-open";
 import { isAbsolutePath } from "@/utils/path";
+import { buildAbsoluteExplorerPath } from "@/utils/explorer-paths";
 
 interface PathOpenInput {
   file?: string;
@@ -39,6 +40,8 @@ export async function resolveInlinePathOpen(input: PathOpenInput): Promise<PathO
 
 export function createInlinePathOpener(input: {
   workspaceRoot: string;
+  /** The file pane reads relative paths from this root, which can differ from the stream cwd. */
+  fileRoot?: string;
   client: PathOpenInput["client"];
   openFile: (location: WorkspaceFileLocation, disposition: OpenFileDisposition) => void;
   openDirectory: (path: string) => void;
@@ -59,8 +62,17 @@ export function createInlinePathOpener(input: {
       if (destination.kind === "directory") {
         input.openDirectory(destination.directoryPath);
       } else if (normalized.file) {
+        let filePath = normalized.file;
+        const hasDifferentFileRoot = input.fileRoot && input.fileRoot !== input.workspaceRoot;
+        const isHomeRelative = /^~(?:[\\/]|$)/.test(filePath);
+        if (hasDifferentFileRoot && !isHomeRelative) {
+          filePath = buildAbsoluteExplorerPath({
+            workspaceRoot: input.workspaceRoot,
+            entryPath: filePath,
+          });
+        }
         const location = normalizeWorkspaceFileLocation({
-          path: normalized.file,
+          path: filePath,
           lineStart: target.lineStart,
           lineEnd: target.lineEnd,
         });
