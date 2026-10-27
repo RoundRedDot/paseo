@@ -253,6 +253,39 @@ describe("loadAppSettingsFromStorage", () => {
     expect(result.chatOutlineEnabled).toBe(false);
   });
 
+  it("uses Enter to send by default", async () => {
+    const deps = makeDeps();
+
+    const result = await loadAppSettingsFromStorage(deps);
+
+    expect(result.sendShortcut).toBe("enter");
+    expect(DEFAULT_CLIENT_SETTINGS.sendShortcut).toBe("enter");
+  });
+
+  it("loads the modifier Enter send preference", async () => {
+    const deps = makeDeps({
+      storage: createInMemoryKeyValueStorage({
+        [APP_SETTINGS_KEY]: JSON.stringify({ sendShortcut: "mod-enter" }),
+      }),
+    });
+
+    const result = await loadAppSettingsFromStorage(deps);
+
+    expect(result.sendShortcut).toBe("mod-enter");
+  });
+
+  it("falls back to Enter when the stored send shortcut is invalid", async () => {
+    const deps = makeDeps({
+      storage: createInMemoryKeyValueStorage({
+        [APP_SETTINGS_KEY]: JSON.stringify({ sendShortcut: "yes" }),
+      }),
+    });
+
+    const result = await loadAppSettingsFromStorage(deps);
+
+    expect(result.sendShortcut).toBe("enter");
+  });
+
   it("defaults sidebar navigation items to an empty preference list", async () => {
     const deps = makeDeps();
 
@@ -550,6 +583,24 @@ describe("loadAppSettingsFromStorage", () => {
 });
 
 describe("saveAppSettings", () => {
+  it("keeps the send shortcut when tab title density is saved", async () => {
+    const deps = makeDeps();
+    const queryClient = new QueryClient();
+    await saveAppSettings({ queryClient, deps, updates: { workspaceTabTitleLines: 2 } });
+    expect((await loadAppSettingsFromStorage(deps)).sendShortcut).toBe("enter");
+
+    await saveAppSettings({ queryClient, deps, updates: { sendShortcut: "mod-enter" } });
+    await saveAppSettings({
+      queryClient: new QueryClient(),
+      deps,
+      updates: { workspaceTabTitleLines: 0 },
+    });
+
+    const settings = await loadAppSettingsFromStorage(deps);
+    expect(settings.workspaceTabTitleLines).toBe(0);
+    expect(settings.sendShortcut).toBe("mod-enter");
+  });
+
   it("applies consecutive functional updates to the latest cached settings", async () => {
     const deps = makeDeps();
     const queryClient = new QueryClient();
