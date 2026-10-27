@@ -101,7 +101,7 @@ function TouchResizeHandle({ edge, gesture, pressed, testID }: SidebarResizeHand
   const gripStyle = [
     styles.grip,
     edge === "left" ? styles.leftEdgeGrip : styles.rightEdgeGrip,
-    pressed && styles.pressedGrip,
+    pressed ? styles.visibleGrip : styles.idleGrip,
   ];
 
   return (
@@ -114,14 +114,7 @@ function TouchResizeHandle({ edge, gesture, pressed, testID }: SidebarResizeHand
           collapsable={false}
           style={targetStyle}
         >
-          <View pointerEvents="none" testID={`${testID}-grip`} style={gripStyle}>
-            {[0, 1, 2].map((row) => (
-              <View key={row} style={styles.gripDotRow}>
-                <View style={styles.gripDot} />
-                <View style={styles.gripDot} />
-              </View>
-            ))}
-          </View>
+          <View pointerEvents="none" testID={`${testID}-grip`} style={gripStyle} />
         </View>
       </GestureDetector>
     </View>
@@ -157,29 +150,16 @@ const styles = StyleSheet.create((theme) => ({
     justifyContent: "center",
   },
   grip: {
-    width: 20,
-    height: 64,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: theme.colors.borderAccent,
-    backgroundColor: theme.colors.surface2,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 4,
+    width: 4,
+    height: 36,
+    borderRadius: 2,
+    backgroundColor: theme.colors.foreground,
   },
-  pressedGrip: {
-    borderColor: theme.colors.foregroundMuted,
-    backgroundColor: theme.colors.interactionHighlight,
+  idleGrip: {
+    opacity: 0.15,
   },
-  gripDotRow: {
-    flexDirection: "row",
-    gap: 4,
-  },
-  gripDot: {
-    width: 3,
-    height: 3,
-    borderRadius: 1.5,
-    backgroundColor: theme.colors.foregroundMuted,
+  visibleGrip: {
+    opacity: 0.3,
   },
   leftEdgeGrip: {
     alignSelf: "flex-start",
