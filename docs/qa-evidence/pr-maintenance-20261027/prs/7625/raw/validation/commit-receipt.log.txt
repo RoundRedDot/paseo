@@ -1,0 +1,14 @@
+commit 7951fa0f375ef3c84a2a0e36048129d0d36c4ec5
+Merge: 679130a7c 9e4aab16c
+Author:     luke <luopeihuan@gmail.com>
+AuthorDate: Tue Oct 27 13:37:23 2026 +0800
+Commit:     luke <luopeihuan@gmail.com>
+CommitDate: Tue Oct 27 13:37:23 2026 +0800
+
+    fix(plugins): minify client bundles inside compiler worker
+    
+    Merge frozen main 9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca while
+    keeping eager host interop before client-only whitespace/syntax minification.
+    Preserve worker admission, idle teardown and server output.
+    
+    Co-authored-by: RoundRedDot <roundreddot@gmail.com>

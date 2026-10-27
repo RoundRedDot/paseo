@@ -1,0 +1,5 @@
+{
+  "at": "2026-10-27T06:27:44.160701+00:00",
+  "scope": "Unique newly captured gzip JSON and videos only; duplicate copies are covered by hash; no historical external archive rerun",
+  "artifacts": []
+}

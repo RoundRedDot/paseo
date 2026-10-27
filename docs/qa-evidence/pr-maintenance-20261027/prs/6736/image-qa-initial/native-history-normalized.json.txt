@@ -1,0 +1,43 @@
+[
+  {
+    "type": "model_change"
+  },
+  {
+    "type": "thinking_level_change",
+    "thinkingLevel": "off"
+  },
+  {
+    "type": "message",
+    "role": "user",
+    "blocks": [
+      {
+        "type": "text",
+        "length": 107,
+        "knownMarkers": [
+          "attached test image"
+        ]
+      },
+      {
+        "type": "image",
+        "mimeType": "image/webp",
+        "bytes": 382,
+        "sha256": "7bda7e04a68ee969a784a9b9a4defa414b8f7cfd3574cb968c9891b0e707dac8"
+      }
+    ]
+  },
+  {
+    "type": "message",
+    "role": "assistant",
+    "provider": "deepseek",
+    "model": "deepseek-v4-flash",
+    "blocks": [
+      {
+        "type": "text",
+        "length": 341,
+        "knownMarkers": [
+          "no image input"
+        ]
+      }
+    ]
+  }
+]

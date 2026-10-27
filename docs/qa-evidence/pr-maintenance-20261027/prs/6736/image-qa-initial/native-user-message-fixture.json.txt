@@ -1,0 +1,17 @@
+{
+  "entryType": "message",
+  "entryId": "a6c4387f",
+  "role": "user",
+  "timestamp": 1793081194364,
+  "content": [
+    {
+      "type": "text",
+      "text": "Describe the dominant colors and shapes in the attached test image in one short sentence. Do not use tools."
+    },
+    {
+      "type": "image",
+      "mimeType": "image/webp",
+      "data": "UklGRnYBAABXRUJQVlA4IGoBAADwEgCdASrIAMgAPm02mUgkIyKhJggQgA2JZW7hceECea1gWIDBAPQA6ADrAPQA6V3yMwLEF7gvcF7gvcF7gvcF4QrrtmyNtAUYwalsPzZT9nCcuRecZ7TlUREAeEa7jyHnU1sLkV//TkzL/fr12sU0Gu48Z7TlUpEs98mzNsapDKTrD8Qim1GyNtAUYwV2q14q3gFOsaXP8bNd/9UfqioAAP7/UlAAEz9aPKsHSwRI6f/cNI6BrZo6uBHVswasXmuar+3IE0Aepi8f06v7/BFbs37h/3kyidk3/5lHSm2fTJDQfkLDl/b7xCipUVEIN7VXqwibypXpF/qhWjGtta5B+b39vMonYCCCvqxENbsSwZ0dq2E9tIz+V/l4EAQ4ICDJmlj0kcC1zu/W9t4M2EibckOazyg5SQtGiHsP8RGWTtiqj7l8fgeCK2koCfEY6wyGW8DGKDD7xyqMH0+AAcx69F3Np11AAAAAAA=="
+    }
+  ]
+}

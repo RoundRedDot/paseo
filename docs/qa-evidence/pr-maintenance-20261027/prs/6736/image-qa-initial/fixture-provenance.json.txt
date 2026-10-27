@@ -1,0 +1,8 @@
+{
+  "source": "dcf47cd097e267715c4c0e114a83f025fda399e0:6736-pi-fixed/image-only.png",
+  "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda",
+  "bytes": 439,
+  "width": 128,
+  "height": 128,
+  "notSyntheticPlaceholder": true
+}

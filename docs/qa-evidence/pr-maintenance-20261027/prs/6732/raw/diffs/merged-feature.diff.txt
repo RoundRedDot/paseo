@@ -1,0 +1,1288 @@
+diff --git a/docs/plugins.md b/docs/plugins.md
+index 9cab47214..c79bfada7 100644
+--- a/docs/plugins.md
++++ b/docs/plugins.md
+@@ -382,6 +382,17 @@ grace. During daemon startup, plugin sessions may connect while application WebS
+ paused; the daemon accepts clients only after configured plugins have settled and the initial
+ catalog is complete.
+ 
++The app retains client bundles per host in its file cache (IndexedDB on web), keyed by plugin ID
++and the daemon's SHA-256. A cold client verifies stored contents before advertising their hashes;
++missing or corrupt files request full bundles. Only the latest catalog's bundles remain. Hashing
++uses Expo's native async digest on mobile, avoiding a JavaScript hash loop on Hermes; reading and
++passing the bundle string still costs memory and time once per client lifetime.
++
++The initial catalog observation snapshot waits for the viewed-timeline owner's visible catch-up,
++up to three seconds, so a large bundle response does not queue ahead of chat recovery on the
++ordered relay socket. No visible catch-up means no wait. Catalog-change events refresh immediately;
++settings-change events keep invalidating their query directly.
++
+ When the same plugin contribution exists on multiple hosts, Paseo shows it once in the sidebar and
+ adds a host picker to the screen header. The selected host supplies the bundle, RPC transport, and
+ query cache. Explicit SDK targets follow the [host API contract](../public-docs/plugins/reference.md#discover-hosts-and-target-another-host).
+diff --git a/packages/app/src/plugins/catalog-refresh.test.ts b/packages/app/src/plugins/catalog-refresh.test.ts
+new file mode 100644
+index 000000000..10daa218b
+--- /dev/null
++++ b/packages/app/src/plugins/catalog-refresh.test.ts
+@@ -0,0 +1,89 @@
++import { expect, test } from "vitest";
++import { createCatalogRefresh } from "./catalog-refresh";
++
++function world(pending = true) {
++  const listeners = new Set<() => void>();
++  const timers = new Set<() => void>();
++  const refreshes: (string | undefined)[] = [];
++  const refresh = createCatalogRefresh({
++    catchUp: {
++      isVisibleCatchUpPending: () => pending,
++      subscribe(listener) {
++        listeners.add(listener);
++        return () => {
++          listeners.delete(listener);
++        };
++      },
++    },
++    refresh: (id) => {
++      refreshes.push(id);
++    },
++    schedule(task, delayMs) {
++      expect(delayMs).toBe(3_000);
++      timers.add(task);
++      return () => {
++        timers.delete(task);
++      };
++    },
++  });
++  return {
++    refresh,
++    refreshes,
++    listeners,
++    timers,
++    complete() {
++      pending = false;
++      for (const listener of listeners) listener();
++    },
++    timeout() {
++      for (const timer of timers) timer();
++    },
++  };
++}
++
++test("initial snapshots wait for visible catch-up completion", () => {
++  const w = world();
++  w.refresh.snapshot();
++  w.refresh.snapshot();
++  expect(w.refreshes).toEqual([]);
++  expect(w.timers.size).toBe(1);
++  w.complete();
++  expect(w.refreshes).toEqual([undefined]);
++  expect(w.timers.size).toBe(0);
++  expect(w.listeners.size).toBe(0);
++});
++
++test("initial snapshot waits at most three seconds", () => {
++  const w = world();
++  w.refresh.snapshot();
++  w.timeout();
++  w.complete();
++  expect(w.refreshes).toEqual([undefined]);
++});
++
++test("snapshots fetch immediately when no visible timeline is catching up", () => {
++  const w = world(false);
++  w.refresh.snapshot();
++  expect(w.refreshes).toEqual([undefined]);
++  expect(w.timers.size).toBe(0);
++});
++
++test("plugin_catalog_changed refreshes immediately and cancels the deferred snapshot", () => {
++  const w = world();
++  w.refresh.snapshot();
++  w.refresh.changed("changed-plugin");
++  expect(w.refreshes).toEqual(["changed-plugin"]);
++  w.complete();
++  w.timeout();
++  expect(w.refreshes).toEqual(["changed-plugin"]);
++});
++
++test("disconnect disposes the deferred snapshot", () => {
++  const w = world();
++  w.refresh.snapshot();
++  w.refresh.dispose();
++  w.complete();
++  w.timeout();
++  expect(w.refreshes).toEqual([]);
++  expect(w.listeners.size).toBe(0);
++});
+diff --git a/packages/app/src/plugins/catalog-refresh.ts b/packages/app/src/plugins/catalog-refresh.ts
+new file mode 100644
+index 000000000..c47aa711b
+--- /dev/null
++++ b/packages/app/src/plugins/catalog-refresh.ts
+@@ -0,0 +1,39 @@
++export interface CatalogCatchUpSignal {
++  isVisibleCatchUpPending(): boolean;
++  subscribe(listener: () => void): () => void;
++}
++
++/** Only snapshots wait; an explicit catalog change cancels the deferred snapshot. */
++export function createCatalogRefresh(input: {
++  catchUp: CatalogCatchUpSignal | null | undefined;
++  refresh(pluginId?: string): void;
++  schedule(task: () => void, delayMs: number): () => void;
++}) {
++  let cancelTimer: (() => void) | undefined;
++  let unsubscribe: (() => void) | undefined;
++  function cancel() {
++    cancelTimer?.();
++    unsubscribe?.();
++    cancelTimer = undefined;
++    unsubscribe = undefined;
++  }
++  function refresh(pluginId?: string) {
++    cancel();
++    input.refresh(pluginId);
++  }
++  return {
++    snapshot() {
++      if (cancelTimer) return;
++      if (!input.catchUp?.isVisibleCatchUpPending()) {
++        refresh();
++        return;
++      }
++      unsubscribe = input.catchUp.subscribe(() => {
++        if (!input.catchUp?.isVisibleCatchUpPending()) refresh();
++      });
++      cancelTimer = input.schedule(() => refresh(), 3_000);
++    },
++    changed: refresh,
++    dispose: cancel,
++  };
++}
+diff --git a/packages/app/src/plugins/catalog-sync.tsx b/packages/app/src/plugins/catalog-sync.tsx
+index 0eedfde3a..4e37e55a6 100644
+--- a/packages/app/src/plugins/catalog-sync.tsx
++++ b/packages/app/src/plugins/catalog-sync.tsx
+@@ -1,10 +1,13 @@
+ import { useVoiceAudioEngineOptional } from "@/contexts/voice-context";
+ import { pluginSettingsKey } from "./settings/use-settings";
+-import { useEffect } from "react";
++import { useEffect, useMemo } from "react";
+ import type { DaemonClient } from "@getpaseo/client/internal/daemon-client";
+ import { useHostFeature } from "@/runtime/host-features";
+ import { useHostRuntimeIsConnected } from "@/runtime/host-runtime";
+ import { pluginRegistry } from "./registry";
++import { useSessionStore } from "@/stores/session-store";
++import { createHostPluginClientBundleStore } from "./client-bundle-storage";
++import { createCatalogRefresh } from "./catalog-refresh";
+ 
+ export function PluginCatalogSync({
+   serverId,
+@@ -16,6 +19,8 @@ export function PluginCatalogSync({
+   const audio = useVoiceAudioEngineOptional();
+   const connected = useHostRuntimeIsConnected(serverId);
+   const supported = useHostFeature(serverId, "plugins");
++  const timelineSync = useSessionStore((state) => state.sessions[serverId]?.viewedTimelineSync);
++  const bundles = useMemo(() => createHostPluginClientBundleStore(serverId), [serverId]);
+ 
+   useEffect(() => {
+     let cancelled = false;
+@@ -28,10 +33,12 @@ export function PluginCatalogSync({
+       pluginRegistry.removeHost(serverId);
+       return;
+     }
++    // SessionProvider creates the owner in an effect; observe only after it is published.
++    if (!timelineSync) return;
+     const refresh = (replacePluginId?: string) => {
+       refreshQueue = refreshQueue.then(() =>
+         client
+-          .getPluginCatalog()
++          .getPluginCatalog(bundles)
+           .then((catalog) => {
+             if (!cancelled) {
+               pluginRegistry.installCatalog(serverId, catalog, {
+@@ -51,13 +58,23 @@ export function PluginCatalogSync({
+       );
+       return refreshQueue;
+     };
++    const catalogRefresh = createCatalogRefresh({
++      catchUp: timelineSync,
++      refresh: (pluginId) => {
++        void refresh(pluginId);
++      },
++      schedule: (task, delay) => {
++        const timer = setTimeout(task, delay);
++        return () => clearTimeout(timer);
++      },
++    });
+     const observation = client.observeEvents([
+       "status.plugin_catalog_changed",
+       "status.plugin_settings_changed",
+     ]);
+     observation.subscribe({
+       snapshot: () => {
+-        void refresh();
++        catalogRefresh.snapshot();
+       },
+       update: (message) => {
+         if (message.type !== "status") return;
+@@ -72,17 +89,18 @@ export function PluginCatalogSync({
+         }
+         if (message.payload.status === "plugin_catalog_changed") {
+           const pluginId = message.payload.pluginId;
+-          if (typeof pluginId === "string") void refresh(pluginId);
++          if (typeof pluginId === "string") catalogRefresh.changed(pluginId);
+         }
+       },
+     });
+     return () => {
+       cancelled = true;
++      catalogRefresh.dispose();
+       void observation
+         .release()
+         .catch((error) => console.warn("[Plugins] Failed to release catalog", error));
+     };
+-  }, [audio, client, connected, serverId, supported]);
++  }, [audio, bundles, client, connected, serverId, supported, timelineSync]);
+ 
+   useEffect(() => () => pluginRegistry.removeHost(serverId), [serverId]);
+   return null;
+diff --git a/packages/app/src/plugins/client-bundle-storage.browser.test.ts b/packages/app/src/plugins/client-bundle-storage.browser.test.ts
+new file mode 100644
+index 000000000..59923c520
+--- /dev/null
++++ b/packages/app/src/plugins/client-bundle-storage.browser.test.ts
+@@ -0,0 +1,36 @@
++import { expect, test } from "vitest";
++import { createHostPluginClientBundleStore } from "./client-bundle-storage.web";
++
++async function sha256(contents: string) {
++  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(contents));
++  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
++}
++
++test("browser bundles survive a fresh store and remain isolated by host", async () => {
++  const first = createHostPluginClientBundleStore("bundle-test-host-a");
++  const second = createHostPluginClientBundleStore("bundle-test-host-b");
++  const clientBundle = "bundle".repeat(250_000);
++  const entry = {
++    id: "same-plugin",
++    clientBundle,
++    clientBundleHash: await sha256(clientBundle),
++  };
++  const otherCode = "other host code";
++  const other = {
++    id: entry.id,
++    clientBundle: otherCode,
++    clientBundleHash: await sha256(otherCode),
++  };
++  try {
++    await first.replace([entry]);
++    await second.replace([other]);
++    expect(await createHostPluginClientBundleStore("bundle-test-host-a").load()).toEqual([entry]);
++    expect(await createHostPluginClientBundleStore("bundle-test-host-b").load()).toEqual([other]);
++    await first.replace([]);
++    expect(await createHostPluginClientBundleStore("bundle-test-host-a").load()).toEqual([]);
++    expect(await second.load()).toEqual([other]);
++  } finally {
++    await first.replace([]);
++    await second.replace([]);
++  }
++});
+diff --git a/packages/app/src/plugins/client-bundle-storage.ts b/packages/app/src/plugins/client-bundle-storage.ts
+new file mode 100644
+index 000000000..6214f65cf
+--- /dev/null
++++ b/packages/app/src/plugins/client-bundle-storage.ts
+@@ -0,0 +1,32 @@
++import * as FileSystem from "expo-file-system/legacy";
++import { CryptoDigestAlgorithm, digestStringAsync, randomUUID } from "expo-crypto";
++import { createPluginClientBundleStore } from "./client-bundle-store";
++
++export function createHostPluginClientBundleStore(serverId: string) {
++  const directory = `${FileSystem.cacheDirectory}plugin-client-bundles/${encodeURIComponent(serverId)}/`;
++  const ensureDirectory = async () => {
++    if (!FileSystem.cacheDirectory) throw new Error("Plugin bundle cache directory unavailable");
++    await FileSystem.makeDirectoryAsync(directory, { intermediates: true });
++  };
++  return createPluginClientBundleStore(
++    {
++      async list() {
++        await ensureDirectory();
++        return FileSystem.readDirectoryAsync(directory);
++      },
++      read: (name) => FileSystem.readAsStringAsync(`${directory}${name}`),
++      async writeAtomic(name, contents) {
++        await ensureDirectory();
++        const temporary = `${directory}${randomUUID()}.tmp`;
++        try {
++          await FileSystem.writeAsStringAsync(temporary, contents);
++          await FileSystem.moveAsync({ from: temporary, to: `${directory}${name}` });
++        } finally {
++          await FileSystem.deleteAsync(temporary, { idempotent: true });
++        }
++      },
++      remove: (name) => FileSystem.deleteAsync(`${directory}${name}`, { idempotent: true }),
++    },
++    (contents) => digestStringAsync(CryptoDigestAlgorithm.SHA256, contents),
++  );
++}
+diff --git a/packages/app/src/plugins/client-bundle-storage.web.ts b/packages/app/src/plugins/client-bundle-storage.web.ts
+new file mode 100644
+index 000000000..71401de02
+--- /dev/null
++++ b/packages/app/src/plugins/client-bundle-storage.web.ts
+@@ -0,0 +1,62 @@
++import { createPluginClientBundleStore } from "./client-bundle-store";
++
++const DATABASE_NAME = "paseo-plugin-client-bundles";
++const STORE_NAME = "bundles";
++let opening: Promise<IDBDatabase> | undefined;
++
++function openDatabase(): Promise<IDBDatabase> {
++  opening ??= new Promise<IDBDatabase>((resolve, reject) => {
++    const request = indexedDB.open(DATABASE_NAME, 1);
++    request.addEventListener("upgradeneeded", () => request.result.createObjectStore(STORE_NAME));
++    request.addEventListener("success", () => resolve(request.result));
++    request.addEventListener("error", () => reject(request.error));
++  }).catch((error) => {
++    opening = undefined;
++    throw error;
++  });
++  return opening;
++}
++
++export function createHostPluginClientBundleStore(serverId: string) {
++  const prefix = `${encodeURIComponent(serverId)}/`;
++  const range = () => IDBKeyRange.bound(prefix, `${prefix}\uffff`);
++  async function run<T>(
++    mode: IDBTransactionMode,
++    operation: (store: IDBObjectStore) => IDBRequest<T>,
++  ): Promise<T> {
++    const database = await openDatabase();
++    return new Promise((resolve, reject) => {
++      const transaction = database.transaction(STORE_NAME, mode);
++      const request = operation(transaction.objectStore(STORE_NAME));
++      transaction.addEventListener("complete", () => resolve(request.result));
++      transaction.addEventListener("abort", () => reject(transaction.error));
++      transaction.addEventListener("error", () => reject(transaction.error));
++    });
++  }
++  return createPluginClientBundleStore(
++    {
++      async list() {
++        return (await run("readonly", (store) => store.getAllKeys(range())))
++          .filter((key): key is string => typeof key === "string")
++          .map((key) => key.slice(prefix.length));
++      },
++      async read(name) {
++        const result: unknown = await run("readonly", (store) => store.get(`${prefix}${name}`));
++        if (typeof result !== "string") throw new Error("Missing plugin client bundle");
++        return result;
++      },
++      async writeAtomic(name, contents) {
++        await run("readwrite", (store) => store.put(contents, `${prefix}${name}`));
++      },
++      async remove(name) {
++        await run("readwrite", (store) => store.delete(`${prefix}${name}`));
++      },
++    },
++    async (contents) => {
++      const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(contents));
++      return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join(
++        "",
++      );
++    },
++  );
++}
+diff --git a/packages/app/src/plugins/client-bundle-store.test.ts b/packages/app/src/plugins/client-bundle-store.test.ts
+new file mode 100644
+index 000000000..902b41fff
+--- /dev/null
++++ b/packages/app/src/plugins/client-bundle-store.test.ts
+@@ -0,0 +1,180 @@
++import { createHash } from "node:crypto";
++import { expect, test } from "vitest";
++import { createPluginClientBundleStore, type PluginBundleFiles } from "./client-bundle-store";
++
++const sha256 = async (contents: string) => createHash("sha256").update(contents).digest("hex");
++
++class BundleFiles implements PluginBundleFiles {
++  readonly contents = new Map<string, string>();
++  readonly writes: string[] = [];
++  async list() {
++    return [...this.contents.keys()];
++  }
++  async read(name: string) {
++    const contents = this.contents.get(name);
++    if (contents === undefined) throw new Error("File disappeared");
++    return contents;
++  }
++  async writeAtomic(name: string, contents: string) {
++    this.writes.push(name);
++    this.contents.set(name, contents);
++  }
++  async remove(name: string) {
++    this.contents.delete(name);
++  }
++}
++
++async function bundle(id: string, clientBundle: string) {
++  return { id, clientBundle, clientBundleHash: await sha256(clientBundle) };
++}
++
++test("a cold store loads verified bundles and prunes versions missing from the latest catalog", async () => {
++  const files = new BundleFiles();
++  const old = await bundle("changed", "old");
++  const kept = await bundle("kept", "Unicode: 折叠屏 🐚");
++  await createPluginClientBundleStore(files, sha256).replace([old, kept]);
++  const cold = createPluginClientBundleStore(files, sha256);
++  expect(await cold.load()).toEqual([old, kept]);
++  const changed = await bundle("changed", "new");
++  await cold.replace([kept, changed]);
++  expect(files.contents.size).toBe(2);
++  expect(await createPluginClientBundleStore(files, sha256).load()).toEqual([kept, changed]);
++  expect(files.writes).toHaveLength(3);
++  await cold.replace([]);
++  expect(files.contents.size).toBe(0);
++});
++
++test("same-length corruption, truncated files and unreadable files are not advertised", async () => {
++  const files = new BundleFiles();
++  const entries = await Promise.all([
++    bundle("same-length", "good"),
++    bundle("truncated", "long"),
++    bundle("missing", "lost"),
++  ]);
++  await createPluginClientBundleStore(files, sha256).replace(entries);
++  const names = [...files.contents.keys()];
++  files.contents.set(names[0]!, "evil");
++  files.contents.set(names[1]!, "lo");
++  // The directory entry still exists while reading the file fails.
++  const unreadable: PluginBundleFiles = {
++    list: () => files.list(),
++    read: (name) =>
++      name === names[2] ? Promise.reject(new Error("Unreadable")) : files.read(name),
++    writeAtomic: (name, contents) => files.writeAtomic(name, contents),
++    remove: (name) => files.remove(name),
++  };
++  const cold = createPluginClientBundleStore(unreadable, sha256);
++  expect(await cold.load()).toEqual([]);
++  await cold.replace(entries);
++  expect(await createPluginClientBundleStore(files, sha256).load()).toEqual(entries);
++});
++
++test("an interrupted atomic write leaves the prior catalog available for a cold reader", async () => {
++  const files = new BundleFiles();
++  const previous = await bundle("plugin", "previous");
++  await createPluginClientBundleStore(files, sha256).replace([previous]);
++  const failing: PluginBundleFiles = {
++    list: () => files.list(),
++    read: (name) => files.read(name),
++    remove: (name) => files.remove(name),
++    writeAtomic: async () => {
++      throw new Error("Disk full");
++    },
++  };
++  await expect(
++    createPluginClientBundleStore(failing, sha256).replace([await bundle("plugin", "next")]),
++  ).rejects.toThrow("Disk full");
++  expect(await createPluginClientBundleStore(files, sha256).load()).toEqual([previous]);
++});
++
++// Exercise the app store through a fresh platform-agnostic client, using its transport port.
++test.each(["valid", "corrupt", "missing"])(
++  "cold catalog uses a %s persisted bundle correctly",
++  async (state) => {
++    const { DaemonClient } = await import("@getpaseo/client/internal/daemon-client");
++    const files = new BundleFiles();
++    const entry = await bundle("plugin", "good code");
++    await createPluginClientBundleStore(files, sha256).replace([entry]);
++    if (state === "corrupt") files.contents.set([...files.contents.keys()][0]!, "evil code");
++    if (state === "missing") files.contents.clear();
++    let open = () => {};
++    let receive: (data: unknown, binary: boolean) => void = () => {};
++    const requests: Record<string, unknown>[] = [];
++    const client = new DaemonClient({
++      url: "ws://test",
++      clientId: "plugin-cache-test",
++      reconnect: { enabled: false },
++      transportFactory: () => ({
++        send(data) {
++          if (typeof data !== "string") return;
++          const frame = JSON.parse(data);
++          if (frame.type !== "session") return;
++          const request = frame.message;
++          if (request.type !== "plugin.catalog.get.request") return;
++          requests.push(request);
++          const { clientBundle: _code, ...reference } = entry;
++          receive(
++            JSON.stringify({
++              type: "session",
++              message: {
++                type: "plugin.catalog.get.response",
++                payload: {
++                  requestId: request.requestId,
++                  plugins: [request.cachedClientBundles ? reference : entry],
++                },
++              },
++            }),
++            false,
++          );
++        },
++        close() {},
++        onOpen(handler) {
++          open = handler;
++          return () => {};
++        },
++        onMessage(handler) {
++          receive = handler;
++          return () => {};
++        },
++        onClose() {
++          return () => {};
++        },
++        onError() {
++          return () => {};
++        },
++      }),
++    });
++    try {
++      const connecting = client.connect();
++      open();
++      receive(
++        JSON.stringify({
++          type: "session",
++          message: {
++            type: "status",
++            payload: {
++              status: "server_info",
++              serverId: "cache-host",
++              hostname: null,
++              version: null,
++              features: { plugins: true },
++            },
++          },
++        }),
++        false,
++      );
++      await connecting;
++      expect(await client.getPluginCatalog(createPluginClientBundleStore(files, sha256))).toEqual([
++        entry,
++      ]);
++      if (state === "valid")
++        expect(requests[0]?.cachedClientBundles).toEqual([
++          { id: entry.id, clientBundleHash: entry.clientBundleHash },
++        ]);
++      else expect(requests[0]).not.toHaveProperty("cachedClientBundles");
++      expect(await createPluginClientBundleStore(files, sha256).load()).toEqual([entry]);
++    } finally {
++      await client.close();
++    }
++  },
++);
+diff --git a/packages/app/src/plugins/client-bundle-store.ts b/packages/app/src/plugins/client-bundle-store.ts
+new file mode 100644
+index 000000000..4a120c2c2
+--- /dev/null
++++ b/packages/app/src/plugins/client-bundle-store.ts
+@@ -0,0 +1,56 @@
++import type {
++  PluginClientBundle,
++  PluginClientBundleStore,
++} from "@getpaseo/client/internal/daemon-client";
++
++/** Each adapter is scoped to one host. Writes publish a complete file/record atomically. */
++export interface PluginBundleFiles {
++  list(): Promise<string[]>;
++  read(name: string): Promise<string>;
++  writeAtomic(name: string, contents: string): Promise<void>;
++  remove(name: string): Promise<void>;
++}
++
++export function createPluginClientBundleStore(
++  files: PluginBundleFiles,
++  sha256: (contents: string) => Promise<string>,
++): PluginClientBundleStore {
++  const verified = new Set<string>();
++  const filename = (bundle: PluginClientBundle) =>
++    `${encodeURIComponent(bundle.id)}.${bundle.clientBundleHash}.js`;
++  return {
++    async load() {
++      const bundles: PluginClientBundle[] = [];
++      for (const name of await files.list()) {
++        try {
++          const match = /^(.*)\.([a-f0-9]{64})\.js$/.exec(name);
++          if (!match) continue;
++          const id = decodeURIComponent(match[1]!);
++          const clientBundleHash = match[2]!;
++          const clientBundle = await files.read(name);
++          if ((await sha256(clientBundle)) !== clientBundleHash) continue;
++          verified.add(name);
++          bundles.push({ id, clientBundleHash, clientBundle });
++        } catch {
++          // Missing, unreadable or corrupt files are cache misses, never executable code.
++        }
++      }
++      return bundles;
++    },
++    async replace(bundles) {
++      const retained = new Set<string>();
++      for (const bundle of bundles) {
++        const name = filename(bundle);
++        retained.add(name);
++        if (verified.has(name)) continue;
++        await files.writeAtomic(name, bundle.clientBundle);
++        verified.add(name);
++      }
++      for (const name of await files.list()) {
++        if (retained.has(name)) continue;
++        await files.remove(name);
++        verified.delete(name);
++      }
++    },
++  };
++}
+diff --git a/packages/app/src/timeline/viewed-timeline-sync.test.ts b/packages/app/src/timeline/viewed-timeline-sync.test.ts
+index 9bf6897bd..64de852a7 100644
+--- a/packages/app/src/timeline/viewed-timeline-sync.test.ts
++++ b/packages/app/src/timeline/viewed-timeline-sync.test.ts
+@@ -44,6 +44,38 @@ interface TimelineFetch {
+   fail(message: string): void;
+ }
+ 
++test("visible catch-up signal covers preparation and reconnect but excludes hidden chats", async () => {
++  const world = new TimelineWorld();
++  expect(world.sync.isVisibleCatchUpPending()).toBe(false);
++  world.openedEarlier(["hidden"]);
++  expect(world.sync.isVisibleCatchUpPending()).toBe(false);
++  world.show("pane", ["visible"]);
++  expect(world.sync.isVisibleCatchUpPending()).toBe(true);
++  world.sync.setConnected(true);
++  (await world.nextMembership()).succeed();
++  const visible = await world.nextFetch("visible");
++  expect(world.sync.isVisibleCatchUpPending()).toBe(true);
++  visible.respond({ hasNewer: false });
++  await world.nextFetch("hidden");
++  expect(world.sync.isVisibleCatchUpPending()).toBe(false);
++  world.sync.setConnected(false);
++  world.sync.setConnected(true);
++  expect(world.sync.isVisibleCatchUpPending()).toBe(true);
++  world.show("pane", []);
++  expect(world.sync.isVisibleCatchUpPending()).toBe(false);
++  world.sync.dispose();
++});
++
++test("hiding a pending chat notifies catch-up signal listeners even when demand stays open", () => {
++  const world = new TimelineWorld();
++  world.show("pane", ["visible"]);
++  const signals: boolean[] = [];
++  world.sync.subscribe(() => signals.push(world.sync.isVisibleCatchUpPending()));
++  world.show("pane", []);
++  expect(signals).toEqual([false]);
++  world.sync.dispose();
++});
++
+ test("split panes catch up together before hidden open chats start fetching", async () => {
+   const world = new TimelineWorld();
+   world.openedEarlier(["a-hidden"]);
+diff --git a/packages/app/src/timeline/viewed-timeline-sync.ts b/packages/app/src/timeline/viewed-timeline-sync.ts
+index 5939feabc..4989bd8b3 100644
+--- a/packages/app/src/timeline/viewed-timeline-sync.ts
++++ b/packages/app/src/timeline/viewed-timeline-sync.ts
+@@ -334,6 +334,8 @@ export interface ViewedTimelineUiBridge {
+ }
+ 
+ export interface ViewedTimelineSync extends ViewedTimelineUiBridge {
++  /** Pending visible catch-up, including cache preparation and subscription acknowledgement. */
++  isVisibleCatchUpPending(): boolean;
+   /**
+    * The agent tabs that currently exist in workspace layout. This only ever *releases*
+    * subscriptions: closing a tab drops its chat. It never adds one, because layout is
+@@ -823,6 +825,12 @@ export function createViewedTimelineSync(ports: ViewedTimelineSyncPorts): Viewed
+   };
+ 
+   return {
++    isVisibleCatchUpPending() {
++      return (
++        active &&
++        visibleAgentIds().some((id) => visibilityCatchUpPending.has(id) || manualRetries.has(id))
++      );
++    },
+     subscribe(listener) {
+       listeners.add(listener);
+       return () => listeners.delete(listener);
+@@ -844,12 +852,17 @@ export function createViewedTimelineSync(ports: ViewedTimelineSyncPorts): Viewed
+       publishVisibleMembership();
+     },
+     replaceVisibleAgentIds(sourceId, agentIds) {
++      const previousVisible = visibleAgentIds();
++      const previousDesired = desired;
+       const normalized = normalizeAgentIds(agentIds);
+       if (normalized.length === 0) sources.delete(sourceId);
+       else sources.set(sourceId, normalized);
+       rememberOpenedAgentIds(normalized);
+       publishVisibleMembership();
+       startAcknowledgedCatchUps();
++      if (previousDesired === desired && !sameAgentIds(previousVisible, visibleAgentIds())) {
++        notifyListeners();
++      }
+     },
+     setActive(nextActive) {
+       if (active === nextActive) return;
+@@ -857,6 +870,7 @@ export function createViewedTimelineSync(ports: ViewedTimelineSyncPorts): Viewed
+       publishVisibleMembership();
+       if (!active) {
+         startAcknowledgedCatchUps();
++        notifyListeners();
+         return;
+       }
+       for (const agentId of visibleAgentIds()) {
+diff --git a/packages/client/src/daemon-client.test.ts b/packages/client/src/daemon-client.test.ts
+index f663aeb8b..950ad1b38 100644
+--- a/packages/client/src/daemon-client.test.ts
++++ b/packages/client/src/daemon-client.test.ts
+@@ -1,5 +1,5 @@
+ import { readFileSync } from "node:fs";
+-import { afterEach, expect, expectTypeOf, test, vi } from "vitest";
++import { afterEach, describe, expect, expectTypeOf, test, vi } from "vitest";
+ import { z } from "zod";
+ import {
+   DaemonClient,
+@@ -9,6 +9,8 @@ import {
+   type CreateAgentRequestOptions,
+   type DaemonTransport,
+   type Logger,
++  type PluginClientBundle,
++  type PluginClientBundleStore,
+ } from "./daemon-client";
+ import { CLIENT_CAPS } from "@getpaseo/protocol/client-capabilities";
+ import { BROWSER_AUTOMATION_COMMAND_NAMES } from "@getpaseo/protocol/browser-automation/rpc-schemas";
+@@ -2028,6 +2030,145 @@ test("gets a structured plugin log snapshot", async () => {
+   ]);
+ });
+ 
++describe("plugin catalog", () => {
++  async function connectedClient() {
++    const mock = createMockTransport();
++    const client = new DaemonClient({
++      url: "ws://test",
++      clientId: "clsk_unit_test",
++      logger: createMockLogger(),
++      reconnect: { enabled: false },
++      transportFactory: () => mock.transport,
++    });
++    clients.push(client);
++    const connectPromise = client.connect();
++    mock.triggerOpen({ features: { plugins: true } });
++    await connectPromise;
++    return { client, mock };
++  }
++
++  async function fetchCatalog(
++    harness: Awaited<ReturnType<typeof connectedClient>>,
++    respond: (request: Record<string, unknown>) => Array<Record<string, unknown>>,
++    store?: PluginClientBundleStore,
++  ) {
++    const before = harness.mock.sent.length;
++    const response = harness.client.getPluginCatalog(store);
++    if (store) await vi.waitFor(() => expect(harness.mock.sent.length).toBeGreaterThan(before));
++    const request = parseSentFrame(harness.mock.sent.at(-1));
++    harness.mock.triggerMessage(
++      wrapSessionMessage({
++        type: "plugin.catalog.get.response",
++        payload: { requestId: request.requestId, plugins: respond(request) },
++      }),
++    );
++    return { request, plugins: await response };
++  }
++
++  test("reuses retained client bundles the daemon leaves out", async () => {
++    const harness = await connectedClient();
++    const first = await fetchCatalog(harness, () => [
++      { id: "kept", clientBundle: "kept bundle", clientBundleHash: "hash-kept" },
++      { id: "changed", clientBundle: "old bundle", clientBundleHash: "hash-old" },
++    ]);
++    expect(first.request).not.toHaveProperty("cachedClientBundles");
++
++    const second = await fetchCatalog(harness, () => [
++      { id: "kept", clientBundleHash: "hash-kept" },
++      { id: "changed", clientBundle: "new bundle", clientBundleHash: "hash-new" },
++    ]);
++
++    expect(second.request.cachedClientBundles).toEqual([
++      { id: "kept", clientBundleHash: "hash-kept" },
++      { id: "changed", clientBundleHash: "hash-old" },
++    ]);
++    expect(second.plugins).toEqual([
++      { id: "kept", clientBundle: "kept bundle", clientBundleHash: "hash-kept" },
++      { id: "changed", clientBundle: "new bundle", clientBundleHash: "hash-new" },
++    ]);
++    const third = await fetchCatalog(harness, () => []);
++    expect(third.request.cachedClientBundles).toEqual([
++      { id: "kept", clientBundleHash: "hash-kept" },
++      { id: "changed", clientBundleHash: "hash-new" },
++    ]);
++    const fourth = await fetchCatalog(harness, () => []);
++    expect(fourth.request).not.toHaveProperty("cachedClientBundles");
++  });
++
++  test("keeps fetching every bundle from a daemon that sends no bundle hashes", async () => {
++    const harness = await connectedClient();
++    const legacyCatalog = () => [{ id: "legacy", clientBundle: "legacy bundle" }];
++    await fetchCatalog(harness, legacyCatalog);
++
++    const second = await fetchCatalog(harness, legacyCatalog);
++
++    expect(second.request).not.toHaveProperty("cachedClientBundles");
++    expect(second.plugins).toEqual([{ id: "legacy", clientBundle: "legacy bundle" }]);
++  });
++
++  test("a fresh client advertises persisted bundles on its first fetch and expands omitted code", async () => {
++    let persisted: PluginClientBundle[] = [];
++    let loads = 0;
++    const store: PluginClientBundleStore = {
++      async load() {
++        loads++;
++        return persisted;
++      },
++      async replace(bundles) {
++        persisted = bundles;
++      },
++    };
++    const bundle = { id: "kept", clientBundleHash: "hash-kept", clientBundle: "stored code" };
++    await fetchCatalog(await connectedClient(), () => [bundle], store);
++    const cold = await connectedClient();
++    const first = await fetchCatalog(
++      cold,
++      () => [{ id: "kept", clientBundleHash: "hash-kept" }],
++      store,
++    );
++    expect(first.request.cachedClientBundles).toEqual([
++      { id: "kept", clientBundleHash: "hash-kept" },
++    ]);
++    expect(first.plugins).toEqual([bundle]);
++    expect(loads).toBe(2);
++    await fetchCatalog(cold, () => [], store);
++    expect(loads).toBe(2);
++    expect(persisted).toEqual([]);
++  });
++
++  test.each(["missing", "unreadable"])(
++    "a %s persistent cache requests full bundles",
++    async (state) => {
++      const store: PluginClientBundleStore = {
++        async load() {
++          if (state === "unreadable") throw new Error("Storage unavailable");
++          return [];
++        },
++        async replace() {},
++      };
++      const bundle = { id: "full", clientBundleHash: "hash-full", clientBundle: "full code" };
++      const result = await fetchCatalog(await connectedClient(), () => [bundle], store);
++      expect(result.request).not.toHaveProperty("cachedClientBundles");
++      expect(result.plugins).toEqual([bundle]);
++    },
++  );
++
++  test("failed cache writes never fail plugin loading", async () => {
++    const store: PluginClientBundleStore = {
++      async load() {
++        return [];
++      },
++      async replace() {
++        throw new Error("Disk full");
++      },
++    };
++    const bundle = { id: "full", clientBundleHash: "hash-full", clientBundle: "full code" };
++    expect((await fetchCatalog(await connectedClient(), () => [bundle], store)).plugins).toEqual([
++      bundle,
++    ]);
++  });
++});
++
+ test("keeps a plugin reload pending past the session RPC deadline", async () => {
+   useHeartbeatClock();
+   try {
+diff --git a/packages/client/src/daemon-client.ts b/packages/client/src/daemon-client.ts
+index 59d928283..1e597b63b 100644
+--- a/packages/client/src/daemon-client.ts
++++ b/packages/client/src/daemon-client.ts
+@@ -396,6 +396,17 @@ export type DaemonEventHandler = (event: DaemonEvent) => void;
+ export type BrowserAutomationExecuteRequestMessage = BrowserAutomationExecuteRequest;
+ export type BrowserAutomationExecuteResponseMessage = BrowserAutomationExecuteResponse;
+ 
++export interface PluginClientBundle {
++  id: string;
++  clientBundleHash: string;
++  clientBundle: string;
++}
++
++/** Host-scoped storage. load must return only bundles whose contents have been verified. */
++export interface PluginClientBundleStore {
++  load(): Promise<PluginClientBundle[]>;
++  replace(bundles: PluginClientBundle[]): Promise<void>;
++}
+ /** Endpoint security negotiated on a relay connection. See docs/relay-endpoint-security.md. */
+ export type RelaySecurityMode = "legacy" | "protected";
+ 
+@@ -1014,6 +1025,12 @@ type CorrelatedResponsePayloads = {
+ type CorrelatedResponsePayload<TType extends CorrelatedResponseType> =
+   CorrelatedResponsePayloads[TType];
+ 
++type PluginCatalogResponseEntry =
++  CorrelatedResponsePayload<"plugin.catalog.get.response">["plugins"][number];
++export type PluginCatalogEntry = Omit<PluginCatalogResponseEntry, "clientBundle"> & {
++  clientBundle: string;
++};
++
+ export class DaemonConnectionError extends Error {
+   readonly serverId?: string;
+   readonly outcome?: "unknown";
+@@ -1341,6 +1358,12 @@ export class DaemonClient {
+   private pendingBinaryFileReads = new Map<string, PendingBinaryFileRead>();
+   private activeBinaryFileTransfers = new Map<string, BinaryFileTransferState>();
+   private completedBinaryFileReads = new Map<string, FileReadResult>();
++  /** The last catalog's client bundles by plugin id, so later catalogs can leave them out. */
++  private pluginClientBundles = new Map<
++    string,
++    { clientBundleHash: string; clientBundle: string }
++  >();
++  private pluginClientBundlesLoaded: Promise<void> | undefined;
+   private logger: Logger;
+   private pendingSendQueue: PendingSend[] = [];
+   /**
+@@ -5785,14 +5808,59 @@ export class DaemonClient {
+     });
+   }
+ 
+-  async getPluginCatalog() {
++  async getPluginCatalog(store?: PluginClientBundleStore): Promise<PluginCatalogEntry[]> {
++    if (store) {
++      this.pluginClientBundlesLoaded ??= store.load().then(
++        (bundles) => {
++          for (const { id, ...bundle } of bundles) this.pluginClientBundles.set(id, bundle);
++          return undefined;
++        },
++        (error) => this.logger.warn({ err: error }, "Failed to load plugin client bundles"),
++      );
++      await this.pluginClientBundlesLoaded;
++    }
+     const requestId = this.createRequestId();
++    const cached = this.pluginClientBundles;
++    const cachedClientBundles = [...cached].map(([id, { clientBundleHash }]) => ({
++      id,
++      clientBundleHash,
++    }));
+     const payload = await this.sendCorrelatedSessionRequest({
+       requestId,
+-      message: { type: "plugin.catalog.get.request", requestId },
++      message: {
++        type: "plugin.catalog.get.request",
++        requestId,
++        ...(cachedClientBundles.length > 0 ? { cachedClientBundles } : {}),
++      },
+       responseType: "plugin.catalog.get.response",
+     });
+-    return payload.plugins;
++    const retained = new Map<string, { clientBundleHash: string; clientBundle: string }>();
++    const plugins = payload.plugins.map(({ clientBundle: sent, ...plugin }): PluginCatalogEntry => {
++      const previous = cached.get(plugin.id);
++      const clientBundle =
++        sent ??
++        (previous?.clientBundleHash === plugin.clientBundleHash
++          ? previous?.clientBundle
++          : undefined);
++      if (clientBundle === undefined) {
++        throw new Error(`Plugin catalog left out the client bundle for ${plugin.id}`);
++      }
++      // COMPAT(pluginCatalogBundleHash): added in v0.11.3, remove after 2027-04-12 once daemon
++      // floor >= v0.11.3. Older daemons send no hash, so their bundles are never retained.
++      if (plugin.clientBundleHash !== undefined) {
++        retained.set(plugin.id, { clientBundleHash: plugin.clientBundleHash, clientBundle });
++      }
++      return Object.assign(plugin, { clientBundle });
++    });
++    this.pluginClientBundles = retained;
++    if (store) {
++      await store
++        .replace([...retained].map(([id, bundle]) => Object.assign({ id }, bundle)))
++        .catch((error) =>
++          this.logger.warn({ err: error }, "Failed to persist plugin client bundles"),
++        );
++    }
++    return plugins;
+   }
+ 
+   async listPlugins(): Promise<PluginListItem[]> {
+diff --git a/packages/protocol/src/messages.plugins.test.ts b/packages/protocol/src/messages.plugins.test.ts
+index f266b6598..47e91493f 100644
+--- a/packages/protocol/src/messages.plugins.test.ts
++++ b/packages/protocol/src/messages.plugins.test.ts
+@@ -23,6 +23,29 @@ describe("plugin protocol compatibility", () => {
+       expect(SessionOutboundMessageSchema.parse(message)).toEqual(message);
+     },
+   );
++  it.each([
++    { type: "plugin.catalog.get.request", requestId: "catalog" },
++    {
++      type: "plugin.catalog.get.request",
++      requestId: "catalog",
++      cachedClientBundles: [{ id: "example", clientBundleHash: "a".repeat(64) }],
++    },
++  ])("parses plugin catalog requests %j", (request) => {
++    expect(SessionInboundMessageSchema.parse(request)).toEqual(request);
++  });
++  it("parses plugin catalogs that leave out a client bundle the client already holds", () => {
++    const message = {
++      type: "plugin.catalog.get.response",
++      payload: {
++        requestId: "catalog",
++        plugins: [
++          { id: "cached", clientBundleHash: "a".repeat(64) },
++          { id: "changed", clientBundle: "bundle", clientBundleHash: "b".repeat(64) },
++        ],
++      },
++    };
++    expect(SessionOutboundMessageSchema.parse(message)).toEqual(message);
++  });
+   it("preserves manifest metadata in plugin list responses", () => {
+     const message = {
+       type: "plugin.list.response",
+diff --git a/packages/protocol/src/messages.ts b/packages/protocol/src/messages.ts
+index 3034598f1..fca975568 100644
+--- a/packages/protocol/src/messages.ts
++++ b/packages/protocol/src/messages.ts
+@@ -1470,6 +1470,10 @@ export const DiagnosticsRequestSchema = z.object({
+ export const PluginCatalogGetRequestSchema = z.object({
+   type: z.literal("plugin.catalog.get.request"),
+   requestId: z.string(),
++  /** Client bundles the client already holds; the daemon leaves out each one whose hash matches. */
++  cachedClientBundles: z
++    .array(z.object({ id: PluginIdSchema, clientBundleHash: z.string() }))
++    .optional(),
+ });
+ 
+ export const PluginListRequestSchema = z.object({
+@@ -6754,7 +6758,10 @@ export const PluginCatalogGetResponseSchema = z.object({
+     plugins: z.array(
+       z.object({
+         id: PluginIdSchema,
+-        clientBundle: z.string(),
++        /** Left out only when the request listed this plugin with the same `clientBundleHash`. */
++        clientBundle: z.string().optional(),
++        /** SHA-256 of `clientBundle`, hex encoded. */
++        clientBundleHash: z.string().optional(),
+         requirements: PluginRequirementsSchema.optional(),
+       }),
+     ),
+diff --git a/packages/server/src/server/plugins/builtin/index.test.ts b/packages/server/src/server/plugins/builtin/index.test.ts
+index 6160c8f85..5f4728ecf 100644
+--- a/packages/server/src/server/plugins/builtin/index.test.ts
++++ b/packages/server/src/server/plugins/builtin/index.test.ts
+@@ -78,6 +78,45 @@ test("listed client bundle is published while plugins are disabled; unlisted dir
+   }
+ }, 60_000);
+ 
++test("a repeated catalog fetch leaves out the client bundle the client already holds", async () => {
++  const root = await mkdtemp(path.join(os.tmpdir(), "paseo-builtin-catalog-cache-"));
++  roots.push(root);
++  const directory = await fixture(root, "large", true);
++  // About the size of a real plugin client bundle.
++  await writeFile(
++    path.join(directory, "index.client.tsx"),
++    `const payload = ${JSON.stringify("x".repeat(1_000_000))};
++export default function contribute() { void payload; return () => {}; }`,
++  );
++  const daemon = await createTestPaseoDaemon({
++    daemonVersion: "0.9.2",
++    pluginsEnabled: false,
++    builtinPlugins: new BuiltinPluginLoader(root, ["large"]),
++  });
++  const client = new DaemonClient({ url: `ws://127.0.0.1:${daemon.port}/ws`, appVersion: "0.9.2" });
++  const responseBytes: number[] = [];
++  const unsubscribe = client.subscribeRawMessages((message) => {
++    if (message.type === "plugin.catalog.get.response") {
++      responseBytes.push(JSON.stringify(message).length);
++    }
++  });
++  try {
++    await client.connect();
++    const first = await client.getPluginCatalog();
++    const second = await client.getPluginCatalog();
++
++    expect(second).toEqual(first);
++    expect(second[0]?.clientBundle).toContain("x".repeat(1_000_000));
++    expect(responseBytes).toHaveLength(2);
++    expect(responseBytes[0]).toBeGreaterThan(1_000_000);
++    expect(responseBytes[1]).toBeLessThan(500);
++  } finally {
++    unsubscribe();
++    await client.close();
++    await daemon.close();
++  }
++}, 60_000);
++
+ test("directory, Git, and npm installs reject a built-in ID", async () => {
+   const root = await mkdtemp(path.join(os.tmpdir(), "paseo-builtin-install-"));
+   roots.push(root);
+diff --git a/packages/server/src/server/plugins/runtime.posix.test.ts b/packages/server/src/server/plugins/runtime.posix.test.ts
+index 30ada955a..2a09504d9 100644
+--- a/packages/server/src/server/plugins/runtime.posix.test.ts
++++ b/packages/server/src/server/plugins/runtime.posix.test.ts
+@@ -1,5 +1,6 @@
+ import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
+ import { fork } from "node:child_process";
++import { createHash } from "node:crypto";
+ import { tmpdir } from "node:os";
+ import { PassThrough } from "node:stream";
+ import path from "node:path";
+@@ -106,6 +107,12 @@ function createReloadChild(
+   };
+ }
+ 
++function sha256(text: string | undefined): string {
++  return createHash("sha256")
++    .update(text ?? "")
++    .digest("hex");
++}
++
+ function createTestRuntime(
+   dependencies: NonNullable<ConstructorParameters<typeof PluginRuntime>[2]> = {},
+   logger = pino({ level: "silent" }),
+@@ -1535,6 +1542,7 @@ export default function contribute(server: { registerProvider(provider: Provider
+ 
+     expect(spawnChild).not.toHaveBeenCalled();
+     expect(runtime.catalog()[0]?.clientBundle).toContain("addTheme");
++    expect(runtime.catalog()[0]?.clientBundleHash).toBe(sha256(runtime.catalog()[0]?.clientBundle));
+     await runtime.stopAll();
+   });
+ 
+@@ -1697,6 +1705,7 @@ export function inspectHost(_input: z.input<typeof inspectRpc.input>) {
+     const plugin = runtime.catalog()[0];
+     expect(plugin?.clientBundle).toContain("Client-only surface");
+     expect(plugin?.clientBundle).not.toContain("node:os");
++    expect(plugin?.clientBundleHash).toBe(sha256(plugin?.clientBundle));
+     await expect(runtime.invoke("split-runtime", "inspect", {})).resolves.toMatchObject({
+       platform: expect.any(String),
+     });
+* Unmerged path packages/server/src/server/plugins/runtime.ts
+diff --git a/packages/server/src/server/session.test.ts b/packages/server/src/server/session.test.ts
+index 732131282..3cdef95a8 100644
+--- a/packages/server/src/server/session.test.ts
++++ b/packages/server/src/server/session.test.ts
+@@ -588,6 +588,78 @@ test("routes plugin requests and releases its owned catalog subscription on clea
+   expect(releasePluginSubscription).toHaveBeenCalledOnce();
+ });
+ 
++test("leaves out the client bundles a catalog request already holds", async () => {
++  const messages: SessionOutboundMessage[] = [];
++  const pluginRuntime: NonNullable<SessionOptions["pluginRuntime"]> = {
++    before: async (_name, request) => request,
++    emit: () => {},
++    listPlugins: async () => [],
++    getLogs: () => [],
++    installDirectory: async () => {
++      throw new Error("Unexpected install");
++    },
++    inspectDirectory: async () => ({ id: "unused" }),
++    reloadPlugin: async () => {
++      throw new Error("Unexpected reload");
++    },
++    enablePlugin: async () => {
++      throw new Error("Unexpected enable");
++    },
++    disablePlugin: async () => {
++      throw new Error("Unexpected disable");
++    },
++    removePlugin: async () => undefined,
++    subscribe: () => () => {},
++    catalog: () => [
++      { id: "cached", clientBundle: "cached bundle", clientBundleHash: "hash-cached" },
++      { id: "changed", clientBundle: "new bundle", clientBundleHash: "hash-new" },
++      { id: "added", clientBundle: "added bundle", clientBundleHash: "hash-added" },
++    ],
++    invokePluginRpc: async () => null,
++    listUsageReports: async () => [],
++    listLegacyUsage: async () => ({ fetchedAt: "2026-01-01T00:00:00.000Z", providers: [] }),
++  };
++  const session = createSessionForTest({ messages, pluginRuntime });
++
++  await session.handleMessage({
++    type: "plugin.catalog.get.request",
++    requestId: "reconnect",
++    cachedClientBundles: [
++      { id: "cached", clientBundleHash: "hash-cached" },
++      { id: "changed", clientBundleHash: "hash-old" },
++      { id: "removed", clientBundleHash: "hash-removed" },
++    ],
++  });
++  // Clients from before cachedClientBundles always receive every bundle.
++  await session.handleMessage({ type: "plugin.catalog.get.request", requestId: "legacy" });
++
++  expect(messages).toEqual([
++    {
++      type: "plugin.catalog.get.response",
++      payload: {
++        requestId: "reconnect",
++        plugins: [
++          { id: "cached", clientBundleHash: "hash-cached" },
++          { id: "changed", clientBundle: "new bundle", clientBundleHash: "hash-new" },
++          { id: "added", clientBundle: "added bundle", clientBundleHash: "hash-added" },
++        ],
++      },
++    },
++    {
++      type: "plugin.catalog.get.response",
++      payload: {
++        requestId: "legacy",
++        plugins: [
++          { id: "cached", clientBundle: "cached bundle", clientBundleHash: "hash-cached" },
++          { id: "changed", clientBundle: "new bundle", clientBundleHash: "hash-new" },
++          { id: "added", clientBundle: "added bundle", clientBundleHash: "hash-added" },
++        ],
++      },
++    },
++  ]);
++  await session.cleanup();
++});
++
+ describe("workspace label subscriptions", () => {
+   type LabelSubscription = Awaited<ReturnType<WorkspaceLabelService["subscribe"]>>;
+   type LabelChange = Parameters<Parameters<WorkspaceLabelService["subscribe"]>[0]["onChange"]>[0];
+diff --git a/packages/server/src/server/session.ts b/packages/server/src/server/session.ts
+index 9d2532807..c80f1fc83 100644
+--- a/packages/server/src/server/session.ts
++++ b/packages/server/src/server/session.ts
+@@ -518,7 +518,7 @@ export interface SessionOptions {
+     removePlugin(pluginId: string): Promise<void>;
+     subscribe(listener: (pluginId: string) => void): () => void;
+     subscribeSettings?(listener: (pluginId: string, settingsId: string) => void): () => void;
+-    catalog(): Array<{ id: string; clientBundle: string }>;
++    catalog(): Array<{ id: string; clientBundle: string; clientBundleHash?: string }>;
+     invokePluginRpc(pluginId: string, method: string, input: unknown): Promise<unknown>;
+     listUsageReports(options?: {
+       forceRefresh?: boolean;
+@@ -2584,12 +2584,17 @@ export class Session {
+       });
+     }
+     if (msg.type === "plugin.catalog.get.request") {
++      const cached = new Map(
++        msg.cachedClientBundles?.map((entry) => [entry.id, entry.clientBundleHash]),
++      );
++      const plugins = (this.pluginRuntime?.catalog() ?? []).map(({ clientBundle, ...plugin }) =>
++        plugin.clientBundleHash !== undefined && cached.get(plugin.id) === plugin.clientBundleHash
++          ? plugin
++          : Object.assign(plugin, { clientBundle }),
++      );
+       this.emit({
+         type: "plugin.catalog.get.response",
+-        payload: {
+-          requestId: msg.requestId,
+-          plugins: this.pluginRuntime?.catalog() ?? [],
+-        },
++        payload: { requestId: msg.requestId, plugins },
+       });
+       return undefined;
+     }

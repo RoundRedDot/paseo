@@ -1,0 +1,2 @@
+To github.com:RoundRedDot/paseo.git
+   0b2e04a1a..1c4c09712  HEAD -> perf/plugin-catalog-bundle-hash

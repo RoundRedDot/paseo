@@ -1,0 +1,1 @@
+npx vitest run src/types/stream.test.ts --bail=1 --maxWorkers=1

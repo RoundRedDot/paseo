@@ -1,0 +1,28 @@
+{
+  "sender": [
+    {
+      "type": "user_message",
+      "id": "6736-omp-image-20261027",
+      "text": "Describe the dominant colors and shapes in the attached test image in one short sentence. Do not use tools.",
+      "images": [
+        {
+          "mimeType": "image/png",
+          "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+        }
+      ]
+    }
+  ],
+  "receiver": [
+    {
+      "type": "user_message",
+      "id": "6736-omp-image-20261027",
+      "text": "Describe the dominant colors and shapes in the attached test image in one short sentence. Do not use tools.",
+      "images": [
+        {
+          "mimeType": "image/png",
+          "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+        }
+      ]
+    }
+  ]
+}

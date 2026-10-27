@@ -1,0 +1,124 @@
+diff --git a/packages/app/src/hooks/use-settings/storage.test.ts b/packages/app/src/hooks/use-settings/storage.test.ts
+index 6d6442746..dbcb3489a 100644
+--- a/packages/app/src/hooks/use-settings/storage.test.ts
++++ b/packages/app/src/hooks/use-settings/storage.test.ts
+@@ -234,6 +234,39 @@ describe("loadAppSettingsFromStorage", () => {
+     expect(result.chatOutlineEnabled).toBe(false);
+   });
+ 
++  it("uses Enter to send by default", async () => {
++    const deps = makeDeps();
++
++    const result = await loadAppSettingsFromStorage(deps);
++
++    expect(result.sendShortcut).toBe("enter");
++    expect(DEFAULT_CLIENT_SETTINGS.sendShortcut).toBe("enter");
++  });
++
++  it("loads the modifier Enter send preference", async () => {
++    const deps = makeDeps({
++      storage: createInMemoryKeyValueStorage({
++        [APP_SETTINGS_KEY]: JSON.stringify({ sendShortcut: "mod-enter" }),
++      }),
++    });
++
++    const result = await loadAppSettingsFromStorage(deps);
++
++    expect(result.sendShortcut).toBe("mod-enter");
++  });
++
++  it("falls back to Enter when the stored send shortcut is invalid", async () => {
++    const deps = makeDeps({
++      storage: createInMemoryKeyValueStorage({
++        [APP_SETTINGS_KEY]: JSON.stringify({ sendShortcut: "yes" }),
++      }),
++    });
++
++    const result = await loadAppSettingsFromStorage(deps);
++
++    expect(result.sendShortcut).toBe("enter");
++  });
++
+   it("defaults sidebar navigation items to an empty preference list", async () => {
+     const deps = makeDeps();
+ 
+@@ -880,23 +913,37 @@ describe("appearance settings", () => {
+       try {
+         const settingsModule = await import("./storage");
+         const deps = makeDeps();
+-        const expected = { uiBaseFontSize: ui, contentFontSize: content, codeFontSize: code };
++        const expected = {
++          uiBaseFontSize: ui,
++          contentFontSize: content,
++          codeFontSize: code,
++          sendShortcut: "enter",
++        };
+         expect(await settingsModule.loadAppSettingsFromStorage(deps)).toMatchObject(expected);
+         expect(JSON.parse(deps.storage.entries.get(APP_SETTINGS_KEY) ?? "null")).toMatchObject(
+           expected,
+         );
+         expect(await settingsModule.loadAppSettingsFromStorage(deps)).toMatchObject(expected);
+ 
++        await settingsModule.saveAppSettings({
++          queryClient: new QueryClient(),
++          updates: { sendShortcut: "mod-enter" },
++          deps,
++        });
+         const chosen = { uiBaseFontSize: 17, contentFontSize: 18, codeFontSize: 19 };
+         await settingsModule.saveAppSettings({
+           queryClient: new QueryClient(),
+           updates: chosen,
+           deps,
+         });
+-        expect(await settingsModule.loadAppSettingsFromStorage(deps)).toMatchObject(chosen);
+-        expect(JSON.parse(deps.storage.entries.get(APP_SETTINGS_KEY) ?? "null")).toMatchObject(
+-          chosen,
+-        );
++        expect(await settingsModule.loadAppSettingsFromStorage(deps)).toMatchObject({
++          ...chosen,
++          sendShortcut: "mod-enter",
++        });
++        expect(JSON.parse(deps.storage.entries.get(APP_SETTINGS_KEY) ?? "null")).toMatchObject({
++          ...chosen,
++          sendShortcut: "mod-enter",
++        });
+ 
+         const existing = makeDeps({
+           storage: createInMemoryKeyValueStorage({
+diff --git a/packages/app/src/hooks/use-settings/storage.ts b/packages/app/src/hooks/use-settings/storage.ts
+index 5a919656b..ebabb16bc 100644
+--- a/packages/app/src/hooks/use-settings/storage.ts
++++ b/packages/app/src/hooks/use-settings/storage.ts
+@@ -34,6 +34,8 @@ import { migrateAppSettings } from "./migrations";
+ export { APP_SETTINGS_KEY } from "./keys";
+ export const APP_SETTINGS_QUERY_KEY = ["app-settings"];
+ 
++export type SendShortcut = "enter" | "mod-enter";
++
+ export type SendBehavior = ActiveTurnBehavior | "queue";
+ export type ReleaseChannel = "stable" | "beta";
+ export type ServiceUrlBehavior = "ask" | "in-app" | "external";
+@@ -107,6 +109,7 @@ export interface AppSettings {
+   chatDisplay: ChatDisplay;
+   chatOutlineEnabled: boolean;
+   vimKeybindings: boolean;
++  sendShortcut: SendShortcut;
+   filePanelAssociations: Record<string, string>;
+   /** Desktop-only preferences for implicit opens into the ordinary side pane. */
+   openInSidePane: OpenInSidePanePreferences;
+@@ -163,6 +166,7 @@ export const DEFAULT_CLIENT_SETTINGS: AppSettings = {
+   chatDisplay: "collapseTurns",
+   chatOutlineEnabled: true,
+   vimKeybindings: false,
++  sendShortcut: "enter",
+   filePanelAssociations: {},
+   openInSidePane: DEFAULT_OPEN_IN_SIDE_PANE_PREFERENCES,
+   pullRequestOpenLocation: "explorer",
+@@ -267,6 +271,7 @@ const StoredAppSettingsSchema = z
+     compactToolCalls: z.boolean().optional().catch(undefined),
+     chatOutlineEnabled: z.boolean().catch(true),
+     vimKeybindings: z.boolean().catch(false),
++    sendShortcut: z.enum(["enter", "mod-enter"]).catch("enter"),
+     filePanelAssociations: z.record(z.string(), z.string()).catch({}),
+     openInSidePane: z
+       .object({

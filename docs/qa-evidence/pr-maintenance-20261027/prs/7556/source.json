@@ -1,0 +1,17 @@
+{
+  "pr": 7556,
+  "role": "source-delivery",
+  "status": "delivered",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+  "tree": "dcb97cbef9a7fda4b550406b6342a5f702e4f8c7",
+  "oldHead": "890497e3f9b1baf61c42eb287910c17ad5dc2f08",
+  "sourceChanged": true,
+  "baselineAncestor": true,
+  "host": null,
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "high",
+  "testTotal": 397,
+  "remaining": "Final bounded STOP: the observer preflight passed, but the fixed 205-history exercise preconditions did not. There are zero A/B/returning-A timed samples, so no noise, regression, or benefit claim. Android CPU, battery, frame, OOM, and maintainer cadence acceptance remain open.",
+  "summary": "Integrated streamed timeline/server session updates and retained pagination behavior."
+}

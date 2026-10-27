@@ -1,0 +1,10 @@
+{
+  "pr": 7629,
+  "role": "checked-no-op",
+  "status": "no_op",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "8239861ddce82a64ffba8284d16416581b0e35ec",
+  "tree": "2cf696d61688c9ab7747cc1df219b9ffa6f396cf",
+  "sourceChanged": false,
+  "reason": "Internal release versions only; no compression or framing dependency change."
+}

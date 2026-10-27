@@ -1,0 +1,17 @@
+{
+  "pr": 7482,
+  "role": "source-delivery",
+  "status": "delivered",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "a879849ac617558cdf9976293ace71baf2072b84",
+  "tree": "57e34891ac3d51eeca3d935f51210c735becbb1d",
+  "oldHead": "b16c8459c7d90997a06d355448343d7fa9b40254",
+  "sourceChanged": true,
+  "baselineAncestor": true,
+  "host": null,
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "medium",
+  "testTotal": 24,
+  "remaining": "No new browser plugin, native, or packaged desktop acceptance; an earlier client GC-test failure remains documented in context.",
+  "summary": "Validated client package API exports and retained the existing public import boundaries."
+}

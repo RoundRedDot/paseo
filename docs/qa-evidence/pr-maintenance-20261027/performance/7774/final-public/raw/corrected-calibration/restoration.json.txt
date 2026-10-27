@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-27T06:21:51.304Z",
+  "head": "800b75b1f6ceef7391e5300137f980882b78f84f",
+  "tree": "0b4ad32391e554f75777ec4ad76016dc13f3672b",
+  "sourceSha256": "3910213ed6e27df2ee272a67c607e793d3be61750ff055faca619f5a32ec2a09",
+  "originalSha256": "3910213ed6e27df2ee272a67c607e793d3be61750ff055faca619f5a32ec2a09",
+  "gitStatus": "",
+  "samples": [
+    "calibration-1",
+    "calibration-2"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "pr": 7015,
+  "role": "source-delivery",
+  "status": "delivered",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "aff3245c65ccf769ceae8cd1937d9c57ffd055e3",
+  "tree": "ca2722701f4fce10b1b7bb07d7663e7be5556e16",
+  "oldHead": "9e4023926c7dabff69acc07360e2b1c3dd4387cb",
+  "sourceChanged": true,
+  "baselineAncestor": true,
+  "host": null,
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "medium",
+  "testTotal": 152,
+  "remaining": "Real Grok downstream label conflation remains unresolved; captured Cursor sessions did not emit the native question. #3490 owns the shared answer-contract decision.",
+  "summary": "Integrated native Grok/Cursor question dispatch and structured answer handling."
+}

@@ -1,0 +1,99 @@
+diff --git a/packages/server/src/server/session.ts b/packages/server/src/server/session.ts
+index eb2da9c2a..f47592c97 100644
+--- a/packages/server/src/server/session.ts
++++ b/packages/server/src/server/session.ts
+@@ -81,7 +81,6 @@ import {
+   type WorkspaceScriptsService,
+ } from "./session/workspace-scripts/workspace-scripts-service.js";
+ import type { DaemonConfigStore } from "./daemon-config-store.js";
+-import { loadPersistedConfig } from "./persisted-config.js";
+ import { releaseWorkspaceServicePortPlan } from "./workspace-service-port-registry.js";
+ import { getErrorMessage, getErrorMessageOr } from "@getpaseo/protocol/error-utils";
+ import { getAgentStatusPriority } from "@getpaseo/protocol/agent-state-bucket";
+@@ -1232,7 +1231,7 @@ export class Session {
+       spawnWorkspaceScript,
+       assertAutomationAllowed: (workspaceId) =>
+         assertWorkspaceAutomationAllowedForWorkspace(this.workspaceRegistry, workspaceId),
+-      globalServicePorts: loadPersistedConfig(this.paseoHome).worktrees?.servicePorts,
++      getGlobalServicePorts: () => this.daemonConfigStore.readServicePorts(),
+     });
+     this.workspaceDirectory = new WorkspaceDirectory({
+       logger: this.sessionLogger,
+@@ -2930,8 +2929,7 @@ export class Session {
+       case "daemon.get_pairing_offer.request":
+         return this.daemonSession.handleGetPairingOfferRequest(msg);
+       case "daemon.config.reload.request":
+-        this.daemonSession.handleConfigReloadRequest(msg);
+-        return undefined;
++        return this.daemonSession.handleConfigReloadRequest(msg);
+       case "hub.management.daemon.connect.request":
+       case "hub.management.daemon.get_status.request":
+       case "hub.management.daemon.disconnect.request":
+@@ -2942,14 +2940,15 @@ export class Session {
+       case "daemon.update.request":
+         return this.daemonSession.handleUpdateRequest(msg);
+       case "set_daemon_config_request":
+-        this.emit({
+-          type: "set_daemon_config_response",
+-          payload: {
+-            requestId: msg.requestId,
+-            config: this.daemonConfigStore.patch(msg.config),
+-          },
++        return this.daemonConfigStore.patch(msg.config).then((config) => {
++          return this.emit({
++            type: "set_daemon_config_response",
++            payload: {
++              requestId: msg.requestId,
++              config,
++            },
++          });
+         });
+-        return undefined;
+       case "read_project_config_request":
+         return this.projectConfigSession.handleReadProjectConfigRequest(msg);
+       case "write_project_config_request":
+@@ -2967,7 +2966,7 @@ export class Session {
+       case "checkout.commits.list.request":
+         return this.checkoutSession.handleCommitsListRequest(msg);
+       case "checkout.commits.file_diff.request":
+-        return this.checkoutSession.handleCommitFileDiffRequest(msg);
++        return this.checkoutSession.handleCommitFileDiffRequest(msg, this.delivery.requestSignal);
+       case "validate_branch_request":
+         return this.checkoutSession.handleValidateBranchRequest(msg);
+       case "branch_suggestions_request":
+@@ -5673,7 +5672,7 @@ export class Session {
+       activityAt: null,
+       createdAt: workspace.createdAt,
+       diffStat,
+-      scripts: this.buildWorkspaceScriptPayloadSnapshot(workspace, resolvedProjectRecord),
++      scripts: await this.buildWorkspaceScriptPayloadSnapshot(workspace, resolvedProjectRecord),
+       ...(resolvedProjectRecord
+         ? {
+             project: await this.buildProjectPlacementForWorkspace(workspace, resolvedProjectRecord),
+@@ -7266,7 +7265,7 @@ export class Session {
+   private buildWorkspaceScriptPayloadSnapshot(
+     workspace: PersistedWorkspaceRecord,
+     project: PersistedProjectRecord | null,
+-  ): WorkspaceDescriptorPayload["scripts"] {
++  ): Promise<WorkspaceDescriptorPayload["scripts"]> {
+     return this.workspaceScripts.buildSnapshot(workspace, project);
+   }
+ 
+@@ -7790,8 +7789,6 @@ export class Session {
+   ): Promise<void> {
+     const direction: AgentTimelineFetchDirection = msg.direction ?? (msg.cursor ? "after" : "tail");
+     const projection = "projected" as const;
+-    const requestedLimit = msg.limit;
+-    const pageLimit = requestedLimit ?? (direction === "after" ? 0 : 200);
+     const cursor: AgentTimelineCursor | undefined = msg.cursor
+       ? {
+           epoch: msg.cursor.epoch,
+@@ -7810,7 +7807,7 @@ export class Session {
+       const fetchedControlTimeline = this.agentManager.fetchTimeline(msg.agentId, {
+         direction,
+         cursor,
+-        limit: pageLimit,
++        limit: msg.limit,
+       });
+       const selectedTimeline = {
+         timeline: fetchedControlTimeline,

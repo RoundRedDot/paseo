@@ -1,0 +1,428 @@
+diff --git a/packages/server/src/server/agent/providers/claude/agent.sub-agent-replay.test.ts b/packages/server/src/server/agent/providers/claude/agent.sub-agent-replay.test.ts
+index 666e70164..990b58264 100644
+--- a/packages/server/src/server/agent/providers/claude/agent.sub-agent-replay.test.ts
++++ b/packages/server/src/server/agent/providers/claude/agent.sub-agent-replay.test.ts
+@@ -8,6 +8,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+ 
+ import { createTestLogger } from "../../../../test-utils/test-logger.js";
+ import type { AgentStreamEvent } from "../../agent-sdk-types.js";
++import { streamSession } from "../test-utils/session-stream-adapter.js";
+ import { ClaudeAgentClient } from "./agent.js";
+ import { claudeProjectDirSync } from "./project-dir.js";
+ 
+@@ -77,6 +78,29 @@ function sidechainEntry(options: { agentId?: string; stopReason?: string | null
+   });
+ }
+ 
++function buildQueryMock(events: unknown[]) {
++  let index = 0;
++  return {
++    next: vi.fn(async () => {
++      if (index >= events.length) return { done: true, value: undefined };
++      const value = events[index];
++      index += 1;
++      return { done: false, value };
++    }),
++    interrupt: vi.fn(async () => undefined),
++    return: vi.fn(async () => undefined),
++    close: vi.fn(() => undefined),
++    setPermissionMode: vi.fn(async () => undefined),
++    setModel: vi.fn(async () => undefined),
++    supportedModels: vi.fn(async () => []),
++    supportedCommands: vi.fn(async () => []),
++    rewindFiles: vi.fn(async () => ({ canRewind: true })),
++    [Symbol.asyncIterator]() {
++      return this;
++    },
++  };
++}
++
+ describe("ClaudeAgentSession persisted subagent replay", () => {
+   const logger = createTestLogger();
+   const queryFactory = vi.fn(() => {
+@@ -1028,4 +1052,106 @@ describe("ClaudeAgentSession persisted subagent replay", () => {
+     );
+     expect(items).toEqual([{ type: "assistant_message", text: report }]);
+   });
++
++  test("keeps a subagent resumed after the session reopens on the row its transcript restored", async () => {
++    // Verified on the wire (Claude Code 2.1.309): SendMessage resumes a finished subagent under its
++    // original task_id but a new tool_use_id, and the child's frames still name the original Task
++    // call as their parent. A reopened session only knows that child from its transcript.
++    writeSession({
++      parentLines: [taskToolUse(), taskToolResult()],
++      meta: JSON.stringify({ agentType: "general-purpose", toolUseId: TOOL_USE_ID }),
++      sidechainLines: [
++        JSON.stringify({
++          type: "assistant",
++          isSidechain: true,
++          agentId: AGENT_ID,
++          sessionId: "replay-session",
++          timestamp: "2026-07-26T06:27:50.000Z",
++          effort: "high",
++          message: {
++            role: "assistant",
++            model: "claude-sonnet-5",
++            content: [{ type: "text", text: "summary of the docs" }],
++            stop_reason: "end_turn",
++          },
++        }),
++      ],
++    });
++    const liveQuery = vi.fn(() =>
++      buildQueryMock([
++        {
++          type: "system",
++          subtype: "init",
++          session_id: "replay-session",
++          permissionMode: "default",
++        },
++        {
++          type: "system",
++          subtype: "task_started",
++          task_id: AGENT_ID,
++          tool_use_id: "toolu_send_message",
++          description: "Summarize the docs",
++          subagent_type: "general-purpose",
++          task_type: "local_agent",
++          is_backgrounded: true,
++          prompt: "Summarize them again",
++        },
++        {
++          type: "assistant",
++          parent_tool_use_id: TOOL_USE_ID,
++          session_id: "replay-session",
++          message: {
++            id: "msg_resumed_child",
++            role: "assistant",
++            model: "claude-opus-5",
++            content: [{ type: "text", text: "summary again" }],
++          },
++        },
++        {
++          type: "system",
++          subtype: "task_updated",
++          task_id: AGENT_ID,
++          patch: { status: "completed" },
++        },
++        {
++          type: "result",
++          subtype: "success",
++          usage: { input_tokens: 1, cache_read_input_tokens: 0, output_tokens: 1 },
++          total_cost_usd: 0,
++        },
++      ]),
++    );
++    const session = await new ClaudeAgentClient({
++      logger,
++      queryFactory: liveQuery,
++      resolveVersion: async () => "2.1.309",
++      resolveBinary: async () => "/test/claude/bin",
++    }).resumeSession({ provider: "claude", sessionId: "replay-session" }, { cwd });
++    const events: AgentStreamEvent[] = [];
++    for await (const event of streamSession(session, "Ask it to summarize again")) {
++      events.push(event);
++      if (event.type === "turn_completed" || event.type === "turn_failed") break;
++    }
++    await session.close();
++
++    const live = events.flatMap((event) =>
++      event.type === "provider_subagent" ? [event.event] : [],
++    );
++    expect(new Set(live.map((event) => event.id))).toEqual(new Set([TOOL_USE_ID]));
++    expect(live).toContainEqual(
++      expect.objectContaining({
++        type: "upsert",
++        id: TOOL_USE_ID,
++        subtitle: "general-purpose · Opus 5 · High",
++      }),
++    );
++    expect(live).toContainEqual(
++      expect.objectContaining({
++        type: "timeline",
++        id: TOOL_USE_ID,
++        item: expect.objectContaining({ type: "assistant_message", text: "summary again" }),
++      }),
++    );
++    expect(live.at(-1)).toMatchObject({ type: "upsert", id: TOOL_USE_ID, status: "completed" });
++  });
+ });
+diff --git a/packages/server/src/server/agent/providers/claude/agent.ts b/packages/server/src/server/agent/providers/claude/agent.ts
+index 734272dd0..ac59bb8b4 100644
+--- a/packages/server/src/server/agent/providers/claude/agent.ts
++++ b/packages/server/src/server/agent/providers/claude/agent.ts
+@@ -5388,6 +5388,7 @@ class ClaudeAgentSession implements AgentSession {
+         convertEntry: (entry) => this.convertHistoryEntry(entry),
+       })),
+     ];
++    this.taskProtocolSource.restore(subagentReplay.restored);
+     const restoredProviderSubagentIds = new Set(
+       observations
+         .filter((observation) => observation.kind === "declared")
+diff --git a/packages/server/src/server/agent/providers/claude/subagents/live-source.test.ts b/packages/server/src/server/agent/providers/claude/subagents/live-source.test.ts
+index b0bfc3d75..b12ab8eb6 100644
+--- a/packages/server/src/server/agent/providers/claude/subagents/live-source.test.ts
++++ b/packages/server/src/server/agent/providers/claude/subagents/live-source.test.ts
+@@ -156,6 +156,42 @@ describe("ClaudeTaskProtocolSource", () => {
+     ]);
+   });
+ 
++  it("resumes a child a reopened session restored on its original row", () => {
++    const source = new ClaudeTaskProtocolSource();
++    source.restore([
++      {
++        taskId: "a1730a6215e1f5cf6",
++        id: "toolu_original",
++        presentation: { title: "general-purpose", model: "claude-sonnet-5", effort: "high" },
++      },
++    ]);
++
++    // Restored is not running: a canceled turn and an unannounced frame leave it alone.
++    expect(source.cancelRunningForegroundTasks()).toEqual([]);
++    expect(source.resolveSubagentId("toolu_original")).toBeUndefined();
++
++    expect(
++      source.observe(taskStarted({ tool_use_id: "toolu_resumed", prompt: "Resumed prompt" })),
++    ).toEqual([
++      { kind: "status", id: "toolu_original", status: "running" },
++      {
++        kind: "timeline",
++        id: "toolu_original",
++        item: { type: "user_message", text: "Resumed prompt" },
++      },
++    ]);
++    expect(source.resolveSubagentId("toolu_original")).toBe("toolu_original");
++    expect(source.resolveSubagentId("toolu_resumed")).toBe("toolu_original");
++    expect(
++      source.observeSidechainFrame(
++        { type: "assistant", message: { model: "claude-opus-5" } } as unknown as SDKMessage,
++        "toolu_original",
++      ),
++    ).toEqual([
++      { kind: "subtitle", id: "toolu_original", subtitle: "general-purpose · Opus 5 · High" },
++    ]);
++  });
++
+   it("declares a distinct task separately", () => {
+     const source = new ClaudeTaskProtocolSource();
+     source.observe(taskStarted({ task_id: "first", tool_use_id: "toolu_first" }));
+diff --git a/packages/server/src/server/agent/providers/claude/subagents/live-source.ts b/packages/server/src/server/agent/providers/claude/subagents/live-source.ts
+index 2149fae13..dea3b3694 100644
+--- a/packages/server/src/server/agent/providers/claude/subagents/live-source.ts
++++ b/packages/server/src/server/agent/providers/claude/subagents/live-source.ts
+@@ -142,6 +142,16 @@ function mapTaskStatus(status: string | undefined): ProviderSubagentStatus | und
+   }
+ }
+ 
++/**
++ * A subagent a reopened session rebuilt from its transcript. Its `taskId` (the transcript's
++ * agentId) is the task id Claude announces again when SendMessage resumes the child.
++ */
++export interface ClaudeRestoredSubagent {
++  taskId: string;
++  id: string;
++  presentation: ClaudeSubagentPresentationFacts;
++}
++
+ export interface ClaudeTaskProtocolSourceInput {
+   /**
+    * The parent's Task tool input, by tool_use id.
+@@ -183,6 +193,14 @@ export class ClaudeTaskProtocolSource {
+   private readonly backgroundedIds = new Set<string>();
+   /** Last status emitted per subagent, so a redundant announcement is not re-broadcast. */
+   private readonly lastStatusById = new Map<string, ProviderSubagentStatus>();
++  /**
++   * Children a reopened session restored from its transcript, by task id. Claude resumes one under
++   * its old task id with a new tool id, while its frames keep the original Task call as parent.
++   * Without this the resume reads as a new task: a second row, and every frame dropped as
++   * undeclared. Held apart from the declared table so a restored child is left alone until
++   * Claude announces it again.
++   */
++  private readonly restoredByTaskId = new Map<string, ClaudeRestoredSubagent>();
+   /** Claude facts stay inside the provider boundary; clients receive one compact subtitle. */
+   private readonly presentationById = new Map<string, ClaudeSubagentPresentationFacts>();
+   private readonly lastSubtitleById = new Map<string, string>();
+@@ -267,6 +285,14 @@ export class ClaudeTaskProtocolSource {
+     }
+   }
+ 
++  /** Remember the children a reopened session restored, for Claude to resume by task id. */
++  restore(subagents: Iterable<ClaudeRestoredSubagent>): void {
++    for (const subagent of subagents) {
++      if (this.subagentIdByTaskId.has(subagent.taskId)) continue;
++      this.restoredByTaskId.set(subagent.taskId, subagent);
++    }
++  }
++
+   /**
+    * Forget the session.
+    *
+@@ -280,6 +306,7 @@ export class ClaudeTaskProtocolSource {
+     this.ownerSubagentIdByToolUseId.clear();
+     this.ownerSubagentIdByTaskId.clear();
+     this.declaredIds.clear();
++    this.restoredByTaskId.clear();
+     this.workflowTaskIds.clear();
+     this.lastWorkflowResultByTaskId.clear();
+     this.idsWithExistingParentToolCard.clear();
+@@ -336,7 +363,8 @@ export class ClaudeTaskProtocolSource {
+     if (!id || message.skip_transcript === true || !isProviderSubagentTask(message)) return [];
+ 
+     this.sawTaskStarted = true;
+-    const existingId = this.subagentIdByTaskId.get(message.task_id);
++    const existingId =
++      this.subagentIdByTaskId.get(message.task_id) ?? this.adoptRestored(message.task_id);
+     this.recordBackgrounded(existingId ?? id, message.is_backgrounded);
+     if (existingId) {
+       return this.observeExistingTaskStart(message, id, existingId);
+@@ -345,6 +373,20 @@ export class ClaudeTaskProtocolSource {
+     return this.observeNewTaskStart(message, id, parentSubagentId);
+   }
+ 
++  /** Declare a restored child under the id its transcript gave it, with what it already showed. */
++  private adoptRestored(taskId: string): string | undefined {
++    const restored = this.restoredByTaskId.get(taskId);
++    if (!restored) return undefined;
++    this.restoredByTaskId.delete(taskId);
++    this.subagentIdByTaskId.set(taskId, restored.id);
++    this.canonicalIdByToolUseId.set(restored.id, restored.id);
++    this.declaredIds.add(restored.id);
++    this.presentationById.set(restored.id, restored.presentation);
++    const subtitle = buildClaudeSubagentSubtitle(restored.presentation);
++    if (subtitle) this.lastSubtitleById.set(restored.id, subtitle);
++    return restored.id;
++  }
++
+   private observeExistingTaskStart(
+     message: TaskStartedMessage,
+     toolUseId: string,
+diff --git a/packages/server/src/server/agent/providers/claude/subagents/replay-source.test.ts b/packages/server/src/server/agent/providers/claude/subagents/replay-source.test.ts
+index 413f39d42..4759afbc8 100644
+--- a/packages/server/src/server/agent/providers/claude/subagents/replay-source.test.ts
++++ b/packages/server/src/server/agent/providers/claude/subagents/replay-source.test.ts
+@@ -79,6 +79,50 @@ describe("parseClaudeSubagentMeta", () => {
+ });
+ 
+ describe("observeReplaySubagents", () => {
++  it("restores a resumed child on its original row after consuming async history", async () => {
++    async function* entries(): AsyncGenerator<ClaudeReplayEntry> {
++      yield { type: "assistant", message: { model: "claude-opus-5" } };
++      yield {
++        type: "assistant",
++        effort: "high",
++        message: { model: "claude-sonnet-5", usage: { input_tokens: 10, output_tokens: 2 } },
++      };
++    }
++    const replay = await observeReplaySubagents({
++      subagents: [{ agentId: AGENT_ID, meta: { toolUseId: TOOL_USE_ID }, entries: entries() }],
++      parent: parentWithTaskCall(),
++      convertEntry: () => [],
++    });
++    expect(replay.restored).toEqual([
++      {
++        taskId: AGENT_ID,
++        id: TOOL_USE_ID,
++        presentation: {
++          title: "general-purpose",
++          model: "claude-sonnet-5",
++          effort: "high",
++          usage: { totalTokens: 12 },
++        },
++      },
++    ]);
++    const live = new ClaudeTaskProtocolSource();
++    live.restore(replay.restored);
++    expect(
++      live.observe({
++        type: "system",
++        subtype: "task_started",
++        task_id: AGENT_ID,
++        tool_use_id: "resumed-tool",
++        description: "Resume the captured task",
++        task_type: "local_agent",
++        is_backgrounded: true,
++        uuid: "00000000-0000-0000-0000-000000000000",
++        session_id: "reopened-session",
++      }),
++    ).toEqual([{ kind: "status", id: TOOL_USE_ID, status: "running" }]);
++    expect(live.resolveSubagentId("resumed-tool")).toBe(TOOL_USE_ID);
++  });
++
+   it("links a subagent to its Task call through meta.toolUseId", async () => {
+     const observations = (
+       await observeReplaySubagents({
+diff --git a/packages/server/src/server/agent/providers/claude/subagents/replay-source.ts b/packages/server/src/server/agent/providers/claude/subagents/replay-source.ts
+index 567a98dfe..07b1ed832 100644
+--- a/packages/server/src/server/agent/providers/claude/subagents/replay-source.ts
++++ b/packages/server/src/server/agent/providers/claude/subagents/replay-source.ts
+@@ -4,6 +4,7 @@ import type { AgentTimelineItem } from "../../../agent-sdk-types.js";
+ import { normalizeProviderReplayTimestamp } from "../../../provider-history-timestamps.js";
+ import type { ProviderSubagentStatus } from "../../../provider-subagents/store.js";
+ import { resolveObservedClaudeModelId } from "../models.js";
++import type { ClaudeRestoredSubagent } from "./live-source.js";
+ import type { SubagentObservation } from "./observation.js";
+ import { buildClaudeSubagentSubtitle, type ClaudeSubagentUsage } from "./presentation.js";
+ 
+@@ -255,6 +256,7 @@ async function observeSubagent(
+   parent: ClaudeReplayParentFacts,
+   convertEntry: (entry: ClaudeReplayEntry) => AgentTimelineItem[],
+   toolOwners: Map<string, string>,
++  restored: ClaudeRestoredSubagent[],
+   parentSubagentId?: string,
+ ): Promise<SubagentObservation[]> {
+   const link = resolveParentLink(subagent, parent);
+@@ -287,13 +289,14 @@ async function observeSubagent(
+   const observations = [
+     declareSubagent(subagent, link, toolCall, parentSubagentId, firstTimestamp),
+   ];
+-  const subtitle = observeSubtitle(
+-    link,
+-    toolCall?.title ?? subagent.meta?.agentType,
+-    runtime,
+-    usage,
+-    lastTimestamp,
+-  );
++  const title = toolCall?.title ?? subagent.meta?.agentType;
++  // The agentId is the task_id Claude resumes this child under, so live can find it again.
++  restored.push({
++    taskId: subagent.agentId,
++    id: link.id,
++    presentation: { ...(title ? { title } : {}), ...runtime, ...(usage ? { usage } : {}) },
++  });
++  const subtitle = observeSubtitle(link, title, runtime, usage, lastTimestamp);
+   if (subtitle) observations.push(subtitle);
+   for (const observation of timeline) observations.push(observation);
+   const terminalStatus = link.status ?? childTerminalStatus;
+@@ -324,9 +327,14 @@ export async function observeReplaySubagents(input: {
+   subagents: readonly ClaudeReplaySubagentInput[];
+   parent: ClaudeReplayParentFacts;
+   convertEntry: (entry: ClaudeReplayEntry) => AgentTimelineItem[];
+-}): Promise<{ observations: SubagentObservation[]; toolOwners: ReadonlyMap<string, string> }> {
++}): Promise<{
++  observations: SubagentObservation[];
++  toolOwners: ReadonlyMap<string, string>;
++  restored: readonly ClaudeRestoredSubagent[];
++}> {
+   const observations: SubagentObservation[] = [];
+   const toolOwners = new Map<string, string>();
++  const restored: ClaudeRestoredSubagent[] = [];
+   const unresolved = [...input.subagents].sort(
+     (left, right) => (left.meta?.spawnDepth ?? 1) - (right.meta?.spawnDepth ?? 1),
+   );
+@@ -351,6 +359,7 @@ export async function observeReplaySubagents(input: {
+         parent,
+         input.convertEntry,
+         toolOwners,
++        restored,
+         ownerId,
+       )) {
+         observations.push(observation);
+@@ -360,7 +369,7 @@ export async function observeReplaySubagents(input: {
+       madeProgress = true;
+     }
+   }
+-  return { observations, toolOwners };
++  return { observations, toolOwners, restored };
+ }
+ 
+ function resolveReplayOwner(

@@ -1,0 +1,19 @@
+diff --cc packages/app/src/agent-stream/view.tsx
+index 1954b784e,1cfddc8ec..000000000
+--- a/packages/app/src/agent-stream/view.tsx
++++ b/packages/app/src/agent-stream/view.tsx
+@@@ -956,9 -991,9 +1000,13 @@@ const AgentStreamViewComponent = forwar
+          agentId,
+          renderUserMessageItem,
+          renderAssistantMessageItem,
+-         renderThoughtItem,
+          renderToolCallItem,
+++<<<<<<< HEAD
+ +        handlePluginOpenFile,
+++=======
++         getCollapsedTurn,
++         setTurnExpanded,
+++>>>>>>> b12eefb28ff99fd8a26eb826fced87f5d62dd808
+          resolvedServerId,
+        ],
+      );

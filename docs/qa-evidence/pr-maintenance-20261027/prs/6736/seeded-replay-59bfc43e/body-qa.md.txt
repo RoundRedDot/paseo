@@ -1,0 +1,132 @@
+### Linked issue
+
+No linked issue. A user reported that images sent from a phone were invisible on desktop, and images sent from desktop were invisible on the phone in the same chat.
+
+### Type of change
+
+- [x] Bug fix
+- [ ] New feature
+- [ ] Enhancement
+- [ ] Refactor
+- [ ] Docs
+
+### Reasoning
+
+The sending client can preview its locally stored attachment, but canonical submitted messages retain only text. Provider echo reconciliation then consumes the provider message without carrying its images into the canonical row. OMP also drops image blocks from native live events and history, including entire image-only messages. Real Pi QA additionally exposed image loss and canonical identity changes during history reconstruction. The app's replica cache serializes only the text and incorrectly considers remote image messages lossless, so refreshing can remove an image even after live delivery works.
+
+This patch carries optional image bytes through canonical submission, OMP native replay, the wire schema, client reducers, plugin projection, and the existing thumbnail/lightbox UI. The local replica stores the portable images along with the timeline row. Pi history replay now preserves native images and explicitly persisted message identity associations.
+
+### Goals
+
+- An independent client receives a submitted image without relying on the sender's local file, blob URL, or attachment store.
+- Image-only and text-plus-image messages remain visible after reload.
+- Preserve prompt identity and avoid duplicating the sender's optimistic row.
+- OMP native live events and imported history retain image blocks.
+- Pi native history retains image-only and text-plus-image messages, with canonical IDs restored when an explicit association was persisted.
+- Keep older text-only wire messages valid; older clients can still parse the existing user-message shape.
+
+### Non-goals
+
+- Retrofitting native history import formats beyond OMP and Pi.
+- Recovering image bytes from old canonical rows that never stored them.
+- Changing image upload, model input capabilities, or lightbox design.
+
+### QA
+
+#### Current source and manually seeded clone replay — 2026-10-27
+
+- Current candidate: `59bfc43e4097425f0a4429473a9635a99b305067`, tree `5d1f8a225f1a5ccc22cc8806e5c4efd6dcfece35`. It retains follow-up `ddf7848b4c9a4459054f268c3f33114bc015ddec` and merges frozen main `2ce6681d6e4de6d6400ba095741014f1bbfa4221`. Original fork/ref, `main` destination and Ready state remain unchanged.
+- OMP now records a confirmed native-entry association to submitted original image bytes/client identity in the existing daemon-private persistence handle. Interactive/history-only replay uses that association; it is excluded from public snapshot projections. The final refresh also retains upstream async image conversion and admit/cancel/close guards. Existing optional protocol fields, retained-pager defaults and the 16 MiB image-history budget remain intact.
+- **Automatic-write/storage integration evidence, reported by the source owner:** at `ddf7848b`, **503 targeted tests** passed, with preserved failing-before regressions. Captured real normalization is replayed at the FakeOmp transport boundary into real AgentManager and **new AgentStorage**: confirmed native IDs/branch lookup, persistence before turn-end, interactive/history-only replay, forced refresh and native rewind. This is automatic persistence integration evidence using a fixture transport, not new real-provider inference.
+- **Final-source integration evidence:** **265 targeted tests** across six files passed at `59bfc43e`, including OMP **89** (async conversion/cancel/close/vision), provider image-output **17 + 1**, Pi **136**, Claude image rendering **4**, and timeline paging/budget **18**. Build, format, full typecheck/lint and normal hooks passed. The 503/265 counts overlap and must not be added. QA rebuilt its own exact server/client and browser export; it did not repeat these green suites.
+- **Explicitly MANUALLY SEEDED cloned-session diagnostic: passed within this scope, zero new prompts/inference.** The old `ea84f017` handle never stored originals, so an isolated copy was seeded once with the captured `a6c4387f → {clientMessageId, original PNG images}` association. This exercises restoration with known retained data. It does not prove the automatic write hook or a new live-provider submission, and does not retroactively recover old missing PNG bytes. All **52 original artifacts** and original directory inventories retained their hashes; the original native session was untouched. Only cloned private paths/handle metadata were prepared. The cloned native runtime appended custom entries while its captured user/assistant messages stayed unchanged.
+- Two independent clients retained one canonical row with ID `6736-omp-image-20261027` and original PNG (439 bytes, SHA-256 `a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda`) after forced provider history and fresh daemon/AgentStorage restart of the seeded clone. Actual Chromium `145.0.7632.6` displayed the PNG thumbnail/lightbox; Escape closed it. Final read-only DOM/IndexedDB receipts match the current canonical epoch, original ID and PNG bytes before and after browser reload. No local sender attachment store was seeded in the browser.
+- Early harness failures remain preserved: an immediate cache read returned no persisted row; an asynchronous readiness attempt still yielded no row for the following read; a later early lightbox geometry sample failed. The final cache-only receipts awaited the normal 1-second persistence window before reading actual IndexedDB and reloading. Those harness failures are not passing checks or evidence of a product cache failure. The clone was not reseeded and no provider prompt was sent during any of these diagnostics.
+- **Remaining acceptance:** the earlier selected OMP model's vendor visual semantics remain **NOT PASSED**: native `sendsImageInputOnWire=false` / `compat.stripImageInput=true` despite declared image input. No model/catalog/auth change, alternate model or further inference was used. This candidate has no new real live-prompt/image-only proof. Native image acceptance is **NOT VERIFIED**: the connected PHN110 was not allocated by the user, so no native image run was performed. iOS fixture-selection QA is separate. Packaged Electron acceptance remains unverified. Historical Pi evidence keeps its original revision/platform scope.
+- Exact-head [Actions run 40463249843](https://github.com/getpaseo/paseo/actions/runs/40463249843) and CheckSuite `109668261496` are `completed / action_required` with 0 jobs, not passing CI. No approval or exact permission-gate claim is inferred. Safe fixture-only logs, hashes, screenshots and allowlists are retained for coordinated immutable publication; private native JSONL/auth/config/raw network data are excluded. No pending evidence URL is claimed.
+
+#### Earlier baseline integration — ea84f017 (2026-10-27)
+
+- Delivered head: `ea84f0179dae93829a4c8607a6fd73e5621e3b41`; source tree `af1ddd4bd637f294eef9479dc5a2ca0e28b57db6`. Ordinary merge of frozen main `9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca` into verified original fork head `bc3c3d3dbdb067f437c3125812388d6d925c713a`. Target remains `main`; Ready state retained. No rebase or force push.
+- Preserve retained-pager omitted-limit ownership and cursor coverage while maintaining portable image bytes, canonical/Pi identities, replica persistence and the 16 MiB image-history byte budget.
+- Local macOS validation: `npm run build:server`; `npm run format`; `npm run lint`; `npm run typecheck`; normal commit hooks passed. Tests ran as separate files in their owning packages with `npx vitest run <file> --bail=1 --maxWorkers=1`: **634 passed**. No full suite ran. Dependencies resolve to this checkout's own workspace packages; unchanged lockfile setup is reused between independent PRs.
+
+| Test file | Passed |
+| --- | ---: |
+| `packages/app/src/runtime/replica-cache/index.test.ts` | 49 |
+| `packages/app/src/types/stream.test.ts` | 69 |
+| `packages/protocol/src/messages.wire-compat.test.ts` | 19 |
+| `packages/server/src/server/agent/agent-manager.test.ts` | 223 |
+| `packages/server/src/server/agent/agent-timeline-store.test.ts` | 11 |
+| `packages/server/src/server/agent/providers/omp/agent.test.ts` | 82 |
+| `packages/server/src/server/agent/providers/omp/history-mapper.test.ts` | 22 |
+| `packages/server/src/server/agent/providers/pi/agent.test.ts` | 133 |
+| `packages/server/src/server/agent/providers/pi/history-mapper.test.ts` | 8 |
+| `packages/server/src/server/daemon-e2e/timeline-window.e2e.test.ts` | 18 |
+
+- The omitted-limit after-page regression failed with the previous session boundary default (unbounded after fetch), then passed with pager-owned defaults; image byte-budget and continuation regressions also passed.
+- Protocol: original optional image or prompt fields retain their existing types and remain optional and wire schemas remain structural. Older field-omitting messages stay valid; old clients ignore the optional additions.
+- Exact-head CI (2026-10-27T05:47:54.445909+00:00): [Actions run 40457263201](https://github.com/getpaseo/paseo/actions/runs/40457263201): `completed / action_required`, 0 jobs; CheckSuite `109652289463`: `completed / action_required`. `action_required` is not a passing result and does not establish the specific gate. Reviews: `COMMENTED` at `f49b4f04b416e0c55f539caa1458a3b033e7781b`. Historical reviews do not approve this merge.
+- Acceptance scope: these historical integration checks apply to `ea84f017`. Later source and seeded replay evidence is recorded above; native image/lightbox and packaged desktop acceptance remain unverified. Historical evidence below retains its named source/platform. New safe command logs, failure receipts and conflict diffs are retained for coordinated immutable publication; no pending public URL is claimed.
+
+- [Historical 2026-10-25 baseline receipts](https://github.com/RoundRedDot/paseo/tree/46330e6a51e1f136eb936ce4ebca97a3e2f41ecb/docs/qa-evidence/pr-maintenance-20261025/6736) remain historical evidence.
+- Historical published evidence for previous delivered source SHA `bc3c3d3dbdb067f437c3125812388d6d925c713a`: [PR #6736 public raw evidence](https://github.com/RoundRedDot/paseo/blob/42bc52ddd4959611c2eb5ed6f339dc1aa1209965/docs/qa-evidence/pr-maintenance-20261026/prs/6736/README.md) (manifest SHA-256 `45d98c8eebe76f3c64141cc6a2ce4449421a56616f7de9780f530f233c617df9`). Selected source-owner logs and receipts; source tests were not rerun for publication.
+
+#### Earlier real OMP QA — ea84f017: restore and visual semantics NOT PASSED
+
+- Exact candidate: `ea84f0179dae93829a4c8607a6fd73e5621e3b41`, tree `af1ddd4bd637f294eef9479dc5a2ca0e28b57db6`. Rebuilt this checkout's server/client and browser export under the shared validation lock. No source edits or repeated unit suites. Real installed OMP `18.12.6`, explicit per-session `deepseek/deepseek-v4-flash`, thinking `off`, one text-plus-image prompt using the published 128×128 PNG fixture. Session-only policy disabled retries/model fallback and title generation; no global model/catalog/auth changes or production-daemon actions.
+- **Live delivery passed within this scope:** the real OMP session selected the exact model, completed the turn, and reported no auth/network error. Two independent WebSocket clients received one canonical user row with client ID `6736-omp-image-20261027` and original PNG bytes (439 bytes, SHA-256 `a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda`). Actual Chromium `145.0.7632.6` rendered the thumbnail and lightbox. A completed/nonempty assistant turn is not a visual-understanding pass.
+- **Restore identity/original-byte invariants failed:** after stopping/restarting only the isolated daemon, the real native history restored the same user message as native ID `a6c4387f` and OMP-normalized WebP (382 bytes, SHA-256 `7bda7e04a68ee969a784a9b9a4defa414b8f7cfd3574cb968c9891b0e707dac8`). Both clients agreed on the restored row, but the client ID and original PNG bytes were not retained. Explicit provider-history refresh, client reconnect, and another own-daemon disk restart retained this mismatch. The image block remains present; this is not evidence that its bytes disappeared entirely. A bounded read-only follow-up confirmed the restored WebP is visible after browser reload, with its SHA-256 and native message ID matching the current canonical epoch in DOM and IndexedDB; Updating messages was absent. The restored image is 200×200. Earlier browser waits incorrectly required the original 128×128 dimensions and timed out; those failed receipts remain preserved. Restored-WebP display/cache success does not establish preservation of the original client ID or PNG bytes.
+- **Vendor visual semantics NOT PASSED:** the assistant explicitly said it could not see the image. The initial no-refresh preflight proved declared `input=[text,image]`, exact session model selection, and a configured command-backed auth source. A further native public-helper check showed `sendsImageInputOnWire=false` for this existing `openai-completions` model because `compat.stripImageInput=true`. Declared vision and configured auth did not prove image-on-wire capability. No fallback, alternate model, configuration repair, or second prompt was used; upstream routing was not independently audited.
+- The initial isolated harness omitted OMP's explicit enable override and was rejected before native startup (`Provider 'omp' is disabled`, zero prompts). That harness-only failure is preserved separately. The first browser harness's close-button click timeout is also retained; the repository's Escape path passed in the bounded read-only lightbox diagnostic, without resending the prompt.
+- This historical restore failure prompted the source follow-up and seeded diagnostic recorded above. Captured own-session native data, exact PNG/WebP/ID fixture mappings, sanitized canonical receipts, failed waits and screenshots are retained for coordinated immutable publication. Private native JSONL, credentials, auth/config files and raw network data are excluded from the public allowlist. No pending evidence URL is claimed.
+- Current real image-only OMP acceptance was not exercised under the one-prompt bound. Earlier Pi image-only/text-plus-image evidence below remains tied to its original source/platform. Native hardware is unavailable on the known hosts; native iOS/Android and packaged Electron acceptance remain unverified.
+
+#### Earlier evidence — retain original revisions and platforms
+
+
+#### Earlier status and evidence scope — 2026-10-23
+
+- Historical PR head: `4fe7d0e9ee0e4dfe99f14471fd255ab846d7600b`; target `main` (observed base `582beeb10bf7a0dc2297f35529f78df89dee9358`).
+- Historical-head [CI run 39929846738](https://github.com/getpaseo/paseo/actions/runs/39929846738): `completed / action_required`, **0 jobs**. The API does not establish the exact run gate; this is not a passing test run.
+- Merged upstream workspace runtime ownership and preserved the image timeline response path. 233 manager/timeline integration tests and 149 session tests passed, along with build, root typecheck/lint/format and normal commit hooks. Draft retained; real OMP/native acceptance remains open.
+- [2026-10-23 raw evidence and scope](https://github.com/RoundRedDot/paseo/tree/60741ce665c8134b0df85ae752427c29816627e9/pr-delivery-20261023) (browser/relay checks, source receipt, screenshots/video and retained failures).
+
+#### Historical evidence — retain original revisions and platforms
+
+#### Historical integration validation — 2026-10-21
+
+Validated revision in that historical run: `45200cdb6f3565bf2bbee2a873a6cc208ca60cc1`. Additive merge of upstream main `c70a6cfb9ea29c87df52b6b6c574775b0d3b169c`; PR history and Draft status preserved. The conflict in `agent-manager.test.ts` retains both cross-client image identity/history regressions and the upstream parameterized lifecycle-hook regression.
+
+Integrated tree checked in that run: server/CLI and audio declarations build, agent-manager **213 passed**, timeline-window daemon integration **16 passed**, image stream/projection **77 passed**; root lint/format and normal pre-commit typecheck/lint/format hooks passed. No full suite was run locally. No new native-device, packaged Electron or cross-client live-provider acceptance is claimed. Older screenshots and device results below keep their original revision/platform scope. GitHub Actions results remain a separate gate.
+
+**History byte-budget follow-up at `aa725f6d8`:** history responses are capped at 16 MiB of serialized JSON, including the agent/envelope. The existing projection pager shrinks the page while retaining its continuation and lifecycle coverage; images are not truncated. A single oversized item or inseparable lifecycle group returns an explicit RPC error instead of closing the connection. No wire schema changes.
+
+The existing `timeline-window.e2e.test.ts` passes all 16 tests through a real isolated daemon and WebSocket client, using synthetic image payloads and the existing injected provider adapter. New cases cover tail/before/after paging with 24 MiB of image data, continuation without image loss, oversized items, inseparable groups and continued RPC access. This is transport regression evidence, not a new real-provider or native UI run. Owning server build, full workspace typecheck, lint, format and normal commit hooks pass.
+
+```text
+npm exec --workspace=@getpaseo/server -- vitest run src/server/daemon-e2e/timeline-window.e2e.test.ts --bail=1 --maxWorkers=1
+Test Files  1 passed (1)
+     Tests  16 passed (16)
+```
+
+
+Earlier Pi validation head `bd3bbb45f` contains production repair `516f41b4f` plus a fixture-only typing follow-up. The three production blobs are identical between those commits. Pi native image-only and text-plus-image history now preserve original image blocks. Explicit native-entry/client-message associations are stored in the existing Pi persistence handle; the manager restores canonical wire IDs and retains native rewind targets. Legacy handles without a recorded association keep native IDs; no content-based identity guessing is added.
+
+- Production repair: 345 tests pass across the three affected suites, including captured native Pi data and real AgentStorage disk reload, prime/forced history, refresh and rewind. Owning build, repository format/typecheck/lint and complete serial hooks pass.
+- Fixture-only follow-up: both affected Pi suites pass 135 tests; compiler-checked fixtures replace three assertions without changing captured data. Format/typecheck/lint and complete serial hooks pass. These tests overlap the earlier 345 and are not additive.
+- Real installed Pi1.3.0 with configured `google-cloud/gemini-3.8-flash`: all 29 QA checks pass. Two independent clients and the actual Chromium app preserve image bytes, canonical IDs, order, previews and lightboxes after provider refresh, browser reload and isolated daemon disk restart. Browser assertions wait for the current canonical epoch and for Updating messages to clear. Two new image prompts were sent, four total across old/new QA; no automatic retry or additional inference was used for the typing follow-up.
+
+[Fixed Pi runtime, screenshots, source hashes and validation logs](https://github.com/RoundRedDot/paseo/tree/dcf47cd097e267715c4c0e114a83f025fda399e0/6736-pi-fixed). Runtime ran on the repaired tree before the production commit; recorded file hashes match `516f41b4f`. It was not rerun after the fixture-only commit. The [original 17-pass/4-fail Pi capture](https://github.com/RoundRedDot/paseo/tree/dcf47cd097e267715c4c0e114a83f025fda399e0/6736-pi-before) remains intact and is not counted as passing evidence. The configured provider/model identifier is recorded by Pi; its existing extension's upstream routing was not independently audited.
+
+Historical OMP18.11.3 startup was blocked by missing default model/auth configuration, with zero inference requests. [Original blocker and provenance](https://github.com/RoundRedDot/paseo/tree/dcf47cd097e267715c4c0e114a83f025fda399e0/6736-omp-blocker). Earlier OMP typed-adapter and mock-provider browser checks remain fixture evidence. That historical run did not verify real OMP mapping or native iOS/Android/Electron acceptance; the PR was Draft at that time. Current OMP results and Ready state are recorded above. An isolated iOS Simulator Release attempt at pre-sync head `bd3bbb45f` is [documented as build-blocked](https://github.com/RoundRedDot/paseo/tree/4b2273c56265b3e2296f968a45039dbdc2eb6b50/6736-native-build-blocker/PUBLICATION.md): four builds failed, the last two with ExpoSQLite `exsqlite3_*` imports missing. Native runtime, images/lightbox and reload did not run; no image product failure or cache root cause is established. Subsequent head `e4cec6a2a` merges main and was not covered by this run or by the earlier Pi runtime evidence; the earlier checks above remain tied to their recorded source hashes. A historical [presence-only prerequisite recheck](https://github.com/RoundRedDot/paseo/tree/f5f6bdfcb5e87e6a5b9ecac99ea4d0bafa571b67/6736-omp-recheck) confirms the isolated binary remains18.11.3 and finds no default state or common provider-auth environment; no new OMP runtime or inference was attempted, and external/custom auth paths are not exhaustively ruled out. No production daemon restart or deployment.
+
+### Checklist
+
+- [x] Plugin changes follow the SDK import boundaries (host projection only; no new plugin client imports)
+- [x] One focused change
+- [x] `npm run typecheck` passes
+- [x] `npm run lint` passes for changed files
+- [x] Formatting passes using `format:files` and the staged-file hook
+- [ ] QA evidence complete on native devices and a real OMP runtime
+- [x] Tests added or updated where it made sense

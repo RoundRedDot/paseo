@@ -1,0 +1,94 @@
+{
+  "head": "59bfc43e4097425f0a4429473a9635a99b305067",
+  "tree": "5d1f8a225f1a5ccc22cc8806e5c4efd6dcfece35",
+  "builds": [
+    "npm run build:server",
+    "CI=1 npm run build:web --workspace=@getpaseo/app"
+  ],
+  "unitSuitesRepeated": 0,
+  "files": [
+    {
+      "path": "packages/server/dist/server/server/bootstrap.js",
+      "sha256": "d99dd16d8c9d427e6f8adb8dc2effb51521ba4a22f31235c2d6bfc8a8b0ecd39",
+      "bytes": 76301
+    },
+    {
+      "path": "packages/server/dist/server/server/agent/agent-manager.js",
+      "sha256": "989a139f609a7c974df93ab80cda061916e2c1c0d9a3c24c2724498418791c67",
+      "bytes": 176003
+    },
+    {
+      "path": "packages/server/dist/server/server/agent/agent-projections.js",
+      "sha256": "6279c985f3258e220a7c62a230228f5050573fc68641cd1e532bad4f0e6b4039",
+      "bytes": 16732
+    },
+    {
+      "path": "packages/server/dist/server/server/agent/providers/omp/agent.js",
+      "sha256": "15b3014b9eec8eb0c69899a31751a287f9e5843c353b2c7fcd0d534ce63899b8",
+      "bytes": 87339
+    },
+    {
+      "path": "packages/server/dist/server/server/agent/providers/omp/history.js",
+      "sha256": "a4a9cef2c71862d5b36ba9cb634434cdcf1c2f0da0f9fc01c8ac21df8468e4ee",
+      "bytes": 19033
+    },
+    {
+      "path": "packages/server/dist/server/server/agent/providers/omp/message-history.js",
+      "sha256": "7ed95995173176d51b78ad9b374de691d04cdc334257fe9db4bf9de443bacffd",
+      "bytes": 9545
+    },
+    {
+      "path": "packages/client/dist/daemon-client.js",
+      "sha256": "6fd2aa72d4ecc73059b139bc7b473b0f5895b568de8acdabd2bf21badd1943d0",
+      "bytes": 210597
+    },
+    {
+      "path": "packages/protocol/dist/messages.js",
+      "sha256": "50e83885c702313212a6b36a5c35c400f45bbf2824fcd7bb0c8f252e7f13b72e",
+      "bytes": 251019
+    },
+    {
+      "path": "packages/app/dist/index.html",
+      "sha256": "923281522f9e68b41bf70483e8356bd86518cfe122eeb03eb28d0a495311a605",
+      "bytes": 3344
+    }
+  ],
+  "workspacePackagePaths": {
+    "server": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-timeline/packages/server",
+    "client": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-timeline/packages/client",
+    "protocol": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-timeline/packages/protocol",
+    "plugin": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-timeline/packages/plugin"
+  },
+  "webAssets": [
+    {
+      "path": "packages/app/dist/_expo/static/js/web/desktop-attachment-bridge-5726f7c1c1acbbbc3aa260000c8fe258.js",
+      "sha256": "7e37fdaa526ca7d39ce8a3ddbd835ff1992c7d63e87da2f3be49f0d54be67633",
+      "bytes": 644
+    },
+    {
+      "path": "packages/app/dist/_expo/static/js/web/desktop-attachment-store-3fbc394e17b47a69ca8cb4788c10e51b.js",
+      "sha256": "196536e5e9b9a3557856a1635e843f5d4283de5a10268e9eaf7189a289554fce",
+      "bytes": 2869
+    },
+    {
+      "path": "packages/app/dist/_expo/static/js/web/index-986a66fea8a9da36e52bf7d413b92a25.js",
+      "sha256": "f7c2f7e04b48a2eaab913f5ecef89142efc294e2842ceb61d7e375a6de0f1d02",
+      "bytes": 45266
+    },
+    {
+      "path": "packages/app/dist/_expo/static/js/web/index-fa8d667341041df64787971ad4fe05e9.js",
+      "sha256": "647286e8312fc6e6f11b867ac7335d65f5a235a4d606361d49da107c78fbc722",
+      "bytes": 23781837
+    },
+    {
+      "path": "packages/app/dist/_expo/static/js/web/indexeddb-attachment-store-751c27a2afbce677974a912aa6303001.js",
+      "sha256": "d747fb4521e28d2d4ebf90fe0bc50b3e772dc70abe0d136298b03cfe06cd9b2b",
+      "bytes": 3232
+    },
+    {
+      "path": "packages/app/dist/_expo/static/js/web/native-file-attachment-store-d87cfbdab7c3fe738ec8f5cb7f79bbdc.js",
+      "sha256": "8ae251c2881f945776ab25ff3d2006806325e34c8b381007015ca2b1756f8c3e",
+      "bytes": 4254
+    }
+  ]
+}

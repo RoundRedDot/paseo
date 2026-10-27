@@ -1,0 +1,28 @@
+{
+  "number": 7802,
+  "title": "feat(ios): select paragraphs and list items on double tap",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "976e3d9297928787393deb98789ca7a427ef65ad",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZh7mt0w",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40456882760,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40456882760",
+      "runHeadSha": "976e3d9297928787393deb98789ca7a427ef65ad",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

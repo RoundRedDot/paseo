@@ -1,0 +1,4 @@
+Auto-merging packages/server/src/server/plugins/compiler.test.ts
+Auto-merging packages/server/src/server/plugins/compiler.ts
+CONFLICT (content): Merge conflict in packages/server/src/server/plugins/compiler.ts
+Automatic merge failed; fix conflicts and then commit the result.

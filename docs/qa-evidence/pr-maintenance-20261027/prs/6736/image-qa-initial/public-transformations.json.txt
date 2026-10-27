@@ -1,0 +1,15 @@
+{
+  "canonicalProofs": "Only own fixture-session timeline entries are retained; user messageId is labeled id; image data becomes MIME/length/SHA256; own assistant text retained; envelope/agent config omitted. Epoch values are exact.",
+  "nativeFixture": "Only the known synthetic user entry id/role/timestamp and exact text/image content retained; native auth/config/header/session metadata excluded.",
+  "publicScreenshots": "Actual Chromium own isolated synthetic session only. No screenshot/DOM state was fabricated.",
+  "privateExcluded": [
+    "private/",
+    "isolated-home/",
+    "omp-sessions/",
+    "all auth/config/keypair files",
+    "raw network data",
+    "full provider/env/config snapshots",
+    "handoff/body API snapshots containing unrelated PR metadata"
+  ],
+  "preflightCorrection": "Original readiness and failed harness receipts are retained; public selected route receipt does not include unrelated configured models."
+}

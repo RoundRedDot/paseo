@@ -1,0 +1,3 @@
+Auto-merging packages/server/src/server/agent/providers/acp-agent.test.ts
+Auto-merging packages/server/src/server/agent/providers/acp-agent.ts
+Automatic merge went well; stopped before committing as requested

@@ -1,0 +1,77 @@
+{
+  "pr": 7802,
+  "sourceHead": "976e3d9297928787393deb98789ca7a427ef65ad",
+  "sourceTree": "aceb3cb2d150b93bc17fda27fef0921b163891ad",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "scope": "Debug simulator fixture, production MarkdownRenderer; real UIKit gestures, native Copy and own simulator clipboard",
+  "simulator": {
+    "model": "iPhone 16 Pro",
+    "runtime": "iOS 26.5",
+    "configuration": "Debug fixture using production MarkdownRenderer"
+  },
+  "result": "partial; full phone acceptance NOT PASSED",
+  "scenarios": {
+    "initialParagraphCopy": "NOT PASSED: initial double-tap Copy menu absent; exact initial paragraph copy not obtained",
+    "firstListCopy": "passed after handle adjustment",
+    "nestedItemCopy": "NOT PASSED: initial menu absent; exact nested-item copy not obtained",
+    "crossBlockEndHandleCopy": "passed exact copy",
+    "startHandleCopy": "passed exact copy after adjustment",
+    "link": "passed",
+    "scroll": "passed"
+  },
+  "iPad": "not run; phone acceptance gate incomplete",
+  "notClaimed": [
+    "Release build acceptance",
+    "full-chat acceptance",
+    "performance acceptance",
+    "complete native selection acceptance"
+  ],
+  "mediaAllowlistCount": 9,
+  "mediaFiles": [
+    {
+      "file": "phone-corrected-alpha-initial.png",
+      "sha256": "3a50b2534b39de4b0b8826e6ae3a608027b4c7c1e72081cd03ac4067a4450d83",
+      "bytes": 428469
+    },
+    {
+      "file": "phone-corrected-first-list-initial.png",
+      "sha256": "273ea00bdd1a59b0b5739513db99b72cdc80c07e0215457b1284843270bfc6d4",
+      "bytes": 419115
+    },
+    {
+      "file": "phone-final-nested-initial.png",
+      "sha256": "85551393756c5f30e03918d5ad6d3c2737451e68dc19a99520bb0862a29c5347",
+      "bytes": 420698
+    },
+    {
+      "file": "phone-final-end-handle.png",
+      "sha256": "f733f65f42f836d2bf62515cf034b47e6df40900352ae33ebf267430660a1055",
+      "bytes": 490899
+    },
+    {
+      "file": "phone-final-start-handle.png",
+      "sha256": "924c602d929c9fc806193e96228743f8c542ca2a5e9337acce4462fd99997fd9",
+      "bytes": 498829
+    },
+    {
+      "file": "phone-final-link.png",
+      "sha256": "f83c24dfcfdf3a22c8af228ce5db96282863ad07da55249e1f893243f1359216",
+      "bytes": 434495
+    },
+    {
+      "file": "phone-final-scrolled.png",
+      "sha256": "2e9fc4dbdd24cdb0918c69902ff7e2a4ccd164ff09c18a5f51030373ae8d75a4",
+      "bytes": 446815
+    },
+    {
+      "file": "phone-final-gestures.mp4",
+      "sha256": "0fa613a2786593101133b6e2b9702b14f7584ef136d0eae99d141f33506a235c",
+      "bytes": 12522448
+    },
+    {
+      "file": "phone-final-video-contact.png",
+      "sha256": "d9d7d6817a17115a5a766fa104a66772828c553987c8ec50c67ebc46aac1d008",
+      "bytes": 489468
+    }
+  ]
+}

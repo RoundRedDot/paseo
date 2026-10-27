@@ -1,0 +1,8 @@
+Auto-merging packages/server/src/server/agent/agent-manager.ts
+Auto-merging packages/server/src/server/agent/providers/omp/agent.test.ts
+Auto-merging packages/server/src/server/agent/providers/omp/history-mapper.test.ts
+Auto-merging packages/server/src/server/agent/providers/pi/agent.test.ts
+Auto-merging packages/server/src/server/agent/providers/pi/agent.ts
+Auto-merging packages/server/src/server/session.ts
+CONFLICT (content): Merge conflict in packages/server/src/server/session.ts
+Automatic merge failed; fix conflicts and then commit the result.

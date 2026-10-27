@@ -1,0 +1,28 @@
+{
+  "number": 6737,
+  "title": "feat: sync workspace and tab ordering across clients",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "luoph/paseo",
+  "headSha": "50b07a8b8ec270cbb41f3633e859a21f008b0884",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZh1-qiA",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40454637179,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40454637179",
+      "runHeadSha": "50b07a8b8ec270cbb41f3633e859a21f008b0884",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

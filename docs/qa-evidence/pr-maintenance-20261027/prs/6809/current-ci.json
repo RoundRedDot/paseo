@@ -1,0 +1,28 @@
+{
+  "number": 6809,
+  "title": "feat(claude): show the Task prompt on expanded subagent cards",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "2a8af80c3569bf464b4f5e16afca356317246870",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZh2c2vw",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40454826879,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40454826879",
+      "runHeadSha": "2a8af80c3569bf464b4f5e16afca356317246870",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+{"at":"2026-10-27T06:03:17.076Z","name":"isolated_exact_candidate_daemon","pass":true,"port":60666,"serverId":"srv_aBOaRvLU1dFz"}
+{"status":"startup_blocked","failure":{"stage":"create_native_session","errorType":"Error","qaCheck":null,"timeout":false,"auth":false,"network":false,"statuses":[],"errorDigest":"c08b78ee9e44643719b82a991b50597ec9479f0bbeea5bec5fae0e6abcac074c"}}

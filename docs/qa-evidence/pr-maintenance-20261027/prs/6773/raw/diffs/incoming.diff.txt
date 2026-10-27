@@ -1,0 +1,280 @@
+diff --git a/packages/app/src/i18n/resources/ar.ts b/packages/app/src/i18n/resources/ar.ts
+index 108fad41d..6bfc30095 100644
+--- a/packages/app/src/i18n/resources/ar.ts
++++ b/packages/app/src/i18n/resources/ar.ts
+@@ -2369,12 +2369,25 @@ export const ar: TranslationResources = {
+             "عند تشغيل الوكيل، يوجّه Enter الجولة النشطة. يضيف Command/Ctrl+Enter إلى قائمة الانتظار.",
+           queue: "عند تشغيل الوكيل، يضيف Enter إلى قائمة الانتظار. Command/Ctrl+Enter يرسل.",
+         },
++        commandEnterDescriptions: {
++          interrupt: "عند تشغيل الوكيل، يوقف {{modifier}}+Enter التشغيل. يُدرج Enter سطرًا جديدًا.",
++          steer: "عند تشغيل الوكيل، يوجّه {{modifier}}+Enter الجولة النشطة. يُدرج Enter سطرًا جديدًا.",
++          queue:
++            "عند تشغيل الوكيل، يضيف {{modifier}}+Enter إلى قائمة الانتظار. يُدرج Enter سطرًا جديدًا.",
++        },
+         options: {
+           interrupt: "مقاطعة",
+           steer: "توجيه",
+           queue: "طابور",
+         },
+       },
++      sendShortcut: {
++        label: "اختصار الإرسال",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "بسأل",
+diff --git a/packages/app/src/i18n/resources/en.ts b/packages/app/src/i18n/resources/en.ts
+index 16bddd9cf..ff1e80d88 100644
+--- a/packages/app/src/i18n/resources/en.ts
++++ b/packages/app/src/i18n/resources/en.ts
+@@ -2457,12 +2457,26 @@ export const en = {
+             "When the agent is running, Enter steers the active turn. Command/Ctrl+Enter queues.",
+           queue: "When the agent is running, Enter queues. Command/Ctrl+Enter submits.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "When the agent is running, {{modifier}}+Enter interrupts. Enter inserts a new line.",
++          steer:
++            "When the agent is running, {{modifier}}+Enter steers the active turn. Enter inserts a new line.",
++          queue: "When the agent is running, {{modifier}}+Enter queues. Enter inserts a new line.",
++        },
+         options: {
+           interrupt: "Interrupt",
+           steer: "Steer",
+           queue: "Queue",
+         },
+       },
++      sendShortcut: {
++        label: "Send shortcut",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "Ask",
+diff --git a/packages/app/src/i18n/resources/es.ts b/packages/app/src/i18n/resources/es.ts
+index 222658378..8784adefb 100644
+--- a/packages/app/src/i18n/resources/es.ts
++++ b/packages/app/src/i18n/resources/es.ts
+@@ -2384,12 +2384,27 @@ export const es: TranslationResources = {
+           queue:
+             "Cuando el agente se está ejecutando, Enter pone en cola. Command/Ctrl+Enter envía.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "Cuando el agente se está ejecutando, {{modifier}}+Enter interrumpe. Enter inserta una línea nueva.",
++          steer:
++            "Cuando el agente se está ejecutando, {{modifier}}+Enter dirige el turno activo. Enter inserta una línea nueva.",
++          queue:
++            "Cuando el agente se está ejecutando, {{modifier}}+Enter pone en cola. Enter inserta una línea nueva.",
++        },
+         options: {
+           interrupt: "Interrumpir",
+           steer: "Dirigir",
+           queue: "Cola",
+         },
+       },
++      sendShortcut: {
++        label: "Atajo de envío",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "Preguntar",
+diff --git a/packages/app/src/i18n/resources/fr.ts b/packages/app/src/i18n/resources/fr.ts
+index 65d72d405..bbafc03dd 100644
+--- a/packages/app/src/i18n/resources/fr.ts
++++ b/packages/app/src/i18n/resources/fr.ts
+@@ -2383,12 +2383,27 @@ export const fr: TranslationResources = {
+           queue:
+             "Quand l’agent est en cours d’exécution, Entrée met en file d’attente. Cmd/Ctrl+Entrée envoie.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "Lorsque l'agent est en cours d'exécution, {{modifier}}+Entrée interrompt. Entrée insère une nouvelle ligne.",
++          steer:
++            "Lorsque l'agent est en cours d'exécution, {{modifier}}+Entrée oriente le tour actif. Entrée insère une nouvelle ligne.",
++          queue:
++            "Lorsque l'agent est en cours d'exécution, {{modifier}}+Entrée met en file d'attente. Entrée insère une nouvelle ligne.",
++        },
+         options: {
+           interrupt: "Interrompre",
+           steer: "Réorienter",
+           queue: "File d’attente",
+         },
+       },
++      sendShortcut: {
++        label: "Raccourci d’envoi",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "Demander",
+diff --git a/packages/app/src/i18n/resources/ja.ts b/packages/app/src/i18n/resources/ja.ts
+index 5829bf4fa..e7dcc5b5e 100644
+--- a/packages/app/src/i18n/resources/ja.ts
++++ b/packages/app/src/i18n/resources/ja.ts
+@@ -2353,12 +2353,25 @@ export const ja: TranslationResources = {
+             "エージェント実行中、Enterで現在のターンに指示を送ります。Command/Ctrl+Enterでキューに追加。",
+           queue: "エージェント実行中、Enterでキューに追加します。Command/Ctrl+Enterで送信。",
+         },
++        commandEnterDescriptions: {
++          interrupt: "エージェント実行中、{{modifier}}+Enterで中断します。Enterで改行します。",
++          steer:
++            "エージェント実行中、{{modifier}}+Enterで現在のターンに指示を送ります。Enterで改行します。",
++          queue: "エージェント実行中、{{modifier}}+Enterでキューに追加します。Enterで改行します。",
++        },
+         options: {
+           interrupt: "中断",
+           steer: "指示",
+           queue: "キュー",
+         },
+       },
++      sendShortcut: {
++        label: "送信ショートカット",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "確認する",
+diff --git a/packages/app/src/i18n/resources/ko.ts b/packages/app/src/i18n/resources/ko.ts
+index 36a27fc84..d8d1fbc78 100644
+--- a/packages/app/src/i18n/resources/ko.ts
++++ b/packages/app/src/i18n/resources/ko.ts
+@@ -2344,12 +2344,27 @@ export const ko: TranslationResources = {
+           queue:
+             "에이전트가 실행 중일 때 Enter는 대기열에 추가합니다. Command/Ctrl+Enter는 제출합니다.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "에이전트가 실행 중일 때 {{modifier}}+Enter는 중단합니다. Enter는 줄바꿈합니다.",
++          steer:
++            "에이전트가 실행 중일 때 {{modifier}}+Enter는 현재 턴에 지시합니다. Enter는 줄바꿈합니다.",
++          queue:
++            "에이전트가 실행 중일 때 {{modifier}}+Enter는 대기열에 추가합니다. Enter는 줄바꿈합니다.",
++        },
+         options: {
+           interrupt: "중단",
+           steer: "지시",
+           queue: "대기열",
+         },
+       },
++      sendShortcut: {
++        label: "전송 단축키",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "물어보기",
+diff --git a/packages/app/src/i18n/resources/pt-BR.ts b/packages/app/src/i18n/resources/pt-BR.ts
+index 5a83b4345..1c024dc64 100644
+--- a/packages/app/src/i18n/resources/pt-BR.ts
++++ b/packages/app/src/i18n/resources/pt-BR.ts
+@@ -2367,12 +2367,27 @@ export const ptBR: TranslationResources = {
+             "Quando o agente está em execução, Enter orienta o turno ativo. Command/Ctrl+Enter enfileira.",
+           queue: "Quando o agente está em execução, Enter enfileira. Command/Ctrl+Enter envia.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "Quando o agente está em execução, {{modifier}}+Enter interrompe. Enter insere uma nova linha.",
++          steer:
++            "Quando o agente está em execução, {{modifier}}+Enter orienta o turno ativo. Enter insere uma nova linha.",
++          queue:
++            "Quando o agente está em execução, {{modifier}}+Enter enfileira. Enter insere uma nova linha.",
++        },
+         options: {
+           interrupt: "Interromper",
+           steer: "Orientar",
+           queue: "Fila",
+         },
+       },
++      sendShortcut: {
++        label: "Atalho de envio",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "Perguntar",
+diff --git a/packages/app/src/i18n/resources/ru.ts b/packages/app/src/i18n/resources/ru.ts
+index 135d5fe2f..093ac68c3 100644
+--- a/packages/app/src/i18n/resources/ru.ts
++++ b/packages/app/src/i18n/resources/ru.ts
+@@ -2370,12 +2370,27 @@ export const ru: TranslationResources = {
+           queue:
+             "Когда агент работает, Enter ставит сообщение в очередь, а Command/Ctrl+Enter отправляет его.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "Когда агент работает, {{modifier}}+Enter прерывает его работу, а Enter вставляет новую строку.",
++          steer:
++            "Когда агент работает, {{modifier}}+Enter дополняет текущий ответ новым указанием, а Enter вставляет новую строку.",
++          queue:
++            "Когда агент работает, {{modifier}}+Enter ставит сообщение в очередь, а Enter вставляет новую строку.",
++        },
+         options: {
+           interrupt: "Прерывать",
+           steer: "Направить",
+           queue: "Поставить в очередь",
+         },
+       },
++      sendShortcut: {
++        label: "Сочетание клавиш для отправки",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "Спрашивать",
+diff --git a/packages/app/src/i18n/resources/zh-CN.ts b/packages/app/src/i18n/resources/zh-CN.ts
+index 78b0f0644..8ca178f20 100644
+--- a/packages/app/src/i18n/resources/zh-CN.ts
++++ b/packages/app/src/i18n/resources/zh-CN.ts
+@@ -2308,12 +2308,24 @@ export const zhCN: TranslationResources = {
+           steer: "Agent 运行时，Enter 会引导当前回合。Command/Ctrl+Enter 会排队。",
+           queue: "Agent 运行时，Enter 会排队。Command/Ctrl+Enter 会提交。",
+         },
++        commandEnterDescriptions: {
++          interrupt: "Agent 运行时，{{modifier}}+Enter 会中断。Enter 会插入换行。",
++          steer: "Agent 运行时，{{modifier}}+Enter 会引导当前回合。Enter 会插入换行。",
++          queue: "Agent 运行时，{{modifier}}+Enter 会排队。Enter 会插入换行。",
++        },
+         options: {
+           interrupt: "中断",
+           steer: "引导",
+           queue: "排队",
+         },
+       },
++      sendShortcut: {
++        label: "发送快捷键",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "询问",

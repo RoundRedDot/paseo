@@ -1,0 +1,178 @@
+{
+  "registeredAt": "2026-10-27T06:00:30.371665+00:00",
+  "status": "final pre-capture registration",
+  "pr": 7556,
+  "candidateHead": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+  "candidateTree": "dcb97cbef9a7fda4b550406b6342a5f702e4f8c7",
+  "frozenUpstream": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "frozenUpstreamIntegrated": true,
+  "baselineSource": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "substitutions": {
+    "path": "packages/app/src/runtime/replica-cache/index.ts",
+    "candidateSha256": "b86fb0fa961dce5dbb6151c2f1b4611b65116358077d097108d215c339c6b4cf",
+    "baselineSha256": "1b4de23e2f429bf51e1e9d275500e22617c5b2289f09d61c1c86fd7cec91c825",
+    "scope": "Only shared retained-tail timeline serialization is reverted. All other candidate sources, including native ring12-step cadence, native incremental Markdown splitter, voice cleanup and trace guard, remain fixed. No native performance conclusion."
+  },
+  "fixture": {
+    "origin": "e60cd33a36187ffe563fe2a746f873e35abb1729 docs/qa-evidence/pr7774-perf-impact-20261024/raw/history/workload.json",
+    "fileSha256": "0dd0a7e6d5c06efb9c422af6b43a406936e74b54c7bbe0c506f5840b36c5d664",
+    "responseSha256": "15c5fd023ac04c0a5d3d674888d26fa46504ba46f05f510ace40368c86781f1d",
+    "responseCharacters": 1981,
+    "draftSha256": "5e0fdd628095d43b2a344d95b3425f3c56a134269e66bf6d81fffd77106cd066",
+    "priorCompletedReplies": null,
+    "measuredTurnPrompt": "Review the small change and explain the verification steps.",
+    "historyPrompt": "Emit 205 assistant messages before synthetic user message.",
+    "historyCount": 205,
+    "historyFixtureOrigin": "Existing agent-message-submission.spec.ts bounded-tail fixture and MockLoadTestAgentClient pre-echo branch",
+    "historyTextsSha256": "1fd0fbbb96924f4d9a8f077dd84d53481c5faa624de3e9af6cbab92cd1df0e22"
+  },
+  "settings": {
+    "app": "Expo development Web app, real isolated daemon/WebSocket, repository mock provider e2e-fast-stream",
+    "streamIntervalMs": 40,
+    "labelCount": 12,
+    "labelIntervalMs": 1000,
+    "typingCadenceMs": 100,
+    "draftCharacters": 59,
+    "wheelCount": 20,
+    "wheelDelta": -160,
+    "wheelIntervalMs": 100,
+    "wheelStartMs": 8000,
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "headless": true,
+    "video": true,
+    "cpuThrottling": false,
+    "freshBrowserContextPerSample": true,
+    "freshAgentPerSample": true,
+    "warmup": "Metro compilation and composer warmup before each sample; no excluded performance samples",
+    "renderProfiler": false,
+    "resourceIsolation": "All installs/builds/captures held under /usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock. Other host background workloads uncontrolled.",
+    "daemonHome": "fresh helper-owned temp PASEO_HOME; never main daemon",
+    "ports": "helper-assigned unused ports excluding6767/6768",
+    "temporaryRoot": "/tmp/paseo-pr-maintenance-20261027/performance/7556/tmp",
+    "composerLocator": "message-input-root test id then textbox role; locale-independent",
+    "runner": "npm run test:e2e --workspace=@getpaseo/app -- --config playwright.capture.config.cjs --workers=1 --retries=0"
+  },
+  "browser": {
+    "at": "2026-10-27T05:04:31.862Z",
+    "playwright": "1.58.2",
+    "executable": "/tmp/paseo-pr-maintenance-20261027/performance/browsers/chromium-1208/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+    "sha256": "d999cf00c6244a84279785c48eb78f97764a8a13ea3a1a7cc5030bf2f4ca481e",
+    "browser": "145.0.7632.6",
+    "launch": {
+      "headless": true,
+      "executablePath": "/tmp/paseo-pr-maintenance-20261027/performance/browsers/chromium-1208/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
+    },
+    "installation": "Single isolated install pinned to package-lock Playwright 1.58.2; default expected Chromium was absent."
+  },
+  "metrics": {
+    "primaryGate": [
+      "keyRafP95",
+      "frameGapP95",
+      "scriptDurationMs",
+      "streamGapP95"
+    ],
+    "definitions": {
+      "keyRafP95": "keydown to next requestAnimationFrame after input; rendering opportunity proxy, not presentation latency",
+      "frameGapP95": "successive measured-window requestAnimationFrame gaps",
+      "scriptDurationMs": "CDP Performance ScriptDuration delta over measured window",
+      "streamGapP95": "Positive actual assistant-message DOM textContent growth gaps before7.5s; stable DOM element occurrence identity excludes new mounts, decreasing lengths and virtualization remounts."
+    },
+    "secondary": [
+      "keyEventP95",
+      "taskDurationMs",
+      "longTaskCount",
+      "longTaskTotal",
+      "frameGapOver50",
+      "streamGrowthFrames",
+      "scrollRange",
+      "incoming label values"
+    ],
+    "clock": "browser performance.now / CDP monotonic; host scheduling uses Date.now",
+    "observer": "Once per rAF, read textContent.length of currently mounted assistant-message nodes, compare stable element identity with previous frame, accumulate positive growth. Same observer in all variants; adds DOM reads and bounded frame records; overhead not independently subtracted. No render profiler, product/state edits or model inference."
+  },
+  "repetitions": {
+    "calibration": 2,
+    "ifGatePasses": {
+      "candidate": 2,
+      "returningBaseline": 2
+    },
+    "totalMaximum": 6,
+    "order": "A A, gate, B B, A A; serial; same settings/input, fresh seeded prior reply"
+  },
+  "noiseGate": {
+    "threshold": 0.15,
+    "formula": "abs(A1-A2)/mean(A1,A2) for all four primary metrics; all must pass; missing/zero/unmeasurable fails",
+    "scope": "One A/A calibration only. All raw samples retained; no repeat, sample replacement or workload enlargement."
+  },
+  "exerciseChecks": [
+    "Pre-measurement scrollHeight > clientHeight +100",
+    "Actual scroll event position range >=100px",
+    "All 12 label values observed in incoming browser WebSocket frames",
+    "At least20 positive reveal-growth frames in first7.5s",
+    "Draft exact; both completed assistant replies exact; final status idle and label11; zero pageerrors",
+    "Oldest pre-echo message visibly reached through real history pagination before measurement",
+    "More than50 unique browser-delivered historical items before measurement",
+    "Actual IndexedDB final timeline retains exactly50 items and finalreply text is exact",
+    "Measured storage writes >0 and actual cached timeline hash changes"
+  ],
+  "stopCriterion": "On first incomplete exercise/identity/error, stop and retain failure. On A/A >15% for any primary metric, STOP A/B. No rerun/search. If passes, take exactly two B and two returning A and report all medians/ranges without promising native benefit.",
+  "limits": [
+    "Mock provider/deterministic reply, not real-model drift",
+    "Development Web/Chromium only; no iOS/Android/Electron production acceptance",
+    "EventTiming quantized16ms; keydown-to-rAF is not field INP or presentation latency",
+    "Long tasks and frame gaps are whole-app observations; no causal attribution from counts alone",
+    "Actual-impact maintainer requirement remains unmet unless reproducible harm and benefit are demonstrated",
+    "Incremental Markdown boundary is gated off on Web; native ring CPU/battery cadence and Android foldable full-window redraw not measured",
+    "Only shared replica-cache serialization is compared; no claim for other four PR fixes",
+    "No connected adb device; existing simulators not operated"
+  ],
+  "captureScriptSha256": "03f3479281ac3f65ff22560cbb49f742926d6a702baa9fed5b0ba560eaf31351",
+  "preCaptureObserverCheck": {
+    "method": "One dedicated fixture agent, normal UI composer fill and Enter, same fixed1981-character/40ms mock reply; observe first5000ms; not a performance sample",
+    "pass": "At least20 positive growth frames and >20 observed growth characters",
+    "failure": "STOP before planned A/A; no preflight retry or workload change",
+    "artifacts": "observer-preflight.json / observer-preflight.png",
+    "overhead": "Same rAF textContent observer as measured samples; dedicated agent/context cleaned before the timed calibration"
+  },
+  "browserPackageVersionAtCapture": "1.58.2",
+  "preCaptureLoaderAmendment": {
+    "reason": "Initial root ad-hoc entry failed importing the existing timeline helper @/utils/host-routes alias before main(), module substitution, app startup or any observations.",
+    "change": "Set absolute TSX_TSCONFIG_PATH to existing packages/app/tsconfig.json; load same canonical helper; no product/module/input/cadence/browser/metric/gate change.",
+    "failureRetained": "capture-import-failure.log, import-failure-* files, protocol.before-loader-fix.json",
+    "actualSamplesBeforeAmendment": 0
+  },
+  "preCaptureHistorySetupAmendment": {
+    "reason": "Canonical helper browser evaluate callback carries tsx-injected __name, unavailable in browser. Failure occurred during history navigation before any timed sample.",
+    "change": "Only normal UI history setup: real -1000px mouse wheels and same4-stable-frame/5000ms geometry wait serialized as a browser JS string; require first item fully inside actual viewport. No product/state edits or measured-input/workload/metric/gate change.",
+    "bounds": "max100 setup wheel actions to reach the same first item in the fixed205-message fixture; not the20 measured wheel actions",
+    "retainedFailure": "history-setup-failure/",
+    "observerProofReused": {
+      "at": "2026-10-27T05:53:10.700Z",
+      "sourceHead": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+      "variant": "baseline",
+      "observer": "Actual textContent length by stable DOM element identity once per rAF; new mounts excluded; no profiler or product-state changes",
+      "normalUI": "Filled composer and pressed Enter; repository mock provider only",
+      "windowMs": 5000,
+      "frames": 603,
+      "growthFrames": 246,
+      "growthChars": 396,
+      "stop": true,
+      "passed": true
+    },
+    "observerNotRerun": "Existing valid exact-source baseline proof retained; observer logic/source/browser/dependencies unchanged. Only history setup serialization changed.",
+    "timedSamplesBeforeAmendment": 0,
+    "status": "superseded before execution by canonical Playwright runner; original helper retained"
+  },
+  "harnessRunnerAmendment": {
+    "reason": "Use the existing canonical Playwright transform for existing E2E helpers. The ad-hoc tsx transform injects __name into browser-serialized functions.",
+    "runner": "Existing npm run test:e2e, one ignored ad-hoc spec,1worker/0retries; manual browser/context/daemon ownership and all inputs/settings remain fixed.",
+    "helper": "Original canonical history pagination and IndexedDB observation helpers, without source edits or shims.",
+    "output": "raw/valid-calibration; prior loader/history failures unchanged",
+    "unexecutedPlan": "The proposed string-serialized setup loop was superseded before execution; no data from it is used.",
+    "observerProof": "Existing passed exact-source baseline DOM proof at raw/observer-preflight.json reused; no repeat of it.",
+    "timedSamplesBeforeAmendment": 0
+  }
+}

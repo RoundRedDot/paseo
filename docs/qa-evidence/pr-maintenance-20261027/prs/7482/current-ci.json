@@ -1,0 +1,28 @@
+{
+  "number": 7482,
+  "title": "feat(client): expose workspace label definitions and project icons",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "a879849ac617558cdf9976293ace71baf2072b84",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZh5curQ",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40456016968,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40456016968",
+      "runHeadSha": "a879849ac617558cdf9976293ace71baf2072b84",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

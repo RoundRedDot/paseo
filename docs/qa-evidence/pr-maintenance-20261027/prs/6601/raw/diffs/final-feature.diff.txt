@@ -1,0 +1,1038 @@
+diff --git a/docs/plugins.md b/docs/plugins.md
+index 9cab47214..7515adca5 100644
+--- a/docs/plugins.md
++++ b/docs/plugins.md
+@@ -291,6 +291,12 @@ import to any other code file in the plugin root is also rejected; move it into
+ or `shared/`. These are compile errors naming the importing file and boundary rule. Top-level React
+ Native calls such as `StyleSheet.create` belong in `client/`.
+ 
++Older clients on React Native 0.81.5 cannot evaluate unlowered classes in plugin bundles.
++Hosts and clients update independently, so client bundles retain class lowering even when the
++host uses a newer Hermes compiler. Metro never sees plugin code; the compiler lowers classes
++in the esbuild output with Babel (class-only plugins, client target only). This does not polyfill
++other syntax or runtime APIs. A successful bytecode compilation does not prove device execution.
++
+ The scaffold omits `"DOM"` from `tsconfig.json` and does not use `/// <reference lib="dom" />`, so
+ browser globals are not available across the plugin. Put sanctioned web-only APIs in
+ `client/web.ts`, declare only the globals that module uses, gate each export with
+diff --git a/package-lock.json b/package-lock.json
+index 847bd24eb..f50a50b9c 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -11561,8 +11561,7 @@
+       "optional": true,
+       "os": [
+         "android"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-android-arm64": {
+       "version": "4.59.0",
+@@ -11575,8 +11574,7 @@
+       "optional": true,
+       "os": [
+         "android"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-darwin-arm64": {
+       "version": "4.59.0",
+@@ -11589,8 +11587,7 @@
+       "optional": true,
+       "os": [
+         "darwin"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-darwin-x64": {
+       "version": "4.59.0",
+@@ -11603,8 +11600,7 @@
+       "optional": true,
+       "os": [
+         "darwin"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-freebsd-arm64": {
+       "version": "4.59.0",
+@@ -11617,8 +11613,7 @@
+       "optional": true,
+       "os": [
+         "freebsd"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-freebsd-x64": {
+       "version": "4.59.0",
+@@ -11631,8 +11626,7 @@
+       "optional": true,
+       "os": [
+         "freebsd"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-arm-gnueabihf": {
+       "version": "4.59.0",
+@@ -11645,8 +11639,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-arm-musleabihf": {
+       "version": "4.59.0",
+@@ -11659,8 +11652,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-arm64-gnu": {
+       "version": "4.59.0",
+@@ -11673,8 +11665,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-arm64-musl": {
+       "version": "4.59.0",
+@@ -11687,8 +11678,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-loong64-gnu": {
+       "version": "4.59.0",
+@@ -11701,8 +11691,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-loong64-musl": {
+       "version": "4.59.0",
+@@ -11715,8 +11704,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-ppc64-gnu": {
+       "version": "4.59.0",
+@@ -11729,8 +11717,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-ppc64-musl": {
+       "version": "4.59.0",
+@@ -11743,8 +11730,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-riscv64-gnu": {
+       "version": "4.59.0",
+@@ -11757,8 +11743,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-riscv64-musl": {
+       "version": "4.59.0",
+@@ -11771,8 +11756,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-s390x-gnu": {
+       "version": "4.59.0",
+@@ -11785,8 +11769,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-x64-gnu": {
+       "version": "4.59.0",
+@@ -11799,8 +11782,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-linux-x64-musl": {
+       "version": "4.59.0",
+@@ -11813,8 +11795,7 @@
+       "optional": true,
+       "os": [
+         "linux"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-openbsd-x64": {
+       "version": "4.59.0",
+@@ -11827,8 +11808,7 @@
+       "optional": true,
+       "os": [
+         "openbsd"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-openharmony-arm64": {
+       "version": "4.59.0",
+@@ -11841,8 +11821,7 @@
+       "optional": true,
+       "os": [
+         "openharmony"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-win32-arm64-msvc": {
+       "version": "4.59.0",
+@@ -11855,8 +11834,7 @@
+       "optional": true,
+       "os": [
+         "win32"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-win32-ia32-msvc": {
+       "version": "4.59.0",
+@@ -11869,8 +11847,7 @@
+       "optional": true,
+       "os": [
+         "win32"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-win32-x64-gnu": {
+       "version": "4.59.0",
+@@ -11883,8 +11860,7 @@
+       "optional": true,
+       "os": [
+         "win32"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rollup/rollup-win32-x64-msvc": {
+       "version": "4.59.0",
+@@ -11897,8 +11873,7 @@
+       "optional": true,
+       "os": [
+         "win32"
+-      ],
+-      "peer": true
++      ]
+     },
+     "node_modules/@rtsao/scc": {
+       "version": "1.1.0",
+@@ -19189,7 +19164,6 @@
+       "dev": true,
+       "license": "BSD-3-Clause",
+       "optional": true,
+-      "peer": true,
+       "engines": {
+         "node": ">=0.10.0"
+       }
+@@ -42414,6 +42388,12 @@
+         "@agentclientprotocol/sdk": "^0.17.1",
+         "@anthropic-ai/claude-agent-sdk": "0.3.246",
+         "@anthropic-ai/sdk": "^0.104.2",
++        "@babel/core": "^7.29.7",
++        "@babel/plugin-transform-class-properties": "^7.29.7",
++        "@babel/plugin-transform-class-static-block": "^7.29.7",
++        "@babel/plugin-transform-classes": "^7.29.7",
++        "@babel/plugin-transform-private-methods": "^7.29.7",
++        "@babel/plugin-transform-private-property-in-object": "^7.29.7",
+         "@getpaseo/client": "0.13.2",
+         "@getpaseo/highlight": "0.13.2",
+         "@getpaseo/plugin": "0.13.2",
+@@ -42456,6 +42436,7 @@
+       },
+       "devDependencies": {
+         "@playwright/test": "^1.56.1",
++        "@types/babel__core": "^7.20.5",
+         "@types/express": "^4.17.20",
+         "@types/markdown-it": "^14.2.0",
+         "@types/node": "^20.9.0",
+@@ -42468,6 +42449,448 @@
+         "vitest": "^4.1.6"
+       }
+     },
++    "packages/server/node_modules/@babel/code-frame": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.29.7.tgz",
++      "integrity": "sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/helper-validator-identifier": "^7.29.7",
++        "js-tokens": "^4.0.0",
++        "picocolors": "^1.1.1"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/compat-data": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.29.7.tgz",
++      "integrity": "sha512-locTkQyKvwIEgBzVrn8693ebc97F2U8ZHjbXwDXJ5Fn2TCpNwTlKcaKLkdHop5c/icOFE7qt7Q9JC5hnKNa6Gg==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/core": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/core/-/core-7.29.7.tgz",
++      "integrity": "sha512-RgHBCvtjbOK2gXSNBNIkNoEc9qoVEtau3hj8gEqKQuL3HZAibKarWFEI3Lfm6EYKkLalOh8eSrj9b+ch9H/VBA==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/code-frame": "^7.29.7",
++        "@babel/generator": "^7.29.7",
++        "@babel/helper-compilation-targets": "^7.29.7",
++        "@babel/helper-module-transforms": "^7.29.7",
++        "@babel/helpers": "^7.29.7",
++        "@babel/parser": "^7.29.7",
++        "@babel/template": "^7.29.7",
++        "@babel/traverse": "^7.29.7",
++        "@babel/types": "^7.29.7",
++        "@jridgewell/remapping": "^2.3.5",
++        "convert-source-map": "^2.0.0",
++        "debug": "^4.1.0",
++        "gensync": "^1.0.0-beta.2",
++        "json5": "^2.2.3",
++        "semver": "^6.3.1"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      },
++      "funding": {
++        "type": "opencollective",
++        "url": "https://opencollective.com/babel"
++      }
++    },
++    "packages/server/node_modules/@babel/core/node_modules/semver": {
++      "version": "6.3.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz",
++      "integrity": "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==",
++      "license": "ISC",
++      "bin": {
++        "semver": "bin/semver.js"
++      }
++    },
++    "packages/server/node_modules/@babel/generator": {
++      "version": "7.29.8",
++      "resolved": "https://registry.npmjs.org/@babel/generator/-/generator-7.29.8.tgz",
++      "integrity": "sha512-gZbepsdh3WDtgZKWL+vTPh71LSBrm/Y4/QDZBVCcYfmeTEEuoOYwlSy+G1StfJg+/Zy550u/3TATbm7qDbbMtg==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/parser": "^7.29.8",
++        "@babel/types": "^7.29.8",
++        "@jridgewell/gen-mapping": "^0.3.12",
++        "@jridgewell/trace-mapping": "^0.3.28",
++        "jsesc": "^3.0.2"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-annotate-as-pure": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-annotate-as-pure/-/helper-annotate-as-pure-7.29.7.tgz",
++      "integrity": "sha512-OoK6239jHPuSQOoS0kfTVKn0b/rVTk0seKq4Gd2UMLtmOVLjDC0ki3e+c90Trqv2gMfvJFqkiljrr568+qddiw==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/types": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-compilation-targets": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-compilation-targets/-/helper-compilation-targets-7.29.7.tgz",
++      "integrity": "sha512-wem6WaBj4NaVYVdNhLPPVacES6ZJ+KBBfSkTMD3YZxbP3rm3Di85tJU5ljaUNhaOynt+Aj0xruhYuzQBt8n71g==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/compat-data": "^7.29.7",
++        "@babel/helper-validator-option": "^7.29.7",
++        "browserslist": "^4.24.0",
++        "lru-cache": "^5.1.1",
++        "semver": "^6.3.1"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-compilation-targets/node_modules/lru-cache": {
++      "version": "5.1.1",
++      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-5.1.1.tgz",
++      "integrity": "sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==",
++      "license": "ISC",
++      "dependencies": {
++        "yallist": "^3.0.2"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-compilation-targets/node_modules/semver": {
++      "version": "6.3.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz",
++      "integrity": "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==",
++      "license": "ISC",
++      "bin": {
++        "semver": "bin/semver.js"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-create-class-features-plugin": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-create-class-features-plugin/-/helper-create-class-features-plugin-7.29.7.tgz",
++      "integrity": "sha512-IY3ZD9Tmooqr3TUhc3DUWxiuo8xx1DWLhd5M7hQ+ZWJamqM2BbalrBJb2MisSLoYorOj75U03qULCxQTY9r3hg==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/helper-annotate-as-pure": "^7.29.7",
++        "@babel/helper-member-expression-to-functions": "^7.29.7",
++        "@babel/helper-optimise-call-expression": "^7.29.7",
++        "@babel/helper-replace-supers": "^7.29.7",
++        "@babel/helper-skip-transparent-expression-wrappers": "^7.29.7",
++        "@babel/traverse": "^7.29.7",
++        "semver": "^6.3.1"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      },
++      "peerDependencies": {
++        "@babel/core": "^7.0.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-create-class-features-plugin/node_modules/semver": {
++      "version": "6.3.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz",
++      "integrity": "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==",
++      "license": "ISC",
++      "bin": {
++        "semver": "bin/semver.js"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-globals": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-globals/-/helper-globals-7.29.7.tgz",
++      "integrity": "sha512-3nQVUAtvkKH9zahfWgw96Jc/uFOmjACE1kQz82E2lqWmHBgjzbNlsC22nuQTfahmWeQtTq5nQ/4Nnd2A1wj4zA==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-member-expression-to-functions": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-member-expression-to-functions/-/helper-member-expression-to-functions-7.29.7.tgz",
++      "integrity": "sha512-j+7JYmk1JYDtACIGj0QJqqWZjoUpMoEikQGADMaHgCMCSDqd2+P32rfcibUNrGOMWrlzK1WJBdxrB3JJQZwWtg==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/traverse": "^7.29.7",
++        "@babel/types": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-module-imports": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-module-imports/-/helper-module-imports-7.29.7.tgz",
++      "integrity": "sha512-ejHwrQQYcm9xnTivShn2IDOlIzInN34AXskvq9QicvCtEzq1Vzclu/tKF8Jq1Cg8JG2GL6/EmjgsCT7lXepE3g==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/traverse": "^7.29.7",
++        "@babel/types": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-module-transforms": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-module-transforms/-/helper-module-transforms-7.29.7.tgz",
++      "integrity": "sha512-UPUVSyXbOh627KiCIGQSgwWzGeBKLkaJ9PJEdrngIwMSzxLR4jS4+f1f1jb7VzBbg8nFLaYotvVPFCTqdrmTAg==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/helper-module-imports": "^7.29.7",
++        "@babel/helper-validator-identifier": "^7.29.7",
++        "@babel/traverse": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      },
++      "peerDependencies": {
++        "@babel/core": "^7.0.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-optimise-call-expression": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-optimise-call-expression/-/helper-optimise-call-expression-7.29.7.tgz",
++      "integrity": "sha512-+kmGVjcT9RGYzoDwdwEqEvGgKe3BYq+O1iGzjFubaNgZHwYHP6lsF2Yghf4kEuv9BV7tYDZ913aBW9am6YKong==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/types": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-plugin-utils": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-plugin-utils/-/helper-plugin-utils-7.29.7.tgz",
++      "integrity": "sha512-G7sHYigPY17oO5SYWnfD/0MTBwVR781S/JI643e/JhUYgVgWE/61SoW3NH9KWUKyKq5LVh3npif99Wkt6j86Jw==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-replace-supers": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-replace-supers/-/helper-replace-supers-7.29.7.tgz",
++      "integrity": "sha512-atfGXWSeCiF4DnKZIfmJfQRkSw9b9gNNXR1kqKjbhG4pGYCOnkp8OcTB8E3NXjBu8NpheSnOeNKz8KT7UNFTmQ==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/helper-member-expression-to-functions": "^7.29.7",
++        "@babel/helper-optimise-call-expression": "^7.29.7",
++        "@babel/traverse": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      },
++      "peerDependencies": {
++        "@babel/core": "^7.0.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-skip-transparent-expression-wrappers": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-skip-transparent-expression-wrappers/-/helper-skip-transparent-expression-wrappers-7.29.7.tgz",
++      "integrity": "sha512-brcMGQaVzIeUb+6/bs1Av0f8YuNNjKY2JyvfRCsFuFsdKccEQ5Ges2y74D74NZ1Rz8lKJ9ksJkfqwQFJ/iNEyQ==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/traverse": "^7.29.7",
++        "@babel/types": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-string-parser": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-string-parser/-/helper-string-parser-7.29.7.tgz",
++      "integrity": "sha512-Pb5ijPrZ89GDH8223L4UP8i6QApWxs04RbPQJTeWDV0/keR2E36MeKnyr6LYmUUvqRRI+Iv87SuF1W6ErINzYw==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-validator-identifier": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-validator-identifier/-/helper-validator-identifier-7.29.7.tgz",
++      "integrity": "sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helper-validator-option": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/helper-validator-option/-/helper-validator-option-7.29.7.tgz",
++      "integrity": "sha512-N9ZErrD+yW5geCDtBqnOoxmR8+tNKiGuxKlDpuJxfsqpa2dFcexaziGAE/qoHLiDDreVNMupxGmSoNlyvsA3gw==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/helpers": {
++      "version": "7.29.10",
++      "resolved": "https://registry.npmjs.org/@babel/helpers/-/helpers-7.29.10.tgz",
++      "integrity": "sha512-EMCx3AGZ3WfAl6ht7AyQoPm2Lh+BGYEMdc4Q6Hf7uSCDOZFuLq44qNwL+iaim8VlyYhRAo4X43+weadK8ZB4Yg==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/template": "^7.29.7",
++        "@babel/types": "^7.29.8"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/parser": {
++      "version": "7.29.9",
++      "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.29.9.tgz",
++      "integrity": "sha512-CjXrNHTnvqBVqHgdBysY3vk2T8tpJHb5/RMeHJBTyVa9xgugCB0CJTx/3oO8RV2QRQP391RWpB7D6hLjm8V9uA==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/types": "^7.29.8"
++      },
++      "bin": {
++        "parser": "bin/babel-parser.js"
++      },
++      "engines": {
++        "node": ">=6.0.0"
++      }
++    },
++    "packages/server/node_modules/@babel/plugin-transform-class-properties": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/plugin-transform-class-properties/-/plugin-transform-class-properties-7.29.7.tgz",
++      "integrity": "sha512-GtcpjFvanPfzNQi3eTitsCqtRRmmqzpy/A+yhTR1HaZo1Ly3EA8ZXxlPyHdR8/IuRMYc3E4wdGBewB2QKQjAaA==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/helper-create-class-features-plugin": "^7.29.7",
++        "@babel/helper-plugin-utils": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      },
++      "peerDependencies": {
++        "@babel/core": "^7.0.0-0"
++      }
++    },
++    "packages/server/node_modules/@babel/plugin-transform-class-static-block": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/plugin-transform-class-static-block/-/plugin-transform-class-static-block-7.29.7.tgz",
++      "integrity": "sha512-kibJgmEdX2iMwsHY2tSZNDgj8PwIlCQz7FK9KuGKO8zsuoUwSEhoNnNVp/emKWrbY4HeO6kkXfdMqRKKKXBm2A==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/helper-create-class-features-plugin": "^7.29.7",
++        "@babel/helper-plugin-utils": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      },
++      "peerDependencies": {
++        "@babel/core": "^7.12.0"
++      }
++    },
++    "packages/server/node_modules/@babel/plugin-transform-classes": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/plugin-transform-classes/-/plugin-transform-classes-7.29.7.tgz",
++      "integrity": "sha512-qV0OGGBVacduzQHE649JyCneOFI/maT+YKsO+K4Yi3xv2wTPNjM/W2o2gdzMwEAZz7fXNTHAe0NcSg30bIN69g==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/helper-annotate-as-pure": "^7.29.7",
++        "@babel/helper-compilation-targets": "^7.29.7",
++        "@babel/helper-globals": "^7.29.7",
++        "@babel/helper-plugin-utils": "^7.29.7",
++        "@babel/helper-replace-supers": "^7.29.7",
++        "@babel/traverse": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      },
++      "peerDependencies": {
++        "@babel/core": "^7.0.0-0"
++      }
++    },
++    "packages/server/node_modules/@babel/plugin-transform-private-methods": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/plugin-transform-private-methods/-/plugin-transform-private-methods-7.29.7.tgz",
++      "integrity": "sha512-/6Rz4DK1ETDEM/bWHsPHcaEe7ZaT1EqSXjtSP/L0DijOYuaUhiRiOKcwpZ8P7zR4xXEHc2ITdiCgBm9Tpyv9ug==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/helper-create-class-features-plugin": "^7.29.7",
++        "@babel/helper-plugin-utils": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      },
++      "peerDependencies": {
++        "@babel/core": "^7.0.0-0"
++      }
++    },
++    "packages/server/node_modules/@babel/plugin-transform-private-property-in-object": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/plugin-transform-private-property-in-object/-/plugin-transform-private-property-in-object-7.29.7.tgz",
++      "integrity": "sha512-+BNo06dnrzdNNqCm1X6YUaVv0DKk8Q+JYcoZfOkLhYWNCXzlwTSRq8zGWayT1csjcpNXV9CQTBRRbmTLZac5cA==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/helper-annotate-as-pure": "^7.29.7",
++        "@babel/helper-create-class-features-plugin": "^7.29.7",
++        "@babel/helper-plugin-utils": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      },
++      "peerDependencies": {
++        "@babel/core": "^7.0.0-0"
++      }
++    },
++    "packages/server/node_modules/@babel/template": {
++      "version": "7.29.7",
++      "resolved": "https://registry.npmjs.org/@babel/template/-/template-7.29.7.tgz",
++      "integrity": "sha512-puq+Gf35oI24FeN11LkoUQFqv9uwNeWpxXZi/Ji3rRIoKAzKnxRaZ+Gkj0vKS9ZCiTESfng1N9LyOyXvo+m+Gg==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/code-frame": "^7.29.7",
++        "@babel/parser": "^7.29.7",
++        "@babel/types": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/traverse": {
++      "version": "7.29.10",
++      "resolved": "https://registry.npmjs.org/@babel/traverse/-/traverse-7.29.10.tgz",
++      "integrity": "sha512-B3lYAs2nkKskbgQ1nfy8Ma9ao9Q1rntTAQHrzzyDuj+TSO+X3le6PfWwqDvodsb+OumE10eMFfuMCTQSQ5iuIQ==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/code-frame": "^7.29.7",
++        "@babel/generator": "^7.29.8",
++        "@babel/helper-globals": "^7.29.7",
++        "@babel/parser": "^7.29.9",
++        "@babel/template": "^7.29.7",
++        "@babel/types": "^7.29.8",
++        "debug": "^4.3.1"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
++    "packages/server/node_modules/@babel/types": {
++      "version": "7.29.8",
++      "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.29.8.tgz",
++      "integrity": "sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==",
++      "license": "MIT",
++      "dependencies": {
++        "@babel/helper-string-parser": "^7.29.7",
++        "@babel/helper-validator-identifier": "^7.29.7"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
+     "packages/server/node_modules/@esbuild/aix-ppc64": {
+       "version": "0.25.12",
+       "resolved": "https://registry.npmjs.org/@esbuild/aix-ppc64/-/aix-ppc64-0.25.12.tgz",
+@@ -43310,6 +43733,12 @@
+         "node": "^18.17.0 || >=20.5.0"
+       }
+     },
++    "packages/server/node_modules/yallist": {
++      "version": "3.1.1",
++      "resolved": "https://registry.npmjs.org/yallist/-/yallist-3.1.1.tgz",
++      "integrity": "sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==",
++      "license": "ISC"
++    },
+     "packages/server/node_modules/yaml": {
+       "version": "2.9.1",
+       "resolved": "https://registry.npmjs.org/yaml/-/yaml-2.9.1.tgz",
+diff --git a/packages/server/package.json b/packages/server/package.json
+index f39d28434..4eb033d0e 100644
+--- a/packages/server/package.json
++++ b/packages/server/package.json
+@@ -107,6 +107,12 @@
+     "@agentclientprotocol/sdk": "^0.17.1",
+     "@anthropic-ai/claude-agent-sdk": "0.3.246",
+     "@anthropic-ai/sdk": "^0.104.2",
++    "@babel/core": "^7.29.7",
++    "@babel/plugin-transform-class-properties": "^7.29.7",
++    "@babel/plugin-transform-class-static-block": "^7.29.7",
++    "@babel/plugin-transform-classes": "^7.29.7",
++    "@babel/plugin-transform-private-methods": "^7.29.7",
++    "@babel/plugin-transform-private-property-in-object": "^7.29.7",
+     "@getpaseo/client": "0.13.2",
+     "@getpaseo/highlight": "0.13.2",
+     "@getpaseo/plugin": "0.13.2",
+@@ -149,6 +155,7 @@
+   },
+   "devDependencies": {
+     "@playwright/test": "^1.56.1",
++    "@types/babel__core": "^7.20.5",
+     "@types/express": "^4.17.20",
+     "@types/markdown-it": "^14.2.0",
+     "@types/node": "^20.9.0",
+diff --git a/packages/server/src/server/plugins/compiler-build.ts b/packages/server/src/server/plugins/compiler-build.ts
+index 5abd0df6e..3bb94b4a5 100644
+--- a/packages/server/src/server/plugins/compiler-build.ts
++++ b/packages/server/src/server/plugins/compiler-build.ts
+@@ -2,7 +2,7 @@ import { stat } from "node:fs/promises";
+ import { readPluginManifest } from "./manifest.js";
+ import { assertPluginCompatibility } from "@getpaseo/protocol/plugin-requirements";
+ import { existsSync, readFileSync, realpathSync } from "node:fs";
+-import { isBuiltin } from "node:module";
++import { createRequire, isBuiltin } from "node:module";
+ import path from "node:path";
+ import { createPluginImportReader, type PluginImportKind } from "./compiler-imports.js";
+ import type { Metafile, OnResolveResult, Plugin } from "esbuild";
+@@ -14,6 +14,8 @@ import {
+ 
+ import { loadEsbuild, SERVER_HOST_MODULES } from "./compiler-esbuild.js";
+ 
++const nodeRequire = createRequire(import.meta.url);
++
+ type PluginBuildTarget = "client" | "server";
+ 
+ type PluginModuleLocation = PluginBuildTarget | "shared" | "invalid";
+@@ -257,6 +259,41 @@ function makeHermesInteropEager(code: string): string {
+   return code.replaceAll("get: () => from[key]", "value: from[key]");
+ }
+ 
++type BabelCore = typeof import("@babel/core");
++
++let babelCore: BabelCore | null = null;
++
++// Babel is only needed for client bundles, and loading it costs more than the rest of
++// the compiler's imports combined. Load it the first time a client bundle is compiled.
++function loadBabel(): BabelCore {
++  babelCore ??= nodeRequire("@babel/core") as BabelCore;
++  return babelCore;
++}
++
++// Older clients on React Native 0.81.5 cannot evaluate unlowered classes in plugin
++// bundles. Hosts and clients update independently, so preserve lowering for those
++// clients even when the host uses a newer Hermes compiler. Plugin bundles bypass
++// Metro and esbuild cannot lower classes; everything else stays as esbuild emitted it.
++export function lowerClassesForHermes(code: string): string {
++  const result = loadBabel().transformSync(code, {
++    babelrc: false,
++    configFile: false,
++    sourceType: "script",
++    comments: false,
++    compact: false,
++    sourceMaps: false,
++    plugins: [
++      nodeRequire("@babel/plugin-transform-class-static-block"),
++      nodeRequire("@babel/plugin-transform-class-properties"),
++      nodeRequire("@babel/plugin-transform-private-methods"),
++      nodeRequire("@babel/plugin-transform-private-property-in-object"),
++      nodeRequire("@babel/plugin-transform-classes"),
++    ],
++  });
++  if (result?.code == null) throw new Error("Plugin client class lowering produced no output");
++  return result.code;
++}
++
+ function runtimeSpecifierError(
+   specifier: string,
+   target: PluginBuildTarget | "shared",
+@@ -368,7 +405,10 @@ async function compileTarget(entryPath: string, target: PluginBuildTarget): Prom
+   checkSharedDependencies(result.metafile.inputs, pluginDirectory);
+   const output = result.outputFiles[0]?.text;
+   if (!output) throw new Error(`Plugin ${target} compilation produced no output`);
+-  return wrapCommonJsBundle(makeHermesInteropEager(output));
++  const interopSafe = makeHermesInteropEager(output);
++  let transformed = interopSafe;
++  if (target === "client") transformed = lowerClassesForHermes(transformed);
++  return wrapCommonJsBundle(transformed);
+ }
+ 
+ export async function compilePlugin(entryPaths: {
+diff --git a/packages/server/src/server/plugins/compiler.test.ts b/packages/server/src/server/plugins/compiler.test.ts
+index 67ca96e59..50e51189e 100644
+--- a/packages/server/src/server/plugins/compiler.test.ts
++++ b/packages/server/src/server/plugins/compiler.test.ts
+@@ -2,6 +2,7 @@ import { realpathSync } from "node:fs";
+ import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
+ import { tmpdir } from "node:os";
+ import path from "node:path";
++import { parseSync } from "@babel/core";
+ import { afterEach, describe, expect, it } from "vitest";
+ import { ZodError } from "zod";
+ import {
+@@ -139,6 +140,42 @@ async function createRootAlias(directory: string): Promise<string> {
+   return rootAlias;
+ }
+ 
++// Counts class declarations and expressions in the parsed output. A text search would
++// also match the strings Babel's class helpers carry.
++function classSyntaxCount(code: string): number {
++  let count = 0;
++  const visit = (node: unknown): void => {
++    if (Array.isArray(node)) return node.forEach(visit);
++    if (node === null || typeof node !== "object") return;
++    const { type } = node as { type?: string };
++    if (type === "ClassDeclaration" || type === "ClassExpression") count += 1;
++    Object.values(node).forEach(visit);
++  };
++  visit(parseSync(code, { babelrc: false, configFile: false, sourceType: "script" }));
++  return count;
++}
++
++function largeClassSource(widgetCount: number): string {
++  const declarations: string[] = [];
++  const reads: string[] = [];
++  for (let index = 0; index < widgetCount; index += 1) {
++    declarations.push(
++      `class Widget${index} extends Base { static kind = ${index}; #state = ${index}; read() { return this.#state; } }`,
++    );
++    reads.push(`new Widget${index}().read()`);
++  }
++  return `class Base { value = 1; }
++${declarations.join("\n")}
++export default function contribute() { return [${reads.join(",")}].length; }`;
++}
++
++function runClientDefault(clientBundle: string): unknown {
++  const factory = new Function(`return ${clientBundle}`)() as (require: unknown) => {
++    default: () => unknown;
++  };
++  return factory(() => ({})).default();
++}
++
+ describe("plugin runtime entries", () => {
+   it.each([
+     'import type { AgentTimelineItem, ToolCallDetail } from "@getpaseo/protocol/agent-types"; export type Detail = ToolCallDetail; export type Item = AgentTimelineItem;',
+@@ -569,6 +606,119 @@ export default function contribute(client) {
+     expect(clientBundle).toContain("__async");
+   });
+ 
++  describe("Hermes class lowering", () => {
++    it.each(["client", "server"] as const)(
++      "captures distinct host exports eagerly in the %s bundle",
++      async (target) => {
++        const entries = await createSplitPlugin();
++        await writeFile(
++          entries[target],
++          `import * as host from "zod";
++class Probe { read() { return [host.first, host.second]; } }
++export default function contribute() { return new Probe().read(); }`,
++        );
++        const result = await compilePlugin({
++          client: target === "client" ? entries.client : null,
++          server: target === "server" ? entries.server : null,
++        });
++        const bundle = result[`${target}Bundle`]!;
++        const host = { first: "first export", second: "second export" };
++        const factory = new Function(`return ${bundle}`)() as (
++          require: (specifier: string) => typeof host,
++        ) => { default: () => unknown };
++        function requireHost(specifier: string): typeof host {
++          expect(specifier).toBe("zod");
++          return host;
++        }
++        const exports = factory(requireHost);
++
++        host.first = "changed first export";
++        host.second = "changed second export";
++
++        expect(exports.default()).toEqual(["first export", "second export"]);
++        expect(classSyntaxCount(bundle)).toBe(target === "client" ? 0 : 1);
++      },
++    );
++
++    const classSource = `class Base {
++  static registry = new Set(["a"]);
++  static #count = 0;
++  #secret = 1;
++  label = "base";
++  static { Base.#count = 10; }
++  static total() { return Base.#count; }
++  #bump() { return this.#secret + 1; }
++  static isBase(value) { return #secret in value; }
++  get doubled() { return this.#bump() * 2; }
++}
++class Child extends Base {
++  label = "child";
++}
++export default function contribute() {
++  const child = new Child();
++  return { label: child.label, doubled: child.doubled, total: Base.total(), isBase: Base.isBase(child), registry: Base.registry.size };
++}`;
++
++    it("emits no class syntax for a client bundle and keeps its behavior", async () => {
++      const entries = await createSplitPlugin();
++      await writeFile(entries.client, classSource);
++      const { clientBundle, serverBundle } = await compilePlugin(entries);
++      expect(classSyntaxCount(clientBundle!)).toBe(0);
++      expect(runClientDefault(clientBundle!)).toEqual({
++        label: "child",
++        doubled: 4,
++        total: 10,
++        isBase: true,
++        registry: 1,
++      });
++      expect(classSyntaxCount(serverBundle!)).toBe(0);
++    });
++
++    it("lowers classes in bundled dependencies", async () => {
++      const entries = await createSplitPlugin();
++      const dependency = path.join(entries.directory, "node_modules", "class-dep");
++      await mkdir(dependency, { recursive: true });
++      await Promise.all([
++        writeFile(
++          path.join(dependency, "package.json"),
++          JSON.stringify({ name: "class-dep", version: "1.0.0", module: "index.js" }),
++        ),
++        writeFile(
++          path.join(dependency, "index.js"),
++          `export const Hooks = class { static passThrough = new Set(["x"]); };
++export class Lexer { static lex() { return "lexed"; } }`,
++        ),
++      ]);
++      await writeFile(
++        entries.client,
++        `import { Hooks, Lexer } from "class-dep";
++export default function contribute() { return [Lexer.lex(), Hooks.passThrough.size]; }`,
++      );
++      const { clientBundle } = await compilePlugin(entries);
++      expect(classSyntaxCount(clientBundle!)).toBe(0);
++      expect(runClientDefault(clientBundle!)).toEqual(["lexed", 1]);
++    });
++
++    it("keeps classes in server bundles", async () => {
++      const entries = await createSplitPlugin();
++      await writeFile(
++        entries.server,
++        `class Handler { run() { return 1; } }
++export default function contribute() { return new Handler().run(); }`,
++      );
++      const { serverBundle } = await compilePlugin(entries);
++      expect(classSyntaxCount(serverBundle!)).toBe(1);
++    });
++
++    it("lowers classes and evaluates a large client bundle", async () => {
++      const entries = await createSplitPlugin();
++      await writeFile(entries.client, largeClassSource(400));
++      const { clientBundle } = await compilePlugin(entries);
++      expect(classSyntaxCount(clientBundle!)).toBe(0);
++      expect(runClientDefault(clientBundle!)).toBe(400);
++    });
++  });
++
+   it("rejects node imports from the client entry", async () => {
+     const entries = await createSplitPlugin();
+     await writeFile(

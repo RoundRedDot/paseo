@@ -1,0 +1,20 @@
+{
+  "pr": 7625,
+  "role": "source-delivery",
+  "status": "pushed",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "7951fa0f375ef3c84a2a0e36048129d0d36c4ec5",
+  "tree": "eda0ef10329bdd1d5c1c93ec47485f12772463ac",
+  "oldHead": "679130a7c30fdcf1c59b864680d1cd1fbf9b3bd8",
+  "sourceChanged": true,
+  "baselineAncestor": true,
+  "host": {
+    "platform": "darwin",
+    "node": "v24.18.0"
+  },
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "high",
+  "testTotal": 85,
+  "remaining": "No Hermes VM pass is claimed; selected responsiveness suites are recorded at the exact delivered source.",
+  "summary": "Integrated compiler minification while preserving the upstream nonblocking worker boundary."
+}

@@ -1,0 +1,1 @@
+Expected regression confirmed: worker output retains two classes without relocated lowering; final source restored byte-for-byte.

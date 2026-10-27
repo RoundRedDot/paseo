@@ -1,0 +1,28 @@
+{
+  "number": 6601,
+  "title": "fix(server): lower classes in plugin client bundles for Hermes",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "6514ab5ff2ebe9f73981086c980bd53a1eefc09b",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": "APPROVED",
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZh3IIWw",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40455099360,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40455099360",
+      "runHeadSha": "6514ab5ff2ebe9f73981086c980bd53a1eefc09b",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

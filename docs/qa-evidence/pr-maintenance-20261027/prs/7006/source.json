@@ -1,0 +1,17 @@
+{
+  "pr": 7006,
+  "role": "source-delivery",
+  "status": "delivered",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "371e403aeaf583210800b9246c2f444c963ffe6c",
+  "tree": "77517b5be574ac7bcb939fc6d8164d113199e0a1",
+  "oldHead": "708e303fd8cf2951bbf06b3757c756d417cf7b4c",
+  "sourceChanged": true,
+  "baselineAncestor": null,
+  "host": null,
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "medium",
+  "testTotal": null,
+  "remaining": "No native, packaged, or real-provider acceptance and no performance claim.",
+  "summary": "Real-wheel browser interaction completed the Thinking expansion/reopen/reload scenario; production files were unchanged."
+}

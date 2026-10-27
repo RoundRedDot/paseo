@@ -1,0 +1,233 @@
+diff --git a/packages/app/src/plugins/evaluate.test.ts b/packages/app/src/plugins/evaluate.test.ts
+index 1aae11f63..02b425fb4 100644
+--- a/packages/app/src/plugins/evaluate.test.ts
++++ b/packages/app/src/plugins/evaluate.test.ts
+@@ -706,6 +706,27 @@ describe("evaluatePluginClientBundle", () => {
+     expect(plugin.surfaces.map((surface) => surface.id)).toEqual(["main"]);
+   });
+ 
++  it("provides the host rewind menu through @getpaseo/plugin/client/ui", () => {
++    const plugin = evaluatePluginClientBundle(
++      "example",
++      `(function(require) {
++        const { RewindMenu } = require("@getpaseo/plugin/client/ui");
++        const module = { exports: {} };
++        module.exports.default = function(plugin) {
++          if (typeof RewindMenu !== "function") throw new Error("RewindMenu is missing");
++          if (require("@getpaseo/plugin/client/react-native").RewindMenu !== RewindMenu) throw new Error("RewindMenu differs on the legacy UI entry");
++          if ("RewindMenu" in require("@getpaseo/plugin")) throw new Error("RewindMenu leaked into shared exports");
++          if ("RewindMenu" in require("@getpaseo/plugin/client")) throw new Error("RewindMenu leaked into client exports");
++          plugin.addSurface("main", function Surface() { return null; });
++          return function() {};
++        };
++        return module.exports;
++      })`,
++    );
++
++    expect(plugin.surfaces.map((surface) => surface.id)).toEqual(["main"]);
++  });
++
+   it("keeps the host reveal hook on the deprecated client/react-native entry", () => {
+     const plugin = evaluatePluginClientBundle(
+       "legacy-reveal",
+diff --git a/packages/app/src/plugins/react-native/rewind-menu.tsx b/packages/app/src/plugins/react-native/rewind-menu.tsx
+new file mode 100644
+index 000000000..dbf0579a4
+--- /dev/null
++++ b/packages/app/src/plugins/react-native/rewind-menu.tsx
+@@ -0,0 +1,37 @@
++import { useCallback } from "react";
++import { RewindMenu, type RewindMode } from "@/components/rewind/rewind-menu";
++import { useRewindAgentMutation } from "@/components/rewind/use-rewind-agent-mutation";
++import { useSessionStore } from "@/stores/session-store";
++import { selectPluginRewindCapabilities } from "./rewind-target";
++
++export type PluginRewindMenuProps = import("@getpaseo/plugin/client/ui").RewindMenuProps;
++
++/**
++ * The host's own rewind menu for a prompt a plugin draws. The menu offers the
++ * modes the agent's provider declares (Claude: conversation, files, both;
++ * Codex, OMP and Pi: conversation; OpenCode: both; none for ACP) and the
++ * rewind runs through the same mutation as the host bubble: the timeline is
++ * refetched and a conversation rewind restores the prompt to the composer.
++ */
++export function PluginRewindMenu({ hostId, agentId, messageId, text }: PluginRewindMenuProps) {
++  const client = useSessionStore((state) => state.sessions[hostId]?.client ?? null);
++  const capabilities = useSessionStore((state) =>
++    selectPluginRewindCapabilities(state.sessions, hostId, agentId),
++  );
++  const mutation = useRewindAgentMutation({ serverId: hostId, agentId, client, messageId });
++  const { rewindAgent } = mutation;
++  const handleRewind = useCallback(
++    (input: { mode: RewindMode; rewoundText: string }) => rewindAgent(input),
++    [rewindAgent],
++  );
++
++  if (!capabilities || !messageId) return null;
++  return (
++    <RewindMenu
++      capabilities={capabilities}
++      rewoundText={text}
++      isPending={mutation.isPending}
++      onRewind={handleRewind}
++    />
++  );
++}
+diff --git a/packages/app/src/plugins/react-native/rewind-target.test.ts b/packages/app/src/plugins/react-native/rewind-target.test.ts
+new file mode 100644
+index 000000000..4b59f87f1
+--- /dev/null
++++ b/packages/app/src/plugins/react-native/rewind-target.test.ts
+@@ -0,0 +1,54 @@
++import { describe, expect, test } from "vitest";
++import type { SessionState } from "@/stores/session-store";
++import { selectPluginRewindCapabilities } from "./rewind-target";
++
++const claude = {
++  supportsRewindConversation: true,
++  supportsRewindFiles: true,
++  supportsRewindBoth: true,
++};
++const codex = {
++  supportsRewindConversation: true,
++  supportsRewindFiles: false,
++  supportsRewindBoth: false,
++};
++
++function session(
++  agents: Record<string, object>,
++  details: Record<string, object> = {},
++): SessionState {
++  const toMap = (entries: Record<string, object>) =>
++    new Map(Object.entries(entries).map(([id, capabilities]) => [id, { id, capabilities }]));
++  return { agents: toMap(agents), agentDetails: toMap(details) } as unknown as SessionState;
++}
++
++describe("selectPluginRewindCapabilities", () => {
++  test("reads the agent's own provider capabilities on the given host", () => {
++    const sessions = { a: session({ claude: claude }), b: session({ codex: codex }) };
++    expect(selectPluginRewindCapabilities(sessions, "a", "claude")).toBe(claude);
++    expect(selectPluginRewindCapabilities(sessions, "b", "codex")).toBe(codex);
++  });
++
++  test("falls back to agent details, as other plugin surfaces do", () => {
++    expect(
++      selectPluginRewindCapabilities({ a: session({}, { archived: codex }) }, "a", "archived"),
++    ).toBe(codex);
++  });
++
++  test("keeps capabilities scoped to the selected host for equal agent ids", () => {
++    const sessions = { a: session({ agent: claude }), b: session({ agent: codex }) };
++    expect(selectPluginRewindCapabilities(sessions, "a", "agent")).toBe(claude);
++    expect(selectPluginRewindCapabilities(sessions, "b", "agent")).toBe(codex);
++  });
++
++  test("uses the live agent capabilities ahead of cached details", () => {
++    const sessions = { a: session({ agent: codex }, { agent: claude }) };
++    expect(selectPluginRewindCapabilities(sessions, "a", "agent")).toBe(codex);
++  });
++
++  test("is null for an unknown host or agent", () => {
++    const sessions = { a: session({ claude: claude }) };
++    expect(selectPluginRewindCapabilities(sessions, "missing", "claude")).toBeNull();
++    expect(selectPluginRewindCapabilities(sessions, "a", "missing")).toBeNull();
++  });
++});
+diff --git a/packages/app/src/plugins/react-native/rewind-target.ts b/packages/app/src/plugins/react-native/rewind-target.ts
+new file mode 100644
+index 000000000..e90cd755e
+--- /dev/null
++++ b/packages/app/src/plugins/react-native/rewind-target.ts
+@@ -0,0 +1,13 @@
++import type { AgentCapabilityFlags } from "@getpaseo/protocol/agent-types";
++import type { SessionState } from "@/stores/session-store";
++
++/** The agent's rewind capabilities on a host, or null while the agent is unknown. */
++export function selectPluginRewindCapabilities(
++  sessions: Record<string, SessionState | undefined>,
++  hostId: string,
++  agentId: string,
++): AgentCapabilityFlags | null {
++  const session = sessions[hostId];
++  const agent = session?.agents.get(agentId) ?? session?.agentDetails.get(agentId);
++  return agent?.capabilities ?? null;
++}
+diff --git a/packages/app/src/plugins/react-native/ui.ts b/packages/app/src/plugins/react-native/ui.ts
+index e431aa32e..098a233fb 100644
+--- a/packages/app/src/plugins/react-native/ui.ts
++++ b/packages/app/src/plugins/react-native/ui.ts
+@@ -27,4 +27,6 @@ export { copyText } from "./clipboard";
+ export { useToast } from "./toast";
+ export { StreamedText } from "./streamed-text";
+ 
++export { PluginRewindMenu as RewindMenu } from "./rewind-menu";
++
+ export { Markdown } from "./markdown";
+diff --git a/packages/plugin/src/client/ui.ts b/packages/plugin/src/client/ui.ts
+index c01275318..66ef1a5c7 100644
+--- a/packages/plugin/src/client/ui.ts
++++ b/packages/plugin/src/client/ui.ts
+@@ -179,6 +179,23 @@ export declare const Loading: ComponentType;
+ /** Render a local document URL in an isolated frame. */
+ export declare const DocumentFrame: ComponentType<{ url: string; testID?: string }>;
+ 
++export interface RewindMenuProps {
++  /** The host the agent runs on: `host.id` from the plugin's props. */
++  hostId: string;
++  agentId: string;
++  /** The prompt's message id (`messageId` on a `user_message` timeline item). Nothing is drawn without one. */
++  messageId?: string;
++  /** The prompt's text, put back in the composer after a conversation rewind. */
++  text: string;
++}
++
++/**
++ * The host's rewind menu for a prompt the plugin draws in place of the host
++ * bubble. It offers only the modes the agent's provider supports and renders
++ * nothing when there are none. Undefined on older hosts: feature-detect it.
++ */
++export declare const RewindMenu: ComponentType<RewindMenuProps> | undefined;
++
+ export interface MarkdownProps {
+   children: string;
+ }
+diff --git a/public-docs/plugins/reference.md b/public-docs/plugins/reference.md
+index 81b99b0dd..42054456b 100644
+--- a/public-docs/plugins/reference.md
++++ b/public-docs/plugins/reference.md
+@@ -1517,6 +1517,35 @@ Text added only by your renderer is not independently indexed. Matches stay with
+ block, and find skips buttons, icons, and anything with `aria-hidden="true"`. Find only runs on
+ the web and desktop apps.
+ 
++### Keep rewind on a replaced prompt
++
++A renderer that replaces `user_message` items takes the host bubble's rewind menu with it. Pass the
++item's `messageId` through `data` and draw the host's `RewindMenu` beside the prompt. It offers only
++the modes the agent's provider supports (conversation, files, or both) and renders nothing when
++there are none or the prompt has no `messageId` yet. A rewind runs exactly as from the host bubble:
++the timeline is refetched, and a conversation rewind puts `text` back in an empty composer.
++`RewindMenu` is undefined on hosts that predate it, so check for it before rendering.
++
++```tsx
++import { RewindMenu } from "@getpaseo/plugin/client/ui";
++
++function Prompt({ agentId, host, item }: PluginTimelineItemProps<PromptData>) {
++  return (
++    <View>
++      <Text>{item.data.text}</Text>
++      {RewindMenu ? (
++        <RewindMenu
++          hostId={host.id}
++          agentId={agentId}
++          messageId={item.data.messageId}
++          text={item.data.text}
++        />
++      ) : null}
++    </View>
++  );
++}
++```
++
+ ### Append a timeline row from the daemon
+ 
+ A server handler can add a plugin-owned row to canonical history:

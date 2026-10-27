@@ -1,0 +1,68 @@
+{
+  "stage": "restored-browser-reload-diagnostic",
+  "canonicalEpoch": "0b9599fc-8033-4fb2-9615-111017c9e6b8",
+  "canonical": {
+    "epoch": "0b9599fc-8033-4fb2-9615-111017c9e6b8",
+    "entries": [
+      {
+        "item": {
+          "type": "user_message",
+          "id": "a6c4387f",
+          "text": "Describe the dominant colors and shapes in the attached test image in one short sentence. Do not use tools.",
+          "images": [
+            {
+              "mimeType": "image/webp",
+              "bytes": 382,
+              "sha256": "7bda7e04a68ee969a784a9b9a4defa414b8f7cfd3574cb968c9891b0e707dac8"
+            }
+          ]
+        }
+      },
+      {
+        "item": {
+          "type": "assistant_message",
+          "id": "24616a29-2fe5-4209-8f41-40924bd557db",
+          "text": "I can't see the attached image: the active model has no image input, and the attachment itself reports no usable description text. So I can't honestly name colors or shapes.\n\nTo get the one-sentence answer, either re-attach with a vision-capable model selected, or give me any text description/hex values from the image and I'll condense it."
+        }
+      }
+    ]
+  },
+  "updatingMessagesMatches": 0,
+  "updatingMessagesVisible": false,
+  "domImages": [
+    {
+      "complete": true,
+      "naturalWidth": 200,
+      "naturalHeight": 200,
+      "mimeType": "image/webp",
+      "bytes": 382,
+      "sha256": "7bda7e04a68ee969a784a9b9a4defa414b8f7cfd3574cb968c9891b0e707dac8"
+    }
+  ],
+  "replica": {
+    "databasePresent": true,
+    "timelineRowPresent": true,
+    "range": {
+      "epoch": "0b9599fc-8033-4fb2-9615-111017c9e6b8",
+      "startSeq": 1,
+      "endSeq": 2
+    },
+    "items": [
+      {
+        "kind": "user_message",
+        "messageId": "a6c4387f",
+        "timelineCursor": {
+          "epoch": "0b9599fc-8033-4fb2-9615-111017c9e6b8",
+          "seq": 1
+        },
+        "inlineImages": [
+          {
+            "mimeType": "image/webp",
+            "bytes": 382,
+            "sha256": "7bda7e04a68ee969a784a9b9a4defa414b8f7cfd3574cb968c9891b0e707dac8"
+          }
+        ]
+      }
+    ]
+  }
+}

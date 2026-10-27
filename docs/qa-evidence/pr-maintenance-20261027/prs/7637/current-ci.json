@@ -1,0 +1,28 @@
+{
+  "number": 7637,
+  "title": "fix(claude): fail a turn that Claude Code ends on an API error",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "736bbc62c6874e87681491d95370daa6661c9559",
+  "capturedAt": "2026-10-27T06:11:28Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZh96x2A",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40457794987,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40457794987",
+      "runHeadSha": "736bbc62c6874e87681491d95370daa6661c9559",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

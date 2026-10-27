@@ -1,0 +1,2 @@
+Please choose output, e.g. -emit-binary. hermesc does not support -exec.
+Example: hermesc -emit-binary -out myfile.hbc myfile.js

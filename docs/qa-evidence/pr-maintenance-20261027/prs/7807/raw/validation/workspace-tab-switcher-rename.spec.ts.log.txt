@@ -1,0 +1,201 @@
+[metro] Skipping web setup: EXPO_NO_WEB_SETUP is enabled.
+[metro] Using src/app as the root directory for Expo Router.
+[metro] Waiting on http://localhost:53674
+[metro] Logs for your project will appear below.
+[metro] | (node:77908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:77908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:77908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:77908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:77908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:77908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:77908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:77908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:77908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] | (node:77908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[metro] | (Use `node --trace-warnings ...` to show where the warning was created)
+[metro] Web Bundled 3843ms packages/app/index.ts (5722 modules)
+[e2e] Metro warmed on port 53674
+
+Running 6 tests using 1 worker
+
+(node:79386) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79386) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 0 daemon started on port 53880, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-0-MM90NR
+[e2e] Worker 0 daemon stopped
+  ✘  1 [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:47:7 › Workspace session rename (compact tab switcher) › renames an agent session from the switcher's per-session actions sheet (10ms)
+(node:81084) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:81084) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 1 daemon started on port 54117, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-1-lQ1R2L
+[e2e] Worker 1 daemon stopped
+  ✘  2 [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:110:5 › switcher footer creates tabs and returns to the existing chat (16ms)
+(node:81354) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:81354) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 2 daemon started on port 54208, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-2-80JcZS
+[e2e] Worker 2 daemon stopped
+  ✘  3 [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:153:7 › wraps long tab titles (2 lines), shows agent details and persists drag order (9ms)
+(node:81461) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:81461) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 3 daemon started on port 54292, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-3-Q7ozV8
+[e2e] Worker 3 daemon stopped
+  ✘  4 [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:153:7 › wraps long tab titles (3 lines), shows agent details and persists drag order (17ms)
+(node:81774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:81774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 4 daemon started on port 54396, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-4-jMo8ps
+[e2e] Worker 4 daemon stopped
+  ✘  5 [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:153:7 › wraps long tab titles (unlimited lines), shows agent details and persists drag order (12ms)
+(node:82016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:82016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[e2e] Worker 5 daemon started on port 54513, home: /var/folders/sv/_8xpvnvx1sb_6y_zf38x0lnc0000gn/T/paseo-e2e-worker-5-OQ6lYJ
+[e2e] Worker 5 daemon stopped
+  ✘  6 [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:244:5 › tab title line preference can be changed in Appearance and survives reload (12ms)
+[e2e] Metro stopped
+
+
+  1) [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:47:7 › Workspace session rename (compact tab switcher) › renames an agent session from the switcher's per-session actions sheet 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/luopeihuan/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workspace-tab-switcher-ren-9f3eb-s-per-session-actions-sheet-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workspace-tab-switcher-ren-9f3eb-s-per-session-actions-sheet-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:110:5 › switcher footer creates tabs and returns to the existing chat 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/luopeihuan/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workspace-tab-switcher-ren-f471a-eturns-to-the-existing-chat-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workspace-tab-switcher-ren-f471a-eturns-to-the-existing-chat-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:153:7 › wraps long tab titles (2 lines), shows agent details and persists drag order 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/luopeihuan/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workspace-tab-switcher-ren-0f998-ils-and-persists-drag-order-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workspace-tab-switcher-ren-0f998-ils-and-persists-drag-order-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:153:7 › wraps long tab titles (3 lines), shows agent details and persists drag order 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/luopeihuan/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workspace-tab-switcher-ren-36a71-ils-and-persists-drag-order-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workspace-tab-switcher-ren-36a71-ils-and-persists-drag-order-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:153:7 › wraps long tab titles (unlimited lines), shows agent details and persists drag order 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/luopeihuan/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workspace-tab-switcher-ren-bf509-ils-and-persists-drag-order-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workspace-tab-switcher-ren-bf509-ils-and-persists-drag-order-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:244:5 › tab title line preference can be changed in Appearance and survives reload 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/luopeihuan/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workspace-tab-switcher-ren-6a065-earance-and-survives-reload-browser/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workspace-tab-switcher-ren-6a065-earance-and-survives-reload-browser/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6 failed
+    [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:47:7 › Workspace session rename (compact tab switcher) › renames an agent session from the switcher's per-session actions sheet 
+    [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:110:5 › switcher footer creates tabs and returns to the existing chat 
+    [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:153:7 › wraps long tab titles (2 lines), shows agent details and persists drag order 
+    [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:153:7 › wraps long tab titles (3 lines), shows agent details and persists drag order 
+    [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:153:7 › wraps long tab titles (unlimited lines), shows agent details and persists drag order 
+    [browser] › e2e/browser/workspace-tab-switcher-rename.spec.ts:244:5 › tab title line preference can be changed in Appearance and survives reload 

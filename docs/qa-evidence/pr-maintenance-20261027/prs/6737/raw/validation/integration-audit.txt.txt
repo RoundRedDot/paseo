@@ -1,0 +1,6 @@
+Original 2b2e1b3e2fc1d8666cf33443e834eb661ae8ea4d; frozen baseline 9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca.
+Preview tree e6a10d5016c15488be725d2761f903acbd5d3e2b: source changes relative to baseline in bootstrap/session/websocket are exactly ordering additions. Incoming async configuration reload, service-port read ownership, promised script snapshots, request signal propagation, projected fetch limit and plugin session invalidation/disposal remain intact.
+Ordering runtime creation/disposal, admitted principal, four inbound RPCs, five outbound message schemas/permission mappings, feature flags and source-owned subscription emit paths retained. Existing app directory/gesture state and manual-order cache preserved beside incoming compact kebab target and shortcut translation changes.
+Target serial tests: ordering owner/E2E/Session authorization, controller/directory projection; new retained projection reference and scroll-coverage subset. No performance capture or new platform acceptance.
+
+Retain OrderingService unit coverage because its atomic-file dependency changed: upstream Windows bounded replacement retries alter the persistence owner, even though ordering implementation/test/protocol blobs match the prior delivered tree.

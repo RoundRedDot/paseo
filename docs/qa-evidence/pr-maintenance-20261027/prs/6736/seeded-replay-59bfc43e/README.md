@@ -1,0 +1,9 @@
+# PR #6736 — seeded-clone diagnostic on `59bfc43e`
+
+Status: **SEEDED_CLONE_DIAGNOSTIC_PASSED_WITH_LIMITS**. This was a zero-inference diagnostic using one manually seeded clone of an existing session; it submitted no new prompt and created no new native message entry. Source head/tree: `59bfc43e4097425f0a4429473a9635a99b305067` / `5d1f8a225f1a5ccc22cc8806e5c4efd6dcfece35`, based on `2ce6681d6e4de6d6400ba095741014f1bbfa4221`.
+
+The same clone passed two-client original client ID/PNG checks, forced provider-history refresh, fresh daemon plus `AgentStorage` restart, browser cache, reload, thumbnail, lightbox, and Escape-close checks. It retained the original two user/assistant message entries; runtime added five custom entries, so the clone JSONL was not byte-identical. The original 52-file inventory was unchanged. See `public-result.json.txt`, `original-preservation-receipt.json.txt`, `clone-native-runtime-delta.json.txt`, the safe logs, and browser receipts/screenshots.
+
+The run did not submit a new real-provider prompt on this source, prove a new live image-only turn, prove automatic write-hook behavior, recover previously missing original bytes, establish vendor visual semantics, or verify native iOS/Android or packaged Electron. The selected vendor route still had `compat.stripImageInput=true` / `sendsImageInputOnWire=false`; vendor image visibility remains **NOT PASSED**. Exact-head CI was `ACTION_REQUIRED` with zero jobs; this is not a passing-CI claim. The earlier live QA failure on `ea84` remains historical and unchanged.
+
+The 52 copied files follow the source's explicit `public-allowlist.json` (SHA-256 `22f306a0b7d54f0eea842c6f1e62b0b7703c10c9f9d48794baadd62e0ce98202`). Private homes, raw native JSONL, auth/config/keypair/environment data, and raw network data were excluded. File integrity is recorded in [the nested manifest](./manifest.sha256.txt).

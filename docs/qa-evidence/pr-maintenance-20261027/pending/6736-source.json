@@ -1,0 +1,36 @@
+{
+  "pr": 6736,
+  "role": "source-only-pending-image-qa",
+  "status": "source_refresh_delivered_seeded_clone_QA_in_progress",
+  "sourceHead": "ea84f0179dae93829a4c8607a6fd73e5621e3b41",
+  "tree": "af1ddd4bd637f294eef9479dc5a2ca0e28b57db6",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceChanged": true,
+  "semanticDecision": "Preserve retained-pager omitted-limit ownership and cursor coverage while maintaining portable image bytes, canonical/Pi identities, replica persistence and the 16 MiB image-history byte budget.",
+  "testTotal": 634,
+  "remainingGaps": [
+    "Historical initial live image QA remains NOT PASSED; earlier vendor image-input stripping remains unpassed.",
+    "Current seeded-clone zero-inference replay passed original client ID/PNG restoration and new daemon-restart restore.",
+    "Final bounded seeded-clone cache/reload check remains in progress.",
+    "Exact-head upstream CI and maintainer review remain separate gates."
+  ],
+  "historicalQaHead": "ea84f0179dae93829a4c8607a6fd73e5621e3b41",
+  "fixHead": "ddf7848b4c9a4459054f268c3f33114bc015ddec",
+  "fixReportedTests": 503,
+  "finalRefreshBaseline": "2ce6681d6e4de6d6400ba095741014f1bbfa4221",
+  "finalRefresh": "CONFLICTING; source owner refresh in progress",
+  "zeroInferenceReplay": "pending; do not infer pass",
+  "intermediateFixHead": "ddf7848b4c9a4459054f268c3f33114bc015ddec",
+  "intermediateFixReportedTests": 503,
+  "finalSourceHead": "59bfc43e4097425f0a4429473a9635a99b305067",
+  "finalTree": "5d1f8a225f1a5ccc22cc8806e5c4efd6dcfece35",
+  "finalBaseline": "2ce6681d6e4de6d6400ba095741014f1bbfa4221",
+  "finalSourceTests": 265,
+  "finalSourceTestFiles": 6,
+  "finalRefreshCI": {
+    "conclusion": "action_required",
+    "jobs": 0,
+    "run": 40463249843
+  },
+  "seededCloneQa": "core replay passed original client ID/PNG restoration and new daemon-restart restore; final bounded cache/reload check in progress"
+}

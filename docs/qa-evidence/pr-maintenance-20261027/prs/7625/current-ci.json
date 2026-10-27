@@ -1,0 +1,28 @@
+{
+  "number": 7625,
+  "title": "perf(server): minify plugin client bundles",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "7951fa0f375ef3c84a2a0e36048129d0d36c4ec5",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZh6o0fg",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40456497362,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40456497362",
+      "runHeadSha": "7951fa0f375ef3c84a2a0e36048129d0d36c4ec5",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

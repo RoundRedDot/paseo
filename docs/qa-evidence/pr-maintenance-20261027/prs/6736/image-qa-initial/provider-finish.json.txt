@@ -1,0 +1,19 @@
+{
+  "status": "idle",
+  "error": null,
+  "lastError": null,
+  "terminal": [
+    {
+      "type": "turn_started",
+      "provider": "omp"
+    },
+    {
+      "type": "turn_started",
+      "provider": "omp"
+    },
+    {
+      "type": "turn_completed",
+      "provider": "omp"
+    }
+  ]
+}

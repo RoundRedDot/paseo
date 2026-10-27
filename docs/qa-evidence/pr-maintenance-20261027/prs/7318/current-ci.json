@@ -1,0 +1,20 @@
+{
+  "number": 7318,
+  "headSha": "d5032deb078a5720f6c670377690e5379b158970",
+  "capturedAt": "2026-10-27T07:23:01Z",
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": 109673590713,
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40465227706,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40465227706",
+      "runHeadSha": "d5032deb078a5720f6c670377690e5379b158970",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

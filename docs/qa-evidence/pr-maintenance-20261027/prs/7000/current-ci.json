@@ -1,0 +1,28 @@
+{
+  "number": 7000,
+  "title": "feat(server): expose persisted timing for completed agent turns",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "9b74ce6f283719006986ed435b3f7c0c3c43cae9",
+  "capturedAt": "2026-10-27T06:11:28Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZiA9UoQ",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40458984891,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40458984891",
+      "runHeadSha": "9b74ce6f283719006986ed435b3f7c0c3c43cae9",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

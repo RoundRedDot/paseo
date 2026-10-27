@@ -1,0 +1,30 @@
+node:internal/modules/cjs/loader:1517
+  const err = new Error(message);
+              ^
+
+Error: Cannot find module '@/utils/host-routes'
+Require stack:
+- /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/packages/app/e2e/support/helpers/new-workspace.ts
+- /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/packages/app/e2e/support/helpers/agent-timeline-gate.ts
+- /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/packages/app/e2e/support/helpers/timeline-pagination.ts
+- /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/.dev/perf-evidence-20261027/capture-7556.cts
+    at node:internal/modules/cjs/loader:1517:15
+    at m._resolveFilename (file:///Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+    at nextResolveSimple (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542
+    at resolveTsPaths (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760)
+    at Module._resolveFilename (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1102)
+    at wrapResolveFilename (node:internal/modules/cjs/loader:1071:27)
+    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1095:10)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1122:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/packages/app/e2e/support/helpers/new-workspace.ts',
+    '/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/packages/app/e2e/support/helpers/agent-timeline-gate.ts',
+    '/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/packages/app/e2e/support/helpers/timeline-pagination.ts',
+    '/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/.dev/perf-evidence-20261027/capture-7556.cts'
+  ]
+}
+
+Node.js v24.18.0

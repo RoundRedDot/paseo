@@ -1,0 +1,8 @@
+#!/bin/zsh
+set -eu
+cd /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-timeline
+[[ $(git rev-parse HEAD) = 59bfc43e4097425f0a4429473a9635a99b305067 ]]
+date -u +%FT%TZ > /tmp/paseo-pr-maintenance-20261027/image-qa/seeded-replay-59bfc43e/build-started.txt
+npm run build:server > /tmp/paseo-pr-maintenance-20261027/image-qa/seeded-replay-59bfc43e/build-server.log 2>&1
+CI=1 npm run build:web --workspace=@getpaseo/app > /tmp/paseo-pr-maintenance-20261027/image-qa/seeded-replay-59bfc43e/build-browser.log 2>&1
+date -u +%FT%TZ > /tmp/paseo-pr-maintenance-20261027/image-qa/seeded-replay-59bfc43e/build-completed.txt

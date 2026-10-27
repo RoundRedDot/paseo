@@ -1,0 +1,24 @@
+{
+  "sourceHead": "ea84f0179dae93829a4c8607a6fd73e5621e3b41",
+  "agentId": "3cbcb18b-f967-413c-80d6-9858fc12e292",
+  "originalClientMessageId": "6736-omp-image-20261027",
+  "nativeUserEntryId": "a6c4387f",
+  "original": {
+    "fixture": "public-fixture.png",
+    "mimeType": "image/png",
+    "bytes": 439,
+    "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+  },
+  "nativeNormalized": {
+    "fixture": "native-normalized-image.webp",
+    "mimeType": "image/webp",
+    "bytes": 382,
+    "sha256": "7bda7e04a68ee969a784a9b9a4defa414b8f7cfd3574cb968c9891b0e707dac8",
+    "width": 200,
+    "height": 200
+  },
+  "restoreOutcome": "canonical messageId becomes nativeUserEntryId and images become normalized WebP after restart/history refresh; original client ID / PNG byte identity NOT PASSED",
+  "promptSubmissionsTotal": 1,
+  "noAdditionalInference": true,
+  "safeNativeEntryFixture": "native-user-message-fixture.json"
+}

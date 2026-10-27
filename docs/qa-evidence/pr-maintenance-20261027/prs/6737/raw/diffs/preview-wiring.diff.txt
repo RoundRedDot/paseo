@@ -1,0 +1,179 @@
+diff --git a/packages/server/src/server/bootstrap.ts b/packages/server/src/server/bootstrap.ts
+index 83ef2acb8..2f7c5fbd5 100644
+--- a/packages/server/src/server/bootstrap.ts
++++ b/packages/server/src/server/bootstrap.ts
+@@ -127,6 +127,7 @@ export async function fanOutReconciledWorkspaceUpdates(input: {
+ 
+ import { VoiceAssistantWebSocketServer } from "./websocket-server.js";
+ import { WorkspaceSetupRuntime } from "./workspace-setup-runtime.js";
++import { createOrderingRuntime } from "./ordering/runtime.js";
+ import { createWorkspaceLabelService } from "./workspace-labels/index.js";
+ import { createGitHubService } from "../services/github-service.js";
+ import { createPaseoWorktree as createRegisteredPaseoWorktree } from "./paseo-worktree-service.js";
+@@ -1042,6 +1043,13 @@ export async function createPaseoDaemon(
+     logger,
+   });
+   await workspaceLabelService.initialize();
++  const orderingRuntime = await createOrderingRuntime({
++    paseoHome: config.paseoHome,
++    projects: projectRegistry,
++    workspaces: workspaceRegistry,
++    logger,
++  });
++  const orderingService = orderingRuntime.service;
+   logger.info({ elapsed: elapsed() }, "Workspace registries bootstrapped");
+   const teardownArchivedWorkspaceRuntime = (workspaceId: string): void => {
+     scriptRuntimeStore.removeForWorkspace(workspaceId);
+@@ -1858,6 +1866,7 @@ export async function createPaseoDaemon(
+               pluginRuntime,
+               orchestrationSkills,
+               workspaceLabelService,
++              orderingService,
+             );
+             pluginRuntime.bindPaseoSessionHost(wsServer);
+             await pluginRuntime.start();
+@@ -1946,6 +1955,7 @@ export async function createPaseoDaemon(
+     unsubscribePluginSessionChanges();
+     await hubRelationships.stop();
+     workspaceReconciliation.dispose();
++    orderingRuntime.dispose();
+     scriptHealthMonitor.stop();
+     unsubscribeIdleRuntimeCleanup();
+     await idleRuntimeCleanup.close();
+diff --git a/packages/server/src/server/session.ts b/packages/server/src/server/session.ts
+index 9d2532807..a35067dbe 100644
+--- a/packages/server/src/server/session.ts
++++ b/packages/server/src/server/session.ts
+@@ -1,3 +1,8 @@
++import {
++  OrderingSession,
++  createOrderingSession,
++  type OrderingSessionDependency,
++} from "./ordering/session.js";
+ import { type WorkspaceRuntimeStore } from "./workspace-runtime-store/index.js";
+ import type { AgentMessageDelivery } from "./agent/agent-messages/index.js";
+ import { AgentDirectory } from "./agent/directory.js";
+@@ -472,6 +477,7 @@ export interface SessionOptions {
+   workspaceRegistry: WorkspaceRegistry;
+   directorySync?: DirectorySyncService;
+   workspaceLabelService?: WorkspaceLabelService;
++  ordering?: OrderingSessionDependency;
+   filesystem?: SessionFileSystem;
+   scheduleService: ScheduleService;
+   checkoutDiffManager: CheckoutDiffManager;
+@@ -789,6 +795,7 @@ export class Session {
+     WorkspaceUpdatesSubscriptionState
+   >();
+   private readonly workspaceLabelService: WorkspaceLabelService | null;
++  private readonly orderingSession: OrderingSession | null;
+   private readonly eventSubscriptions = new Map<
+     string,
+     { owner: OwnedSubscription; events: Set<SessionEventSubscription>; notifications: boolean }
+@@ -936,6 +943,12 @@ export class Session {
+     this.workspaceRegistry = workspaceRegistry;
+     this.directorySync = resolveDirectorySync(directorySync);
+     this.workspaceLabelService = resolveWorkspaceLabelService(workspaceLabelService);
++    this.orderingSession = createOrderingSession({
++      ordering: options.ordering,
++      delivery: this.delivery,
++      emit: (message) => this.emit(message),
++      clientId: options.clientId,
++    });
+     this.filesystem = filesystem ?? nodeSessionFileSystem;
+     this.github = github ?? createGitHubService();
+     this.renameCurrentBranch = renameCurrentBranch ?? renameCurrentBranchDefault;
+@@ -1301,6 +1314,7 @@ export class Session {
+     this.clientCapabilities = parseClientCapabilities(capabilities);
+     if (source) {
+       this.delivery.attach(source, capabilities?.[CLIENT_CAPS.ownedSubscriptions] === true);
++      this.orderingSession?.attach(source);
+       this.clientSources.set(source, {
+         capabilities: this.clientCapabilities,
+         appVersion,
+@@ -2457,6 +2471,7 @@ export class Session {
+ 
+   private dispatchWorkspaceLifecycleMessage(msg: SessionInboundMessage): Promise<void> | undefined {
+     return (
++      this.orderingSession?.dispatch(msg) ??
+       this.dispatchWorkspaceStateMessage(msg) ??
+       this.dispatchWorkspaceLabelMessage(msg) ??
+       this.dispatchWorkspaceSetupMessage(msg) ??
+diff --git a/packages/server/src/server/websocket-server.ts b/packages/server/src/server/websocket-server.ts
+index 4473a4004..e96030f92 100644
+--- a/packages/server/src/server/websocket-server.ts
++++ b/packages/server/src/server/websocket-server.ts
+@@ -117,6 +117,7 @@ import type { BrowserToolsBroker } from "./browser-tools/broker.js";
+ import type { DaemonRuntimeConfig } from "./session/daemon/daemon-session.js";
+ import { DirectorySyncService } from "./directory-sync/index.js";
+ import { OWNER_PERMISSIONS, type DaemonPermission } from "./authorization/index.js";
++import type { OrderingService } from "./ordering/index.js";
+ import type { WorkspaceLabelService } from "./workspace-labels/index.js";
+ import {
+   APPLICATION_SOCKET_LEASE_CHECK_INTERVAL_MS,
+@@ -478,6 +479,7 @@ interface PluginSessionConnection extends SessionConnectionBase {
+ type SessionConnection = ReconnectableSessionConnection | PluginSessionConnection;
+ 
+ interface SocketSessionOptions {
++  principalId: string;
+   sourceId?: string;
+   clientId: string;
+   appVersion: string | null;
+@@ -564,6 +566,7 @@ export class VoiceAssistantWebSocketServer {
+   private readonly projectRegistry: ProjectRegistry;
+   private readonly workspaceRegistry: WorkspaceRegistry;
+   private readonly workspaceLabelService: WorkspaceLabelService | null;
++  private readonly orderingService: OrderingService | undefined;
+   private readonly scheduleService: ScheduleService;
+   private readonly checkoutDiffManager: CheckoutDiffManager;
+   private readonly github: ForgeService;
+@@ -688,6 +691,7 @@ export class VoiceAssistantWebSocketServer {
+     pluginRuntime?: SessionOptions["pluginRuntime"],
+     orchestrationSkills?: SessionOptions["orchestrationSkills"],
+     workspaceLabelService?: WorkspaceLabelService,
++    orderingService?: OrderingService,
+   ) {
+     this.logger = logger.child({ module: "websocket-server" });
+     this.workspaceSetupRuntime = workspaceSetupRuntime;
+@@ -742,6 +746,7 @@ export class VoiceAssistantWebSocketServer {
+     this.projectRegistry = projectRegistry ?? createNoopProjectRegistry();
+     this.workspaceRegistry = workspaceRegistry ?? createNoopWorkspaceRegistry();
+     this.workspaceLabelService = workspaceLabelService ?? null;
++    this.orderingService = orderingService;
+     const requiredServices = requireWebSocketServices({
+       scheduleService,
+       checkoutDiffManager,
+@@ -1118,6 +1123,8 @@ export class VoiceAssistantWebSocketServer {
+             ? permissions.filter((permission) => connection.permissionCeiling!.includes(permission))
+             : permissions,
+         );
++        const message = this.createServerInfoMessage(connection.session);
++        for (const socket of connection.sockets) this.sendToClient(socket, message);
+       }
+     }
+   }
+@@ -1485,6 +1492,7 @@ export class VoiceAssistantWebSocketServer {
+     let connection: SessionConnection | null = null;
+ 
+     const session = this.createSocketSession({
++      principalId: admission.principalId,
+       clientId,
+       appVersion,
+       clientCapabilities,
+@@ -1606,6 +1614,9 @@ export class VoiceAssistantWebSocketServer {
+       projectRegistry: this.projectRegistry,
+       workspaceRegistry: this.workspaceRegistry,
+       workspaceLabelService: this.workspaceLabelService ?? undefined,
++      ordering: this.orderingService
++        ? { service: this.orderingService, principalId: options.principalId }
++        : undefined,
+       directorySync: this.directorySync,
+       scheduleService: this.scheduleService,
+       checkoutDiffManager: this.checkoutDiffManager,
+@@ -1960,6 +1971,7 @@ export class VoiceAssistantWebSocketServer {
+         directorySync: true,
+         // COMPAT(workspaceLabels): added in v0.5.0, remove after 2027-08-14.
+         ...(this.workspaceLabelService ? { workspaceLabels: true } : {}),
++        ...(this.orderingService ? { sharedOrdering: true, sharedOrderingTargets: true } : {}),
+         // COMPAT(workspaceSetupRun): added in v0.7.3, remove gate after 2027-09-02.
+         workspaceSetupRun: true,
+         workspaceSetupObservation: true,

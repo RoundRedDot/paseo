@@ -1,0 +1,37 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-compiler/packages/server
+
+stdout | src/server/plugins/compiler.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+
+ ❯ src/server/plugins/compiler.test.ts (89 tests | 1 failed | 88 skipped) 886ms
+       × emits no class syntax for a client bundle and keeps its behavior 884ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/plugins/compiler.test.ts > plugin runtime entries > Hermes class lowering > emits no class syntax for a client bundle and keeps its behavior
+AssertionError: expected 2 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 2
+
+ ❯ src/server/plugins/compiler.test.ts:666:47
+    664|       await writeFile(entries.client, classSource);
+    665|       const { clientBundle, serverBundle } = await compilePlugin(entri…
+    666|       expect(classSyntaxCount(clientBundle!)).toBe(0);
+       |                                               ^
+    667|       expect(runClientDefault(clientBundle!)).toEqual({
+    668|         label: "child",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 88 skipped (89)
+   Start at  13:12:12
+   Duration  1.60s (transform 113ms, setup 51ms, import 516ms, tests 886ms, environment 0ms)
+

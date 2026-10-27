@@ -1,0 +1,37 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-providers/packages/server
+
+stdout | src/server/daemon-e2e/timeline-window.e2e.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: 🛡️ auth for agents: https://vestauth.com
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: ⚙️  override existing env vars with { override: true }
+
+ ❯ src/server/daemon-e2e/timeline-window.e2e.test.ts (18 tests | 1 failed | 17 skipped) 291ms
+     × uses retained pager defaults for image history when after limit is omitted 290ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/daemon-e2e/timeline-window.e2e.test.ts > daemon E2E - timeline window > uses retained pager defaults for image history when after limit is omitted
+AssertionError: expected [ { provider: 'codex', …(6) }, …(299) ] to have a length of 200 but got 300
+
+- Expected
++ Received
+
+- 200
++ 300
+
+ ❯ src/server/daemon-e2e/timeline-window.e2e.test.ts:165:29
+    163|         cursor: { epoch, seq: 0 },
+    164|       });
+    165|       expect(first.entries).toHaveLength(200);
+       |                             ^
+    166|       expect(first.entries.map((entry) => entry.item)).toEqual(
+    167|         Array.from({ length: 200 }, (_, index) => ({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 17 skipped (18)
+   Start at  13:45:05
+   Duration  5.73s (transform 4.02s, setup 20ms, import 5.34s, tests 291ms, environment 0ms)
+

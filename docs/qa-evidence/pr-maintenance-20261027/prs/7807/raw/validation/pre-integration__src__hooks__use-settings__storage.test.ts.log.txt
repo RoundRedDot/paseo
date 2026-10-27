@@ -1,0 +1,33 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-tablet/packages/app
+
+ ❯ |unit| src/hooks/use-settings/storage.test.ts (121 tests | 1 failed | 120 skipped) 6ms
+     × keeps the send shortcut when tab title density is saved 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/hooks/use-settings/storage.test.ts > saveAppSettings > keeps the send shortcut when tab title density is saved
+AssertionError: expected undefined to be 'enter' // Object.is equality
+
+- Expected:
+"enter"
+
++ Received:
+undefined
+
+ ❯ src/hooks/use-settings/storage.test.ts:590:67
+    588|     const queryClient = new QueryClient();
+    589|     await saveAppSettings({ queryClient, deps, updates: { workspaceTab…
+    590|     expect((await loadAppSettingsFromStorage(deps)).sendShortcut).toBe…
+       |                                                                   ^
+    591|
+    592|     await saveAppSettings({ queryClient, deps, updates: { sendShortcut…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 120 skipped (121)
+   Start at  13:10:44
+   Duration  977ms (transform 659ms, setup 18ms, import 883ms, tests 6ms, environment 0ms)
+

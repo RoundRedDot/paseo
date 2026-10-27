@@ -1,0 +1,28 @@
+{
+  "number": 6677,
+  "title": "feat(plugin): expose the host rewind menu to plugins that replace prompts",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "b4f84ecce487bbc2e895330588a2b5f0657e0631",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZW717Dw",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40183957065,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40183957065",
+      "runHeadSha": "b4f84ecce487bbc2e895330588a2b5f0657e0631",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

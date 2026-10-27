@@ -1,0 +1,19 @@
+{
+  "scope": "own synthetic fixture session only; manually seeded private handle diagnostic",
+  "canonicalProofs": "Full response/agent config omitted. Exact epoch and own user/assistant items retained; user messageId labeled id; image bytes represented by MIME/length/SHA256.",
+  "replicaProofs": "Own browser IndexedDB rows examined; published replica includes only synthetic user entry identity/cursor and image MIME/length/SHA256.",
+  "nativeRaw": "Both original/private clone native JSONL excluded. Native delta receipt lists only entry kinds/indexes and equality of captured user/assistant messages.",
+  "originalHashProof": "Original paths replaced with numbered labels; hashes/inventory equality retained. No auth/config content read for public proof.",
+  "failurePolicy": "Failed readiness/geometry receipts are preserved, not counted as passing assertions. Final cache-only receipts remain distinct.",
+  "excluded": [
+    "isolated-home/",
+    "omp-sessions/",
+    "tmp/",
+    "private-clone-paths.json",
+    "preservation-after-private.json",
+    "original-preservation-before.json",
+    "original-inventory-before.json",
+    "all native JSONL",
+    "auth/config/keypair/environment/raw network data"
+  ]
+}

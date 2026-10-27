@@ -1,0 +1,3 @@
+Auto-merging packages/client/src/index.test.ts
+Auto-merging packages/client/src/index.ts
+Automatic merge went well; stopped before committing as requested

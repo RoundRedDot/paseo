@@ -1,0 +1,156 @@
+{
+  "scope": "PR #6736 final source QA; explicitly manually SEEDED cloned existing-session replay",
+  "status": "SEEDED_CLONE_DIAGNOSTIC_PASSED_WITH_LIMITS",
+  "sourceHead": "59bfc43e4097425f0a4429473a9635a99b305067",
+  "sourceTree": "5d1f8a225f1a5ccc22cc8806e5c4efd6dcfece35",
+  "baseline": "2ce6681d6e4de6d6400ba095741014f1bbfa4221",
+  "sourceFollowup": "ddf7848b4c9a4459054f268c3f33114bc015ddec",
+  "fork": "luoph/paseo",
+  "ref": "fix/cross-client-images",
+  "sourceFilesChangedByQa": [],
+  "builds": [
+    "npm run build:server",
+    "CI=1 npm run build:web --workspace=@getpaseo/app"
+  ],
+  "unitSuitesRepeatedByQa": 0,
+  "seededDiagnostic": {
+    "seeded": true,
+    "manualSeedCount": 1,
+    "seededAssociation": "a6c4387f -> clientMessageId 6736-omp-image-20261027 and original PNG array",
+    "originalPngSha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda",
+    "nativeWebpSha256": "7bda7e04a68ee969a784a9b9a4defa414b8f7cfd3574cb968c9891b0e707dac8",
+    "newPromptSubmissions": 0,
+    "newNativeMessageEntries": 0,
+    "earlierRealPromptCountAcrossQa": 1,
+    "sameCloneUsedForReadinessContinuations": true,
+    "noReseedAfterPreparation": true,
+    "twoIndependentClientsOriginalIdentityAndBytes": true,
+    "forceProviderHistoryOriginalIdentityAndBytes": true,
+    "freshDaemonAndAgentStorageRestartOriginalIdentityAndBytes": true,
+    "browser": "Chromium145.0.7632.6",
+    "browserThumbnailAndLightbox": true,
+    "escapeClosesLightbox": true,
+    "currentEpochIndexedDbOriginalIdentityAndPng": true,
+    "browserReloadOriginalIdentityAndPng": true,
+    "doesNotProve": [
+      "automatic write hook/new submission (see separate source-owner evidence)",
+      "new real-provider live prompt on current source",
+      "retroactive recovery of old missing original bytes",
+      "vendor visual semantics",
+      "native hardware/packaged Electron"
+    ]
+  },
+  "originalPreservation": {
+    "originalFileCount": 52,
+    "allOriginalsUnchanged": true,
+    "originalDirectoryInventoriesUnchanged": true,
+    "receipt": "original-preservation-receipt.json",
+    "clonedNativeByteHashChangedAfterRuntime": true,
+    "cloneRuntimeChange": "5 added custom entries; original two user/assistant message entries unchanged",
+    "cloneDeltaReceipt": "clone-native-runtime-delta.json",
+    "associationRetainedAcrossStorageFlush": true
+  },
+  "harnessFailuresPreserved": [
+    {
+      "receipt": "result-runtime.json",
+      "check": "seeded-browser_replica_image_bytes",
+      "observed": "initial immediate IndexedDB lookup returned null; earlier image/lightbox checks passed"
+    },
+    {
+      "receipt": "result-remaining.json",
+      "check": "remaining-browser-restarted-clone_replica_image_bytes",
+      "observed": "asynchronous readiness attempt did not yield a row for following lookup; not evidence of a product cache failure"
+    },
+    {
+      "receipt": "result-final-diagnostic.json",
+      "check": "final-browser-restarted-clone_lightbox",
+      "observed": "early lightbox geometry sample failed; other original/earlier clone lightbox receipts retained"
+    }
+  ],
+  "finalReadOnlyCacheReceipts": [
+    "seeded-cache-receipt.json",
+    "seeded-cache-reload-receipt.json"
+  ],
+  "remainingLimits": {
+    "vendorVisualSemantics": "NOT_PASSED; previously selected native18.12.6 route sendsImageInputOnWire=false/compat.stripImageInput=true; no further inference or model/config/catalog changes",
+    "newRealLivePromptOn59bfc": "NOT_RUN",
+    "currentRealImageOnly": "NOT_RUN",
+    "nativeIosAndroid": "Native image acceptance NOT VERIFIED; connected PHN110 not allocated by user; no native image run; iOS fixture-selection QA separate.",
+    "packagedElectron": "NOT_VERIFIED",
+    "ci": "exact head ACTION_REQUIRED / 0 jobs; not passing"
+  },
+  "ciCheckSuites": {
+    "check_suites": [
+      {
+        "app": "github-actions",
+        "conclusion": "action_required",
+        "head_sha": "59bfc43e4097425f0a4429473a9635a99b305067",
+        "id": 109668261496,
+        "status": "completed"
+      }
+    ],
+    "total_count": 1
+  },
+  "ciActions": {
+    "total_count": 1,
+    "workflow_runs": [
+      {
+        "conclusion": "action_required",
+        "head_sha": "59bfc43e4097425f0a4429473a9635a99b305067",
+        "html_url": "https://github.com/getpaseo/paseo/actions/runs/40463249843",
+        "id": 40463249843,
+        "name": "CI",
+        "status": "completed"
+      }
+    ]
+  },
+  "bodyUpdated": true,
+  "bodyExactReadback": true,
+  "bodyHead": "59bfc43e4097425f0a4429473a9635a99b305067",
+  "bodySha256": "fc5692531dc6ed0d63c27da49b1e834d35542de3eac79c988b7a55f7d3e4f078",
+  "base": "main",
+  "isDraft": false,
+  "historicalPublicLinksRetained": true,
+  "cleanup": {
+    "checkedAt": "2026-10-27T07:04:44.115235+00:00",
+    "ports": [
+      {
+        "port": 65173,
+        "listenerPresent": false,
+        "lsofExitCode": 1
+      },
+      {
+        "port": 50240,
+        "listenerPresent": false,
+        "lsofExitCode": 1
+      },
+      {
+        "port": 51510,
+        "listenerPresent": false,
+        "lsofExitCode": 1
+      },
+      {
+        "port": 53456,
+        "listenerPresent": false,
+        "lsofExitCode": 1
+      }
+    ],
+    "gitHead": "59bfc43e4097425f0a4429473a9635a99b305067",
+    "worktreeClean": true
+  },
+  "completedAt": "2026-10-27T07:09:26.745422+00:00",
+  "automaticPersistenceEvidence": {
+    "source": "ddf7848b4c9a4459054f268c3f33114bc015ddec",
+    "reportedBy": "source owner; not rerun by QA",
+    "targetedTests": 503,
+    "scope": "captured native normalization at FakeOmp boundary into real AgentManager plus NEW AgentStorage, automatic persist before turn end, branch lookup/native ID, interactive/history-only, forced refresh, native rewind; RED receipts preserved"
+  },
+  "finalSourceIntegrationEvidence": {
+    "source": "59bfc43e4097425f0a4429473a9635a99b305067",
+    "reportedBy": "source owner; not rerun by QA",
+    "targetedTests": 265,
+    "ompTests": 89,
+    "scope": "async conversion/admit/cancel/close/vision, provider image output, Pi, Claude and paging/budget; full static checks/hooks",
+    "countsOverlapDoNotAdd": true
+  }
+}

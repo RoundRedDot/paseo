@@ -1,0 +1,3 @@
+Original b16c8459c7d90997a06d355448343d7fa9b40254; frozen baseline 9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca.
+Preview tree 57e34891ac3d51eeca3d935f51210c735becbb1d: label/icon imports, public aliases/interfaces, overloads, owned listWorkspaceLabels observation and projects.icon wrapper remain additive. Incoming agent.reload declaration and factory method remain intact; existing refresh continues fetchAgent without reload RPC.
+Observed label subscription is registered through own(), released explicitly and disposed through existing API lifetime ownership. No new protocol, cache, dependency or fallback path. Existing changed index.test.ts includes icon/list-label roundtrip and incoming reload-vs-refresh case; run this file serially plus owning declaration/static checks.

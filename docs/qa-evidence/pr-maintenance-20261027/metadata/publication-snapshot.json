@@ -1,0 +1,275 @@
+{
+  "repository": "getpaseo/paseo",
+  "sourceBaseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "parentAcceptance": {
+    "checkedAt": "2026-10-27T07:15:22.683Z",
+    "openPRCount": 47,
+    "draftPRs": 0,
+    "changedSources": 18,
+    "checkedNoops": 6,
+    "headMismatches": 0
+  },
+  "mainDrift": {
+    "latestMainReportedByCoordinator": "26ee20b371d9e360f03fd9ca2cce8d1a3f9e2635",
+    "reportedConflictingPRs": [7628, 7556, 7000, 6737, 6736, 6699],
+    "sourceRefreshAfterDrift": false,
+    "note": "Source SHAs remain fixed at accepted receipts; this evidence does not claim all PRs are currently mergeable."
+  },
+  "bodyTargetStateCapturedAt": "2026-10-27T07:18:44Z",
+  "bodyTargets": [
+    {
+      "number": 6601,
+      "head": "6514ab5ff2ebe9f73981086c980bd53a1eefc09b",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 6677,
+      "head": "b4f84ecce487bbc2e895330588a2b5f0657e0631",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 6731,
+      "head": "ac19eed979213b90670f401b636ae05cf05c7db7",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 6732,
+      "head": "1c4c09712f2ec8699c2e13f083eaa15a8af39e9f",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 6736,
+      "head": "59bfc43e4097425f0a4429473a9635a99b305067",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "CONFLICTING",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 6737,
+      "head": "50b07a8b8ec270cbb41f3633e859a21f008b0884",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "CONFLICTING",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 6773,
+      "head": "2bacd637da86474faf0f41aa4d66a322f47a3c38",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 6809,
+      "head": "2a8af80c3569bf464b4f5e16afca356317246870",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7000,
+      "head": "9b74ce6f283719006986ed435b3f7c0c3c43cae9",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "CONFLICTING",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7006,
+      "head": "371e403aeaf583210800b9246c2f444c963ffe6c",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7014,
+      "head": "c92cc88e3ac971c032ca295848c5ec3e06bb3c97",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7015,
+      "head": "aff3245c65ccf769ceae8cd1937d9c57ffd055e3",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7186,
+      "head": "ea9c7b7ad2161e60ce7a1c436529833514b839b1",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7289,
+      "head": "f4539358f3168dc1b38739fa3eb9af7fe2452419",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7318,
+      "head": "d5032deb078a5720f6c670377690e5379b158970",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7462,
+      "head": "86006dd5fc4fda3562f85a3889b02ada5b353011",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7467,
+      "head": "70df9add8941096e5437b88efad97cf91d95f43b",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7482,
+      "head": "a879849ac617558cdf9976293ace71baf2072b84",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7556,
+      "head": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "CONFLICTING",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7625,
+      "head": "7951fa0f375ef3c84a2a0e36048129d0d36c4ec5",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7629,
+      "head": "8239861ddce82a64ffba8284d16416581b0e35ec",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7637,
+      "head": "736bbc62c6874e87681491d95370daa6661c9559",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7654,
+      "head": "5b2e9c00dfe45ee76ecd5920babf3f33be8e6f63",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7714,
+      "head": "79d6a4f77b473112b6c568d6a4440c299fcdc6c6",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7774,
+      "head": "800b75b1f6ceef7391e5300137f980882b78f84f",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7802,
+      "head": "976e3d9297928787393deb98789ca7a427ef65ad",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7807,
+      "head": "f4c395b855bd4e94fbd359fe3b1d611ad382e841",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    },
+    {
+      "number": 7927,
+      "head": "5e42683e889e96740413a07518c729aafdb0dd19",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNKNOWN"
+    }
+  ],
+  "mergeabilityNote": "At this read, all 28 body targets were OPEN, non-draft, base main; four targets were CONFLICTING (#6736, #7000, #6737, #7556). These statuses are a timestamped read, not a mergeability guarantee.",
+  "ciNote": "The older metadata/current-state-ci.json is retained as a historical 05:53Z snapshot. Final accepted-head CheckSuite evidence is on the corresponding PR pages; ACTION_REQUIRED / zero jobs is not passing CI. No workflow was run or approved."
+}

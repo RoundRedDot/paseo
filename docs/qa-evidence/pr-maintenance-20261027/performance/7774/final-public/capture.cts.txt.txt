@@ -1,0 +1,150 @@
+import { chromium } from 'playwright';
+import { writeFile, readFile, mkdir } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { gzipSync } from 'node:zlib';
+import path from 'node:path';
+import globalSetup from '../../packages/app/e2e/support/global-setup.ts';
+import { startIsolatedHostDaemon } from '../../packages/app/e2e/support/helpers/isolated-host-daemon.ts';
+import { seedMockAgentWorkspace } from '../../packages/app/e2e/support/helpers/mock-agent.ts';
+import { buildSeededHost } from '../../packages/app/e2e/support/helpers/daemon-registry.ts';
+import { hideDeveloperToasts } from '../../packages/app/e2e/support/developer-ui.mjs';
+async function main(){
+const root=process.cwd();
+const out='/tmp/paseo-pr-maintenance-20261027/performance/7774/raw/actual-calibration';
+const fixture=JSON.parse(await readFile('/tmp/paseo-pr-maintenance-20261027/performance/7774/fixture.json','utf8'));
+const protocol=JSON.parse(await readFile('/tmp/paseo-pr-maintenance-20261027/performance/7774/protocol.json','utf8'));
+const samples:any[]=[];
+const store=path.join(root,'packages/app/src/runtime/directory-sync/internal/agent-store.ts');
+const original=await readFile(store);
+const base=execFileSync('git',['show','48623801a1bba8f1c259212d37f56a504812e42d:packages/app/src/runtime/directory-sync/internal/agent-store.ts']);
+const sha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+const text=fixture.response;
+const draft=fixture.draft;
+const wait=(ms:number)=>new Promise(r=>setTimeout(r,ms));
+const hash=(s:any)=>createHash('sha256').update(s).digest('hex');
+const percentile=(xs:number[],p:number)=>xs.length?[...xs].sort((a,b)=>a-b)[Math.min(xs.length-1,Math.floor(xs.length*p))]:null;
+await mkdir(out,{recursive:true});
+if(sha!==protocol.candidateHead||hash(original)!==protocol.substitutions.candidateSha256||hash(base)!==protocol.substitutions.baselineSha256)throw Error('pre-registered source identity mismatch');
+try {
+for(const [group,variant] of [['calibration','baseline'],['candidate','candidate'],['returning-baseline','baseline']]){
+ let stopMetro:any,daemon:any,browser:any;
+ try{
+  await writeFile(store,variant==='baseline'?base:original);
+  console.log('GROUP',group,new Date().toISOString());
+  stopMetro=await globalSetup();
+  daemon=await startIsolatedHostDaemon('srv_perf_impact');
+  browser=await chromium.launch({headless:true,executablePath:protocol.browser.executable});
+  if(browser.version()!==protocol.browser.browser)throw Error("browser version mismatch");
+  for(let run=0;run<2;run++){
+   const id=`${group}-${run+1}`;
+   console.log('SAMPLE_START',id,new Date().toISOString());
+   const agent=await seedMockAgentWorkspace({repoPrefix:'perf-impact-',port:daemon.port,title:'Review streaming reply',featureValues:{mockStreamingAssistantResponse:text,mockStreamingAssistantIntervalMs:40}});
+   await agent.client.sendAgentMessage(agent.agentId,'Give the first review reply.');
+   await agent.client.waitForFinish(agent.agentId,60000);
+   const context=await browser.newContext({viewport:{width:1280,height:900},recordVideo:{dir:path.join(out,'videos'),size:{width:1280,height:900}}});
+   const page=await context.newPage();
+   const errors:string[]=[]; const wire:any[]=[];
+   page.on('pageerror',e=>errors.push(e.message));
+   page.on('websocket',socket=>socket.on('framereceived',({payload})=>{const s=payload.toString();if(s.includes(agent.agentId))wire.push({at:Date.now(),bytes:Buffer.byteLength(s),sha256:hash(s),payload:s});}));
+   await page.route(/:(6767|6768)\b/,r=>r.abort());
+   await page.routeWebSocket(/:(6767|6768)\b/,async ws=>{await ws.close();});
+   await hideDeveloperToasts(page);
+   const host=buildSeededHost({serverId:daemon.serverId,endpoint:`127.0.0.1:${daemon.port}`,nowIso:new Date().toISOString()});
+   await page.addInitScript(({host})=>{localStorage.setItem('@paseo:e2e','1');localStorage.setItem('@paseo:daemon-registry',JSON.stringify([host]));localStorage.removeItem('@paseo:settings');},{host});
+   const url=`http://localhost:${process.env.E2E_METRO_PORT}/h/${daemon.serverId}/workspace/${agent.workspaceId}?open=agent:${agent.agentId}`;
+   const cdp=await context.newCDPSession(page);
+   let tracing=false;
+   try{
+    await page.goto(url,{waitUntil:'domcontentloaded',timeout:120000});
+    const input=page.getByTestId('message-input-root').getByRole('textbox').first();
+    await input.waitFor({timeout:60000});
+    await page.getByTestId('agent-chat-scroll').waitFor({timeout:30000});
+    await page.waitForFunction(()=>{const el=document.querySelector('[data-testid="agent-chat-scroll"]');return el && el.scrollHeight>el.clientHeight+100;},{},{timeout:15000});
+    const overflowBefore=await page.getByTestId('agent-chat-scroll').evaluate(el=>({height:el.clientHeight,scrollHeight:el.scrollHeight,top:el.scrollTop}));
+    await input.fill('warmup');await input.fill('');await wait(1500);
+    await input.focus();
+    const env={date:new Date().toISOString(),load:execFileSync('uptime',{encoding:'utf8'}),vm:execFileSync('vm_stat',{encoding:'utf8'}),os:execFileSync('sw_vers',{encoding:'utf8'}),browser:browser.version(),sha,variant,overflowBefore,storeHash:hash(await readFile(store)),url,daemonPort:daemon.port};
+    await writeFile(path.join(out,`${id}-env.json`),JSON.stringify(env,null,2));
+    await page.evaluate(`(()=>{
+      const el=document.querySelector('[data-testid="agent-chat-scroll"]');
+      const input=document.activeElement;
+      const w=globalThis;
+      const s=w.__impact={keys:[],frames:[],mutations:[],longTasks:[],events:[],scrolls:[],started:performance.now(),stop:false};
+      input.addEventListener('keydown',e=>s.keys.push({key:e.key,keydown:performance.now()}));
+      input.addEventListener('input',()=>{const k=s.keys.at(-1);if(k){k.input=performance.now();requestAnimationFrame(()=>{k.raf=performance.now();k.valueLength=input.value.length;});}});
+      new PerformanceObserver(list=>{for(const e of list.getEntries())s.longTasks.push({at:e.startTime,duration:e.duration});}).observe({type:'longtask',buffered:false});
+      new PerformanceObserver(list=>{for(const e of list.getEntries())s.events.push(e.toJSON());}).observe({type:'event',durationThreshold:16,buffered:false});
+      const mo=new MutationObserver(()=>s.mutations.push(performance.now()));mo.observe(el,{subtree:true,childList:true,characterData:true});
+      el.addEventListener('scroll',()=>s.scrolls.push({at:performance.now(),top:el.scrollTop}));
+      let lastLengths=new Map();
+      const frame=(t)=>{if(s.stop){mo.disconnect();return;}let growth=0;const nextLengths=new Map();
+      for(const node of document.querySelectorAll('[data-testid="assistant-message"]')){const key=node.getAttribute('data-reveal-key');const length=Number(node.getAttribute('data-reveal-length'));if(key!==null&&Number.isFinite(length)){if(lastLengths.has(key))growth+=Math.max(0,length-lastLengths.get(key));nextLengths.set(key,length);}}lastLengths=nextLengths;
+      s.frames.push({at:t,top:el.scrollTop,growth});requestAnimationFrame(frame);};requestAnimationFrame(frame);
+      performance.mark('perf-impact-start');
+    })()`);
+    const completed=new Promise<any>(resolve=>cdp.once('Tracing.tracingComplete',resolve));
+    await cdp.send('Tracing.start',{categories:'toplevel,devtools.timeline,blink.user_timing,latencyInfo,disabled-by-default-devtools.timeline.frame',transferMode:'ReturnAsStream'});tracing=true;
+    await cdp.send('Performance.enable');
+    const perfBefore=await cdp.send('Performance.getMetrics');
+    const started=Date.now();
+    await agent.client.sendAgentMessage(agent.agentId,'Review the small change and explain the verification steps.');
+    const labelTimes:any[]=[];const keys:any[]=[];const wheels:any[]=[];
+    await Promise.all([
+     (async()=>{for(let i=0;i<12;i++){await wait(Math.max(0,started+500+i*1000-Date.now()));const sent=Date.now();await (agent.client as any).updateAgent(agent.agentId,{labels:{'benchmark-phase':String(i)}});labelTimes.push({i,sent,ack:Date.now()});}})(),
+     (async()=>{await wait(Math.max(0,started+1000-Date.now()));for(const ch of draft){const sent=Date.now();await page.keyboard.type(ch);keys.push({ch,sent,ack:Date.now()});await wait(Math.max(0,started+1000+keys.length*100-Date.now()));}})(),
+     (async()=>{await wait(Math.max(0,started+8000-Date.now()));const box=await page.getByTestId('agent-chat-scroll').boundingBox();if(!box)throw Error('missing scroll viewport');await page.mouse.move(box.x+box.width/2,box.y+box.height/2);for(let i=0;i<20;i++){const sent=Date.now();await page.mouse.wheel(0,-160);wheels.push({sent,ack:Date.now()});await wait(Math.max(0,started+8000+(i+1)*100-Date.now()));}})(),
+    ]);
+    await agent.client.waitForFinish(agent.agentId,60000);
+    await wait(1500);
+    const actualDraft=await input.inputValue();
+    const finalSnapshot=await (agent.client as any).fetchAgent({agentId:agent.agentId});
+    const timeline=await (agent.client as any).fetchAgentTimeline(agent.agentId,{direction:'tail',limit:100});
+    const perfAfter=await cdp.send('Performance.getMetrics');
+    const probe=await page.evaluate(()=>{const s=(globalThis as any).__impact;s.stop=true;performance.mark('perf-impact-end');return s;});
+    await cdp.send('Tracing.end');tracing=false;
+    const {stream}=await completed;const buffers=[];for(;;){const chunk=await cdp.send('IO.read',{handle:stream});buffers.push(Buffer.from(chunk.data,chunk.base64Encoded?'base64':'utf8'));if(chunk.eof)break;}await cdp.send('IO.close',{handle:stream});
+    await writeFile(path.join(out,`${id}-trace.json.gz`),gzipSync(Buffer.concat(buffers)));
+    await page.screenshot({path:path.join(out,`${id}.png`)});
+    const beforeMetrics=Object.fromEntries(perfBefore.metrics.map(x=>[x.name,x.value]));
+    const afterMetrics=Object.fromEntries(perfAfter.metrics.map(x=>[x.name,x.value]));
+    const scriptDurationMs=(afterMetrics.ScriptDuration-beforeMetrics.ScriptDuration)*1000;
+    const taskDurationMs=(afterMetrics.TaskDuration-beforeMetrics.TaskDuration)*1000;
+    const growthFrames=probe.frames.filter(x=>x.growth>0&&x.at-probe.started<7500);
+    const growthGaps=growthFrames.slice(1).map((x,i)=>x.at-growthFrames[i].at);
+    const scrollTops=probe.scrolls.filter(x=>x.at-probe.started>=7800).map(x=>x.top);
+    const scrollRange=scrollTops.length?Math.max(...scrollTops)-Math.min(...scrollTops):0;
+    const eventDurations=probe.events.filter(x=>['keydown','keypress','input','keyup','beforeinput'].includes(x.name)).map(x=>x.duration);
+    const observedLabels=[...new Set(wire.flatMap(w=>{const matches=[...w.payload.matchAll(/"benchmark-phase":"(\d+)"/g)];return matches.map(m=>Number(m[1]));}))];
+    const assistantBodies=timeline.entries.filter(x=>x.item?.type==='assistant_message').map(x=>x.item.text);
+    const frameGaps=probe.frames.slice(1).map((x:any,i:number)=>x.at-probe.frames[i].at);
+    const keyRaf=probe.keys.filter((x:any)=>Number.isFinite(x.raf)).map((x:any)=>x.raf-x.keydown);
+    const result={id,env,videoPath:await page.video()?.path(),agentId:agent.agentId,agentWorkspaceId:agent.workspaceId,started,ended:Date.now(),labelTimes,keys,wheels,errors,actualDraft,expectedDraft:draft,draftEqual:actualDraft===draft,finalSnapshot,timeline,probe,summary:{keyCount:probe.keys.length,keyRafP95:percentile(keyRaf,.95),keyRafMax:Math.max(...keyRaf),frameGapP95:percentile(frameGaps,.95),frameGapMax:Math.max(...frameGaps),frameGapOver50:frameGaps.filter((x:number)=>x>50).length,scriptDurationMs,taskDurationMs,keyEventP95:percentile(eventDurations,.95),streamGapP95:percentile(growthGaps,.95),streamGrowthFrames:growthFrames.length,scrollRange,observedLabels,assistantBodies,
+longTaskCount:probe.longTasks.length,longTaskTotal:probe.longTasks.reduce((a:number,x:any)=>a+x.duration,0)}};
+    await writeFile(path.join(out,`${id}.json`),JSON.stringify(result,null,2));
+    await writeFile(path.join(out,`${id}-wire.json.gz`),gzipSync(JSON.stringify(wire)));
+    console.log(id,JSON.stringify(result.summary),'draftEqual',result.draftEqual);
+    if(!result.draftEqual||errors.length||scrollRange<100||observedLabels.length!==12||growthFrames.length<20||assistantBodies.length!==2||assistantBodies.some(body=>body!==text)||finalSnapshot.agent.status!=='idle'||finalSnapshot.agent.labels['benchmark-phase']!=='11')throw Error('identity/pageerror/real-scroll/update/stream exercise check failed');
+    samples.push({id,variant,summary:result.summary});
+    await writeFile(path.join(out,'samples.json'),JSON.stringify(samples,null,2));
+   }catch(e){await page.screenshot({path:path.join(out,`${id}-failure.png`)}).catch(()=>{});await writeFile(path.join(out,`${id}-failure.txt`),String((e as Error).stack));throw e;}
+   finally{if(tracing)await cdp.send('Tracing.end').catch(()=>{});await context.close();await agent.cleanup();}
+  }
+  if(group==='calibration'){
+    const metrics=['keyRafP95','frameGapP95','scriptDurationMs','streamGapP95'];
+    const comparisons=metrics.map(metric=>{const [a,b]=samples.map(s=>s.summary[metric]);const relativeDifference=Math.abs(a-b)/((a+b)/2);return {metric,a,b,relativeDifference,passed:Number.isFinite(relativeDifference)&&relativeDifference<=.15};});
+    const passed=comparisons.every(c=>c.passed);
+    await writeFile(path.join(out,'calibration.json'),JSON.stringify({at:new Date().toISOString(),threshold:.15,comparisons,passed,decision:passed?'Run two candidate then two returning baseline samples':'STOP A/B; retain all samples; do not enlarge workload, replace samples or recalibrate'},null,2));
+    console.log('CALIBRATION',JSON.stringify({passed,comparisons}));
+    if(!passed)break;
+  }
+ }finally{await browser?.close();await daemon?.close();await stopMetro?.();await writeFile(store,original);}
+}
+}finally{
+ await writeFile(store,original);
+ await writeFile(path.join(out,'restoration.json'),JSON.stringify({at:new Date().toISOString(),head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),tree:execFileSync('git',['rev-parse','HEAD^{tree}'],{encoding:'utf8'}).trim(),sourceSha256:hash(await readFile(store)),originalSha256:hash(original),gitStatus:execFileSync('git',['status','--porcelain'],{encoding:'utf8'}),samples:samples.map(s=>s.id)},null,2));
+}
+console.log('FINISHED',new Date().toISOString());
+
+}
+main().catch(e=>{console.error(e);process.exitCode=1;});

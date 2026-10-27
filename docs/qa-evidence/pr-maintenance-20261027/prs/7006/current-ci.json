@@ -1,0 +1,28 @@
+{
+  "number": 7006,
+  "title": "fix(app): hold back a closing code fence while it is still being typed",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "371e403aeaf583210800b9246c2f444c963ffe6c",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": "APPROVED",
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZh3wRLA",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40455346699,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40455346699",
+      "runHeadSha": "371e403aeaf583210800b9246c2f444c963ffe6c",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

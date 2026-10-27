@@ -1,0 +1,119 @@
+{
+  "registeredAt": "2026-10-27T05:05:11.702471+00:00",
+  "status": "final pre-capture registration; no outcome-dependent modifications",
+  "pr": 7774,
+  "candidateHead": "800b75b1f6ceef7391e5300137f980882b78f84f",
+  "candidateTree": "0b4ad32391e554f75777ec4ad76016dc13f3672b",
+  "frozenUpstream": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "frozenUpstreamIntegrated": false,
+  "baselineSource": "48623801a1bba8f1c259212d37f56a504812e42d",
+  "substitutions": {
+    "path": "packages/app/src/runtime/directory-sync/internal/agent-store.ts",
+    "candidateSha256": "3910213ed6e27df2ee272a67c607e793d3be61750ff055faca619f5a32ec2a09",
+    "baselineSha256": "ceb05079bfe561817df437be94831a158bc4d513471d78cc1c8c8d0762a7b066",
+    "scope": "Only the existing feature-reference change is counterfactually reverted. All other candidate sources/dependencies remain fixed; not a cross-version app comparison."
+  },
+  "fixture": {
+    "origin": "e60cd33a36187ffe563fe2a746f873e35abb1729 docs/qa-evidence/pr7774-perf-impact-20261024/raw/history/workload.json",
+    "fileSha256": "0dd0a7e6d5c06efb9c422af6b43a406936e74b54c7bbe0c506f5840b36c5d664",
+    "responseSha256": "15c5fd023ac04c0a5d3d674888d26fa46504ba46f05f510ace40368c86781f1d",
+    "responseCharacters": 1981,
+    "draftSha256": "5e0fdd628095d43b2a344d95b3425f3c56a134269e66bf6d81fffd77106cd066",
+    "priorCompletedReplies": 1,
+    "measuredTurnPrompt": "Review the small change and explain the verification steps."
+  },
+  "settings": {
+    "app": "Expo development Web app, real isolated daemon/WebSocket, repository mock provider e2e-fast-stream",
+    "streamIntervalMs": 40,
+    "labelCount": 12,
+    "labelIntervalMs": 1000,
+    "typingCadenceMs": 100,
+    "draftCharacters": 59,
+    "wheelCount": 20,
+    "wheelDelta": -160,
+    "wheelIntervalMs": 100,
+    "wheelStartMs": 8000,
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "headless": true,
+    "video": true,
+    "cpuThrottling": false,
+    "freshBrowserContextPerSample": true,
+    "freshAgentPerSample": true,
+    "warmup": "Metro compilation and composer warmup before each sample; no excluded performance samples",
+    "renderProfiler": false,
+    "resourceIsolation": "All installs/builds/captures held under /usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock. Other host background workloads uncontrolled.",
+    "daemonHome": "fresh helper-owned temp PASEO_HOME; never main daemon",
+    "ports": "helper-assigned unused ports excluding6767/6768",
+    "temporaryRoot": "/tmp/paseo-pr-maintenance-20261027/performance/7774/tmp"
+  },
+  "browser": {
+    "at": "2026-10-27T05:04:31.862Z",
+    "playwright": "1.58.2",
+    "executable": "/tmp/paseo-pr-maintenance-20261027/performance/browsers/chromium-1208/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+    "sha256": "d999cf00c6244a84279785c48eb78f97764a8a13ea3a1a7cc5030bf2f4ca481e",
+    "browser": "145.0.7632.6",
+    "launch": {
+      "headless": true,
+      "executablePath": "/tmp/paseo-pr-maintenance-20261027/performance/browsers/chromium-1208/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
+    },
+    "installation": "Single isolated install pinned to package-lock Playwright 1.58.2; default expected Chromium was absent."
+  },
+  "metrics": {
+    "primaryGate": [
+      "keyRafP95",
+      "frameGapP95",
+      "scriptDurationMs",
+      "streamGapP95"
+    ],
+    "definitions": {
+      "keyRafP95": "keydown to next requestAnimationFrame after input; rendering opportunity proxy, not presentation latency",
+      "frameGapP95": "successive measured-window requestAnimationFrame gaps",
+      "scriptDurationMs": "CDP Performance ScriptDuration delta over measured window",
+      "streamGapP95": "positive data-reveal-length growth gaps before 7.5s, prior to scroll virtualization; mounts excluded"
+    },
+    "secondary": [
+      "keyEventP95",
+      "taskDurationMs",
+      "longTaskCount",
+      "longTaskTotal",
+      "frameGapOver50",
+      "streamGrowthFrames",
+      "scrollRange",
+      "incoming label values"
+    ],
+    "clock": "browser performance.now / CDP monotonic; host scheduling uses Date.now"
+  },
+  "repetitions": {
+    "calibration": 2,
+    "ifGatePasses": {
+      "candidate": 2,
+      "returningBaseline": 2
+    },
+    "totalMaximum": 6,
+    "order": "A A, gate, B B, A A; serial; same settings/input, fresh seeded prior reply"
+  },
+  "noiseGate": {
+    "threshold": 0.15,
+    "formula": "abs(A1-A2)/mean(A1,A2) for all four primary metrics; all must pass; missing/zero/unmeasurable fails",
+    "scope": "One A/A calibration only. All raw samples retained; no repeat, sample replacement or workload enlargement."
+  },
+  "exerciseChecks": [
+    "Pre-measurement scrollHeight > clientHeight +100",
+    "Actual scroll event position range >=100px",
+    "All 12 label values observed in incoming browser WebSocket frames",
+    "At least20 positive reveal-growth frames in first7.5s",
+    "Draft exact; both completed assistant replies exact; final status idle and label11; zero pageerrors"
+  ],
+  "stopCriterion": "On first incomplete exercise/identity/error, stop and retain failure. On A/A >15% for any primary metric, STOP A/B. No rerun/search. If passes, take exactly two B and two returning A and report all medians/ranges without promising native benefit.",
+  "limits": [
+    "Mock provider/deterministic reply, not real-model drift",
+    "Development Web/Chromium only; no iOS/Android/Electron production acceptance",
+    "EventTiming quantized16ms; keydown-to-rAF is not field INP or presentation latency",
+    "Long tasks and frame gaps are whole-app observations; no causal attribution from counts alone",
+    "Actual-impact maintainer requirement remains unmet unless reproducible harm and benefit are demonstrated"
+  ],
+  "captureScriptSha256": "3f6bc9a6412b966f451c00821d035529d66b1ec12eda66c7e9f1c516a4e95c50"
+}

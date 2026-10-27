@@ -1,0 +1,10 @@
+{
+  "pr": 7318,
+  "role": "checked-no-op",
+  "status": "checked_no_op",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "b2fd0d1311425cc3ba8f626af8b6425acf6ab994",
+  "tree": "4fbd2915b6741ff8f8e5711451211a5254c6dc0e",
+  "sourceChanged": false,
+  "reason": "Public reference-doc overlap only; per-agent-tools/API contracts were unaffected."
+}

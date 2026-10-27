@@ -1,0 +1,1 @@
+npx vitest run src/server/agent/providers/claude/subagents/replay-source.test.ts --bail=1 --maxWorkers=1

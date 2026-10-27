@@ -1,0 +1,623 @@
+{
+  "number": 7774,
+  "result": "inconclusive; valid corrected A/A noise gate failed, A/B stopped",
+  "status": "complete bounded evidence follow-up; performance acceptance remains unmet",
+  "updatedAt": "2026-10-27T06:28:42.614453+00:00",
+  "start": "2026-10-27T04:58:48.260494+00:00",
+  "configuredModel": "codex/gpt-6.1-sol",
+  "thinking": "High",
+  "modelProvenance": "parent dispatch configuration; actual backend metadata not independently exposed",
+  "oldHead": "800b75b1f6ceef7391e5300137f980882b78f84f",
+  "newHead": "800b75b1f6ceef7391e5300137f980882b78f84f",
+  "sourceChanged": false,
+  "sourceCommits": 0,
+  "captureResults": [],
+  "platformBoundary": "Development Web only; no native Android/iOS CPU, battery, OOM or packaged acceptance",
+  "end": "2026-10-27T06:25:44.308313+00:00",
+  "tree": "0b4ad32391e554f75777ec4ad76016dc13f3672b",
+  "actualCaptureCount": 1,
+  "completeAASamples": 2,
+  "candidateSamples": 0,
+  "returningBaselineSamples": 0,
+  "preflightFailure": "Original English accessibility-name locator timed out in Chinese UI before measurement; retained. Locale-independent root test id corrected before the only actual calibration attempt.",
+  "gate": {
+    "at": "2026-10-27T06:21:51.022Z",
+    "threshold": 0.15,
+    "comparisons": [
+      {
+        "metric": "keyRafP95",
+        "a": 7.400000035762787,
+        "b": 10.199999988079071,
+        "relativeDifference": 0.3181818123321888,
+        "passed": false
+      },
+      {
+        "metric": "frameGapP95",
+        "a": 9.100000000000364,
+        "b": 9,
+        "relativeDifference": 0.011049723756946054,
+        "passed": true
+      },
+      {
+        "metric": "scriptDurationMs",
+        "a": 6231.929,
+        "b": 6602.653,
+        "relativeDifference": 0.05776954792918073,
+        "passed": true
+      },
+      {
+        "metric": "streamGapP95",
+        "a": 32,
+        "b": 32.30000000000018,
+        "relativeDifference": 0.00933125972006784,
+        "passed": true
+      }
+    ],
+    "passed": false,
+    "decision": "STOP A/B; retain all samples; do not enlarge workload, replace samples or recalibrate"
+  },
+  "diagnosticSample": {
+    "keyCount": 59,
+    "keyRafP95": 8.399999976158142,
+    "keyRafMax": 9.5,
+    "frameGapP95": 10,
+    "frameGapMax": 200,
+    "frameGapOver50": 4,
+    "scriptDurationMs": 3698.479,
+    "taskDurationMs": 5252.642,
+    "keyEventP95": 24,
+    "streamGapP95": null,
+    "streamGrowthFrames": 0,
+    "scrollRange": 894,
+    "observedLabels": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "longTaskCount": 0,
+    "longTaskTotal": 0
+  },
+  "integrity": {
+    "draftExact": true,
+    "assistantRepliesExact": true,
+    "responseSha256": "15c5fd023ac04c0a5d3d674888d26fa46504ba46f05f510ace40368c86781f1d",
+    "browserReceivedLabels": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "actualScrollRangePx": 894,
+    "pageErrors": [],
+    "actualDomMutationCount": 1110,
+    "frameCount": 2568
+  },
+  "sourceRestoration": {
+    "at": "2026-10-27T06:21:51.304Z",
+    "head": "800b75b1f6ceef7391e5300137f980882b78f84f",
+    "tree": "0b4ad32391e554f75777ec4ad76016dc13f3672b",
+    "sourceSha256": "3910213ed6e27df2ee272a67c607e793d3be61750ff055faca619f5a32ec2a09",
+    "originalSha256": "3910213ed6e27df2ee272a67c607e793d3be61750ff055faca619f5a32ec2a09",
+    "gitStatus": "",
+    "samples": [
+      "calibration-1",
+      "calibration-2"
+    ]
+  },
+  "comparisonMediansAndRanges": null,
+  "comparisonReason": "Valid A/A key-to-rAF p95 spread31.818% exceeds unchanged15% gate. No candidate or returning-baseline observations. Baseline descriptive statistics are not a benefit.",
+  "maintainerActualImpactRequirement": "still unmet; no reproducible harm/benefit attribution from this failed gate",
+  "unitTests": "none added/repeated; evidence-only harness, no product source change",
+  "bodyUpdate": "completed and exact final readback; historical links preserved",
+  "logs": [
+    "protocol.initial.json",
+    "protocol.json",
+    "capture.log",
+    "capture-actual.log",
+    "capture-initial.cts.txt",
+    "capture.cts.txt",
+    "raw/calibration-1-failure.txt",
+    "raw/calibration-1-failure.png",
+    "raw/restoration.json",
+    "raw/actual-calibration/calibration-1.json",
+    "raw/actual-calibration/calibration-1-trace.json.gz",
+    "raw/actual-calibration/calibration-1-wire.json.gz",
+    "raw/actual-calibration/restoration.json"
+  ],
+  "bodyReceipt": {
+    "headRefOid": "800b75b1f6ceef7391e5300137f980882b78f84f",
+    "headRefName": "fix/stable-agent-features",
+    "headRepository": {
+      "id": "R_kgDOVEwDiw",
+      "name": "paseo",
+      "nameWithOwner": "RoundRedDot/paseo"
+    },
+    "state": "OPEN",
+    "isDraft": false,
+    "baseRefName": "main"
+  },
+  "historicURLsPreserved": 4,
+  "retainedInitialAttempt": {
+    "result": "inconclusive; incomplete A/A calibration, stopped before candidate",
+    "gate": {
+      "threshold": 0.15,
+      "passed": false,
+      "complete": false,
+      "missingPrimary": "streamGapP95; render-profile data attributes absent because profiler was intentionally disabled",
+      "decision": "STOP after first incomplete measured A; no second A, B, returning A, profiler enablement, workload enlargement or sample replacement"
+    },
+    "diagnosticSample": {
+      "keyCount": 59,
+      "keyRafP95": 8.399999976158142,
+      "keyRafMax": 9.5,
+      "frameGapP95": 10,
+      "frameGapMax": 200,
+      "frameGapOver50": 4,
+      "scriptDurationMs": 3698.479,
+      "taskDurationMs": 5252.642,
+      "keyEventP95": 24,
+      "streamGapP95": null,
+      "streamGrowthFrames": 0,
+      "scrollRange": 894,
+      "observedLabels": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "longTaskCount": 0,
+      "longTaskTotal": 0
+    },
+    "integrity": {
+      "draftExact": true,
+      "assistantRepliesExact": true,
+      "responseSha256": "15c5fd023ac04c0a5d3d674888d26fa46504ba46f05f510ace40368c86781f1d",
+      "browserReceivedLabels": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "actualScrollRangePx": 894,
+      "pageErrors": [],
+      "actualDomMutationCount": 1110,
+      "frameCount": 2568
+    },
+    "sourceRestoration": {
+      "at": "2026-10-27T05:24:06.754Z",
+      "head": "800b75b1f6ceef7391e5300137f980882b78f84f",
+      "tree": "0b4ad32391e554f75777ec4ad76016dc13f3672b",
+      "sourceSha256": "3910213ed6e27df2ee272a67c607e793d3be61750ff055faca619f5a32ec2a09",
+      "originalSha256": "3910213ed6e27df2ee272a67c607e793d3be61750ff055faca619f5a32ec2a09",
+      "gitStatus": "",
+      "samples": []
+    },
+    "preflightFailure": "Original English accessibility-name locator timed out in Chinese UI before measurement; retained. Locale-independent root test id corrected before the only actual calibration attempt."
+  },
+  "parentCorrectionMessageId": "46f23dc3-d503-40b5-80c1-e80cac8492ae",
+  "validTimingSamples": 2,
+  "allRecordedTimingSamplesIncludingInvalid": 3,
+  "preflight": {
+    "at": "2026-10-27T06:19:40.210Z",
+    "sourceHead": "800b75b1f6ceef7391e5300137f980882b78f84f",
+    "variant": "baseline",
+    "observer": "Actual textContent length by stable DOM element identity once per rAF; new mounts excluded; no profiler or product-state changes",
+    "normalUI": "Filled composer and pressed Enter; repository mock provider only",
+    "windowMs": 5000,
+    "frames": 639,
+    "growthFrames": 263,
+    "growthChars": 457,
+    "stop": true,
+    "passed": true
+  },
+  "samples": [
+    {
+      "id": "calibration-1",
+      "sourceHead": "800b75b1f6ceef7391e5300137f980882b78f84f",
+      "substitutedModuleSha256": "ceb05079bfe561817df437be94831a158bc4d513471d78cc1c8c8d0762a7b066",
+      "summary": {
+        "keyCount": 59,
+        "keyRafP95": 7.400000035762787,
+        "keyRafMax": 8.299999952316284,
+        "frameGapP95": 9.100000000000364,
+        "frameGapMax": 139.29999999999927,
+        "frameGapOver50": 5,
+        "scriptDurationMs": 6231.929,
+        "taskDurationMs": 8758.391000000001,
+        "keyEventP95": 24,
+        "streamGapP95": 32,
+        "streamGrowthFrames": 401,
+        "scrollRange": 894,
+        "observedLabels": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "longTaskCount": 2,
+        "longTaskTotal": 222
+      },
+      "integrity": {
+        "draftExact": true,
+        "replyCount": 2,
+        "replyHashes": [
+          "15c5fd023ac04c0a5d3d674888d26fa46504ba46f05f510ace40368c86781f1d",
+          "15c5fd023ac04c0a5d3d674888d26fa46504ba46f05f510ace40368c86781f1d"
+        ],
+        "repliesExact": true,
+        "pageErrors": [],
+        "labelCount": 12,
+        "actualScrollRangePx": 894,
+        "overflowBefore": {
+          "height": 696,
+          "scrollHeight": 1057,
+          "top": 361
+        },
+        "actualGrowthFrames": 401
+      },
+      "actualWireTypeCounts": {
+        "agent_stream": 252,
+        "agent_update": 14,
+        "agent.timeline.list_prompts.response": 1,
+        "agent_attention_required": 1
+      },
+      "hostInputOffsetsMs": {
+        "keys": [
+          1000,
+          6800
+        ],
+        "wheels": [
+          8024,
+          9900
+        ],
+        "labels": [
+          500,
+          11504
+        ]
+      },
+      "longTasksRelativeToProbeStartMs": [
+        {
+          "at": 59.69999998807907,
+          "duration": 79
+        },
+        {
+          "at": 8076.300000011921,
+          "duration": 143
+        }
+      ],
+      "hostLoad": "14:20  up 5 days, 23:32, 12 users, load averages: 10.59 29.90 42.48\n",
+      "recordedStart": "2026-10-27T06:20:21.202Z"
+    },
+    {
+      "id": "calibration-2",
+      "sourceHead": "800b75b1f6ceef7391e5300137f980882b78f84f",
+      "substitutedModuleSha256": "ceb05079bfe561817df437be94831a158bc4d513471d78cc1c8c8d0762a7b066",
+      "summary": {
+        "keyCount": 59,
+        "keyRafP95": 10.199999988079071,
+        "keyRafMax": 13.400000035762787,
+        "frameGapP95": 9,
+        "frameGapMax": 396.10000000000036,
+        "frameGapOver50": 4,
+        "scriptDurationMs": 6602.653,
+        "taskDurationMs": 9489.241999999998,
+        "keyEventP95": 32,
+        "streamGapP95": 32.30000000000018,
+        "streamGrowthFrames": 364,
+        "scrollRange": 894,
+        "observedLabels": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "longTaskCount": 2,
+        "longTaskTotal": 486
+      },
+      "integrity": {
+        "draftExact": true,
+        "replyCount": 2,
+        "replyHashes": [
+          "15c5fd023ac04c0a5d3d674888d26fa46504ba46f05f510ace40368c86781f1d",
+          "15c5fd023ac04c0a5d3d674888d26fa46504ba46f05f510ace40368c86781f1d"
+        ],
+        "repliesExact": true,
+        "pageErrors": [],
+        "labelCount": 12,
+        "actualScrollRangePx": 894,
+        "overflowBefore": {
+          "height": 696,
+          "scrollHeight": 1057,
+          "top": 361
+        },
+        "actualGrowthFrames": 364
+      },
+      "actualWireTypeCounts": {
+        "agent_stream": 252,
+        "agent_update": 14,
+        "agent.timeline.list_prompts.response": 1,
+        "agent_attention_required": 1
+      },
+      "hostInputOffsetsMs": {
+        "keys": [
+          1000,
+          6802
+        ],
+        "wheels": [
+          8032,
+          9908
+        ],
+        "labels": [
+          525,
+          11500
+        ]
+      },
+      "longTasksRelativeToProbeStartMs": [
+        {
+          "at": 597.1999999880791,
+          "duration": 85
+        },
+        {
+          "at": 8626.300000011921,
+          "duration": 401
+        }
+      ],
+      "hostLoad": "14:21  up 5 days, 23:33, 12 users, load averages: 20.50 28.97 41.26\n",
+      "recordedStart": "2026-10-27T06:21:18.122Z"
+    }
+  ],
+  "baselineDescriptiveMediansAndRanges": {
+    "keyRafP95": {
+      "median": 8.800000011920929,
+      "min": 7.400000035762787,
+      "max": 10.199999988079071,
+      "n": 2
+    },
+    "frameGapP95": {
+      "median": 9.050000000000182,
+      "min": 9,
+      "max": 9.100000000000364,
+      "n": 2
+    },
+    "scriptDurationMs": {
+      "median": 6417.291,
+      "min": 6231.929,
+      "max": 6602.653,
+      "n": 2
+    },
+    "streamGapP95": {
+      "median": 32.15000000000009,
+      "min": 32,
+      "max": 32.30000000000018,
+      "n": 2
+    }
+  },
+  "correctedProtocol": "protocol.corrected.json",
+  "correctionAuthorityMessageId": "46f23dc3-d503-40b5-80c1-e80cac8492ae",
+  "modifiedProductionFiles": [],
+  "newTests": "No maintained tests added or unchanged green suites repeated. One ignored ad-hoc spec uses existing test:e2e runner; runner exit0 means protocol execution ended, not performance acceptance.",
+  "commands": [
+    "/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock /bin/zsh performance/7774/corrected-setup.sh",
+    "npm ci",
+    "npm run build:server",
+    "npm run build --workspace=@getpaseo/expo-two-way-audio",
+    "/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock /bin/zsh performance/7774/capture-corrected.sh",
+    "npm run test:e2e --workspace=@getpaseo/app -- --config /tmp/paseo-pr-maintenance-20261027/performance/7774/playwright.corrected.config.cjs --workers=1 --retries=0"
+  ],
+  "afterBodySha256": "808e45a33f51d2bada69a871dfccc0c23ff387e2facc272470bde3aa5606e9f9",
+  "ci": {
+    "id": 40185513971,
+    "head_sha": "800b75b1f6ceef7391e5300137f980882b78f84f",
+    "status": "completed",
+    "conclusion": "action_required",
+    "jobs": 0
+  },
+  "finalReadbackAt": "2026-10-27T06:35:49.991542+00:00",
+  "headAndForkUnchanged": true,
+  "finalNativeInventory": {
+    "at": "2026-10-27T06:27:44.289897+00:00",
+    "adbExit": 0,
+    "adbDeviceCount": 1,
+    "states": {
+      "device": 1
+    },
+    "ownedAffectedDeviceCount": 0,
+    "actions": "inventory only; no device/simulator app or configuration operations",
+    "adbModelInventory": [
+      {
+        "state": "device",
+        "model": "PHN110"
+      }
+    ],
+    "ownership": "PHN110 connected; user explicitly declined allocation for this run. No further device probes, installs, launches, control or native Android testing.",
+    "allocationDecision": "USER_DECLINED",
+    "allocationDecisionMessageId": "755cb358-309e-4b79-8a96-e75e66afb71a",
+    "allocationDecisionRecordedAt": "2026-10-27T06:32:55.301754+00:00"
+  },
+  "cleanupReceipt": "../cleanup.json",
+  "validatedArtifacts": [
+    {
+      "file": "7774/raw/actual-calibration/calibration-1-trace.json.gz",
+      "sha256": "81f9e73408d980869d3c943c4aafcd2118a980a35680c5afe1e5029eb4ddfd82",
+      "bytes": 11981285,
+      "kind": "gzip-json",
+      "parse": "passed"
+    },
+    {
+      "file": "7774/raw/actual-calibration/calibration-1-wire.json.gz",
+      "sha256": "d592dfadfd630417918a7460c469ae74aecb8e481c20eb2334e96873b92ff1fc",
+      "bytes": 20605,
+      "kind": "gzip-json",
+      "parse": "passed"
+    },
+    {
+      "file": "7774/raw/actual-calibration/videos/75310c1fbbf1bf6b75f813dc92b2211e.webm",
+      "sha256": "05fbc618df359efe7969f2b79434eb9896d45d6cd8d7067d70d7f6162df16730",
+      "bytes": 2600329,
+      "kind": "video",
+      "ffprobeExit": 0,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 1280,
+            "height": 900
+          }
+        ],
+        "format": {
+          "duration": "31.040000"
+        }
+      },
+      "fullDecodeExit": 0,
+      "decodeOutput": ""
+    },
+    {
+      "file": "7774/raw/corrected-calibration/calibration-1-trace.json.gz",
+      "sha256": "92e1b26acd8c9cd69bda6d41a573037ab609ddd48cb999a4ed54df667dd453bb",
+      "bytes": 13218373,
+      "kind": "gzip-json",
+      "parse": "passed"
+    },
+    {
+      "file": "7774/raw/corrected-calibration/calibration-1-wire.json.gz",
+      "sha256": "769fff0ce3e73f43c3ab170412d1a642f212fce46552f800a41e768a585d36be",
+      "bytes": 20627,
+      "kind": "gzip-json",
+      "parse": "passed"
+    },
+    {
+      "file": "7774/raw/corrected-calibration/calibration-2-trace.json.gz",
+      "sha256": "6b2b1491fbc3236df8f391462ebbae150f661aa17da63167c27e535e6191d7e3",
+      "bytes": 13183639,
+      "kind": "gzip-json",
+      "parse": "passed"
+    },
+    {
+      "file": "7774/raw/corrected-calibration/calibration-2-wire.json.gz",
+      "sha256": "a77d1614729ee30178495d965f10807678cdd750748fce711dc292f78ae2ad19",
+      "bytes": 20627,
+      "kind": "gzip-json",
+      "parse": "passed"
+    },
+    {
+      "file": "7774/raw/corrected-calibration/videos/2ae7d7895d0418e5aa58791ef8735cfe.webm",
+      "sha256": "548cd91a8d73c3121c7c3ac52256b92c7fab22b76736ed95a2bcfb30a5fcc001",
+      "bytes": 3016209,
+      "kind": "video",
+      "ffprobeExit": 0,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 1280,
+            "height": 900
+          }
+        ],
+        "format": {
+          "duration": "38.880000"
+        }
+      },
+      "fullDecodeExit": 0,
+      "decodeOutput": ""
+    },
+    {
+      "file": "7774/raw/corrected-calibration/videos/5cacef57404de52d81683af7dc6404ea.webm",
+      "sha256": "0e805e000e1c43fa9053ebe1ce315ba9f76a78fe466014c29fe97a6df6eae28f",
+      "bytes": 2973982,
+      "kind": "video",
+      "ffprobeExit": 0,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 1280,
+            "height": 900
+          }
+        ],
+        "format": {
+          "duration": "36.040000"
+        }
+      },
+      "fullDecodeExit": 0,
+      "decodeOutput": ""
+    },
+    {
+      "file": "7774/raw/videos/6875d35830801f3e8109aac238d95dce.webm",
+      "sha256": "747a567f49cfa98bc9f6901fd34b12a6b0fef3bd498242336c76205191fc2a98",
+      "bytes": 3048516,
+      "kind": "video",
+      "ffprobeExit": 0,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 1280,
+            "height": 900
+          }
+        ],
+        "format": {
+          "duration": "61.600000"
+        }
+      },
+      "fullDecodeExit": 0,
+      "decodeOutput": ""
+    }
+  ]
+}

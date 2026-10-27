@@ -1,0 +1,10 @@
+#!/bin/zsh
+set -eu
+cd /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-timeline
+[[ $(git rev-parse HEAD) = 59bfc43e4097425f0a4429473a9635a99b305067 ]]
+[[ -f /tmp/paseo-pr-maintenance-20261027/image-qa/seeded-replay-59bfc43e/build-completed.txt ]]
+[[ ! -f /tmp/paseo-pr-maintenance-20261027/image-qa/seeded-replay-59bfc43e/result-runtime.json ]]
+export PASEO_HOME=/tmp/paseo-pr-maintenance-20261027/image-qa/seeded-replay-59bfc43e/isolated-home
+export TMPDIR=/tmp/paseo-pr-maintenance-20261027/image-qa/seeded-replay-59bfc43e/tmp
+mkdir -p "$TMPDIR"
+node /tmp/paseo-pr-maintenance-20261027/image-qa/seeded-replay-59bfc43e/seeded-replay.mjs > /tmp/paseo-pr-maintenance-20261027/image-qa/seeded-replay-59bfc43e/runtime-safe.log 2>/dev/null

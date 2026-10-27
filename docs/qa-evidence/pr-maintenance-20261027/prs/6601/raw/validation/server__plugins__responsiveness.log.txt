@@ -1,0 +1,11 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-compiler/packages/server
+
+plugin compile main-thread blocking: 1.48 ms {"longestWall":1.9463340000000358,"longestWallCpu":1.484,"workerStarts":1,"portCallbacks":2,"longestBlockingWindow":{"wallMs":1.9463340000000358,"cpuMs":1.484,"resource":"worker/port interval"},"longestGc":0}
+plugin compile main-thread blocking: 0.34 ms {"longestWall":1.7736250000000382,"longestWallCpu":0.054,"workerStarts":0,"portCallbacks":0,"longestBlockingWindow":{"wallMs":1.0636250000000018,"cpuMs":0.339,"resource":"worker/port interval"},"longestGc":0}
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 6 skipped (7)
+   Start at  13:14:02
+   Duration  6.05s (transform 3.70s, setup 20ms, import 4.80s, tests 1.17s, environment 0ms)
+

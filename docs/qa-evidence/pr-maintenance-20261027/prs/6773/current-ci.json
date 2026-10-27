@@ -1,0 +1,28 @@
+{
+  "number": 6773,
+  "title": "feat(app): scrub the chat outline from the left edge on touch devices",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "2bacd637da86474faf0f41aa4d66a322f47a3c38",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZbyEUNA",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40306440615,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40306440615",
+      "runHeadSha": "2bacd637da86474faf0f41aa4d66a322f47a3c38",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

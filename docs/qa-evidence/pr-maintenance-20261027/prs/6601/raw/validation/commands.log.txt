@@ -1,0 +1,29 @@
+2026-10-27T05:12:10Z
+/Users/luopeihuan/.pyenv/bin/python3 /tmp/paseo-pr-maintenance-20261027/compiler/6601/negative.py 
+2026-10-27T05:12:14Z
+npm run build:server 
+2026-10-27T05:12:52Z
+npm run build --workspace=@getpaseo/expo-two-way-audio 
+2026-10-27T05:12:52Z
+npm exec --workspace=@getpaseo/server -- vitest run src/server/plugins/compiler.test.ts --bail=1 --maxWorkers=1 
+2026-10-27T05:13:33Z
+npm exec --workspace=@getpaseo/server -- vitest run src/server/plugins/preparation.test.ts --bail=1 --maxWorkers=1 
+2026-10-27T05:13:37Z
+npm exec --workspace=@getpaseo/server -- vitest run src/server/plugins/runtime.posix.test.ts --bail=1 --maxWorkers=1 
+2026-10-27T05:13:59Z
+npm exec --workspace=@getpaseo/plugin -- vitest run src/boundaries.test.ts --bail=1 --maxWorkers=1 
+2026-10-27T05:14:01Z
+npm exec --workspace=@getpaseo/server -- vitest run src/server/plugins/plugin-paseo-api.e2e.test.ts --bail=1 --maxWorkers=1 -t keeps\ reload\ and\ enable\ responsive\ while\ compiling\ a\ real\ plugin 
+2026-10-27T05:14:08Z
+/Users/luopeihuan/.pyenv/bin/python3 /tmp/paseo-pr-maintenance-20261027/compiler/hermes-inventory.py /tmp/paseo-pr-maintenance-20261027/compiler/6601 
+2026-10-27T05:14:08Z
+npm run format 
+2026-10-27T05:14:10Z
+npm run typecheck 
+2026-10-27T05:14:40Z
+npm run lint 
+2026-10-27T05:14:42Z
+env GIT_AUTHOR_NAME=luke GIT_AUTHOR_EMAIL=luopeihuan@gmail.com GIT_COMMITTER_NAME=luke GIT_COMMITTER_EMAIL=luopeihuan@gmail.com git commit -F /tmp/paseo-pr-maintenance-20261027/compiler/6601/commit-message.txt 
+2026-10-27T05:23:54Z
+node /tmp/paseo-pr-maintenance-20261027/compiler/6601/vm-generate.mjs
+/Users/luopeihuan/.pyenv/bin/python3 /tmp/paseo-pr-maintenance-20261027/compiler/6601/vm-execute.py

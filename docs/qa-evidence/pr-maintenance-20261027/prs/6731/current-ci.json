@@ -1,0 +1,28 @@
+{
+  "number": 6731,
+  "title": "fix(app): keep installed plugins across a host disconnect",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "ac19eed979213b90670f401b636ae05cf05c7db7",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZb_lS7Q",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40311631639,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40311631639",
+      "runHeadSha": "ac19eed979213b90670f401b636ae05cf05c7db7",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

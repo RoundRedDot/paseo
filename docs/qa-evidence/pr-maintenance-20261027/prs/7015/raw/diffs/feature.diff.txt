@@ -1,0 +1,1488 @@
+diff --git a/packages/app/src/components/question-form-card-core.test.ts b/packages/app/src/components/question-form-card-core.test.ts
+index 293bf24ba..b658017e4 100644
+--- a/packages/app/src/components/question-form-card-core.test.ts
++++ b/packages/app/src/components/question-form-card-core.test.ts
+@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
+ import {
+   areQuestionsAnswered,
+   buildQuestionFormAnswers,
++  buildQuestionFormAnswerInput,
+   parseQuestionFormQuestions,
+   questionShowsTextInput,
+   resolveDismissLabel,
+@@ -9,6 +10,79 @@ import {
+ } from "./question-form-card-core";
+ 
+ describe("question form card core", () => {
++  test("keeps the existing answer contract for unmarked question requests", () => {
++    const input = {
++      questions: [
++        { question: "Colors?", header: "Colors", options: [{ label: "Red" }], multiSelect: false },
++      ],
++    };
++    const questions = parseQuestionFormQuestions(input);
++    if (!questions) throw new Error("questions did not parse");
++    expect(
++      buildQuestionFormAnswerInput({
++        input,
++        questions,
++        selections: { 0: new Set([0]) },
++        otherTexts: {},
++      }),
++    ).toEqual({
++      ...input,
++      answers: { Colors: "Red" },
++    });
++  });
++
++  test.each([true, false])(
++    "preserves option IDs and separate text for structured multiSelect=%s",
++    (multiSelect) => {
++      const input = {
++        answerFormat: "structured",
++        questions: [
++          {
++            question: "Colors?",
++            header: "Colors",
++            multiSelect,
++            allowOther: true,
++            options: [
++              { id: "combined", label: "Red, Blue" },
++              { id: "red", label: "Red" },
++              { id: "blue", label: "Blue" },
++              { id: "red-duplicate", label: "Red" },
++            ],
++          },
++        ],
++      };
++      const questions = parseQuestionFormQuestions(input);
++      if (!questions) throw new Error("questions did not parse");
++      const selections = { 0: new Set(multiSelect ? [1, 2, 3] : [3]) };
++      expect(
++        buildQuestionFormAnswerInput({ input, questions, selections, otherTexts: {} }),
++      ).toEqual({
++        ...input,
++        questionAnswers: {
++          Colors: {
++            selectedOptionIds: multiSelect ? ["red", "blue", "red-duplicate"] : ["red-duplicate"],
++          },
++        },
++      });
++      expect(
++        buildQuestionFormAnswerInput({
++          input,
++          questions,
++          selections,
++          otherTexts: { 0: " Red, Blue " },
++        }),
++      ).toEqual({
++        ...input,
++        questionAnswers: {
++          Colors: {
++            selectedOptionIds: multiSelect ? ["red", "blue", "red-duplicate"] : [],
++            otherText: "Red, Blue",
++          },
++        },
++      });
++    },
++  );
++
+   test("treats optional input prompts as skippable empty answers", () => {
+     const questions = parseQuestionFormQuestions({
+       questions: [
+diff --git a/packages/app/src/components/question-form-card-core.ts b/packages/app/src/components/question-form-card-core.ts
+index 78007dba2..45a6a569a 100644
+--- a/packages/app/src/components/question-form-card-core.ts
++++ b/packages/app/src/components/question-form-card-core.ts
+@@ -1,4 +1,7 @@
++import type { QuestionAnswers } from "@getpaseo/protocol/question-answers";
++
+ export interface QuestionOption {
++  id?: string;
+   label: string;
+   description?: string;
+   preview?: string;
+@@ -45,6 +48,7 @@ export function parseQuestionFormQuestions(input: unknown): QuestionFormQuestion
+       const o = opt as Record<string, unknown>;
+       if (typeof o.label !== "string") return null;
+       options.push({
++        ...(typeof o.id === "string" ? { id: o.id } : {}),
+         label: o.label,
+         description: typeof o.description === "string" ? o.description : undefined,
+         preview: readOptionalString(o, "preview"),
+@@ -135,6 +139,41 @@ export function buildQuestionFormAnswers(
+   return answers;
+ }
+ 
++export interface QuestionFormAnswerInputOptions {
++  input: Record<string, unknown> | undefined;
++  questions: QuestionFormQuestion[];
++  selections: QuestionSelections;
++  otherTexts: QuestionOtherTexts;
++}
++
++export function buildQuestionFormAnswerInput({
++  input,
++  questions,
++  selections,
++  otherTexts,
++}: QuestionFormAnswerInputOptions): Record<string, unknown> {
++  if (input?.answerFormat !== "structured") {
++    return { ...input, answers: buildQuestionFormAnswers(questions, selections, otherTexts) };
++  }
++
++  const questionAnswers: QuestionAnswers = {};
++  for (const [index, question] of questions.entries()) {
++    const otherText = questionShowsTextInput(question) ? otherTexts[index]?.trim() : undefined;
++    const replacesSelection = !question.multiSelect && Boolean(otherText);
++    const selected = replacesSelection ? [] : Array.from(selections[index] ?? []);
++    const selectedOptionIds = selected.map((optionIndex) => {
++      const id = question.options[optionIndex].id;
++      if (!id) throw new Error("Structured question options require IDs");
++      return id;
++    });
++    questionAnswers[question.header] = {
++      selectedOptionIds,
++      ...(otherText ? { otherText } : {}),
++    };
++  }
++  return { ...input, questionAnswers };
++}
++
+ export function shouldSubmitEmptyOnDismiss(questions: QuestionFormQuestion[]): boolean {
+   return (
+     questions.length > 0 &&
+diff --git a/packages/app/src/components/question-form-card.browser.test.tsx b/packages/app/src/components/question-form-card.browser.test.tsx
+index 0b2a5df25..e6399717f 100644
+--- a/packages/app/src/components/question-form-card.browser.test.tsx
++++ b/packages/app/src/components/question-form-card.browser.test.tsx
+@@ -39,7 +39,10 @@ afterEach(() => {
+   }
+ });
+ 
+-function buildPermission(question: Record<string, unknown>): PendingPermission {
++function buildPermission(
++  question: Record<string, unknown>,
++  structured: boolean,
++): PendingPermission {
+   return {
+     key: "perm-1",
+     agentId: "agent-1",
+@@ -48,12 +51,12 @@ function buildPermission(question: Record<string, unknown>): PendingPermission {
+       provider: "claude",
+       name: "AskUserQuestion",
+       kind: "question",
+-      input: { questions: [question] },
++      input: { questions: [question], ...(structured ? { answerFormat: "structured" } : {}) },
+     },
+   };
+ }
+ 
+-function mountCard(question: Record<string, unknown>) {
++function mountCard(question: Record<string, unknown>, structured = false) {
+   const onRespond = vi.fn<(response: AgentPermissionResponse) => void>();
+   const container = document.createElement("div");
+   document.body.appendChild(container);
+@@ -61,7 +64,7 @@ function mountCard(question: Record<string, unknown>) {
+   act(() =>
+     root.render(
+       <QuestionFormCard
+-        permission={buildPermission(question)}
++        permission={buildPermission(question, structured)}
+         onRespond={onRespond}
+         isResponding={false}
+         responseError={null}
+@@ -75,6 +78,7 @@ function mountCard(question: Record<string, unknown>) {
+   const otherInput = () =>
+     view.getByRole<HTMLInputElement>("textbox", { name: String(question.question) });
+   const check = (label: string) => act(() => view.getByRole(optionRole, { name: label }).click());
++  const checkAt = (index: number) => act(() => view.getAllByRole(optionRole)[index].click());
+   const type = (text: string) => {
+     const input = otherInput();
+     const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+@@ -90,7 +94,12 @@ function mountCard(question: Record<string, unknown>) {
+     if (!response || response.behavior !== "allow") throw new Error("card did not submit");
+     return (response.updatedInput as { answers: Record<string, string> }).answers;
+   };
+-  return { check, type, otherInput, submit, submittedAnswers };
++  const submittedInput = () => {
++    const response = onRespond.mock.calls[0]?.[0];
++    if (!response || response.behavior !== "allow") throw new Error("card did not submit");
++    return response.updatedInput;
++  };
++  return { check, checkAt, type, otherInput, submit, submittedAnswers, submittedInput };
+ }
+ 
+ const multiSelectQuestion = {
+@@ -110,6 +119,61 @@ const singleSelectQuestion = {
+ };
+ 
+ describe("QuestionFormCard other answers", () => {
++  it.each([true, false])(
++    "submits structured identities for colliding labels (multiSelect=%s)",
++    (multiSelect) => {
++      const card = mountCard(
++        {
++          question: "Colors?",
++          header: "Colors",
++          multiSelect,
++          allowOther: true,
++          options: [
++            { id: "combined", label: "Red, Blue" },
++            { id: "red", label: "Red" },
++            { id: "blue", label: "Blue" },
++            { id: "duplicate", label: "Red" },
++          ],
++        },
++        true,
++      );
++      card.checkAt(3);
++      if (multiSelect) {
++        card.checkAt(2);
++        card.type("Red, Blue");
++      }
++      card.submit();
++      expect(card.submittedInput()?.questionAnswers).toEqual({
++        Colors: {
++          selectedOptionIds: multiSelect ? ["duplicate", "blue"] : ["duplicate"],
++          ...(multiSelect ? { otherText: "Red, Blue" } : {}),
++        },
++      });
++    },
++  );
++
++  it("keeps a custom single-select answer equal to an option label as free text", () => {
++    const card = mountCard(
++      {
++        question: "Colors?",
++        header: "Colors",
++        multiSelect: false,
++        allowOther: true,
++        options: [{ id: "red", label: "Red" }],
++      },
++      true,
++    );
++    card.check("Red");
++    card.type("Red");
++    card.submit();
++    expect(card.submittedInput()?.questionAnswers).toEqual({
++      Colors: {
++        selectedOptionIds: [],
++        otherText: "Red",
++      },
++    });
++  });
++
+   it("keeps checked options when the other answer is typed afterwards (multi-select)", () => {
+     const card = mountCard(multiSelectQuestion);
+ 
+diff --git a/packages/app/src/components/question-form-card.tsx b/packages/app/src/components/question-form-card.tsx
+index 8ff81963d..381d91264 100644
+--- a/packages/app/src/components/question-form-card.tsx
++++ b/packages/app/src/components/question-form-card.tsx
+@@ -21,7 +21,7 @@ import { ScrollableCodeSurface } from "@/components/ui/scrollable-code-surface";
+ import { MarkdownRenderer } from "@/components/markdown/renderer";
+ import {
+   areQuestionsAnswered,
+-  buildQuestionFormAnswers,
++  buildQuestionFormAnswerInput,
+   isQuestionAnswered,
+   parseQuestionFormQuestions,
+   questionShowsTextInput,
+@@ -450,10 +450,12 @@ export function QuestionFormCard({
+     setRespondingAction("submit");
+     onRespond({
+       behavior: "allow",
+-      updatedInput: {
+-        ...permission.request.input,
+-        answers: buildQuestionFormAnswers(questions, selections, otherTexts),
+-      },
++      updatedInput: buildQuestionFormAnswerInput({
++        input: permission.request.input,
++        questions,
++        selections,
++        otherTexts,
++      }),
+     });
+   }, [
+     questions,
+@@ -471,10 +473,12 @@ export function QuestionFormCard({
+     if (shouldSubmitEmptyOnDismiss(questions)) {
+       onRespond({
+         behavior: "allow",
+-        updatedInput: {
+-          ...permission.request.input,
+-          answers: buildQuestionFormAnswers(questions, selections, otherTexts),
+-        },
++        updatedInput: buildQuestionFormAnswerInput({
++          input: permission.request.input,
++          questions,
++          selections,
++          otherTexts,
++        }),
+       });
+       return;
+     }
+@@ -598,7 +602,7 @@ export function QuestionFormCard({
+             <View style={styles.optionsWrap} {...optionsGroupAccessibility}>
+               {activeQuestion.options.map((opt, optIndex) => (
+                 <QuestionOptionRow
+-                  key={opt.label}
++                  key={opt.id ?? opt.label}
+                   qIndex={resolvedActiveQuestionIndex}
+                   optIndex={optIndex}
+                   option={opt}
+diff --git a/packages/protocol/src/question-answers.test.ts b/packages/protocol/src/question-answers.test.ts
+new file mode 100644
+index 000000000..4bc5a2c5d
+--- /dev/null
++++ b/packages/protocol/src/question-answers.test.ts
+@@ -0,0 +1,30 @@
++import { describe, expect, test } from "vitest";
++import { AgentPermissionResponseSchema } from "./messages.js";
++import { QuestionAnswersSchema } from "./question-answers.js";
++
++describe("structured question answers", () => {
++  test("round-trips independent option identities and text through permission metadata", () => {
++    const questionAnswers = {
++      Colors: { selectedOptionIds: ["red", "blue", "red-duplicate"], otherText: "Red, Blue" },
++      Comment: { selectedOptionIds: [], otherText: "Red" },
++    };
++    const response = AgentPermissionResponseSchema.parse(
++      JSON.parse(
++        JSON.stringify({
++          behavior: "allow",
++          updatedInput: { questionAnswers },
++        }),
++      ),
++    );
++    if (response.behavior !== "allow") throw new Error("Expected allow response");
++    expect(QuestionAnswersSchema.parse(response.updatedInput?.questionAnswers)).toEqual(
++      questionAnswers,
++    );
++  });
++
++  test("keeps accepting permission responses without structured answers", () => {
++    const response = { behavior: "allow", updatedInput: { answers: { Colors: "Red, Blue" } } };
++    expect(AgentPermissionResponseSchema.parse(response)).toEqual(response);
++    expect(AgentPermissionResponseSchema.parse({ behavior: "deny" })).toEqual({ behavior: "deny" });
++  });
++});
+diff --git a/packages/protocol/src/question-answers.ts b/packages/protocol/src/question-answers.ts
+new file mode 100644
+index 000000000..9bd5eec22
+--- /dev/null
++++ b/packages/protocol/src/question-answers.ts
+@@ -0,0 +1,11 @@
++import { z } from "zod";
++
++// Opted-in question permissions carry these in updatedInput.questionAnswers, keyed by header.
++// Display labels are not identities: they may repeat or contain the multi-select separator.
++export const QuestionAnswerSchema = z.object({
++  selectedOptionIds: z.array(z.string().min(1)),
++  otherText: z.string().optional(),
++});
++
++export const QuestionAnswersSchema = z.record(z.string(), QuestionAnswerSchema);
++export type QuestionAnswers = z.infer<typeof QuestionAnswersSchema>;
+diff --git a/packages/server/src/server/agent/providers/acp-agent.test.ts b/packages/server/src/server/agent/providers/acp-agent.test.ts
+index e902493dc..a3bae0466 100644
+--- a/packages/server/src/server/agent/providers/acp-agent.test.ts
++++ b/packages/server/src/server/agent/providers/acp-agent.test.ts
+@@ -63,6 +63,33 @@ import { createTestLogger } from "../../../test-utils/test-logger.js";
+ import { buildStringCommandShellInvocation } from "../../../utils/string-command-shell.js";
+ import { asInternals } from "../../test-utils/class-mocks.js";
+ import * as spawnUtils from "../../../utils/spawn.js";
++import { AgentPermissionResponseSchema } from "@getpaseo/protocol/messages";
++import type { AgentPermissionRequest } from "@getpaseo/protocol/agent-types";
++import {
++  buildQuestionFormAnswerInput,
++  parseQuestionFormQuestions,
++  type QuestionSelections,
++  type QuestionOtherTexts,
++} from "../../../../../app/src/components/question-form-card-core.js";
++
++function questionFormResponse(
++  request: AgentPermissionRequest,
++  selections: QuestionSelections,
++  otherTexts: QuestionOtherTexts = {},
++) {
++  const questions = parseQuestionFormQuestions(request.input);
++  if (!questions) throw new Error("Question form did not parse");
++  const response = {
++    behavior: "allow",
++    updatedInput: buildQuestionFormAnswerInput({
++      input: request.input,
++      questions,
++      selections,
++      otherTexts,
++    }),
++  };
++  return AgentPermissionResponseSchema.parse(JSON.parse(JSON.stringify(response)));
++}
+ 
+ describe("buildACPClientCapabilities", () => {
+   test("enables terminal execution on the host while keeping filesystem operations with the agent by default", () => {
+@@ -1328,6 +1355,609 @@ describe("ACPAgentSession Zed parity", () => {
+     });
+   });
+ 
++  test("bridges Grok's native question extension over a real ACP connection", async () => {
++    const session = createSessionWithConfig({
++      provider: "grok",
++      featureValues: { auto_accept: true },
++    });
++    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++    const clientToAgent = new TransformStream();
++    const agentToClient = new TransformStream();
++    const agentConnection = new AgentSideConnection(
++      () => ({
++        async initialize() {
++          return { protocolVersion: PROTOCOL_VERSION };
++        },
++        async newSession() {
++          return { sessionId: "session-1" };
++        },
++        async prompt() {
++          return { stopReason: "end_turn" };
++        },
++        async authenticate() {},
++        async cancel() {},
++      }),
++      ndJsonStream(agentToClient.writable, clientToAgent.readable),
++    );
++    const connection = new ClientSideConnection(
++      () => session,
++      ndJsonStream(clientToAgent.writable, agentToClient.readable),
++    );
++    const events: AgentStreamEvent[] = [];
++    session.subscribe((event) => {
++      events.push(event);
++      if (event.type === "permission_requested") {
++        void session.respondToPermission(
++          event.request.id,
++          questionFormResponse(event.request, { 0: new Set([0]) }),
++        );
++      }
++    });
++    await expect(
++      agentConnection.extMethod("_x.ai/ask_user_question", {
++        sessionId: "session-1",
++        toolCallId: "question-1",
++        mode: "default",
++        questions: [
++          {
++            question: "Which platform?",
++            options: [{ label: "Web", description: "Browser" }],
++            multiSelect: false,
++          },
++        ],
++      }),
++    ).resolves.toEqual({ outcome: "accepted", answers: { "Which platform?": ["Web"] } });
++    expect(events).toContainEqual(
++      expect.objectContaining({
++        type: "permission_requested",
++        request: expect.objectContaining({
++          kind: "question",
++          name: "ask_user_question",
++          input: {
++            answerFormat: "structured",
++            questions: [
++              expect.objectContaining({
++                question: "Which platform?",
++                options: [{ id: "0", label: "Web", description: "Browser" }],
++                allowOther: true,
++              }),
++            ],
++          },
++        }),
++      }),
++    );
++    expect(session.getPendingPermissions()).toEqual([]);
++    expect(connection.signal.aborted).toBe(false);
++  });
++
++  test("Grok questions preserve multi-select labels, previews and custom notes", async () => {
++    const session = createSessionWithConfig({
++      provider: "grok",
++      featureValues: { auto_accept: true },
++    });
++    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++    const result = session.extMethod("_x.ai/ask_user_question", {
++      sessionId: "session-1",
++      toolCallId: "q-1",
++      questions: [
++        {
++          question: "Platforms?",
++          multiSelect: true,
++          options: [{ label: "Red, Blue" }, { label: "Web" }],
++        },
++        { question: "Comments?", options: [] },
++        { question: "Preview?", options: [{ label: "A", preview: "<p>A</p>" }] },
++      ],
++    });
++    const request = session.getPendingPermissions()[0]!;
++    expect(request.input).toMatchObject({
++      questions: [{ multiSelect: true }, { allowOther: true }, {}],
++    });
++    await session.respondToPermission(
++      request.id,
++      questionFormResponse(
++        request,
++        { 0: new Set([1, 0]), 2: new Set([0]) },
++        {
++          0: "custom note",
++          1: "用户自定义回答",
++        },
++      ),
++    );
++    await expect(result).resolves.toEqual({
++      outcome: "accepted",
++      answers: {
++        "Platforms?": ["Web", "Red, Blue"],
++        "Comments?": ["Other"],
++        "Preview?": ["A"],
++      },
++      annotations: {
++        "Platforms?": { notes: "custom note" },
++        "Comments?": { notes: "用户自定义回答" },
++        "Preview?": { preview: "<p>A</p>" },
++      },
++    });
++    expect(session.getPendingPermissions()).toEqual([]);
++  });
++
++  test.each(["deny", "close"])(
++    "Grok question %s returns the native cancellation response",
++    async (action) => {
++      const session = createSessionWithConfig({ provider: "grok" });
++      asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++      const result = session.extMethod("_x.ai/ask_user_question", {
++        sessionId: "session-1",
++        toolCallId: "q-1",
++        questions: [{ question: "Continue?" }],
++      });
++      if (action === "deny")
++        await session.respondToPermission(session.getPendingPermissions()[0]!.id, {
++          behavior: "deny",
++        });
++      else await session.close();
++      await expect(result).resolves.toEqual({ outcome: "cancelled" });
++      expect(session.getPendingPermissions()).toEqual([]);
++    },
++  );
++
++  test("Grok questions remain pending after an invalid answer and accept a corrected submission", async () => {
++    const session = createSessionWithConfig({ provider: "grok" });
++    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++    const result = session.extMethod("_x.ai/ask_user_question", {
++      sessionId: "session-1",
++      toolCallId: "q-1",
++      questions: [{ question: "Continue?" }],
++    });
++    const request = session.getPendingPermissions()[0]!;
++    await expect(
++      session.respondToPermission(request.id, {
++        behavior: "allow",
++        updatedInput: { questionAnswers: {} },
++      }),
++    ).rejects.toThrow("Answer Question 1");
++    expect(session.getPendingPermissions()).toHaveLength(1);
++    await session.respondToPermission(request.id, questionFormResponse(request, {}, { 0: "Yes" }));
++    await expect(result).resolves.toMatchObject({
++      outcome: "accepted",
++      annotations: { "Continue?": { notes: "Yes" } },
++    });
++  });
++
++  test.each([
++    {
++      multiSelect: true,
++      selected: [1, 2],
++      text: "Red, Blue",
++      labels: ["Red", "Blue"],
++      annotations: { notes: "Red, Blue" },
++    },
++    { multiSelect: true, selected: [0], text: "", labels: ["Red, Blue"], annotations: undefined },
++    {
++      multiSelect: true,
++      selected: [1, 3],
++      text: "Red",
++      labels: ["Red", "Red"],
++      annotations: { notes: "Red" },
++    },
++    {
++      multiSelect: false,
++      selected: [3],
++      text: "",
++      labels: ["Red"],
++      annotations: { preview: "second red" },
++    },
++    {
++      multiSelect: false,
++      selected: [],
++      text: "Red",
++      labels: ["Other"],
++      annotations: { notes: "Red" },
++    },
++    {
++      multiSelect: false,
++      selected: [],
++      text: "Red, Blue",
++      labels: ["Other"],
++      annotations: { notes: "Red, Blue" },
++    },
++  ])(
++    "Grok round-trips colliding identities and independent notes: %j",
++    async ({ multiSelect, selected, text, labels, annotations }) => {
++      const session = createSessionWithConfig({ provider: "grok" });
++      asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++      const result = session.extMethod("_x.ai/ask_user_question", {
++        sessionId: "session-1",
++        toolCallId: "q-collision",
++        questions: [
++          {
++            question: "Colors?",
++            multiSelect,
++            options: [
++              { label: "Red, Blue" },
++              { label: "Red", preview: "first red" },
++              { label: "Blue" },
++              { label: "Red", preview: "second red" },
++            ],
++          },
++        ],
++      });
++      const request = session.getPendingPermissions()[0]!;
++      await session.respondToPermission(
++        request.id,
++        questionFormResponse(request, { 0: new Set(selected) }, { 0: text }),
++      );
++      await expect(result).resolves.toEqual({
++        outcome: "accepted",
++        answers: { "Colors?": labels },
++        ...(annotations ? { annotations: { "Colors?": annotations } } : {}),
++      });
++    },
++  );
++
++  test.each([
++    { selectedOptionIds: ["unknown"] },
++    { selectedOptionIds: ["0", "0"] },
++    { selectedOptionIds: ["0", "1"] },
++  ])(
++    "Grok rejects invalid single-select identities without losing the question: %j",
++    async (answer) => {
++      const session = createSessionWithConfig({ provider: "grok" });
++      asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++      const result = session.extMethod("_x.ai/ask_user_question", {
++        sessionId: "session-1",
++        toolCallId: "q-1",
++        questions: [{ question: "Colors?", options: [{ label: "Red" }, { label: "Blue" }] }],
++      });
++      const request = session.getPendingPermissions()[0]!;
++      await expect(
++        session.respondToPermission(request.id, {
++          behavior: "allow",
++          updatedInput: { questionAnswers: { "Question 1": answer } },
++        }),
++      ).rejects.toThrow("Select valid options");
++      expect(session.getPendingPermissions()).toEqual([request]);
++      await session.respondToPermission(
++        request.id,
++        questionFormResponse(request, { 0: new Set([1]) }),
++      );
++      await expect(result).resolves.toEqual({
++        outcome: "accepted",
++        answers: { "Colors?": ["Blue"] },
++      });
++    },
++  );
++
++  test("Grok question extensions reject unknown methods, malformed input and other sessions", async () => {
++    const session = createSessionWithConfig({ provider: "grok" });
++    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++    await expect(session.extMethod("_other/method", {})).rejects.toMatchObject({ code: -32601 });
++    await expect(session.extMethod("_x.ai/ask_user_question", {})).rejects.toMatchObject({
++      code: -32602,
++    });
++    await expect(
++      session.extMethod("_x.ai/ask_user_question", {
++        sessionId: "different-session",
++        toolCallId: "q-1",
++        questions: [{ question: "Continue?" }],
++      }),
++    ).rejects.toMatchObject({ code: -32602 });
++    expect(session.getPendingPermissions()).toEqual([]);
++  });
++
++  test("bridges Cursor's documented question extension over a real ACP connection", async () => {
++    const session = createSessionWithConfig({
++      provider: "cursor",
++      featureValues: { auto_accept: true },
++    });
++    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++    const clientToAgent = new TransformStream();
++    const agentToClient = new TransformStream();
++    const agentConnection = new AgentSideConnection(
++      () => ({
++        async initialize() {
++          return { protocolVersion: PROTOCOL_VERSION };
++        },
++        async newSession() {
++          return { sessionId: "session-1" };
++        },
++        async prompt() {
++          return { stopReason: "end_turn" };
++        },
++        async authenticate() {},
++        async cancel() {},
++      }),
++      ndJsonStream(agentToClient.writable, clientToAgent.readable),
++    );
++    const connection = new ClientSideConnection(
++      () => session,
++      ndJsonStream(clientToAgent.writable, agentToClient.readable),
++    );
++    const events: AgentStreamEvent[] = [];
++    session.subscribe((event) => {
++      events.push(event);
++      if (event.type === "permission_requested")
++        void session.respondToPermission(
++          event.request.id,
++          questionFormResponse(event.request, { 0: new Set([0]) }),
++        );
++    });
++    await expect(
++      agentConnection.extMethod("cursor/ask_question", {
++        toolCallId: "question-1",
++        title: "Need input",
++        questions: [
++          {
++            id: "platform",
++            prompt: "Which platform?",
++            options: [{ id: "web-option", label: "Web" }],
++            allowMultiple: false,
++          },
++        ],
++      }),
++    ).resolves.toEqual({
++      outcome: {
++        outcome: "answered",
++        answers: [{ questionId: "platform", selectedOptionIds: ["web-option"] }],
++      },
++    });
++    expect(events).toContainEqual(
++      expect.objectContaining({
++        type: "permission_requested",
++        request: expect.objectContaining({
++          kind: "question",
++          name: "AskQuestion",
++          input: {
++            answerFormat: "structured",
++            questions: [
++              expect.objectContaining({
++                question: "Which platform?",
++                allowOther: false,
++              }),
++            ],
++          },
++        }),
++      }),
++    );
++    expect(session.getPendingPermissions()).toEqual([]);
++    expect(connection.signal.aborted).toBe(false);
++  });
++
++  test("Cursor keeps distinct IDs when combined labels collide with separate choices", async () => {
++    const session = createSessionWithConfig({ provider: "cursor" });
++    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++    const result = session.extMethod("cursor/ask_question", {
++      toolCallId: "q-collision",
++      questions: [
++        {
++          id: "colors",
++          prompt: "Colors?",
++          allowMultiple: true,
++          options: [
++            { id: "combined", label: "Red, Blue" },
++            { id: "red", label: "Red" },
++            { id: "blue", label: "Blue" },
++          ],
++        },
++      ],
++    });
++    await session.respondToPermission(session.getPendingPermissions()[0]!.id, {
++      behavior: "allow",
++      updatedInput: {
++        answers: { "Question 1": "Red, Blue" },
++        questionAnswers: { "Question 1": { selectedOptionIds: ["red", "blue"] } },
++      },
++    });
++    await expect(result).resolves.toEqual({
++      outcome: {
++        outcome: "answered",
++        answers: [{ questionId: "colors", selectedOptionIds: ["red", "blue"] }],
++      },
++    });
++  });
++
++  test.each([
++    { allowMultiple: true, selected: [1, 2, 3], expected: ["red", "blue", "red-duplicate"] },
++    { allowMultiple: true, selected: [0], expected: ["combined"] },
++    { allowMultiple: false, selected: [3], expected: ["red-duplicate"] },
++  ])(
++    "Cursor round-trips colliding and repeated labels: %j",
++    async ({ allowMultiple, selected, expected }) => {
++      const session = createSessionWithConfig({ provider: "cursor" });
++      asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++      const result = session.extMethod("cursor/ask_question", {
++        toolCallId: "q-collision",
++        questions: [
++          {
++            id: "colors",
++            prompt: "Colors?",
++            allowMultiple,
++            options: [
++              { id: "combined", label: "Red, Blue" },
++              { id: "red", label: "Red" },
++              { id: "blue", label: "Blue" },
++              { id: "red-duplicate", label: "Red" },
++            ],
++          },
++        ],
++      });
++      const request = session.getPendingPermissions()[0]!;
++      await session.respondToPermission(
++        request.id,
++        questionFormResponse(request, { 0: new Set(selected) }),
++      );
++      await expect(result).resolves.toEqual({
++        outcome: {
++          outcome: "answered",
++          answers: [{ questionId: "colors", selectedOptionIds: expected }],
++        },
++      });
++    },
++  );
++
++  test.each(["cursor", "grok"])(
++    "%s refuses label-only answers without consuming the pending question",
++    async (provider) => {
++      const session = createSessionWithConfig({ provider });
++      asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++      const method = provider === "cursor" ? "cursor/ask_question" : "_x.ai/ask_user_question";
++      const question =
++        provider === "cursor"
++          ? { id: "colors", prompt: "Colors?", options: [{ id: "red", label: "Red" }] }
++          : { question: "Colors?", options: [{ label: "Red" }] };
++      const result = session.extMethod(method, {
++        sessionId: "session-1",
++        toolCallId: "q-1",
++        questions: [question],
++      });
++      const request = session.getPendingPermissions()[0]!;
++      await expect(
++        session.respondToPermission(request.id, {
++          behavior: "allow",
++          updatedInput: { answers: { "Question 1": "Red" } },
++        }),
++      ).rejects.toThrow("Update the app");
++      expect(session.getPendingPermissions()).toEqual([request]);
++      await session.respondToPermission(request.id, { behavior: "deny" });
++      await expect(result).resolves.toEqual(
++        provider === "cursor" ? { outcome: { outcome: "cancelled" } } : { outcome: "cancelled" },
++      );
++    },
++  );
++
++  test.each([
++    { selectedOptionIds: ["unknown"] },
++    { selectedOptionIds: ["red", "red"] },
++    { selectedOptionIds: ["red", "blue"] },
++  ])(
++    "Cursor rejects invalid single-select identities and accepts a corrected answer: %j",
++    async (answer) => {
++      const session = createSessionWithConfig({ provider: "cursor" });
++      asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++      const result = session.extMethod("cursor/ask_question", {
++        toolCallId: "q-1",
++        questions: [
++          {
++            id: "colors",
++            prompt: "Colors?",
++            options: [
++              { id: "red", label: "Red" },
++              { id: "blue", label: "Blue" },
++            ],
++          },
++        ],
++      });
++      const request = session.getPendingPermissions()[0]!;
++      await expect(
++        session.respondToPermission(request.id, {
++          behavior: "allow",
++          updatedInput: { questionAnswers: { "Question 1": answer } },
++        }),
++      ).rejects.toThrow("Select an option");
++      expect(session.getPendingPermissions()).toEqual([request]);
++      await session.respondToPermission(
++        request.id,
++        questionFormResponse(request, { 0: new Set([1]) }),
++      );
++      await expect(result).resolves.toEqual({
++        outcome: {
++          outcome: "answered",
++          answers: [{ questionId: "colors", selectedOptionIds: ["blue"] }],
++        },
++      });
++    },
++  );
++
++  test("Cursor questions map multiple pages and comma-containing labels to native IDs", async () => {
++    const session = createSessionWithConfig({ provider: "cursor" });
++    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++    const result = session.extMethod("cursor/ask_question", {
++      toolCallId: "q-1",
++      questions: [
++        {
++          id: "platform",
++          prompt: "Platforms?",
++          allowMultiple: true,
++          options: [
++            { id: "combined", label: "Red, Blue" },
++            { id: "web", label: "Web" },
++          ],
++        },
++        { id: "scope", prompt: "Scope?", options: [{ id: "ui", label: "UI" }] },
++      ],
++    });
++    const request = session.getPendingPermissions()[0]!;
++    expect(request.input).toMatchObject({
++      questions: [
++        { multiSelect: true, allowOther: false },
++        { multiSelect: false, allowOther: false },
++      ],
++    });
++    await session.respondToPermission(
++      request.id,
++      questionFormResponse(request, { 0: new Set([1, 0]), 1: new Set([0]) }),
++    );
++    await expect(result).resolves.toEqual({
++      outcome: {
++        outcome: "answered",
++        answers: [
++          { questionId: "platform", selectedOptionIds: ["web", "combined"] },
++          { questionId: "scope", selectedOptionIds: ["ui"] },
++        ],
++      },
++    });
++  });
++
++  test.each(["deny", "close"])(
++    "Cursor question %s returns the native cancellation envelope",
++    async (action) => {
++      const session = createSessionWithConfig({ provider: "cursor" });
++      asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++      const result = session.extMethod("cursor/ask_question", {
++        toolCallId: "q-1",
++        questions: [{ id: "scope", prompt: "Scope?", options: [{ id: "ui", label: "UI" }] }],
++      });
++      if (action === "deny")
++        await session.respondToPermission(session.getPendingPermissions()[0]!.id, {
++          behavior: "deny",
++        });
++      else await session.close();
++      await expect(result).resolves.toEqual({ outcome: { outcome: "cancelled" } });
++      expect(session.getPendingPermissions()).toEqual([]);
++    },
++  );
++
++  test("Cursor questions reject unsupported free text without losing the pending question", async () => {
++    const session = createSessionWithConfig({ provider: "cursor" });
++    await expect(session.extMethod("cursor/ask_question", {})).rejects.toMatchObject({
++      code: -32602,
++    });
++    asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++    await expect(
++      session.extMethod("cursor/ask_question", { toolCallId: "q-1", questions: [] }),
++    ).rejects.toMatchObject({ code: -32602 });
++    const result = session.extMethod("cursor/ask_question", {
++      toolCallId: "q-1",
++      questions: [{ id: "scope", prompt: "Scope?", options: [{ id: "ui", label: "UI" }] }],
++    });
++    const request = session.getPendingPermissions()[0]!;
++    await expect(
++      session.respondToPermission(request.id, {
++        behavior: "allow",
++        updatedInput: {
++          questionAnswers: {
++            "Question 1": { selectedOptionIds: [], otherText: "Other custom input" },
++          },
++        },
++      }),
++    ).rejects.toThrow("Select an option");
++    expect(session.getPendingPermissions()).toHaveLength(1);
++    await session.respondToPermission(
++      request.id,
++      questionFormResponse(request, { 0: new Set([0]) }),
++    );
++    await expect(result).resolves.toMatchObject({ outcome: { outcome: "answered" } });
++  });
++
+   test("passes generic ACP permission requests through to the user", async () => {
+     const session = createSessionWithConfig({
+       provider: "cursor-acp",
+@@ -4466,6 +5096,47 @@ new AgentSideConnection(
+ `;
+ 
+ describe("ACP idle runtime cleanup", () => {
++  test.each([
++    {
++      provider: "grok",
++      method: "_x.ai/ask_user_question",
++      question: { question: "Continue?", options: [{ label: "Yes" }] },
++    },
++    {
++      provider: "cursor",
++      method: "cursor/ask_question",
++      question: {
++        id: "continue",
++        prompt: "Continue?",
++        options: [{ id: "yes", label: "Yes" }],
++      },
++    },
++  ])(
++    "pending $provider questions veto cleanup until answered",
++    async ({ provider, method, question }) => {
++      const session = createSessionWithConfig({ provider });
++      asInternals<ACPSessionInternals>(session).sessionId = "session-1";
++      try {
++        expect(await session.canStopRuntime()).toBe(true);
++        const answer = session.extMethod(method, {
++          sessionId: "session-1",
++          toolCallId: "question-1",
++          questions: [question],
++        });
++        expect(await session.canStopRuntime()).toBe(false);
++        const request = session.getPendingPermissions()[0]!;
++        await session.respondToPermission(
++          request.id,
++          questionFormResponse(request, { 0: new Set([0]) }),
++        );
++        await answer;
++        expect(await session.canStopRuntime()).toBe(true);
++      } finally {
++        await session.close();
++      }
++    },
++  );
++
+   test("pending permissions veto cleanup until answered", async () => {
+     const session = createSession();
+     try {
+diff --git a/packages/server/src/server/agent/providers/acp-agent.ts b/packages/server/src/server/agent/providers/acp-agent.ts
+index e26b6e4ad..76df8ed18 100644
+--- a/packages/server/src/server/agent/providers/acp-agent.ts
++++ b/packages/server/src/server/agent/providers/acp-agent.ts
+@@ -1,4 +1,6 @@
+ import { ACPProviderOptionsSchema } from "./acp-options.js";
++import { GrokQuestions } from "./grok-questions.js";
++import { CursorQuestions } from "./cursor-questions.js";
+ import { type ChildProcess, type ChildProcessWithoutNullStreams } from "node:child_process";
+ import { randomUUID } from "node:crypto";
+ import fs from "node:fs/promises";
+@@ -14,6 +16,7 @@ import type {
+ } from "node:stream/web";
+ import {
+   ClientSideConnection,
++  RequestError,
+   PROTOCOL_VERSION,
+   type AgentCapabilities as ACPAgentCapabilities,
+   type Error as ACPError,
+@@ -1730,6 +1733,8 @@ export class ACPAgentSession implements AgentSession, ACPClient {
+   private readonly harnessEnvironment: Record<string, string>;
+   private readonly subscribers = new Set<(event: AgentStreamEvent) => void>();
+   private readonly pendingPermissions = new Map<string, PendingPermission>();
++  private readonly grokQuestions: GrokQuestions;
++  private readonly cursorQuestions: CursorQuestions;
+   private pendingUserMessage: PendingUserMessage | null = null;
+   private submittedUserMessageTurnId: string | null = null;
+   private readonly toolCalls = new Map<string, ACPToolSnapshot>();
+@@ -1770,6 +1775,8 @@ export class ACPAgentSession implements AgentSession, ACPClient {
+ 
+   constructor(config: AgentSessionConfig, options: ACPAgentSessionOptions) {
+     this.provider = options.provider;
++    this.grokQuestions = new GrokQuestions(this.provider, (event) => this.pushEvent(event));
++    this.cursorQuestions = new CursorQuestions(this.provider, (event) => this.pushEvent(event));
+     this.terminateProcess = options.terminateProcess ?? terminateWithTreeKill;
+     this.capabilities = options.capabilities;
+     this.logger = options.logger.child({ module: "agent", provider: options.provider });
+@@ -2486,10 +2493,24 @@ export class ACPAgentSession implements AgentSession, ACPClient {
+   }
+ 
+   getPendingPermissions(): AgentPermissionRequest[] {
+-    return Array.from(this.pendingPermissions.values(), (entry) => entry.request);
++    return [
++      ...Array.from(this.pendingPermissions.values(), (entry) => entry.request),
++      ...this.grokQuestions.pending(),
++      ...this.cursorQuestions.pending(),
++    ];
+   }
+ 
+   async respondToPermission(requestId: string, response: AgentPermissionResponse): Promise<void> {
++    const questions = [this.grokQuestions, this.cursorQuestions].find((bridge) =>
++      bridge.has(requestId),
++    );
++    if (questions) {
++      questions.respond(requestId, response);
++      if (response.behavior === "deny" && response.interrupt && this.connection && this.sessionId) {
++        await this.connection.cancel({ sessionId: this.sessionId });
++      }
++      return;
++    }
+     const pending = this.pendingPermissions.get(requestId);
+     if (!pending) {
+       throw new Error(`No pending permission request with id '${requestId}'`);
+@@ -2558,7 +2579,7 @@ export class ACPAgentSession implements AgentSession, ACPClient {
+   async canStopRuntime(): Promise<boolean> {
+     return (
+       this.activeForegroundTurnId === null &&
+-      this.pendingPermissions.size === 0 &&
++      this.getPendingPermissions().length === 0 &&
+       this.pendingUserMessage === null &&
+       !Array.from(this.terminalEntries.values()).some((terminal) => terminal.running)
+     );
+@@ -2713,6 +2734,18 @@ export class ACPAgentSession implements AgentSession, ACPClient {
+     }
+   }
+ 
++  async extMethod(
++    method: string,
++    params: Record<string, unknown>,
++  ): Promise<Record<string, unknown>> {
++    if (method === "cursor/ask_question") {
++      if (!this.sessionId) throw RequestError.invalidParams();
++      return this.cursorQuestions.request(params, this.activeForegroundTurnId);
++    }
++    if (method !== "_x.ai/ask_user_question") throw RequestError.methodNotFound(method);
++    return this.grokQuestions.request(params, this.sessionId, this.activeForegroundTurnId);
++  }
++
+   async extNotification(method: string, params: Record<string, unknown>): Promise<void> {
+     this.logger.trace(
+       {
+@@ -3430,6 +3463,8 @@ export class ACPAgentSession implements AgentSession, ACPClient {
+   }
+ 
+   private cancelPendingPermissions(): void {
++    this.grokQuestions.cancel();
++    this.cursorQuestions.cancel();
+     for (const pending of this.pendingPermissions.values()) {
+       pending.resolve({ outcome: { outcome: "cancelled" } });
+     }
+diff --git a/packages/server/src/server/agent/providers/cursor-questions.ts b/packages/server/src/server/agent/providers/cursor-questions.ts
+new file mode 100644
+index 000000000..9efba3b84
+--- /dev/null
++++ b/packages/server/src/server/agent/providers/cursor-questions.ts
+@@ -0,0 +1,132 @@
++import { randomUUID } from "node:crypto";
++import { RequestError } from "@agentclientprotocol/sdk";
++import { z } from "zod";
++import { QuestionAnswersSchema, type QuestionAnswers } from "@getpaseo/protocol/question-answers";
++import type {
++  AgentPermissionRequest,
++  AgentPermissionResponse,
++  AgentProvider,
++  AgentStreamEvent,
++} from "../agent-sdk-types.js";
++
++const Question = z.object({
++  id: z.string().min(1),
++  prompt: z.string().min(1),
++  allowMultiple: z.boolean().optional(),
++  options: z.array(z.object({ id: z.string().min(1), label: z.string().min(1) })).min(1),
++});
++const Request = z.object({
++  toolCallId: z.string().min(1),
++  title: z.string().optional(),
++  questions: z.array(Question).min(1),
++});
++interface PendingQuestion {
++  request: AgentPermissionRequest;
++  questions: z.infer<typeof Request>["questions"];
++  turnId: string | null;
++  resolve(value: Record<string, unknown>): void;
++}
++
++function selectedIds(
++  answer: QuestionAnswers[string] | undefined,
++  question: z.infer<typeof Question>,
++): string[] {
++  if (!answer) throw new Error(`Select an option for '${question.prompt}'`);
++  const ids = answer.selectedOptionIds;
++  const validSelection =
++    ids.length > 0 &&
++    (question.allowMultiple || ids.length === 1) &&
++    new Set(ids).size === ids.length &&
++    ids.every((id) => question.options.some((option) => option.id === id));
++  if (!validSelection || answer.otherText !== undefined) {
++    throw new Error(`Select an option for '${question.prompt}'`);
++  }
++  return ids;
++}
++
++/** Cursor's native protocol returns option IDs and does not define free-text answers. */
++export class CursorQuestions {
++  private readonly requests = new Map<string, PendingQuestion>();
++
++  constructor(
++    private readonly provider: AgentProvider,
++    private readonly emit: (event: AgentStreamEvent) => void,
++  ) {}
++
++  request(
++    params: Record<string, unknown>,
++    turnId: string | null,
++  ): Promise<Record<string, unknown>> {
++    const parsed = Request.safeParse(params);
++    if (!parsed.success) throw RequestError.invalidParams();
++    const { questions } = parsed.data;
++    const request: AgentPermissionRequest = {
++      id: randomUUID(),
++      provider: this.provider,
++      name: "AskQuestion",
++      kind: "question",
++      title: parsed.data.title ?? questions[0]!.prompt,
++      input: {
++        answerFormat: "structured",
++        questions: questions.map((q, i) => ({
++          id: q.id,
++          question: q.prompt,
++          header: `Question ${i + 1}`,
++          options: q.options,
++          multiSelect: q.allowMultiple === true,
++          allowOther: false,
++        })),
++      },
++      metadata: { toolCallId: parsed.data.toolCallId },
++    };
++    return new Promise((resolve) => {
++      this.requests.set(request.id, { request, questions, turnId, resolve });
++      this.emit({
++        type: "permission_requested",
++        provider: this.provider,
++        request,
++        turnId: turnId ?? undefined,
++      });
++    });
++  }
++
++  pending(): AgentPermissionRequest[] {
++    return [...this.requests.values()].map(({ request }) => request);
++  }
++  has(id: string): boolean {
++    return this.requests.has(id);
++  }
++
++  respond(id: string, response: AgentPermissionResponse): void {
++    const pending = this.requests.get(id);
++    if (!pending) throw new Error(`No pending question with id '${id}'`);
++    let outcome: Record<string, unknown> = { outcome: "cancelled" };
++    if (response.behavior === "allow") {
++      const parsed = QuestionAnswersSchema.safeParse(response.updatedInput?.questionAnswers);
++      if (!parsed.success) throw new Error("Update the app to submit structured question answers");
++      const input = parsed.data;
++      outcome = {
++        outcome: "answered",
++        answers: pending.questions.map((question, i) => ({
++          questionId: question.id,
++          selectedOptionIds: selectedIds(input[`Question ${i + 1}`], question),
++        })),
++      };
++    }
++    this.requests.delete(id);
++    pending.resolve({ outcome });
++    this.emit({
++      type: "permission_resolved",
++      provider: this.provider,
++      requestId: id,
++      resolution: response,
++      turnId: pending.turnId ?? undefined,
++    });
++  }
++
++  cancel(): void {
++    for (const request of this.requests.values())
++      request.resolve({ outcome: { outcome: "cancelled" } });
++    this.requests.clear();
++  }
++}
+diff --git a/packages/server/src/server/agent/providers/grok-questions.ts b/packages/server/src/server/agent/providers/grok-questions.ts
+new file mode 100644
+index 000000000..67eba79ea
+--- /dev/null
++++ b/packages/server/src/server/agent/providers/grok-questions.ts
+@@ -0,0 +1,161 @@
++import { randomUUID } from "node:crypto";
++import { RequestError } from "@agentclientprotocol/sdk";
++import { z } from "zod";
++import { QuestionAnswersSchema } from "@getpaseo/protocol/question-answers";
++import type {
++  AgentPermissionRequest,
++  AgentPermissionResponse,
++  AgentProvider,
++  AgentStreamEvent,
++} from "../agent-sdk-types.js";
++
++// Grok's ACP extension uses question text as the answer key.
++const Question = z.object({
++  question: z.string().min(1),
++  options: z
++    .array(
++      z.object({
++        label: z.string().min(1),
++        description: z.string().optional(),
++        preview: z.string().nullish(),
++      }),
++    )
++    .default([]),
++  multiSelect: z.boolean().nullish(),
++});
++const Request = z.object({
++  sessionId: z.string(),
++  toolCallId: z.string().min(1),
++  questions: z
++    .array(Question)
++    .min(1)
++    .refine((rows) => new Set(rows.map((q) => q.question)).size === rows.length),
++});
++type Questions = z.infer<typeof Request>["questions"];
++interface PendingQuestion {
++  request: AgentPermissionRequest;
++  questions: Questions;
++  turnId: string | null;
++  resolve(value: Record<string, unknown>): void;
++}
++
++function resolveSelectedOptions(question: Questions[number], ids: string[]) {
++  const validSelection =
++    (question.multiSelect || ids.length <= 1) && new Set(ids).size === ids.length;
++  if (!validSelection) throw new Error(`Select valid options for '${question.question}'`);
++  return ids.map((optionId) => {
++    const option = question.options.find((_, index) => String(index) === optionId);
++    if (!option) throw new Error(`Select valid options for '${question.question}'`);
++    return option;
++  });
++}
++
++/** Bridge the native x.ai question request to the host's existing question permissions. */
++export class GrokQuestions {
++  private readonly requests = new Map<string, PendingQuestion>();
++
++  constructor(
++    private readonly provider: AgentProvider,
++    private readonly emit: (event: AgentStreamEvent) => void,
++  ) {}
++
++  request(
++    params: Record<string, unknown>,
++    sessionId: string | null,
++    turnId: string | null,
++  ): Promise<Record<string, unknown>> {
++    const parsed = Request.safeParse(params);
++    if (!parsed.success || !sessionId || parsed.data.sessionId !== sessionId) {
++      throw RequestError.invalidParams();
++    }
++    const questions = parsed.data.questions;
++    const request: AgentPermissionRequest = {
++      id: randomUUID(),
++      provider: this.provider,
++      name: "ask_user_question",
++      kind: "question",
++      title: questions[0]!.question,
++      input: {
++        answerFormat: "structured",
++        questions: questions.map((q, i) => ({
++          question: q.question,
++          header: `Question ${i + 1}`,
++          // Grok has no option IDs; immutable request positions distinguish repeated labels.
++          options: q.options.map((option, index) => ({ ...option, id: String(index) })),
++          multiSelect: q.multiSelect === true,
++          allowOther: true,
++        })),
++      },
++      metadata: { toolCallId: parsed.data.toolCallId },
++    };
++    return new Promise((resolve) => {
++      this.requests.set(request.id, { request, questions, resolve, turnId });
++      this.emit({
++        type: "permission_requested",
++        provider: this.provider,
++        request,
++        turnId: turnId ?? undefined,
++      });
++    });
++  }
++
++  pending(): AgentPermissionRequest[] {
++    return [...this.requests.values()].map(({ request }) => request);
++  }
++
++  has(id: string): boolean {
++    return this.requests.has(id);
++  }
++
++  respond(id: string, response: AgentPermissionResponse): void {
++    const pending = this.requests.get(id);
++    if (!pending) throw new Error(`No pending question with id '${id}'`);
++    let result: Record<string, unknown> = { outcome: "cancelled" };
++    if (response.behavior === "allow") {
++      const parsed = QuestionAnswersSchema.safeParse(response.updatedInput?.questionAnswers);
++      if (!parsed.success) throw new Error("Update the app to submit structured question answers");
++      const input = parsed.data;
++      const answers: Record<string, string[]> = {};
++      const annotations: Record<string, { notes?: string; preview?: string }> = {};
++      for (const [index, question] of pending.questions.entries()) {
++        const answer = input[`Question ${index + 1}`];
++        if (!answer) throw new Error(`Answer Question ${index + 1} before submitting`);
++        const selectedOptions = resolveSelectedOptions(question, answer.selectedOptionIds);
++        const notes = answer.otherText?.trim();
++        if (!selectedOptions.length && !notes)
++          throw new Error(`Answer Question ${index + 1} before submitting`);
++        answers[question.question] = selectedOptions.length
++          ? selectedOptions.map((option) => option.label)
++          : ["Other"];
++        const preview =
++          !question.multiSelect && selectedOptions.length === 1
++            ? selectedOptions[0]!.preview
++            : undefined;
++        if (notes || preview)
++          annotations[question.question] = {
++            ...(notes ? { notes } : {}),
++            ...(preview ? { preview } : {}),
++          };
++      }
++      result = {
++        outcome: "accepted",
++        answers,
++        ...(Object.keys(annotations).length ? { annotations } : {}),
++      };
++    }
++    this.requests.delete(id);
++    pending.resolve(result);
++    this.emit({
++      type: "permission_resolved",
++      provider: this.provider,
++      requestId: id,
++      resolution: response,
++      turnId: pending.turnId ?? undefined,
++    });
++  }
++
++  cancel(): void {
++    for (const request of this.requests.values()) request.resolve({ outcome: "cancelled" });
++    this.requests.clear();
++  }
++}

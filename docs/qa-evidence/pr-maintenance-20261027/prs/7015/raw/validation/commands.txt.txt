@@ -1,0 +1,5 @@
+format npm run format
+build-server npm run build:server
+server-acp npx vitest run src/server/agent/providers/acp-agent.test.ts --bail=1 --maxWorkers=1
+typecheck npm run typecheck
+lint npm run lint

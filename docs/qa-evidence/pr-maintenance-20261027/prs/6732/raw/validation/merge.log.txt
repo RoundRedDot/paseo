@@ -1,0 +1,7 @@
+Auto-merging docs/plugins.md
+Auto-merging packages/server/src/server/plugins/runtime.posix.test.ts
+Auto-merging packages/server/src/server/plugins/runtime.ts
+CONFLICT (content): Merge conflict in packages/server/src/server/plugins/runtime.ts
+Auto-merging packages/server/src/server/session.test.ts
+Auto-merging packages/server/src/server/session.ts
+Automatic merge failed; fix conflicts and then commit the result.

@@ -1,0 +1,49 @@
+{
+  "source": "selected fields from performance/7556/public/result.json; model/provider configuration, private body, CI and device inventory omitted",
+  "number": 7556,
+  "result": "inconclusive; fixed-fixture exercise preconditions unmet; no timing comparison",
+  "oldHead": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+  "newHead": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+  "tree": "dcb97cbef9a7fda4b550406b6342a5f702e4f8c7",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceChanged": false,
+  "comparisonScope": "Only shared replica-cache retained-tail serialization, using frozen baseline module substitution. Native ring/cadence, incremental native Markdown, voice cleanup and trace guard remained identical in both planned variants.",
+  "observerPreflight": {
+    "at": "2026-10-27T05:53:10.700Z",
+    "sourceHead": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+    "variant": "baseline",
+    "observer": "Actual textContent length by stable DOM element identity once per rAF; new mounts excluded; no profiler or product-state changes",
+    "normalUI": "Filled composer and pressed Enter; repository mock provider only",
+    "windowMs": 5000,
+    "frames": 603,
+    "growthFrames": 246,
+    "growthChars": 396,
+    "stop": true,
+    "passed": true
+  },
+  "timedSamples": 0,
+  "candidateSamples": 0,
+  "returningBaselineSamples": 0,
+  "gate": {
+    "complete": false,
+    "passed": false,
+    "threshold": 0.15,
+    "classification": "exercise precondition failure, not an A/A noise failure",
+    "reason": "The fixed205 pre-echo fixture did not expose the declared oldest item via normal turn-summary expansion and bounded canonical pagination. The script stopped before timing, input/label/wheel phase or IndexedDB exercise acceptance.",
+    "decision": "STOP; no fixture replacement/enlargement, benchmark searching, numeric noise interpretation or performance benefit claim"
+  },
+  "retainedPreparationFailures": [
+    "capture-import-failure.log: app tsconfig alias unavailable before main; runner configuration corrected before timing",
+    "history-setup-failure/: tsx __name injected into browser evaluate callback; standard Playwright runner then used",
+    "collapsed-history-precondition/: default turn summary collapsed messages;2543→696px instead of history-growth precondition",
+    "raw/expanded-history/: normal UI expanded the same fixture, but oldest-history precondition still failed; stopped at declared bound"
+  ],
+  "comparisonMediansAndRanges": null,
+  "concreteGaps": [
+    "Owned affected physical OnePlus Open/OPPO PHN110 ColorOS unfolded device, exact-current-head Release A/B and returning baseline",
+    "Controlled Android process/JS CPU, frame timing and battery measurements; Web does not clear these",
+    "Maintainer acceptance of visible12-step native ring cadence remains a design decision",
+    "A future shared-cache browser comparison needs a separately reviewed representative history fixture that satisfies actual loaded-history/overflow/write preconditions; no conclusion from this failed setup"
+  ],
+  "unitTests": "No new/repeated maintained suites: no production code change. Source owner reports397 targeted tests/static/hooks on this exact head separately."
+}

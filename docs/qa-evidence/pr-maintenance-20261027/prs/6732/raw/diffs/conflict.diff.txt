@@ -1,0 +1,75 @@
+diff --cc packages/server/src/server/plugins/runtime.ts
+index d0db54e54,bc06d5d99..000000000
+--- a/packages/server/src/server/plugins/runtime.ts
++++ b/packages/server/src/server/plugins/runtime.ts
+@@@ -4,13 -6,16 +6,16 @@@ import 
+    type ProviderStatus,
+    type ProviderStatusRequest,
+  } from "@getpaseo/plugin/server/provider";
+- import type { PluginBeforeRequests, PluginLifecycleEvents } from "@getpaseo/plugin/server";
++ import type {
++   PluginLifecycleEvents,
++   PluginHookAgent,
++   AgentToolResult,
++ } from "@getpaseo/plugin/server";
+  import { validateBeforeRequest, validateBeforeResult } from "./lifecycle/index.js";
+  import { fork } from "node:child_process";
+- import { stat } from "node:fs/promises";
+  import path from "node:path";
+  import { fileURLToPath } from "node:url";
+ -import { randomUUID } from "node:crypto";
+ +import { createHash, randomUUID } from "node:crypto";
+  import type pino from "pino";
+  import {
+    PROVIDER_CAPABILITIES,
+@@@ -69,10 -71,9 +71,11 @@@ interface PendingInvocation 
+  
+  interface LoadedPlugin {
+    id: string;
++   instanceId: string;
+    requirements: PluginRequirements | undefined;
+    clientBundle: string;
+ +  /** Lets a client that already holds this bundle skip downloading it again. */
+ +  clientBundleHash: string;
+    methods: ReadonlySet<string>;
+    hooks: { events: string[]; before: string[] };
+    providers: readonly PluginProviderMetadata[];
+@@@ -647,19 -702,18 +718,24 @@@ export class PluginRuntime 
+    private async loadDirectoryPlugin(
+      pluginId: string,
+      configuredPath: string,
++     canPublish: () => boolean,
+    ): Promise<LoadedPlugin> {
+      const directory = path.resolve(configuredPath);
+-     const manifest = await readPluginManifest(directory);
+-     assertPluginCompatibility({ ...manifest, version: this.daemonVersion, runtime: "daemon" });
+-     const entryPaths = await resolveEntryPaths(directory);
+-     const bundles = await compilePlugin(entryPaths);
++     const bundles = await compileDirectoryPlugin(directory, this.daemonVersion);
++     const { manifest } = bundles;
++     if (!canPublish()) throw new Error(`Plugin start cancelled: ${pluginId}`);
+      const serverBundle = bundles.serverBundle;
+      if (!serverBundle) {
+ +      const clientBundle = bundles.clientBundle ?? "";
+        return {
+          id: pluginId,
+++<<<<<<< HEAD
+ +        clientBundle,
+ +        clientBundleHash: hashClientBundle(clientBundle),
+++=======
++         instanceId: randomUUID(),
++         clientBundle: bundles.clientBundle ?? "",
+++>>>>>>> 9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca
+          requirements: manifest.requirements,
+          methods: new Set(),
+          hooks: { events: [], before: [] },
+@@@ -787,8 -841,8 +863,9 @@@
+      }
+      loaded = {
+        id: pluginId,
++       instanceId: randomUUID(),
+        clientBundle,
+ +      clientBundleHash: hashClientBundle(clientBundle),
+        requirements,
+        methods: new Set(ready.methods),
+        hooks: ready.hooks ?? { events: [], before: [] },

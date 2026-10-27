@@ -1,0 +1,19 @@
+Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+Expected: > [32m2543[39m
+Received:   [31m696[39m
+
+Call Log:
+- Timeout 5000ms exceeded while waiting on the predicate
+    at pollMatcher (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/matchers/expect.js:293:11)
+    at scrollTimelineUntilOlderHistoryIsReachable (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/packages/app/e2e/support/helpers/timeline-pagination.ts:529:5)
+    at main (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/.dev/perf-evidence-20261027/capture-7556.spec.ts:71:5)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/.dev/perf-evidence-20261027/capture-7556.spec.ts:172:67
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/workerMain.js:323:9
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/testInfo.js:320:11
+    at TimeoutManager.withRunnable (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/timeoutManager.js:67:14)
+    at TestInfoImpl._runWithTimeout (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/testInfo.js:318:7)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/workerMain.js:321:7
+    at WorkerMain._runTest (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/workerMain.js:296:5)
+    at WorkerMain.runTestGroup (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/workerMain.js:196:11)
+    at process.<anonymous> (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/common/process.js:72:22)

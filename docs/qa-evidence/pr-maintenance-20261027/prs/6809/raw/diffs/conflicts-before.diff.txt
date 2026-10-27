@@ -1,0 +1,26 @@
+diff --cc packages/server/src/server/agent/providers/claude/agent.ts
+index 0d35a8dfd,734272dd0..000000000
+--- a/packages/server/src/server/agent/providers/claude/agent.ts
++++ b/packages/server/src/server/agent/providers/claude/agent.ts
+@@@ -6193,13 -6243,13 +6245,20 @@@ function labelReplayedSubagentCard
+   * source consumes. The agentId scrape is kept only as a fallback for sessions recorded before
+   * Claude Code wrote the meta sidecar.
+   */
+++<<<<<<< HEAD
+ +function readClaudeReplayParentFacts(
+ +  entries: Iterable<ClaudeHistoryEntry>,
+ +): ClaudeReplayParentFacts {
+ +  const toolCalls = new Map<string, ClaudeSubagentCardFacts>();
+++=======
++ async function readClaudeReplayParentFacts(
++   entries: Iterable<ClaudeHistoryEntry> | AsyncIterable<ClaudeHistoryEntry>,
++ ): Promise<ClaudeReplayParentFacts> {
++   const toolCalls = new Map<string, { title?: string; description?: string }>();
+++>>>>>>> 9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca
+    const linksByAgentId = new Map<string, { toolCallId: string; failed: boolean }>();
+    const outcomes = new Map<string, { failed: boolean }>();
+-   for (const entry of entries) {
++   for await (const entry of entries) {
+      const content = toObjectRecord(entry.message)?.content;
+      if (!Array.isArray(content)) continue;
+      for (const value of content) {

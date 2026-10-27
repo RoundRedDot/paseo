@@ -1,0 +1,6 @@
+Auto-merging packages/server/src/server/agent/agent-manager.ts
+Auto-merging packages/server/src/server/agent/providers/claude/agent.history-load.test.ts
+Auto-merging packages/server/src/server/agent/providers/claude/agent.ts
+Auto-merging packages/server/src/server/session.ts
+Auto-merging packages/server/src/server/websocket-server.ts
+Automatic merge went well; stopped before committing as requested

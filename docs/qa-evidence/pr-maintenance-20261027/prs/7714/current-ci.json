@@ -1,0 +1,26 @@
+{
+  "pr": 7714,
+  "head": "79d6a4f77b473112b6c568d6a4440c299fcdc6c6",
+  "tree": "96a3c4471da56962c76aaa3dd943c3988bdc8574",
+  "baseline": "2ce6681d6e4de6d6400ba095741014f1bbfa4221",
+  "checkSuites": [
+    {
+      "id": 109670274049,
+      "head_sha": "79d6a4f77b473112b6c568d6a4440c299fcdc6c6",
+      "status": "completed",
+      "conclusion": "action_required"
+    }
+  ],
+  "actions": [
+    {
+      "id": 40463995028,
+      "head": "79d6a4f77b473112b6c568d6a4440c299fcdc6c6",
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40463995028",
+      "status": "completed",
+      "conclusion": "action_required",
+      "jobs": 0
+    }
+  ],
+  "mergeable": true,
+  "mergeableState": "blocked"
+}

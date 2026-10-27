@@ -1,0 +1,8 @@
+cdd598570e388d69466806c4ff9f9c3e09dcc151
+100644 201fa349eb2c75e25a427649d9bf90c0d5bb0c60 1	packages/server/src/server/agent/providers/claude/agent.ts
+100644 0d35a8dfd9309138551e0fff5815f5e30064d80d 2	packages/server/src/server/agent/providers/claude/agent.ts
+100644 734272dd02617f0546e8da072c2e50c0446c7ade 3	packages/server/src/server/agent/providers/claude/agent.ts
+
+Auto-merging packages/server/src/server/agent/providers/claude/agent.ts
+CONFLICT (content): Merge conflict in packages/server/src/server/agent/providers/claude/agent.ts
+Auto-merging packages/server/src/server/agent/providers/claude/subagents/replay-source.ts

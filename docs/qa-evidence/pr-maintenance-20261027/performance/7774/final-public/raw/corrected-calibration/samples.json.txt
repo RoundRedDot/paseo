@@ -1,0 +1,78 @@
+[
+  {
+    "id": "calibration-1",
+    "variant": "baseline",
+    "summary": {
+      "keyCount": 59,
+      "keyRafP95": 7.400000035762787,
+      "keyRafMax": 8.299999952316284,
+      "frameGapP95": 9.100000000000364,
+      "frameGapMax": 139.29999999999927,
+      "frameGapOver50": 5,
+      "scriptDurationMs": 6231.929,
+      "taskDurationMs": 8758.391000000001,
+      "keyEventP95": 24,
+      "streamGapP95": 32,
+      "streamGrowthFrames": 401,
+      "scrollRange": 894,
+      "observedLabels": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "assistantBodies": [
+        "## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE",
+        "## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE"
+      ],
+      "longTaskCount": 2,
+      "longTaskTotal": 222
+    }
+  },
+  {
+    "id": "calibration-2",
+    "variant": "baseline",
+    "summary": {
+      "keyCount": 59,
+      "keyRafP95": 10.199999988079071,
+      "keyRafMax": 13.400000035762787,
+      "frameGapP95": 9,
+      "frameGapMax": 396.10000000000036,
+      "frameGapOver50": 4,
+      "scriptDurationMs": 6602.653,
+      "taskDurationMs": 9489.241999999998,
+      "keyEventP95": 32,
+      "streamGapP95": 32.30000000000018,
+      "streamGrowthFrames": 364,
+      "scrollRange": 894,
+      "observedLabels": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "assistantBodies": [
+        "## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE",
+        "## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE"
+      ],
+      "longTaskCount": 2,
+      "longTaskTotal": 486
+    }
+  }
+]

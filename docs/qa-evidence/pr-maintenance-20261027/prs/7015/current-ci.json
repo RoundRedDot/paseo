@@ -1,0 +1,28 @@
+{
+  "number": 7015,
+  "title": "fix(acp): bridge native Grok and Cursor question requests",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "aff3245c65ccf769ceae8cd1937d9c57ffd055e3",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZhzqeOw",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40453712383,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40453712383",
+      "runHeadSha": "aff3245c65ccf769ceae8cd1937d9c57ffd055e3",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

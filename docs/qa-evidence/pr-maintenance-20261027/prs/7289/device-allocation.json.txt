@@ -1,0 +1,25 @@
+{
+  "pr": 7289,
+  "sourceHead": "f4539358f3168dc1b38739fa3eb9af7fe2452419",
+  "sourceTree": "a9aa0af0681b914038b851765266e0ce8d5cc6a4",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceChanged": false,
+  "affectedTargets": [
+    "OPPO PLA110 / Android16",
+    "OnePlus Open / OxygenOS16.0.5"
+  ],
+  "initialInventoryAt": "2026-10-27T05:00:30Z",
+  "initialAdbDeviceCount": 0,
+  "finalInventoryAt": "2026-10-27T06:27Z",
+  "connectedModel": "PHN110",
+  "allocation": "USER_DECLINED",
+  "affectedHardwareTested": false,
+  "androidBuildInstallLaunchOrControl": false,
+  "nativeAcceptance": "not performed; affected-device gap remains open",
+  "exactHeadCheckSuite": {
+    "head": "f4539358f3168dc1b38739fa3eb9af7fe2452419",
+    "conclusion": "action_required",
+    "run": 40184706144,
+    "checkRuns": 0
+  }
+}

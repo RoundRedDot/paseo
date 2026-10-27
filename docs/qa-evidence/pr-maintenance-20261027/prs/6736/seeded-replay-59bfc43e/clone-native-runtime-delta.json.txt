@@ -1,0 +1,41 @@
+{
+  "originalEntryCount": 13,
+  "cloneEntryCount": 18,
+  "changes": [
+    {
+      "index": 13,
+      "kind": "added",
+      "type": "custom",
+      "role": null
+    },
+    {
+      "index": 14,
+      "kind": "added",
+      "type": "custom",
+      "role": null
+    },
+    {
+      "index": 15,
+      "kind": "added",
+      "type": "custom",
+      "role": null
+    },
+    {
+      "index": 16,
+      "kind": "added",
+      "type": "custom",
+      "role": null
+    },
+    {
+      "index": 17,
+      "kind": "added",
+      "type": "custom",
+      "role": null
+    }
+  ],
+  "messageEntriesUnchanged": true,
+  "originalMessageCount": 2,
+  "cloneMessageCount": 2,
+  "nativeRuntimeMetadataChangesOnly": true,
+  "newPromptSubmissions": 0
+}

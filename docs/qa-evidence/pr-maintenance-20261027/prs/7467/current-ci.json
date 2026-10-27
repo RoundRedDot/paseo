@@ -1,0 +1,28 @@
+{
+  "number": 7467,
+  "title": "fix(android): default interface, content, and code text to 13px",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "70df9add8941096e5437b88efad97cf91d95f43b",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZh8URLg",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40457162699,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40457162699",
+      "runHeadSha": "70df9add8941096e5437b88efad97cf91d95f43b",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "epoch": "4f23fea1-43e1-402a-87c9-2b130dd96d0c",
+  "entries": [
+    {
+      "item": {
+        "type": "user_message",
+        "id": "6736-omp-image-20261027",
+        "text": "Describe the dominant colors and shapes in the attached test image in one short sentence. Do not use tools.",
+        "images": [
+          {
+            "mimeType": "image/png",
+            "bytes": 439,
+            "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+          }
+        ]
+      }
+    },
+    {
+      "item": {
+        "type": "assistant_message",
+        "id": "24616a29-2fe5-4209-8f41-40924bd557db",
+        "text": "I can't see the attached image: the active model has no image input, and the attachment itself reports no usable description text. So I can't honestly name colors or shapes.\n\nTo get the one-sentence answer, either re-attach with a vision-capable model selected, or give me any text description/hex values from the image and I'll condense it."
+      }
+    }
+  ]
+}

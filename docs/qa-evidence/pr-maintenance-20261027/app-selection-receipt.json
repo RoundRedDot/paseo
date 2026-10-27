@@ -1,0 +1,47 @@
+{
+  "allowlist": "app/public-allowlist.json",
+  "allowlistSha256": "c46cabc6ef7abd63a6d81a42e7788d2898520237ef613b43ca99f46a6dd32802",
+  "allowlistedFiles": 84,
+  "allowlistedBytes": 27496970,
+  "selected": [
+    {
+      "path": "7006/manual-expanded-reasoning.png",
+      "sha256": "757440cadee5410665dab921e98f4c9742a75051fe6e48d51f81c648395b1811",
+      "bytes": 161895
+    },
+    {
+      "path": "7006/after-label.png",
+      "sha256": "fef1b48fcb5600b6ba1a6e2b81e5ae036e378498956dd9dc3de1c910d498ada8",
+      "bytes": 160818
+    },
+    {
+      "path": "7927/file-only-peer-before-cleanup.png",
+      "sha256": "1c8cbcc2a02b0e6d758311c3b24f5413a527f5ca64c8ebeebbd134c3c80e4684",
+      "bytes": 77925
+    },
+    {
+      "path": "7927/image-file-peer-before-cleanup.png",
+      "sha256": "f3ab62a4972b993bee48f7f0335d6a1e76ea46bd2d8f613a3d5b1e16996a223c",
+      "bytes": 80385
+    },
+    {
+      "path": "7927/file-only-trace-summary.json",
+      "sha256": "149cb239b1d2da8e77c05846ec33fb84f713890206ddf06d4b6b9a82b764d379",
+      "bytes": 1832
+    },
+    {
+      "path": "7927/image-file-trace-summary.json",
+      "sha256": "b3a5a55e69a76c8da5806135c2e3a47ef2d07dbccf6edb78e9ec082856ffb043",
+      "bytes": 1848
+    }
+  ],
+  "excludedCategories": {
+    "playwrightTraceZip": 4,
+    "video": 4,
+    "browserConsole": 2,
+    "traceEventJson": 2,
+    "otherNotSelected": 78
+  },
+  "visualInspection": "Four selected screenshots show synthetic test fixtures only; no personal/provider conversation or credentials are visible.",
+  "traceInspection": "Trace-event JSON includes URL/response fields and was excluded; Playwright ZIP traces, videos and browser consoles were excluded. Compact trace summaries were scanned in process."
+}

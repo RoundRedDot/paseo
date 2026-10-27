@@ -1,0 +1,31 @@
+# Source guard and exact artifact build (existing registered worktree)
+git ls-remote luoph-fork refs/heads/fix/cross-client-images
+git fetch luoph-fork refs/heads/fix/cross-client-images
+git switch --detach ea84f0179dae93829a4c8607a6fd73e5621e3b41
+git rev-parse HEAD HEAD^{tree}
+git merge-base --is-ancestor 9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca HEAD
+/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock /tmp/paseo-pr-maintenance-20261027/image-qa/build-candidate.sh
+# build-candidate.sh: npm run build:server
+/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock /tmp/paseo-pr-maintenance-20261027/image-qa/build-browser.sh
+# build-browser.sh: CI=1 npm run build:web --workspace=@getpaseo/app
+# Native preflight uses documented SDK boolean auth-source checks and exact session selector.
+# No prompt, token resolution, token refresh, or network call during preflight.
+/usr/local/bin/bun /tmp/paseo-pr-maintenance-20261027/image-qa/omp-selected-model-preflight.ts
+# Dedicated process-local retry policy via existing PI_CONFIG_FILES overlay:
+# retry.enabled=false; retry.maxRetries=0; retry.modelFallback=false
+# Real isolated in-process daemon, exact compiled server/client, port allocated by OS.
+# Only selected real provider: OMP18.12.6 deepseek/deepseek-v4-flash, thinking off.
+# One image prompt submission; no retries or model rotation.
+/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock /tmp/paseo-pr-maintenance-20261027/image-qa/run-runtime.sh
+# Exact-head GitHub status, independent of local runtime acceptance:
+gh api repos/getpaseo/paseo/commits/ea84f0179dae93829a4c8607a6fd73e5621e3b41/check-suites
+gh api 'repos/getpaseo/paseo/actions/runs?head_sha=ea84f0179dae93829a4c8607a6fd73e5621e3b41'
+
+# Parent-authorized continuation: existing native session only, zero new inference.
+/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock /tmp/paseo-pr-maintenance-20261027/image-qa/run-continuation.sh
+# One bounded read-only failed-state DOM/cache/lightbox/Escape/reload receipt:
+/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock /tmp/paseo-pr-maintenance-20261027/image-qa/run-browser-diagnostic.sh
+# Native declared vs actual on-wire capability metadata only:
+/usr/local/bin/bun /tmp/paseo-pr-maintenance-20261027/image-qa/omp-wire-capability.ts
+# Fresh exact head+fork guard, PR body-file update and full body readback.
+gh pr edit 6736 --repo getpaseo/paseo --body-file /tmp/paseo-pr-maintenance-20261027/image-qa/body-qa.md

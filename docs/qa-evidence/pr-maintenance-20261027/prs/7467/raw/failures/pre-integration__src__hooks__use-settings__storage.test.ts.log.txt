@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-tablet/packages/app
+
+
+ Test Files  1 skipped (1)
+      Tests  112 skipped (112)
+   Start at  13:34:25
+   Duration  1.07s (transform 730ms, setup 21ms, import 985ms, tests 0ms, environment 0ms)
+

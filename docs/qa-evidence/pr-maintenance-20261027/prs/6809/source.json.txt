@@ -1,0 +1,112 @@
+{
+  "pr": 6809,
+  "role": "source-delivery",
+  "status": "delivered",
+  "checks": [
+    {
+      "name": "build-server",
+      "command": "npm run build:server",
+      "passedTests": null,
+      "summary": [],
+      "log": "build-server.log"
+    },
+    {
+      "name": "format",
+      "command": "npm run format",
+      "passedTests": null,
+      "summary": [],
+      "log": "format.log"
+    },
+    {
+      "name": "lint",
+      "command": "npm run lint",
+      "passedTests": null,
+      "summary": [
+        "Found 0 warnings and 0 errors."
+      ],
+      "log": "lint.log"
+    },
+    {
+      "name": "packages__plugin__src__server__provider.test",
+      "command": "npx vitest run src/server/provider.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 1,
+      "summary": [
+        "      Tests  1 passed (1)"
+      ],
+      "log": "packages__plugin__src__server__provider.test.log"
+    },
+    {
+      "name": "packages__protocol__src__messages.tool-call-schema.test",
+      "command": "npx vitest run src/messages.tool-call-schema.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 8,
+      "summary": [
+        "      Tests  8 passed (8)"
+      ],
+      "log": "packages__protocol__src__messages.tool-call-schema.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__claude__agent.background-subagent.test",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.background-subagent.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 11,
+      "summary": [
+        "      Tests  11 passed (11)"
+      ],
+      "log": "packages__server__src__server__agent__providers__claude__agent.background-subagent.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__claude__agent.history-load.test",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.history-load.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 14,
+      "summary": [
+        "      Tests  14 passed (14)"
+      ],
+      "log": "packages__server__src__server__agent__providers__claude__agent.history-load.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__claude__agent.sub-agent-replay.test",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.sub-agent-replay.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 33,
+      "summary": [
+        "      Tests  33 passed (33)"
+      ],
+      "log": "packages__server__src__server__agent__providers__claude__agent.sub-agent-replay.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__claude__agent.sub-agent-sidechain.test",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.sub-agent-sidechain.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 7,
+      "summary": [
+        "      Tests  7 passed (7)"
+      ],
+      "log": "packages__server__src__server__agent__providers__claude__agent.sub-agent-sidechain.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__claude__subagents__replay-source.test",
+      "command": "npx vitest run src/server/agent/providers/claude/subagents/replay-source.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 34,
+      "summary": [
+        "      Tests  34 passed (34)"
+      ],
+      "log": "packages__server__src__server__agent__providers__claude__subagents__replay-source.test.log"
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "passedTests": null,
+      "summary": [],
+      "log": "typecheck.log"
+    }
+  ],
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "2a8af80c3569bf464b4f5e16afca356317246870",
+  "tree": "5d16bf5791ebb2cb72e71ab3fd8b81cf3adba4cf",
+  "oldHead": "3789dc8dccd626f3e496e0afc6f43e627e873428",
+  "sourceChanged": true,
+  "baselineAncestor": true,
+  "host": null,
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "high",
+  "testTotal": 108,
+  "remaining": "Real Claude expanded-card/native UI and prompt selection were not rerun.",
+  "summary": "Retained background-subagent history and sidechain behavior across asynchronous replay."
+}

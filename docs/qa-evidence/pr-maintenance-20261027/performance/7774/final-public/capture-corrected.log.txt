@@ -1,0 +1,1006 @@
+
+> @getpaseo/app@0.13.0 test:e2e
+> playwright test --project=browser --config /tmp/paseo-pr-maintenance-20261027/performance/7774/playwright.corrected.config.cjs --workers=1 --retries=0
+
+
+Running 1 test using 1 worker
+
+[1A[2K(node:27794) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:27794) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/1] [browser] › ../../.dev/perf-evidence-20261027/capture-7774-corrected.spec.ts:175:5 › records the authorized corrected actual-app calibration
+[1A[2K[browser] › ../../.dev/perf-evidence-20261027/capture-7774-corrected.spec.ts:175:5 › records the authorized corrected actual-app calibration
+
+
+[1A[2KGROUP calibration 2026-10-27T06:19:15.871Z
+
+[1A[2K[metro] (node:27849) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+[1A[2K[metro] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[metro] [33mSkipping web setup: EXPO_NO_WEB_SETUP is enabled.[39m
+
+[1A[2K[metro] [90mUsing src/app as the root directory for Expo Router.[39m
+
+[1A[2K[metro] Waiting on [4mhttp://localhost:58751[24m
+
+[1A[2K[metro] Logs for your project will appear below.
+
+[1A[2K[metro] [32m[1mWeb[22m Bundled [39m[2m2333ms[22m[0m[2m packages/app/index.ts (5695 modules)[22m[0m
+
+[1A[2K[e2e] Metro warmed on port 58751
+
+[1A[2K[metro] [32m[1mWeb[22m Bundled [39m[2m218ms[22m[0m[2m packages/app/index.ts (1 module)[22m[0m
+
+[1A[2K[metro] [1mWeb [22m[7m[37m[1m INFO [22m[39m[27m %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+
+[1A[2K[metro] [1mWeb [22m[7m[37m[1m LOG [22m[39m[27m Running application "main" with appParams:
+
+[1A[2K[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+
+[1A[2K[metro] Development-level warnings: ON.
+
+[1A[2K[metro] Performance optimizations: OFF.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m props.pointerEvents is deprecated. Use style.pointerEvents
+
+[1A[2K[metro] [32m[1mWeb[22m Bundled [39m[2m36ms[22m[0m[2m packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)[22m[0m
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+
+[1A[2K[metro] [1mWeb [22m[7m[31m[1m ERROR [22m[39m[27m 
+
+[1A[2K[metro] [1mCode: sidebar-menu-toggle.tsx[22m
+
+[1A[2K[metro] [0m [90m 84 |[39m       accessibilityState[33m=[39m{accessibilityState}
+
+[1A[2K[metro]  [90m 85 |[39m     [33m>[39m
+
+[1A[2K[metro] [31m[1m>[22m[39m[90m 86 |[39m       {isMobile [33m?[39m (
+
+[1A[2K[metro]  [90m    |[39m        [31m[1m^[22m[39m
+
+[1A[2K[metro]  [90m 87 |[39m         [33m<[39m[33mMobileMenuIcon[39m extraMuted[33m=[39m{extraMutedIdleIcon} [33m/[39m[33m>[39m
+
+[1A[2K[metro]  [90m 88 |[39m       ) [33m:[39m (
+
+[1A[2K[metro]  [90m 89 |[39m         [33m<[39m[33mThemedPanelLeft[39m[0m
+
+[1A[2K[metro] [1mCall Stack[22m
+
+[1A[2K[metro] [90m  SidebarMenuToggleButton (packages/app/src/components/headers/sidebar-menu-toggle.tsx:86:8)[39m
+
+[1A[2K[metro] [90m  SidebarMenuToggle (packages/app/src/components/headers/sidebar-menu-toggle.tsx:121:10)[39m
+
+[1A[2K[metro] [90m  MenuHeader (packages/app/src/components/headers/menu-header.tsx:24:11)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenGateFrame (packages/app/src/screens/workspace/workspace-screen.tsx:756:7)[39m
+
+[1A[2K[metro] [90m  renderWorkspaceScreenGateShell (packages/app/src/screens/workspace/workspace-screen.tsx:816:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3165:32)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)[39m
+
+[1A[2K[metro] [90m  renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)[39m
+
+[1A[2K[metro] [90m  HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  RootStack (packages/app/src/app/_layout.tsx:793:5)[39m
+
+[1A[2K[metro] [90m  AppShell (packages/app/src/app/_layout.tsx:839:11)[39m
+
+[1A[2K[metro] [90m  RootAppTree (packages/app/src/app/_layout.tsx:893:15)[39m
+
+[1A[2K[metro] [90m  RootLayout (packages/app/src/app/_layout.tsx:913:10)[39m
+
+[1A[2K[metro] [90m  RootRouter (packages/app/src/root-app.tsx:35:15)[39m
+
+[1A[2K[metro] [90m  RootApp (packages/app/src/root-app.tsx:19:7)[39m
+
+[1A[2K[metro] [1mWeb [22m[7m[31m[1m ERROR [22m[39m[27m 
+
+[1A[2K[metro] [1mCode: context-window-meter.tsx[22m
+
+[1A[2K[metro] [0m [90m 109 |[39m   [36mconst[39m circumference [33m=[39m [35m2[39m [33m*[39m [33mMath[39m[33m.[39m[33mPI[39m [33m*[39m radius[33m;[39m
+
+[1A[2K[metro]  [90m 110 |[39m   [36mreturn[39m (
+
+[1A[2K[metro] [31m[1m>[22m[39m[90m 111 |[39m     [33m<[39m[33mSvg[39m
+
+[1A[2K[metro]  [90m     |[39m     [31m[1m^[22m[39m
+
+[1A[2K[metro]  [90m 112 |[39m       width[33m=[39m{size}
+
+[1A[2K[metro]  [90m 113 |[39m       height[33m=[39m{size}
+
+[1A[2K[metro]  [90m 114 |[39m       viewBox[33m=[39m{[32m`0 0 ${size} ${size}`[39m}[0m
+
+[1A[2K[metro] [1mCall Stack[22m
+
+[1A[2K[metro] [90m  ContextWindowRing (packages/app/src/components/context-window-meter.tsx:111:5)[39m
+
+[1A[2K[metro] [90m  ContextWindowMeter (packages/app/src/components/context-window-meter.tsx:186:5)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/composer/index.tsx:2066:11)[39m
+
+[1A[2K[metro] [90m  ComposerContentImpl (packages/app/src/composer/index.tsx:2062:37)[39m
+
+[1A[2K[metro] [90m  Composer (packages/app/src/composer/index.tsx:1215:9)[39m
+
+[1A[2K[metro] [90m  ActiveAgentComposer (packages/app/src/panels/agent-panel.tsx:1578:7)[39m
+
+[1A[2K[metro] [90m  AgentComposerSection (packages/app/src/panels/agent-panel.tsx:1462:5)[39m
+
+[1A[2K[metro] [90m  ChatAgentReadyContent (packages/app/src/panels/agent-panel.tsx:1166:7)[39m
+
+[1A[2K[metro] [90m  ChatAgentContent (packages/app/src/panels/agent-panel.tsx:1012:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelBody (packages/app/src/panels/agent-panel.tsx:654:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelContent (packages/app/src/panels/agent-panel.tsx:499:5)[39m
+
+[1A[2K[metro] [90m  AgentPanel (packages/app/src/panels/agent-panel.tsx:312:7)[39m
+
+[1A[2K[metro] [90m  AgentConversationPanel (packages/app/src/panels/agent-panel.tsx:367:12)[39m
+
+[1A[2K[metro] [90m  WorkspacePaneContent (packages/app/src/screens/workspace/workspace-pane-content.tsx:164:13)[39m
+
+[1A[2K[metro] [90m  MountedTab (packages/app/src/screens/workspace/workspace-panel-host.tsx:55:9)[39m
+
+[1A[2K[metro] [90m  mountedIds.map$argument_0 (packages/app/src/screens/workspace/workspace-panel-host.tsx:126:7)[39m
+
+[1A[2K[metro] [90m  WorkspacePanelHost (packages/app/src/screens/workspace/workspace-panel-host.tsx:121:20)[39m
+
+[1A[2K[metro] [90m  SplitPaneView (packages/app/src/components/split-container.tsx:750:11)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:462:11)[39m
+
+[1A[2K[metro] [90m  node.group.children.map$argument_0 (packages/app/src/components/split-container.tsx:513:13)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:506:28)[39m
+
+[1A[2K[metro] [90m  SplitContainer (packages/app/src/components/split-container.tsx:241:14)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/screens/workspace/workspace-screen.tsx:3445:7)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3440:38)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)[39m
+
+[1A[2K[metro] [90m  renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)[39m
+
+[1A[2K[metro] [90m  HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  RootStack (packages/app/src/app/_layout.tsx:793:5)[39m
+
+[1A[2K[metro] [90m  AppShell (packages/app/src/app/_layout.tsx:839:11)[39m
+
+[1A[2K[metro] [90m  RootAppTree (packages/app/src/app/_layout.tsx:893:15)[39m
+
+[1A[2K[metro] [90m  RootLayout (packages/app/src/app/_layout.tsx:913:10)[39m
+
+[1A[2K[metro] [90m  RootRouter (packages/app/src/root-app.tsx:35:15)[39m
+
+[1A[2K[metro] [90m  RootApp (packages/app/src/root-app.tsx:19:7)[39m
+
+[1A[2K[metro] [1mWeb [22m[7m[31m[1m ERROR [22m[39m[27m 
+
+[1A[2K[metro] [1mCode: context-window-meter.tsx[22m
+
+[1A[2K[metro] [0m [90m 109 |[39m   [36mconst[39m circumference [33m=[39m [35m2[39m [33m*[39m [33mMath[39m[33m.[39m[33mPI[39m [33m*[39m radius[33m;[39m
+
+[1A[2K[metro]  [90m 110 |[39m   [36mreturn[39m (
+
+[1A[2K[metro] [31m[1m>[22m[39m[90m 111 |[39m     [33m<[39m[33mSvg[39m
+
+[1A[2K[metro]  [90m     |[39m     [31m[1m^[22m[39m
+
+[1A[2K[metro]  [90m 112 |[39m       width[33m=[39m{size}
+
+[1A[2K[metro]  [90m 113 |[39m       height[33m=[39m{size}
+
+[1A[2K[metro]  [90m 114 |[39m       viewBox[33m=[39m{[32m`0 0 ${size} ${size}`[39m}[0m
+
+[1A[2K[metro] [1mCall Stack[22m
+
+[1A[2K[metro] [90m  ContextWindowRing (packages/app/src/components/context-window-meter.tsx:111:5)[39m
+
+[1A[2K[metro] [90m  ContextWindowMeter (packages/app/src/components/context-window-meter.tsx:186:5)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/composer/index.tsx:2066:11)[39m
+
+[1A[2K[metro] [90m  ComposerContentImpl (packages/app/src/composer/index.tsx:2062:37)[39m
+
+[1A[2K[metro] [90m  Composer (packages/app/src/composer/index.tsx:1215:9)[39m
+
+[1A[2K[metro] [90m  ActiveAgentComposer (packages/app/src/panels/agent-panel.tsx:1578:7)[39m
+
+[1A[2K[metro] [90m  AgentComposerSection (packages/app/src/panels/agent-panel.tsx:1462:5)[39m
+
+[1A[2K[metro] [90m  ChatAgentReadyContent (packages/app/src/panels/agent-panel.tsx:1166:7)[39m
+
+[1A[2K[metro] [90m  ChatAgentContent (packages/app/src/panels/agent-panel.tsx:1012:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelBody (packages/app/src/panels/agent-panel.tsx:654:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelContent (packages/app/src/panels/agent-panel.tsx:499:5)[39m
+
+[1A[2K[metro] [90m  AgentPanel (packages/app/src/panels/agent-panel.tsx:312:7)[39m
+
+[1A[2K[metro] [90m  AgentConversationPanel (packages/app/src/panels/agent-panel.tsx:367:12)[39m
+
+[1A[2K[metro] [90m  WorkspacePaneContent (packages/app/src/screens/workspace/workspace-pane-content.tsx:164:13)[39m
+
+[1A[2K[metro] [90m  MountedTab (packages/app/src/screens/workspace/workspace-panel-host.tsx:55:9)[39m
+
+[1A[2K[metro] [90m  mountedIds.map$argument_0 (packages/app/src/screens/workspace/workspace-panel-host.tsx:126:7)[39m
+
+[1A[2K[metro] [90m  WorkspacePanelHost (packages/app/src/screens/workspace/workspace-panel-host.tsx:121:20)[39m
+
+[1A[2K[metro] [90m  SplitPaneView (packages/app/src/components/split-container.tsx:750:11)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:462:11)[39m
+
+[1A[2K[metro] [90m  node.group.children.map$argument_0 (packages/app/src/components/split-container.tsx:513:13)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:506:28)[39m
+
+[1A[2K[metro] [90m  SplitContainer (packages/app/src/components/split-container.tsx:241:14)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/screens/workspace/workspace-screen.tsx:3445:7)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3440:38)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)[39m
+
+[1A[2K[metro] [90m  renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)[39m
+
+[1A[2K[metro] [90m  HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  RootStack (packages/app/src/app/_layout.tsx:793:5)[39m
+
+[1A[2K[metro] [90m  AppShell (packages/app/src/app/_layout.tsx:839:11)[39m
+
+[1A[2K[metro] [90m  RootAppTree (packages/app/src/app/_layout.tsx:893:15)[39m
+
+[1A[2K[metro] [90m  RootLayout (packages/app/src/app/_layout.tsx:913:10)[39m
+
+[1A[2K[metro] [90m  RootRouter (packages/app/src/root-app.tsx:35:15)[39m
+
+[1A[2K[metro] [90m  RootApp (packages/app/src/root-app.tsx:19:7)[39m
+
+[1A[2KSAMPLE_START calibration-1 2026-10-27T06:19:55.808Z
+
+[1A[2K[metro] [32m[1mWeb[22m Bundled [39m[2m242ms[22m[0m[2m packages/app/index.ts (1 module)[22m[0m
+
+[1A[2K[metro] [32m[1mWeb[22m Bundled [39m[2m5ms[22m[0m[2m packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)[22m[0m
+
+[1A[2K[metro] [1mWeb [22m[7m[37m[1m INFO [22m[39m[27m %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+
+[1A[2K[metro] [1mWeb [22m[7m[37m[1m LOG [22m[39m[27m Running application "main" with appParams:
+
+[1A[2K[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+
+[1A[2K[metro] Development-level warnings: ON.
+
+[1A[2K[metro] Performance optimizations: OFF.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m props.pointerEvents is deprecated. Use style.pointerEvents
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+
+[1A[2K[metro] [1mWeb [22m[7m[31m[1m ERROR [22m[39m[27m 
+
+[1A[2K[metro] [1mCode: sidebar-menu-toggle.tsx[22m
+
+[1A[2K[metro] [0m [90m 84 |[39m       accessibilityState[33m=[39m{accessibilityState}
+
+[1A[2K[metro]  [90m 85 |[39m     [33m>[39m
+
+[1A[2K[metro] [31m[1m>[22m[39m[90m 86 |[39m       {isMobile [33m?[39m (
+
+[1A[2K[metro]  [90m    |[39m        [31m[1m^[22m[39m
+
+[1A[2K[metro]  [90m 87 |[39m         [33m<[39m[33mMobileMenuIcon[39m extraMuted[33m=[39m{extraMutedIdleIcon} [33m/[39m[33m>[39m
+
+[1A[2K[metro]  [90m 88 |[39m       ) [33m:[39m (
+
+[1A[2K[metro]  [90m 89 |[39m         [33m<[39m[33mThemedPanelLeft[39m[0m
+
+[1A[2K[metro] [1mCall Stack[22m
+
+[1A[2K[metro] [90m  SidebarMenuToggleButton (packages/app/src/components/headers/sidebar-menu-toggle.tsx:86:8)[39m
+
+[1A[2K[metro] [90m  SidebarMenuToggle (packages/app/src/components/headers/sidebar-menu-toggle.tsx:121:10)[39m
+
+[1A[2K[metro] [90m  MenuHeader (packages/app/src/components/headers/menu-header.tsx:24:11)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenGateFrame (packages/app/src/screens/workspace/workspace-screen.tsx:756:7)[39m
+
+[1A[2K[metro] [90m  renderWorkspaceScreenGateShell (packages/app/src/screens/workspace/workspace-screen.tsx:816:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3165:32)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)[39m
+
+[1A[2K[metro] [90m  renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)[39m
+
+[1A[2K[metro] [90m  HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  RootStack (packages/app/src/app/_layout.tsx:793:5)[39m
+
+[1A[2K[metro] [90m  AppShell (packages/app/src/app/_layout.tsx:839:11)[39m
+
+[1A[2K[metro] [90m  RootAppTree (packages/app/src/app/_layout.tsx:893:15)[39m
+
+[1A[2K[metro] [90m  RootLayout (packages/app/src/app/_layout.tsx:913:10)[39m
+
+[1A[2K[metro] [90m  RootRouter (packages/app/src/root-app.tsx:35:15)[39m
+
+[1A[2K[metro] [90m  RootApp (packages/app/src/root-app.tsx:19:7)[39m
+
+[1A[2K[metro] [1mWeb [22m[7m[31m[1m ERROR [22m[39m[27m 
+
+[1A[2K[metro] [1mCode: context-window-meter.tsx[22m
+
+[1A[2K[metro] [0m [90m 109 |[39m   [36mconst[39m circumference [33m=[39m [35m2[39m [33m*[39m [33mMath[39m[33m.[39m[33mPI[39m [33m*[39m radius[33m;[39m
+
+[1A[2K[metro]  [90m 110 |[39m   [36mreturn[39m (
+
+[1A[2K[metro] [31m[1m>[22m[39m[90m 111 |[39m     [33m<[39m[33mSvg[39m
+
+[1A[2K[metro]  [90m     |[39m     [31m[1m^[22m[39m
+
+[1A[2K[metro]  [90m 112 |[39m       width[33m=[39m{size}
+
+[1A[2K[metro]  [90m 113 |[39m       height[33m=[39m{size}
+
+[1A[2K[metro]  [90m 114 |[39m       viewBox[33m=[39m{[32m`0 0 ${size} ${size}`[39m}[0m
+
+[1A[2K[metro] [1mCall Stack[22m
+
+[1A[2K[metro] [90m  ContextWindowRing (packages/app/src/components/context-window-meter.tsx:111:5)[39m
+
+[1A[2K[metro] [90m  ContextWindowMeter (packages/app/src/components/context-window-meter.tsx:186:5)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/composer/index.tsx:2066:11)[39m
+
+[1A[2K[metro] [90m  ComposerContentImpl (packages/app/src/composer/index.tsx:2062:37)[39m
+
+[1A[2K[metro] [90m  Composer (packages/app/src/composer/index.tsx:1215:9)[39m
+
+[1A[2K[metro] [90m  ActiveAgentComposer (packages/app/src/panels/agent-panel.tsx:1578:7)[39m
+
+[1A[2K[metro] [90m  AgentComposerSection (packages/app/src/panels/agent-panel.tsx:1462:5)[39m
+
+[1A[2K[metro] [90m  ChatAgentReadyContent (packages/app/src/panels/agent-panel.tsx:1166:7)[39m
+
+[1A[2K[metro] [90m  ChatAgentContent (packages/app/src/panels/agent-panel.tsx:1012:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelBody (packages/app/src/panels/agent-panel.tsx:654:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelContent (packages/app/src/panels/agent-panel.tsx:499:5)[39m
+
+[1A[2K[metro] [90m  AgentPanel (packages/app/src/panels/agent-panel.tsx:312:7)[39m
+
+[1A[2K[metro] [90m  AgentConversationPanel (packages/app/src/panels/agent-panel.tsx:367:12)[39m
+
+[1A[2K[metro] [90m  WorkspacePaneContent (packages/app/src/screens/workspace/workspace-pane-content.tsx:164:13)[39m
+
+[1A[2K[metro] [90m  MountedTab (packages/app/src/screens/workspace/workspace-panel-host.tsx:55:9)[39m
+
+[1A[2K[metro] [90m  mountedIds.map$argument_0 (packages/app/src/screens/workspace/workspace-panel-host.tsx:126:7)[39m
+
+[1A[2K[metro] [90m  WorkspacePanelHost (packages/app/src/screens/workspace/workspace-panel-host.tsx:121:20)[39m
+
+[1A[2K[metro] [90m  SplitPaneView (packages/app/src/components/split-container.tsx:750:11)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:462:11)[39m
+
+[1A[2K[metro] [90m  node.group.children.map$argument_0 (packages/app/src/components/split-container.tsx:513:13)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:506:28)[39m
+
+[1A[2K[metro] [90m  SplitContainer (packages/app/src/components/split-container.tsx:241:14)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/screens/workspace/workspace-screen.tsx:3445:7)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3440:38)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)[39m
+
+[1A[2K[metro] [90m  renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)[39m
+
+[1A[2K[metro] [90m  HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  RootStack (packages/app/src/app/_layout.tsx:793:5)[39m
+
+[1A[2K[metro] [90m  AppShell (packages/app/src/app/_layout.tsx:839:11)[39m
+
+[1A[2K[metro] [90m  RootAppTree (packages/app/src/app/_layout.tsx:893:15)[39m
+
+[1A[2K[metro] [90m  RootLayout (packages/app/src/app/_layout.tsx:913:10)[39m
+
+[1A[2K[metro] [90m  RootRouter (packages/app/src/root-app.tsx:35:15)[39m
+
+[1A[2K[metro] [90m  RootApp (packages/app/src/root-app.tsx:19:7)[39m
+
+[1A[2K[metro] [1mWeb [22m[7m[31m[1m ERROR [22m[39m[27m 
+
+[1A[2K[metro] [1mCode: context-window-meter.tsx[22m
+
+[1A[2K[metro] [0m [90m 109 |[39m   [36mconst[39m circumference [33m=[39m [35m2[39m [33m*[39m [33mMath[39m[33m.[39m[33mPI[39m [33m*[39m radius[33m;[39m
+
+[1A[2K[metro]  [90m 110 |[39m   [36mreturn[39m (
+
+[1A[2K[metro] [31m[1m>[22m[39m[90m 111 |[39m     [33m<[39m[33mSvg[39m
+
+[1A[2K[metro]  [90m     |[39m     [31m[1m^[22m[39m
+
+[1A[2K[metro]  [90m 112 |[39m       width[33m=[39m{size}
+
+[1A[2K[metro]  [90m 113 |[39m       height[33m=[39m{size}
+
+[1A[2K[metro]  [90m 114 |[39m       viewBox[33m=[39m{[32m`0 0 ${size} ${size}`[39m}[0m
+
+[1A[2K[metro] [1mCall Stack[22m
+
+[1A[2K[metro] [90m  ContextWindowRing (packages/app/src/components/context-window-meter.tsx:111:5)[39m
+
+[1A[2K[metro] [90m  ContextWindowMeter (packages/app/src/components/context-window-meter.tsx:186:5)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/composer/index.tsx:2066:11)[39m
+
+[1A[2K[metro] [90m  ComposerContentImpl (packages/app/src/composer/index.tsx:2062:37)[39m
+
+[1A[2K[metro] [90m  Composer (packages/app/src/composer/index.tsx:1215:9)[39m
+
+[1A[2K[metro] [90m  ActiveAgentComposer (packages/app/src/panels/agent-panel.tsx:1578:7)[39m
+
+[1A[2K[metro] [90m  AgentComposerSection (packages/app/src/panels/agent-panel.tsx:1462:5)[39m
+
+[1A[2K[metro] [90m  ChatAgentReadyContent (packages/app/src/panels/agent-panel.tsx:1166:7)[39m
+
+[1A[2K[metro] [90m  ChatAgentContent (packages/app/src/panels/agent-panel.tsx:1012:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelBody (packages/app/src/panels/agent-panel.tsx:654:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelContent (packages/app/src/panels/agent-panel.tsx:499:5)[39m
+
+[1A[2K[metro] [90m  AgentPanel (packages/app/src/panels/agent-panel.tsx:312:7)[39m
+
+[1A[2K[metro] [90m  AgentConversationPanel (packages/app/src/panels/agent-panel.tsx:367:12)[39m
+
+[1A[2K[metro] [90m  WorkspacePaneContent (packages/app/src/screens/workspace/workspace-pane-content.tsx:164:13)[39m
+
+[1A[2K[metro] [90m  MountedTab (packages/app/src/screens/workspace/workspace-panel-host.tsx:55:9)[39m
+
+[1A[2K[metro] [90m  mountedIds.map$argument_0 (packages/app/src/screens/workspace/workspace-panel-host.tsx:126:7)[39m
+
+[1A[2K[metro] [90m  WorkspacePanelHost (packages/app/src/screens/workspace/workspace-panel-host.tsx:121:20)[39m
+
+[1A[2K[metro] [90m  SplitPaneView (packages/app/src/components/split-container.tsx:750:11)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:462:11)[39m
+
+[1A[2K[metro] [90m  node.group.children.map$argument_0 (packages/app/src/components/split-container.tsx:513:13)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:506:28)[39m
+
+[1A[2K[metro] [90m  SplitContainer (packages/app/src/components/split-container.tsx:241:14)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/screens/workspace/workspace-screen.tsx:3445:7)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3440:38)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)[39m
+
+[1A[2K[metro] [90m  renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)[39m
+
+[1A[2K[metro] [90m  HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  RootStack (packages/app/src/app/_layout.tsx:793:5)[39m
+
+[1A[2K[metro] [90m  AppShell (packages/app/src/app/_layout.tsx:839:11)[39m
+
+[1A[2K[metro] [90m  RootAppTree (packages/app/src/app/_layout.tsx:893:15)[39m
+
+[1A[2K[metro] [90m  RootLayout (packages/app/src/app/_layout.tsx:913:10)[39m
+
+[1A[2K[metro] [90m  RootRouter (packages/app/src/root-app.tsx:35:15)[39m
+
+[1A[2K[metro] [90m  RootApp (packages/app/src/root-app.tsx:19:7)[39m
+
+[1A[2Kcalibration-1 {"keyCount":59,"keyRafP95":7.400000035762787,"keyRafMax":8.299999952316284,"frameGapP95":9.100000000000364,"frameGapMax":139.29999999999927,"frameGapOver50":5,"scriptDurationMs":6231.929,"taskDurationMs":8758.391000000001,"keyEventP95":24,"streamGapP95":32,"streamGrowthFrames":401,"scrollRange":894,"observedLabels":[0,1,2,3,4,5,6,7,8,9,10,11],"assistantBodies":["## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE","## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE"],"longTaskCount":2,"longTaskTotal":222} draftEqual [33mtrue[39m
+
+[1A[2KSAMPLE_START calibration-2 2026-10-27T06:20:51.922Z
+
+[1A[2K[metro] [32m[1mWeb[22m Bundled [39m[2m337ms[22m[0m[2m packages/app/index.ts (1 module)[22m[0m
+
+[1A[2K[metro] [32m[1mWeb[22m Bundled [39m[2m10ms[22m[0m[2m packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)[22m[0m
+
+[1A[2K[metro] [1mWeb [22m[7m[37m[1m INFO [22m[39m[27m %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+
+[1A[2K[metro] [1mWeb [22m[7m[37m[1m LOG [22m[39m[27m Running application "main" with appParams:
+
+[1A[2K[metro]  {"hydrate": undefined, "rootTag": "#root"} 
+
+[1A[2K[metro] Development-level warnings: ON.
+
+[1A[2K[metro] Performance optimizations: OFF.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/runtime/host-runtime.ts -> src/desktop/browser/automation/handler.ts -> src/stores/workspace-layout-store.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/runtime/host-runtime.ts -> src/runtime/directory-sync/index.ts -> src/runtime/directory-sync/agent-replica.ts -> src/hooks/use-archive-agent.ts -> src/runtime/host-runtime.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/actions.ts -> src/plugins/workspace-panels/locations.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/stores/navigation-active-workspace-store/index.ts -> src/workspace-tabs/navigation.ts -> src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/navigation-active-workspace-store/index.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/stores/workspace-layout-store.ts -> src/plugins/workspace-panels/locations.ts -> src/plugins/registry.ts -> src/plugins/client-runtime.ts -> src/plugins/navigation.ts -> src/stores/workspace-layout-store.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/plugins/registry.ts -> src/plugins/evaluate.ts -> src/plugins/themes/index.ts -> src/plugins/registry.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/components/sidebar-workspace-list.tsx -> src/components/sidebar/sidebar-status-list.tsx -> src/components/sidebar/sidebar-workspace-row-content.tsx -> src/components/workspace-hover-card.tsx -> src/components/sidebar-workspace-list.tsx
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/panels/register-panels.ts -> src/panels/agent-panel.tsx -> src/panels/agent-tracks.tsx -> src/subagents/track.tsx -> src/screens/workspace/workspace-tab-presentation.tsx -> src/panels/register-panels.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Require cycle: src/panels/register-panels.ts -> src/panels/new-tab-panel.tsx -> src/workspace-tabs/launcher/index.tsx -> src/panels/register-panels.ts
+
+[1A[2K[metro] Require cycles are allowed, but can result in uninitialized values. Consider refactoring to remove the need for a cycle.
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m props.pointerEvents is deprecated. Use style.pointerEvents
+
+[1A[2K[metro] [1mWeb [22m[7m[31m[1m ERROR [22m[39m[27m 
+
+[1A[2K[metro] [1mCode: sidebar-menu-toggle.tsx[22m
+
+[1A[2K[metro] [0m [90m 84 |[39m       accessibilityState[33m=[39m{accessibilityState}
+
+[1A[2K[metro]  [90m 85 |[39m     [33m>[39m
+
+[1A[2K[metro] [31m[1m>[22m[39m[90m 86 |[39m       {isMobile [33m?[39m (
+
+[1A[2K[metro]  [90m    |[39m        [31m[1m^[22m[39m
+
+[1A[2K[metro]  [90m 87 |[39m         [33m<[39m[33mMobileMenuIcon[39m extraMuted[33m=[39m{extraMutedIdleIcon} [33m/[39m[33m>[39m
+
+[1A[2K[metro]  [90m 88 |[39m       ) [33m:[39m (
+
+[1A[2K[metro]  [90m 89 |[39m         [33m<[39m[33mThemedPanelLeft[39m[0m
+
+[1A[2K[metro] [1mCall Stack[22m
+
+[1A[2K[metro] [90m  SidebarMenuToggleButton (packages/app/src/components/headers/sidebar-menu-toggle.tsx:86:8)[39m
+
+[1A[2K[metro] [90m  SidebarMenuToggle (packages/app/src/components/headers/sidebar-menu-toggle.tsx:121:10)[39m
+
+[1A[2K[metro] [90m  MenuHeader (packages/app/src/components/headers/menu-header.tsx:24:11)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenGateFrame (packages/app/src/screens/workspace/workspace-screen.tsx:756:7)[39m
+
+[1A[2K[metro] [90m  renderWorkspaceScreenGateShell (packages/app/src/screens/workspace/workspace-screen.tsx:816:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3165:32)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)[39m
+
+[1A[2K[metro] [90m  renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)[39m
+
+[1A[2K[metro] [90m  HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  RootStack (packages/app/src/app/_layout.tsx:793:5)[39m
+
+[1A[2K[metro] [90m  AppShell (packages/app/src/app/_layout.tsx:839:11)[39m
+
+[1A[2K[metro] [90m  RootAppTree (packages/app/src/app/_layout.tsx:893:15)[39m
+
+[1A[2K[metro] [90m  RootLayout (packages/app/src/app/_layout.tsx:913:10)[39m
+
+[1A[2K[metro] [90m  RootRouter (packages/app/src/root-app.tsx:35:15)[39m
+
+[1A[2K[metro] [90m  RootApp (packages/app/src/root-app.tsx:19:7)[39m
+
+[1A[2K[metro] [1mWeb [22m[7m[33m[1m WARN [22m[39m[27m Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md
+
+[1A[2K[metro] [1mWeb [22m[7m[31m[1m ERROR [22m[39m[27m 
+
+[1A[2K[metro] [1mCode: context-window-meter.tsx[22m
+
+[1A[2K[metro] [0m [90m 109 |[39m   [36mconst[39m circumference [33m=[39m [35m2[39m [33m*[39m [33mMath[39m[33m.[39m[33mPI[39m [33m*[39m radius[33m;[39m
+
+[1A[2K[metro]  [90m 110 |[39m   [36mreturn[39m (
+
+[1A[2K[metro] [31m[1m>[22m[39m[90m 111 |[39m     [33m<[39m[33mSvg[39m
+
+[1A[2K[metro]  [90m     |[39m     [31m[1m^[22m[39m
+
+[1A[2K[metro]  [90m 112 |[39m       width[33m=[39m{size}
+
+[1A[2K[metro]  [90m 113 |[39m       height[33m=[39m{size}
+
+[1A[2K[metro]  [90m 114 |[39m       viewBox[33m=[39m{[32m`0 0 ${size} ${size}`[39m}[0m
+
+[1A[2K[metro] [1mCall Stack[22m
+
+[1A[2K[metro] [90m  ContextWindowRing (packages/app/src/components/context-window-meter.tsx:111:5)[39m
+
+[1A[2K[metro] [90m  ContextWindowMeter (packages/app/src/components/context-window-meter.tsx:186:5)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/composer/index.tsx:2066:11)[39m
+
+[1A[2K[metro] [90m  ComposerContentImpl (packages/app/src/composer/index.tsx:2062:37)[39m
+
+[1A[2K[metro] [90m  Composer (packages/app/src/composer/index.tsx:1215:9)[39m
+
+[1A[2K[metro] [90m  ActiveAgentComposer (packages/app/src/panels/agent-panel.tsx:1578:7)[39m
+
+[1A[2K[metro] [90m  AgentComposerSection (packages/app/src/panels/agent-panel.tsx:1462:5)[39m
+
+[1A[2K[metro] [90m  ChatAgentReadyContent (packages/app/src/panels/agent-panel.tsx:1166:7)[39m
+
+[1A[2K[metro] [90m  ChatAgentContent (packages/app/src/panels/agent-panel.tsx:1012:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelBody (packages/app/src/panels/agent-panel.tsx:654:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelContent (packages/app/src/panels/agent-panel.tsx:499:5)[39m
+
+[1A[2K[metro] [90m  AgentPanel (packages/app/src/panels/agent-panel.tsx:312:7)[39m
+
+[1A[2K[metro] [90m  AgentConversationPanel (packages/app/src/panels/agent-panel.tsx:367:12)[39m
+
+[1A[2K[metro] [90m  WorkspacePaneContent (packages/app/src/screens/workspace/workspace-pane-content.tsx:164:13)[39m
+
+[1A[2K[metro] [90m  MountedTab (packages/app/src/screens/workspace/workspace-panel-host.tsx:55:9)[39m
+
+[1A[2K[metro] [90m  mountedIds.map$argument_0 (packages/app/src/screens/workspace/workspace-panel-host.tsx:126:7)[39m
+
+[1A[2K[metro] [90m  WorkspacePanelHost (packages/app/src/screens/workspace/workspace-panel-host.tsx:121:20)[39m
+
+[1A[2K[metro] [90m  SplitPaneView (packages/app/src/components/split-container.tsx:750:11)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:462:11)[39m
+
+[1A[2K[metro] [90m  node.group.children.map$argument_0 (packages/app/src/components/split-container.tsx:513:13)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:506:28)[39m
+
+[1A[2K[metro] [90m  SplitContainer (packages/app/src/components/split-container.tsx:241:14)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/screens/workspace/workspace-screen.tsx:3445:7)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3440:38)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)[39m
+
+[1A[2K[metro] [90m  renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)[39m
+
+[1A[2K[metro] [90m  HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  RootStack (packages/app/src/app/_layout.tsx:793:5)[39m
+
+[1A[2K[metro] [90m  AppShell (packages/app/src/app/_layout.tsx:839:11)[39m
+
+[1A[2K[metro] [90m  RootAppTree (packages/app/src/app/_layout.tsx:893:15)[39m
+
+[1A[2K[metro] [90m  RootLayout (packages/app/src/app/_layout.tsx:913:10)[39m
+
+[1A[2K[metro] [90m  RootRouter (packages/app/src/root-app.tsx:35:15)[39m
+
+[1A[2K[metro] [90m  RootApp (packages/app/src/root-app.tsx:19:7)[39m
+
+[1A[2K[metro] [1mWeb [22m[7m[31m[1m ERROR [22m[39m[27m 
+
+[1A[2K[metro] [1mCode: context-window-meter.tsx[22m
+
+[1A[2K[metro] [0m [90m 109 |[39m   [36mconst[39m circumference [33m=[39m [35m2[39m [33m*[39m [33mMath[39m[33m.[39m[33mPI[39m [33m*[39m radius[33m;[39m
+
+[1A[2K[metro]  [90m 110 |[39m   [36mreturn[39m (
+
+[1A[2K[metro] [31m[1m>[22m[39m[90m 111 |[39m     [33m<[39m[33mSvg[39m
+
+[1A[2K[metro]  [90m     |[39m     [31m[1m^[22m[39m
+
+[1A[2K[metro]  [90m 112 |[39m       width[33m=[39m{size}
+
+[1A[2K[metro]  [90m 113 |[39m       height[33m=[39m{size}
+
+[1A[2K[metro]  [90m 114 |[39m       viewBox[33m=[39m{[32m`0 0 ${size} ${size}`[39m}[0m
+
+[1A[2K[metro] [1mCall Stack[22m
+
+[1A[2K[metro] [90m  ContextWindowRing (packages/app/src/components/context-window-meter.tsx:111:5)[39m
+
+[1A[2K[metro] [90m  ContextWindowMeter (packages/app/src/components/context-window-meter.tsx:186:5)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/composer/index.tsx:2066:11)[39m
+
+[1A[2K[metro] [90m  ComposerContentImpl (packages/app/src/composer/index.tsx:2062:37)[39m
+
+[1A[2K[metro] [90m  Composer (packages/app/src/composer/index.tsx:1215:9)[39m
+
+[1A[2K[metro] [90m  ActiveAgentComposer (packages/app/src/panels/agent-panel.tsx:1578:7)[39m
+
+[1A[2K[metro] [90m  AgentComposerSection (packages/app/src/panels/agent-panel.tsx:1462:5)[39m
+
+[1A[2K[metro] [90m  ChatAgentReadyContent (packages/app/src/panels/agent-panel.tsx:1166:7)[39m
+
+[1A[2K[metro] [90m  ChatAgentContent (packages/app/src/panels/agent-panel.tsx:1012:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelBody (packages/app/src/panels/agent-panel.tsx:654:5)[39m
+
+[1A[2K[metro] [90m  AgentPanelContent (packages/app/src/panels/agent-panel.tsx:499:5)[39m
+
+[1A[2K[metro] [90m  AgentPanel (packages/app/src/panels/agent-panel.tsx:312:7)[39m
+
+[1A[2K[metro] [90m  AgentConversationPanel (packages/app/src/panels/agent-panel.tsx:367:12)[39m
+
+[1A[2K[metro] [90m  WorkspacePaneContent (packages/app/src/screens/workspace/workspace-pane-content.tsx:164:13)[39m
+
+[1A[2K[metro] [90m  MountedTab (packages/app/src/screens/workspace/workspace-panel-host.tsx:55:9)[39m
+
+[1A[2K[metro] [90m  mountedIds.map$argument_0 (packages/app/src/screens/workspace/workspace-panel-host.tsx:126:7)[39m
+
+[1A[2K[metro] [90m  WorkspacePanelHost (packages/app/src/screens/workspace/workspace-panel-host.tsx:121:20)[39m
+
+[1A[2K[metro] [90m  SplitPaneView (packages/app/src/components/split-container.tsx:750:11)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:462:11)[39m
+
+[1A[2K[metro] [90m  node.group.children.map$argument_0 (packages/app/src/components/split-container.tsx:513:13)[39m
+
+[1A[2K[metro] [90m  SplitNodeView (packages/app/src/components/split-container.tsx:506:28)[39m
+
+[1A[2K[metro] [90m  SplitContainer (packages/app/src/components/split-container.tsx:241:14)[39m
+
+[1A[2K[metro] [90m  useMemo$argument_0 (packages/app/src/screens/workspace/workspace-screen.tsx:3445:7)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreenContent (packages/app/src/screens/workspace/workspace-screen.tsx:3440:38)[39m
+
+[1A[2K[metro] [90m  WorkspaceScreen (packages/app/src/screens/workspace/workspace-screen.tsx:430:5)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeckEntry (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:256:7)[39m
+
+[1A[2K[metro] [90m  renderedEntries.map$argument_0 (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:211:13)[39m
+
+[1A[2K[metro] [90m  WorkspaceDeck (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:209:25)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceRouteContent (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:141:10)[39m
+
+[1A[2K[metro] [90m  HostWorkspaceIndexRoute (packages/app/src/app/h/[serverId]/workspace/[workspaceId]/index.tsx:95:7)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  KnownHostRoute (packages/app/src/app/h/[serverId]/_layout.tsx:39:5)[39m
+
+[1A[2K[metro] [90m  HostRouteLayout (packages/app/src/app/h/[serverId]/_layout.tsx:18:10)[39m
+
+[1A[2K[metro] [90m  ThemedStackBase (packages/app/src/navigation/themed-stack.tsx:64:5)[39m
+
+[1A[2K[metro] [90m  RootStack (packages/app/src/app/_layout.tsx:793:5)[39m
+
+[1A[2K[metro] [90m  AppShell (packages/app/src/app/_layout.tsx:839:11)[39m
+
+[1A[2K[metro] [90m  RootAppTree (packages/app/src/app/_layout.tsx:893:15)[39m
+
+[1A[2K[metro] [90m  RootLayout (packages/app/src/app/_layout.tsx:913:10)[39m
+
+[1A[2K[metro] [90m  RootRouter (packages/app/src/root-app.tsx:35:15)[39m
+
+[1A[2K[metro] [90m  RootApp (packages/app/src/root-app.tsx:19:7)[39m
+
+[1A[2Kcalibration-2 {"keyCount":59,"keyRafP95":10.199999988079071,"keyRafMax":13.400000035762787,"frameGapP95":9,"frameGapMax":396.10000000000036,"frameGapOver50":4,"scriptDurationMs":6602.653,"taskDurationMs":9489.241999999998,"keyEventP95":32,"streamGapP95":32.30000000000018,"streamGrowthFrames":364,"scrollRange":894,"observedLabels":[0,1,2,3,4,5,6,7,8,9,10,11],"assistantBodies":["## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE","## Review step 1\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 2\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 3\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 4\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 5\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 6\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 7\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\n## Review step 8\n\nThe change keeps the existing workspace behavior. Check the selected agent, inspect the reply, and confirm the same result after refreshing the page. Keep the update small and record the test output before sharing the patch.\n\nPERF-IMPACT-RESPONSE-COMPLETE"],"longTaskCount":2,"longTaskTotal":486} draftEqual [33mtrue[39m
+
+[1A[2KCALIBRATION {"passed":false,"comparisons":[{"metric":"keyRafP95","a":7.400000035762787,"b":10.199999988079071,"relativeDifference":0.3181818123321888,"passed":false},{"metric":"frameGapP95","a":9.100000000000364,"b":9,"relativeDifference":0.011049723756946054,"passed":true},{"metric":"scriptDurationMs","a":6231.929,"b":6602.653,"relativeDifference":0.05776954792918073,"passed":true},{"metric":"streamGapP95","a":32,"b":32.30000000000018,"relativeDifference":0.00933125972006784,"passed":true}]}
+
+[1A[2K[e2e] Metro stopped
+
+[1A[2KFINISHED 2026-10-27T06:21:51.381Z
+
+[1A[2K  1 passed (2.6m)

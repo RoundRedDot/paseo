@@ -1,0 +1,32 @@
+
+ RUN  v4.1.6 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-providers/packages/server
+
+stdout | src/server/agent/providers/claude/subagents/replay-source.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: 🛡️ auth for agents: https://vestauth.com
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: ⚙️  suppress all logs with { quiet: true }
+
+ ❯ src/server/agent/providers/claude/subagents/replay-source.test.ts (35 tests | 1 failed | 34 skipped) 3ms
+     × restores a resumed child on its original row after consuming async history 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/agent/providers/claude/subagents/replay-source.test.ts > observeReplaySubagents > restores a resumed child on its original row after consuming async history
+TypeError: subagent.entries is not iterable
+ ❯ observeSubagent src/server/agent/providers/claude/subagents/replay-source.ts:274:32
+    272|
+    273|   // Consume each source once for presentation and timeline; keep no r…
+    274|   for (const entry of subagent.entries) {
+       |                                ^
+    275|     const timestamp = normalizeProviderReplayTimestamp(entry.timestamp…
+    276|     if (!seenEntry) firstTimestamp = timestamp;
+ ❯ observeReplaySubagents src/server/agent/providers/claude/subagents/replay-source.ts:357:33
+ ❯ src/server/agent/providers/claude/subagents/replay-source.test.ts:91:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 34 skipped (35)
+   Start at  13:07:16
+   Duration  150ms (transform 56ms, setup 16ms, import 68ms, tests 3ms, environment 0ms)
+

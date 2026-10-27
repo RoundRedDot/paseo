@@ -1,0 +1,34 @@
+diff --cc packages/server/src/server/agent/providers/claude/subagents/replay-source.ts
+index d6bf44cad,567a98dfe..000000000
+--- a/packages/server/src/server/agent/providers/claude/subagents/replay-source.ts
++++ b/packages/server/src/server/agent/providers/claude/subagents/replay-source.ts
+@@@ -256,9 -255,8 +256,9 @@@ async function observeSubagent
+    parent: ClaudeReplayParentFacts,
+    convertEntry: (entry: ClaudeReplayEntry) => AgentTimelineItem[],
+    toolOwners: Map<string, string>,
+ +  restored: ClaudeRestoredSubagent[],
+    parentSubagentId?: string,
+- ): SubagentObservation[] {
++ ): Promise<SubagentObservation[]> {
+    const link = resolveParentLink(subagent, parent);
+    if (!link) return [];
+    const toolCall = parent.toolCalls.get(link.toolCallId);
+@@@ -327,14 -324,9 +327,18 @@@ export async function observeReplaySuba
+    subagents: readonly ClaudeReplaySubagentInput[];
+    parent: ClaudeReplayParentFacts;
+    convertEntry: (entry: ClaudeReplayEntry) => AgentTimelineItem[];
+++<<<<<<< HEAD
+ +}): {
+ +  observations: SubagentObservation[];
+ +  toolOwners: ReadonlyMap<string, string>;
+ +  restored: readonly ClaudeRestoredSubagent[];
+ +} {
+++=======
++ }): Promise<{ observations: SubagentObservation[]; toolOwners: ReadonlyMap<string, string> }> {
+++>>>>>>> 9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca
+    const observations: SubagentObservation[] = [];
+    const toolOwners = new Map<string, string>();
+ +  const restored: ClaudeRestoredSubagent[] = [];
+    const unresolved = [...input.subagents].sort(
+      (left, right) => (left.meta?.spawnDepth ?? 1) - (right.meta?.spawnDepth ?? 1),
+    );

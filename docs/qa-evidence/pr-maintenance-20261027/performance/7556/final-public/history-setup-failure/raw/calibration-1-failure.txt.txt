@@ -1,0 +1,11 @@
+locator.evaluate: ReferenceError: __name is not defined
+    at eval (eval at evaluate (:290:30), <anonymous>:1:281)
+    at new Promise (<anonymous>)
+    at eval (eval at evaluate (:290:30), <anonymous>:1:10)
+    at UtilityScript.evaluate (<anonymous>:292:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at waitForTimelineGeometryToSettle (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/packages/app/e2e/support/helpers/timeline-pagination.ts:549:16)
+    at returnTimelineToSettledHistoryStart (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/packages/app/e2e/support/helpers/timeline-pagination.ts:486:11)
+    at async userScrollsTimelineToHistoryStart (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/packages/app/e2e/support/helpers/timeline-pagination.ts:467:3)
+    at async scrollTimelineUntilOlderHistoryIsReachable (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/packages/app/e2e/support/helpers/timeline-pagination.ts:528:5)
+    at async main (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/.dev/perf-evidence-20261027/capture-7556.cts:90:5)

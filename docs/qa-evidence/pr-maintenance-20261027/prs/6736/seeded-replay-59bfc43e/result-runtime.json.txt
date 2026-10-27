@@ -1,0 +1,106 @@
+{
+  "sourceHead": "59bfc43e4097425f0a4429473a9635a99b305067",
+  "sourceTree": "5d1f8a225f1a5ccc22cc8806e5c4efd6dcfece35",
+  "provider": "omp",
+  "nativeVersion": "18.12.6",
+  "model": "deepseek/deepseek-v4-flash",
+  "thinking": "off",
+  "startedAt": "2026-10-27T06:54:51.281Z",
+  "promptSubmissions": 0,
+  "checks": [
+    {
+      "at": "2026-10-27T06:54:51.331Z",
+      "name": "isolated_seeded_clone_daemon",
+      "pass": true,
+      "port": 65173,
+      "serverId": "srv_iEvtEop1N_8n"
+    },
+    {
+      "at": "2026-10-27T06:54:51.360Z",
+      "name": "two_independent_clients",
+      "pass": true,
+      "clientIds": [
+        "clid_image_qa_seeded-sender",
+        "clid_image_qa_seeded-receiver"
+      ],
+      "newPromptSubmissions": 0
+    },
+    {
+      "at": "2026-10-27T06:54:52.722Z",
+      "name": "seeded-initial_canonical_bytes_ids",
+      "pass": true,
+      "userRows": 1,
+      "id": "6736-omp-image-20261027",
+      "epoch": "557cef30-6772-4a60-91b0-d8e9cef5c6ef",
+      "imageSha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+    },
+    {
+      "at": "2026-10-27T06:54:53.859Z",
+      "name": "force_history_response",
+      "pass": true
+    },
+    {
+      "at": "2026-10-27T06:54:53.861Z",
+      "name": "seeded-force-history_canonical_bytes_ids",
+      "pass": true,
+      "userRows": 1,
+      "id": "6736-omp-image-20261027",
+      "epoch": "82cf7206-b06e-4426-9483-79751524f75e",
+      "imageSha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+    },
+    {
+      "at": "2026-10-27T06:54:56.524Z",
+      "name": "seeded-browser_browser_image",
+      "pass": true,
+      "imageSha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda",
+      "browser": "145.0.7632.6"
+    },
+    {
+      "at": "2026-10-27T06:54:56.695Z",
+      "name": "seeded-browser_lightbox",
+      "pass": true
+    },
+    {
+      "at": "2026-10-27T06:54:56.754Z",
+      "name": "seeded-browser_replica_image_bytes",
+      "pass": false,
+      "canonicalEpoch": "82cf7206-b06e-4426-9483-79751524f75e"
+    }
+  ],
+  "status": "SEEDED_CLONE_REPLAY_NOT_PASSED",
+  "sessionPolicy": {
+    "retryEnabled": false,
+    "maxRetries": 0,
+    "modelFallback": false,
+    "titleGeneration": false,
+    "tools": false,
+    "extensions": false
+  },
+  "fixture": {
+    "publicSource": "dcf47cd097e267715c4c0e114a83f025fda399e0:6736-pi-fixed/image-only.png",
+    "bytes": 439,
+    "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda",
+    "width": 128,
+    "height": 128
+  },
+  "agentId": "3cbcb18b-f967-413c-80d6-9858fc12e292",
+  "diagnostic": "MANUALLY_SEEDED_CLONE_ZERO_INFERENCE",
+  "seedCount": 1,
+  "originalLivePromptsInEarlierQa": 1,
+  "automaticPersistenceTestProof": false,
+  "vendorVisualSemantics": "NOT_PASSED_FROM_PRIOR_SINGLE_PROMPT",
+  "port": 65173,
+  "serverId": "srv_iEvtEop1N_8n",
+  "failure": {
+    "stage": "browser",
+    "errorType": "Error",
+    "qaCheck": "seeded-browser_replica_image_bytes",
+    "timeout": false,
+    "auth": false,
+    "network": false,
+    "statuses": [],
+    "errorDigest": "d1fe199ffaaae2f360260dae77d443c8a4dfc45640fd4164911ff7f950d9b5cb"
+  },
+  "cleanedUp": true,
+  "completedAt": "2026-10-27T06:54:56.871Z"
+}

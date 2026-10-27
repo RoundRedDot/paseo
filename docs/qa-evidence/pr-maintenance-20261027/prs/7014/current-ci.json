@@ -1,0 +1,28 @@
+{
+  "number": 7014,
+  "title": "fix(providers): preserve structured question timeline data",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "c92cc88e3ac971c032ca295848c5ec3e06bb3c97",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZh5-tSA",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40456233363,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40456233363",
+      "runHeadSha": "c92cc88e3ac971c032ca295848c5ec3e06bb3c97",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

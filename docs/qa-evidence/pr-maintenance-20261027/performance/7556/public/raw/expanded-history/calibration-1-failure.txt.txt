@@ -1,0 +1,11 @@
+Error: same205-message history could not be reached through normal summary expansion/pagination; STOP
+    at main (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/.dev/perf-evidence-20261027/capture-7556.spec.ts:83:33)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/.dev/perf-evidence-20261027/capture-7556.spec.ts:184:67
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/workerMain.js:323:9
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/testInfo.js:320:11
+    at TimeoutManager.withRunnable (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/timeoutManager.js:67:14)
+    at TestInfoImpl._runWithTimeout (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/testInfo.js:318:7)
+    at /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/workerMain.js:321:7
+    at WorkerMain._runTest (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/workerMain.js:296:5)
+    at WorkerMain.runTestGroup (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/worker/workerMain.js:196:11)
+    at process.<anonymous> (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/node_modules/playwright/lib/common/process.js:72:22)

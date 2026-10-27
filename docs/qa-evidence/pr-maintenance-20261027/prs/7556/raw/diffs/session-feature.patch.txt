@@ -1,0 +1,28 @@
+diff --git a/packages/server/src/server/session.ts b/packages/server/src/server/session.ts
+index 9d2532807..f47592c97 100644
+--- a/packages/server/src/server/session.ts
++++ b/packages/server/src/server/session.ts
+@@ -2198,13 +2198,16 @@ export class Session {
+       this.peakInflightRequests = this.inflightRequests;
+     }
+     try {
+-      this.sessionLogger.trace(
+-        {
+-          messageType: msg.type,
+-          payloadBytes: JSON.stringify(msg).length,
+-        },
+-        "agent.session.inbound",
+-      );
++      // Inbound messages carry attachments and voice audio; only serialize them for trace.
++      if (this.sessionLogger.isLevelEnabled?.("trace")) {
++        this.sessionLogger.trace(
++          {
++            messageType: msg.type,
++            payloadBytes: JSON.stringify(msg).length,
++          },
++          "agent.session.inbound",
++        );
++      }
+       if (!this.authorization.allowsInbound(msg)) {
+         const requestId = sessionRequestId(msg);
+         if (requestId) {

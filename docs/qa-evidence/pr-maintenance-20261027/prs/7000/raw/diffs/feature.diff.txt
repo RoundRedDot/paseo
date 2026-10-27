@@ -1,0 +1,1162 @@
+diff --git a/docs/timeline-sync.md b/docs/timeline-sync.md
+index 118ad628c..51c83ca3c 100644
+--- a/docs/timeline-sync.md
++++ b/docs/timeline-sync.md
+@@ -244,6 +244,15 @@ prompts, including schedule injections, remain hidden. One visible response can
+ turns; layout and copy group that response together while lifecycle, timing, tool sequences, and exact
+ fork positions retain the canonical `turnId` boundaries.
+ 
++Hosts advertising `features.agentTurnTiming` include `turnTimings` in root timeline pages.
++These records measure daemon-observed accepted start through completion, failure, or cancellation;
++they do not require a human prompt. Each page includes only timings referenced by its canonical
++turn IDs or assistant message IDs. The agent record persists the timings separately from provider
++history, and stable provider message IDs associate replies after history rehydration. Providers
++without stable message IDs retain that association only while the canonical turn IDs survive.
++An unobserved start, an interrupted daemon, or a turn predating recording has no completed timing;
++clients must not substitute message timestamps or the previous prompt.
++
+ Agent-message XML belongs to the daemon's `agent/agent-messages` boundary. Prompt delivery encodes
+ provenance; acceptance, provider echoes, import, and replay share its projection. The delivery ID is
+ also the projected call ID, so a provider echo cannot create a second row. Sender IDs are opaque and
+diff --git a/packages/protocol/src/messages.ts b/packages/protocol/src/messages.ts
+index 3034598f1..0887948e9 100644
+--- a/packages/protocol/src/messages.ts
++++ b/packages/protocol/src/messages.ts
+@@ -3765,6 +3765,7 @@ export const ServerInfoStatusPayloadSchema = z
+         providerSubagents: z.boolean().optional(),
+         // COMPAT(projectedSubagentTimeline): added after v0.8.0, remove gates after 2027-03-14; retain wire field.
+         projectedSubagentTimeline: z.boolean().optional(),
++        agentTurnTiming: z.boolean().optional(),
+         // COMPAT(providerSubagentNesting): added in v0.7, remove gate after 2027-03-04.
+         providerSubagentNesting: z.boolean().optional(),
+         // COMPAT(workspacePinning): added in v0.1.107, remove gate after 2027-01-12.
+@@ -4711,6 +4712,16 @@ const AgentTimelineSeqRangeSchema = z.object({
+   endSeq: z.number().int().nonnegative(),
+ });
+ 
++export const AgentTurnTimingSchema = z.object({
++  turnId: z.string(),
++  startedAt: z.string(),
++  completedAt: z.string(),
++  status: z.enum(["turn_completed", "turn_failed", "turn_canceled"]),
++  messageIds: z.array(z.string()),
++});
++
++export type AgentTurnTiming = z.infer<typeof AgentTurnTimingSchema>;
++
+ export const AgentTimelineEntryPayloadSchema = z.object({
+   provider: AgentProviderSchema,
+   item: AgentTimelineItemPayloadSchema,
+@@ -4745,6 +4756,7 @@ export const FetchAgentTimelineResponseMessageSchema = z.object({
+     hasNewer: z.boolean(),
+     mergeWindow: z.boolean().optional(),
+     entries: z.array(AgentTimelineEntryPayloadSchema),
++    turnTimings: z.array(AgentTurnTimingSchema).optional(),
+     error: z.string().nullable(),
+   }),
+ });
+diff --git a/packages/protocol/tests/validation/ws-outbound.test.ts b/packages/protocol/tests/validation/ws-outbound.test.ts
+index ed147d89a..efb9ca321 100644
+--- a/packages/protocol/tests/validation/ws-outbound.test.ts
++++ b/packages/protocol/tests/validation/ws-outbound.test.ts
+@@ -138,6 +138,51 @@ const SourceSchema = z.object({
+     expect(validateWSOutboundMessage({ type: "not_a_message" }).success).toBe(false);
+   });
+ 
++  it("accepts timeline pages with and without turn timing and validates timing records", () => {
++    const payload = {
++      requestId: "timing",
++      agentId: "agent",
++      agent: null,
++      direction: "tail",
++      projection: "projected",
++      epoch: "epoch",
++      reset: false,
++      staleCursor: false,
++      gap: false,
++      window: { minSeq: 0, maxSeq: 0, nextSeq: 1 },
++      startCursor: null,
++      endCursor: null,
++      hasOlder: false,
++      hasNewer: false,
++      entries: [],
++      error: null,
++    };
++    const timing = {
++      turnId: "turn",
++      startedAt: "2026-10-15T08:00:00.000Z",
++      completedAt: "2026-10-15T08:00:12.000Z",
++      status: "turn_completed",
++      messageIds: ["reply"],
++    };
++    function envelope(value: unknown) {
++      return {
++        type: "session",
++        message: { type: "fetch_agent_timeline_response", payload: value },
++      };
++    }
++    expect(validateWSOutboundMessage(envelope(payload)).success).toBe(true);
++    const timed = envelope({ ...payload, turnTimings: [timing] });
++    expect(validateWSOutboundMessage(timed)).toEqual({
++      success: true,
++      data: timed,
++    });
++    expect(
++      validateWSOutboundMessage(
++        envelope({ ...payload, turnTimings: [{ ...timing, status: "running" }] }),
++      ).success,
++    ).toBe(false);
++  });
++
+   it("accepts project config responses with and without setup commit status", () => {
+     const payload = {
+       requestId: "project-config-read",
+diff --git a/packages/server/src/server/agent/agent-manager.test.ts b/packages/server/src/server/agent/agent-manager.test.ts
+index ae8989c00..662de710d 100644
+--- a/packages/server/src/server/agent/agent-manager.test.ts
++++ b/packages/server/src/server/agent/agent-manager.test.ts
+@@ -6826,6 +6826,87 @@ test("replaceAgentRun stays running when a stale old terminal arrives before the
+   unsubscribe();
+ });
+ 
++test.each([
++  { type: "turn_completed", provider: "codex", turnId: "timed-turn" },
++  { type: "turn_failed", provider: "codex", turnId: "timed-turn", error: "failure" },
++  { type: "turn_canceled", provider: "codex", turnId: "timed-turn", reason: "interrupt" },
++] satisfies AgentStreamEvent[])(
++  "persists autonomous timing for $type without a user prompt",
++  async (terminal) => {
++    const workdir = mkdtempSync(join(tmpdir(), "agent-manager-turn-timing-"));
++    const storagePath = join(workdir, "agents");
++    const storage = new AgentStorage(storagePath, logger);
++    const session = new TestAgentSession({ provider: "codex", cwd: workdir });
++    class LiveEventClient extends TestAgentClient {
++      override async createSession(): Promise<AgentSession> {
++        return session;
++      }
++    }
++    const manager = new AgentManager({
++      clients: { codex: new LiveEventClient() },
++      registry: storage,
++      logger,
++    });
++    let agentId: string | null = null;
++    try {
++      const agent = await manager.createAgent({ provider: "codex", cwd: workdir }, undefined, {
++        workspaceId: undefined,
++      });
++      agentId = agent.id;
++      session.pushEvent({ type: "turn_started", provider: "codex", turnId: "timed-turn" });
++      await vi.waitFor(() => expect(manager.getAgent(agent.id)?.activeTurnId).toBe("timed-turn"));
++      const startedAt = manager.getAgent(agent.id)!.activeTurnStartedAt!.toISOString();
++      session.pushEvent({ type: "turn_started", provider: "codex", turnId: "timed-turn" });
++      const terminalSeen = new Promise<void>((resolve) => {
++        const unsubscribe = manager.subscribe(
++          (event) => {
++            if (
++              event.type === "agent_stream" &&
++              event.agentId === agent.id &&
++              event.event.type === terminal.type
++            ) {
++              unsubscribe();
++              resolve();
++            }
++          },
++          { agentId: agent.id, replayState: false },
++        );
++      });
++      session.pushEvent({
++        type: "timeline",
++        provider: "codex",
++        turnId: "timed-turn",
++        item: { type: "assistant_message", text: "automatic response", messageId: "reply-id" },
++      });
++      const beforeTerminal = Date.now();
++      session.pushEvent(terminal);
++      await terminalSeen;
++      await manager.flush();
++      const record = await new AgentStorage(storagePath, logger).get(agent.id);
++      expect(record?.turnTimings).toEqual([
++        {
++          turnId: "timed-turn",
++          startedAt,
++          completedAt: expect.any(String),
++          status: terminal.type,
++          messageIds: ["reply-id"],
++        },
++      ]);
++      expect(Date.parse(record!.turnTimings![0]!.completedAt)).toBeGreaterThanOrEqual(
++        beforeTerminal,
++      );
++      expect(Date.parse(record!.turnTimings![0]!.completedAt)).toBeLessThanOrEqual(Date.now());
++      expect(manager.getTimeline(agent.id).some((item) => item.type === "user_message")).toBe(
++        false,
++      );
++    } finally {
++      if (agentId) await manager.closeAgent(agentId);
++      await manager.flush();
++      rmSync(workdir, { recursive: true, force: true });
++    }
++  },
++);
++
+ test("applies live autonomous events and preserves usage omitted from completion", async () => {
+   const workdir = mkdtempSync(join(tmpdir(), "agent-manager-live-events-"));
+   const storagePath = join(workdir, "agents");
+@@ -7023,6 +7104,8 @@ test("ignores stale autonomous terminals without lowering the active turn lifecy
+     expect(stillRunning?.lastUsage).toEqual({ inputTokens: 7 });
+     expect(stillRunning?.pendingPermissions.has("turn-b-permission")).toBe(true);
+     expect(manager.getTimeline(snapshot.id)).toEqual(timelineBeforeStaleTerminals);
++    await manager.flush();
++    expect((await storage.get(snapshot.id))?.turnTimings).toBeUndefined();
+   }
+ 
+   capturedSession!.pushEvent({ type: "turn_completed", provider: "codex", turnId: "turn-b" });
+@@ -7031,6 +7114,8 @@ test("ignores stale autonomous terminals without lowering the active turn lifecy
+     expect(settled?.lifecycle).toBe("idle");
+     expect(settled ? toAgentPayload(settled).activeTurn : null).toBeNull();
+   });
++  await manager.flush();
++  expect((await storage.get(snapshot.id))?.turnTimings).toMatchObject([{ turnId: "turn-b" }]);
+ });
+ 
+ test("preserves terminal fallback when no active turn identity was observed", async () => {
+diff --git a/packages/server/src/server/agent/agent-manager.ts b/packages/server/src/server/agent/agent-manager.ts
+index 1342576f7..7d65d72e8 100644
+--- a/packages/server/src/server/agent/agent-manager.ts
++++ b/packages/server/src/server/agent/agent-manager.ts
+@@ -24,6 +24,7 @@ import type { Logger } from "pino";
+ import type { ToolPolicy } from "@getpaseo/protocol/agent-types";
+ import type { ProviderPaseoToolsPolicy } from "@getpaseo/protocol/provider-config";
+ import { z } from "zod";
++import type { AgentTurnTiming } from "@getpaseo/protocol/messages";
+ import type { TerminalManager } from "../../terminal/terminal-manager.js";
+ 
+ import {
+@@ -400,6 +401,13 @@ interface StreamEventFlags {
+ 
+ type ActiveTurnTerminalDisposition = "closed_current" | "stale" | "untracked";
+ 
++interface ApplyActiveTurnTerminalInput {
++  agent: ActiveManagedAgent;
++  turnId?: string;
++  fromHistory?: boolean;
++  status?: AgentTurnTiming["status"];
++}
++
+ interface HandleStreamEventOptions {
+   fromHistory?: boolean;
+ }
+@@ -592,7 +600,9 @@ function isAgentBusy(status: AgentLifecycleStatus): boolean {
+   return BUSY_STATUSES.has(status);
+ }
+ 
+-function isTurnTerminalEvent(event: AgentStreamEvent): boolean {
++function isTurnTerminalEvent(
++  event: AgentStreamEvent,
++): event is Extract<AgentStreamEvent, { type: AgentTurnTiming["status"] }> {
+   return (
+     event.type === "turn_completed" ||
+     event.type === "turn_failed" ||
+@@ -748,6 +758,7 @@ export class AgentManager {
+   private readonly providerDefinitions = new Map<AgentProvider, ProviderEnabledFlag>();
+   private readonly agents = new Map<string, LiveManagedAgent>();
+   private readonly timelineStore: InMemoryAgentTimelineStore;
++  private readonly turnMessageIds = new Map<string, Set<string>>();
+   private readonly providerSubagents = new ProviderSubagentStore();
+   private readonly agentsAwaitingInitialSnapshotPersist = new Set<string>();
+   private readonly sessionEventTails = new Map<string, Promise<void>>();
+@@ -2903,7 +2914,7 @@ export class AgentManager {
+       this.runs.rememberFinalizedTurn(mutableAgent, turnId);
+     }
+     mutableAgent.activeForegroundTurnId = null;
+-    this.applyActiveTurnTerminal(mutableAgent, turnId);
++    this.applyActiveTurnTerminal({ agent: mutableAgent, turnId });
+     const terminalError = mutableAgent.lastError;
+     const shouldHoldBusyForReplacement = mutableAgent.pendingReplacement && !terminalError;
+     let nextLifecycle: "running" | "error" | "idle";
+@@ -2942,20 +2953,38 @@ export class AgentManager {
+   }
+ 
+   private openActiveTurn(agent: ActiveManagedAgent, turnId: string, startedAt: Date): void {
++    if (agent.activeTurnId === turnId) return;
++    this.turnMessageIds.set(agent.id, new Set());
+     agent.activeTurnId = turnId;
+     agent.activeTurnStartedAt = startedAt;
+   }
+ 
+   private applyActiveTurnTerminal(
+-    agent: ActiveManagedAgent,
+-    turnId?: string,
+-    fromHistory = false,
++    params: ApplyActiveTurnTerminalInput,
+   ): ActiveTurnTerminalDisposition {
++    const { agent, turnId, fromHistory, status } = params;
+     if (fromHistory) return "stale";
+     if (!agent.activeTurnId) return "untracked";
+     if (turnId && agent.activeTurnId !== turnId) return "stale";
++    if (status && agent.activeTurnStartedAt && this.registry && !agent.internal) {
++      const timing: AgentTurnTiming = {
++        turnId: agent.activeTurnId,
++        startedAt: agent.activeTurnStartedAt.toISOString(),
++        completedAt: new Date().toISOString(),
++        status,
++        messageIds: Array.from(this.turnMessageIds.get(agent.id) ?? []),
++      };
++      const persist = this.registry.recordTurnTiming({ agentId: agent.id, timing }).catch((err) => {
++        this.logger.error(
++          { err, agentId: agent.id, turnId: timing.turnId },
++          "Failed to persist turn timing",
++        );
++      });
++      this.trackBackgroundTask(persist);
++    }
+     agent.activeTurnId = null;
+     agent.activeTurnStartedAt = null;
++    this.turnMessageIds.delete(agent.id);
+     return "closed_current";
+   }
+ 
+@@ -3991,6 +4020,7 @@ export class AgentManager {
+     agent: LiveManagedAgent,
+     cancelReason: string,
+   ): ManagedAgentClosed {
++    this.turnMessageIds.delete(agent.id);
+     this.agentStreamCoalescer.flushAndDiscard(agent.id);
+     this.agents.delete(agent.id);
+     this.previousStatuses.delete(agent.id);
+@@ -4495,11 +4525,12 @@ export class AgentManager {
+ 
+     let terminalDisposition: ActiveTurnTerminalDisposition = "untracked";
+     if (isTurnTerminalEvent(event)) {
+-      terminalDisposition = this.applyActiveTurnTerminal(
++      terminalDisposition = this.applyActiveTurnTerminal({
+         agent,
+-        eventTurnId,
+-        options?.fromHistory === true,
+-      );
++        turnId: eventTurnId,
++        fromHistory: options?.fromHistory === true,
++        status: event.type,
++      });
+     }
+ 
+     const flags: StreamEventFlags = { shouldDispatchEvent: true, shouldNotifyWaiters: true };
+@@ -4950,6 +4981,9 @@ export class AgentManager {
+     turnId?: string,
+     options?: { providerMessageId?: string },
+   ): AgentStreamEvent {
++    const isActiveReply =
++      item.type === "assistant_message" && turnId === this.agents.get(agentId)?.activeTurnId;
++    if (isActiveReply && item.messageId) this.turnMessageIds.get(agentId)?.add(item.messageId);
+     const row = this.recordTimeline(agentId, item, { ...options, turnId });
+     const event: AgentStreamEvent = {
+       type: "timeline",
+diff --git a/packages/server/src/server/agent/agent-storage.test.ts b/packages/server/src/server/agent/agent-storage.test.ts
+index 723f61208..814bef24b 100644
+--- a/packages/server/src/server/agent/agent-storage.test.ts
++++ b/packages/server/src/server/agent/agent-storage.test.ts
+@@ -1,4 +1,5 @@
+ import { describe, expect, test, beforeEach, afterEach } from "vitest";
++import type { AgentTurnTiming } from "@getpaseo/protocol/messages";
+ import os from "node:os";
+ import path from "node:path";
+ import { mkdtempSync, readdirSync, rmSync } from "node:fs";
+@@ -195,6 +196,68 @@ describe("AgentStorage", () => {
+     expect(persisted.config?.providerOptions).toEqual({ allowedTools: ["Read"] });
+   });
+ 
++  test("turn timings survive snapshot writes and reload, and reads include pending writes", async () => {
++    const agent = createManagedAgent({ id: "timed-agent" });
++    await storage.applySnapshot(agent);
++    const timing = {
++      turnId: "automatic-turn",
++      startedAt: "2026-10-15T08:00:00.000Z",
++      completedAt: "2026-10-15T08:00:12.000Z",
++      status: "turn_completed",
++      messageIds: ["provider-reply"],
++    } satisfies AgentTurnTiming;
++    const write = storage.recordTurnTiming({ agentId: agent.id, timing });
++    const snapshot = storage.applySnapshot(agent);
++    expect(
++      await storage.getTurnTimings({
++        agentId: agent.id,
++        turnIds: new Set([timing.turnId]),
++        messageIds: new Set(),
++      }),
++    ).toEqual([timing]);
++    await Promise.all([write, snapshot]);
++    const stale = await storage.get(agent.id);
++    expect(stale).not.toBeNull();
++    await storage.upsert({ ...stale!, turnTimings: [] });
++    await storage.recordTurnTiming({
++      agentId: agent.id,
++      timing: {
++        ...timing,
++        completedAt: "2026-10-15T09:00:00.000Z",
++      },
++    });
++    const reloaded = new AgentStorage(storagePath, logger);
++    expect(
++      await reloaded.getTurnTimings({
++        agentId: agent.id,
++        turnIds: new Set(),
++        messageIds: new Set(["provider-reply"]),
++      }),
++    ).toEqual([timing]);
++    expect(
++      await reloaded.getTurnTimings({
++        agentId: agent.id,
++        turnIds: new Set(["another-page"]),
++        messageIds: new Set(),
++      }),
++    ).toEqual([]);
++    expect(
++      await reloaded.getTurnTimings({
++        agentId: agent.id,
++        turnIds: new Set(),
++        messageIds: new Set(),
++      }),
++    ).toEqual([]);
++    await reloaded.remove(agent.id);
++    expect(
++      await reloaded.getTurnTimings({
++        agentId: agent.id,
++        turnIds: new Set([timing.turnId]),
++        messageIds: new Set(),
++      }),
++    ).toEqual([]);
++  });
++
+   test("applySnapshot stores and reloads featureValues when present", async () => {
+     await storage.applySnapshot(
+       createManagedAgent({
+diff --git a/packages/server/src/server/agent/agent-storage.ts b/packages/server/src/server/agent/agent-storage.ts
+index be94a31d4..459637ea8 100644
+--- a/packages/server/src/server/agent/agent-storage.ts
++++ b/packages/server/src/server/agent/agent-storage.ts
+@@ -1,6 +1,7 @@
+ import { promises as fs, type Dirent } from "node:fs";
+ import path from "node:path";
+ import { z } from "zod";
++import { AgentTurnTimingSchema, type AgentTurnTiming } from "@getpaseo/protocol/messages";
+ import type { Logger } from "pino";
+ 
+ import { writeJsonFileAtomic } from "../atomic-file.js";
+@@ -51,6 +52,7 @@ const STORED_AGENT_SCHEMA = z.object({
+   updatedAt: z.string(),
+   lastActivityAt: z.string().optional(),
+   lastUserMessageAt: z.string().nullable().optional(),
++  turnTimings: z.array(AgentTurnTimingSchema).optional(),
+   title: z.string().nullable().optional(),
+   labels: z.record(z.string(), z.string()).default({}),
+   lastStatus: AgentStatusSchema.default("closed"),
+@@ -94,6 +96,17 @@ export function parseStoredAgentRecord(value: unknown): StoredAgentRecord {
+   return STORED_AGENT_SCHEMA.parse(value);
+ }
+ 
++export interface GetTurnTimingsInput {
++  agentId: string;
++  turnIds: ReadonlySet<string>;
++  messageIds: ReadonlySet<string>;
++}
++
++export interface RecordTurnTimingInput {
++  agentId: string;
++  timing: AgentTurnTiming;
++}
++
+ export class AgentStorage {
+   private cache: Map<string, StoredAgentRecord> = new Map();
+   private pathById: Map<string, string> = new Map();
+@@ -155,8 +168,35 @@ export class AgentStorage {
+     await this.queueRecordWrite(record);
+   }
+ 
++  async recordTurnTiming(params: RecordTurnTimingInput): Promise<void> {
++    const { agentId, timing } = params;
++    await this.load();
++    await this.queueRecordMutation(agentId, (record) => {
++      if (!record) throw new Error(`Agent ${agentId} not found`);
++      const timings = record.turnTimings ?? [];
++      if (timings.some((existing) => existing.turnId === timing.turnId)) return record;
++      return { ...record, turnTimings: [...timings, timing] };
++    });
++  }
++
++  async getTurnTimings(params: GetTurnTimingsInput): Promise<AgentTurnTiming[]> {
++    const { agentId, turnIds, messageIds } = params;
++    await this.load();
++    await this.waitForPendingWrite(agentId);
++    const record = this.cache.get(agentId);
++    return (record?.turnTimings ?? []).filter((timing) => {
++      const hasTurn = turnIds.has(timing.turnId);
++      const hasMessage = timing.messageIds.some((id) => messageIds.has(id));
++      return hasTurn || hasMessage;
++    });
++  }
++
+   private queueRecordWrite(record: StoredAgentRecord): Promise<void> {
+-    return this.queueRecordMutation(record.id, () => record);
++    return this.queueRecordMutation(record.id, (existing) => {
++      // Timing is append-only; metadata writers may hold an older agent snapshot.
++      if (existing?.turnTimings) return { ...record, turnTimings: existing.turnTimings };
++      return record;
++    });
+   }
+ 
+   private queueRecordMutation(
+@@ -259,6 +299,7 @@ export class AgentStorage {
+       if (existing && existing.archivedAt !== undefined) {
+         record.archivedAt = existing.archivedAt;
+       }
++      if (existing?.turnTimings) record.turnTimings = existing.turnTimings;
+       return record;
+     });
+   }
+diff --git a/packages/server/src/server/agent/providers/claude/agent.history-load.test.ts b/packages/server/src/server/agent/providers/claude/agent.history-load.test.ts
+index 921b4018b..285dcf721 100644
+--- a/packages/server/src/server/agent/providers/claude/agent.history-load.test.ts
++++ b/packages/server/src/server/agent/providers/claude/agent.history-load.test.ts
+@@ -10,6 +10,10 @@ import { createTestPaseoDaemon } from "../../../test-utils/paseo-daemon.js";
+ import type { ClaudeRewindSdk } from "./rewind.js";
+ import { ClaudeAgentClient } from "./agent.js";
+ import { claudeProjectDirSync } from "./project-dir.js";
++import { AgentManager } from "../../agent-manager.js";
++import { AgentStorage } from "../../agent-storage.js";
++import { ensureAgentLoaded } from "../../agent-loading.js";
++import { createTestLogger } from "../../../../test-utils/test-logger.js";
+ import { withClaudeReplayHistory } from "./transcript-history.js";
+ import type { AgentSession, AgentStreamEvent } from "../../agent-sdk-types.js";
+ import type { ClaudeQueryFactory } from "./query.js";
+@@ -598,6 +602,307 @@ describe("ClaudeAgentSession persisted history load", () => {
+     );
+   });
+ 
++  test.each([
++    { status: "turn_completed", outcome: "completed" },
++    { status: "turn_failed", outcome: "Error: resumed provider failure" },
++  ] as const)(
++    "records a distinct $status timing when the same agent runs after disk reload",
++    async ({ status, outcome }) => {
++      const logger = createTestLogger();
++      const storagePath = path.join(tempRoot, "agents");
++      const storage = new AgentStorage(storagePath, logger);
++      function assistantFrame(generation: number) {
++        return {
++          type: "assistant",
++          uuid: `transcript-reply-${generation}`,
++          session_id: SESSION_ID,
++          message: {
++            id: `provider-reply-${generation}`,
++            role: "assistant",
++            content: [{ type: "text", text: "same reply" }],
++          },
++        };
++      }
++      async function* sdkMessages(generation: number) {
++        yield { type: "system", subtype: "init", session_id: SESSION_ID };
++        yield assistantFrame(generation);
++        const failed = generation === 1 && status === "turn_failed";
++        const subtype = failed ? "error_during_execution" : "success";
++        yield {
++          type: "result",
++          subtype,
++          session_id: SESSION_ID,
++          errors: ["resumed provider failure"],
++          usage: { input_tokens: 1, cache_read_input_tokens: 0, output_tokens: 1 },
++          total_cost_usd: 0,
++        };
++      }
++      let generation = 0;
++      const queryFactory = vi.fn().mockImplementation(() =>
++        Object.assign(sdkMessages(generation++), {
++          close: () => undefined,
++          supportedModels: async () => [],
++          supportedCommands: async () => [],
++          applyFlagSettings: async () => undefined,
++        }),
++      );
++      const client = new ClaudeAgentClient({
++        logger,
++        queryFactory,
++        resolveBinary: async () => "/test/claude/bin",
++      });
++      const manager = new AgentManager({ clients: { claude: client }, registry: storage, logger });
++      const reloadedStorage = new AgentStorage(storagePath, logger);
++      const reloaded = new AgentManager({
++        clients: { claude: client },
++        registry: reloadedStorage,
++        logger,
++      });
++      let agentId: string | undefined;
++      try {
++        const agent = await manager.createAgent({ provider: "claude", cwd }, undefined, {
++          workspaceId: undefined,
++        });
++        agentId = agent.id;
++        await manager.runAgent(agent.id, "first prompt");
++        await manager.flush();
++        const firstTiming = (await storage.get(agent.id))!.turnTimings![0]!;
++        expect(firstTiming).toMatchObject({
++          status: "turn_completed",
++          messageIds: ["provider-reply-0"],
++        });
++        mkdirSync(path.dirname(transcriptPath()), { recursive: true });
++        writeFileSync(transcriptPath(), JSON.stringify(assistantFrame(0)));
++        await manager.closeAgent(agent.id);
++        await manager.flush();
++        await ensureAgentLoaded(agent.id, {
++          agentManager: reloaded,
++          agentStorage: reloadedStorage,
++          logger,
++        });
++        expect((await reloadedStorage.get(agent.id))!.turnTimings).toEqual([firstTiming]);
++        const completed = await reloaded.runAgent(agent.id, "second prompt").then(
++          () => "completed",
++          (error: unknown) => String(error),
++        );
++        expect(completed).toBe(outcome);
++        await reloaded.flush();
++        const timeline = reloaded.fetchTimeline(agent.id, { direction: "tail", limit: 0 });
++        const reply = timeline.rows.find(
++          (row) =>
++            row.item.type === "assistant_message" && row.item.messageId === "provider-reply-1",
++        )!;
++        expect(reply.item).toEqual({
++          type: "assistant_message",
++          text: "same reply",
++          messageId: "provider-reply-1",
++        });
++        const currentPage = reloaded.fetchTimeline(agent.id, {
++          direction: "after",
++          cursor: { epoch: timeline.epoch, seq: reply.seqStart - 1 },
++          limit: 1,
++        });
++        const diskStorage = new AgentStorage(storagePath, logger);
++        const currentTimings = await diskStorage.getTurnTimings({
++          agentId: agent.id,
++          turnIds: new Set([reply.turnId!]),
++          messageIds: new Set(["provider-reply-1"]),
++        });
++        expect(currentPage.rows).toEqual([reply]);
++        expect(currentTimings).toMatchObject([{ status, messageIds: ["provider-reply-1"] }]);
++        const timings = (await diskStorage.get(agent.id))!.turnTimings!;
++        expect(timings).toHaveLength(2);
++        expect(timings[0]).toEqual(firstTiming);
++        expect(timings[1]!.turnId).not.toBe(firstTiming.turnId);
++        expect(timings[1]!.turnId).toBe(reply.turnId);
++        expect(currentTimings).toEqual([timings[1]]);
++        const historyPage = reloaded.fetchTimeline(agent.id, {
++          direction: "after",
++          cursor: { epoch: timeline.epoch, seq: 0 },
++          limit: 1,
++        });
++        expect(historyPage.rows[0]!.item).toEqual({
++          type: "assistant_message",
++          text: "same reply",
++          messageId: "provider-reply-0",
++        });
++        expect(historyPage.rows[0]!.turnId).toBeUndefined();
++        expect(
++          await diskStorage.getTurnTimings({
++            agentId: agent.id,
++            turnIds: new Set(),
++            messageIds: new Set(["provider-reply-0"]),
++          }),
++        ).toEqual([firstTiming]);
++        expect(queryFactory).toHaveBeenCalledTimes(2);
++      } finally {
++        if (agentId) {
++          await manager.closeAgent(agentId);
++          await reloaded.closeAgent(agentId);
++        }
++        await manager.flush();
++        await reloaded.flush();
++      }
++    },
++  );
++
++  test("reloads live foreground and autonomous timings with distinct transcript IDs", async () => {
++    const logger = createTestLogger();
++    const storagePath = path.join(tempRoot, "agents");
++    const storage = new AgentStorage(storagePath, logger);
++    let releaseAutonomous!: () => void;
++    const autonomous = new Promise<void>((resolve) => {
++      releaseAutonomous = resolve;
++    });
++    let releaseQuery!: () => void;
++    const closed = new Promise<void>((resolve) => {
++      releaseQuery = resolve;
++    });
++    const replies = ["foreground", "autonomous"].map((owner) => ({
++      type: "assistant",
++      uuid: `transcript-${owner}`,
++      session_id: SESSION_ID,
++      timestamp: "2026-10-15T08:00:00.000Z",
++      message: {
++        id: `provider-${owner}`,
++        role: "assistant",
++        content: [{ type: "text", text: "identical reply" }],
++      },
++    }));
++    async function* sdkMessages() {
++      for (const reply of replies) {
++        yield { type: "system", subtype: "init", session_id: SESSION_ID };
++        yield {
++          type: "stream_event",
++          session_id: SESSION_ID,
++          event: { type: "message_start", message: { id: reply.message.id } },
++        };
++        yield {
++          type: "stream_event",
++          session_id: SESSION_ID,
++          event: {
++            type: "content_block_delta",
++            delta: { type: "text_delta", text: "identical reply" },
++          },
++        };
++        yield reply;
++        yield {
++          type: "result",
++          subtype: "success",
++          session_id: SESSION_ID,
++          usage: { input_tokens: 1, cache_read_input_tokens: 0, output_tokens: 1 },
++          total_cost_usd: 0,
++        };
++        await autonomous;
++      }
++      await closed;
++    }
++    const queryFactory = vi.fn().mockImplementation(() =>
++      Object.assign(sdkMessages(), {
++        close: releaseQuery,
++        supportedModels: async () => [],
++        supportedCommands: async () => [],
++        applyFlagSettings: async () => undefined,
++      }),
++    );
++    function client() {
++      return new ClaudeAgentClient({
++        logger,
++        queryFactory,
++        resolveBinary: async () => "/test/claude/bin",
++        resolveVersion: async () => "2.1.220",
++      });
++    }
++    const manager = new AgentManager({ clients: { claude: client() }, registry: storage, logger });
++    const reloadedStorage = new AgentStorage(storagePath, logger);
++    const reloaded = new AgentManager({
++      clients: { claude: client() },
++      registry: reloadedStorage,
++      logger,
++    });
++    let agentId: string | undefined;
++    try {
++      const agent = await manager.createAgent({ provider: "claude", cwd }, undefined, {
++        workspaceId: undefined,
++      });
++      agentId = agent.id;
++      await manager.runAgent(agent.id, "prompt");
++      releaseAutonomous();
++      await vi.waitFor(async () => {
++        expect((await storage.get(agent.id))?.turnTimings).toHaveLength(2);
++      });
++      await manager.flush();
++      const timings = (await storage.get(agent.id))!.turnTimings!;
++      expect(timings.map((timing) => timing.messageIds)).toEqual([
++        ["provider-foreground"],
++        ["provider-autonomous"],
++      ]);
++      expect(timings.map((timing) => timing.turnId)).toEqual([
++        expect.stringMatching(/^foreground-turn-/),
++        expect.stringMatching(/^autonomous-turn-/),
++      ]);
++      mkdirSync(path.dirname(transcriptPath()), { recursive: true });
++      const history = replies.toReversed();
++      writeFileSync(transcriptPath(), history.map((reply) => JSON.stringify(reply)).join("\n"));
++      releaseQuery();
++      await manager.closeAgent(agent.id);
++      await manager.flush();
++      const record = (await reloadedStorage.get(agent.id))!;
++      expect(record.turnTimings).toEqual(timings);
++      await ensureAgentLoaded(agent.id, {
++        agentManager: reloaded,
++        agentStorage: reloadedStorage,
++        logger,
++      });
++      const tail = reloaded.fetchTimeline(agent.id, { direction: "tail", limit: 1 });
++      expect(tail.rows[0]!.turnId).toBeUndefined();
++      expect(tail.hasOlder).toBe(true);
++      const older = reloaded.fetchTimeline(agent.id, {
++        direction: "before",
++        cursor: { epoch: tail.epoch, seq: tail.startSeq! },
++        limit: 1,
++      });
++      const after = reloaded.fetchTimeline(agent.id, {
++        direction: "after",
++        cursor: { epoch: tail.epoch, seq: tail.endSeq! },
++        limit: 1,
++      });
++      for (const [page, expected] of [
++        [tail, [timings[0]]],
++        [older, [timings[1]]],
++        [after, []],
++      ] as const) {
++        const messageIds = new Set<string>();
++        for (const row of page.rows) {
++          expect(row.turnId).toBeUndefined();
++          if (row.item.type === "assistant_message" && row.item.messageId) {
++            messageIds.add(row.item.messageId);
++          }
++        }
++        expect(
++          await reloadedStorage.getTurnTimings({
++            agentId: agent.id,
++            turnIds: new Set(),
++            messageIds,
++          }),
++        ).toEqual(expected);
++      }
++      expect(tail.rows.map((row) => row.item)).toEqual([
++        { type: "assistant_message", text: "identical reply", messageId: "provider-foreground" },
++      ]);
++      expect(queryFactory).toHaveBeenCalledTimes(1);
++    } finally {
++      releaseAutonomous();
++      releaseQuery();
++      if (agentId) {
++        await manager.closeAgent(agentId);
++        await reloaded.closeAgent(agentId);
++      }
++      await manager.flush();
++      await reloaded.flush();
++    }
++  });
++
+   test("logs a warning with the error when the transcript cannot be read", async () => {
+     // A directory at the transcript path exists but cannot be read as a file.
+     mkdirSync(transcriptPath(), { recursive: true });
+diff --git a/packages/server/src/server/agent/providers/claude/agent.history.test.ts b/packages/server/src/server/agent/providers/claude/agent.history.test.ts
+index 2425dcb12..ad5c94850 100644
+--- a/packages/server/src/server/agent/providers/claude/agent.history.test.ts
++++ b/packages/server/src/server/agent/providers/claude/agent.history.test.ts
+@@ -1,6 +1,36 @@
+ import { describe, expect, test } from "vitest";
+ 
+-import { extractUserMessageText } from "./agent.js";
++import { convertClaudeHistoryEntry, extractUserMessageText } from "./agent.js";
++import type { AgentTimelineItem } from "../../agent-sdk-types.js";
++
++describe("Claude assistant history identity", () => {
++  test.each([false, true])("preserves the live message ID with tool blocks: %s", (withTool) => {
++    const content = [{ type: "text", text: "reply" }];
++    const blocks = withTool
++      ? [...content, { type: "tool_use", id: "tool-1", name: "Read", input: {} }]
++      : content;
++    const mapped: AgentTimelineItem[] = [{ type: "assistant_message", text: "reply" }];
++    expect(
++      convertClaudeHistoryEntry(
++        {
++          type: "assistant",
++          uuid: "transcript-id",
++          message: { id: "provider-id", content: blocks },
++        },
++        () => mapped,
++      ),
++    ).toEqual([{ type: "assistant_message", text: "reply", messageId: "provider-id" }]);
++  });
++
++  test("retains UUID identity for transcript entries without an API message ID", () => {
++    expect(
++      convertClaudeHistoryEntry(
++        { type: "assistant", uuid: "transcript-only-id", message: { content: "reply" } },
++        () => [{ type: "assistant_message", text: "reply" }],
++      ),
++    ).toEqual([{ type: "assistant_message", text: "reply", messageId: "transcript-only-id" }]);
++  });
++});
+ 
+ describe("extractUserMessageText", () => {
+   test("returns trimmed string content", () => {
+diff --git a/packages/server/src/server/agent/providers/claude/agent.redesign.test.ts b/packages/server/src/server/agent/providers/claude/agent.redesign.test.ts
+index 539392652..67a267141 100644
+--- a/packages/server/src/server/agent/providers/claude/agent.redesign.test.ts
++++ b/packages/server/src/server/agent/providers/claude/agent.redesign.test.ts
+@@ -1206,7 +1206,7 @@ test("reuses one autonomous run for unbound stream_event bursts with no foregrou
+   );
+ 
+   const firstRunId = internal.autonomousTurn?.id ?? null;
+-  expect(firstRunId).toBe("autonomous-turn-1");
++  expect(firstRunId).toMatch(/^autonomous-turn-1-/);
+   expect(internal.nextTurnOrdinal).toBe(2);
+ 
+   await internal.routeSdkMessageFromPump(
+@@ -1360,7 +1360,7 @@ test("a main-session frame opens no turn until Claude starts one", async () => {
+   // session start a turn of its own, with no prompt from the user.
+   await internal.routeSdkMessageFromPump(claudeTurnInit(), queryMock);
+   await internal.routeSdkMessageFromPump(unboundTextDelta("picking this up"), queryMock);
+-  expect(internal.autonomousTurn?.id).toBe("autonomous-turn-1");
++  expect(internal.autonomousTurn?.id).toMatch(/^autonomous-turn-1-/);
+ 
+   await internal.routeSdkMessageFromPump(successResult(), queryMock);
+   expect(internal.autonomousTurn).toBeNull();
+@@ -1410,7 +1410,7 @@ test("Claude waking up after a helper finishes gets an autonomous turn that its
+   expect(internal.autonomousTurn).toBeNull();
+ 
+   await internal.routeSdkMessageFromPump(claudeTurnInit(), queryMock);
+-  expect(internal.autonomousTurn?.id).toBe("autonomous-turn-1");
++  expect(internal.autonomousTurn?.id).toMatch(/^autonomous-turn-1-/);
+   expect(internal.turnState).toBe("autonomous");
+ 
+   await internal.routeSdkMessageFromPump(unboundTextDelta("the helper is done"), queryMock);
+@@ -1446,7 +1446,7 @@ test("a steer folded into a turn keeps one turn, and a turn Claude starts after
+ 
+   // A message that arrived while Claude wrote its final answer runs as a turn of its own.
+   await internal.routeSdkMessageFromPump(claudeTurnInit(), queryMock);
+-  expect(internal.autonomousTurn?.id).toBe("autonomous-turn-2");
++  expect(internal.autonomousTurn?.id).toMatch(/^autonomous-turn-2-/);
+   await internal.routeSdkMessageFromPump(successResult(), queryMock);
+   expect(internal.autonomousTurn).toBeNull();
+   expect(internal.turnState).toBe("idle");
+@@ -1483,7 +1483,7 @@ test("an idle session state closes an autonomous turn that no result closed", as
+   session.subscribe((event) => events.push(event));
+ 
+   await internal.routeSdkMessageFromPump(claudeTurnInit(), queryMock);
+-  expect(internal.autonomousTurn?.id).toBe("autonomous-turn-1");
++  expect(internal.autonomousTurn?.id).toMatch(/^autonomous-turn-1-/);
+ 
+   // Safety net: Claude says nothing at all is running any more.
+   await internal.routeSdkMessageFromPump(sessionState("idle"), queryMock);
+@@ -1685,7 +1685,7 @@ test("a new turn clears an interrupt flag no result will consume", async () => {
+ 
+   await internal.routeSdkMessageFromPump(claudeTurnInit(), queryMock);
+   expect(internal.pendingInterruptAbort).toBe(false);
+-  expect(internal.autonomousTurn?.id).toBe("autonomous-turn-1");
++  expect(internal.autonomousTurn?.id).toMatch(/^autonomous-turn-1-/);
+ 
+   // This turn's own failure is reported, not swallowed as the interrupted turn's leftover.
+   await internal.routeSdkMessageFromPump(
+diff --git a/packages/server/src/server/agent/providers/claude/agent.rewind-anchors.test.ts b/packages/server/src/server/agent/providers/claude/agent.rewind-anchors.test.ts
+index 1b1932e9c..90f558c50 100644
+--- a/packages/server/src/server/agent/providers/claude/agent.rewind-anchors.test.ts
++++ b/packages/server/src/server/agent/providers/claude/agent.rewind-anchors.test.ts
+@@ -36,7 +36,7 @@ function assistantReply(uuid: string): Record<string, unknown> {
+     type: "assistant",
+     uuid,
+     session_id: SESSION_ID,
+-    message: { id: uuid, role: "assistant", content: [{ type: "text", text: "ok" }] },
++    message: { id: `provider-${uuid}`, role: "assistant", content: [{ type: "text", text: "ok" }] },
+   };
+ }
+ 
+@@ -51,7 +51,11 @@ function subagentReply(uuid: string): Record<string, unknown> {
+     uuid,
+     session_id: SESSION_ID,
+     parent_tool_use_id: "toolu_subagent_1",
+-    message: { id: uuid, role: "assistant", content: [{ type: "text", text: "subagent work" }] },
++    message: {
++      id: `provider-${uuid}`,
++      role: "assistant",
++      content: [{ type: "text", text: "subagent work" }],
++    },
+   };
+ }
+ 
+@@ -229,7 +233,7 @@ describe("Claude rewind across a turn that produced no response", () => {
+     expect(rewindSdk.recordedForks).toEqual([]);
+   });
+ 
+-  test("still forks at the previous turn when every turn produced a response", async () => {
++  test("forks at the transcript UUID when the API message ID differs", async () => {
+     const conversation = createConversation([
+       { assistantMessageId: "assistant-1" },
+       { assistantMessageId: "assistant-2" },
+diff --git a/packages/server/src/server/agent/providers/claude/agent.ts b/packages/server/src/server/agent/providers/claude/agent.ts
+index 734272dd0..44d58424c 100644
+--- a/packages/server/src/server/agent/providers/claude/agent.ts
++++ b/packages/server/src/server/agent/providers/claude/agent.ts
+@@ -1524,7 +1524,7 @@ function readTranscriptUuid(message: SDKMessage): string | null {
+   return firstTrimmedString([root.uuid]);
+ }
+ 
+-export function readEventIdentifiers(message: SDKMessage): EventIdentifiers {
++export function readEventIdentifiers(message: unknown): EventIdentifiers {
+   const root = toObjectRecord(message) ?? {};
+   const messageType = readTrimmedString(root.type);
+   const streamEvent = toObjectRecord(root.event);
+@@ -2337,6 +2337,8 @@ class ClaudeAgentSession implements AgentSession {
+   private historySessionId: string | null = null;
+   private replayingHistory = false;
+   private turnState: TurnState = "idle";
++  // Timing outlives this runtime, including resumes of the same Claude session.
++  private readonly turnIdNamespace = randomUUID();
+   private nextTurnOrdinal = 1;
+   private cancelCurrentTurn: (() => void) | null = null;
+   private cachedRuntimeInfo: AgentRuntimeInfo | null = null;
+@@ -3874,7 +3876,7 @@ class ClaudeAgentSession implements AgentSession {
+   }
+ 
+   private createTurnId(owner: "foreground" | "autonomous"): string {
+-    return `${owner}-turn-${this.nextTurnOrdinal++}`;
++    return `${owner}-turn-${this.nextTurnOrdinal++}-${this.turnIdNamespace}`;
+   }
+ 
+   private isTerminalTurnEvent(event: AgentStreamEvent): boolean {
+@@ -6306,8 +6308,8 @@ function mapAssistantHistoryBlocksWithMessageId(
+   mapBlocks: (content: string | ClaudeContentChunk[]) => AgentTimelineItem[],
+ ): AgentTimelineItem[] {
+   const items = mapBlocks(content);
+-  const assistantMessageId =
+-    typeof entry.uuid === "string" && entry.uuid.length > 0 ? entry.uuid : null;
++  // Match live assistant IDs; transcript UUIDs remain separate rewind anchors.
++  const assistantMessageId = readEventIdentifiers(entry).messageId;
+   if (!assistantMessageId) {
+     return items;
+   }
+@@ -6414,6 +6416,10 @@ export function convertClaudeHistoryEntry(
+     }
+   }
+ 
++  if (entry.type === "assistant" && contentValue) {
++    return mapAssistantHistoryBlocksWithMessageId(entry, contentValue, mapBlocks);
++  }
++
+   if (hasToolBlock && normalizedBlocks) {
+     const mapped = mapBlocks(normalizedBlocks);
+     if (entry.type === "user") {
+@@ -6428,10 +6434,6 @@ export function convertClaudeHistoryEntry(
+     return mapped;
+   }
+ 
+-  if (entry.type === "assistant" && contentValue) {
+-    return mapAssistantHistoryBlocksWithMessageId(entry, contentValue, mapBlocks);
+-  }
+-
+   return timeline;
+ }
+ 
+diff --git a/packages/server/src/server/daemon-e2e/timeline-window.e2e.test.ts b/packages/server/src/server/daemon-e2e/timeline-window.e2e.test.ts
+index 78134d786..45723ac48 100644
+--- a/packages/server/src/server/daemon-e2e/timeline-window.e2e.test.ts
++++ b/packages/server/src/server/daemon-e2e/timeline-window.e2e.test.ts
+@@ -1,4 +1,5 @@
+ import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
++import type { AgentTurnTiming } from "@getpaseo/protocol/messages";
+ import { mkdtempSync, rmSync } from "node:fs";
+ import { tmpdir } from "node:os";
+ import path from "node:path";
+@@ -57,6 +58,70 @@ describe("daemon E2E - timeline window", () => {
+     await ctx.cleanup();
+   }, 60_000);
+ 
++  test("returns only the completed turn timings referenced by each projected page", async () => {
++    const cwd = tmpCwd();
++    try {
++      const agent = await ctx.client.createAgent({ provider: "codex", cwd, title: "Turn timing" });
++      expect(ctx.client.getLastServerInfoMessage()?.features?.agentTurnTiming).toBe(true);
++      await ctx.client.sendMessage(agent.id, "Respond with exactly: FIRST");
++      expect((await ctx.client.waitForFinish(agent.id, 5_000)).status).toBe("idle");
++      await ctx.client.sendMessage(agent.id, "Respond with exactly: SECOND");
++      expect((await ctx.client.waitForFinish(agent.id, 5_000)).status).toBe("idle");
++      const tail = await ctx.client.fetchAgentTimeline(agent.id, { direction: "tail", limit: 1 });
++      expect(tail.turnTimings).toHaveLength(1);
++      expect(tail.turnTimings![0]).toMatchObject({
++        turnId: tail.entries[0]!.turnId,
++        status: "turn_completed",
++      });
++      const latest = tail.turnTimings![0]!;
++      expect(Date.parse(latest.completedAt)).toBeGreaterThanOrEqual(Date.parse(latest.startedAt));
++      const older = await ctx.client.fetchAgentTimeline(agent.id, {
++        direction: "before",
++        cursor: tail.startCursor!,
++        limit: 0,
++      });
++      expect(older.turnTimings!.some((timing) => timing.turnId !== latest.turnId)).toBe(true);
++      const after = await ctx.client.fetchAgentTimeline(agent.id, {
++        direction: "after",
++        cursor: tail.endCursor!,
++        limit: 1,
++      });
++      expect(after.entries).toEqual([]);
++      expect(after.turnTimings).toEqual([]);
++    } finally {
++      rmSync(cwd, { recursive: true, force: true });
++    }
++  });
++
++  test("associates a rehydrated assistant message with stored timing without a runtime turn ID", async () => {
++    const cwd = tmpCwd();
++    try {
++      const agent = await ctx.client.createAgent({
++        provider: "codex",
++        cwd,
++        title: "Rehydrated timing",
++      });
++      const timing = {
++        turnId: "previous-runtime-turn",
++        startedAt: "2026-10-15T08:00:00.000Z",
++        completedAt: "2026-10-15T08:00:12.000Z",
++        status: "turn_completed",
++        messageIds: ["provider-reply"],
++      } satisfies AgentTurnTiming;
++      await ctx.daemon.daemon.agentStorage.recordTurnTiming({ agentId: agent.id, timing });
++      await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
++        type: "assistant_message",
++        text: "rehydrated reply",
++        messageId: "provider-reply",
++      });
++      const page = await ctx.client.fetchAgentTimeline(agent.id, { limit: 1 });
++      expect(page.entries[0]!.turnId).toBeUndefined();
++      expect(page.turnTimings).toEqual([timing]);
++    } finally {
++      rmSync(cwd, { recursive: true, force: true });
++    }
++  });
++
+   test("canonical tail limit returns one finalized committed assistant row at the window boundary", async () => {
+     const cwd = tmpCwd();
+     try {
+diff --git a/packages/server/src/server/session.ts b/packages/server/src/server/session.ts
+index 9d2532807..4a0ce4a42 100644
+--- a/packages/server/src/server/session.ts
++++ b/packages/server/src/server/session.ts
+@@ -7825,6 +7825,18 @@ export class Session {
+       const entries = selectedTimeline.entries.filter((entry) =>
+         this.supportsTimelineItem(entry.item, source),
+       );
++      const turnIds = new Set<string>();
++      const messageIds = new Set<string>();
++      for (const entry of entries) {
++        if (entry.turnId) turnIds.add(entry.turnId);
++        if (entry.item.type === "assistant_message" && entry.item.messageId)
++          messageIds.add(entry.item.messageId);
++      }
++      const turnTimings = await this.agentStorage.getTurnTimings({
++        agentId: msg.agentId,
++        turnIds,
++        messageIds,
++      });
+ 
+       this.emitForSource(
+         {
+@@ -7845,6 +7857,7 @@ export class Session {
+             hasOlder: selectedTimeline.hasOlder,
+             hasNewer: selectedTimeline.hasNewer,
+             ...(msg.mergeWindow === true ? { mergeWindow: true } : {}),
++            turnTimings,
+             entries: entries.map((entry) => {
+               const payloadEntry = {
+                 provider: snapshot.provider,
+diff --git a/packages/server/src/server/websocket-server.ts b/packages/server/src/server/websocket-server.ts
+index 4473a4004..94e4b203f 100644
+--- a/packages/server/src/server/websocket-server.ts
++++ b/packages/server/src/server/websocket-server.ts
+@@ -2062,6 +2062,7 @@ export class VoiceAssistantWebSocketServer {
+         providerSubagents: true,
+         // COMPAT(projectedSubagentTimeline): added after v0.8.0, remove gates after 2027-03-14; retain advertisement.
+         projectedSubagentTimeline: true,
++        agentTurnTiming: true,
+         // COMPAT(providerSubagentNesting): added in v0.7, remove gate after 2027-03-04.
+         providerSubagentNesting: true,
+         // COMPAT(workspacePinning): added in v0.1.107, remove gate after 2027-01-12.

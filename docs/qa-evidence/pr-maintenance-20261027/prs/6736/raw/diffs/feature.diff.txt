@@ -1,0 +1,2050 @@
+diff --git a/docs/providers.md b/docs/providers.md
+index 1a43558ae..fecd7f360 100644
+--- a/docs/providers.md
++++ b/docs/providers.md
+@@ -83,6 +83,8 @@ Pi control-plane RPCs wait 60 seconds by default. Override `params.rpcTimeoutMs`
+ 
+ Pi import discovery reads Pi's persisted JSONL session files because Pi RPC does not expose a recent-session listing command. Resume and full history hydration still go through `pi --mode rpc` using the session file as `nativeHandle`.
+ 
++Pi preserves submitted client identities in its Paseo persistence handle, keyed by native entry ID. Native transcripts are unchanged. Older handles and imported sessions without that association retain native entry identities; never recover client identity by matching message content.
++
+ OMP is a first-class built-in provider, disabled by default. Its launch contract, typed runtime, agent/session behavior, history, permissions, imports, and test fake live under `providers/omp/`; only the provider-neutral JSONL child-process transport is shared with Pi. It launches `omp --mode rpc-ui`, uses OMP's `get_available_commands` RPC for slash-command discovery, bridges OMP `rpc-ui` approval dialogs into Paseo permissions, and imports terminal-started sessions from `~/.omp/agent/sessions` when enabled.
+ 
+ OMP supports native Paseo host tools. The adapter registers the full caller-scoped Paseo tool catalog directly with OMP, matching providers such as Claude that expose the full catalog through MCP. Serialize every OMP host definition with `loadMode: "essential"` so `create_agent`, `send_agent_prompt`, `wait_for_agent`, and related tools remain direct calls; omitting the field makes OMP mount non-built-in names under `xd://` instead. OMP's provider-managed task subagents are surfaced as Paseo subagents through `child_session` imports; the parent keeps the subagents track while the child runtime stays owned by OMP. Custom OMP profiles should extend `omp`; other Pi-compatible forks can still extend `pi`, override `command`, and set `params.sessionDir` to their JSONL session directory.
+@@ -111,7 +113,7 @@ A steering adapter also owes its interrupt: stopping a turn must discard the ste
+ 
+ Rewind accepts the canonical wire `messageId` and resolves it to the provider identity before calling the adapter. A submitted prompt cannot be rewound until its provider echo supplies that identity.
+ 
+-Submitted user-message wire items carry the same Paseo ID in `messageId` and `clientMessageId`. Provider adapters attach `clientMessageId` only to the echo for that foreground submission; provider history and externally initiated user rows do not have a Paseo client ID.
++Submitted user-message wire items carry the same Paseo ID in `messageId` and `clientMessageId`. Provider adapters attach `clientMessageId` to the echo for that foreground submission. History may restore it from an explicit persisted native-to-client association; externally initiated user rows have no Paseo client ID.
+ 
+ Provider adapters must terminalize every transient timeline row before emitting the turn's terminal event. Codex may omit the completed `contextCompaction` item when a turn ends during compaction, so its adapter closes any pending root compaction before forwarding `turn_completed`, `turn_failed`, or `turn_canceled`. A terminal turn must never leave the client showing an operation as still loading.
+ 
+diff --git a/docs/qa-evidence/cross-client-images/web-1280.png b/docs/qa-evidence/cross-client-images/web-1280.png
+new file mode 100644
+index 000000000..697d81426
+Binary files /dev/null and b/docs/qa-evidence/cross-client-images/web-1280.png differ
+diff --git a/docs/qa-evidence/cross-client-images/web-390.png b/docs/qa-evidence/cross-client-images/web-390.png
+new file mode 100644
+index 000000000..000e67c76
+Binary files /dev/null and b/docs/qa-evidence/cross-client-images/web-390.png differ
+diff --git a/packages/app/e2e/browser/composer-attachments.spec.ts b/packages/app/e2e/browser/composer-attachments.spec.ts
+index 94a52ace1..8dffac095 100644
+--- a/packages/app/e2e/browser/composer-attachments.spec.ts
++++ b/packages/app/e2e/browser/composer-attachments.spec.ts
+@@ -1,4 +1,7 @@
+ import { expect, test } from "../support/fixtures";
++import type { DaemonClient } from "@getpaseo/client/internal/daemon-client";
++import { connectDaemonClient } from "../support/helpers/daemon-client-loader";
++import { seedMockAgentWorkspace, openAgentRoute } from "../support/helpers/mock-agent";
+ import { clickNewChat } from "../support/helpers/launcher";
+ import { expectComposerVisible } from "../support/helpers/composer";
+ import { expectAgentIdle } from "../support/helpers/agent-stream";
+@@ -310,3 +313,88 @@ test.describe("Composer attachments", () => {
+     }
+   });
+ });
++
++for (const width of [390, 1280]) {
++  for (const text of ["", "Describe this image"]) {
++    test(`cross-client image previews and lightbox survive reload at width ${width} with text ${JSON.stringify(text)}`, async ({
++      page,
++    }, testInfo) => {
++      test.setTimeout(120_000);
++      await page.setViewportSize({ width, height: 900 });
++      const workspace = await seedMockAgentWorkspace({
++        repoPrefix: "cross-client-images-",
++        title: "Cross-client image",
++        model: "e2e-fast-stream",
++      });
++      const sender = await connectDaemonClient<
++        Pick<DaemonClient, "connect" | "close" | "sendAgentMessage" | "fetchAgentTimeline">
++      >({ clientIdPrefix: "image-sender" });
++      try {
++        await openAgentRoute(page, workspace);
++        await expectComposerVisible(page);
++        await sender.sendAgentMessage(workspace.agentId, text, {
++          images: [{ data: MINIMAL_PNG.toString("base64"), mimeType: "image/png" }],
++        });
++        const preview = page.getByTestId("user-message-image");
++        await expect(preview).toHaveCount(1);
++        await expect
++          .poll(() =>
++            preview.locator("img").evaluate((image: HTMLImageElement) => ({
++              width: image.naturalWidth,
++              height: image.naturalHeight,
++            })),
++          )
++          .toEqual({ width: 1, height: 1 });
++        await preview.click();
++        await expect(page.getByTestId("attachment-lightbox-close")).toBeVisible();
++        await expect
++          .poll(() =>
++            page
++              .getByTestId("attachment-lightbox")
++              .locator("img")
++              .evaluate((image: HTMLImageElement) => ({
++                width: image.naturalWidth,
++                height: image.naturalHeight,
++              })),
++          )
++          .toEqual({ width: 1, height: 1 });
++        await page.keyboard.press("Escape");
++        await expect(page.getByTestId("attachment-lightbox-close")).toHaveCount(0);
++        await workspace.client.waitForFinish(workspace.agentId, 30_000);
++        const beforeReload = await sender.fetchAgentTimeline(workspace.agentId);
++        expect(
++          beforeReload.entries.flatMap((entry) =>
++            entry.item.type === "user_message" ? (entry.item.images ?? []) : [],
++          ),
++        ).toEqual([{ data: MINIMAL_PNG.toString("base64"), mimeType: "image/png" }]);
++        await page.reload();
++        const afterReload = await sender.fetchAgentTimeline(workspace.agentId);
++        expect(
++          afterReload.entries.flatMap((entry) =>
++            entry.item.type === "user_message" ? (entry.item.images ?? []) : [],
++          ),
++        ).toEqual([{ data: MINIMAL_PNG.toString("base64"), mimeType: "image/png" }]);
++        await expect(preview).toHaveCount(1);
++        await expect
++          .poll(() =>
++            preview.locator("img").evaluate((image: HTMLImageElement) => ({
++              width: image.naturalWidth,
++              height: image.naturalHeight,
++            })),
++          )
++          .toEqual({ width: 1, height: 1 });
++        await preview.scrollIntoViewIfNeeded();
++        await expect(preview).toBeVisible();
++        const screenshot = testInfo.outputPath("cross-client-image-after-reload.png");
++        await page.screenshot({ path: screenshot });
++        await testInfo.attach("cross-client-image-after-reload", {
++          path: screenshot,
++          contentType: "image/png",
++        });
++      } finally {
++        await sender.close();
++        await workspace.cleanup();
++      }
++    });
++  }
++}
+diff --git a/packages/app/src/agent-stream/view.tsx b/packages/app/src/agent-stream/view.tsx
+index 67e08a6f8..cf3831fda 100644
+--- a/packages/app/src/agent-stream/view.tsx
++++ b/packages/app/src/agent-stream/view.tsx
+@@ -723,6 +723,7 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
+             messageId={item.messageId}
+             message={item.text}
+             images={item.images}
++            inlineImages={item.inlineImages}
+             attachments={item.attachments}
+             timestamp={item.timestamp.getTime()}
+             capabilities={context.capabilities}
+diff --git a/packages/app/src/agent-stream/web-virtualization.test.ts b/packages/app/src/agent-stream/web-virtualization.test.ts
+index 31107789e..ebc06cae6 100644
+--- a/packages/app/src/agent-stream/web-virtualization.test.ts
++++ b/packages/app/src/agent-stream/web-virtualization.test.ts
+@@ -211,3 +211,14 @@ describe("web virtualization test overrides", () => {
+     }
+   });
+ });
++
++it("reserves image height for cross-client timeline attachments", () => {
++  const item: StreamItem = {
++    kind: "user_message",
++    id: "inline-image",
++    text: "",
++    timestamp: createTimestamp(1),
++    inlineImages: [{ data: "AA==", mimeType: "image/png" }],
++  };
++  expect(estimateStreamItemHeight({ item, contentMaxWidth: DEFAULT_CONTENT_MAX_WIDTH })).toBe(220);
++});
+diff --git a/packages/app/src/agent-stream/web-virtualization.ts b/packages/app/src/agent-stream/web-virtualization.ts
+index daf01af55..a87e028fe 100644
+--- a/packages/app/src/agent-stream/web-virtualization.ts
++++ b/packages/app/src/agent-stream/web-virtualization.ts
+@@ -54,7 +54,7 @@ export function estimateStreamItemHeight({
+ }: StreamItemHeightEstimateInput): number {
+   switch (item.kind) {
+     case "user_message":
+-      return item.images && item.images.length > 0 ? 220 : 96;
++      return item.images?.length || item.inlineImages?.length ? 220 : 96;
+     case "assistant_message":
+       return (
+         estimateAssistantMessageHeightFromCache({
+diff --git a/packages/app/src/components/attachment-pill.tsx b/packages/app/src/components/attachment-pill.tsx
+index 4bf702252..d1f479c32 100644
+--- a/packages/app/src/components/attachment-pill.tsx
++++ b/packages/app/src/components/attachment-pill.tsx
+@@ -134,10 +134,15 @@ export function AttachmentLabel({ icon, title, subtitle }: AttachmentLabelProps)
+ /** Square image preview pill body. */
+ export function AttachmentThumbnail({ metadata }: { metadata: AttachmentMetadata }) {
+   const uri = useAttachmentPreviewUrl(metadata);
+-  const source = useMemo(() => ({ uri: uri ?? "" }), [uri]);
+   if (!uri) {
+     return <View style={styles.thumbnailPlaceholder} />;
+   }
++  return <AttachmentUriThumbnail uri={uri} />;
++}
++
++/** A timeline image already carries portable bytes and needs no local store lookup. */
++export function AttachmentUriThumbnail({ uri }: { uri: string }) {
++  const source = useMemo(() => ({ uri }), [uri]);
+   return <Image source={source} style={styles.thumbnail} />;
+ }
+ 
+diff --git a/packages/app/src/components/message.tsx b/packages/app/src/components/message.tsx
+index 9430aa3a1..99aa8b8ad 100644
+--- a/packages/app/src/components/message.tsx
++++ b/packages/app/src/components/message.tsx
+@@ -6,6 +6,7 @@ import {
+   AttachmentFrame,
+   AttachmentLabel,
+   AttachmentThumbnail,
++  AttachmentUriThumbnail,
+ } from "@/components/attachment-pill";
+ import { MarkdownRenderer } from "@/components/markdown/renderer";
+ import { useRetainedPanelActive } from "@/components/retained-panel";
+@@ -29,7 +30,11 @@ import { resolveToolCallIcon } from "@/utils/tool-call-icon";
+ import { useTargetAgentTitle } from "@/tool-calls/use-target-agent-title";
+ import type { DaemonClient } from "@getpaseo/client/internal/daemon-client";
+ import type { AgentMessage } from "@getpaseo/protocol/agent-message";
+-import type { AgentCapabilityFlags, ToolCallDetail } from "@getpaseo/protocol/agent-types";
++import type {
++  AgentCapabilityFlags,
++  AgentTimelineImage,
++  ToolCallDetail,
++} from "@getpaseo/protocol/agent-types";
+ import type { AgentAttachment } from "@getpaseo/protocol/messages";
+ import MaskedView from "@react-native-masked-view/masked-view";
+ import {
+@@ -94,6 +99,7 @@ interface UserMessageProps {
+   messageId?: string;
+   message: string;
+   images?: UserMessageImageAttachment[];
++  inlineImages?: AgentTimelineImage[];
+   attachments?: AgentAttachment[];
+   timestamp: number;
+   capabilities?: AgentCapabilityFlags;
+@@ -384,6 +390,27 @@ function UserMessageImagePill({ image, onOpen, accessibilityLabel }: UserMessage
+   );
+ }
+ 
++function UserMessageInlineImagePill({
++  uri,
++  onOpen,
++  accessibilityLabel,
++}: {
++  uri: string;
++  onOpen: (source: ImageLightboxSource) => void;
++  accessibilityLabel: string;
++}) {
++  const handlePress = useCallback(() => onOpen({ type: "uri", uri }), [onOpen, uri]);
++  return (
++    <AttachmentFrame
++      onPress={handlePress}
++      accessibilityLabel={accessibilityLabel}
++      testID="user-message-image"
++    >
++      <AttachmentUriThumbnail uri={uri} />
++    </AttachmentFrame>
++  );
++}
++
+ const MESSAGE_TEXT_DATASET = { messageText: "true" };
+ 
+ export const UserMessage = memo(function UserMessage({
+@@ -392,6 +419,7 @@ export const UserMessage = memo(function UserMessage({
+   messageId,
+   message,
+   images = [],
++  inlineImages = [],
+   attachments = [],
+   timestamp,
+   capabilities,
+@@ -404,15 +432,22 @@ export const UserMessage = memo(function UserMessage({
+   const isCompact = useIsCompactFormFactor();
+   const { t } = useTranslation();
+   const [isHovered, setIsHovered] = useState(false);
+-  const [lightboxMetadata, setLightboxMetadata] = useState<UserMessageImageAttachment | null>(null);
+-  const handleLightboxClose = useCallback(() => setLightboxMetadata(null), []);
+-  const lightboxSource = useMemo<ImageLightboxSource | null>(
+-    () => (lightboxMetadata ? { type: "attachment", metadata: lightboxMetadata } : null),
+-    [lightboxMetadata],
++  const [lightboxSource, setLightboxSource] = useState<ImageLightboxSource | null>(null);
++  const handleLightboxClose = useCallback(() => setLightboxSource(null), []);
++  const handleOpenImage = useCallback((metadata: UserMessageImageAttachment) => {
++    setLightboxSource({ type: "attachment", metadata });
++  }, []);
++  const inlinePreviews = useMemo(
++    () =>
++      inlineImages.map((image, index) => ({
++        id: `image-${index}`,
++        uri: `data:${image.mimeType};base64,${image.data}`,
++      })),
++    [inlineImages],
+   );
+   const resolvedDisableOuterSpacing = useDisableOuterSpacing(disableOuterSpacing);
+   const hasText = message.trim().length > 0;
+-  const hasImages = images.length > 0;
++  const hasImages = images.length > 0 || inlinePreviews.length > 0;
+   const hasAttachments = attachments.length > 0;
+   const showTrailingRow = !isPending && hasText && (isCompact || isNative || isHovered);
+   const formattedTimestamp = useMemo(
+@@ -476,14 +511,23 @@ export const UserMessage = memo(function UserMessage({
+         <View style={userMessageStylesheet.bubble}>
+           {hasImages ? (
+             <View style={imagePreviewContainerStyle}>
+-              {images.map((image) => (
+-                <UserMessageImagePill
+-                  key={image.id}
+-                  image={image}
+-                  onOpen={setLightboxMetadata}
+-                  accessibilityLabel={t("composer.attachments.openImage")}
+-                />
+-              ))}
++              {inlinePreviews.length > 0
++                ? inlinePreviews.map((preview) => (
++                    <UserMessageInlineImagePill
++                      key={preview.id}
++                      uri={preview.uri}
++                      onOpen={setLightboxSource}
++                      accessibilityLabel={t("composer.attachments.openImage")}
++                    />
++                  ))
++                : images.map((image) => (
++                    <UserMessageImagePill
++                      key={image.id}
++                      image={image}
++                      onOpen={handleOpenImage}
++                      accessibilityLabel={t("composer.attachments.openImage")}
++                    />
++                  ))}
+             </View>
+           ) : null}
+           {hasAttachments ? (
+diff --git a/packages/app/src/plugins/timeline/projection.test.ts b/packages/app/src/plugins/timeline/projection.test.ts
+index 2dc95ed33..80f0ff8a5 100644
+--- a/packages/app/src/plugins/timeline/projection.test.ts
++++ b/packages/app/src/plugins/timeline/projection.test.ts
+@@ -13,6 +13,23 @@ function thought(text: string, status: "loading" | "ready" = "loading"): StreamI
+   };
+ }
+ 
++it("cross-client images reach plugin transformers intact", () => {
++  const images = [{ data: "AA==", mimeType: "image/png" }];
++  const source: StreamItem = {
++    kind: "user_message",
++    id: "user-image",
++    text: "",
++    timestamp: new Date(1),
++    inlineImages: images,
++  };
++  let received: unknown;
++  projectPluginTimelineItems([source], ({ item }) => {
++    received = item;
++    return undefined;
++  });
++  expect(received).toMatchObject({ type: "user_message", text: "", images });
++});
++
+ describe("plugin timeline projection", () => {
+   it("does not expose mutable tool detail from stream state", () => {
+     const detail = { type: "read" as const, filePath: "/repo/original.ts" };
+@@ -152,3 +169,28 @@ describe("plugin timeline projection", () => {
+     expect(filtered).toEqual([]);
+   });
+ });
++
++it("keeps local-only image previews native until portable images arrive", () => {
++  const source: StreamItem = {
++    kind: "user_message",
++    id: "local-image",
++    text: "",
++    timestamp: new Date(1),
++    images: [
++      {
++        id: "attachment",
++        mimeType: "image/png",
++        storageType: "native-file",
++        storageKey: "/device/image.png",
++        createdAt: 1,
++      },
++    ],
++  };
++  let calls = 0;
++  const result = projectPluginTimelineItems([source], () => {
++    calls += 1;
++    return [];
++  });
++  expect(result).toEqual([source]);
++  expect(calls).toBe(0);
++});
+diff --git a/packages/app/src/plugins/timeline/projection.ts b/packages/app/src/plugins/timeline/projection.ts
+index 0750bdb66..aa6ed9365 100644
+--- a/packages/app/src/plugins/timeline/projection.ts
++++ b/packages/app/src/plugins/timeline/projection.ts
+@@ -40,15 +40,25 @@ function sourceToolCallTimelineItem(data: AgentToolCallData): ToolCallTimelineIt
+   }
+ }
+ 
++function sourceUserMessageTimelineItem(
++  item: Extract<StreamItem, { kind: "user_message" }>,
++): AgentTimelineItem | null {
++  // Local attachment metadata cannot be rendered outside its storage owner.
++  // Keep that row native until the canonical event supplies portable images.
++  if (item.images?.length && !item.inlineImages?.length) return null;
++  return {
++    type: "user_message",
++    text: item.text,
++    ...(item.inlineImages?.length ? { images: item.inlineImages } : {}),
++    ...(item.messageId ? { messageId: item.messageId } : {}),
++    ...(item.clientMessageId ? { clientMessageId: item.clientMessageId } : {}),
++  };
++}
++
+ function sourceTimelineItem(item: StreamItem): AgentTimelineItem | null {
+   switch (item.kind) {
+     case "user_message":
+-      return {
+-        type: "user_message",
+-        text: item.text,
+-        ...(item.messageId ? { messageId: item.messageId } : {}),
+-        ...(item.clientMessageId ? { clientMessageId: item.clientMessageId } : {}),
+-      };
++      return sourceUserMessageTimelineItem(item);
+     case "assistant_message":
+       return {
+         type: "assistant_message",
+diff --git a/packages/app/src/runtime/replica-cache/index.test.ts b/packages/app/src/runtime/replica-cache/index.test.ts
+index eaad715a5..98a2d0e0b 100644
+--- a/packages/app/src/runtime/replica-cache/index.test.ts
++++ b/packages/app/src/runtime/replica-cache/index.test.ts
+@@ -1155,3 +1155,26 @@ it("retains semantic agent messages across disk-cache reconstruction", async ()
+   await writer.flush();
+   expect(await createCache(storage).readTimeline(SERVER_ID, "agent-1")).toEqual(value);
+ });
++
++it("cross-client inline images survive a durable timeline cache round trip", async () => {
++  const storage = new MemoryStorage();
++  const writer = createCache(storage);
++  const message: StreamItem = {
++    kind: "user_message",
++    id: "image-message",
++    messageId: "image-message",
++    text: "",
++    timestamp: new Date("2026-10-12T00:00:00.000Z"),
++    timelineCursor: { epoch: "image-epoch", seq: 1 },
++    inlineImages: [{ data: "AA==", mimeType: "image/png" }],
++  };
++  const value = {
++    agentId: "agent-1",
++    items: [message],
++    range: { epoch: "image-epoch", startSeq: 1, endSeq: 1 },
++    hasOlder: false,
++  };
++  writer.commitTimeline(SERVER_ID, "agent-1", value);
++  await writer.flush();
++  expect(await createCache(storage).readTimeline(SERVER_ID, "agent-1")).toEqual(value);
++});
+diff --git a/packages/app/src/runtime/replica-cache/index.ts b/packages/app/src/runtime/replica-cache/index.ts
+index 59578e65d..0154fd2d6 100644
+--- a/packages/app/src/runtime/replica-cache/index.ts
++++ b/packages/app/src/runtime/replica-cache/index.ts
+@@ -115,6 +115,7 @@ const StoredTimelineItemSchema = z.discriminatedUnion("kind", [
+   z.strictObject({
+     ...TimelineItemBaseShape,
+     kind: z.literal("user_message"),
++    inlineImages: z.array(z.strictObject({ data: z.string(), mimeType: z.string() })).optional(),
+     clientMessageId: z.string().optional(),
+     messageId: z.string().optional(),
+     text: z.string(),
+@@ -447,6 +448,7 @@ function serializeTimelineItem(item: StreamItem): StoredTimelineItem | null {
+         kind: item.kind,
+         ...(item.clientMessageId ? { clientMessageId: item.clientMessageId } : {}),
+         ...(item.messageId ? { messageId: item.messageId } : {}),
++        ...(item.inlineImages?.length ? { inlineImages: item.inlineImages } : {}),
+         text: item.text,
+       };
+     case "assistant_message":
+@@ -537,6 +539,7 @@ function deserializeBuiltinTimelineItem(
+         kind: item.kind,
+         ...(item.clientMessageId ? { clientMessageId: item.clientMessageId } : {}),
+         ...(item.messageId ? { messageId: item.messageId } : {}),
++        ...(item.inlineImages?.length ? { inlineImages: item.inlineImages } : {}),
+         text: item.text,
+       };
+     case "assistant_message":
+diff --git a/packages/app/src/types/stream.test.ts b/packages/app/src/types/stream.test.ts
+index 62e26698d..28c46b51e 100644
+--- a/packages/app/src/types/stream.test.ts
++++ b/packages/app/src/types/stream.test.ts
+@@ -21,6 +21,71 @@ import type { AgentStreamEventPayload } from "@getpaseo/protocol/messages";
+ import { buildToolCallDisplayModel } from "@getpaseo/protocol/tool-call-display";
+ import { timelineItemIdentity } from "@getpaseo/protocol/timeline-identity";
+ 
++it.each(["", "Describe this image"])(
++  "cross-client image messages survive live and history reducers with text %j",
++  (text) => {
++    const images = [{ data: "AA==", mimeType: "image/png" }];
++    const event = {
++      type: "timeline" as const,
++      provider: "omp",
++      item: {
++        type: "user_message" as const,
++        text,
++        messageId: "user-image",
++        images,
++      },
++    };
++    const timestamp = new Date(1);
++    expect(hydrateStreamState([{ event, timestamp }])).toMatchObject([
++      { kind: "user_message", messageId: "user-image", text, inlineImages: images },
++    ]);
++    for (const unmatchedUserMessageInsert of ["tail", "head"] as const) {
++      const result = applyStreamEvent({
++        tail: [],
++        head: [],
++        event,
++        timestamp,
++        unmatchedUserMessageInsert,
++      });
++      expect([...result.tail, ...result.head]).toMatchObject([
++        { kind: "user_message", messageId: "user-image", text, inlineImages: images },
++      ]);
++    }
++  },
++);
++
++it("cross-client canonical images reconcile into a locally submitted row without duplicating it", () => {
++  const local = createUserMessage({
++    clientMessageId: "client-image",
++    text: "",
++    timestamp: new Date(1),
++  });
++  const images = [{ data: "AA==", mimeType: "image/png" }];
++  const result = applyStreamEvent({
++    tail: [local],
++    head: [],
++    timestamp: new Date(2),
++    event: {
++      type: "timeline",
++      provider: "omp",
++      item: {
++        type: "user_message",
++        text: "",
++        messageId: "user-image",
++        clientMessageId: "client-image",
++        images,
++      },
++    },
++  });
++  expect(result.tail).toHaveLength(1);
++  expect(result.tail[0]).toMatchObject({
++    id: local.id,
++    messageId: "user-image",
++    inlineImages: images,
++  });
++  expect(result.acknowledgedClientMessageIds).toEqual(["client-image"]);
++});
++
+ type CanonicalToolStatus = "running" | "completed" | "failed" | "canceled";
+ 
+ it("updates a resolved Claude plan at its proposal position across a follow-up", () => {
+diff --git a/packages/app/src/types/stream.ts b/packages/app/src/types/stream.ts
+index 657d218b3..6b6f091c0 100644
+--- a/packages/app/src/types/stream.ts
++++ b/packages/app/src/types/stream.ts
+@@ -1,5 +1,6 @@
+ import type { AgentMessage } from "@getpaseo/protocol/agent-message";
+ import type {
++  AgentTimelineImage,
+   AgentProvider,
+   AgentTimelineItem,
+   JsonValue,
+@@ -100,6 +101,7 @@ export interface UserMessageItem {
+   text: string;
+   timestamp: Date;
+   images?: UserMessageImageAttachment[];
++  inlineImages?: AgentTimelineImage[];
+   attachments?: AgentAttachment[];
+ }
+ 
+@@ -112,6 +114,7 @@ export interface UserMessageInput {
+   text: string;
+   timestamp: Date;
+   images?: UserMessageImageAttachment[];
++  inlineImages?: AgentTimelineImage[];
+   attachments?: AgentAttachment[];
+ }
+ 
+@@ -130,6 +133,7 @@ export function createUserMessage(input: UserMessageInput): UserMessageItem {
+     text: input.text,
+     timestamp: input.timestamp,
+     ...(input.images && input.images.length > 0 ? { images: input.images } : {}),
++    ...(input.inlineImages?.length ? { inlineImages: input.inlineImages } : {}),
+     ...(input.attachments && input.attachments.length > 0
+       ? { attachments: input.attachments }
+       : {}),
+@@ -261,6 +265,7 @@ function produceUserMessage(
+     clientMessageId: incoming.clientMessageId ?? existing.clientMessageId,
+     messageId: incoming.messageId ?? existing.messageId,
+     timelineCursor: incoming.timelineCursor ?? existing.timelineCursor,
++    inlineImages: incoming.inlineImages ?? existing.inlineImages,
+   });
+   if (
+     existing.id === merged.id &&
+@@ -270,6 +275,7 @@ function produceUserMessage(
+     existing.text === merged.text &&
+     existing.timestamp === merged.timestamp &&
+     existing.images === merged.images &&
++    existing.inlineImages === merged.inlineImages &&
+     existing.attachments === merged.attachments
+   ) {
+     return { items, index, message: existing, matched: true };
+@@ -889,6 +895,11 @@ export function handoffCreatedAgentUserMessageToStream(params: {
+   });
+ }
+ 
++function normalizeUserMessageContent(text: string, images?: AgentTimelineImage[]) {
++  const normalized = normalizeChunk(text);
++  return { ...normalized, hasContent: normalized.hasContent || Boolean(images?.length) };
++}
++
+ function appendUserMessage(
+   state: StreamItem[],
+   text: string,
+@@ -898,8 +909,9 @@ function appendUserMessage(
+   clientMessageId?: string,
+   timelineCursor?: TimelinePosition,
+   turnId?: string,
++  inlineImages?: AgentTimelineImage[],
+ ): StreamItem[] {
+-  const { chunk, hasContent } = normalizeChunk(text);
++  const { chunk, hasContent } = normalizeUserMessageContent(text, inlineImages);
+   if (!hasContent) {
+     return state;
+   }
+@@ -913,6 +925,7 @@ function appendUserMessage(
+     turnId,
+     text: chunk,
+     timestamp,
++    inlineImages,
+   });
+   return upsertUserMessage(state, nextItem);
+ }
+@@ -1521,6 +1534,7 @@ function reduceTimelineEvent(
+           item.clientMessageId,
+           timelineCursor,
+           event.turnId,
++          item.images,
+         ),
+       );
+     case "assistant_message":
+@@ -1880,7 +1894,7 @@ function applyCanonicalUserMessageEvent(params: {
+ }): ApplyStreamEventResult | null {
+   const { tail, head, event, timestamp, timelineCursor, unmatchedInsert = "tail" } = params;
+   if (event.type !== "timeline" || event.item.type !== "user_message") return null;
+-  const normalized = normalizeChunk(event.item.text);
++  const normalized = normalizeUserMessageContent(event.item.text, event.item.images);
+ 
+   const flushedTail = head.length > 0 ? flushHeadToTail(tail, head) : tail;
+   const flushedHead = head.length > 0 ? [] : head;
+@@ -1894,6 +1908,7 @@ function applyCanonicalUserMessageEvent(params: {
+     timelineCursor,
+     text: normalized.chunk,
+     timestamp,
++    inlineImages: event.item.images,
+   });
+   if (unmatchedInsert === "head") {
+     const reconciled = upsertUserMessageAcrossStream({
+diff --git a/packages/protocol/src/agent-types.ts b/packages/protocol/src/agent-types.ts
+index c7fffe8ce..d3d432991 100644
+--- a/packages/protocol/src/agent-types.ts
++++ b/packages/protocol/src/agent-types.ts
+@@ -372,8 +372,19 @@ export interface AgentTaskItem {
+   activeForm?: string;
+ }
+ 
++export interface AgentTimelineImage {
++  data: string;
++  mimeType: string;
++}
++
+ export type AgentTimelineItem =
+-  | { type: "user_message"; text: string; messageId?: string; clientMessageId?: string }
++  | {
++      type: "user_message";
++      text: string;
++      messageId?: string;
++      clientMessageId?: string;
++      images?: AgentTimelineImage[];
++    }
+   | { type: "assistant_message"; text: string; messageId?: string }
+   | { type: "reasoning"; text: string }
+   | ToolCallTimelineItem
+diff --git a/packages/protocol/src/messages.ts b/packages/protocol/src/messages.ts
+index 3034598f1..2c1b20f8d 100644
+--- a/packages/protocol/src/messages.ts
++++ b/packages/protocol/src/messages.ts
+@@ -702,12 +702,18 @@ const ToolCallTimelineItemPayloadSchema: z.ZodType<ToolCallTimelineItem, unknown
+     ToolCallCanceledPayloadSchema,
+   ]);
+ 
++const ImageAttachmentSchema = z.object({
++  data: z.string(), // base64 encoded image
++  mimeType: z.string(), // e.g., "image/jpeg", "image/png"
++});
++
+ // zod-aot 0.20.4 miscompiles this as a nested discriminated union by omitting
+ // the inner tool_call branch from the generated outer dispatch.
+ export const AgentTimelineItemPayloadSchema: z.ZodType<AgentTimelineItem, unknown> = z.union([
+   z.object({
+     type: z.literal("user_message"),
+     text: z.string(),
++    images: z.array(ImageAttachmentSchema).optional(),
+     messageId: z.string().optional(),
+     clientMessageId: z.string().optional(),
+   }),
+@@ -1236,11 +1242,6 @@ export const ChangeRequestCheckoutSourceSchema = z.object({
+   projectPath: z.string().optional(),
+ });
+ 
+-const ImageAttachmentSchema = z.object({
+-  data: z.string(), // base64 encoded image
+-  mimeType: z.string(), // e.g., "image/jpeg", "image/png"
+-});
+-
+ export const ActiveTurnBehaviorSchema = z.enum(["interrupt", "steer"]);
+ export type ActiveTurnBehavior = z.infer<typeof ActiveTurnBehaviorSchema>;
+ 
+diff --git a/packages/protocol/src/messages.wire-compat.test.ts b/packages/protocol/src/messages.wire-compat.test.ts
+index d6b2bc02f..d5b1668cc 100644
+--- a/packages/protocol/src/messages.wire-compat.test.ts
++++ b/packages/protocol/src/messages.wire-compat.test.ts
+@@ -14,6 +14,35 @@ import {
+   AgentTimelineEntryPayloadSchema,
+ } from "./messages.js";
+ 
++test("cross-client user images survive wire parsing without requiring images on older messages", async () => {
++  const legacy = { type: "user_message" as const, text: "hello", messageId: "user-1" };
++  const withImages = { ...legacy, images: [{ data: "AA==", mimeType: "image/png" }] };
++  expect(AgentTimelineItemPayloadSchema.parse(withImages)).toEqual(withImages);
++  const { validateWSOutboundMessage } = await import("./validation/ws-outbound.js");
++  const wireMessage = {
++    type: "session",
++    message: {
++      type: "agent_stream",
++      payload: {
++        agentId: "image-agent",
++        timestamp: "2026-10-12T00:00:00.000Z",
++        event: { type: "timeline", provider: "omp", item: withImages },
++      },
++    },
++  };
++  const result = validateWSOutboundMessage(wireMessage);
++  if (!result.success) throw result.error;
++  expect(result.data).toEqual(wireMessage);
++
++  expect(AgentTimelineItemPayloadSchema.parse(legacy)).toEqual(legacy);
++  const legacySchema = z.object({
++    type: z.literal("user_message"),
++    text: z.string(),
++    messageId: z.string().optional(),
++  });
++  expect(legacySchema.parse(withImages)).toEqual(legacy);
++});
++
+ test("terminal listings accept older rows and retain new per-terminal directories", () => {
+   const response = {
+     type: "list_terminals_response",
+diff --git a/packages/server/src/server/agent/agent-manager.test.ts b/packages/server/src/server/agent/agent-manager.test.ts
+index ae8989c00..ab1b1e8a2 100644
+--- a/packages/server/src/server/agent/agent-manager.test.ts
++++ b/packages/server/src/server/agent/agent-manager.test.ts
+@@ -11935,6 +11935,115 @@ test.each([false, true])(
+   },
+ );
+ 
++test.each(["", "Describe this image"])(
++  "cross-client submitted images survive canonical acceptance with text %j",
++  async (text) => {
++    const workdir = mkdtempSync(join(tmpdir(), "agent-manager-images-"));
++    const manager = new AgentManager({ clients: { codex: new TestAgentClient() }, logger });
++    let agentId: string | null = null;
++    try {
++      const agent = await manager.createAgent({ provider: "codex", cwd: workdir }, undefined, {
++        workspaceId: undefined,
++      });
++      agentId = agent.id;
++      await drainAsyncGenerator(
++        manager.streamAgent(
++          agent.id,
++          [
++            { type: "text", text },
++            { type: "image", data: "AA==", mimeType: "image/png" },
++          ],
++          { clientMessageId: "client-image" },
++        ),
++      );
++      const messages = manager.getTimeline(agent.id).filter((item) => item.type === "user_message");
++      expect(messages).toEqual([
++        {
++          type: "user_message",
++          text,
++          clientMessageId: "client-image",
++          messageId: "client-image",
++          images: [{ data: "AA==", mimeType: "image/png" }],
++        },
++      ]);
++      expect(
++        manager
++          .fetchTimeline(agent.id, { limit: 0 })
++          .rows.filter((row) => row.item.type === "user_message")
++          .map((row) => row.item),
++      ).toEqual(messages);
++    } finally {
++      if (agentId) await manager.closeAgent(agentId);
++      rmSync(workdir, { recursive: true, force: true });
++    }
++  },
++);
++
++test.each([false, true])(
++  "history ingestion canonicalizes explicit client identity with force=%s",
++  async (force) => {
++    class IdentifiedHistory extends TestAgentSession {
++      override async *streamHistory(): AsyncGenerator<AgentStreamEvent> {
++        yield {
++          type: "timeline",
++          provider: "codex",
++          item: {
++            type: "user_message",
++            text: "same",
++            images: [{ data: "AA==", mimeType: "image/png" }],
++            messageId: "native-1",
++            clientMessageId: "client-1",
++          },
++        };
++        yield {
++          type: "timeline",
++          provider: "codex",
++          item: {
++            type: "user_message",
++            text: "same",
++            images: [{ data: "AA==", mimeType: "image/png" }],
++            messageId: "native-external",
++          },
++        };
++      }
++    }
++    const client = new (class extends TestAgentClient {
++      override async resumeSession() {
++        return new IdentifiedHistory({ provider: "codex", cwd: tmpdir() });
++      }
++    })();
++    const manager = new AgentManager({ clients: { codex: client }, logger });
++    const agent = await manager.resumeAgentFromPersistence({
++      provider: "codex",
++      sessionId: "identified",
++    });
++    try {
++      await manager.hydrateTimelineFromProvider(agent.id, { force });
++      expect(manager.fetchTimeline(agent.id, { limit: 0 }).rows).toMatchObject([
++        {
++          providerMessageId: "native-1",
++          item: {
++            type: "user_message",
++            messageId: "client-1",
++            clientMessageId: "client-1",
++            images: [{ data: "AA==", mimeType: "image/png" }],
++          },
++        },
++        {
++          item: {
++            type: "user_message",
++            messageId: "native-external",
++            images: [{ data: "AA==", mimeType: "image/png" }],
++          },
++        },
++      ]);
++      expect(manager.getTimeline(agent.id)).toHaveLength(2);
++    } finally {
++      await manager.closeAgent(agent.id);
++    }
++  },
++);
++
+ test.each([
+   {
+     event: {
+diff --git a/packages/server/src/server/agent/agent-manager.ts b/packages/server/src/server/agent/agent-manager.ts
+index 1342576f7..a9691dd6c 100644
+--- a/packages/server/src/server/agent/agent-manager.ts
++++ b/packages/server/src/server/agent/agent-manager.ts
+@@ -114,6 +114,13 @@ const STORED_AGENT_CAPABILITIES: AgentCapabilityFlags = {
+ 
+ type TimeoutResult = "completed" | "timed_out";
+ 
++function submittedPromptImages(prompt: AgentPromptInput) {
++  if (typeof prompt === "string") return [];
++  return prompt.flatMap((block) =>
++    block.type === "image" ? [{ data: block.data, mimeType: block.mimeType }] : [],
++  );
++}
++
+ function submittedPromptText(prompt: AgentPromptInput): string {
+   if (typeof prompt === "string") {
+     return prompt;
+@@ -252,6 +259,11 @@ export interface SubscribeOptions {
+   includeInternal?: boolean;
+ }
+ 
++interface RecordHistoryTimelineEventInput {
++  agentId: string;
++  event: Extract<AgentStreamEvent, { type: "timeline" }>;
++}
++
+ interface HydrateTimelineOptions {
+   force?: boolean;
+   broadcast?: boolean | (() => boolean);
+@@ -4303,6 +4315,23 @@ export class AgentManager {
+     await this.primeTimelineFromLegacyProviderHistory(agent, broadcast);
+   }
+ 
++  private recordHistoryTimelineEvent({
++    agentId,
++    event,
++  }: RecordHistoryTimelineEventInput): AgentTimelineRow {
++    const item = event.item;
++    const providerMessageId =
++      item.type === "user_message" && item.clientMessageId ? item.messageId : undefined;
++    if (item.type === "user_message" && item.clientMessageId) {
++      // Replay carries native identity; the manager owns the submitted wire identity.
++      event.item = { ...item, messageId: item.clientMessageId };
++    }
++    return this.recordTimeline(agentId, event.item, {
++      ...(event.timestamp ? { timestamp: event.timestamp } : {}),
++      ...(providerMessageId ? { providerMessageId } : {}),
++    });
++  }
++
+   private async forceHydrateTimelineFromLegacyProviderHistory(
+     agent: ActiveManagedAgent,
+     broadcast: boolean,
+@@ -4339,11 +4368,7 @@ export class AgentManager {
+       }
+     }
+     for (const event of historyEvents) {
+-      const row = this.recordTimeline(
+-        agent.id,
+-        event.item,
+-        event.timestamp ? { timestamp: event.timestamp } : undefined,
+-      );
++      const row = this.recordHistoryTimelineEvent({ agentId: agent.id, event });
+       if (broadcastTimeline) {
+         this.dispatchStream(agent.id, event, {
+           seq: row.seq,
+@@ -4408,11 +4433,7 @@ export class AgentManager {
+       }
+     }
+     for (const event of historyEvents) {
+-      const row = this.recordTimeline(
+-        agent.id,
+-        event.item,
+-        event.timestamp ? { timestamp: event.timestamp } : undefined,
+-      );
++      const row = this.recordHistoryTimelineEvent({ agentId: agent.id, event });
+       if (deferredBroadcast) {
+         timelineEvents.push({ event, row });
+       } else if (broadcast) {
+@@ -4985,9 +5006,11 @@ export class AgentManager {
+     outcome: "accepted" | "rejected",
+     options?: { messageId?: string; providerMessageId?: string; turnId?: string },
+   ): void {
++    const images = submittedPromptImages(prompt);
+     const items = projectAgentMessages({
+       type: "user_message",
+       text: submittedPromptText(prompt),
++      ...(images.length > 0 ? { images } : {}),
+       clientMessageId,
+       ...(options?.messageId ? { messageId: options.messageId } : {}),
+     });
+diff --git a/packages/server/src/server/agent/agent-sdk-types.ts b/packages/server/src/server/agent/agent-sdk-types.ts
+index 6818e6544..8e50e1686 100644
+--- a/packages/server/src/server/agent/agent-sdk-types.ts
++++ b/packages/server/src/server/agent/agent-sdk-types.ts
+@@ -1,4 +1,5 @@
+ import type {
++  AgentTimelineImage,
+   AgentFeature,
+   AgentFeatureSelect,
+   AgentFeatureToggle,
+@@ -391,7 +392,13 @@ export interface PluginTimelineItem {
+ }
+ 
+ export type AgentTimelineItem =
+-  | { type: "user_message"; text: string; messageId?: string; clientMessageId?: string }
++  | {
++      type: "user_message";
++      text: string;
++      messageId?: string;
++      clientMessageId?: string;
++      images?: AgentTimelineImage[];
++    }
+   | { type: "assistant_message"; text: string; messageId?: string }
+   | { type: "reasoning"; text: string }
+   | ToolCallTimelineItem
+diff --git a/packages/server/src/server/agent/providers/omp/agent.test.ts b/packages/server/src/server/agent/providers/omp/agent.test.ts
+index 7b56c9bde..c4f8e92df 100644
+--- a/packages/server/src/server/agent/providers/omp/agent.test.ts
++++ b/packages/server/src/server/agent/providers/omp/agent.test.ts
+@@ -16,6 +16,33 @@ import { OmpAgentClient } from "./agent.js";
+ import { FakeOmp } from "./test-utils/fake-omp.js";
+ import { createTestLogger } from "../../../../test-utils/test-logger.js";
+ 
++test.each(["", "Describe this image"])(
++  "cross-client live events preserve images with text %j",
++  async (text) => {
++    const omp = new OmpHarness();
++    await omp.start();
++    onTestFinished(() => omp.close());
++    const message: Extract<OmpAgentMessage, { role: "user" }> & { id: string } = {
++      role: "user",
++      id: "user-image",
++      content: [
++        { type: "text", text },
++        { type: "image", data: "AA==", mimeType: "image/png" },
++      ],
++    };
++    omp.emit({ type: "message_end", message });
++    omp.emit({ type: "message_end", message });
++    expect(omp.timeline()).toEqual([
++      {
++        type: "user_message",
++        text,
++        messageId: "user-image",
++        images: [{ data: "AA==", mimeType: "image/png" }],
++      },
++    ]);
++  },
++);
++
+ const TURN_LIFECYCLE_EVENTS = new Set<AgentStreamEvent["type"]>([
+   "turn_started",
+   "turn_completed",
+diff --git a/packages/server/src/server/agent/providers/omp/agent.ts b/packages/server/src/server/agent/providers/omp/agent.ts
+index 434a49d89..737ef894c 100644
+--- a/packages/server/src/server/agent/providers/omp/agent.ts
++++ b/packages/server/src/server/agent/providers/omp/agent.ts
+@@ -71,7 +71,7 @@ import {
+ export { formatOmpVersionSupport, resolveOmpDiagnosticPaths } from "./provider-config.js";
+ import { OmpSubagentCardTracker, type OmpSubagentCardScheduler } from "./subagent-card-tracker.js";
+ import { ompSkillPromptUserText, shouldDisplayOmpCustomMessage } from "./custom-message.js";
+-import { getUserMessageText } from "./message-history.js";
++import { getUserMessageImages, getUserMessageText } from "./message-history.js";
+ import { mapOmpSystemNoticeToNotification } from "./system-notice.js";
+ import { materializeProviderImage } from "../provider-image-output.js";
+ import { OmpCliRuntime } from "./cli-runtime.js";
+@@ -2049,7 +2049,8 @@ export class OmpAgentSession implements AgentSession {
+       return;
+     }
+     const text = getUserMessageText(event.message.content);
+-    if (!text) {
++    const images = getUserMessageImages(event.message.content);
++    if (!text && images.length === 0) {
+       return;
+     }
+     const nativeMessage = event.message as OmpAgentMessage & { id?: unknown; entryId?: unknown };
+@@ -2072,6 +2073,7 @@ export class OmpAgentSession implements AgentSession {
+         item: {
+           type: "user_message",
+           text,
++          ...(images.length > 0 ? { images } : {}),
+           ...(resolvedMessageId ? { messageId: resolvedMessageId } : {}),
+           ...(clientMessageId ? { clientMessageId } : {}),
+         },
+diff --git a/packages/server/src/server/agent/providers/omp/history-mapper.test.ts b/packages/server/src/server/agent/providers/omp/history-mapper.test.ts
+index 03c0ebe5a..9c8fb0011 100644
+--- a/packages/server/src/server/agent/providers/omp/history-mapper.test.ts
++++ b/packages/server/src/server/agent/providers/omp/history-mapper.test.ts
+@@ -27,6 +27,28 @@ async function collectHistory(
+   return events;
+ }
+ 
++test.each(["", "Describe this image"])(
++  "cross-client history preserves images with text %j",
++  async (text) => {
++    const image = { type: "image" as const, data: "AA==", mimeType: "image/png" };
++    const events = await collectHistory(
++      [{ role: "user", content: [{ type: "text", text }, image] }],
++      [{ id: "user-image", text }],
++    );
++    expect(events).toMatchObject([
++      {
++        type: "timeline",
++        item: {
++          type: "user_message",
++          messageId: "user-image",
++          text,
++          images: [{ data: image.data, mimeType: image.mimeType }],
++        },
++      },
++    ]);
++  },
++);
++
+ describe("OMP history mapper", () => {
+   test("renders visible custom messages as completed tools with their type and content", async () => {
+     const events = await collectHistory([
+diff --git a/packages/server/src/server/agent/providers/omp/message-history.ts b/packages/server/src/server/agent/providers/omp/message-history.ts
+index 1950502c8..53c4fbb93 100644
+--- a/packages/server/src/server/agent/providers/omp/message-history.ts
++++ b/packages/server/src/server/agent/providers/omp/message-history.ts
+@@ -61,6 +61,13 @@ export function getUserMessageText(content: string | (OmpTextContent | OmpImageC
+   return textParts.join("\n\n");
+ }
+ 
++export function getUserMessageImages(content: string | (OmpTextContent | OmpImageContent)[]) {
++  if (typeof content === "string") return [];
++  return content.flatMap((block) =>
++    block.type === "image" ? [{ data: block.data, mimeType: block.mimeType }] : [],
++  );
++}
++
+ export class OmpHistoryMapper {
+   private readonly pendingToolCalls = new Map<string, OmpTrackedToolCall>();
+   private userIndex = 0;
+@@ -106,8 +113,9 @@ export class OmpHistoryMapper {
+ 
+   private mapUserMessage(message: Extract<OmpAgentMessage, { role: "user" }>): AgentStreamEvent[] {
+     const text = getUserMessageText(message.content);
++    const images = getUserMessageImages(message.content);
+     this.userIndex += 1;
+-    if (!text) {
++    if (!text && images.length === 0) {
+       return [];
+     }
+     const userEntry = this.userEntries[this.userIndex - 1];
+@@ -118,6 +126,7 @@ export class OmpHistoryMapper {
+         item: {
+           type: "user_message",
+           text,
++          ...(images.length > 0 ? { images } : {}),
+           ...(userEntry ? { messageId: userEntry.id } : {}),
+         },
+       },
+diff --git a/packages/server/src/server/agent/providers/pi/agent.test.ts b/packages/server/src/server/agent/providers/pi/agent.test.ts
+index b9f31b61b..2c74fccfc 100644
+--- a/packages/server/src/server/agent/providers/pi/agent.test.ts
++++ b/packages/server/src/server/agent/providers/pi/agent.test.ts
+@@ -23,6 +23,10 @@ import {
+   PiRpcAgentSession,
+   transformPiModels,
+ } from "./agent.js";
++import { AgentManager } from "../../agent-manager.js";
++import { AgentStorage } from "../../agent-storage.js";
++import { imageHistory } from "./fixtures/image-history.js";
++import { getUserMessageText } from "./history-mapper.js";
+ import { FakePi } from "./test-utils/fake-pi.js";
+ import { createPiExtensionHost } from "./extensions/index.js";
+ import { PiExtensionHost } from "./extensions/host.js";
+@@ -3564,6 +3568,160 @@ describe("transformPiModels", () => {
+   });
+ });
+ 
++test("captured Pi image history keeps canonical identities across disk reload and refresh", async () => {
++  const entries = imageHistory.entries;
++  const users = entries.filter((entry) => entry.message.role === "user");
++  const workdir = mkdtempSync(path.join(tmpdir(), "pi-image-history-storage-"));
++  const logger = pino({ level: "silent" });
++  const storage = new AgentStorage(path.join(workdir, "agents"), logger);
++  const pi = new FakePi();
++  const visionModel: PiModel = {
++    provider: "google-cloud",
++    id: "gemini-3.8-flash",
++    input: ["text", "image"],
++  };
++  pi.queueSessionSetup((session) => {
++    session.state.model = visionModel;
++  });
++  let manager = new AgentManager({
++    clients: { pi: createClient(pi) },
++    registry: storage,
++    paseoToolsEnabled: false,
++    logger,
++  });
++  let agentId: string | undefined;
++  try {
++    const agent = await manager.createAgent(
++      { provider: "pi", cwd: workdir, model: "google-cloud/gemini-3.8-flash" },
++      undefined,
++      { workspaceId: undefined },
++    );
++    agentId = agent.id;
++    for (const [index, entry] of users.entries()) {
++      if (entry.message.role !== "user") throw new Error("Expected captured user entry");
++      const run = manager.runAgent(agent.id, entry.message.content, {
++        clientMessageId: "client-image-" + index,
++      });
++      await manager.waitForAgentRunStart(agent.id);
++      const native = pi.latestSession();
++      native.finishSubmittedUserMessage({
++        id: entry.id,
++        parentId: entry.parentId,
++        text: getUserMessageText(entry.message.content),
++      });
++      native.finishTurn(entries[entries.indexOf(entry) + 1].message);
++      await run;
++    }
++    const canonical = manager.getTimeline(agent.id).filter((item) => item.type === "user_message");
++    expect(canonical).toHaveLength(2);
++    expect(canonical.map((item) => item.images)).toEqual(
++      users.map((entry) =>
++        entry.message.role === "user" && Array.isArray(entry.message.content)
++          ? entry.message.content.flatMap((part) =>
++              part.type === "image" ? [{ data: part.data, mimeType: part.mimeType }] : [],
++            )
++          : [],
++      ),
++    );
++    await manager.closeAgent(agent.id);
++    await manager.flush();
++    await storage.flush();
++
++    // A new storage instance must load the actual serialized Pi handle, not a memory-only map.
++    const reloadedStorage = new AgentStorage(path.join(workdir, "agents"), logger);
++    const record = await reloadedStorage.get(agent.id);
++    expect(record?.persistence?.metadata?.submittedUserMessageIds).toEqual(
++      Object.fromEntries(users.map((entry, index) => [entry.id, "client-image-" + index])),
++    );
++    if (!record?.persistence) throw new Error("Expected persisted Pi handle");
++    const resumedPi = new FakePi();
++    const setupReplay = (session: ReturnType<FakePi["latestSession"]>) => {
++      session.state.model = visionModel;
++      session.messages = entries.map((entry) => entry.message);
++      session.treeUserEntries = users.map((entry) => ({
++        id: entry.id,
++        parentId: entry.parentId,
++        text: entry.message.role === "user" ? getUserMessageText(entry.message.content) : "",
++      }));
++      session.contextUserEntries = session.treeUserEntries;
++    };
++    resumedPi.queueSessionSetup(setupReplay);
++    manager = new AgentManager({
++      clients: { pi: createClient(resumedPi) },
++      registry: reloadedStorage,
++      paseoToolsEnabled: false,
++      logger,
++    });
++    await manager.resumeAgentFromPersistence(record.persistence, { cwd: workdir }, agent.id);
++    expect(resumedPi.latestSession().messages).toEqual(entries.map((entry) => entry.message));
++    for (const force of [false, true]) {
++      await manager.hydrateTimelineFromProvider(agent.id, { force });
++      expect(manager.getTimeline(agent.id).filter((item) => item.type === "user_message")).toEqual(
++        canonical,
++      );
++      expect(
++        manager
++          .fetchTimeline(agent.id, { limit: 0 })
++          .rows.filter((row) => row.item.type === "user_message")
++          .map((row) => row.providerMessageId),
++      ).toEqual(users.map((entry) => entry.id));
++    }
++    resumedPi.queueSessionSetup(setupReplay);
++    await manager.reloadAgentSession(agent.id, undefined, { rehydrateFromDisk: true });
++    await manager.hydrateTimelineFromProvider(agent.id);
++    expect(manager.getTimeline(agent.id).filter((item) => item.type === "user_message")).toEqual(
++      canonical,
++    );
++    await manager.rewind(agent.id, "client-image-1", "conversation");
++    expect(resumedPi.latestSession().treeNavigationRequests).toEqual([users[1].id]);
++  } finally {
++    if (agentId) await manager.closeAgent(agentId).catch(() => undefined);
++    await manager.flush();
++    rmSync(workdir, { recursive: true, force: true });
++  }
++});
++
++test("old Pi handles replay native identities without inventing client mappings", async () => {
++  const pi = new FakePi();
++  const entries = imageHistory.entries;
++  pi.queueSessionSetup((session) => {
++    session.messages = entries.map((entry) => entry.message);
++    session.treeUserEntries = entries.flatMap((entry) =>
++      entry.message.role === "user"
++        ? [
++            {
++              id: entry.id,
++              parentId: entry.parentId,
++              text: getUserMessageText(entry.message.content),
++            },
++          ]
++        : [],
++    );
++    session.contextUserEntries = session.treeUserEntries;
++  });
++  const session = await createClient(pi).resumeSession({
++    provider: "pi",
++    sessionId: "old-pi",
++    nativeHandle: "/tmp/old-synthetic-pi",
++    metadata: { cwd: "/tmp/synthetic" },
++  });
++  onTestFinished(() => session.close());
++  const items = [];
++  for await (const event of session.streamHistory())
++    if (event.type === "timeline" && event.item.type === "user_message") items.push(event.item);
++  expect(
++    items.map((item) => ({
++      messageId: item.messageId,
++      clientMessageId: item.clientMessageId,
++      imageCount: item.images?.length,
++    })),
++  ).toEqual([
++    { messageId: "57061f34", clientMessageId: undefined, imageCount: 1 },
++    { messageId: "8417b730", clientMessageId: undefined, imageCount: 1 },
++  ]);
++  expect(session.describePersistence()?.metadata?.submittedUserMessageIds).toBeUndefined();
++});
++
+ test("pi runtime safety protects queued replies and runtime-owned activity", async () => {
+   const runtime = new FakePi();
+   const session = await createClient(runtime).createSession(createConfig());
+diff --git a/packages/server/src/server/agent/providers/pi/agent.ts b/packages/server/src/server/agent/providers/pi/agent.ts
+index 881f8cbb2..3ee11f1b5 100644
+--- a/packages/server/src/server/agent/providers/pi/agent.ts
++++ b/packages/server/src/server/agent/providers/pi/agent.ts
+@@ -200,6 +200,7 @@ interface PiModelReference {
+ }
+ 
+ interface PiPersistenceMetadata {
++  submittedUserMessageIds?: Record<string, string>;
+   cwd?: string;
+   model?: string;
+   thinkingOptionId?: string;
+@@ -244,6 +245,7 @@ interface PiRpcAgentSessionOptions {
+   extensionTimeoutMs?: number;
+   logger: Logger;
+   usagePollScheduler?: PiUsagePollScheduler;
++  submittedUserMessageIds?: Record<string, string>;
+ }
+ 
+ interface PiResumeConfig {
+@@ -448,6 +450,13 @@ function parsePersistenceMetadata(metadata: AgentMetadata | undefined): PiPersis
+     return {};
+   }
+   return {
++    ...(metadata.submittedUserMessageIds === undefined
++      ? {}
++      : {
++          submittedUserMessageIds: z
++            .record(z.string(), z.string().min(1))
++            .parse(metadata.submittedUserMessageIds),
++        }),
+     ...(typeof metadata.cwd === "string" ? { cwd: metadata.cwd } : {}),
+     ...(typeof metadata.model === "string" ? { model: metadata.model } : {}),
+     ...(typeof metadata.thinkingOptionId === "string"
+@@ -1188,6 +1197,7 @@ export class PiRpcAgentSession implements AgentSession {
+   currentLeafOverrideId: string | null | undefined;
+   private readonly contextUserEntries: PiCapturedEntry[] = [];
+   private readonly treeUserEntriesById = new Map<string, PiCapturedEntry>();
++  private readonly submittedUserMessageIds: Map<string, string>;
+   private readonly pendingExtensionResults = new Map<string, PendingExtensionResult>();
+   private compactionPromise: Promise<void> | null = null;
+   private outOfBandCompactionEmit: ((event: AgentStreamEvent) => void) | null = null;
+@@ -1221,6 +1231,7 @@ export class PiRpcAgentSession implements AgentSession {
+   constructor(options: PiRpcAgentSessionOptions) {
+     this.runtimeSession = options.runtimeSession;
+     this.config = options.config;
++    this.submittedUserMessageIds = new Map(Object.entries(options.submittedUserMessageIds ?? {}));
+     this.state = options.initialState;
+     this.config.thinkingOptionId = this.state.thinkingLevel;
+     this.capabilities = options.capabilities;
+@@ -1425,7 +1436,10 @@ export class PiRpcAgentSession implements AgentSession {
+     yield* streamPiHistory(
+       this.provider,
+       await this.runtimeSession.getMessages(),
+-      this.contextUserEntries,
++      this.contextUserEntries.map((entry) => ({
++        ...entry,
++        clientMessageId: this.submittedUserMessageIds.get(entry.id),
++      })),
+       {},
+       // At most eight 2 MiB child files per replay; later cards retain their summaries.
+       createPiExtensionHost(this.logger, undefined, 16 * 1024 * 1024),
+@@ -1489,6 +1503,9 @@ export class PiRpcAgentSession implements AgentSession {
+       nativeHandle: this.state.sessionFile,
+       metadata: {
+         cwd: this.config.cwd,
++        ...(this.submittedUserMessageIds.size > 0
++          ? { submittedUserMessageIds: Object.fromEntries(this.submittedUserMessageIds) }
++          : {}),
+         ...(this.config.model ? { model: this.config.model } : {}),
+         ...(this.config.thinkingOptionId ? { thinkingOptionId: this.config.thinkingOptionId } : {}),
+         ...(this.currentModeId ? { modeId: this.currentModeId } : {}),
+@@ -1978,6 +1995,10 @@ export class PiRpcAgentSession implements AgentSession {
+     const clientMessageId = pendingSteer
+       ? pendingSteer.clientMessageId
+       : this.activeClientMessageId;
++    if (clientMessageId) {
++      // Keep the exact live echo association in the provider handle for replay.
++      this.submittedUserMessageIds.set(entry.id, clientMessageId);
++    }
+     this.emit({
+       type: "timeline",
+       provider: this.provider,
+@@ -2641,6 +2662,7 @@ export class PiRpcAgentClient implements AgentClient {
+           model: modelToId(initialState.model) ?? resumeConfig.config.model,
+         },
+         initialState,
++        submittedUserMessageIds: persistenceMetadata.submittedUserMessageIds,
+         capabilities: capabilitiesForSession(mcp !== null),
+         cleanup: combineCleanup([mcpConfigFile?.cleanup, paseoExtension?.cleanup]),
+         extensionTimeoutMs: providerOptions.extensionTimeoutMs,
+diff --git a/packages/server/src/server/agent/providers/pi/fixtures/image-history.ts b/packages/server/src/server/agent/providers/pi/fixtures/image-history.ts
+new file mode 100644
+index 000000000..3f21c6e3f
+--- /dev/null
++++ b/packages/server/src/server/agent/providers/pi/fixtures/image-history.ts
+@@ -0,0 +1,86 @@
++import type { PiAgentMessage } from "../rpc-types.js";
++
++interface PiImageHistoryEntry {
++  id: string;
++  parentId: string | null;
++  message: PiAgentMessage;
++}
++
++const entries: PiImageHistoryEntry[] = [
++  {
++    id: "57061f34",
++    parentId: "9e61cd48",
++    message: {
++      role: "user",
++      content: [
++        {
++          type: "text",
++          text: "",
++        },
++        {
++          type: "image",
++          data: "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAABfklEQVR4nO3RAQmAABBDUUPYP6MNtIMMxvR9LsCxd9yqdrQf+HsAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoB6AcgHIAygEoFwO4zvNXl9oNAIDNS+0GAMDmpXYDAGDzUrsBALB5qd0AANi81G4AAGxeajcAADYvtRsAAJuX2g0AgM1L7QYAwOaldgMAYPNSuwEAsHmp3QAA2LzUbgAAbF5qNwAANi+1GwAAm5faDQCAzUvtBgDA5qV2AwBg81K7AQCweandAADYvNRuAABsXmo3AAA2L7UbAACbl9oNAIDNS+0GAMDmpXYDAGDzUrsBALB5qd0AANi81G4AAGxeajcAADYvtRsAAJuX2g0AgM1L7QYAwOaldgMAYPNSuwEAsHmp3QAA2LzUbgAAbF5qNwAANi+1G4CvAOhdAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAegHIByAMoBKAeg3AOlxutiG6CP/AAAAABJRU5ErkJggg==",
++          mimeType: "image/png",
++        },
++      ],
++    },
++  },
++  {
++    id: "8d685bfe",
++    parentId: "57061f34",
++    message: {
++      role: "assistant",
++      content: [
++        {
++          type: "text",
++          text: "The image shows a red square.",
++        },
++      ],
++      responseId: "chatcmpl-202610170331459670478748268d9d6BQ03vEV3",
++    },
++  },
++  {
++    id: "8417b730",
++    parentId: "8d685bfe",
++    message: {
++      role: "user",
++      content: [
++        {
++          type: "text",
++          text: "Name the color and shape visible in this attached image. Reply in one short sentence.",
++        },
++        {
++          type: "image",
++          data: "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAB7ElEQVR4nO3RwW0CQRQEUYLgTP4BkJ85IPlgWTbsLlvd86s0Afzpd/kytAt9wPQEgBMATgA4AeAEgBMATgA4AeAEgBMATgA4AeAEgBMATgA4AeAEgBMATgC4eoDr/UafsCsB4LoBrvfb89GHbE8AuGKA7/WrDQSAawX4sX6vgQBwlQC/rl9qIABcH8Af6zcaCABXBvDv+nUGAsA1Aby4fpeBAHA1AG+tX2QgAFwHwIb1WwwEgCsA2Lx+hYEAcOkAO9fPNxAALhrgkPXDDQSAywU4cP1kAwHgQgEOXz/WQAC4RIAPrZ9pIABcHMBH1w80EAAuC+CE9dMMBIALAjht/SgDAeBSAE5eP8dAALgIAGT9EAMB4HgAcP0EAwFmA+Dr4wYCDAbAd08wEGAqAL54iIEAIwHwrXMMBJgHgK8cZSDAMAB83zQDASYB4MsGGggwBgDfNNNAgBkA+JqxBgIMAMB3TDYQYHUAfMFwAwGWBsC3yzcQYF0AfLUKAwEWBcD3ajEQYEUAfKkiAwGWA8A36jIQYC0AfJ06AwEWAsB3aTQQYBUAfJFSAwGWAMC36DUQoB8AX6HaQIByAPz/CY8EsJ0JACcAnABwAsAJACcAnABwAsAJACcAnABwAsAJACcAnABwAsAJACcAnABwD/3mY1IktLCwAAAAAElFTkSuQmCC",
++          mimeType: "image/png",
++        },
++      ],
++    },
++  },
++  {
++    id: "f1b64f31",
++    parentId: "8417b730",
++    message: {
++      role: "assistant",
++      content: [
++        {
++          type: "text",
++          text: "The image shows a green triangle.",
++        },
++      ],
++      responseId: "chatcmpl-202610170331498395063948268d9d67pm73lN2",
++    },
++  },
++];
++
++export const imageHistory = {
++  provenance: {
++    piVersion: "1.3.0",
++    model: "google-cloud/gemini-3.8-flash",
++    capturedAt: "2026-10-17T03:31:26Z",
++    source: "6513124ca16cf18db0df5eba3fda80c9fe2b37f0",
++    description:
++      "Synthetic red square and green triangle; native user/assistant entries with only text, image and response identities retained.",
++  },
++  entries,
++};
+diff --git a/packages/server/src/server/agent/providers/pi/history-mapper.test.ts b/packages/server/src/server/agent/providers/pi/history-mapper.test.ts
+index 24d18306b..fe9cd6752 100644
+--- a/packages/server/src/server/agent/providers/pi/history-mapper.test.ts
++++ b/packages/server/src/server/agent/providers/pi/history-mapper.test.ts
+@@ -1,3 +1,4 @@
++import { imageHistory } from "./fixtures/image-history.js";
+ import { describe, expect, test } from "vitest";
+ 
+ import type { AgentStreamEvent } from "../../agent-sdk-types.js";
+@@ -79,6 +80,7 @@ describe("Pi history mapper", () => {
+         item: {
+           type: "user_message",
+           text: "read this\n\nthen answer",
++          images: [{ data: "base64", mimeType: "image/png" }],
+         },
+       },
+       {
+@@ -221,3 +223,93 @@ describe("Pi history mapper", () => {
+     ]);
+   });
+ });
++
++test("replays captured native Pi images without dropping the image-only entry", async () => {
++  const entries = imageHistory.entries;
++  const userEntries = entries.flatMap((entry) =>
++    entry.message.role === "user" ? [{ id: entry.id, text: "" }] : [],
++  );
++  const history = await collectHistory(
++    entries.map((entry) => entry.message),
++    userEntries,
++  );
++  expect(
++    history.flatMap((event) =>
++      event.type === "timeline" && event.item.type === "user_message" ? [event.item] : [],
++    ),
++  ).toEqual(
++    entries.flatMap((entry) =>
++      entry.message.role === "user"
++        ? [
++            {
++              type: "user_message",
++              messageId: entry.id,
++              text: Array.isArray(entry.message.content)
++                ? entry.message.content
++                    .flatMap((part) => (part.type === "text" ? [part.text] : []))
++                    .join("\n\n")
++                : entry.message.content,
++              images: Array.isArray(entry.message.content)
++                ? entry.message.content.flatMap((part) =>
++                    part.type === "image" ? [{ data: part.data, mimeType: part.mimeType }] : [],
++                  )
++                : [],
++            },
++          ]
++        : [],
++    ),
++  );
++});
++
++test("replays only explicit captured client identities and preserves native entry ids", async () => {
++  const userEntries = [
++    { id: "native-image", text: "same", clientMessageId: "client-image" },
++    { id: "native-external", text: "same" },
++  ];
++  const events = await collectHistory(
++    [
++      { role: "user", content: "same" },
++      { role: "user", content: "same" },
++    ],
++    userEntries,
++  );
++  expect(events.map((event) => event.item)).toEqual([
++    {
++      type: "user_message",
++      text: "same",
++      messageId: "native-image",
++      clientMessageId: "client-image",
++    },
++    { type: "user_message", text: "same", messageId: "native-external" },
++  ]);
++});
++
++test("ignores empty user content without shifting later image identities", async () => {
++  const events = await collectHistory(
++    [
++      { role: "user", content: [] },
++      {
++        role: "user",
++        content: [
++          { type: "image", data: "AA==", mimeType: "image/png" },
++          { type: "image", data: "AQ==", mimeType: "image/jpeg" },
++        ],
++      },
++    ],
++    [
++      { id: "empty", text: "" },
++      { id: "images", text: "" },
++    ],
++  );
++  expect(events.map((event) => event.item)).toEqual([
++    {
++      type: "user_message",
++      text: "",
++      messageId: "images",
++      images: [
++        { data: "AA==", mimeType: "image/png" },
++        { data: "AQ==", mimeType: "image/jpeg" },
++      ],
++    },
++  ]);
++});
+diff --git a/packages/server/src/server/agent/providers/pi/history-mapper.ts b/packages/server/src/server/agent/providers/pi/history-mapper.ts
+index 27a0250b0..baf5198a9 100644
+--- a/packages/server/src/server/agent/providers/pi/history-mapper.ts
++++ b/packages/server/src/server/agent/providers/pi/history-mapper.ts
+@@ -18,6 +18,7 @@ import {
+ export interface PiCapturedUserMessageEntry {
+   id: string;
+   text: string;
++  clientMessageId?: string;
+ }
+ 
+ export interface PiHistoryMapperHooks {
+@@ -104,8 +105,13 @@ export class PiHistoryMapper {
+ 
+   private mapUserMessage(message: Extract<PiAgentMessage, { role: "user" }>): AgentStreamEvent[] {
+     const text = getUserMessageText(message.content);
++    const images = Array.isArray(message.content)
++      ? message.content.flatMap((part) =>
++          part.type === "image" ? [{ data: part.data, mimeType: part.mimeType }] : [],
++        )
++      : [];
+     this.userIndex += 1;
+-    if (!text) {
++    if (!text && images.length === 0) {
+       return [];
+     }
+     const userEntry = this.userEntries[this.userIndex - 1];
+@@ -116,7 +122,9 @@ export class PiHistoryMapper {
+         item: {
+           type: "user_message",
+           text,
++          ...(images.length > 0 ? { images } : {}),
+           ...(userEntry ? { messageId: userEntry.id } : {}),
++          ...(userEntry?.clientMessageId ? { clientMessageId: userEntry.clientMessageId } : {}),
+         },
+       },
+     ];
+diff --git a/packages/server/src/server/daemon-e2e/timeline-window.e2e.test.ts b/packages/server/src/server/daemon-e2e/timeline-window.e2e.test.ts
+index 78134d786..9fb930972 100644
+--- a/packages/server/src/server/daemon-e2e/timeline-window.e2e.test.ts
++++ b/packages/server/src/server/daemon-e2e/timeline-window.e2e.test.ts
+@@ -57,6 +57,210 @@ describe("daemon E2E - timeline window", () => {
+     await ctx.cleanup();
+   }, 60_000);
+ 
++  test.each([
++    {
++      direction: "tail" as const,
++      limit: 0,
++      cursorSeq: 8,
++      expectedStart: 5,
++      nextDirection: "before" as const,
++      nextCursor: 5,
++      nextStart: 1,
++    },
++    {
++      direction: "before" as const,
++      limit: 0,
++      cursorSeq: 9,
++      expectedStart: 5,
++      nextDirection: "before" as const,
++      nextCursor: 5,
++      nextStart: 1,
++    },
++    {
++      direction: "after" as const,
++      limit: 0,
++      cursorSeq: 0,
++      expectedStart: 1,
++      nextDirection: "after" as const,
++      nextCursor: 4,
++      nextStart: 5,
++    },
++    {
++      direction: "after" as const,
++      limit: undefined,
++      cursorSeq: 0,
++      expectedStart: 1,
++      nextDirection: "after" as const,
++      nextCursor: 4,
++      nextStart: 5,
++    },
++  ])(
++    "bounds image history by bytes for $direction with limit $limit and preserves continuation",
++    async ({
++      direction,
++      limit,
++      cursorSeq,
++      expectedStart,
++      nextDirection,
++      nextCursor,
++      nextStart,
++    }) => {
++      const cwd = tmpCwd();
++      const image = { data: "A".repeat(3 * 1024 * 1024), mimeType: "image/png" };
++      try {
++        const agent = await ctx.client.createAgent({ provider: "codex", cwd });
++        for (let index = 1; index <= 8; index += 1) {
++          await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
++            type: "user_message",
++            text: `image ${index}`,
++            images: [image],
++          });
++        }
++        const epoch = ctx.daemon.daemon.agentManager.fetchTimeline(agent.id, { limit: 1 }).epoch;
++        const page = await ctx.client.fetchAgentTimeline(agent.id, {
++          direction,
++          cursor: { epoch, seq: cursorSeq },
++          limit,
++        });
++        expect(page.entries).toHaveLength(4);
++        expect(page.entries.map((entry) => entry.item)).toEqual(
++          Array.from({ length: 4 }, (_, index) => ({
++            type: "user_message",
++            text: `image ${expectedStart + index}`,
++            images: [image],
++          })),
++        );
++        expect(Buffer.byteLength(JSON.stringify(page))).toBeLessThan(16 * 1024 * 1024);
++        expect(page.startCursor).toEqual({ epoch, seq: expectedStart });
++        expect(page.endCursor).toEqual({ epoch, seq: expectedStart + 3 });
++        const next = await ctx.client.fetchAgentTimeline(agent.id, {
++          direction: nextDirection,
++          cursor: { epoch, seq: nextCursor },
++          limit,
++        });
++        expect(next.entries).toHaveLength(4);
++        expect(next.entries.map((entry) => entry.item)).toEqual(
++          Array.from({ length: 4 }, (_, index) => ({
++            type: "user_message",
++            text: `image ${nextStart + index}`,
++            images: [image],
++          })),
++        );
++        expect((await ctx.client.fetchAgent(agent.id))?.agent.id).toBe(agent.id);
++      } finally {
++        rmSync(cwd, { recursive: true, force: true });
++      }
++    },
++  );
++
++  test("uses retained pager defaults for image history when after limit is omitted", async () => {
++    const cwd = tmpCwd();
++    const image = { data: "AA==", mimeType: "image/png" };
++    try {
++      const agent = await ctx.client.createAgent({ provider: "codex", cwd });
++      for (let index = 1; index <= 300; index += 1) {
++        await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
++          type: "user_message",
++          text: `image ${index}`,
++          images: [image],
++        });
++      }
++      const epoch = ctx.daemon.daemon.agentManager.fetchTimeline(agent.id, { limit: 1 }).epoch;
++      const first = await ctx.client.fetchAgentTimeline(agent.id, {
++        direction: "after",
++        cursor: { epoch, seq: 0 },
++      });
++      expect(first.entries).toHaveLength(200);
++      expect(first.entries.map((entry) => entry.item)).toEqual(
++        Array.from({ length: 200 }, (_, index) => ({
++          type: "user_message",
++          text: `image ${index + 1}`,
++          images: [image],
++        })),
++      );
++      const cursor = { epoch, seq: 200 };
++      expect(first.startCursor).toEqual({ epoch, seq: 1 });
++      expect(first.endCursor).toEqual(cursor);
++      expect(first.hasNewer).toBe(true);
++      const next = await ctx.client.fetchAgentTimeline(agent.id, { direction: "after", cursor });
++      expect(next.entries.map((entry) => entry.item)).toEqual(
++        Array.from({ length: 100 }, (_, index) => ({
++          type: "user_message",
++          text: `image ${index + 201}`,
++          images: [image],
++        })),
++      );
++      expect(next.startCursor).toEqual({ epoch, seq: 201 });
++      expect(next.endCursor).toEqual({ epoch, seq: 300 });
++      expect(next.hasNewer).toBe(false);
++    } finally {
++      rmSync(cwd, { recursive: true, force: true });
++    }
++  });
++
++  test("rejects an oversized timeline item without disconnecting", async () => {
++    const cwd = tmpCwd();
++    const statuses: string[] = [];
++    const unsubscribe = ctx.client.subscribeConnectionStatus((state) =>
++      statuses.push(state.status),
++    );
++    try {
++      const agent = await ctx.client.createAgent({ provider: "codex", cwd });
++      await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
++        type: "user_message",
++        text: "oversized image",
++        images: [{ data: "A".repeat(17 * 1024 * 1024), mimeType: "image/png" }],
++      });
++      await expect(ctx.client.fetchAgentTimeline(agent.id)).rejects.toThrow(
++        "exceeds the 16 MiB history page limit",
++      );
++      expect((await ctx.client.fetchAgent(agent.id))?.agent.id).toBe(agent.id);
++      expect(statuses).toEqual(["connected"]);
++    } finally {
++      unsubscribe();
++      rmSync(cwd, { recursive: true, force: true });
++    }
++  });
++
++  test("does not split an oversized timeline group across lifecycle coverage", async () => {
++    const cwd = tmpCwd();
++    const image = { data: "A".repeat(9 * 1024 * 1024), mimeType: "image/png" };
++    try {
++      const agent = await ctx.client.createAgent({ provider: "codex", cwd });
++      const tool = {
++        type: "tool_call" as const,
++        callId: "interleaved",
++        name: "shell",
++        error: null,
++        detail: { type: "unknown" as const, input: null, output: null },
++      };
++      await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
++        ...tool,
++        status: "running",
++      });
++      await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
++        type: "user_message",
++        text: "first image",
++        images: [image],
++      });
++      await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
++        type: "user_message",
++        text: "second image",
++        images: [image],
++      });
++      await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
++        ...tool,
++        status: "completed",
++      });
++      await expect(ctx.client.fetchAgentTimeline(agent.id, { limit: 1 })).rejects.toThrow(
++        "inseparable history group",
++      );
++      expect((await ctx.client.fetchAgent(agent.id))?.agent.id).toBe(agent.id);
++    } finally {
++      rmSync(cwd, { recursive: true, force: true });
++    }
++  });
++
+   test("canonical tail limit returns one finalized committed assistant row at the window boundary", async () => {
+     const cwd = tmpCwd();
+     try {
+diff --git a/packages/server/src/server/session.ts b/packages/server/src/server/session.ts
+index 9d2532807..ca86bcf1b 100644
+--- a/packages/server/src/server/session.ts
++++ b/packages/server/src/server/session.ts
+@@ -1,3 +1,4 @@
++import { createTimelineResponse } from "./session/timeline/response.js";
+ import { type WorkspaceRuntimeStore } from "./workspace-runtime-store/index.js";
+ import type { AgentMessageDelivery } from "./agent/agent-messages/index.js";
+ import { AgentDirectory } from "./agent/directory.js";
+@@ -7801,75 +7802,21 @@ export class Session {
+       });
+       const agentPayload = await this.buildAgentPayload(snapshot);
+ 
+-      const fetchedControlTimeline = this.agentManager.fetchTimeline(msg.agentId, {
++      const response = createTimelineResponse({
++        requestId: msg.requestId,
++        agentId: msg.agentId,
++        agent: agentPayload,
+         direction,
+-        cursor,
+         limit: msg.limit,
+-      });
+-      const selectedTimeline = {
+-        timeline: fetchedControlTimeline,
+-        entries: fetchedControlTimeline.rows,
+-        startSeq: fetchedControlTimeline.startSeq,
+-        endSeq: fetchedControlTimeline.endSeq,
+-        hasOlder: fetchedControlTimeline.hasOlder,
+-        hasNewer: fetchedControlTimeline.hasNewer,
+-      };
+-      const startCursor =
+-        selectedTimeline.startSeq !== null
+-          ? { epoch: selectedTimeline.timeline.epoch, seq: selectedTimeline.startSeq }
+-          : null;
+-      const endCursor =
+-        selectedTimeline.endSeq !== null
+-          ? { epoch: selectedTimeline.timeline.epoch, seq: selectedTimeline.endSeq }
+-          : null;
+-      const entries = selectedTimeline.entries.filter((entry) =>
+-        this.supportsTimelineItem(entry.item, source),
+-      );
+-
+-      this.emitForSource(
+-        {
+-          type: "fetch_agent_timeline_response",
+-          payload: {
+-            requestId: msg.requestId,
+-            agentId: msg.agentId,
+-            agent: agentPayload,
+-            direction,
+-            projection,
+-            epoch: selectedTimeline.timeline.epoch,
+-            reset: fetchedControlTimeline.reset,
+-            staleCursor: fetchedControlTimeline.staleCursor,
+-            gap: fetchedControlTimeline.gap,
+-            window: selectedTimeline.timeline.window,
+-            startCursor,
+-            endCursor,
+-            hasOlder: selectedTimeline.hasOlder,
+-            hasNewer: selectedTimeline.hasNewer,
+-            ...(msg.mergeWindow === true ? { mergeWindow: true } : {}),
+-            entries: entries.map((entry) => {
+-              const payloadEntry = {
+-                provider: snapshot.provider,
+-                item: entry.item,
+-                timestamp: entry.timestamp,
+-                seqStart: entry.seqStart,
+-                seqEnd: entry.seqEnd,
+-                sourceSeqRanges: entry.sourceSeqRanges,
+-                turnId: undefined as string | undefined,
+-                collapsed: (
+-                  source
+-                    ? this.supportsForSource(CLIENT_CAPS.reasoningMergeEnum, source)
+-                    : this.supports(CLIENT_CAPS.reasoningMergeEnum)
+-                )
+-                  ? entry.collapsed
+-                  : entry.collapsed.filter((value) => value !== "reasoning_merge"),
+-              };
+-              payloadEntry.turnId = entry.turnId;
+-              return payloadEntry;
+-            }),
+-            error: null,
+-          },
+-        },
+-        source,
+-      );
++        mergeWindow: msg.mergeWindow === true,
++        fetchPage: (limit) =>
++          this.agentManager.fetchTimeline(msg.agentId, { direction, cursor, limit }),
++        supportsItem: (item) => this.supportsTimelineItem(item, source),
++        supportsReasoningMerge: source
++          ? this.supportsForSource(CLIENT_CAPS.reasoningMergeEnum, source)
++          : this.supports(CLIENT_CAPS.reasoningMergeEnum),
++      });
++      this.emitForSource(response, source);
+     } catch (error) {
+       this.sessionLogger.error(
+         { err: error, agentId: msg.agentId },
+diff --git a/packages/server/src/server/session/timeline/response.ts b/packages/server/src/server/session/timeline/response.ts
+new file mode 100644
+index 000000000..bbc817899
+--- /dev/null
++++ b/packages/server/src/server/session/timeline/response.ts
+@@ -0,0 +1,87 @@
++import type { SessionOutboundMessage } from "../../messages.js";
++import type { AgentTimelineFetchResult } from "../../agent/agent-timeline-store-types.js";
++import type { AgentTimelineItem } from "../../agent/agent-sdk-types.js";
++
++type TimelineResponse = Extract<SessionOutboundMessage, { type: "fetch_agent_timeline_response" }>;
++
++// Leave headroom under the relay's 32 MiB encrypted-frame ceiling and the socket queue limit.
++const MAX_TIMELINE_RESPONSE_BYTES = 16 * 1024 * 1024;
++
++interface TimelineResponseInput {
++  requestId: string;
++  agentId: string;
++  agent: NonNullable<TimelineResponse["payload"]["agent"]>;
++  direction: TimelineResponse["payload"]["direction"];
++  limit: number | undefined;
++  mergeWindow: boolean;
++  fetchPage: (limit: number | undefined) => AgentTimelineFetchResult;
++  supportsItem: (item: AgentTimelineItem) => boolean;
++  supportsReasoningMerge: boolean;
++}
++
++class TimelinePageTooLargeError extends Error {
++  constructor() {
++    super("A timeline item or inseparable history group exceeds the 16 MiB history page limit");
++    this.name = "TimelinePageTooLargeError";
++  }
++}
++
++/** Reuse the projection pager so shrinking a response never certifies omitted lifecycle updates. */
++export function createTimelineResponse(input: TimelineResponseInput): TimelineResponse {
++  let limit = input.limit;
++  while (true) {
++    const page = input.fetchPage(limit);
++    const response: TimelineResponse = {
++      type: "fetch_agent_timeline_response",
++      payload: {
++        requestId: input.requestId,
++        agentId: input.agentId,
++        agent: input.agent,
++        direction: input.direction,
++        projection: "projected",
++        epoch: page.epoch,
++        reset: page.reset,
++        staleCursor: page.staleCursor,
++        gap: page.gap,
++        window: page.window,
++        startCursor: page.startSeq === null ? null : { epoch: page.epoch, seq: page.startSeq },
++        endCursor: page.endSeq === null ? null : { epoch: page.epoch, seq: page.endSeq },
++        hasOlder: page.hasOlder,
++        hasNewer: page.hasNewer,
++        ...(input.mergeWindow ? { mergeWindow: true } : {}),
++        entries: page.rows
++          .filter((entry) => input.supportsItem(entry.item))
++          .map((entry) => ({
++            provider: input.agent.provider,
++            item: entry.item,
++            timestamp: entry.timestamp,
++            seqStart: entry.seqStart,
++            seqEnd: entry.seqEnd,
++            sourceSeqRanges: entry.sourceSeqRanges,
++            turnId: entry.turnId,
++            collapsed: input.supportsReasoningMerge
++              ? entry.collapsed
++              : entry.collapsed.filter((value) => value !== "reasoning_merge"),
++          })),
++        error: null,
++      },
++    };
++    let bytes = Buffer.byteLength(
++      JSON.stringify({
++        ...response,
++        payload: { ...response.payload, entries: [] },
++      }),
++    );
++    let fittingEntries = 0;
++    for (const [index, entry] of response.payload.entries.entries()) {
++      bytes += Buffer.byteLength(JSON.stringify(entry)) + (index === 0 ? 0 : 1);
++      if (bytes > MAX_TIMELINE_RESPONSE_BYTES) break;
++      fittingEntries += 1;
++    }
++    if (bytes <= MAX_TIMELINE_RESPONSE_BYTES) return response;
++    if (limit === 1 || page.rows.length === 0) throw new TimelinePageTooLargeError();
++    const currentLimit =
++      limit === undefined || limit === 0 ? page.rows.length : Math.min(limit, page.rows.length);
++    limit = Math.max(1, Math.min(fittingEntries, Math.floor(currentLimit / 2)));
++  }
++}

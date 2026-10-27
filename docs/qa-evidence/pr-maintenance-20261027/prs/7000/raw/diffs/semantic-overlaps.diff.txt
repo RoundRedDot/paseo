@@ -1,0 +1,226 @@
+diff --git a/packages/server/src/server/agent/agent-manager.ts b/packages/server/src/server/agent/agent-manager.ts
+index 1342576f7..7d65d72e8 100644
+--- a/packages/server/src/server/agent/agent-manager.ts
++++ b/packages/server/src/server/agent/agent-manager.ts
+@@ -24,6 +24,7 @@ import type { Logger } from "pino";
+ import type { ToolPolicy } from "@getpaseo/protocol/agent-types";
+ import type { ProviderPaseoToolsPolicy } from "@getpaseo/protocol/provider-config";
+ import { z } from "zod";
++import type { AgentTurnTiming } from "@getpaseo/protocol/messages";
+ import type { TerminalManager } from "../../terminal/terminal-manager.js";
+ 
+ import {
+@@ -400,6 +401,13 @@ interface StreamEventFlags {
+ 
+ type ActiveTurnTerminalDisposition = "closed_current" | "stale" | "untracked";
+ 
++interface ApplyActiveTurnTerminalInput {
++  agent: ActiveManagedAgent;
++  turnId?: string;
++  fromHistory?: boolean;
++  status?: AgentTurnTiming["status"];
++}
++
+ interface HandleStreamEventOptions {
+   fromHistory?: boolean;
+ }
+@@ -592,7 +600,9 @@ function isAgentBusy(status: AgentLifecycleStatus): boolean {
+   return BUSY_STATUSES.has(status);
+ }
+ 
+-function isTurnTerminalEvent(event: AgentStreamEvent): boolean {
++function isTurnTerminalEvent(
++  event: AgentStreamEvent,
++): event is Extract<AgentStreamEvent, { type: AgentTurnTiming["status"] }> {
+   return (
+     event.type === "turn_completed" ||
+     event.type === "turn_failed" ||
+@@ -748,6 +758,7 @@ export class AgentManager {
+   private readonly providerDefinitions = new Map<AgentProvider, ProviderEnabledFlag>();
+   private readonly agents = new Map<string, LiveManagedAgent>();
+   private readonly timelineStore: InMemoryAgentTimelineStore;
++  private readonly turnMessageIds = new Map<string, Set<string>>();
+   private readonly providerSubagents = new ProviderSubagentStore();
+   private readonly agentsAwaitingInitialSnapshotPersist = new Set<string>();
+   private readonly sessionEventTails = new Map<string, Promise<void>>();
+@@ -2903,7 +2914,7 @@ export class AgentManager {
+       this.runs.rememberFinalizedTurn(mutableAgent, turnId);
+     }
+     mutableAgent.activeForegroundTurnId = null;
+-    this.applyActiveTurnTerminal(mutableAgent, turnId);
++    this.applyActiveTurnTerminal({ agent: mutableAgent, turnId });
+     const terminalError = mutableAgent.lastError;
+     const shouldHoldBusyForReplacement = mutableAgent.pendingReplacement && !terminalError;
+     let nextLifecycle: "running" | "error" | "idle";
+@@ -2942,20 +2953,38 @@ export class AgentManager {
+   }
+ 
+   private openActiveTurn(agent: ActiveManagedAgent, turnId: string, startedAt: Date): void {
++    if (agent.activeTurnId === turnId) return;
++    this.turnMessageIds.set(agent.id, new Set());
+     agent.activeTurnId = turnId;
+     agent.activeTurnStartedAt = startedAt;
+   }
+ 
+   private applyActiveTurnTerminal(
+-    agent: ActiveManagedAgent,
+-    turnId?: string,
+-    fromHistory = false,
++    params: ApplyActiveTurnTerminalInput,
+   ): ActiveTurnTerminalDisposition {
++    const { agent, turnId, fromHistory, status } = params;
+     if (fromHistory) return "stale";
+     if (!agent.activeTurnId) return "untracked";
+     if (turnId && agent.activeTurnId !== turnId) return "stale";
++    if (status && agent.activeTurnStartedAt && this.registry && !agent.internal) {
++      const timing: AgentTurnTiming = {
++        turnId: agent.activeTurnId,
++        startedAt: agent.activeTurnStartedAt.toISOString(),
++        completedAt: new Date().toISOString(),
++        status,
++        messageIds: Array.from(this.turnMessageIds.get(agent.id) ?? []),
++      };
++      const persist = this.registry.recordTurnTiming({ agentId: agent.id, timing }).catch((err) => {
++        this.logger.error(
++          { err, agentId: agent.id, turnId: timing.turnId },
++          "Failed to persist turn timing",
++        );
++      });
++      this.trackBackgroundTask(persist);
++    }
+     agent.activeTurnId = null;
+     agent.activeTurnStartedAt = null;
++    this.turnMessageIds.delete(agent.id);
+     return "closed_current";
+   }
+ 
+@@ -3991,6 +4020,7 @@ export class AgentManager {
+     agent: LiveManagedAgent,
+     cancelReason: string,
+   ): ManagedAgentClosed {
++    this.turnMessageIds.delete(agent.id);
+     this.agentStreamCoalescer.flushAndDiscard(agent.id);
+     this.agents.delete(agent.id);
+     this.previousStatuses.delete(agent.id);
+@@ -4495,11 +4525,12 @@ export class AgentManager {
+ 
+     let terminalDisposition: ActiveTurnTerminalDisposition = "untracked";
+     if (isTurnTerminalEvent(event)) {
+-      terminalDisposition = this.applyActiveTurnTerminal(
++      terminalDisposition = this.applyActiveTurnTerminal({
+         agent,
+-        eventTurnId,
+-        options?.fromHistory === true,
+-      );
++        turnId: eventTurnId,
++        fromHistory: options?.fromHistory === true,
++        status: event.type,
++      });
+     }
+ 
+     const flags: StreamEventFlags = { shouldDispatchEvent: true, shouldNotifyWaiters: true };
+@@ -4950,6 +4981,9 @@ export class AgentManager {
+     turnId?: string,
+     options?: { providerMessageId?: string },
+   ): AgentStreamEvent {
++    const isActiveReply =
++      item.type === "assistant_message" && turnId === this.agents.get(agentId)?.activeTurnId;
++    if (isActiveReply && item.messageId) this.turnMessageIds.get(agentId)?.add(item.messageId);
+     const row = this.recordTimeline(agentId, item, { ...options, turnId });
+     const event: AgentStreamEvent = {
+       type: "timeline",
+diff --git a/packages/server/src/server/agent/providers/claude/agent.ts b/packages/server/src/server/agent/providers/claude/agent.ts
+index 734272dd0..44d58424c 100644
+--- a/packages/server/src/server/agent/providers/claude/agent.ts
++++ b/packages/server/src/server/agent/providers/claude/agent.ts
+@@ -1524,7 +1524,7 @@ function readTranscriptUuid(message: SDKMessage): string | null {
+   return firstTrimmedString([root.uuid]);
+ }
+ 
+-export function readEventIdentifiers(message: SDKMessage): EventIdentifiers {
++export function readEventIdentifiers(message: unknown): EventIdentifiers {
+   const root = toObjectRecord(message) ?? {};
+   const messageType = readTrimmedString(root.type);
+   const streamEvent = toObjectRecord(root.event);
+@@ -2337,6 +2337,8 @@ class ClaudeAgentSession implements AgentSession {
+   private historySessionId: string | null = null;
+   private replayingHistory = false;
+   private turnState: TurnState = "idle";
++  // Timing outlives this runtime, including resumes of the same Claude session.
++  private readonly turnIdNamespace = randomUUID();
+   private nextTurnOrdinal = 1;
+   private cancelCurrentTurn: (() => void) | null = null;
+   private cachedRuntimeInfo: AgentRuntimeInfo | null = null;
+@@ -3874,7 +3876,7 @@ class ClaudeAgentSession implements AgentSession {
+   }
+ 
+   private createTurnId(owner: "foreground" | "autonomous"): string {
+-    return `${owner}-turn-${this.nextTurnOrdinal++}`;
++    return `${owner}-turn-${this.nextTurnOrdinal++}-${this.turnIdNamespace}`;
+   }
+ 
+   private isTerminalTurnEvent(event: AgentStreamEvent): boolean {
+@@ -6306,8 +6308,8 @@ function mapAssistantHistoryBlocksWithMessageId(
+   mapBlocks: (content: string | ClaudeContentChunk[]) => AgentTimelineItem[],
+ ): AgentTimelineItem[] {
+   const items = mapBlocks(content);
+-  const assistantMessageId =
+-    typeof entry.uuid === "string" && entry.uuid.length > 0 ? entry.uuid : null;
++  // Match live assistant IDs; transcript UUIDs remain separate rewind anchors.
++  const assistantMessageId = readEventIdentifiers(entry).messageId;
+   if (!assistantMessageId) {
+     return items;
+   }
+@@ -6414,6 +6416,10 @@ export function convertClaudeHistoryEntry(
+     }
+   }
+ 
++  if (entry.type === "assistant" && contentValue) {
++    return mapAssistantHistoryBlocksWithMessageId(entry, contentValue, mapBlocks);
++  }
++
+   if (hasToolBlock && normalizedBlocks) {
+     const mapped = mapBlocks(normalizedBlocks);
+     if (entry.type === "user") {
+@@ -6428,10 +6434,6 @@ export function convertClaudeHistoryEntry(
+     return mapped;
+   }
+ 
+-  if (entry.type === "assistant" && contentValue) {
+-    return mapAssistantHistoryBlocksWithMessageId(entry, contentValue, mapBlocks);
+-  }
+-
+   return timeline;
+ }
+ 
+diff --git a/packages/server/src/server/session.ts b/packages/server/src/server/session.ts
+index 9d2532807..4a0ce4a42 100644
+--- a/packages/server/src/server/session.ts
++++ b/packages/server/src/server/session.ts
+@@ -7825,6 +7825,18 @@ export class Session {
+       const entries = selectedTimeline.entries.filter((entry) =>
+         this.supportsTimelineItem(entry.item, source),
+       );
++      const turnIds = new Set<string>();
++      const messageIds = new Set<string>();
++      for (const entry of entries) {
++        if (entry.turnId) turnIds.add(entry.turnId);
++        if (entry.item.type === "assistant_message" && entry.item.messageId)
++          messageIds.add(entry.item.messageId);
++      }
++      const turnTimings = await this.agentStorage.getTurnTimings({
++        agentId: msg.agentId,
++        turnIds,
++        messageIds,
++      });
+ 
+       this.emitForSource(
+         {
+@@ -7845,6 +7857,7 @@ export class Session {
+             hasOlder: selectedTimeline.hasOlder,
+             hasNewer: selectedTimeline.hasNewer,
+             ...(msg.mergeWindow === true ? { mergeWindow: true } : {}),
++            turnTimings,
+             entries: entries.map((entry) => {
+               const payloadEntry = {
+                 provider: snapshot.provider,

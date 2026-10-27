@@ -1,0 +1,28 @@
+{
+  "number": 7556,
+  "title": "perf(app): cut idle repaints and streaming parse cost on Android",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZhy5H-A",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40453408618,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40453408618",
+      "runHeadSha": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+format npm run format
+build-server npm run build:server
+server-atomic-file npx vitest run src/server/atomic-file.test.ts --bail=1 --maxWorkers=1
+server-timeline-projection npx vitest run src/server/agent/agent-timeline-store.test.ts -t matches the previous reprojecting selector|continues a scroll --bail=1 --maxWorkers=1
+server-order npx vitest run src/server/ordering/index.test.ts --bail=1 --maxWorkers=1
+server-order-e2e npx vitest run src/server/ordering/index.e2e.test.ts --bail=1 --maxWorkers=1
+server-session-order npx vitest run src/server/session.test.ts -t ordering preferences isolate --bail=1 --maxWorkers=1
+app-order-controller npx vitest run src/ordering/index.test.ts --bail=1 --maxWorkers=1
+app-directory-sync npx vitest run src/runtime/directory-sync/index.test.ts --bail=1 --maxWorkers=1
+typecheck npm run typecheck
+lint npm run lint

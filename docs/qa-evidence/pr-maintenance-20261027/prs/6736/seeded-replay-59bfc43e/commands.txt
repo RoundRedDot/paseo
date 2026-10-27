@@ -1,0 +1,15 @@
+git fetch luoph-fork refs/heads/fix/cross-client-images
+git switch --detach 59bfc43e4097425f0a4429473a9635a99b305067
+git merge-base --is-ancestor 2ce6681d6e4de6d6400ba095741014f1bbfa4221 HEAD
+/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock ./build.sh
+# build.sh: npm run build:server; CI=1 npm run build:web --workspace=@getpaseo/app
+# Private isolated clone prepared ONCE; seed-receipt.json describes exact supplied data.
+# Every harness below uses the SAME clone, zero prompts, zero reseeding.
+/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock ./run.sh
+/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock ./run-remaining.sh
+/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock ./run-final-diagnostic.sh
+# Failures retained; final cache-only reads wait for the normal persistence window:
+/usr/bin/lockf -k /tmp/paseo-pr-maintenance-20261027/validation.lock ./run-cache-receipt.sh
+# Native-session original/copy hashes and message-entry deltas independently checked.
+# Fresh fork+PR exact-head guard, assigned body update with --body-file and full readback.
+gh pr edit 6736 --repo getpaseo/paseo --body-file body-qa.md

@@ -1,0 +1,79 @@
+{
+  "pr": 7714,
+  "oldHead": "3a07cdebd16cd431264c661c7b231757c6505fa8",
+  "newHead": "79d6a4f77b473112b6c568d6a4440c299fcdc6c6",
+  "tree": "96a3c4471da56962c76aaa3dd943c3988bdc8574",
+  "parents": [
+    "3a07cdebd16cd431264c661c7b231757c6505fa8",
+    "2ce6681d6e4de6d6400ba095741014f1bbfa4221"
+  ],
+  "baseline": "2ce6681d6e4de6d6400ba095741014f1bbfa4221",
+  "validated": true,
+  "totalTestFiles": 6,
+  "totalPassedTests": 151,
+  "targetedSuites": [
+    {
+      "label": "packages__server__src__server__agent__providers__claude__agent.history-load.test",
+      "passedTests": 14,
+      "command": "npx vitest run src/server/agent/providers/claude/agent.history-load.test.ts --bail=1 --maxWorkers=1"
+    },
+    {
+      "label": "packages__server__src__server__agent__providers__claude__agent.image-rendering.test",
+      "passedTests": 4,
+      "command": "npx vitest run src/server/agent/providers/claude/agent.image-rendering.test.ts --bail=1 --maxWorkers=1"
+    },
+    {
+      "label": "packages__server__src__server__agent__providers__claude__agent.sub-agent-replay.test",
+      "passedTests": 32,
+      "command": "npx vitest run src/server/agent/providers/claude/agent.sub-agent-replay.test.ts --bail=1 --maxWorkers=1"
+    },
+    {
+      "label": "packages__server__src__server__agent__providers__claude__subagents__live-source.test",
+      "passedTests": 53,
+      "command": "npx vitest run src/server/agent/providers/claude/subagents/live-source.test.ts --bail=1 --maxWorkers=1"
+    },
+    {
+      "label": "packages__server__src__server__agent__providers__claude__subagents__replay-source.test",
+      "passedTests": 36,
+      "command": "npx vitest run src/server/agent/providers/claude/subagents/replay-source.test.ts --bail=1 --maxWorkers=1"
+    },
+    {
+      "label": "packages__server__src__server__agent__providers__claude__subagents__workflow-replay-source.test",
+      "passedTests": 12,
+      "command": "npx vitest run src/server/agent/providers/claude/subagents/workflow-replay-source.test.ts --bail=1 --maxWorkers=1"
+    }
+  ],
+  "checks": [
+    "build-server passed",
+    "format passed",
+    "typecheck passed",
+    "lint passed",
+    "packages__server__src__server__agent__providers__claude__subagents__replay-source.test passed",
+    "packages__server__src__server__agent__providers__claude__subagents__workflow-replay-source.test passed",
+    "packages__server__src__server__agent__providers__claude__subagents__live-source.test passed",
+    "packages__server__src__server__agent__providers__claude__agent.sub-agent-replay.test passed",
+    "packages__server__src__server__agent__providers__claude__agent.history-load.test passed",
+    "packages__server__src__server__agent__providers__claude__agent.image-rendering.test passed"
+  ],
+  "ci": {
+    "suite": {
+      "id": 109670274049,
+      "head_sha": "79d6a4f77b473112b6c568d6a4440c299fcdc6c6",
+      "status": "completed",
+      "conclusion": "action_required"
+    },
+    "actions": {
+      "id": 40463995028,
+      "head": "79d6a4f77b473112b6c568d6a4440c299fcdc6c6",
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40463995028",
+      "status": "completed",
+      "conclusion": "action_required",
+      "jobs": 0
+    }
+  },
+  "mergeable": true,
+  "mergeableState": "blocked",
+  "observedMain": "2ce6681d6e4de6d6400ba095741014f1bbfa4221",
+  "sourceResolution": "Validated refresh after main advance; original history-row identity/alias behavior retained.",
+  "qaBoundary": "Source delivery is refreshed and read back; product runtime/device acceptance remains separate."
+}

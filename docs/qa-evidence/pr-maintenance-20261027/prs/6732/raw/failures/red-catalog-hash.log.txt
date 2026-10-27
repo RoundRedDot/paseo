@@ -1,0 +1,35 @@
+Expected regression confirmed: the unextended worker runtime catalog omits the client bundle hash; final source restored byte-for-byte.
+untime.posix.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+
+ ❯ src/server/plugins/runtime.posix.test.ts (59 tests | 1 failed | 58 skipped) 412ms
+     × loads a client-only plugin without spawning a subprocess 410ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/plugins/runtime.posix.test.ts > PluginRuntime > loads a client-only plugin without spawning a subprocess
+AssertionError: expected undefined to be '51795a928edbb4c3687438ea9b1afd16bdd3a…' // Object.is equality
+
+- Expected:
+"51795a928edbb4c3687438ea9b1afd16bdd3ad0c21ba1564acabdbb0b11b03e0"
+
++ Received:
+undefined
+
+ ❯ src/server/plugins/runtime.posix.test.ts:1545:52
+    1543|     expect(spawnChild).not.toHaveBeenCalled();
+    1544|     expect(runtime.catalog()[0]?.clientBundle).toContain("addTheme");
+    1545|     expect(runtime.catalog()[0]?.clientBundleHash).toBe(sha256(runtime…
+       |                                                    ^
+    1546|     await runtime.stopAll();
+    1547|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 58 skipped (59)
+   Start at  13:46:33
+   Duration  3.50s (transform 2.41s, setup 22ms, import 2.99s, tests 412ms, environment 0ms)
+

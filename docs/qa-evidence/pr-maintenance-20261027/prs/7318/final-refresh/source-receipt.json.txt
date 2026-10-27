@@ -1,0 +1,57 @@
+{
+  "pr": 7318,
+  "oldHead": "b2fd0d1311425cc3ba8f626af8b6425acf6ab994",
+  "head": "d5032deb078a5720f6c670377690e5379b158970",
+  "tree": "c389950079b35d81dea583da0e9f9a1a31834beb",
+  "parents": [
+    "b2fd0d1311425cc3ba8f626af8b6425acf6ab994",
+    "b12eefb28ff99fd8a26eb826fced87f5d62dd808"
+  ],
+  "baseline": "b12eefb28ff99fd8a26eb826fced87f5d62dd808",
+  "baselineIntegrated": true,
+  "status": "delivered",
+  "conflicts": {
+    "conflictedFiles": [
+      "packages/app/src/agent-stream/view.tsx"
+    ],
+    "repair": "retain all three callback dependencies"
+  },
+  "repair": "Resolved the sole merge conflict in AgentStreamView by retaining handlePluginOpenFile together with upstream getCollapsedTurn and setTurnExpanded dependencies. Audited renderer props, SDK exports, native preferred file-pane routing, hidden-pane cancellation, and incoming reasoning/turn expansion behavior. No API or feature change beyond the original PR.",
+  "changedFiles": [
+    "packages/app/src/agent-stream/view.tsx",
+    "packages/app/src/plugins/timeline/view.test.tsx",
+    "packages/app/src/plugins/timeline/view.tsx",
+    "packages/plugin/src/client/contracts.ts",
+    "packages/plugin/src/client/index.ts",
+    "public-docs/plugins/reference.md"
+  ],
+  "testTotal": 43,
+  "testFiles": [
+    {
+      "label": "app-presentation",
+      "file": "src/agent-stream/presentation.test.ts",
+      "passed": 32
+    },
+    {
+      "label": "app-turn-collapse",
+      "file": "src/agent-stream/turn-collapse/model.test.ts",
+      "passed": 11
+    }
+  ],
+  "checks": [
+    "build-server",
+    "typecheck",
+    "lint",
+    "format",
+    "normal hooks"
+  ],
+  "exactHeadAction": {
+    "conclusion": "ACTION_REQUIRED",
+    "run": 40465227706
+  },
+  "prBodyReadback": true,
+  "readyStatePreserved": true,
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "platformBoundary": "No new browser, native, real-provider, physical-device or packaged Electron acceptance. Historical packaged failures/partial attempts and signing blockers remain source-specific and unresolved. Unchanged plugin renderer/runtime/SDK suites were not repeated; the fresh tests exercise changed incoming presentation and turn-collapse behavior."
+}

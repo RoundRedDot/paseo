@@ -1,0 +1,20 @@
+{
+  "pr": 6732,
+  "role": "source-delivery",
+  "status": "pushed",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "1c4c09712f2ec8699c2e13f083eaa15a8af39e9f",
+  "tree": "003a7d298776ac7731842eb257efef0ce8d3f3d2",
+  "oldHead": "0b2e04a1a54b2ce6ce0163921a94f4804ff33ff3",
+  "sourceChanged": true,
+  "baselineAncestor": true,
+  "host": {
+    "platform": "darwin",
+    "node": "v24.18.0"
+  },
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "high",
+  "testTotal": 388,
+  "remaining": "No new native/plugin-surface, timeline restore, device, packaged UI, or production relay performance acceptance.",
+  "summary": "388 focused tests passed and 173 were skipped across server/client/plugin suites; the browser retry passed after the initial missing-browser prerequisite. Retained both plugin catalog instance identity and cached bundle hash across #7938 integration."
+}

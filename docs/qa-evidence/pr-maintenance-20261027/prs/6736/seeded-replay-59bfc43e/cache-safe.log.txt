@@ -1,0 +1,2 @@
+{"name":"seeded-cache-receipt","pass":true,"replicaPresent":true,"rowCount":6,"canonicalEpoch":"ab317083-cda1-48ac-bbd5-320de9b3f43f"}
+{"name":"seeded-cache-reload-receipt","pass":true,"replicaPresent":true,"rowCount":6,"canonicalEpoch":"ab317083-cda1-48ac-bbd5-320de9b3f43f"}

@@ -1,0 +1,15 @@
+{
+  "pr": 7927,
+  "role": "standalone-qa-blocker",
+  "status": "qa_blocked_before_rewind",
+  "sourceHead": "5e42683e889e96740413a07518c729aafdb0dd19",
+  "tree": "3386e4cbea015398ca873143c59f3ba28ac3fdae",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceChanged": false,
+  "stage": "peer initial attachment/history projection before rewind",
+  "cases": 2,
+  "passed": 0,
+  "failed": 2,
+  "rewindResend": "NOT REACHED, not accepted",
+  "proposal": "Persist/project canonical user attachment metadata/references for fresh peer/history recovery in its owning transport/history work; then revalidate this independent rewind PR. Do not combine6736 or add persistence to this narrow7927 PR to manufacture acceptance."
+}

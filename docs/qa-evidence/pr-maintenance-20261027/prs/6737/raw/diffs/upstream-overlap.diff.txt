@@ -1,0 +1,554 @@
+diff --git a/packages/app/src/components/sidebar-workspace-list.tsx b/packages/app/src/components/sidebar-workspace-list.tsx
+index 16294e0a0..333eb6822 100644
+--- a/packages/app/src/components/sidebar-workspace-list.tsx
++++ b/packages/app/src/components/sidebar-workspace-list.tsx
+@@ -30,7 +30,7 @@ import {
+   type ActiveWorkspaceSelection,
+ } from "@/stores/navigation-active-workspace-store";
+ import { StyleSheet, withUnistyles } from "react-native-unistyles";
+-import { density, densityIconBox } from "@/styles/density";
++import { density, densityIconBox, densityIconProps } from "@/styles/density";
+ import type { Theme } from "@/styles/theme";
+ import type { SidebarSurfaceBackdrop } from "@/styles/surface-backdrop";
+ import { getSidebarRowBackdrop } from "@/components/sidebar/sidebar-row-backdrop";
+@@ -463,12 +463,12 @@ const openInNewWindowLeadingIcon = (
+   <ThemedExternalLink size={14} uniProps={foregroundMutedColorMapping} />
+ );
+ 
++const kebabTriggerIconProps = densityIconProps("sm", foregroundMutedColorMapping);
++const kebabTriggerIconHoveredProps = densityIconProps("sm", foregroundColorMapping);
++
+ function renderKebabTriggerIcon({ hovered }: { hovered?: boolean }) {
+   return (
+-    <ThemedMoreVertical
+-      size={14}
+-      uniProps={hovered ? foregroundColorMapping : foregroundMutedColorMapping}
+-    />
++    <ThemedMoreVertical uniProps={hovered ? kebabTriggerIconHoveredProps : kebabTriggerIconProps} />
+   );
+ }
+ 
+@@ -2705,8 +2705,12 @@ const styles = StyleSheet.create((theme) => ({
+     marginRight: -6,
+   },
+   projectKebabButton: {
+-    width: 24,
+-    height: 24,
++    // Larger on compact so the kebab is an easy tap target. The negative margins keep its
++    // dots on the same rail as the 24px desktop box and the row at its 44px height.
++    width: { xs: 32, md: 24 },
++    height: { xs: 32, md: 24 },
++    marginRight: { xs: -4, md: 0 },
++    marginVertical: { xs: -4, md: 0 },
+     borderRadius: theme.borderRadius.md,
+     alignItems: "center",
+     justifyContent: "center",
+diff --git a/packages/app/src/i18n/resources/ar.ts b/packages/app/src/i18n/resources/ar.ts
+index 108fad41d..6bfc30095 100644
+--- a/packages/app/src/i18n/resources/ar.ts
++++ b/packages/app/src/i18n/resources/ar.ts
+@@ -2369,12 +2369,25 @@ export const ar: TranslationResources = {
+             "عند تشغيل الوكيل، يوجّه Enter الجولة النشطة. يضيف Command/Ctrl+Enter إلى قائمة الانتظار.",
+           queue: "عند تشغيل الوكيل، يضيف Enter إلى قائمة الانتظار. Command/Ctrl+Enter يرسل.",
+         },
++        commandEnterDescriptions: {
++          interrupt: "عند تشغيل الوكيل، يوقف {{modifier}}+Enter التشغيل. يُدرج Enter سطرًا جديدًا.",
++          steer: "عند تشغيل الوكيل، يوجّه {{modifier}}+Enter الجولة النشطة. يُدرج Enter سطرًا جديدًا.",
++          queue:
++            "عند تشغيل الوكيل، يضيف {{modifier}}+Enter إلى قائمة الانتظار. يُدرج Enter سطرًا جديدًا.",
++        },
+         options: {
+           interrupt: "مقاطعة",
+           steer: "توجيه",
+           queue: "طابور",
+         },
+       },
++      sendShortcut: {
++        label: "اختصار الإرسال",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "بسأل",
+diff --git a/packages/app/src/i18n/resources/en.ts b/packages/app/src/i18n/resources/en.ts
+index 16bddd9cf..ff1e80d88 100644
+--- a/packages/app/src/i18n/resources/en.ts
++++ b/packages/app/src/i18n/resources/en.ts
+@@ -2457,12 +2457,26 @@ export const en = {
+             "When the agent is running, Enter steers the active turn. Command/Ctrl+Enter queues.",
+           queue: "When the agent is running, Enter queues. Command/Ctrl+Enter submits.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "When the agent is running, {{modifier}}+Enter interrupts. Enter inserts a new line.",
++          steer:
++            "When the agent is running, {{modifier}}+Enter steers the active turn. Enter inserts a new line.",
++          queue: "When the agent is running, {{modifier}}+Enter queues. Enter inserts a new line.",
++        },
+         options: {
+           interrupt: "Interrupt",
+           steer: "Steer",
+           queue: "Queue",
+         },
+       },
++      sendShortcut: {
++        label: "Send shortcut",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "Ask",
+diff --git a/packages/app/src/i18n/resources/es.ts b/packages/app/src/i18n/resources/es.ts
+index 222658378..8784adefb 100644
+--- a/packages/app/src/i18n/resources/es.ts
++++ b/packages/app/src/i18n/resources/es.ts
+@@ -2384,12 +2384,27 @@ export const es: TranslationResources = {
+           queue:
+             "Cuando el agente se está ejecutando, Enter pone en cola. Command/Ctrl+Enter envía.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "Cuando el agente se está ejecutando, {{modifier}}+Enter interrumpe. Enter inserta una línea nueva.",
++          steer:
++            "Cuando el agente se está ejecutando, {{modifier}}+Enter dirige el turno activo. Enter inserta una línea nueva.",
++          queue:
++            "Cuando el agente se está ejecutando, {{modifier}}+Enter pone en cola. Enter inserta una línea nueva.",
++        },
+         options: {
+           interrupt: "Interrumpir",
+           steer: "Dirigir",
+           queue: "Cola",
+         },
+       },
++      sendShortcut: {
++        label: "Atajo de envío",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "Preguntar",
+diff --git a/packages/app/src/i18n/resources/fr.ts b/packages/app/src/i18n/resources/fr.ts
+index 65d72d405..bbafc03dd 100644
+--- a/packages/app/src/i18n/resources/fr.ts
++++ b/packages/app/src/i18n/resources/fr.ts
+@@ -2383,12 +2383,27 @@ export const fr: TranslationResources = {
+           queue:
+             "Quand l’agent est en cours d’exécution, Entrée met en file d’attente. Cmd/Ctrl+Entrée envoie.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "Lorsque l'agent est en cours d'exécution, {{modifier}}+Entrée interrompt. Entrée insère une nouvelle ligne.",
++          steer:
++            "Lorsque l'agent est en cours d'exécution, {{modifier}}+Entrée oriente le tour actif. Entrée insère une nouvelle ligne.",
++          queue:
++            "Lorsque l'agent est en cours d'exécution, {{modifier}}+Entrée met en file d'attente. Entrée insère une nouvelle ligne.",
++        },
+         options: {
+           interrupt: "Interrompre",
+           steer: "Réorienter",
+           queue: "File d’attente",
+         },
+       },
++      sendShortcut: {
++        label: "Raccourci d’envoi",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "Demander",
+diff --git a/packages/app/src/i18n/resources/ja.ts b/packages/app/src/i18n/resources/ja.ts
+index 5829bf4fa..e7dcc5b5e 100644
+--- a/packages/app/src/i18n/resources/ja.ts
++++ b/packages/app/src/i18n/resources/ja.ts
+@@ -2353,12 +2353,25 @@ export const ja: TranslationResources = {
+             "エージェント実行中、Enterで現在のターンに指示を送ります。Command/Ctrl+Enterでキューに追加。",
+           queue: "エージェント実行中、Enterでキューに追加します。Command/Ctrl+Enterで送信。",
+         },
++        commandEnterDescriptions: {
++          interrupt: "エージェント実行中、{{modifier}}+Enterで中断します。Enterで改行します。",
++          steer:
++            "エージェント実行中、{{modifier}}+Enterで現在のターンに指示を送ります。Enterで改行します。",
++          queue: "エージェント実行中、{{modifier}}+Enterでキューに追加します。Enterで改行します。",
++        },
+         options: {
+           interrupt: "中断",
+           steer: "指示",
+           queue: "キュー",
+         },
+       },
++      sendShortcut: {
++        label: "送信ショートカット",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "確認する",
+diff --git a/packages/app/src/i18n/resources/ko.ts b/packages/app/src/i18n/resources/ko.ts
+index 36a27fc84..d8d1fbc78 100644
+--- a/packages/app/src/i18n/resources/ko.ts
++++ b/packages/app/src/i18n/resources/ko.ts
+@@ -2344,12 +2344,27 @@ export const ko: TranslationResources = {
+           queue:
+             "에이전트가 실행 중일 때 Enter는 대기열에 추가합니다. Command/Ctrl+Enter는 제출합니다.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "에이전트가 실행 중일 때 {{modifier}}+Enter는 중단합니다. Enter는 줄바꿈합니다.",
++          steer:
++            "에이전트가 실행 중일 때 {{modifier}}+Enter는 현재 턴에 지시합니다. Enter는 줄바꿈합니다.",
++          queue:
++            "에이전트가 실행 중일 때 {{modifier}}+Enter는 대기열에 추가합니다. Enter는 줄바꿈합니다.",
++        },
+         options: {
+           interrupt: "중단",
+           steer: "지시",
+           queue: "대기열",
+         },
+       },
++      sendShortcut: {
++        label: "전송 단축키",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "물어보기",
+diff --git a/packages/app/src/i18n/resources/pt-BR.ts b/packages/app/src/i18n/resources/pt-BR.ts
+index 5a83b4345..1c024dc64 100644
+--- a/packages/app/src/i18n/resources/pt-BR.ts
++++ b/packages/app/src/i18n/resources/pt-BR.ts
+@@ -2367,12 +2367,27 @@ export const ptBR: TranslationResources = {
+             "Quando o agente está em execução, Enter orienta o turno ativo. Command/Ctrl+Enter enfileira.",
+           queue: "Quando o agente está em execução, Enter enfileira. Command/Ctrl+Enter envia.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "Quando o agente está em execução, {{modifier}}+Enter interrompe. Enter insere uma nova linha.",
++          steer:
++            "Quando o agente está em execução, {{modifier}}+Enter orienta o turno ativo. Enter insere uma nova linha.",
++          queue:
++            "Quando o agente está em execução, {{modifier}}+Enter enfileira. Enter insere uma nova linha.",
++        },
+         options: {
+           interrupt: "Interromper",
+           steer: "Orientar",
+           queue: "Fila",
+         },
+       },
++      sendShortcut: {
++        label: "Atalho de envio",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "Perguntar",
+diff --git a/packages/app/src/i18n/resources/ru.ts b/packages/app/src/i18n/resources/ru.ts
+index 135d5fe2f..093ac68c3 100644
+--- a/packages/app/src/i18n/resources/ru.ts
++++ b/packages/app/src/i18n/resources/ru.ts
+@@ -2370,12 +2370,27 @@ export const ru: TranslationResources = {
+           queue:
+             "Когда агент работает, Enter ставит сообщение в очередь, а Command/Ctrl+Enter отправляет его.",
+         },
++        commandEnterDescriptions: {
++          interrupt:
++            "Когда агент работает, {{modifier}}+Enter прерывает его работу, а Enter вставляет новую строку.",
++          steer:
++            "Когда агент работает, {{modifier}}+Enter дополняет текущий ответ новым указанием, а Enter вставляет новую строку.",
++          queue:
++            "Когда агент работает, {{modifier}}+Enter ставит сообщение в очередь, а Enter вставляет новую строку.",
++        },
+         options: {
+           interrupt: "Прерывать",
+           steer: "Направить",
+           queue: "Поставить в очередь",
+         },
+       },
++      sendShortcut: {
++        label: "Сочетание клавиш для отправки",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "Спрашивать",
+diff --git a/packages/app/src/i18n/resources/zh-CN.ts b/packages/app/src/i18n/resources/zh-CN.ts
+index 78b0f0644..8ca178f20 100644
+--- a/packages/app/src/i18n/resources/zh-CN.ts
++++ b/packages/app/src/i18n/resources/zh-CN.ts
+@@ -2308,12 +2308,24 @@ export const zhCN: TranslationResources = {
+           steer: "Agent 运行时，Enter 会引导当前回合。Command/Ctrl+Enter 会排队。",
+           queue: "Agent 运行时，Enter 会排队。Command/Ctrl+Enter 会提交。",
+         },
++        commandEnterDescriptions: {
++          interrupt: "Agent 运行时，{{modifier}}+Enter 会中断。Enter 会插入换行。",
++          steer: "Agent 运行时，{{modifier}}+Enter 会引导当前回合。Enter 会插入换行。",
++          queue: "Agent 运行时，{{modifier}}+Enter 会排队。Enter 会插入换行。",
++        },
+         options: {
+           interrupt: "中断",
+           steer: "引导",
+           queue: "排队",
+         },
+       },
++      sendShortcut: {
++        label: "发送快捷键",
++        options: {
++          enter: "Enter",
++          "mod-enter": "{{modifier}}+Enter",
++        },
++      },
+       serviceUrls: {
+         options: {
+           ask: "询问",
+diff --git a/packages/server/src/server/bootstrap.ts b/packages/server/src/server/bootstrap.ts
+index 2eeccfb65..83ef2acb8 100644
+--- a/packages/server/src/server/bootstrap.ts
++++ b/packages/server/src/server/bootstrap.ts
+@@ -161,7 +161,11 @@ import { CheckoutDiffManager } from "./checkout-diff-manager.js";
+ import { ScheduleService } from "./schedule/service.js";
+ import { DaemonConfigStore, type MutableDaemonConfig } from "./daemon-config-store.js";
+ import { createOrchestrationSkills } from "./orchestration-skills/index.js";
+-import { resolveConfigFromPersisted, type CliConfigOverrides } from "./config.js";
++import {
++  resolveReloadableConfig,
++  type ResolvedDaemonSettings,
++  type CliConfigOverrides,
++} from "./config.js";
+ import { resolvePaseoToolPolicy } from "./agent/paseo-tool-policy.js";
+ import { BrowserToolsBroker } from "./browser-tools/broker.js";
+ import { DaemonConfigBrowserToolsPolicy } from "./browser-tools/policy.js";
+@@ -196,7 +200,7 @@ import type {
+   AgentProviderRuntimeSettingsMap,
+   ProviderOverride,
+ } from "./agent/provider-launch-config.js";
+-import { loadPersistedConfig, type PersistedConfig } from "./persisted-config.js";
++import { type PersistedConfig } from "./persisted-config.js";
+ import { createServiceProxySubsystem, type ServiceProxySubsystem } from "./service-proxy.js";
+ import { releaseWorkspaceServicePortPlan } from "./workspace-service-port-registry.js";
+ import { ScriptHealthMonitor } from "./script-health-monitor.js";
+@@ -551,7 +555,7 @@ function resolveExpressTrustProxySetting(config: PaseoDaemonConfig): true | stri
+   return config.trustedProxies ?? ["loopback"];
+ }
+ 
+-function createInitialRelayConfig(config: PaseoDaemonConfig): MutableDaemonConfig["relay"] {
++function createInitialRelayConfig(config: ResolvedDaemonSettings): MutableDaemonConfig["relay"] {
+   return {
+     enabled: config.relayEnabled ?? true,
+     requireProtectedSecurity: config.relayRequireProtectedSecurity ?? false,
+@@ -562,7 +566,7 @@ function resolveReloadEnv(config: PaseoDaemonConfig): NodeJS.ProcessEnv {
+   return config.configReload?.env ?? process.env;
+ }
+ 
+-function createInitialMutableDaemonConfig(config: PaseoDaemonConfig): MutableDaemonConfig {
++function createInitialMutableDaemonConfig(config: ResolvedDaemonSettings): MutableDaemonConfig {
+   const providers = config.providerOverrides ?? {};
+ 
+   const initialConfig: MutableDaemonConfig = {
+@@ -638,14 +642,14 @@ export async function createPaseoDaemon(
+     }),
+     reloadSource: {
+       resolve: (persisted) => {
+-        const reloaded = resolveConfigFromPersisted(config.paseoHome, persisted, {
++        const reloaded = resolveReloadableConfig(persisted, {
+           env: resolveReloadEnv(config),
+           cli: config.configReload?.cli,
+           relayEnabledFallback: config.configReload?.relayEnabledFallback,
+         });
+         return {
+           mutable: createInitialMutableDaemonConfig(reloaded),
+-          overrideControlledPaths: reloaded.configReload?.overrideControlledPaths ?? [],
++          overrideControlledPaths: reloaded.overrideControlledPaths,
+         };
+       },
+     },
+@@ -995,6 +999,7 @@ export async function createPaseoDaemon(
+   const initialAgentManagerState = providerSnapshotManager.getAgentManagerProviderState();
+   const agentManager = new AgentManager({
+     pluginLifecycle: pluginRuntime,
++    pluginAgentTools: pluginRuntime,
+     clients: initialAgentManagerState.clients,
+     providerDefinitions: initialAgentManagerState.providerDefinitions,
+     registry: agentStorage,
+@@ -1015,6 +1020,10 @@ export async function createPaseoDaemon(
+   const unsubscribePluginProviders =
+     pluginRuntime.subscribeProviderRegistrations(syncPluginProviders);
+ 
++  const unsubscribePluginSessionChanges = pluginRuntime.subscribeSessionOpenChanges(() => {
++    agentManager.invalidatePluginSessions();
++  });
++
+   const detachAgentStoragePersistence = attachAgentStoragePersistence(
+     logger,
+     agentManager,
+@@ -1536,7 +1545,7 @@ export async function createPaseoDaemon(
+       spawnWorkspaceScript,
+       assertAutomationAllowed: (workspaceId) =>
+         assertWorkspaceAutomationAllowedForWorkspace(workspaceRegistry, workspaceId),
+-      globalServicePorts: loadPersistedConfig(config.paseoHome).worktrees?.servicePorts,
++      getGlobalServicePorts: () => daemonConfigStore.readServicePorts(),
+     }),
+     markWorkspaceArchiving: markWorkspaceArchivingExternal,
+     clearWorkspaceArchiving: clearWorkspaceArchivingExternal,
+@@ -1914,6 +1923,7 @@ export async function createPaseoDaemon(
+       localCredential = null;
+       await deleteLocalCredential(config.paseoHome);
+       unsubscribePluginProviders();
++      unsubscribePluginSessionChanges();
+       await pluginRuntime.stopAllPlugins().catch(() => undefined);
+       await serviceProxy.stopStandalone().catch(() => undefined);
+       await agentProviderRuntime.shutdown().catch(() => undefined);
+@@ -1933,6 +1943,7 @@ export async function createPaseoDaemon(
+     // that is still open. Plugins themselves are stopped once every session
+     // they serve has been closed, further down.
+     unsubscribePluginProviders();
++    unsubscribePluginSessionChanges();
+     await hubRelationships.stop();
+     workspaceReconciliation.dispose();
+     scriptHealthMonitor.stop();
+diff --git a/packages/server/src/server/session.test.ts b/packages/server/src/server/session.test.ts
+index 2fc05d013..732131282 100644
+--- a/packages/server/src/server/session.test.ts
++++ b/packages/server/src/server/session.test.ts
+@@ -425,6 +425,7 @@ function createSessionForTest(options: SessionForTestOptions = {}): Session {
+     github: asGitHubService(github),
+     workspaceGitService: asWorkspaceGitService(workspaceGitService),
+     daemonConfigStore: asDaemonConfigStore({
++      readServicePorts: async () => undefined,
+       get: vi.fn(() => ({
+         mcp: { injectIntoAgents: false },
+         providers: {},
+diff --git a/packages/server/src/server/session.ts b/packages/server/src/server/session.ts
+index f573b1dd9..9d2532807 100644
+--- a/packages/server/src/server/session.ts
++++ b/packages/server/src/server/session.ts
+@@ -81,7 +81,6 @@ import {
+   type WorkspaceScriptsService,
+ } from "./session/workspace-scripts/workspace-scripts-service.js";
+ import type { DaemonConfigStore } from "./daemon-config-store.js";
+-import { loadPersistedConfig } from "./persisted-config.js";
+ import { releaseWorkspaceServicePortPlan } from "./workspace-service-port-registry.js";
+ import { getErrorMessage, getErrorMessageOr } from "@getpaseo/protocol/error-utils";
+ import { getAgentStatusPriority } from "@getpaseo/protocol/agent-state-bucket";
+@@ -1232,7 +1231,7 @@ export class Session {
+       spawnWorkspaceScript,
+       assertAutomationAllowed: (workspaceId) =>
+         assertWorkspaceAutomationAllowedForWorkspace(this.workspaceRegistry, workspaceId),
+-      globalServicePorts: loadPersistedConfig(this.paseoHome).worktrees?.servicePorts,
++      getGlobalServicePorts: () => this.daemonConfigStore.readServicePorts(),
+     });
+     this.workspaceDirectory = new WorkspaceDirectory({
+       logger: this.sessionLogger,
+@@ -2927,8 +2926,7 @@ export class Session {
+       case "daemon.get_pairing_offer.request":
+         return this.daemonSession.handleGetPairingOfferRequest(msg);
+       case "daemon.config.reload.request":
+-        this.daemonSession.handleConfigReloadRequest(msg);
+-        return undefined;
++        return this.daemonSession.handleConfigReloadRequest(msg);
+       case "hub.management.daemon.connect.request":
+       case "hub.management.daemon.get_status.request":
+       case "hub.management.daemon.disconnect.request":
+@@ -2939,14 +2937,15 @@ export class Session {
+       case "daemon.update.request":
+         return this.daemonSession.handleUpdateRequest(msg);
+       case "set_daemon_config_request":
+-        this.emit({
+-          type: "set_daemon_config_response",
+-          payload: {
+-            requestId: msg.requestId,
+-            config: this.daemonConfigStore.patch(msg.config),
+-          },
++        return this.daemonConfigStore.patch(msg.config).then((config) => {
++          return this.emit({
++            type: "set_daemon_config_response",
++            payload: {
++              requestId: msg.requestId,
++              config,
++            },
++          });
+         });
+-        return undefined;
+       case "read_project_config_request":
+         return this.projectConfigSession.handleReadProjectConfigRequest(msg);
+       case "write_project_config_request":
+@@ -2964,7 +2963,7 @@ export class Session {
+       case "checkout.commits.list.request":
+         return this.checkoutSession.handleCommitsListRequest(msg);
+       case "checkout.commits.file_diff.request":
+-        return this.checkoutSession.handleCommitFileDiffRequest(msg);
++        return this.checkoutSession.handleCommitFileDiffRequest(msg, this.delivery.requestSignal);
+       case "validate_branch_request":
+         return this.checkoutSession.handleValidateBranchRequest(msg);
+       case "branch_suggestions_request":
+@@ -5670,7 +5669,7 @@ export class Session {
+       activityAt: null,
+       createdAt: workspace.createdAt,
+       diffStat,
+-      scripts: this.buildWorkspaceScriptPayloadSnapshot(workspace, resolvedProjectRecord),
++      scripts: await this.buildWorkspaceScriptPayloadSnapshot(workspace, resolvedProjectRecord),
+       ...(resolvedProjectRecord
+         ? {
+             project: await this.buildProjectPlacementForWorkspace(workspace, resolvedProjectRecord),
+@@ -7263,7 +7262,7 @@ export class Session {
+   private buildWorkspaceScriptPayloadSnapshot(
+     workspace: PersistedWorkspaceRecord,
+     project: PersistedProjectRecord | null,
+-  ): WorkspaceDescriptorPayload["scripts"] {
++  ): Promise<WorkspaceDescriptorPayload["scripts"]> {
+     return this.workspaceScripts.buildSnapshot(workspace, project);
+   }
+ 
+@@ -7787,8 +7786,6 @@ export class Session {
+   ): Promise<void> {
+     const direction: AgentTimelineFetchDirection = msg.direction ?? (msg.cursor ? "after" : "tail");
+     const projection = "projected" as const;
+-    const requestedLimit = msg.limit;
+-    const pageLimit = requestedLimit ?? (direction === "after" ? 0 : 200);
+     const cursor: AgentTimelineCursor | undefined = msg.cursor
+       ? {
+           epoch: msg.cursor.epoch,
+@@ -7807,7 +7804,7 @@ export class Session {
+       const fetchedControlTimeline = this.agentManager.fetchTimeline(msg.agentId, {
+         direction,
+         cursor,
+-        limit: pageLimit,
++        limit: msg.limit,
+       });
+       const selectedTimeline = {
+         timeline: fetchedControlTimeline,
+diff --git a/packages/server/src/server/websocket-server.ts b/packages/server/src/server/websocket-server.ts
+index 53172b283..4473a4004 100644
+--- a/packages/server/src/server/websocket-server.ts
++++ b/packages/server/src/server/websocket-server.ts
+@@ -358,7 +358,7 @@ function createNoopWorkspaceRegistry(): WorkspaceRegistry {
+     get: async () => null,
+     update: async () => null,
+     upsert: async () => {},
+-    archive: async () => {},
++    archive: async () => false,
+     remove: async () => {},
+   };
+ }

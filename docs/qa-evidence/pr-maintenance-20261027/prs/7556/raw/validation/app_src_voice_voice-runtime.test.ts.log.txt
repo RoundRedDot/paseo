@@ -1,0 +1,9 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-timeline/packages/app
+
+
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+   Start at  13:05:14
+   Duration  355ms (transform 55ms, setup 25ms, import 45ms, tests 220ms, environment 0ms)
+

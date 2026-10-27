@@ -1,0 +1,8 @@
+7d3fd4841ab41ce2793de29a8ac5c0a7bab0368b
+100644 4cf89a902c1932b7f83af899dbb10f2e97b0cba6 1	packages/server/src/server/plugins/compiler.ts
+100644 e163bb0f208698e80256788b21571e336b72e6f5 2	packages/server/src/server/plugins/compiler.ts
+100644 b96c8ecd4e3491decb760abc09d15c29866bac2d 3	packages/server/src/server/plugins/compiler.ts
+
+Auto-merging packages/server/src/server/plugins/compiler.test.ts
+Auto-merging packages/server/src/server/plugins/compiler.ts
+CONFLICT (content): Merge conflict in packages/server/src/server/plugins/compiler.ts

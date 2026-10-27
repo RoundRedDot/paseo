@@ -1,0 +1,14 @@
+commit 6514ab5ff2ebe9f73981086c980bd53a1eefc09b
+Merge: 7af4968ea 9e4aab16c
+Author:     luke <luopeihuan@gmail.com>
+AuthorDate: Tue Oct 27 13:14:42 2026 +0800
+Commit:     luke <luopeihuan@gmail.com>
+CommitDate: Tue Oct 27 13:14:42 2026 +0800
+
+    fix(plugins): retain Hermes class lowering in compiler worker
+    
+    Merge frozen main 9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca and move
+    client-only class lowering into the worker-owned compiler implementation.
+    Preserve serialized work, idle teardown, diagnostics and dependency records.
+    
+    Co-authored-by: RoundRedDot <roundreddot@gmail.com>

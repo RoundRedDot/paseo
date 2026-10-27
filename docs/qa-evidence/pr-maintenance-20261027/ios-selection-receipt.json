@@ -1,0 +1,223 @@
+{
+  "mediaSourceAllowlist": "/tmp/paseo-pr-maintenance-20261027/ios/7802/media-allowlist.json",
+  "mediaAllowlistSha256": "b1f6e104f52abc43f9bc6b5ce682ea22ebe1c662e8d94285bc70028d15980e6c",
+  "mediaFiles": [
+    {
+      "file": "prs/7802/media/phone-corrected-alpha-initial.png",
+      "sha256": "3a50b2534b39de4b0b8826e6ae3a608027b4c7c1e72081cd03ac4067a4450d83",
+      "bytes": 428469,
+      "mimeType": "image/png"
+    },
+    {
+      "file": "prs/7802/media/phone-corrected-first-list-initial.png",
+      "sha256": "273ea00bdd1a59b0b5739513db99b72cdc80c07e0215457b1284843270bfc6d4",
+      "bytes": 419115,
+      "mimeType": "image/png"
+    },
+    {
+      "file": "prs/7802/media/phone-final-nested-initial.png",
+      "sha256": "85551393756c5f30e03918d5ad6d3c2737451e68dc19a99520bb0862a29c5347",
+      "bytes": 420698,
+      "mimeType": "image/png"
+    },
+    {
+      "file": "prs/7802/media/phone-final-end-handle.png",
+      "sha256": "f733f65f42f836d2bf62515cf034b47e6df40900352ae33ebf267430660a1055",
+      "bytes": 490899,
+      "mimeType": "image/png"
+    },
+    {
+      "file": "prs/7802/media/phone-final-start-handle.png",
+      "sha256": "924c602d929c9fc806193e96228743f8c542ca2a5e9337acce4462fd99997fd9",
+      "bytes": 498829,
+      "mimeType": "image/png"
+    },
+    {
+      "file": "prs/7802/media/phone-final-link.png",
+      "sha256": "f83c24dfcfdf3a22c8af228ce5db96282863ad07da55249e1f893243f1359216",
+      "bytes": 434495,
+      "mimeType": "image/png"
+    },
+    {
+      "file": "prs/7802/media/phone-final-scrolled.png",
+      "sha256": "2e9fc4dbdd24cdb0918c69902ff7e2a4ccd164ff09c18a5f51030373ae8d75a4",
+      "bytes": 446815,
+      "mimeType": "image/png"
+    },
+    {
+      "file": "prs/7802/media/phone-final-gestures.mp4",
+      "sha256": "0fa613a2786593101133b6e2b9702b14f7584ef136d0eae99d141f33506a235c",
+      "bytes": 12522448,
+      "mimeType": "video/mp4"
+    },
+    {
+      "file": "prs/7802/media/phone-final-video-contact.png",
+      "sha256": "d9d7d6817a17115a5a766fa104a66772828c553987c8ec50c67ebc46aac1d008",
+      "bytes": 489468,
+      "mimeType": "image/png"
+    }
+  ],
+  "mediaFilesVisuallyReviewed": 8,
+  "videoMetadata": {
+    "durationSeconds": 33.356667,
+    "videoStreams": 1,
+    "audioStreams": 0
+  },
+  "sourceRefreshes": [
+    {
+      "pr": 6736,
+      "oldHead": "ddf7848b4c9a4459054f268c3f33114bc015ddec",
+      "newHead": "59bfc43e4097425f0a4429473a9635a99b305067",
+      "tree": "5d1f8a225f1a5ccc22cc8806e5c4efd6dcfece35",
+      "baseline": "2ce6681d6e4de6d6400ba095741014f1bbfa4221",
+      "testFiles": 6,
+      "passedTests": 265,
+      "logs": [
+        {
+          "source": "build-server.log",
+          "file": "prs/6736/final-refresh/raw/build-server.log.txt",
+          "bytes": 3525,
+          "sha256": "2cea778c89ff2aad7d22c91669c6f7bb90820ef5cb4bd7989bdf371f0195bf26"
+        },
+        {
+          "source": "format.log",
+          "file": "prs/6736/final-refresh/raw/format.log.txt",
+          "bytes": 85,
+          "sha256": "abf383415578bb7575c02976a572e0213e8e67ec734b65b7d25b71ab24b61542"
+        },
+        {
+          "source": "typecheck.log",
+          "file": "prs/6736/final-refresh/raw/typecheck.log.txt",
+          "bytes": 1312,
+          "sha256": "6b99a069bc05d11529546834693a8706f7670cfc121d9f74f773f97fd4bad0d8"
+        },
+        {
+          "source": "lint.log",
+          "file": "prs/6736/final-refresh/raw/lint.log.txt",
+          "bytes": 126,
+          "sha256": "2755b094d2d1228826ca4f9ad2df7028da3fb1fc547c30ca19685215b6790a71"
+        },
+        {
+          "source": "packages__server__src__server__agent__providers__claude__agent.image-rendering.test.log",
+          "file": "prs/6736/final-refresh/raw/packages__server__src__server__agent__providers__claude__agent.image-rendering.test.log.txt",
+          "bytes": 276,
+          "sha256": "7f77289ea62a3ca708ea573c3885d72ca86b770b3f86923273fb660233327775"
+        },
+        {
+          "source": "packages__server__src__server__agent__providers__omp__agent.test.log",
+          "file": "prs/6736/final-refresh/raw/packages__server__src__server__agent__providers__omp__agent.test.log.txt",
+          "bytes": 281,
+          "sha256": "e2200263ad9a16eac0459319f3dc5ce491f8b54a25f75a7f9bca456b4a6a26f4"
+        },
+        {
+          "source": "packages__server__src__server__agent__providers__pi__agent.test.log",
+          "file": "prs/6736/final-refresh/raw/packages__server__src__server__agent__providers__pi__agent.test.log.txt",
+          "bytes": 281,
+          "sha256": "731e81d41a172b7356427edf687ed78dc3c812faeca4fafe96b3bd4231e7bf73"
+        },
+        {
+          "source": "packages__server__src__server__agent__providers__provider-image-output.posix.test.log",
+          "file": "prs/6736/final-refresh/raw/packages__server__src__server__agent__providers__provider-image-output.posix.test.log.txt",
+          "bytes": 273,
+          "sha256": "68a88b98f6d2000d7e1cbc3eefd2fd7d6b4ee050a1b5e1af9c40dfe8b0fe7034"
+        },
+        {
+          "source": "packages__server__src__server__agent__providers__provider-image-output.test.log",
+          "file": "prs/6736/final-refresh/raw/packages__server__src__server__agent__providers__provider-image-output.test.log.txt",
+          "bytes": 277,
+          "sha256": "8adb3c4272d95a4045d78854f5b92419598ef51cd0dab4c4512b899341b0a486"
+        },
+        {
+          "source": "packages__server__src__server__daemon-e2e__timeline-window.e2e.test.log",
+          "file": "prs/6736/final-refresh/raw/packages__server__src__server__daemon-e2e__timeline-window.e2e.test.log.txt",
+          "bytes": 280,
+          "sha256": "9147daa58a755ca8dd678321ad827e8884cb827b3864b3ec23cdaadf026c4732"
+        }
+      ],
+      "excludedLogMatches": []
+    },
+    {
+      "pr": 7714,
+      "oldHead": "3a07cdebd16cd431264c661c7b231757c6505fa8",
+      "newHead": "79d6a4f77b473112b6c568d6a4440c299fcdc6c6",
+      "tree": "96a3c4471da56962c76aaa3dd943c3988bdc8574",
+      "baseline": "2ce6681d6e4de6d6400ba095741014f1bbfa4221",
+      "testFiles": 6,
+      "passedTests": 151,
+      "logs": [
+        {
+          "source": "build-server.log",
+          "file": "prs/7714/final-refresh/raw/build-server.log.txt",
+          "bytes": 3525,
+          "sha256": "b6a525b0abdf94cbc3cd3404d2d371a30f3dcf7e8c7635ad4c397ef0f2eed64e"
+        },
+        {
+          "source": "format.log",
+          "file": "prs/7714/final-refresh/raw/format.log.txt",
+          "bytes": 85,
+          "sha256": "ebb88ab82a18184c3c03be78fa99b5db46a8d99fb5b96e97efde33fe34e98f19"
+        },
+        {
+          "source": "typecheck.log",
+          "file": "prs/7714/final-refresh/raw/typecheck.log.txt",
+          "bytes": 1312,
+          "sha256": "df1c63df3b7125ff2410adcfcacd0755fc0b4189833dbecf5ef768e6898a217c"
+        },
+        {
+          "source": "lint.log",
+          "file": "prs/7714/final-refresh/raw/lint.log.txt",
+          "bytes": 126,
+          "sha256": "d4b645e3641b71fbec997218ffc488426ecbe2aae7cb85648172c7eee482001c"
+        },
+        {
+          "source": "packages__server__src__server__agent__providers__claude__agent.history-load.test.log",
+          "file": "prs/7714/final-refresh/raw/packages__server__src__server__agent__providers__claude__agent.history-load.test.log.txt",
+          "bytes": 279,
+          "sha256": "9eb9fe2e626bf4bdfedcc1cd20df9650d49510dfa0ff54a13e537786be7b5965"
+        },
+        {
+          "source": "packages__server__src__server__agent__providers__claude__agent.image-rendering.test.log",
+          "file": "prs/7714/final-refresh/raw/packages__server__src__server__agent__providers__claude__agent.image-rendering.test.log.txt",
+          "bytes": 276,
+          "sha256": "809a029eb2e58724f2e915f2ec229882ead2912169e47e58ff7e4b0a07944579"
+        },
+        {
+          "source": "packages__server__src__server__agent__providers__claude__agent.sub-agent-replay.test.log",
+          "file": "prs/7714/final-refresh/raw/packages__server__src__server__agent__providers__claude__agent.sub-agent-replay.test.log.txt",
+          "bytes": 279,
+          "sha256": "7672c5b36845b5494b3c0d454dd89cbf5623ad5e6d4ed39f669b829f76fdf5a7"
+        },
+        {
+          "source": "packages__server__src__server__agent__providers__claude__subagents__live-source.test.log",
+          "file": "prs/7714/final-refresh/raw/packages__server__src__server__agent__providers__claude__subagents__live-source.test.log.txt",
+          "bytes": 275,
+          "sha256": "6fbc480c601e810db401358654d307bd0611f601a505b255d719a0968aba040b"
+        },
+        {
+          "source": "packages__server__src__server__agent__providers__claude__subagents__replay-source.test.log",
+          "file": "prs/7714/final-refresh/raw/packages__server__src__server__agent__providers__claude__subagents__replay-source.test.log.txt",
+          "bytes": 277,
+          "sha256": "f75ef45c4fe8e164fdf0c989c3a52c035ffa2f658f4666bad498ea8c537eeae4"
+        },
+        {
+          "source": "packages__server__src__server__agent__providers__claude__subagents__workflow-replay-source.test.log",
+          "file": "prs/7714/final-refresh/raw/packages__server__src__server__agent__providers__claude__subagents__workflow-replay-source.test.log.txt",
+          "bytes": 275,
+          "sha256": "4f435330dcc14130ecb2f30312fc5d9abb8c5bbcd6e1a7d68c9b25472a6fe09b"
+        }
+      ],
+      "excludedLogMatches": []
+    }
+  ],
+  "selectedSourceLogMatchExclusions": [
+    {
+      "pr": 6736,
+      "excluded": 0
+    },
+    {
+      "pr": 7714,
+      "excluded": 0
+    }
+  ],
+  "note": "Media copied only from the explicit nine-file allowlist. Simulator screenshots/contact sheet were visually checked; MP4 duration and absence of audio were read from container metadata. Raw selected test/build outputs are byte-preserved and credential-scanned."
+}

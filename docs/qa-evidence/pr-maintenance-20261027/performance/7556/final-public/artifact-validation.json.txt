@@ -1,0 +1,75 @@
+{
+  "at": "2026-10-27T06:27:44.160701+00:00",
+  "scope": "Unique newly captured gzip JSON and videos only; duplicate copies are covered by hash; no historical external archive rerun",
+  "artifacts": [
+    {
+      "file": "7556/raw/expanded-history/videos/1118da0baf6f04633e064dfc5556f81b.webm",
+      "sha256": "0d10f81dd18c3c18d486c1cffb686fb8439ee41e3fd13e6812c9f5f9d1dea3cb",
+      "bytes": 508211,
+      "kind": "video",
+      "ffprobeExit": 0,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 1280,
+            "height": 900
+          }
+        ],
+        "format": {
+          "duration": "9.640000"
+        }
+      },
+      "fullDecodeExit": 0,
+      "decodeOutput": ""
+    },
+    {
+      "file": "7556/raw/valid-calibration/videos/ffcde32f62c5d75a5debe942aacaff41.webm",
+      "sha256": "5061ae1aea32456debc26888d932802b1db6c7f1c40a8512f67669cfb32a3986",
+      "bytes": 450278,
+      "kind": "video",
+      "ffprobeExit": 0,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 1280,
+            "height": 900
+          }
+        ],
+        "format": {
+          "duration": "13.120000"
+        }
+      },
+      "fullDecodeExit": 0,
+      "decodeOutput": ""
+    },
+    {
+      "file": "7556/raw/videos/a849a760d4d1620ff3d060426fe250ae.webm",
+      "sha256": "0510a243d6edfae1d1314d5a47cd9dcfc05704f518fafad839e02a709ee9ea42",
+      "bytes": 195828,
+      "kind": "video",
+      "ffprobeExit": 0,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 1280,
+            "height": 900
+          }
+        ],
+        "format": {
+          "duration": "5.200000"
+        }
+      },
+      "fullDecodeExit": 0,
+      "decodeOutput": ""
+    }
+  ]
+}

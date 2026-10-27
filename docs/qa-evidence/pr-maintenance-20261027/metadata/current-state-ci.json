@@ -1,0 +1,741 @@
+{
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "viewerPermission": {
+    "identity": "luoph",
+    "upstream": "pull",
+    "fork": "push",
+    "rerunPermission": "not established",
+    "actionRequiredReason": "not exposed by API"
+  },
+  "pullRequests": [
+    {
+      "number": 6601,
+      "title": "fix(server): lower classes in plugin client bundles for Hermes",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "6514ab5ff2ebe9f73981086c980bd53a1eefc09b",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": "APPROVED",
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh3IIWw",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40455099360,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40455099360",
+          "runHeadSha": "6514ab5ff2ebe9f73981086c980bd53a1eefc09b",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 6677,
+      "title": "feat(plugin): expose the host rewind menu to plugins that replace prompts",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "b4f84ecce487bbc2e895330588a2b5f0657e0631",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZW717Dw",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40183957065,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40183957065",
+          "runHeadSha": "b4f84ecce487bbc2e895330588a2b5f0657e0631",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 6699,
+      "title": "fix(app): preserve tool row arrival timestamps during lifecycle updates",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "f072bdfb06c55d231bb72126761d16b9ec0f1b9c",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZcBhChQ",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40312356788,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40312356788",
+          "runHeadSha": "f072bdfb06c55d231bb72126761d16b9ec0f1b9c",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 6731,
+      "title": "fix(app): keep installed plugins across a host disconnect",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "ac19eed979213b90670f401b636ae05cf05c7db7",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZb_lS7Q",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40311631639,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40311631639",
+          "runHeadSha": "ac19eed979213b90670f401b636ae05cf05c7db7",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 6732,
+      "title": "perf(plugins): skip client bundles the app already holds in catalog fetches",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "1c4c09712f2ec8699c2e13f083eaa15a8af39e9f",
+      "capturedAt": "2026-10-27T06:07:40Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZiAVA-g",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40458744593,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40458744593",
+          "runHeadSha": "1c4c09712f2ec8699c2e13f083eaa15a8af39e9f",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 6736,
+      "title": "fix: preserve image messages across clients and reloads",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "luoph/paseo",
+      "headSha": "ea84f0179dae93829a4c8607a6fd73e5621e3b41",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "UNKNOWN",
+      "mergeStateStatus": "UNKNOWN",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh8kntw",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40457263201,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40457263201",
+          "runHeadSha": "ea84f0179dae93829a4c8607a6fd73e5621e3b41",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 6737,
+      "title": "feat: sync workspace and tab ordering across clients",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "luoph/paseo",
+      "headSha": "50b07a8b8ec270cbb41f3633e859a21f008b0884",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh1-qiA",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40454637179,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40454637179",
+          "runHeadSha": "50b07a8b8ec270cbb41f3633e859a21f008b0884",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 6773,
+      "title": "feat(app): scrub the chat outline from the left edge on touch devices",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "2bacd637da86474faf0f41aa4d66a322f47a3c38",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZbyEUNA",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40306440615,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40306440615",
+          "runHeadSha": "2bacd637da86474faf0f41aa4d66a322f47a3c38",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 6809,
+      "title": "feat(claude): show the Task prompt on expanded subagent cards",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "2a8af80c3569bf464b4f5e16afca356317246870",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh2c2vw",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40454826879,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40454826879",
+          "runHeadSha": "2a8af80c3569bf464b4f5e16afca356317246870",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7000,
+      "title": "feat(server): expose persisted timing for completed agent turns",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "9b74ce6f283719006986ed435b3f7c0c3c43cae9",
+      "capturedAt": "2026-10-27T06:11:28Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZiA9UoQ",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40458984891,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40458984891",
+          "runHeadSha": "9b74ce6f283719006986ed435b3f7c0c3c43cae9",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7006,
+      "title": "fix(app): hold back a closing code fence while it is still being typed",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "371e403aeaf583210800b9246c2f444c963ffe6c",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": "APPROVED",
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh3wRLA",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40455346699,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40455346699",
+          "runHeadSha": "371e403aeaf583210800b9246c2f444c963ffe6c",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7014,
+      "title": "fix(providers): preserve structured question timeline data",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "c92cc88e3ac971c032ca295848c5ec3e06bb3c97",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh5-tSA",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40456233363,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40456233363",
+          "runHeadSha": "c92cc88e3ac971c032ca295848c5ec3e06bb3c97",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7015,
+      "title": "fix(acp): bridge native Grok and Cursor question requests",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "aff3245c65ccf769ceae8cd1937d9c57ffd055e3",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZhzqeOw",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40453712383,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40453712383",
+          "runHeadSha": "aff3245c65ccf769ceae8cd1937d9c57ffd055e3",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7318,
+      "title": "feat(plugin): let timeline renderers open files in the native file pane",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "b2fd0d1311425cc3ba8f626af8b6425acf6ab994",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZb2BCXw",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40307959030,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40307959030",
+          "runHeadSha": "b2fd0d1311425cc3ba8f626af8b6425acf6ab994",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7462,
+      "title": "feat(plugin): expose host fork menu for transformed replies",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "86006dd5fc4fda3562f85a3889b02ada5b353011",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZb9E1jQ",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40310663981,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40310663981",
+          "runHeadSha": "86006dd5fc4fda3562f85a3889b02ada5b353011",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7467,
+      "title": "fix(android): default interface, content, and code text to 13px",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "70df9add8941096e5437b88efad97cf91d95f43b",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh8URLg",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40457162699,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40457162699",
+          "runHeadSha": "70df9add8941096e5437b88efad97cf91d95f43b",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7482,
+      "title": "feat(client): expose workspace label definitions and project icons",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "a879849ac617558cdf9976293ace71baf2072b84",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh5curQ",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40456016968,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40456016968",
+          "runHeadSha": "a879849ac617558cdf9976293ace71baf2072b84",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7556,
+      "title": "perf(app): cut idle repaints and streaming parse cost on Android",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZhy5H-A",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40453408618,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40453408618",
+          "runHeadSha": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7625,
+      "title": "perf(server): minify plugin client bundles",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "7951fa0f375ef3c84a2a0e36048129d0d36c4ec5",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh6o0fg",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40456497362,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40456497362",
+          "runHeadSha": "7951fa0f375ef3c84a2a0e36048129d0d36c4ec5",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7629,
+      "title": "perf(relay): compress relay payloads before encryption",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "8239861ddce82a64ffba8284d16416581b0e35ec",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZb0mm9w",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40307423904,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40307423904",
+          "runHeadSha": "8239861ddce82a64ffba8284d16416581b0e35ec",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7637,
+      "title": "fix(claude): fail a turn that Claude Code ends on an API error",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "736bbc62c6874e87681491d95370daa6661c9559",
+      "capturedAt": "2026-10-27T06:11:28Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh96x2A",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40457794987,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40457794987",
+          "runHeadSha": "736bbc62c6874e87681491d95370daa6661c9559",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7654,
+      "title": "feat(plugin): let a plugin screen add buttons to its header",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "5b2e9c00dfe45ee76ecd5920babf3f33be8e6f63",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZW_pEtA",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40185461213,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40185461213",
+          "runHeadSha": "5b2e9c00dfe45ee76ecd5920babf3f33be8e6f63",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7714,
+      "title": "fix(claude): keep a resumed subagent on its row after the session reopens",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "3a07cdebd16cd431264c661c7b231757c6505fa8",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZhznxIw",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40453696225,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40453696225",
+          "runHeadSha": "3a07cdebd16cd431264c661c7b231757c6505fa8",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7802,
+      "title": "feat(ios): select paragraphs and list items on double tap",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "976e3d9297928787393deb98789ca7a427ef65ad",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh7mt0w",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40456882760,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40456882760",
+          "runHeadSha": "976e3d9297928787393deb98789ca7a427ef65ad",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7807,
+      "title": "feat(app): enrich and reorder mobile workspace tabs",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "f4c395b855bd4e94fbd359fe3b1d611ad382e841",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZh3Darw",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40455070187,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40455070187",
+          "runHeadSha": "f4c395b855bd4e94fbd359fe3b1d611ad382e841",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    },
+    {
+      "number": 7927,
+      "title": "fix(app): restore image and file attachments after rewind",
+      "state": "OPEN",
+      "isDraft": false,
+      "base": "main",
+      "headRepo": "RoundRedDot/paseo",
+      "headSha": "5e42683e889e96740413a07518c729aafdb0dd19",
+      "capturedAt": "2026-10-27T05:53:02.855Z",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "BLOCKED",
+      "reviewDecision": null,
+      "checkRunsCount": 0,
+      "checkSuites": [
+        {
+          "id": "CS_kwDOQBkEf88AAAAZbsugjg",
+          "app": "github-actions",
+          "status": "COMPLETED",
+          "conclusion": "ACTION_REQUIRED",
+          "runId": 40304398510,
+          "url": "https://github.com/getpaseo/paseo/actions/runs/40304398510",
+          "runHeadSha": "5e42683e889e96740413a07518c729aafdb0dd19",
+          "runConclusion": "action_required",
+          "jobs": 0,
+          "headMatches": true
+        }
+      ]
+    }
+  ]
+}

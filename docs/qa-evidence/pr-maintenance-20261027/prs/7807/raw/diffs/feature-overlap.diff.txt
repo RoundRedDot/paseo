@@ -1,0 +1,210 @@
+diff --git a/packages/app/src/hooks/use-settings/storage.test.ts b/packages/app/src/hooks/use-settings/storage.test.ts
+index fe2ffdd2a..d38d196c6 100644
+--- a/packages/app/src/hooks/use-settings/storage.test.ts
++++ b/packages/app/src/hooks/use-settings/storage.test.ts
+@@ -44,6 +44,32 @@ function makeDeps(
+ }
+ 
+ describe("loadAppSettingsFromStorage", () => {
++  it.each([0, 2, 3] as const)(
++    "persists tab title line limit %i",
++    async (workspaceTabTitleLines) => {
++      const deps = makeDeps();
++      const queryClient = new QueryClient();
++      await saveAppSettings({ queryClient, deps, updates: { workspaceTabTitleLines } });
++      expect((await loadAppSettingsFromStorage(deps)).workspaceTabTitleLines).toBe(
++        workspaceTabTitleLines,
++      );
++    },
++  );
++
++  it.each([undefined, null, 1, 4, -1, "2"])(
++    "defaults invalid tab title limits: %j",
++    async (workspaceTabTitleLines) => {
++      const deps = makeDeps({
++        storage: createInMemoryKeyValueStorage({
++          [APP_SETTINGS_KEY]: JSON.stringify({ workspaceTabTitleLines, vimKeybindings: true }),
++        }),
++      });
++      const settings = await loadAppSettingsFromStorage(deps);
++      expect(settings.workspaceTabTitleLines).toBe(3);
++      expect(settings.vimKeybindings).toBe(true);
++    },
++  );
++
+   it("persists file panel associations, including panels absent from this host", async () => {
+     const deps = makeDeps();
+     const queryClient = new QueryClient();
+diff --git a/packages/app/src/hooks/use-settings/storage.ts b/packages/app/src/hooks/use-settings/storage.ts
+index 3a5be6344..5dddca7c0 100644
+--- a/packages/app/src/hooks/use-settings/storage.ts
++++ b/packages/app/src/hooks/use-settings/storage.ts
+@@ -91,6 +91,8 @@ export interface AppSettings {
+   contentMaxWidth: number | null;
+   syntaxTheme: SyntaxThemeId; // default "one"
+   workspaceTitleSource: WorkspaceTitleSource;
++  /** Maximum title lines in the tab switcher; 0 shows the full title. */
++  workspaceTabTitleLines: 0 | 2 | 3;
+   sidebarWorkspaceTrailing: SidebarWorkspaceTrailing;
+   sidebarRowItems: SidebarRowItems;
+   sidebarChecksDisplay: SidebarChecksDisplay;
+@@ -150,6 +152,7 @@ export const DEFAULT_CLIENT_SETTINGS: AppSettings = {
+   contentMaxWidth: null,
+   syntaxTheme: "one",
+   workspaceTitleSource: "title",
++  workspaceTabTitleLines: 3,
+   sidebarWorkspaceTrailing: "timestamp",
+   sidebarRowItems: DEFAULT_SIDEBAR_ROW_ITEMS,
+   sidebarChecksDisplay: DEFAULT_SIDEBAR_CHECKS_DISPLAY,
+@@ -243,6 +246,7 @@ const StoredAppSettingsSchema = z
+       .catch(null),
+     syntaxTheme: z.string().refine(isSyntaxThemeId).catch("one"),
+     workspaceTitleSource: z.enum(["title", "branch"]).catch("title"),
++    workspaceTabTitleLines: z.union([z.literal(0), z.literal(2), z.literal(3)]).catch(3),
+     sidebarWorkspaceTrailing: z.enum(["diff", "timestamp", "none"]).catch("timestamp"),
+     sidebarRowItems: SidebarRowItemsSchema,
+     sidebarChecksDisplay: z
+diff --git a/packages/app/src/i18n/resources/ar.ts b/packages/app/src/i18n/resources/ar.ts
+index 108fad41d..ce9a81b0c 100644
+--- a/packages/app/src/i18n/resources/ar.ts
++++ b/packages/app/src/i18n/resources/ar.ts
+@@ -2470,6 +2470,11 @@ export const ar: TranslationResources = {
+       },
+     },
+     appearance: {
++      tabTitles: {
++        title: "عناوين علامات التبويب",
++        hint: "الحد الأقصى لأسطر العنوان في قائمة علامات تبويب مساحة العمل.",
++        options: { 0: "بلا حد", 2: "سطران", 3: "3 أسطر" },
++      },
+       theme: {
+         title: "سمة",
+         accessibilityLabel: "الموضوع:{{value}}",
+diff --git a/packages/app/src/i18n/resources/en.ts b/packages/app/src/i18n/resources/en.ts
+index 16bddd9cf..12e9bfb73 100644
+--- a/packages/app/src/i18n/resources/en.ts
++++ b/packages/app/src/i18n/resources/en.ts
+@@ -2558,6 +2558,11 @@ export const en = {
+       },
+     },
+     appearance: {
++      tabTitles: {
++        title: "Tab titles",
++        hint: "Maximum title lines in the workspace tab list.",
++        options: { 0: "Unlimited", 2: "2 lines", 3: "3 lines" },
++      },
+       theme: {
+         title: "Theme",
+         accessibilityLabel: "Theme: {{value}}",
+diff --git a/packages/app/src/i18n/resources/es.ts b/packages/app/src/i18n/resources/es.ts
+index 222658378..36e5867fd 100644
+--- a/packages/app/src/i18n/resources/es.ts
++++ b/packages/app/src/i18n/resources/es.ts
+@@ -2486,6 +2486,11 @@ export const es: TranslationResources = {
+       },
+     },
+     appearance: {
++      tabTitles: {
++        title: "Títulos de pestañas",
++        hint: "Número máximo de líneas del título en la lista de pestañas del espacio de trabajo.",
++        options: { 0: "Sin límite", 2: "2 líneas", 3: "3 líneas" },
++      },
+       theme: {
+         title: "Tema",
+         accessibilityLabel: "Tema:{{value}}",
+diff --git a/packages/app/src/i18n/resources/fr.ts b/packages/app/src/i18n/resources/fr.ts
+index 65d72d405..9d1a3db75 100644
+--- a/packages/app/src/i18n/resources/fr.ts
++++ b/packages/app/src/i18n/resources/fr.ts
+@@ -2486,6 +2486,11 @@ export const fr: TranslationResources = {
+       },
+     },
+     appearance: {
++      tabTitles: {
++        title: "Titres des onglets",
++        hint: "Nombre maximal de lignes du titre dans la liste des onglets de l’espace de travail.",
++        options: { 0: "Illimité", 2: "2 lignes", 3: "3 lignes" },
++      },
+       theme: {
+         title: "Thème",
+         accessibilityLabel: "Thème : {{value}}",
+diff --git a/packages/app/src/i18n/resources/ja.ts b/packages/app/src/i18n/resources/ja.ts
+index 5829bf4fa..663b32a73 100644
+--- a/packages/app/src/i18n/resources/ja.ts
++++ b/packages/app/src/i18n/resources/ja.ts
+@@ -2454,6 +2454,11 @@ export const ja: TranslationResources = {
+       },
+     },
+     appearance: {
++      tabTitles: {
++        title: "タブのタイトル",
++        hint: "ワークスペースのタブ一覧で表示するタイトルの最大行数。",
++        options: { 0: "制限なし", 2: "2 行", 3: "3 行" },
++      },
+       theme: {
+         title: "テーマ",
+         accessibilityLabel: "テーマ: {{value}}",
+diff --git a/packages/app/src/i18n/resources/ko.ts b/packages/app/src/i18n/resources/ko.ts
+index 36a27fc84..9eaeb38e6 100644
+--- a/packages/app/src/i18n/resources/ko.ts
++++ b/packages/app/src/i18n/resources/ko.ts
+@@ -2445,6 +2445,11 @@ export const ko: TranslationResources = {
+       },
+     },
+     appearance: {
++      tabTitles: {
++        title: "탭 제목",
++        hint: "워크스페이스 탭 목록에서 제목의 최대 줄 수입니다.",
++        options: { 0: "제한 없음", 2: "2줄", 3: "3줄" },
++      },
+       theme: {
+         title: "테마",
+         accessibilityLabel: "테마: {{value}}",
+diff --git a/packages/app/src/i18n/resources/pt-BR.ts b/packages/app/src/i18n/resources/pt-BR.ts
+index 5a83b4345..5e446381c 100644
+--- a/packages/app/src/i18n/resources/pt-BR.ts
++++ b/packages/app/src/i18n/resources/pt-BR.ts
+@@ -2469,6 +2469,11 @@ export const ptBR: TranslationResources = {
+       },
+     },
+     appearance: {
++      tabTitles: {
++        title: "Títulos das abas",
++        hint: "Máximo de linhas do título na lista de abas do espaço de trabalho.",
++        options: { 0: "Sem limite", 2: "2 linhas", 3: "3 linhas" },
++      },
+       theme: {
+         title: "Tema",
+         accessibilityLabel: "Tema: {{value}}",
+diff --git a/packages/app/src/i18n/resources/ru.ts b/packages/app/src/i18n/resources/ru.ts
+index 135d5fe2f..a70ec4cff 100644
+--- a/packages/app/src/i18n/resources/ru.ts
++++ b/packages/app/src/i18n/resources/ru.ts
+@@ -2474,6 +2474,11 @@ export const ru: TranslationResources = {
+       },
+     },
+     appearance: {
++      tabTitles: {
++        title: "Заголовки вкладок",
++        hint: "Максимальное число строк заголовка в списке вкладок рабочего пространства.",
++        options: { 0: "Без ограничений", 2: "2 строки", 3: "3 строки" },
++      },
+       theme: {
+         title: "Тема",
+         accessibilityLabel: "Тема: {{value}}",
+diff --git a/packages/app/src/i18n/resources/zh-CN.ts b/packages/app/src/i18n/resources/zh-CN.ts
+index 78b0f0644..46334950f 100644
+--- a/packages/app/src/i18n/resources/zh-CN.ts
++++ b/packages/app/src/i18n/resources/zh-CN.ts
+@@ -2409,6 +2409,11 @@ export const zhCN: TranslationResources = {
+       },
+     },
+     appearance: {
++      tabTitles: {
++        title: "页签标题",
++        hint: "Workspace 页签列表中标题的最大行数。",
++        options: { 0: "不限", 2: "2 行", 3: "3 行" },
++      },
+       theme: {
+         title: "主题",
+         accessibilityLabel: "主题：{{value}}",

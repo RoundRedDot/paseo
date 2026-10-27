@@ -1,0 +1,135 @@
+diff --git a/packages/app/src/i18n/resources/ar.ts b/packages/app/src/i18n/resources/ar.ts
+index 108fad41d..983239333 100644
+--- a/packages/app/src/i18n/resources/ar.ts
++++ b/packages/app/src/i18n/resources/ar.ts
+@@ -236,6 +236,10 @@ export const ar: TranslationResources = {
+     empty: "ابدأ الدردشة مع هذا الوكيل...",
+     scrollToBottom: "قم بالتمرير إلى الأسفل",
+     historyLoadFailed: "تعذر تحميل سجل الوكيل",
++    chatOutline: {
++      label: "مخطط المحادثة",
++      position: "{{index}} من {{count}}: {{preview}}",
++    },
+     messageCapped: "تم اقتطاع هذه الرسالة ({{bytes}} بايت).",
+     permission: {
+       rejectedPlan: "خطة مرفوضة",
+diff --git a/packages/app/src/i18n/resources/en.ts b/packages/app/src/i18n/resources/en.ts
+index 16bddd9cf..116c05ff6 100644
+--- a/packages/app/src/i18n/resources/en.ts
++++ b/packages/app/src/i18n/resources/en.ts
+@@ -232,6 +232,10 @@ export const en = {
+     empty: "Start chatting with this agent...",
+     scrollToBottom: "Scroll to bottom",
+     historyLoadFailed: "Couldn't load agent history",
++    chatOutline: {
++      label: "Chat outline",
++      position: "{{index}} of {{count}}: {{preview}}",
++    },
+     messageCapped: "This message was capped ({{bytes}} bytes).",
+     permission: {
+       rejectedPlan: "Rejected plan",
+diff --git a/packages/app/src/i18n/resources/es.ts b/packages/app/src/i18n/resources/es.ts
+index 222658378..77bc6bd99 100644
+--- a/packages/app/src/i18n/resources/es.ts
++++ b/packages/app/src/i18n/resources/es.ts
+@@ -238,6 +238,10 @@ export const es: TranslationResources = {
+     empty: "Comience a chatear con este agente...",
+     scrollToBottom: "Desplazarse hacia abajo",
+     historyLoadFailed: "No se pudo cargar el historial del agente",
++    chatOutline: {
++      label: "Esquema del chat",
++      position: "{{index}} de {{count}}: {{preview}}",
++    },
+     messageCapped: "Este mensaje fue truncado ({{bytes}} bytes).",
+     permission: {
+       rejectedPlan: "Plan rechazado",
+diff --git a/packages/app/src/i18n/resources/fr.ts b/packages/app/src/i18n/resources/fr.ts
+index 65d72d405..a03f6f039 100644
+--- a/packages/app/src/i18n/resources/fr.ts
++++ b/packages/app/src/i18n/resources/fr.ts
+@@ -239,6 +239,10 @@ export const fr: TranslationResources = {
+     empty: "Commencez à discuter avec cet agent…",
+     scrollToBottom: "Faire défiler vers le bas",
+     historyLoadFailed: "Impossible de charger l’historique de l’agent",
++    chatOutline: {
++      label: "Plan de la discussion",
++      position: "{{index}} sur {{count}} : {{preview}}",
++    },
+     messageCapped: "Ce message a été tronqué ({{bytes}} octets).",
+     permission: {
+       rejectedPlan: "Plan refusé",
+diff --git a/packages/app/src/i18n/resources/ja.ts b/packages/app/src/i18n/resources/ja.ts
+index 5829bf4fa..619a7347f 100644
+--- a/packages/app/src/i18n/resources/ja.ts
++++ b/packages/app/src/i18n/resources/ja.ts
+@@ -238,6 +238,10 @@ export const ja: TranslationResources = {
+     empty: "このエージェントとチャットを始めましょう...",
+     scrollToBottom: "下にスクロール",
+     historyLoadFailed: "エージェントの履歴を読み込めませんでした",
++    chatOutline: {
++      label: "チャットのアウトライン",
++      position: "{{index}} / {{count}}: {{preview}}",
++    },
+     messageCapped: "このメッセージは上限で切り詰められました（{{bytes}}バイト）。",
+     permission: {
+       rejectedPlan: "却下されたプラン",
+diff --git a/packages/app/src/i18n/resources/ko.ts b/packages/app/src/i18n/resources/ko.ts
+index 36a27fc84..1c8ef98d8 100644
+--- a/packages/app/src/i18n/resources/ko.ts
++++ b/packages/app/src/i18n/resources/ko.ts
+@@ -236,6 +236,10 @@ export const ko: TranslationResources = {
+     empty: "이 에이전트와 대화를 시작하세요...",
+     scrollToBottom: "맨 아래로 스크롤",
+     historyLoadFailed: "에이전트 기록을 로드할 수 없습니다.",
++    chatOutline: {
++      label: "채팅 개요",
++      position: "{{index}} / {{count}}: {{preview}}",
++    },
+     messageCapped: "이 메시지는 길이 제한으로 잘렸습니다({{bytes}}바이트).",
+     permission: {
+       rejectedPlan: "거부된 계획",
+diff --git a/packages/app/src/i18n/resources/pt-BR.ts b/packages/app/src/i18n/resources/pt-BR.ts
+index 5a83b4345..2d4610a19 100644
+--- a/packages/app/src/i18n/resources/pt-BR.ts
++++ b/packages/app/src/i18n/resources/pt-BR.ts
+@@ -237,6 +237,10 @@ export const ptBR: TranslationResources = {
+     empty: "Comece a conversar com este agente...",
+     scrollToBottom: "Rolar para o fim",
+     historyLoadFailed: "Não foi possível carregar o histórico do agente",
++    chatOutline: {
++      label: "Estrutura do chat",
++      position: "{{index}} de {{count}}: {{preview}}",
++    },
+     messageCapped: "Esta mensagem foi truncada ({{bytes}} bytes).",
+     permission: {
+       rejectedPlan: "Plano rejeitado",
+diff --git a/packages/app/src/i18n/resources/ru.ts b/packages/app/src/i18n/resources/ru.ts
+index 135d5fe2f..144a8aec2 100644
+--- a/packages/app/src/i18n/resources/ru.ts
++++ b/packages/app/src/i18n/resources/ru.ts
+@@ -238,6 +238,10 @@ export const ru: TranslationResources = {
+     empty: "Начните общаться с этим агентом...",
+     scrollToBottom: "Прокрутить вниз",
+     historyLoadFailed: "Не удалось загрузить историю агента",
++    chatOutline: {
++      label: "Оглавление чата",
++      position: "{{index}} из {{count}}: {{preview}}",
++    },
+     messageCapped: "Это сообщение было обрезано ({{bytes}} байт).",
+     permission: {
+       rejectedPlan: "Отклонённый план",
+diff --git a/packages/app/src/i18n/resources/zh-CN.ts b/packages/app/src/i18n/resources/zh-CN.ts
+index 78b0f0644..f4588db06 100644
+--- a/packages/app/src/i18n/resources/zh-CN.ts
++++ b/packages/app/src/i18n/resources/zh-CN.ts
+@@ -236,6 +236,10 @@ export const zhCN: TranslationResources = {
+     empty: "开始和这个 Agent 对话...",
+     scrollToBottom: "滚动到底部",
+     historyLoadFailed: "无法加载智能体历史记录",
++    chatOutline: {
++      label: "聊天大纲",
++      position: "{{index}} / {{count}}：{{preview}}",
++    },
+     messageCapped: "此消息已被截断（{{bytes}} 字节）。",
+     permission: {
+       rejectedPlan: "已拒绝的计划",

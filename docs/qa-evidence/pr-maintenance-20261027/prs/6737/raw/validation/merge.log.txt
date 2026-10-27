@@ -1,0 +1,15 @@
+Auto-merging packages/app/src/components/sidebar-workspace-list.tsx
+Auto-merging packages/app/src/i18n/resources/ar.ts
+Auto-merging packages/app/src/i18n/resources/en.ts
+Auto-merging packages/app/src/i18n/resources/es.ts
+Auto-merging packages/app/src/i18n/resources/fr.ts
+Auto-merging packages/app/src/i18n/resources/ja.ts
+Auto-merging packages/app/src/i18n/resources/ko.ts
+Auto-merging packages/app/src/i18n/resources/pt-BR.ts
+Auto-merging packages/app/src/i18n/resources/ru.ts
+Auto-merging packages/app/src/i18n/resources/zh-CN.ts
+Auto-merging packages/server/src/server/bootstrap.ts
+Auto-merging packages/server/src/server/session.test.ts
+Auto-merging packages/server/src/server/session.ts
+Auto-merging packages/server/src/server/websocket-server.ts
+Automatic merge went well; stopped before committing as requested

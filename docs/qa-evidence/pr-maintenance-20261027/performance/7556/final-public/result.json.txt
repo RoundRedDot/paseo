@@ -1,0 +1,205 @@
+{
+  "number": 7556,
+  "result": "inconclusive; fixed-fixture exercise preconditions unmet; no timing comparison",
+  "start": "2026-10-27T04:58:48.260494+00:00",
+  "end": "2026-10-27T06:14:50.443292+00:00",
+  "configuredModel": "codex/gpt-6.1-sol",
+  "thinking": "High",
+  "modelProvenance": "parent dispatch configuration; actual backend metadata not independently exposed",
+  "oldHead": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+  "newHead": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+  "tree": "dcb97cbef9a7fda4b550406b6342a5f702e4f8c7",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceChanged": false,
+  "sourceCommits": 0,
+  "sourceOwnerReceipt": "/tmp/paseo-pr-maintenance-20261027/timeline/7556/result.json",
+  "comparisonScope": "Only shared replica-cache retained-tail serialization, using frozen baseline module substitution. Native ring/cadence, incremental native Markdown, voice cleanup and trace guard remained identical in both planned variants.",
+  "observerPreflight": {
+    "at": "2026-10-27T05:53:10.700Z",
+    "sourceHead": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+    "variant": "baseline",
+    "observer": "Actual textContent length by stable DOM element identity once per rAF; new mounts excluded; no profiler or product-state changes",
+    "normalUI": "Filled composer and pressed Enter; repository mock provider only",
+    "windowMs": 5000,
+    "frames": 603,
+    "growthFrames": 246,
+    "growthChars": 396,
+    "stop": true,
+    "passed": true
+  },
+  "timedSamples": 0,
+  "candidateSamples": 0,
+  "returningBaselineSamples": 0,
+  "gate": {
+    "complete": false,
+    "passed": false,
+    "threshold": 0.15,
+    "classification": "exercise precondition failure, not an A/A noise failure",
+    "reason": "The fixed205 pre-echo fixture did not expose the declared oldest item via normal turn-summary expansion and bounded canonical pagination. The script stopped before timing, input/label/wheel phase or IndexedDB exercise acceptance.",
+    "decision": "STOP; no fixture replacement/enlargement, benchmark searching, numeric noise interpretation or performance benefit claim"
+  },
+  "retainedPreparationFailures": [
+    "capture-import-failure.log: app tsconfig alias unavailable before main; runner configuration corrected before timing",
+    "history-setup-failure/: tsx __name injected into browser evaluate callback; standard Playwright runner then used",
+    "collapsed-history-precondition/: default turn summary collapsed messages;2543\u2192696px instead of history-growth precondition",
+    "raw/expanded-history/: normal UI expanded the same fixture, but oldest-history precondition still failed; stopped at declared bound"
+  ],
+  "comparisonMediansAndRanges": null,
+  "sourceRestoration": {
+    "at": "2026-10-27T06:11:02.391Z",
+    "head": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+    "tree": "dcb97cbef9a7fda4b550406b6342a5f702e4f8c7",
+    "sourceSha256": "b86fb0fa961dce5dbb6151c2f1b4611b65116358077d097108d215c339c6b4cf",
+    "originalSha256": "b86fb0fa961dce5dbb6151c2f1b4611b65116358077d097108d215c339c6b4cf",
+    "gitStatus": "",
+    "samples": []
+  },
+  "nativeInventory": {
+    "initialSnapshot": "05:01UTC adb0",
+    "finalSnapshot": {
+      "at": "2026-10-27T06:27:44.289897+00:00",
+      "adbExit": 0,
+      "adbDeviceCount": 1,
+      "states": {
+        "device": 1
+      },
+      "ownedAffectedDeviceCount": 0,
+      "actions": "inventory only; no device/simulator app or configuration operations",
+      "adbModelInventory": [
+        {
+          "state": "device",
+          "model": "PHN110"
+        }
+      ],
+      "ownership": "PHN110 connected; user explicitly declined allocation for this run. No further device probes, installs, launches, control or native Android testing.",
+      "allocationDecision": "USER_DECLINED",
+      "allocationDecisionMessageId": "755cb358-309e-4b79-8a96-e75e66afb71a",
+      "allocationDecisionRecordedAt": "2026-10-27T06:32:55.301754+00:00"
+    },
+    "deviceAcceptance": "PHN110 connected; USER_DECLINED allocation. Native gap retained; no more device probe/control/test."
+  },
+  "concreteGaps": [
+    "Owned affected physical OnePlus Open/OPPO PHN110 ColorOS unfolded device, exact-current-head Release A/B and returning baseline",
+    "Controlled Android process/JS CPU, frame timing and battery measurements; Web does not clear these",
+    "Maintainer acceptance of visible12-step native ring cadence remains a design decision",
+    "A future shared-cache browser comparison needs a separately reviewed representative history fixture that satisfies actual loaded-history/overflow/write preconditions; no conclusion from this failed setup"
+  ],
+  "unitTests": "No new/repeated maintained suites: no production code change. Source owner reports397 targeted tests/static/hooks on this exact head separately.",
+  "bodyUpdate": "completed and exact final readback; historical links preserved",
+  "bodyReceipt": {
+    "headRefOid": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+    "headRefName": "perf/android-fold-quick-wins",
+    "headRepository": {
+      "id": "R_kgDOVEwDiw",
+      "name": "paseo",
+      "nameWithOwner": "RoundRedDot/paseo"
+    },
+    "state": "OPEN",
+    "isDraft": false,
+    "baseRefName": "main"
+  },
+  "historicURLsPreserved": 4,
+  "ci": {
+    "run": 40453408618,
+    "head": "053f916fc5a6d92b105d0bfc927f42458fcb5704",
+    "conclusion": "action_required",
+    "jobs": 0,
+    "checkRuns": 0
+  },
+  "finalReadbackAt": "2026-10-27T06:35:49.991542+00:00",
+  "headAndForkUnchanged": true,
+  "afterBodySha256": "e4aeba90fc14fc19dca76ad3ae80eda4e790c0159fa7889e4b9d9ad8bc35a059",
+  "finalNativeInventory": {
+    "at": "2026-10-27T06:27:44.289897+00:00",
+    "adbExit": 0,
+    "adbDeviceCount": 1,
+    "states": {
+      "device": 1
+    },
+    "ownedAffectedDeviceCount": 0,
+    "actions": "inventory only; no device/simulator app or configuration operations",
+    "adbModelInventory": [
+      {
+        "state": "device",
+        "model": "PHN110"
+      }
+    ],
+    "ownership": "PHN110 connected; user explicitly declined allocation for this run. No further device probes, installs, launches, control or native Android testing.",
+    "allocationDecision": "USER_DECLINED",
+    "allocationDecisionMessageId": "755cb358-309e-4b79-8a96-e75e66afb71a",
+    "allocationDecisionRecordedAt": "2026-10-27T06:32:55.301754+00:00"
+  },
+  "cleanupReceipt": "../cleanup.json",
+  "modifiedProductionFiles": [],
+  "validatedArtifacts": [
+    {
+      "file": "7556/raw/expanded-history/videos/1118da0baf6f04633e064dfc5556f81b.webm",
+      "sha256": "0d10f81dd18c3c18d486c1cffb686fb8439ee41e3fd13e6812c9f5f9d1dea3cb",
+      "bytes": 508211,
+      "kind": "video",
+      "ffprobeExit": 0,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 1280,
+            "height": 900
+          }
+        ],
+        "format": {
+          "duration": "9.640000"
+        }
+      },
+      "fullDecodeExit": 0,
+      "decodeOutput": ""
+    },
+    {
+      "file": "7556/raw/valid-calibration/videos/ffcde32f62c5d75a5debe942aacaff41.webm",
+      "sha256": "5061ae1aea32456debc26888d932802b1db6c7f1c40a8512f67669cfb32a3986",
+      "bytes": 450278,
+      "kind": "video",
+      "ffprobeExit": 0,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 1280,
+            "height": 900
+          }
+        ],
+        "format": {
+          "duration": "13.120000"
+        }
+      },
+      "fullDecodeExit": 0,
+      "decodeOutput": ""
+    },
+    {
+      "file": "7556/raw/videos/a849a760d4d1620ff3d060426fe250ae.webm",
+      "sha256": "0510a243d6edfae1d1314d5a47cd9dcfc05704f518fafad839e02a709ee9ea42",
+      "bytes": 195828,
+      "kind": "video",
+      "ffprobeExit": 0,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 1280,
+            "height": 900
+          }
+        ],
+        "format": {
+          "duration": "5.200000"
+        }
+      },
+      "fullDecodeExit": 0,
+      "decodeOutput": ""
+    }
+  ]
+}

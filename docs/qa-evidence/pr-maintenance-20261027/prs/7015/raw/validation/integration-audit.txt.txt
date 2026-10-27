@@ -1,0 +1,4 @@
+Original 9e4023926c7dabff69acc07360e2b1c3dd4387cb; frozen baseline 9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca.
+Meaningful upstream intersection: ACP terminal output helper changes from repeated byte-length scans to one Buffer trim, respecting UTF-8 continuation bytes; adds large-output and UTF-8 regressions.
+Automatic merge kept both upstream regressions and exact upstream helper; retained getPendingPermissions().length guard from previous integration, native bridge dispatch/enumeration/respond/cancel paths and both pending-question veto regressions.
+No new source repair or answer contract change. Full changed ACP test file is the focused regression target; unchanged protocol/form suites retain their previous source-specific receipts rather than being repeated or called new-head evidence.

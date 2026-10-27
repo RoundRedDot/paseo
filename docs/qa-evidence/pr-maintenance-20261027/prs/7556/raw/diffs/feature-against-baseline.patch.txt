@@ -1,0 +1,354 @@
+diff --git a/packages/app/src/components/markdown/renderer.tsx b/packages/app/src/components/markdown/renderer.tsx
+index 8e5149536..4596f7922 100644
+--- a/packages/app/src/components/markdown/renderer.tsx
++++ b/packages/app/src/components/markdown/renderer.tsx
+@@ -14,7 +14,7 @@ import { MarkdownBlockStack } from "./block-stack";
+ import { WEB_RENDERERS } from "./renderers";
+ import { createMarkdownStyles } from "./styles";
+ import { PENDING_MARKDOWN_IMAGE } from "./source";
+-import { splitStreamingMarkdown } from "./streaming";
++import { createStreamingMarkdownSplitter } from "./streaming";
+ import { useMarkdownSource, type MarkdownImageContext } from "./images";
+ 
+ import { MermaidFence, MermaidStreamingContext, splitMermaidFences } from "./fence/mermaid";
+@@ -55,10 +55,8 @@ export const MarkdownRenderer = memo(function MarkdownRenderer(props: MarkdownRe
+   const streaming = !isWeb && !!props.streaming;
+   // Only completed lines affect block closure. Do not run mdast on every reveal frame.
+   const completeLines = streaming ? props.text.slice(0, props.text.lastIndexOf("\n") + 1) : "";
+-  const boundary = useMemo(
+-    () => splitStreamingMarkdown(completeLines, true).head.length,
+-    [completeLines],
+-  );
++  const [splitStreaming] = useState(createStreamingMarkdownSplitter);
++  const boundary = useMemo(() => splitStreaming(completeLines), [completeLines, splitStreaming]);
+   if (!streaming || boundary === 0) return <MarkdownPart {...props} />;
+   return (
+     <MarkdownBlockStack>
+diff --git a/packages/app/src/components/markdown/streaming.test.ts b/packages/app/src/components/markdown/streaming.test.ts
+index ba18f28c8..1ecbf39d0 100644
+--- a/packages/app/src/components/markdown/streaming.test.ts
++++ b/packages/app/src/components/markdown/streaming.test.ts
+@@ -1,6 +1,6 @@
+ import { readFileSync } from "node:fs";
+ import { describe, expect, it } from "vitest";
+-import { splitStreamingMarkdown } from "./streaming";
++import { createStreamingMarkdownSplitter, splitStreamingMarkdown } from "./streaming";
+ 
+ describe("native streaming Markdown", () => {
+   it("keeps completed messages together for selection", () => {
+@@ -68,4 +68,37 @@ describe("native streaming Markdown", () => {
+     }
+     expect(previous).toBeGreaterThan(1000);
+   }, 15000);
++  it("finds the same boundary incrementally as a full parse of every prefix", () => {
++    const fixture = readFileSync(new URL("./streaming.fixture.md", import.meta.url), "utf8");
++    const sources = [
++      fixture,
++      "Intro.\n\n[label]\n\nNext.\n\n[label]: /target\n\nEnd.\n",
++      "Intro.\n\n- one\n\n  continued\n\nAfter.\n\n<div>\nbody\n</div>\n\nTail.\n",
++    ];
++    for (const source of sources) {
++      const split = createStreamingMarkdownSplitter();
++      for (let end = 0; end <= source.length; end++) {
++        const text = source.slice(0, end);
++        const completeLines = text.slice(0, text.lastIndexOf("\n") + 1);
++        expect(split(completeLines), `prefix ${end}`).toBe(
++          splitStreamingMarkdown(completeLines, true).head.length,
++        );
++      }
++    }
++  }, 15000);
++  it("parses only the source after the settled head", () => {
++    const split = createStreamingMarkdownSplitter();
++    const blocks = Array.from({ length: 200 }, (_, index) => `Paragraph ${index}.\n\n`);
++    split(blocks.join(""));
++    const settled = split(`${blocks.join("")}Next.\n\n`);
++    expect(settled).toBe(blocks.join("").length);
++    expect(splitStreamingMarkdown(`${blocks.join("")}Next.\n\n`, true, settled).head.length).toBe(
++      settled,
++    );
++  });
++  it("starts over when the source no longer extends the settled head", () => {
++    const split = createStreamingMarkdownSplitter();
++    expect(split("First.\n\nSecond.\n")).toBe("First.\n\n".length);
++    expect(split("Other.\n\nText.\n")).toBe("Other.\n\n".length);
++  });
+ });
+diff --git a/packages/app/src/components/markdown/streaming.ts b/packages/app/src/components/markdown/streaming.ts
+index 1b6153ca4..a924cfad8 100644
+--- a/packages/app/src/components/markdown/streaming.ts
++++ b/packages/app/src/components/markdown/streaming.ts
+@@ -13,10 +13,16 @@ function needsDocumentContext(node: Nodes): boolean {
+   return "children" in node && node.children.some(needsDocumentContext);
+ }
+ 
+-/** The last parsed block and unfinished line are mutable; earlier blocks are closed. */
+-export function splitStreamingMarkdown(text: string, streaming: boolean) {
++/**
++ * The last parsed block and unfinished line are mutable; earlier blocks are closed.
++ *
++ * `settled` is a head length this function returned for a prefix of `text`. Closed blocks need
++ * no document context, so the source after them parses the same on its own.
++ */
++export function splitStreamingMarkdown(text: string, streaming: boolean, settled = 0) {
+   if (!streaming) return { head: text, tail: "" };
+-  const completeLines = text.slice(0, text.lastIndexOf("\n") + 1);
++  const open = text.slice(settled);
++  const completeLines = open.slice(0, open.lastIndexOf("\n") + 1);
+   const tree = fromMarkdown(completeLines, {
+     extensions: [gfmTable()],
+     mdastExtensions: [gfmTableFromMarkdown()],
+@@ -26,7 +32,23 @@ export function splitStreamingMarkdown(text: string, streaming: boolean) {
+     if (needsDocumentContext(tree.children[index])) break;
+     // mdast starts some nodes after their indentation; the next parser needs it too.
+     const nextStart = tree.children[index + 1].position!.start.offset!;
+-    boundary = text.lastIndexOf("\n", nextStart - 1) + 1;
++    boundary = open.lastIndexOf("\n", nextStart - 1) + 1;
+   }
++  boundary += settled;
+   return { head: text.slice(0, boundary), tail: text.slice(boundary) };
+ }
++
++/**
++ * Finds the streaming boundary for a growing message. Reparsing the whole message on every
++ * completed line made a long reply cost more per line the longer it got; this parses only the
++ * source after the head it already settled.
++ */
++export function createStreamingMarkdownSplitter() {
++  let settledHead = "";
++  return (completeLines: string): number => {
++    const settled = completeLines.startsWith(settledHead) ? settledHead.length : 0;
++    const boundary = splitStreamingMarkdown(completeLines, true, settled).head.length;
++    settledHead = completeLines.slice(0, boundary);
++    return boundary;
++  };
++}
+diff --git a/packages/app/src/components/status-ring/clock.ts b/packages/app/src/components/status-ring/clock.ts
+index 430edb6e8..4414f8167 100644
+--- a/packages/app/src/components/status-ring/clock.ts
++++ b/packages/app/src/components/status-ring/clock.ts
+@@ -16,7 +16,11 @@ function advanceSharedRotation(): void {
+     return;
+   }
+ 
+-  sharedRotation.value = getStatusRingRotation(Date.now());
++  // Listeners repaint their rings, so publish only when the ring reaches its next step.
++  const nextRotation = getStatusRingRotation(Date.now());
++  if (sharedRotation.value !== nextRotation) {
++    sharedRotation.value = nextRotation;
++  }
+   requestAnimationFrame(advanceSharedRotation);
+ }
+ 
+diff --git a/packages/app/src/components/status-ring/geometry.test.ts b/packages/app/src/components/status-ring/geometry.test.ts
+new file mode 100644
+index 000000000..b3a5d2e7a
+--- /dev/null
++++ b/packages/app/src/components/status-ring/geometry.test.ts
+@@ -0,0 +1,12 @@
++import { describe, expect, test } from "vitest";
++import { getStatusRingRotation } from "./geometry";
++
++describe("status ring geometry", () => {
++  test("turns in twelve wall-clock-aligned steps every 900 milliseconds", () => {
++    const sampleTimes = [0, 74, 75, 149, 150, 449, 450, 824, 825, 899, 900];
++
++    const rotations = sampleTimes.map(getStatusRingRotation);
++
++    expect(rotations).toEqual([0, 0, 30, 30, 60, 150, 180, 300, 330, 330, 0]);
++  });
++});
+diff --git a/packages/app/src/components/status-ring/geometry.ts b/packages/app/src/components/status-ring/geometry.ts
+index e754bf7bb..b73f869d9 100644
+--- a/packages/app/src/components/status-ring/geometry.ts
++++ b/packages/app/src/components/status-ring/geometry.ts
+@@ -32,9 +32,17 @@ export const STATUS_RING_HEAD_OPACITY = 0.9;
+ // rings already turning.
+ export const STATUS_RING_PERIOD_MS = 900;
+ 
++// Native turns the ring in discrete steps, like a platform activity indicator. A continuous
++// rotation repaints the window on every vsync; on a pinned sidebar that kept an otherwise idle
++// Android foldable rendering at full frame rate. Twelve steps are about 13 repaints a second.
++export const STATUS_RING_STEPS = 12;
++
+ export function getStatusRingRotation(nowMs: number): number {
+   "worklet";
+-  return ((nowMs % STATUS_RING_PERIOD_MS) / STATUS_RING_PERIOD_MS) * 360;
++  const step = Math.floor(
++    ((nowMs % STATUS_RING_PERIOD_MS) * STATUS_RING_STEPS) / STATUS_RING_PERIOD_MS,
++  );
++  return (step * 360) / STATUS_RING_STEPS;
+ }
+ 
+ /**
+diff --git a/packages/app/src/runtime/replica-cache/index.test.ts b/packages/app/src/runtime/replica-cache/index.test.ts
+index eaad715a5..2deb8971a 100644
+--- a/packages/app/src/runtime/replica-cache/index.test.ts
++++ b/packages/app/src/runtime/replica-cache/index.test.ts
+@@ -568,6 +568,38 @@ describe("ReplicaCache", () => {
+     ]);
+   });
+ 
++  it("serializes only the retained tail of a long timeline", async () => {
++    const storage = new MemoryStorage();
++    const cache = createCache(storage);
++    let droppedTextReads = 0;
++    const items = Array.from({ length: 60 }, (_, index) => ({
++      ...timelineItem(`Message ${index}`),
++      id: `message-${index}`,
++      timelineCursor: { epoch: "epoch-1", seq: index + 1 },
++    }));
++    Object.defineProperty(items[0], "text", {
++      configurable: true,
++      enumerable: true,
++      get: () => {
++        droppedTextReads += 1;
++        return "Message 0";
++      },
++    });
++
++    cache.commitTimeline(SERVER_ID, "agent-1", {
++      agentId: "agent-1",
++      items,
++      range: { epoch: "epoch-1", startSeq: 1, endSeq: 60 },
++      hasOlder: false,
++    });
++    await cache.flush();
++
++    expect(droppedTextReads).toBe(0);
++    const restored = await createCache(storage).readTimeline(SERVER_ID, "agent-1");
++    expect(restored?.items.map((item) => item.id)).toEqual(items.slice(-50).map((item) => item.id));
++    expect(restored?.range).toBeNull();
++  });
++
+   it("never reads directory rows older than an accepted deferred deletion", async () => {
+     const storage = new MemoryStorage();
+     const cache = createCache(storage);
+diff --git a/packages/app/src/runtime/replica-cache/index.ts b/packages/app/src/runtime/replica-cache/index.ts
+index 59578e65d..350f5046c 100644
+--- a/packages/app/src/runtime/replica-cache/index.ts
++++ b/packages/app/src/runtime/replica-cache/index.ts
+@@ -766,7 +766,17 @@ function serializeTimeline(timeline: CachedTimeline): StoredTimeline | null {
+   const canonicalItems = timeline.items.filter(
+     (item) => item.kind !== "user_message" || !isUnreconciledLocalUserMessage(item),
+   );
+-  const items = canonicalItems.map(serializeTimelineItem).filter((item) => item !== null);
++  // A streaming turn commits about once a second, so serialize only the retained tail.
++  const items: StoredTimelineItem[] = [];
++  for (
++    let index = canonicalItems.length - 1;
++    index >= 0 && items.length < MAX_TIMELINE_ITEMS;
++    index -= 1
++  ) {
++    const item = serializeTimelineItem(canonicalItems[index]);
++    if (item) items.push(item);
++  }
++  items.reverse();
+   const range = timeline.range;
+   const canPersistCoverage =
+     range !== null &&
+@@ -783,7 +793,7 @@ function serializeTimeline(timeline: CachedTimeline): StoredTimeline | null {
+     canonicalItems.some((item) => item.timelineCursor?.seq === range.endSeq);
+   return {
+     agentId: timeline.agentId,
+-    items: items.slice(-MAX_TIMELINE_ITEMS),
++    items,
+     range: canPersistCoverage
+       ? { epoch: range.epoch, startSeq: range.startSeq, endSeq: range.endSeq }
+       : null,
+diff --git a/packages/app/src/voice/voice-runtime.test.ts b/packages/app/src/voice/voice-runtime.test.ts
+index 189140c7f..591215e46 100644
+--- a/packages/app/src/voice/voice-runtime.test.ts
++++ b/packages/app/src/voice/voice-runtime.test.ts
+@@ -71,14 +71,15 @@ function createRuntime(options?: {
+   getServerInfo?: (serverId: string) => DaemonServerInfo | null;
+ }) {
+   const engine = options?.engine ?? createAudioEngineMock();
++  const deactivateKeepAwake = vi.fn().mockResolvedValue(undefined);
+   const runtime = createVoiceRuntime({
+     engine,
+     getServerInfo: options?.getServerInfo ?? (() => createServerInfo()),
+     activateKeepAwake: vi.fn().mockResolvedValue(undefined),
+-    deactivateKeepAwake: vi.fn().mockResolvedValue(undefined),
++    deactivateKeepAwake,
+   });
+ 
+-  return { runtime, engine };
++  return { runtime, engine, deactivateKeepAwake };
+ }
+ 
+ describe("voice runtime", () => {
+@@ -482,6 +483,21 @@ describe("voice runtime", () => {
+     expect(runtime.shouldPlayVoiceAudio("server-1")).toBe(false);
+   });
+ 
++  it("releases the microphone and wake lock when the daemon rejects stopping voice mode", async () => {
++    const adapter = createSessionAdapter();
++    const { runtime, engine, deactivateKeepAwake } = createRuntime();
++    runtime.registerSession(adapter);
++
++    await runtime.startVoice("server-1", "agent-1");
++    vi.mocked(adapter.setVoiceMode).mockRejectedValue(new Error("socket closed"));
++
++    await expect(runtime.stopVoice()).rejects.toThrow("socket closed");
++
++    expect(engine.stopCapture).toHaveBeenCalled();
++    expect(deactivateKeepAwake).toHaveBeenCalled();
++    expect(runtime.getSnapshot().phase).toBe("disabled");
++  });
++
+   it("rolls daemon voice mode back when capture fails after enabling it", async () => {
+     const adapter = createSessionAdapter();
+     const engine = createAudioEngineMock();
+diff --git a/packages/app/src/voice/voice-runtime.ts b/packages/app/src/voice/voice-runtime.ts
+index 3b7843e2f..c792518c9 100644
+--- a/packages/app/src/voice/voice-runtime.ts
++++ b/packages/app/src/voice/voice-runtime.ts
+@@ -798,11 +798,15 @@ export function createVoiceRuntime(deps: VoiceRuntimeDeps): VoiceRuntime {
+         deps.engine.stop();
+         deps.engine.clearQueue();
+         activeSession?.adapter.setAssistantAudioPlaying(false);
+-        if (activeSession) {
+-          await activeSession.adapter.setVoiceMode(false);
++        try {
++          if (activeSession) {
++            await activeSession.adapter.setVoiceMode(false);
++          }
++        } finally {
++          // An unreachable daemon must not keep the microphone or the screen wake lock held.
++          await deps.engine.stopCapture().catch(() => undefined);
++          await deps.deactivateKeepAwake(KEEP_AWAKE_TAG).catch(() => undefined);
+         }
+-        await deps.engine.stopCapture();
+-        await deps.deactivateKeepAwake(KEEP_AWAKE_TAG).catch(() => undefined);
+       } finally {
+         if (state.generation === generation) {
+           resetToDisabledState();
+diff --git a/packages/server/src/server/session.ts b/packages/server/src/server/session.ts
+index 9d2532807..f47592c97 100644
+--- a/packages/server/src/server/session.ts
++++ b/packages/server/src/server/session.ts
+@@ -2198,13 +2198,16 @@ export class Session {
+       this.peakInflightRequests = this.inflightRequests;
+     }
+     try {
+-      this.sessionLogger.trace(
+-        {
+-          messageType: msg.type,
+-          payloadBytes: JSON.stringify(msg).length,
+-        },
+-        "agent.session.inbound",
+-      );
++      // Inbound messages carry attachments and voice audio; only serialize them for trace.
++      if (this.sessionLogger.isLevelEnabled?.("trace")) {
++        this.sessionLogger.trace(
++          {
++            messageType: msg.type,
++            payloadBytes: JSON.stringify(msg).length,
++          },
++          "agent.session.inbound",
++        );
++      }
+       if (!this.authorization.allowsInbound(msg)) {
+         const requestId = sessionRequestId(msg);
+         if (requestId) {

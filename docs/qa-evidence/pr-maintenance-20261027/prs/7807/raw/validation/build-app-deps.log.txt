@@ -1,0 +1,49 @@
+
+> paseo@0.13.2 build:app-deps
+> npm run build:highlight && npm run build:client && npm run build:plugin && npm run build --workspace=@getpaseo/expo-two-way-audio
+
+
+> paseo@0.13.2 build:highlight
+> npm run build --workspace=@getpaseo/highlight
+
+
+> @getpaseo/highlight@0.13.2 build
+> tsc -p tsconfig.json --incremental false
+
+
+> paseo@0.13.2 build:client
+> npm run build --workspace=@getpaseo/client
+
+
+> @getpaseo/client@0.13.2 build
+> npm run build --workspace=@getpaseo/protocol && npm run build --workspace=@getpaseo/relay && tsc -p tsconfig.json --incremental false
+
+
+> @getpaseo/protocol@0.13.2 prebuild
+> npm run generate:validators
+
+
+> @getpaseo/protocol@0.13.2 generate:validators
+> node scripts/generate-validation-aot.mjs
+
+generated src/generated/validation/ws-outbound.aot.ts: envelope + 237 session message validators
+
+> @getpaseo/protocol@0.13.2 build
+> tsc -p tsconfig.json --incremental false
+
+
+> @getpaseo/relay@0.13.2 build
+> tsc -p tsconfig.json --incremental false
+
+
+> paseo@0.13.2 build:plugin
+> npm run build --workspace=@getpaseo/plugin
+
+
+> @getpaseo/plugin@0.13.2 build
+> tsc -p tsconfig.json --incremental false
+
+
+> @getpaseo/expo-two-way-audio@0.13.2 build
+> tsc
+

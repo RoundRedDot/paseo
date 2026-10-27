@@ -1,0 +1,21 @@
+{
+  "pr": 7807,
+  "role": "source-delivery",
+  "status": "delivered",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "f4c395b855bd4e94fbd359fe3b1d611ad382e841",
+  "tree": "c475a95768c3ed038917ae20ba94527a0533dc04",
+  "oldHead": "15f49892f0189a2c5d9ec45449ba827f9a906ed3",
+  "sourceChanged": true,
+  "baselineAncestor": true,
+  "host": {
+    "hostname": "luoph-mbp",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "node": "v24.18.0"
+  },
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "high",
+  "testTotal": 166,
+  "remaining": "Native phone/tablet long-press, haptics/accessibility, physical hinges, release APK, and packaged Electron were not renewed.",
+  "summary": "Integrated persisted workspace settings and tab behavior; 166 unit cases and 7 Chromium cases passed."
+}

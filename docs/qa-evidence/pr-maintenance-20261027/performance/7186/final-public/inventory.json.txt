@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-27T05:01:41.211424+00:00",
+  "adbDeviceCount": 0,
+  "availableSimulators": 23,
+  "bootedSimulators": 2,
+  "ownedDevices": 0,
+  "deviceActions": "Inventory only. No simulator/device boot, install, launch or control; existing devices untouched.",
+  "platform": "macOS / Apple Silicon; iOS simulators are not affected Android physical hardware"
+}

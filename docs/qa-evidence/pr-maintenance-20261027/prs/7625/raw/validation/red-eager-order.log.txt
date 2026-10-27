@@ -1,0 +1,39 @@
+Expected regression confirmed: minifying before eager interop exposes changed host values; final source restored byte-for-byte.
+lugins/compiler.test.ts
+[dotenv@17.3.1] injecting env (0) from .env.test -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+[dotenv@17.3.1] injecting env (0) from ../.env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+
+ ❯ src/server/plugins/compiler.test.ts (85 tests | 1 failed | 84 skipped) 372ms
+     × keeps distinct host exports eager when minifying in the worker 371ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/server/plugins/compiler.test.ts > plugin runtime entries > keeps distinct host exports eager when minifying in the worker
+AssertionError: expected [ 'changed first export', …(1) ] to deeply equal [ 'first export', 'second export' ]
+
+- Expected
++ Received
+
+  [
+-   "first export",
+-   "second export",
++   "changed first export",
++   "changed second export",
+  ]
+
+ ❯ src/server/plugins/compiler.test.ts:627:31
+    625|     host.first = "changed first export";
+    626|     host.second = "changed second export";
+    627|     expect(exports.default()).toEqual(["first export", "second export"…
+       |                               ^
+    628|   });
+    629|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 84 skipped (85)
+   Start at  13:35:16
+   Duration  522ms (transform 43ms, setup 18ms, import 65ms, tests 372ms, environment 0ms)
+

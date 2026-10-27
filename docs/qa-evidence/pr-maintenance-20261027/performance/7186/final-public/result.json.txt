@@ -1,0 +1,108 @@
+{
+  "number": 7186,
+  "result": "evidence-limit; controlled native application performance remains unproven",
+  "start": "2026-10-27T04:58:48.260494+00:00",
+  "end": "2026-10-27T05:01:41.211424+00:00",
+  "configuredModel": "codex/gpt-6.1-sol",
+  "thinking": "High",
+  "modelProvenance": "parent dispatch configuration; actual backend metadata not independently exposed",
+  "oldHead": "ea9c7b7ad2161e60ce7a1c436529833514b839b1",
+  "newHead": "ea9c7b7ad2161e60ce7a1c436529833514b839b1",
+  "sourceChanged": false,
+  "newCaptureCount": 0,
+  "priorCalibration": {
+    "source": "85f7d56ea79f8b7c22538a2b763875f4ce2d74ad",
+    "threshold": 0.15,
+    "counterTotalMs": [
+      0.9881669729948044,
+      0.930291011929512
+    ],
+    "persistTotalRelativeDifference": 0.5978121510713263,
+    "persistPerMiBRelativeDifference": 0.5405653278767281,
+    "passed": false,
+    "decision": "STOP retained; no A/B performance interpretation"
+  },
+  "inventory": {
+    "at": "2026-10-27T05:01:41.211424+00:00",
+    "adbDeviceCount": 0,
+    "availableSimulators": 23,
+    "bootedSimulators": 2,
+    "ownedDevices": 0,
+    "deviceActions": "Inventory only. No simulator/device boot, install, launch or control; existing devices untouched.",
+    "platform": "macOS / Apple Silicon; iOS simulators are not affected Android physical hardware"
+  },
+  "concreteGaps": [
+    "An owned available affected physical Android/Hermes device and exact current-head Release A/B builds",
+    "Predeclared real-app same-input streaming/typing/scrolling trace tied to actual byte-count work and frame/input latency",
+    "A/A <=15% followed by serial baseline/candidate/returning-baseline if calibration passes",
+    "For OOM claims, actual affected workload and native memory/GC observations; not simulator or Web substitution"
+  ],
+  "priorFunctionalEvidence": "Actual SQLite/hash/END and explicit-navigation offline content passed on historical simulator Release; not a current-head/performance/native Android pass.",
+  "publicLinksPreserved": true,
+  "bodyUpdate": "completed and exact final readback; historical links preserved",
+  "logs": [
+    "inventory.log",
+    "inventory.json",
+    "protocol.json",
+    "prior-result.json",
+    "prior-protocol-and-report.md",
+    "prior-noise-review.md"
+  ],
+  "privateArtifacts": [
+    "adb-inventory.private.txt",
+    "simulator-inventory.private.json"
+  ],
+  "bodyReceipt": {
+    "headRefOid": "ea9c7b7ad2161e60ce7a1c436529833514b839b1",
+    "headRefName": "fix/native-render-stream-cost",
+    "headRepository": {
+      "id": "R_kgDOVEwDiw",
+      "name": "paseo",
+      "nameWithOwner": "RoundRedDot/paseo"
+    },
+    "state": "OPEN",
+    "isDraft": false,
+    "baseRefName": "main",
+    "finalNativeScope": "Initial05:01UTC adb0; final06:27UTC PHN110 connected but USER_DECLINED allocation; original failed native calibration not rerun."
+  },
+  "historicURLsPreserved": 14,
+  "afterBodySha256": "88d8dbd884ee116f95394e9fca51190d09a4324f2870f7c24d3ef9c6e7996759",
+  "tree": "ec7c83b9acf4dcd878611196563aaf69c00505da",
+  "checkSuites": [
+    {
+      "id": 108979457397,
+      "head_sha": "ea9c7b7ad2161e60ce7a1c436529833514b839b1",
+      "status": "completed",
+      "conclusion": "action_required",
+      "latest_check_runs_count": 0
+    }
+  ],
+  "checkRunCount": 0,
+  "unitTests": "none added or repeated: evidence/inventory/body only; no product logic change",
+  "finalReadbackAt": "2026-10-27T06:35:49.991542+00:00",
+  "headAndForkUnchanged": true,
+  "finalNativeInventory": {
+    "at": "2026-10-27T06:27:44.289897+00:00",
+    "adbExit": 0,
+    "adbDeviceCount": 1,
+    "states": {
+      "device": 1
+    },
+    "ownedAffectedDeviceCount": 0,
+    "actions": "inventory only; no device/simulator app or configuration operations",
+    "adbModelInventory": [
+      {
+        "state": "device",
+        "model": "PHN110"
+      }
+    ],
+    "ownership": "PHN110 connected; user explicitly declined allocation for this run. No further device probes, installs, launches, control or native Android testing.",
+    "allocationDecision": "USER_DECLINED",
+    "allocationDecisionMessageId": "755cb358-309e-4b79-8a96-e75e66afb71a",
+    "allocationDecisionRecordedAt": "2026-10-27T06:32:55.301754+00:00"
+  },
+  "cleanupReceipt": "../cleanup.json",
+  "modifiedProductionFiles": [],
+  "sourceCommits": 0,
+  "validatedArtifacts": []
+}

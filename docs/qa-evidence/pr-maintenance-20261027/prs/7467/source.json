@@ -1,0 +1,21 @@
+{
+  "pr": 7467,
+  "role": "source-delivery",
+  "status": "delivered",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "70df9add8941096e5437b88efad97cf91d95f43b",
+  "tree": "f0ce8d4c0838fdd3c0c17e0a85c49536bb54aff9",
+  "oldHead": "8dbc6a9961b0b29ecd234a2b8aac182ea13da05a",
+  "sourceChanged": true,
+  "baselineAncestor": true,
+  "host": {
+    "hostname": "luoph-mbp",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "node": "v24.18.0"
+  },
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "high",
+  "testTotal": 112,
+  "remaining": "Browser CSS/keyboard paths passed; no new dedicated Android rendering, native iPad, release APK, or packaged Electron acceptance.",
+  "summary": "Preserved the send-shortcut setting alongside font settings; 112 storage cases and two Chromium cases passed."
+}

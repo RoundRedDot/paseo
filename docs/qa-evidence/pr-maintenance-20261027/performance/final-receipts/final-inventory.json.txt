@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-27T06:27:44.289897+00:00",
+  "adbExit": 0,
+  "adbDeviceCount": 1,
+  "states": {
+    "device": 1
+  },
+  "ownedAffectedDeviceCount": 0,
+  "actions": "inventory only; no device/simulator app or configuration operations",
+  "adbModelInventory": [
+    {
+      "state": "device",
+      "model": "PHN110"
+    }
+  ],
+  "ownership": "PHN110 connected; user explicitly declined allocation for this run. No further device probes, installs, launches, control or native Android testing.",
+  "allocationDecision": "USER_DECLINED",
+  "allocationDecisionMessageId": "755cb358-309e-4b79-8a96-e75e66afb71a",
+  "allocationDecisionRecordedAt": "2026-10-27T06:32:55.301754+00:00"
+}

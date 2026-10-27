@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-27T07:04:44.115235+00:00",
+  "ports": [
+    {
+      "port": 65173,
+      "listenerPresent": false,
+      "lsofExitCode": 1
+    },
+    {
+      "port": 50240,
+      "listenerPresent": false,
+      "lsofExitCode": 1
+    },
+    {
+      "port": 51510,
+      "listenerPresent": false,
+      "lsofExitCode": 1
+    },
+    {
+      "port": 53456,
+      "listenerPresent": false,
+      "lsofExitCode": 1
+    }
+  ],
+  "gitHead": "59bfc43e4097425f0a4429473a9635a99b305067",
+  "dirtyStatus": ""
+}

@@ -1,0 +1,8 @@
+{"at":"2026-10-27T06:06:28.014Z","name":"isolated_exact_candidate_daemon","pass":true,"port":63561,"serverId":"srv_aBOaRvLU1dFz"}
+{"at":"2026-10-27T06:06:34.355Z","name":"native_session_exact_model","pass":true,"actualModel":"deepseek/deepseek-v4-flash","mode":"ask"}
+{"at":"2026-10-27T06:06:36.662Z","name":"after-prompt_canonical_bytes_ids","pass":true,"userRows":1,"id":"6736-omp-image-20261027","epoch":"4f23fea1-43e1-402a-87c9-2b130dd96d0c","imageSha256":"a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"}
+{"at":"2026-10-27T06:06:36.662Z","name":"two_independent_clients_live_image_bytes","pass":true}
+{"at":"2026-10-27T06:06:36.663Z","name":"real_omp_response","pass":true,"response":"I can't see the attached image: the active model has no image input, and the attachment itself reports no usable description text. So I can't honestly name colors or shapes.\n\nTo get the one-sentence answer, either re-attach with a vision-capable model selected, or give me any text description/hex values from the image and I'll condense it."}
+{"at":"2026-10-27T06:06:41.217Z","name":"browser-live_browser_image","pass":true,"imageSha256":"a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda","browser":"145.0.7632.6"}
+{"at":"2026-10-27T06:06:41.581Z","name":"browser-live_lightbox","pass":true}
+{"status":"failed_or_blocked","failure":{"stage":"browser","errorType":"TimeoutError","qaCheck":null,"timeout":true,"auth":false,"network":false,"statuses":[],"errorDigest":"73691178ef9f002ae84165e6384189254ce46dc47c137b016cad90f2c4615371"}}

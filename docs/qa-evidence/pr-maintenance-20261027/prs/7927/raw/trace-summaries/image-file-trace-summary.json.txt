@@ -1,0 +1,58 @@
+[
+  {
+    "name": "image-file-page@794b516c34adf571e7a3e5477fee5eda-after-call-85.html",
+    "pageId": "page@794b516c34adf571e7a3e5477fee5eda",
+    "snapshot": "after@call@85",
+    "notesOccurrences": 2,
+    "imageButtons": 1
+  },
+  {
+    "name": "image-file-page@794b516c34adf571e7a3e5477fee5eda-before-call-87.html",
+    "pageId": "page@794b516c34adf571e7a3e5477fee5eda",
+    "snapshot": "before@call@87",
+    "notesOccurrences": 2,
+    "imageButtons": 1
+  },
+  {
+    "name": "image-file-page@794b516c34adf571e7a3e5477fee5eda-after-call-87.html",
+    "pageId": "page@794b516c34adf571e7a3e5477fee5eda",
+    "snapshot": "after@call@87",
+    "notesOccurrences": 2,
+    "imageButtons": 1
+  },
+  {
+    "name": "image-file-page@71655c65d978e9ab6b99723c6902d972-after-call-98.html",
+    "pageId": "page@71655c65d978e9ab6b99723c6902d972",
+    "snapshot": "after@call@98",
+    "notesOccurrences": 0,
+    "imageButtons": 0
+  },
+  {
+    "name": "image-file-page@71655c65d978e9ab6b99723c6902d972-before-call-100.html",
+    "pageId": "page@71655c65d978e9ab6b99723c6902d972",
+    "snapshot": "before@call@100",
+    "notesOccurrences": 0,
+    "imageButtons": 0
+  },
+  {
+    "name": "image-file-page@71655c65d978e9ab6b99723c6902d972-after-call-100.html",
+    "pageId": "page@71655c65d978e9ab6b99723c6902d972",
+    "snapshot": "after@call@100",
+    "notesOccurrences": 0,
+    "imageButtons": 0
+  },
+  {
+    "name": "image-file-page@71655c65d978e9ab6b99723c6902d972-before-call-102.html",
+    "pageId": "page@71655c65d978e9ab6b99723c6902d972",
+    "snapshot": "before@call@102",
+    "notesOccurrences": 0,
+    "imageButtons": 0
+  },
+  {
+    "name": "image-file-page@71655c65d978e9ab6b99723c6902d972-after-call-102.html",
+    "pageId": "page@71655c65d978e9ab6b99723c6902d972",
+    "snapshot": "after@call@102",
+    "notesOccurrences": 0,
+    "imageButtons": 0
+  }
+]

@@ -1,0 +1,89 @@
+{
+  "sourceHead": "d5032deb078a5720f6c670377690e5379b158970",
+  "tree": "c389950079b35d81dea583da0e9f9a1a31834beb",
+  "baseline": "b12eefb28ff99fd8a26eb826fced87f5d62dd808",
+  "tests": 43,
+  "testFiles": 2,
+  "selectedFiles": [
+    {
+      "source": "app-presentation.log",
+      "file": "prs/7318/final-refresh/raw/app-presentation.log.txt",
+      "bytes": 879,
+      "sha256": "c33ecb812845cb5fd193e15bf3cd727cab510aaf3c512e74ddfa3ea8792d7bb1"
+    },
+    {
+      "source": "app-turn-collapse.log",
+      "file": "prs/7318/final-refresh/raw/app-turn-collapse.log.txt",
+      "bytes": 269,
+      "sha256": "17e02c84cad7cacfa4bdfbed6f962f3e0ce712ad1cc5f38dc921ea44eaa9cbd0"
+    },
+    {
+      "source": "build-server.log",
+      "file": "prs/7318/final-refresh/raw/build-server.log.txt",
+      "bytes": 3525,
+      "sha256": "b65f41c835ae054d0e81c177c8231eda18c1f03366012690529c59497f469b13"
+    },
+    {
+      "source": "format.log",
+      "file": "prs/7318/final-refresh/raw/format.log.txt",
+      "bytes": 85,
+      "sha256": "44879ef31667a9fba0fff7aca86b63e19aa24fe9b702bbf7ae308bf6d86c570b"
+    },
+    {
+      "source": "lint.log",
+      "file": "prs/7318/final-refresh/raw/lint.log.txt",
+      "bytes": 126,
+      "sha256": "a392f996cad7f933991111cd3806cac5dae842f3fb721055158bdc40ba9d819c"
+    },
+    {
+      "source": "typecheck.log",
+      "file": "prs/7318/final-refresh/raw/typecheck.log.txt",
+      "bytes": 1312,
+      "sha256": "9efb5fc0722df4b4e4d919b89cdc8a5eefe99b49936de51c025f99658727db45"
+    },
+    {
+      "source": "merge.log",
+      "file": "prs/7318/final-refresh/raw/merge.log.txt",
+      "bytes": 241,
+      "sha256": "bc1568379bd108245a1a0785dab2fb1c4f0851fe5d954fedf1f83af11ee192e1"
+    },
+    {
+      "source": "conflict.diff",
+      "file": "prs/7318/final-refresh/raw/conflict.diff.txt",
+      "bytes": 607,
+      "sha256": "a37ccb43ddccc79476f97509bd8c75c11cc17e3584ddd33a1ed070e5de2f9042"
+    },
+    {
+      "source": "upstream-view.diff",
+      "file": "prs/7318/final-refresh/raw/upstream-view.diff.txt",
+      "bytes": 7653,
+      "sha256": "5855862ac03e82bf02078ecd876be7cb3a064012469aaeccae78c8808198812a"
+    },
+    {
+      "source": "feature.diff",
+      "file": "prs/7318/final-refresh/raw/feature.diff.txt",
+      "bytes": 7529,
+      "sha256": "42e0cfa82a7904272bc11f5adf4d3e246ca9d625a822fd1b6ebdd428c62b2a2c"
+    }
+  ],
+  "excludedFiles": [],
+  "credentialLikeMatches": 0,
+  "readback": {
+    "fork": "d5032deb078a5720f6c670377690e5379b158970",
+    "pr": "d5032deb078a5720f6c670377690e5379b158970",
+    "body": true,
+    "mergeable": "MERGEABLE",
+    "mergeStateStatus": "BLOCKED"
+  },
+  "oldNoopAudit": "retained separately as historical; no old tests counted in the new 43",
+  "sourceInputFiles": 44,
+  "excludedSourceEntriesByCategory": {
+    "status/body/API metadata and summary snapshots": 12,
+    "process exit sentinels": 8,
+    "source/script snapshots": 5,
+    "command and commit text": 4,
+    "unselected logs": 3,
+    "unselected diffs": 1,
+    "body markdown": 1
+  }
+}

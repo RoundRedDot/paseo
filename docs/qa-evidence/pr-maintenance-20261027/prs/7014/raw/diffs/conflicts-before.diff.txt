@@ -1,0 +1,108 @@
+diff --cc packages/server/src/server/agent/providers/omp/history-mapper.test.ts
+index f7c809e2f,03c0ebe5a..000000000
+--- a/packages/server/src/server/agent/providers/omp/history-mapper.test.ts
++++ b/packages/server/src/server/agent/providers/omp/history-mapper.test.ts
+@@@ -1246,52 -1247,52 +1247,103 @@@ describe("OMP history mapper", () => 
+    });
+  });
+  
+++<<<<<<< HEAD
+ +test("preserves structured questions and results in history alongside the native summary", async () => {
+ +  const questions = [
+ +    {
+ +      question: "Which colors?",
+ +      header: "Colors",
+ +      options: [
+ +        { label: "Red", description: "Warm" },
+ +        { label: "Blue", description: "Cool" },
+ +      ],
+ +      multiSelect: true,
+ +    },
+ +  ];
+ +  const details = {
+ +    results: [
+ +      {
+ +        question: "Which colors?",
+ +        selectedOptions: ["Red", "Blue"],
+ +        customInput: "Custom, answer",
+ +      },
+ +    ],
+ +  };
+ +  const events = await collectHistory([
+ +    {
+ +      role: "assistant",
+ +      content: [{ type: "toolCall", id: "questions-1", name: "ask", arguments: { questions } }],
+ +    },
+ +    {
+ +      role: "toolResult",
+ +      toolCallId: "questions-1",
+ +      toolName: "ask",
+ +      content: [{ type: "text", text: "Answered" }],
+ +      details,
+ +      isError: false,
+ +    },
+ +  ]);
+ +  expect(events).toHaveLength(2);
+ +  expect(events[0]).toMatchObject({
+ +    type: "timeline",
+ +    item: { type: "tool_call", status: "running", metadata: { questions } },
+ +  });
+ +  expect(events[1]).toMatchObject({
+ +    type: "timeline",
+ +    item: {
+ +      type: "tool_call",
+ +      status: "completed",
+ +      metadata: { questions, questionResult: details },
+ +    },
+ +  });
+++=======
++ test("indexes out-of-order branches, duplicate IDs and cycles before selecting history", async () => {
++   const directory = await mkdtemp(join(tmpdir(), "omp-history-branches-"));
++   const sessionFile = join(directory, "session.jsonl");
++   const root = { id: "root", parentId: null };
++   const earlyLeaf = {
++     id: "early",
++     parentId: "root",
++     message: { role: "user", content: "你好🌍".repeat(15000) },
++   };
++   const branch = { id: "branch", parentId: "root" };
++   const active = { id: "active", parentId: "branch" };
++   const duplicate = {
++     id: "branch",
++     parentId: "root",
++     message: { role: "user", content: "replacement" },
++   };
++   try {
++     await writeFile(
++       sessionFile,
++       [earlyLeaf, active, root, branch, duplicate]
++         .map((entry) => JSON.stringify(entry))
++         .join("\n") + '\n{"id":',
++     );
++     // The final record is a branch ancestor, not the active leaf. Latest duplicate wins
++     // when following parents; the invalid tail contributes neither a leaf nor a parent.
++     await expect(readActiveOmpEntryChain(sessionFile)).resolves.toEqual([root, duplicate, active]);
++     await expect(readActiveOmpEntryChain(sessionFile, "early")).resolves.toEqual([root, earlyLeaf]);
++     await expect(readActiveOmpEntryChain(sessionFile, "missing")).resolves.toEqual([
++       root,
++       duplicate,
++       active,
++     ]);
++     const cycle = [
++       { id: "a", parentId: "b" },
++       { id: "b", parentId: "a" },
++     ];
++     await writeFile(sessionFile, cycle.map((entry) => JSON.stringify(entry)).join("\n"));
++     await expect(readActiveOmpEntryChain(sessionFile)).resolves.toEqual(cycle);
++     await writeFile(sessionFile, "null\n{}\ninvalid\n");
++     await expect(readActiveOmpEntryChain(sessionFile)).resolves.toEqual([]);
++     await expect(readActiveOmpEntryChain(directory)).rejects.toMatchObject({ code: "EISDIR" });
++     await expect(readActiveOmpEntryChain(join(directory, "missing"))).rejects.toMatchObject({
++       code: "ENOENT",
++     });
++     await expect(readOmpHistoryTodoState(join(directory, "missing"))).resolves.toBeNull();
++   } finally {
++     await rm(directory, { recursive: true, force: true });
++   }
+++>>>>>>> 9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca
+  });

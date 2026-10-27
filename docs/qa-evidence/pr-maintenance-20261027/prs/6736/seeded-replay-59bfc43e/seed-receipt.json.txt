@@ -1,0 +1,40 @@
+{
+  "sourceHead": "59bfc43e4097425f0a4429473a9635a99b305067",
+  "diagnostic": "MANUALLY_SEEDED_CLONE_ZERO_INFERENCE",
+  "seedCount": 1,
+  "field": "AgentPersistenceHandle.metadata.submittedUserMessages",
+  "nativeEntryId": "a6c4387f",
+  "clientMessageId": "6736-omp-image-20261027",
+  "originalImage": {
+    "file": "public-fixture.png",
+    "bytes": 439,
+    "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda",
+    "mimeType": "image/png"
+  },
+  "nativeImage": {
+    "file": "native-normalized-image.webp",
+    "bytes": 382,
+    "sha256": "7bda7e04a68ee969a784a9b9a4defa414b8f7cfd3574cb968c9891b0e707dac8",
+    "mimeType": "image/webp"
+  },
+  "originalHandleHadAssociation": false,
+  "nativeJsonlCloneSha256": "e45a6a511e2b89d3692c151d55e2477d57224cdf32192f9faf58a34034cfb2e6",
+  "nativeJsonlOriginalSha256": "e45a6a511e2b89d3692c151d55e2477d57224cdf32192f9faf58a34034cfb2e6",
+  "pathsRetargeted": [
+    "record.cwd",
+    "persistence.nativeHandle",
+    "persistence.metadata.cwd",
+    "config.providerOptions.sessionDir",
+    "cloned project/workspace registry paths"
+  ],
+  "privateCloneAgentStateSha256": "75e81fbf9c775be01abbb84d022cb67302bc04f807d031d0068898f8c2fa4241",
+  "doesNotProve": [
+    "automatic original-write persistence",
+    "new live-provider prompt acceptance",
+    "retroactive recovery of old missing originals",
+    "vendor image-understanding"
+  ],
+  "noOriginalWrites": true,
+  "noAuthOrConfigCopied": true,
+  "newPromptSubmissions": 0
+}

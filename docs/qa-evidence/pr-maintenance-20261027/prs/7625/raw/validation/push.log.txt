@@ -1,0 +1,2 @@
+To github.com:RoundRedDot/paseo.git
+   679130a7c..7951fa0f3  HEAD -> perf/minify-plugin-client-bundle

@@ -1,0 +1,815 @@
+diff --git a/docs/qa-evidence/plugin-fork-menu/checks.txt b/docs/qa-evidence/plugin-fork-menu/checks.txt
+new file mode 100644
+index 000000000..415b574cb
+--- /dev/null
++++ b/docs/qa-evidence/plugin-fork-menu/checks.txt
+@@ -0,0 +1,170 @@
++Plugin ForkMenu verification on macOS arm64, 2026-10-20.
++Base: ab6cdb7c896f6e79aaae1ce68b59ca44b1a9c19c
++Web: real Chromium + isolated daemon + deterministic mock provider.
++No installed host or production daemon was changed.
++iOS, Android, and Electron were not exercised.
++
++Focused unit run: npm exec --workspace=@getpaseo/app -- vitest run src/plugins/timeline/fork.test.ts src/agent-stream/turn-boundary.test.ts --bail=1
++Observed: Test Files 2 passed (2); Tests 13 passed (13).
++
++
++Regression with assistant identity retention removed (expected failure)
++
++
++ RUN  v4.1.7 <checkout>/packages/app
++
++ ❯ |unit| src/plugins/timeline/fork.test.ts (7 tests | 1 failed) 3ms
++     × forks an exploded row into tab using the original boundary 2ms
++
++ Test Files  1 failed (1)
++      Tests  1 failed (7)
++   Start at  11:17:40
++   Duration  96ms (transform 25ms, setup 18ms, import 16ms, tests 3ms, environment 0ms)
++
++
++⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
++
++ FAIL  |unit| src/plugins/timeline/fork.test.ts > plugin timeline fork > forks an exploded row into tab using the original boundary
++AssertionError: expected null not to be null
++ ❯ src/plugins/timeline/fork.test.ts:46:26
++     44|           },
++     45|         });
++     46|         expect(fork).not.toBeNull();
++       |                          ^
++     47|         await fork?.(target);
++     48|       }
++
++⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
++
++
++
++SDK import boundaries
++
++
++ RUN  v4.1.7 <checkout>/packages/plugin
++
++
++ Test Files  1 passed (1)
++      Tests  51 passed (51)
++   Start at  11:18:47
++   Duration  281ms (transform 84ms, setup 0ms, import 193ms, tests 30ms, environment 0ms)
++
++
++
++Full workspace typecheck (exit 0)
++
++
++> paseo@0.12.0 typecheck
++> npm run typecheck --workspaces --if-present
++
++
++> @getpaseo/builtin-plugins@0.12.0 typecheck
++> tsgo -p tsconfig.json --noEmit
++
++
++> @getpaseo/expo-two-way-audio@0.12.0 typecheck
++> tsgo --noEmit
++
++
++> @getpaseo/highlight@0.12.0 typecheck
++> tsgo --noEmit
++
++
++> @getpaseo/plugin@0.12.0 typecheck
++> tsgo --noEmit && tsgo -p tsconfig.examples.json --noEmit
++
++
++> @getpaseo/protocol@0.12.0 pretypecheck
++> npm run generate:validators
++
++
++> @getpaseo/protocol@0.12.0 generate:validators
++> node scripts/generate-validation-aot.mjs
++
++generated src/generated/validation/ws-outbound.aot.ts: envelope + 225 session message validators
++
++> @getpaseo/protocol@0.12.0 typecheck
++> tsgo --noEmit
++
++
++> @getpaseo/client@0.12.0 typecheck
++> tsgo --noEmit
++
++
++> @getpaseo/server@0.12.0 typecheck
++> tsgo -p tsconfig.server.typecheck.json --noEmit
++
++
++> @getpaseo/app@0.12.0 typecheck
++> tsgo --noEmit
++
++
++> @getpaseo/relay@0.12.0 typecheck
++> tsgo --noEmit
++
++
++> @getpaseo/website@0.12.0 typecheck
++> tsgo --noEmit
++
++
++> @getpaseo/desktop@0.12.0 typecheck
++> tsgo --noEmit -p tsconfig.json
++
++
++> @getpaseo/cli@0.12.0 typecheck
++> tsgo --noEmit
++
++
++
++Full lint (exit 0)
++
++
++> paseo@0.12.0 lint
++> oxlint
++
++Found 0 warnings and 0 errors.
++Finished in 921ms on 4752 files with 177 rules using 15 threads.
++
++
++Full format (exit 0)
++
++
++> paseo@0.12.0 format
++> oxfmt .
++
++Finished in 786ms on 5095 files using 15 threads.
++
++
++Real-browser fork flows (exit 0)
++
++[metro] Starting project at <checkout>/packages/app
++[metro] Using src/app as the root directory for Expo Router.
++[metro] Experimental Expo Autolinking module resolver is enabled.
++[metro] React Compiler enabled
++[metro] Starting Metro Bundler
++[metro] Waiting on http://localhost:53536
++[metro] Logs for your project will appear below.
++[metro] Web Bundled 1400ms packages/app/index.ts (5606 modules)
++[e2e] Metro warmed on port 53536
++
++Running 2 tests using 1 worker
++
++(node:14044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
++(Use `node --trace-warnings ...` to show where the warning was created)
++(node:14044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
++(Use `node --trace-warnings ...` to show where the warning was created)
++[e2e] Worker 0 daemon started on port 53574, home: <temporary-home>
++[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
++[metro] Web Bundled 137ms packages/app/index.ts (1 module)
++[metro]  LOG  [web] Logs will appear in the browser console
++[metro] Web Bundled 29ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
++  ✓  1 [browser] › e2e/browser/plugin-timeline.spec.ts:41:7 › forks a transformed reply into a new tab (11.4s)
++[metro] Web packages/app/index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
++[metro] Web Bundled 161ms packages/app/index.ts (1 module)
++[metro] Web Bundled 3ms packages/app/src/attachments/web/indexeddb-attachment-store.ts (1 module)
++[metro]  LOG  [web] Logs will appear in the browser console
++  ✓  2 [browser] › e2e/browser/plugin-timeline.spec.ts:41:7 › forks a transformed reply into a new workspace (11.4s)
++[e2e] Worker 0 daemon stopped
++[e2e] Metro stopped
++
++  2 passed (32.5s)
+diff --git a/docs/qa-evidence/plugin-fork-menu/web-compact.png b/docs/qa-evidence/plugin-fork-menu/web-compact.png
+new file mode 100644
+index 000000000..6605abcea
+Binary files /dev/null and b/docs/qa-evidence/plugin-fork-menu/web-compact.png differ
+diff --git a/docs/qa-evidence/plugin-fork-menu/web-wide.png b/docs/qa-evidence/plugin-fork-menu/web-wide.png
+new file mode 100644
+index 000000000..22d3736ce
+Binary files /dev/null and b/docs/qa-evidence/plugin-fork-menu/web-wide.png differ
+diff --git a/packages/app/e2e/browser/plugin-timeline.spec.ts b/packages/app/e2e/browser/plugin-timeline.spec.ts
+index 166e6b988..092f54fe7 100644
+--- a/packages/app/e2e/browser/plugin-timeline.spec.ts
++++ b/packages/app/e2e/browser/plugin-timeline.spec.ts
+@@ -1,4 +1,6 @@
+-import { test } from "../support/fixtures";
++import { dropNextForkRequest, observeForkAttachment } from "../support/helpers/assistant-fork";
++import { openAgentRoute } from "../support/helpers/mock-agent";
++import { expect, test } from "../support/fixtures";
+ import {
+   withTimelinePlugin,
+   viewInlineThinkingExample,
+@@ -6,8 +8,31 @@ import {
+   interactWithStreamingCard,
+   expectWholeCompletedCard,
+   expectBothConsecutiveTools,
++  forkCompletedPluginReply,
++  ASSISTANT_TEXT,
+ } from "../support/helpers/plugin-timeline";
+ 
++test.use({
++  e2eDaemonConfig: {
++    version: 1,
++    agents: {
++      providers: Object.fromEntries(
++        [
++          "claude",
++          "codex",
++          "copilot",
++          "opencode",
++          "pi",
++          "omp",
++          "antigravity",
++          "hoplite",
++          "muse",
++        ].map((id) => [id, { enabled: false }]),
++      ),
++    },
++  },
++});
++
+ for (const width of [1100, 390]) {
+   test(`assistant plugin receives the whole streaming message at width ${width}`, async ({
+     page,
+@@ -35,6 +60,50 @@ test("Overview preserves both consecutive tool plugin cards", async ({ page }, i
+   });
+ });
+ 
++for (const target of ["tab", "workspace"] as const) {
++  test(`forks a transformed reply into a new ${target}`, async ({ page }, info) => {
++    const width = target === "tab" ? 1100 : 390;
++    await page.setViewportSize({ width, height: 900 });
++    const attachment = observeForkAttachment(page);
++    await withTimelinePlugin(page, info, "assistant", async (agent) => {
++      await requestPluginTimeline(agent);
++      await interactWithStreamingCard(page);
++      await expect(page.getByTestId("plugin-reply-fork-trigger")).toHaveCount(0);
++      await agent.client.waitForFinish(agent.agentId, 30_000);
++      await expectWholeCompletedCard(page);
++      await forkCompletedPluginReply(page, info, target);
++      expect(await attachment.waitForText()).toContain(ASSISTANT_TEXT);
++      await openAgentRoute(page, agent);
++      await page.reload({ waitUntil: "domcontentloaded" });
++      await expectWholeCompletedCard(page);
++      await expect(page.getByTestId("plugin-reply-fork-trigger")).toHaveCount(1);
++    });
++  });
++}
++
++test("a transformed reply can fork again after a request times out", async ({ page }, info) => {
++  const dropped = await dropNextForkRequest(page);
++  const attachment = observeForkAttachment(page);
++  await withTimelinePlugin(page, info, "assistant", async (agent) => {
++    await requestPluginTimeline(agent);
++    await agent.client.waitForFinish(agent.agentId, 30_000);
++    await expectWholeCompletedCard(page);
++    const trigger = page.getByTestId("plugin-reply-fork-trigger");
++    await trigger.click();
++    await page.getByTestId("plugin-reply-fork-new-tab").click();
++    await expect.poll(dropped).toBe(1);
++    await expect(trigger).toHaveAttribute("aria-disabled", "true");
++    await expect(page.getByTestId("app-toast-message").first()).toContainText(
++      "Timeout waiting for message (15000ms)",
++      { timeout: 25_000 },
++    );
++    await expect(trigger).not.toHaveAttribute("aria-disabled", "true");
++    await expectWholeCompletedCard(page);
++    await forkCompletedPluginReply(page, info, "tab");
++    expect(await attachment.waitForText()).toContain(ASSISTANT_TEXT);
++  });
++});
++
+ test("inline-thinking example renders a streamed thought through host UI", async ({
+   page,
+ }, info) => {
+diff --git a/packages/app/e2e/support/helpers/assistant-fork.ts b/packages/app/e2e/support/helpers/assistant-fork.ts
+index 7ee4cdc4f..84f7afb56 100644
+--- a/packages/app/e2e/support/helpers/assistant-fork.ts
++++ b/packages/app/e2e/support/helpers/assistant-fork.ts
+@@ -23,6 +23,22 @@ function readSessionMessage(message: WebSocketMessage): SessionMessage | null {
+   }
+ }
+ 
++/** Drops one real fork RPC while preserving the browser's remaining daemon traffic. */
++export async function dropNextForkRequest(page: Page): Promise<() => number> {
++  let dropped = 0;
++  await page.routeWebSocket(new RegExp(`:${getE2EDaemonPort()}\\b`), (socket) => {
++    const server = socket.connectToServer();
++    socket.onMessage((payload) => {
++      if (dropped === 0 && readSessionMessage(payload)?.type === "agent.fork_context.request") {
++        dropped += 1;
++        return;
++      }
++      server.send(payload);
++    });
++  });
++  return () => dropped;
++}
++
+ export function observeForkAttachment(page: Page): {
+   waitForText: () => Promise<string>;
+ } {
+diff --git a/packages/app/e2e/support/helpers/plugin-timeline.ts b/packages/app/e2e/support/helpers/plugin-timeline.ts
+index 533b54602..b374464da 100644
+--- a/packages/app/e2e/support/helpers/plugin-timeline.ts
++++ b/packages/app/e2e/support/helpers/plugin-timeline.ts
+@@ -2,6 +2,7 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
+ import { tmpdir } from "node:os";
+ import path from "node:path";
+ import { expect, type Page, type TestInfo } from "@playwright/test";
++import { expectChatHistoryAttachment } from "./assistant-fork";
+ import { copyPluginExample, pluginRequirements } from "./plugin-fixture";
+ import { connectNewWorkspaceDaemonClient } from "./new-workspace";
+ import { openAgentRoute, seedMockAgentWorkspace, type MockAgentWorkspace } from "./mock-agent";
+@@ -13,12 +14,14 @@ export const ASSISTANT_TEXT =
+ const CLIENT_SOURCE = `import React, { useState } from "react";
+ import { Text, View, Pressable } from "react-native";
+ import { z } from "zod";
++import { ForkMenu } from "@getpaseo/plugin/client/ui";
+ 
+ function Card({ item }) {
+   const [count, setCount] = useState(0);
+   return <View>
+     <Text accessibilityRole="header">{item.data.label + " " + item.data.phase}</Text>
+     <Text>{item.data.text}</Text>
++    <ForkMenu testID="plugin-reply-fork" />
+     <Pressable accessibilityRole="button" onPress={() => setCount(count + 1)}>
+       <Text>{"Card clicks " + count}</Text>
+     </Pressable>
+@@ -275,6 +278,37 @@ export async function withPopoverTimelinePlugin(run: () => Promise<void>): Promi
+   });
+ }
+ 
++export async function forkCompletedPluginReply(
++  page: Page,
++  info: TestInfo,
++  target: "tab" | "workspace",
++): Promise<void> {
++  const trigger = page.getByTestId("plugin-reply-fork-trigger");
++  await expect(trigger).toBeVisible();
++  await trigger.click();
++  await expect(page.getByTestId("plugin-reply-fork-new-tab")).toBeVisible();
++  await expect(page.getByTestId("plugin-reply-fork-new-workspace")).toBeVisible();
++  await expect
++    .poll(() =>
++      page.getByTestId("plugin-reply-fork-new-workspace").evaluate((element) => {
++        let opacity = 1;
++        for (let node: Element | null = element; node; node = node.parentElement) {
++          opacity *= Number(getComputedStyle(node).opacity);
++        }
++        return opacity;
++      }),
++    )
++    .toBe(1);
++  await info.attach("plugin-fork-menu", {
++    body: await page.screenshot({ path: info.outputPath("plugin-fork-menu.png") }),
++    contentType: "image/png",
++  });
++  const option = target === "tab" ? "plugin-reply-fork-new-tab" : "plugin-reply-fork-new-workspace";
++  await page.getByTestId(option).click();
++  await expectChatHistoryAttachment(page);
++  if (target === "workspace") await expect(page).toHaveURL(/\/new\?.*draftId=/);
++}
++
+ const THOUGHT =
+   "Need to find the scroll container, the layout effect that watches for new messages, and any gesture handler that might fight with programmatic scrolling. Probably a ref on the FlatList plus a near-bottom threshold.";
+ 
+diff --git a/packages/app/src/agent-stream/turn-boundary.ts b/packages/app/src/agent-stream/turn-boundary.ts
+index f7cbe8c00..e9983e5be 100644
+--- a/packages/app/src/agent-stream/turn-boundary.ts
++++ b/packages/app/src/agent-stream/turn-boundary.ts
+@@ -1,4 +1,4 @@
+-import type { StreamItem, TimelinePosition } from "@/types/stream";
++import type { AssistantMessageItem, StreamItem, TimelinePosition } from "@/types/stream";
+ 
+ export type AssistantTurnForkBoundary =
+   | { boundaryCursor: TimelinePosition; boundaryMessageId?: string }
+@@ -13,6 +13,17 @@ export function resolveAssistantTurnForkBoundary(input: {
+   if (item?.kind !== "assistant_message") {
+     return undefined;
+   }
++  return resolveAssistantMessageForkBoundary({
++    item,
++    supportsTimelineCursor: input.supportsTimelineCursor,
++  });
++}
++
++export function resolveAssistantMessageForkBoundary(input: {
++  item: Pick<AssistantMessageItem, "messageId" | "timelineCursor">;
++  supportsTimelineCursor: boolean;
++}): AssistantTurnForkBoundary | undefined {
++  const { item } = input;
+   if (input.supportsTimelineCursor && item.timelineCursor) {
+     return {
+       boundaryCursor: item.timelineCursor,
+diff --git a/packages/app/src/agent-stream/view.tsx b/packages/app/src/agent-stream/view.tsx
+index 67e08a6f8..f56301526 100644
+--- a/packages/app/src/agent-stream/view.tsx
++++ b/packages/app/src/agent-stream/view.tsx
+@@ -936,7 +936,13 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
+ 
+           case "plugin":
+             return (
+-              <PluginTimelineItemView agentId={agentId} item={item} serverId={resolvedServerId} />
++              <PluginTimelineItemView
++                agentId={agentId}
++                item={item}
++                serverId={resolvedServerId}
++                supportsTimelineCursor={supportsAgentForkContextCursor}
++                onForkAssistantTurn={readOnly ? undefined : handleForkAssistantTurn}
++              />
+             );
+ 
+           default:
+@@ -950,6 +956,9 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
+         renderThoughtItem,
+         renderToolCallItem,
+         resolvedServerId,
++        supportsAgentForkContextCursor,
++        readOnly,
++        handleForkAssistantTurn,
+       ],
+     );
+ 
+diff --git a/packages/app/src/plugins/evaluate.test.ts b/packages/app/src/plugins/evaluate.test.ts
+index 1aae11f63..28f96bf63 100644
+--- a/packages/app/src/plugins/evaluate.test.ts
++++ b/packages/app/src/plugins/evaluate.test.ts
+@@ -706,6 +706,20 @@ describe("evaluatePluginClientBundle", () => {
+     expect(plugin.surfaces.map((surface) => surface.id)).toEqual(["main"]);
+   });
+ 
++  it("provides the host fork menu through @getpaseo/plugin/client/ui", () => {
++    const plugin = evaluatePluginClientBundle(
++      "fork-menu",
++      bundle(`
++        const { ForkMenu } = require("@getpaseo/plugin/client/ui");
++        if (typeof ForkMenu !== "function") throw new Error("ForkMenu is missing");
++        if (require("@getpaseo/plugin/client/react-native").ForkMenu !== ForkMenu) throw new Error("ForkMenu differs on the legacy UI entry");
++        if ("ForkMenu" in require("@getpaseo/plugin")) throw new Error("ForkMenu leaked into shared exports");
++        if ("ForkMenu" in require("@getpaseo/plugin/client")) throw new Error("ForkMenu leaked into client exports");
++      `),
++    );
++    expect(plugin.id).toBe("fork-menu");
++  });
++
+   it("keeps the host reveal hook on the deprecated client/react-native entry", () => {
+     const plugin = evaluatePluginClientBundle(
+       "legacy-reveal",
+diff --git a/packages/app/src/plugins/react-native/fork-menu.tsx b/packages/app/src/plugins/react-native/fork-menu.tsx
+new file mode 100644
+index 000000000..c733ed0e7
+--- /dev/null
++++ b/packages/app/src/plugins/react-native/fork-menu.tsx
+@@ -0,0 +1,12 @@
++import { createContext, useContext } from "react";
++import type { ForkMenuProps } from "@getpaseo/plugin/client/ui";
++import { AssistantForkMenu, type AssistantForkTarget } from "@/components/assistant-fork-menu";
++
++export const TimelineForkContext = createContext<
++  ((target: AssistantForkTarget) => Promise<void> | void) | null
++>(null);
++
++export function ForkMenu({ testID }: ForkMenuProps) {
++  const onFork = useContext(TimelineForkContext);
++  return onFork ? <AssistantForkMenu onFork={onFork} testID={testID} /> : null;
++}
+diff --git a/packages/app/src/plugins/react-native/ui.ts b/packages/app/src/plugins/react-native/ui.ts
+index e431aa32e..c9e2c08e1 100644
+--- a/packages/app/src/plugins/react-native/ui.ts
++++ b/packages/app/src/plugins/react-native/ui.ts
+@@ -27,4 +27,6 @@ export { copyText } from "./clipboard";
+ export { useToast } from "./toast";
+ export { StreamedText } from "./streamed-text";
+ 
++export { ForkMenu } from "./fork-menu";
++
+ export { Markdown } from "./markdown";
+diff --git a/packages/app/src/plugins/timeline/fork.test.ts b/packages/app/src/plugins/timeline/fork.test.ts
+new file mode 100644
+index 000000000..6a1fddc08
+--- /dev/null
++++ b/packages/app/src/plugins/timeline/fork.test.ts
+@@ -0,0 +1,154 @@
++import { describe, expect, it } from "vitest";
++import type { PluginTimelineStreamItem } from "@/types/stream";
++import type { AssistantTurnForkHandler } from "@/agent-stream/turn-footer";
++import { projectPluginTimelineItems } from "./projection";
++import { resolvePluginTimelineFork } from "./fork";
++
++const source = {
++  kind: "assistant_message" as const,
++  id: "source-reply",
++  messageId: "provider-reply",
++  text: "Original reply",
++  timestamp: new Date("2026-01-01T00:00:00Z"),
++  timelineCursor: { epoch: "history-1", seq: 42 },
++};
++
++function project(phase: "streaming" | "complete" = "complete"): PluginTimelineStreamItem[] {
++  const items = projectPluginTimelineItems(
++    [source],
++    () =>
++      [0, 1].map((index) => ({
++        type: "plugin" as const,
++        id: `part-${index}`,
++        pluginId: "markdown",
++        kind: "reply",
++        version: 1,
++        data: { text: "Modified text", boundaryMessageId: "untrusted" },
++      })),
++    phase,
++  );
++  return items.filter((item): item is PluginTimelineStreamItem => item.kind === "plugin");
++}
++
++describe("plugin timeline fork", () => {
++  it.each(["tab", "workspace"] as const)(
++    "forks an exploded row into %s using the original boundary",
++    async (target) => {
++      const requests: Parameters<AssistantTurnForkHandler>[0][] = [];
++      for (const item of project()) {
++        const fork = resolvePluginTimelineFork({
++          item,
++          supportsTimelineCursor: true,
++          onForkAssistantTurn: (request) => {
++            requests.push(request);
++          },
++        });
++        expect(fork).not.toBeNull();
++        await fork?.(target);
++      }
++      expect(requests).toEqual(
++        [0, 1].map(() => ({
++          target,
++          boundary: { boundaryCursor: source.timelineCursor, boundaryMessageId: source.messageId },
++        })),
++      );
++    },
++  );
++
++  it("uses only the provider message ID on hosts without cursor support", async () => {
++    const requests: Parameters<AssistantTurnForkHandler>[0][] = [];
++    const fork = resolvePluginTimelineFork({
++      item: project()[0],
++      supportsTimelineCursor: false,
++      onForkAssistantTurn: (request) => {
++        requests.push(request);
++      },
++    });
++    await fork?.("tab");
++    expect(requests).toEqual([
++      { target: "tab", boundary: { boundaryMessageId: source.messageId } },
++    ]);
++  });
++
++  it("offers no action in read-only views, streaming rows, or daemon-pushed rows", () => {
++    const onForkAssistantTurn = () => {
++      throw new Error("must not fork");
++    };
++    expect(
++      resolvePluginTimelineFork({ item: project()[0], supportsTimelineCursor: true }),
++    ).toBeNull();
++    expect(
++      resolvePluginTimelineFork({
++        item: project("streaming")[0],
++        supportsTimelineCursor: true,
++        onForkAssistantTurn,
++      }),
++    ).toBeNull();
++    const { sourceAssistant: _sourceAssistant, ...pushed } = project()[0];
++    expect(
++      resolvePluginTimelineFork({
++        item: pushed,
++        supportsTimelineCursor: true,
++        onForkAssistantTurn,
++      }),
++    ).toBeNull();
++  });
++
++  it("supports cursor-only replies and refuses unbounded forks", async () => {
++    const requests: Parameters<AssistantTurnForkHandler>[0][] = [];
++    const item = { ...project()[0], sourceAssistant: {} };
++    const onForkAssistantTurn: AssistantTurnForkHandler = (request) => {
++      requests.push(request);
++    };
++    const fork = resolvePluginTimelineFork({
++      item,
++      supportsTimelineCursor: true,
++      onForkAssistantTurn,
++    });
++    await fork?.("workspace");
++    expect(requests).toEqual([
++      { target: "workspace", boundary: { boundaryCursor: source.timelineCursor } },
++    ]);
++    expect(
++      resolvePluginTimelineFork({ item, supportsTimelineCursor: false, onForkAssistantTurn }),
++    ).toBeNull();
++  });
++
++  it("does not make transformed non-assistant rows forkable", () => {
++    const [item] = projectPluginTimelineItems(
++      [
++        {
++          kind: "thought",
++          id: "thought",
++          text: "Reasoning",
++          timestamp: source.timestamp,
++          status: "ready",
++          timelineCursor: source.timelineCursor,
++        },
++      ],
++      () => [
++        {
++          type: "plugin",
++          id: "thought",
++          pluginId: "markdown",
++          kind: "thought",
++          version: 1,
++          data: {},
++        },
++      ],
++    );
++    expect(item).not.toHaveProperty("sourceAssistant");
++  });
++
++  it("preserves fork failures for the host menu to settle its pending state", async () => {
++    const error = new Error("host disconnected");
++    const fork = resolvePluginTimelineFork({
++      item: project()[0],
++      supportsTimelineCursor: true,
++      onForkAssistantTurn: async () => {
++        throw error;
++      },
++    });
++    await expect(fork?.("tab")).rejects.toBe(error);
++  });
++});
+diff --git a/packages/app/src/plugins/timeline/fork.ts b/packages/app/src/plugins/timeline/fork.ts
+new file mode 100644
+index 000000000..16ba28c5b
+--- /dev/null
++++ b/packages/app/src/plugins/timeline/fork.ts
+@@ -0,0 +1,19 @@
++import type { PluginTimelineStreamItem } from "@/types/stream";
++import { resolveAssistantMessageForkBoundary } from "@/agent-stream/turn-boundary";
++import type { AssistantTurnForkHandler } from "@/agent-stream/turn-footer";
++import type { AssistantForkTarget } from "@/components/assistant-fork-menu";
++
++export function resolvePluginTimelineFork(input: {
++  item: PluginTimelineStreamItem;
++  supportsTimelineCursor: boolean;
++  onForkAssistantTurn?: AssistantTurnForkHandler;
++}): ((target: AssistantForkTarget) => Promise<void> | void) | null {
++  const { item, onForkAssistantTurn } = input;
++  if (!item.sourceAssistant || !onForkAssistantTurn) return null;
++  const boundary = resolveAssistantMessageForkBoundary({
++    item: { ...item.sourceAssistant, timelineCursor: item.timelineCursor },
++    supportsTimelineCursor: input.supportsTimelineCursor,
++  });
++  if (!boundary) return null;
++  return (target) => onForkAssistantTurn({ target, boundary });
++}
+diff --git a/packages/app/src/plugins/timeline/projection.ts b/packages/app/src/plugins/timeline/projection.ts
+index 0750bdb66..614f692c7 100644
+--- a/packages/app/src/plugins/timeline/projection.ts
++++ b/packages/app/src/plugins/timeline/projection.ts
+@@ -112,6 +112,9 @@ function transformSourceItem(
+       version: pluginItem.version,
+       data: pluginItem.data,
+     };
++    if (item.kind === "assistant_message" && phase === "complete") {
++      projected.sourceAssistant = item.messageId ? { messageId: item.messageId } : {};
++    }
+     if (item.timelineCursor) projected.timelineCursor = item.timelineCursor;
+     if (item.turnId) projected.turnId = item.turnId;
+     return projected;
+diff --git a/packages/app/src/plugins/timeline/view.tsx b/packages/app/src/plugins/timeline/view.tsx
+index 90f6e0e1a..45cc0c57d 100644
+--- a/packages/app/src/plugins/timeline/view.tsx
++++ b/packages/app/src/plugins/timeline/view.tsx
+@@ -14,6 +14,9 @@ import { PluginInstallationProvider } from "../installation-provider";
+ import { SurfaceErrorBoundary } from "../surface-error-boundary";
+ import { toPluginTheme } from "../theme";
+ import { resolvePluginPlatform } from "../platform";
++import type { AssistantTurnForkHandler } from "@/agent-stream/turn-footer";
++import { TimelineForkContext } from "../react-native/fork-menu";
++import { resolvePluginTimelineFork } from "./fork";
+ 
+ const pluginThemeMapping = (theme: Theme) => ({ theme: toPluginTheme(theme) });
+ 
+@@ -42,11 +45,15 @@ function PluginTimelineItemBody({
+   item,
+   serverId,
+   theme,
++  supportsTimelineCursor = false,
++  onForkAssistantTurn,
+ }: {
+   agentId: string;
+   item: PluginTimelineStreamItem;
+   serverId: string;
+   theme: PluginTheme;
++  supportsTimelineCursor?: boolean;
++  onForkAssistantTurn?: AssistantTurnForkHandler;
+ }) {
+   const plugin = useInstalledPlugin(serverId, item.pluginId);
+   const renderer = plugin?.timelineRenderers.find(
+@@ -61,6 +68,11 @@ function PluginTimelineItemBody({
+   const layout = useMemo(() => ({ compact, platform: resolvePluginPlatform() }), [compact]);
+   const stateSource = useMemo(() => createPluginClientStateSource(serverId), [serverId]);
+ 
++  const onFork = useMemo(
++    () => resolvePluginTimelineFork({ item, supportsTimelineCursor, onForkAssistantTurn }),
++    [item, supportsTimelineCursor, onForkAssistantTurn],
++  );
++
+   if (!plugin || !renderer || !parsed || !client) {
+     return <TimelineItemUnavailable />;
+   }
+@@ -83,7 +95,9 @@ function PluginTimelineItemBody({
+     <SurfaceErrorBoundary installation={plugin} resetKey={item.data} Surface={Component}>
+       <PluginInstallationProvider plugin={plugin}>
+         <PluginClientStateProvider source={stateSource}>
+-          <Component {...props} />
++          <TimelineForkContext.Provider value={onFork}>
++            <Component {...props} />
++          </TimelineForkContext.Provider>
+         </PluginClientStateProvider>
+       </PluginInstallationProvider>
+     </SurfaceErrorBoundary>
+@@ -96,6 +110,8 @@ export function PluginTimelineItemView(props: {
+   agentId: string;
+   item: PluginTimelineStreamItem;
+   serverId: string;
++  supportsTimelineCursor?: boolean;
++  onForkAssistantTurn?: AssistantTurnForkHandler;
+ }) {
+   return <ThemedPluginTimelineItemBody {...props} uniProps={pluginThemeMapping} />;
+ }
+diff --git a/packages/app/src/types/stream.ts b/packages/app/src/types/stream.ts
+index 657d218b3..3051d595f 100644
+--- a/packages/app/src/types/stream.ts
++++ b/packages/app/src/types/stream.ts
+@@ -810,6 +810,8 @@ export interface PluginTimelineStreamItem {
+   id: string;
+   /** The id of the stream item a timeline transformer replaced; set only by projection. */
+   sourceId?: string;
++  /** Completed assistant identity retained by host projection, never plugin-authored data. */
++  sourceAssistant?: Pick<AssistantMessageItem, "messageId">;
+   timelineCursor?: TimelinePosition;
+   turnId?: string;
+   timestamp: Date;
+diff --git a/packages/plugin/src/client/ui.ts b/packages/plugin/src/client/ui.ts
+index c01275318..3825f3e18 100644
+--- a/packages/plugin/src/client/ui.ts
++++ b/packages/plugin/src/client/ui.ts
+@@ -179,6 +179,14 @@ export declare const Loading: ComponentType;
+ /** Render a local document URL in an isolated frame. */
+ export declare const DocumentFrame: ComponentType<{ url: string; testID?: string }>;
+ 
++/** Host-owned fork menu for the completed assistant row being rendered. */
++export interface ForkMenuProps {
++  testID?: string;
++}
++
++/** Renders nothing outside an eligible timeline renderer, including read-only views. */
++export declare const ForkMenu: ComponentType<ForkMenuProps>;
++
+ export interface MarkdownProps {
+   children: string;
+ }
+diff --git a/public-docs/plugins/reference.md b/public-docs/plugins/reference.md
+index 81b99b0dd..9d0e5a211 100644
+--- a/public-docs/plugins/reference.md
++++ b/public-docs/plugins/reference.md
+@@ -1517,6 +1517,35 @@ Text added only by your renderer is not independently indexed. Matches stay with
+ block, and find skips buttons, icons, and anything with `aria-hidden="true"`. Find only runs on
+ the web and desktop apps.
+ 
++### Fork a transformed assistant reply
++
++Render the host's `ForkMenu` beside your reply's Copy action:
++
++```tsx
++import { Text, View } from "react-native";
++import type { PluginTimelineItemProps } from "@getpaseo/plugin/client";
++import { ForkMenu } from "@getpaseo/plugin/client/ui";
++
++function Reply({ item }: PluginTimelineItemProps<{ text: string }>) {
++  return (
++    <View>
++      <Text>{item.data.text}</Text>
++      <ForkMenu />
++    </View>
++  );
++}
++```
++
++`ForkMenu` accepts an optional `testID`. Paseo owns its New tab / New workspace menu,
++pending state, errors, history attachment, draft settings, and navigation. The boundary is
++pinned to the original completed assistant message, even when a transformer splits it into
++several rows. Render one menu on the final row to avoid duplicate controls.
++
++It renders nothing outside a timeline renderer, in read-only views, for streaming or
++non-assistant rows, for daemon-pushed plugin rows, or when no supported message boundary
++exists. It never substitutes the whole conversation for a missing boundary. Use a client
++release that exports `ForkMenu` and declare that release in `requirements.paseo`.
++
+ ### Append a timeline row from the daemon
+ 
+ A server handler can add a plugin-owned row to canonical history:

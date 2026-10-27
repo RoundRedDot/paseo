@@ -1,0 +1,75 @@
+diff --git a/packages/server/src/server/agent/providers/acp-agent.test.ts b/packages/server/src/server/agent/providers/acp-agent.test.ts
+index 3deaa60c1..e902493dc 100644
+--- a/packages/server/src/server/agent/providers/acp-agent.test.ts
++++ b/packages/server/src/server/agent/providers/acp-agent.test.ts
+@@ -811,6 +811,46 @@ describe("ACPAgentSession terminal tools", () => {
+       truncated: false,
+     });
+   });
++
++  test("trims large terminal output without rescanning the retained suffix", async () => {
++    const session = createSession();
++    const terminal = await session.createTerminal({
++      sessionId: "session-1",
++      command: process.execPath,
++      args: ["-e", 'process.stdout.write("x".repeat(1024 * 1024))'],
++      cwd: process.cwd(),
++      outputByteLimit: 1024,
++    });
++    await session.waitForTerminalExit({ sessionId: "session-1", terminalId: terminal.terminalId });
++
++    await expect(
++      session.terminalOutput({ sessionId: "session-1", terminalId: terminal.terminalId }),
++    ).resolves.toEqual({
++      output: "x".repeat(1024),
++      truncated: true,
++      exitStatus: { exitCode: 0, signal: null },
++    });
++  }, 1000);
++
++  test("trims terminal output at a UTF-8 character boundary", async () => {
++    const session = createSession();
++    const terminal = await session.createTerminal({
++      sessionId: "session-1",
++      command: process.execPath,
++      args: ["-e", 'process.stdout.write("😀ab")'],
++      cwd: process.cwd(),
++      outputByteLimit: 3,
++    });
++    await session.waitForTerminalExit({ sessionId: "session-1", terminalId: terminal.terminalId });
++
++    await expect(
++      session.terminalOutput({ sessionId: "session-1", terminalId: terminal.terminalId }),
++    ).resolves.toEqual({
++      output: "ab",
++      truncated: true,
++      exitStatus: { exitCode: 0, signal: null },
++    });
++  });
+ });
+ 
+ describe("mapACPUsage", () => {
+diff --git a/packages/server/src/server/agent/providers/acp-agent.ts b/packages/server/src/server/agent/providers/acp-agent.ts
+index ae765ecd2..e26b6e4ad 100644
+--- a/packages/server/src/server/agent/providers/acp-agent.ts
++++ b/packages/server/src/server/agent/providers/acp-agent.ts
+@@ -4093,10 +4093,16 @@ function appendTerminalOutput(entry: TerminalEntry, chunk: string): void {
+   if (!limit) {
+     return;
+   }
+-  while (Buffer.byteLength(entry.output, "utf8") > limit && entry.output.length > 0) {
+-    entry.output = entry.output.slice(1);
+-    entry.truncated = true;
++  const output = Buffer.from(entry.output, "utf8");
++  if (output.length <= limit) {
++    return;
++  }
++  let start = output.length - limit;
++  while (start < output.length && (output[start] & 0xc0) === 0x80) {
++    start += 1;
+   }
++  entry.output = output.subarray(start).toString("utf8");
++  entry.truncated = true;
+ }
+ 
+ function readRecord(value: unknown): Record<string, unknown> | null {

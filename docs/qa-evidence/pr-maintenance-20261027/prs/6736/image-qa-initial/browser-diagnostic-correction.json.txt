@@ -1,0 +1,7 @@
+{
+  "browserTimeoutCause": "Earlier harness waited for naturalWidth=128 and naturalHeight=128. Native OMP persisted a 200x200 WebP. Bounded read-only diagnostics did not require the original dimensions and proved decoded image, current canonical epoch, IndexedDB image bytes, reload, lightbox and Escape.",
+  "updatingMessages": "Earlier suspected continuous Updating messages was not established; bounded diagnostic found zero matches and not visible.",
+  "stillFailed": "Original client messageId and original PNG bytes were replaced by native ID and WebP after history restoration.",
+  "furtherBrowserRuns": 0,
+  "additionalInference": 0
+}

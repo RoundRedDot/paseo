@@ -1,0 +1,90 @@
+{
+  "rowKeys": [
+    {
+      "kind": "agent",
+      "id": "3cbcb18b-f967-413c-80d6-9858fc12e292"
+    },
+    {
+      "kind": "checkpoint",
+      "id": "singleton"
+    },
+    {
+      "kind": "project",
+      "id": "prj_543b77c0809005a6"
+    },
+    {
+      "kind": "timeline",
+      "id": "3cbcb18b-f967-413c-80d6-9858fc12e292"
+    },
+    {
+      "kind": "workspace",
+      "id": "wks_b109a6d58ff20674"
+    },
+    {
+      "kind": "workspace",
+      "id": "wks_fa21030e13fe3a89"
+    }
+  ],
+  "replica": {
+    "range": {
+      "epoch": "ab317083-cda1-48ac-bbd5-320de9b3f43f",
+      "startSeq": 1,
+      "endSeq": 2
+    },
+    "items": [
+      {
+        "messageId": "6736-omp-image-20261027",
+        "clientMessageId": "6736-omp-image-20261027",
+        "timelineCursor": {
+          "epoch": "ab317083-cda1-48ac-bbd5-320de9b3f43f",
+          "seq": 1
+        },
+        "inlineImages": [
+          {
+            "mimeType": "image/png",
+            "bytes": 439,
+            "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+          }
+        ]
+      }
+    ]
+  },
+  "domImages": [
+    {
+      "complete": true,
+      "naturalWidth": 128,
+      "naturalHeight": 128,
+      "mimeType": "image/png",
+      "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+    }
+  ],
+  "updatingMessagesVisible": false,
+  "canonicalEpoch": "ab317083-cda1-48ac-bbd5-320de9b3f43f",
+  "canonical": {
+    "epoch": "ab317083-cda1-48ac-bbd5-320de9b3f43f",
+    "entries": [
+      {
+        "item": {
+          "type": "user_message",
+          "id": "6736-omp-image-20261027",
+          "text": "Describe the dominant colors and shapes in the attached test image in one short sentence. Do not use tools.",
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 439,
+              "sha256": "a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"
+            }
+          ]
+        }
+      },
+      {
+        "item": {
+          "type": "assistant_message",
+          "id": "24616a29-2fe5-4209-8f41-40924bd557db",
+          "text": "I can't see the attached image: the active model has no image input, and the attachment itself reports no usable description text. So I can't honestly name colors or shapes.\n\nTo get the one-sentence answer, either re-attach with a vision-capable model selected, or give me any text description/hex values from the image and I'll condense it."
+        }
+      }
+    ]
+  },
+  "pass": true
+}

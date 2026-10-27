@@ -1,0 +1,17 @@
+{
+  "pr": 7802,
+  "role": "source-delivery",
+  "status": "source_delivered_native_debug_build_passed_UI_resume_pending",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "976e3d9297928787393deb98789ca7a427ef65ad",
+  "tree": "aceb3cb2d150b93bc17fda27fef0921b163891ad",
+  "oldHead": "a5b0248ec7d917dd809c090ccac0dee2fb3f4bbc",
+  "sourceChanged": true,
+  "baselineAncestor": null,
+  "host": null,
+  "model": null,
+  "thinking": null,
+  "testTotal": 0,
+  "remaining": "UIKit gesture acceptance remains pending; no Release/full-chat/device interaction claim.",
+  "summary": "The existing dependency patch was repaired and a Debug simulator build succeeded."
+}

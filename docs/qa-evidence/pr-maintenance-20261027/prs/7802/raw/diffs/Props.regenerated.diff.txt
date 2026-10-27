@@ -1,0 +1,56 @@
+--- /tmp/paseo-pr-maintenance-20261027/ios/7802/Props.shipped.h	2026-10-27 13:10:28
++++ /tmp/paseo-pr-maintenance-20261027/ios/7802/regenerated-codegen/react/renderer/components/EnrichedMarkdownTextSpec/Props.h	2026-10-27 13:17:34
+@@ -1639,6 +1639,7 @@
+ struct EnrichedMarkdownMarkdownStyleCodeStruct {
+   std::string fontFamily{};
+   Float fontSize{0.0};
++  Float fontScale{0.0};
+   SharedColor color{};
+   SharedColor backgroundColor{};
+   SharedColor borderColor{};
+@@ -1651,6 +1652,7 @@
+     folly::dynamic result = folly::dynamic::object();
+     result["fontFamily"] = fontFamily;
+     result["fontSize"] = fontSize;
++    result["fontScale"] = fontScale;
+     result["color"] = ::facebook::react::toDynamic(color);
+     result["backgroundColor"] = ::facebook::react::toDynamic(backgroundColor);
+     result["borderColor"] = ::facebook::react::toDynamic(borderColor);
+@@ -1669,6 +1671,10 @@
+   auto tmp_fontSize = map.find("fontSize");
+   if (tmp_fontSize != map.end()) {
+     fromRawValue(context, tmp_fontSize->second, result.fontSize);
++  }
++  auto tmp_fontScale = map.find("fontScale");
++  if (tmp_fontScale != map.end()) {
++    fromRawValue(context, tmp_fontScale->second, result.fontScale);
+   }
+   auto tmp_color = map.find("color");
+   if (tmp_color != map.end()) {
+@@ -6185,6 +6191,7 @@
+ struct EnrichedMarkdownTextMarkdownStyleCodeStruct {
+   std::string fontFamily{};
+   Float fontSize{0.0};
++  Float fontScale{0.0};
+   SharedColor color{};
+   SharedColor backgroundColor{};
+   SharedColor borderColor{};
+@@ -6197,6 +6204,7 @@
+     folly::dynamic result = folly::dynamic::object();
+     result["fontFamily"] = fontFamily;
+     result["fontSize"] = fontSize;
++    result["fontScale"] = fontScale;
+     result["color"] = ::facebook::react::toDynamic(color);
+     result["backgroundColor"] = ::facebook::react::toDynamic(backgroundColor);
+     result["borderColor"] = ::facebook::react::toDynamic(borderColor);
+@@ -6215,6 +6223,10 @@
+   auto tmp_fontSize = map.find("fontSize");
+   if (tmp_fontSize != map.end()) {
+     fromRawValue(context, tmp_fontSize->second, result.fontSize);
++  }
++  auto tmp_fontScale = map.find("fontScale");
++  if (tmp_fontScale != map.end()) {
++    fromRawValue(context, tmp_fontScale->second, result.fontScale);
+   }
+   auto tmp_color = map.find("color");
+   if (tmp_color != map.end()) {

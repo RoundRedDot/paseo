@@ -1,0 +1,9 @@
+{
+  "sourceHead": "ea84f0179dae93829a4c8607a6fd73e5621e3b41",
+  "allowlistSha256": "5666d92b5c1a29e2528ec683320ffce5584ef75b65a74b971ad60f30b430245e",
+  "allowlistedFiles": 45,
+  "selectedFiles": 42,
+  "selectedBytes": 412599,
+  "excludedCandidateCount": 10,
+  "excludedCategory": "parent-excluded private directories/raw JSONL/auth-config/network and local environment-value patterns"
+}

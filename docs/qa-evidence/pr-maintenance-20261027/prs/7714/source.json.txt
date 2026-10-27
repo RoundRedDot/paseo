@@ -1,0 +1,106 @@
+{
+  "pr": 7714,
+  "role": "source-delivery",
+  "status": "delivered",
+  "checks": [
+    {
+      "name": "build-audio",
+      "command": "npm run build --workspace=@getpaseo/expo-two-way-audio",
+      "passedTests": null,
+      "summary": [],
+      "log": "build-audio.log"
+    },
+    {
+      "name": "build-server",
+      "command": "npm run build:server",
+      "passedTests": null,
+      "summary": [],
+      "log": "build-server.log"
+    },
+    {
+      "name": "format",
+      "command": "npm run format",
+      "passedTests": null,
+      "summary": [],
+      "log": "format.log"
+    },
+    {
+      "name": "install",
+      "command": "npm ci --no-audit --no-fund",
+      "passedTests": null,
+      "summary": [],
+      "log": "install.log"
+    },
+    {
+      "name": "lint",
+      "command": "npm run lint",
+      "passedTests": null,
+      "summary": [
+        "Found 0 warnings and 0 errors."
+      ],
+      "log": "lint.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__claude__agent.history-load.test",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.history-load.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 14,
+      "summary": [
+        "      Tests  14 passed (14)"
+      ],
+      "log": "packages__server__src__server__agent__providers__claude__agent.history-load.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__claude__agent.sub-agent-replay.test",
+      "command": "npx vitest run src/server/agent/providers/claude/agent.sub-agent-replay.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 32,
+      "summary": [
+        "      Tests  32 passed (32)"
+      ],
+      "log": "packages__server__src__server__agent__providers__claude__agent.sub-agent-replay.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__claude__subagents__live-source.test",
+      "command": "npx vitest run src/server/agent/providers/claude/subagents/live-source.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 53,
+      "summary": [
+        "      Tests  53 passed (53)"
+      ],
+      "log": "packages__server__src__server__agent__providers__claude__subagents__live-source.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__claude__subagents__replay-source.test",
+      "command": "npx vitest run src/server/agent/providers/claude/subagents/replay-source.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 35,
+      "summary": [
+        "      Tests  35 passed (35)"
+      ],
+      "log": "packages__server__src__server__agent__providers__claude__subagents__replay-source.test.log"
+    },
+    {
+      "name": "red-regression",
+      "command": "python3 /tmp/paseo-pr-maintenance-20261027/providers/7714/red.py",
+      "passedTests": null,
+      "summary": [],
+      "log": "red-regression.log"
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "passedTests": null,
+      "summary": [],
+      "log": "typecheck.log"
+    }
+  ],
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "3a07cdebd16cd431264c661c7b231757c6505fa8",
+  "tree": "b1ab6e2dd1ecd5ac244ba0abe83b44cfe53e1b18",
+  "oldHead": "d90ef6503cf3e3e40ee7b964f8f82f8c6f839b0d",
+  "sourceChanged": true,
+  "baselineAncestor": true,
+  "host": null,
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "high",
+  "testTotal": 134,
+  "remaining": "Real Claude reopen/resume, native UI and packaged desktop lifecycle were not rerun.",
+  "summary": "Preserved Claude async history restore while retaining existing row identity and aliases."
+}

@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-27T06:11:47.148222+00:00",
+  "sourceHead": "ea84f0179dae93829a4c8607a6fd73e5621e3b41",
+  "provider": "omp",
+  "nativeVersion": "18.12.6",
+  "selectedModel": "deepseek/deepseek-v4-flash",
+  "promptSubmissions": 1,
+  "authNetworkResult": "turn_completed, idle, no lastError",
+  "visualSemantics": "NOT_PASSED",
+  "observedReply": "The assistant explicitly stated it could not see the attachment because the active model has no image input.",
+  "nativeWireGuard": {
+    "api": "openai-completions",
+    "declaredInput": [
+      "text",
+      "image"
+    ],
+    "compat.stripImageInput": true,
+    "sendsImageInputOnWire": false
+  },
+  "originalRuntimeCheckInterpretation": "real_omp_response pass only asserted a nonempty assistant response and turn_completed; it is not a visual-understanding pass.",
+  "sourceReferences": [
+    "installed @oh-my-pi/pi-ai/src/providers/vision-guard.ts:58",
+    "installed @oh-my-pi/pi-coding-agent/src/sdk.ts:4343"
+  ],
+  "noAdditionalPrompt": true,
+  "noModelRotation": true,
+  "noGlobalConfigurationChange": true
+}

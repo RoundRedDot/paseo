@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-27T06:09:14.626Z",
+  "provider": "omp",
+  "nativeVersion": "18.12.6",
+  "modelSelector": "deepseek/deepseek-v4-flash",
+  "modelFound": true,
+  "model": {
+    "provider": "deepseek",
+    "id": "deepseek-v4-flash",
+    "name": "DeepSeek V4 Flash",
+    "input": [
+      "text",
+      "image"
+    ],
+    "contextWindow": 1000000,
+    "maxTokens": 393216,
+    "reasoning": true
+  },
+  "availableNoRefresh": true,
+  "nativeSessionSelectorAccepted": true,
+  "configuredAuth": true,
+  "commandBackedAuth": true,
+  "sendsImageInputOnWire": false,
+  "transportApi": "openai-completions",
+  "compatStripsImageInput": true,
+  "networkAttempts": 0,
+  "secretPlaintextReturnedToAgentOrLogs": false,
+  "correction": "Declared text+image input and configured auth did not prove image-on-wire capability. The single real turn completed but explicitly did not see the image."
+}

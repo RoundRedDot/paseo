@@ -1,0 +1,79 @@
+{
+  "pr": 6736,
+  "oldHead": "ddf7848b4c9a4459054f268c3f33114bc015ddec",
+  "newHead": "59bfc43e4097425f0a4429473a9635a99b305067",
+  "tree": "5d1f8a225f1a5ccc22cc8806e5c4efd6dcfece35",
+  "parents": [
+    "ddf7848b4c9a4459054f268c3f33114bc015ddec",
+    "2ce6681d6e4de6d6400ba095741014f1bbfa4221"
+  ],
+  "baseline": "2ce6681d6e4de6d6400ba095741014f1bbfa4221",
+  "validated": true,
+  "totalTestFiles": 6,
+  "totalPassedTests": 265,
+  "targetedSuites": [
+    {
+      "label": "packages__server__src__server__agent__providers__claude__agent.image-rendering.test",
+      "passedTests": 4,
+      "command": "npx vitest run src/server/agent/providers/claude/agent.image-rendering.test.ts --bail=1 --maxWorkers=1"
+    },
+    {
+      "label": "packages__server__src__server__agent__providers__omp__agent.test",
+      "passedTests": 89,
+      "command": "npx vitest run src/server/agent/providers/omp/agent.test.ts --bail=1 --maxWorkers=1"
+    },
+    {
+      "label": "packages__server__src__server__agent__providers__pi__agent.test",
+      "passedTests": 136,
+      "command": "npx vitest run src/server/agent/providers/pi/agent.test.ts --bail=1 --maxWorkers=1"
+    },
+    {
+      "label": "packages__server__src__server__agent__providers__provider-image-output.posix.test",
+      "passedTests": 1,
+      "command": "npx vitest run src/server/agent/providers/provider-image-output.posix.test.ts --bail=1 --maxWorkers=1"
+    },
+    {
+      "label": "packages__server__src__server__agent__providers__provider-image-output.test",
+      "passedTests": 17,
+      "command": "npx vitest run src/server/agent/providers/provider-image-output.test.ts --bail=1 --maxWorkers=1"
+    },
+    {
+      "label": "packages__server__src__server__daemon-e2e__timeline-window.e2e.test",
+      "passedTests": 18,
+      "command": "npx vitest run src/server/daemon-e2e/timeline-window.e2e.test.ts --bail=1 --maxWorkers=1"
+    }
+  ],
+  "checks": [
+    "build-server passed (reused; only test imports changed after build)",
+    "format passed",
+    "typecheck passed",
+    "lint passed",
+    "packages__server__src__server__agent__providers__omp__agent.test passed",
+    "packages__server__src__server__agent__providers__provider-image-output.test passed",
+    "packages__server__src__server__agent__providers__provider-image-output.posix.test passed",
+    "packages__server__src__server__agent__providers__pi__agent.test passed",
+    "packages__server__src__server__agent__providers__claude__agent.image-rendering.test passed",
+    "packages__server__src__server__daemon-e2e__timeline-window.e2e.test passed"
+  ],
+  "ci": {
+    "suite": {
+      "id": 109668261496,
+      "head_sha": "59bfc43e4097425f0a4429473a9635a99b305067",
+      "status": "completed",
+      "conclusion": "action_required"
+    },
+    "actions": {
+      "id": 40463249843,
+      "head": "59bfc43e4097425f0a4429473a9635a99b305067",
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40463249843",
+      "status": "completed",
+      "conclusion": "action_required",
+      "jobs": 0
+    }
+  },
+  "mergeable": true,
+  "mergeableState": "blocked",
+  "observedMain": "2ce6681d6e4de6d6400ba095741014f1bbfa4221",
+  "sourceResolution": "Keep incoming async prompt materialization and admit/cancel/close guards. Register original prompt/client/image association only after await conversion and current-turn ownership checks. Preserve original prompt argument for both start and steer. No protocol/app/private replay/response-budget changes.",
+  "qaBoundary": "Seeded-clone zero-inference replay passed original client ID/PNG restoration and new daemon-restart restore; bounded cache/reload is still in progress. Historical live image QA NOT PASSED and vendor image-input stripping remain distinct."
+}

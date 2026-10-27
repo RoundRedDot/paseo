@@ -1,0 +1,103 @@
+{
+  "pr": 7014,
+  "role": "source-delivery",
+  "status": "delivered",
+  "checks": [
+    {
+      "name": "build-server",
+      "command": "npm run build:server",
+      "passedTests": null,
+      "summary": [],
+      "log": "build-server.log"
+    },
+    {
+      "name": "format",
+      "command": "npm run format",
+      "passedTests": null,
+      "summary": [],
+      "log": "format.log"
+    },
+    {
+      "name": "lint",
+      "command": "npm run lint",
+      "passedTests": null,
+      "summary": [
+        "Found 0 warnings and 0 errors."
+      ],
+      "log": "lint.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__codex-async-questions.test",
+      "command": "npx vitest run src/server/agent/providers/codex-async-questions.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 12,
+      "summary": [
+        "      Tests  12 passed (12)"
+      ],
+      "log": "packages__server__src__server__agent__providers__codex-async-questions.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__omp__agent.test",
+      "command": "npx vitest run src/server/agent/providers/omp/agent.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 81,
+      "summary": [
+        "      Tests  81 passed (81)"
+      ],
+      "log": "packages__server__src__server__agent__providers__omp__agent.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__omp__history-mapper.test",
+      "command": "npx vitest run src/server/agent/providers/omp/history-mapper.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 21,
+      "summary": [
+        "      Tests  21 passed (21)"
+      ],
+      "log": "packages__server__src__server__agent__providers__omp__history-mapper.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__opencode__tool-call-mapper.test",
+      "command": "npx vitest run src/server/agent/providers/opencode/tool-call-mapper.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 21,
+      "summary": [
+        "      Tests  21 passed (21)"
+      ],
+      "log": "packages__server__src__server__agent__providers__opencode__tool-call-mapper.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__pi__agent.test",
+      "command": "npx vitest run src/server/agent/providers/pi/agent.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 132,
+      "summary": [
+        "      Tests  132 passed (132)"
+      ],
+      "log": "packages__server__src__server__agent__providers__pi__agent.test.log"
+    },
+    {
+      "name": "packages__server__src__server__agent__providers__pi__history-mapper.test",
+      "command": "npx vitest run src/server/agent/providers/pi/history-mapper.test.ts --bail=1 --maxWorkers=1",
+      "passedTests": 6,
+      "summary": [
+        "      Tests  6 passed (6)"
+      ],
+      "log": "packages__server__src__server__agent__providers__pi__history-mapper.test.log"
+    },
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "passedTests": null,
+      "summary": [],
+      "log": "typecheck.log"
+    }
+  ],
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "c92cc88e3ac971c032ca295848c5ec3e06bb3c97",
+  "tree": "1a8fe35f5c4520728043b393b6279cc599087b31",
+  "oldHead": "76217b8d95915940c5984b4cfb04d805d4522995",
+  "sourceChanged": true,
+  "baselineAncestor": true,
+  "host": null,
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "high",
+  "testTotal": 273,
+  "remaining": "No new real-provider question-card, native/mobile, or packaged acceptance in this integration slice.",
+  "summary": "Integrated async question handling and provider history behavior while preserving existing provider contracts."
+}

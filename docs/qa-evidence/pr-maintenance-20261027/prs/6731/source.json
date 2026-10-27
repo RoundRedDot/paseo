@@ -1,0 +1,10 @@
+{
+  "pr": 6731,
+  "role": "checked-no-op",
+  "status": "audited-no-source-change",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "ac19eed979213b90670f401b636ae05cf05c7db7",
+  "tree": "28380f6e79b9e204fbaa2714617c285a80509ec9",
+  "sourceChanged": false,
+  "reason": "Docs-only lifetime overlap; the transient-disconnect plugin lifetime remains a maintainer decision."
+}

@@ -1,0 +1,5 @@
+{"at":"2026-10-27T06:58:56.931Z","name":"same_seeded_clone_fresh_daemon_restart","pass":true,"port":51510,"serverId":"srv_iEvtEop1N_8n","seedCountThisContinuation":0,"totalSeedCount":1,"newPromptSubmissions":0}
+{"at":"2026-10-27T06:58:57.872Z","name":"final-restarted-clone_canonical_bytes_ids","pass":true,"userRows":1,"id":"6736-omp-image-20261027","epoch":"6c8560e2-7d3e-4b55-b81e-77331cbae39f","imageSha256":"a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda"}
+{"at":"2026-10-27T06:58:59.806Z","name":"final-browser-restarted-clone_browser_image","pass":true,"imageSha256":"a5798c140451d1c578a58b21bfede9a94ef0a3939d47b28826566201d851aeda","browser":"145.0.7632.6"}
+{"at":"2026-10-27T06:58:59.926Z","name":"final-browser-restarted-clone_lightbox","pass":false}
+{"status":"SEEDED_CLONE_FINAL_DIAGNOSTIC_NOT_PASSED","failure":{"stage":"browser_cache_after_normal_persist","errorType":"Error","qaCheck":"final-browser-restarted-clone_lightbox","timeout":false,"auth":false,"network":false,"statuses":[],"errorDigest":"5b5d193c075c18336015fe5c64391ff1d34cfd37eba6bc48ee935da75e0347dd"}}

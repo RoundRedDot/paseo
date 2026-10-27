@@ -1,0 +1,38 @@
+
+ RUN  v4.1.7 /Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-tablet/packages/app
+
+ ❯ |unit| src/hooks/use-settings/storage.test.ts (112 tests | 1 failed | 109 skipped) 24ms
+     × persists 'android' font defaults and preserves chosen sizes on reload 23ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |unit| src/hooks/use-settings/storage.test.ts > appearance settings > persists 'android' font defaults and preserves chosen sizes on reload
+AssertionError: expected { theme: 'auto', …(26) } to match object { uiBaseFontSize: 13, …(3) }
+(38 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "codeFontSize": 13,
+    "contentFontSize": 13,
+-   "sendShortcut": "enter",
+    "uiBaseFontSize": 13,
+  }
+
+ ❯ src/hooks/use-settings/storage.test.ts:922:71
+    920|           sendShortcut: "enter",
+    921|         };
+    922|         expect(await settingsModule.loadAppSettingsFromStorage(deps)).…
+       |                                                                       ^
+    923|         expect(JSON.parse(deps.storage.entries.get(APP_SETTINGS_KEY) ?…
+    924|           expected,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 109 skipped (112)
+   Start at  13:43:09
+   Duration  1.16s (transform 775ms, setup 32ms, import 1.02s, tests 24ms, environment 0ms)
+

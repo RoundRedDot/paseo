@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-27T06:19:40.210Z",
+  "sourceHead": "800b75b1f6ceef7391e5300137f980882b78f84f",
+  "variant": "baseline",
+  "observer": "Actual textContent length by stable DOM element identity once per rAF; new mounts excluded; no profiler or product-state changes",
+  "normalUI": "Filled composer and pressed Enter; repository mock provider only",
+  "windowMs": 5000,
+  "frames": 639,
+  "growthFrames": 263,
+  "growthChars": 457,
+  "stop": true,
+  "passed": true
+}

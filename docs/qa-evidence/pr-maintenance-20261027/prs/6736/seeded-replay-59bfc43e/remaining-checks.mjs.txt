@@ -1,0 +1,137 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { createRequire } from 'node:module';
+const repo = '/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261026-timeline';
+const out = '/tmp/paseo-pr-maintenance-20261027/image-qa/seeded-replay-59bfc43e';
+const require = createRequire(`${repo}/package.json`);
+const pino = require('pino');
+const { WebSocket } = require('ws');
+const { chromium } = require('playwright');
+const { createPaseoDaemon } = await import(`${repo}/packages/server/dist/server/server/bootstrap.js`);
+const { OmpAgentClient } = await import(`${repo}/packages/server/dist/server/server/agent/providers/omp/agent.js`);
+const { BuiltinPluginLoader } = await import(`${repo}/packages/server/dist/server/server/plugins/builtin/index.js`);
+const { DaemonClient } = await import(`${repo}/packages/client/dist/daemon-client.js`);
+const { BUILTIN_PROVIDER_IDS } = await import(`${repo}/packages/protocol/dist/provider-manifest.js`);
+const logger = pino({ level: 'silent' });
+const quiet = { debug(){}, info(){}, warn(){}, error(){} };
+const sha = value => crypto.createHash('sha256').update(value).digest('hex');
+const write = (name, value) => fs.writeFileSync(`${out}/${name}.json`, JSON.stringify(value, null, 2) + '\n');
+const steps = [];
+const state = { sourceHead:'59bfc43e4097425f0a4429473a9635a99b305067', sourceTree:'5d1f8a225f1a5ccc22cc8806e5c4efd6dcfece35', provider:'omp', nativeVersion:'18.12.6', model:'deepseek/deepseek-v4-flash', thinking:'off', startedAt:new Date().toISOString(), promptSubmissions:0, checks:steps, status:'running' };
+function record(name, pass, data={}) { const row={at:new Date().toISOString(),name,pass,...data}; steps.push(row); write('result-remaining',state); process.stdout.write(JSON.stringify(row)+'\n'); if(!pass) throw new Error(`QA_CHECK:${name}`); }
+function failure(error) {
+  const text = error instanceof Error ? error.message : String(error);
+  return { errorType:error instanceof Error ? error.name : 'unknown', qaCheck:text.startsWith('QA_CHECK:') ? text.slice(9) : null, timeout:/timed out|timeout|deadline/i.test(text), auth:/auth|api.?key|credential|unauthorized|forbidden/i.test(text), network:/fetch failed|network|ECONN|ENOTFOUND|connection.*(fail|refus)|socket|CERT_|certificate|TLS/i.test(text), statuses:[...new Set(text.match(/\b(?:400|401|403|404|408|409|413|422|429|500|502|503|504)\b/g)??[])], errorDigest:sha(text) };
+}
+function bounded(promise, ms, label) { let timer; return Promise.race([promise,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(`QA_CHECK:${label}_timeout`)),ms);})]).finally(()=>clearTimeout(timer)); }
+const sleep = ms => new Promise(resolve=>setTimeout(resolve,ms));
+const home = `${out}/isolated-home`, cwd = `${out}/fixture-workspace`, sessions = `${out}/omp-sessions`;
+for(const dir of [home,cwd,sessions,`${out}/static`]) fs.mkdirSync(dir,{recursive:true});
+const overlay=`${out}/omp-session-overlay.yml`;
+fs.writeFileSync(overlay, 'retry:\n  enabled: false\n  maxRetries: 0\n  modelFallback: false\n');
+const nativeEnv = { PI_CONFIG_FILES:[process.env.PI_CONFIG_FILES,overlay].filter(Boolean).join(path.delimiter), PI_CODING_AGENT_SESSION_DIR:sessions };
+const fixture = fs.readFileSync(`${out}/public-fixture.png`);
+const image = {data:fixture.toString('base64'),mimeType:'image/png'};
+state.sessionPolicy={retryEnabled:false,maxRetries:0,modelFallback:false,titleGeneration:false,tools:false,extensions:false};
+state.fixture={publicSource:'dcf47cd097e267715c4c0e114a83f025fda399e0:6736-pi-fixed/image-only.png', bytes:fixture.length,sha256:sha(fixture),width:128,height:128};
+const prompt='Describe the dominant colors and shapes in the attached test image in one short sentence. Do not use tools.';
+const messageId='6736-omp-image-20261027';
+const stream = { sender:[], receiver:[] };
+const terminal=[];
+let daemon, sender, receiver, browser, page, agent, port, serverId;
+agent={id:'3cbcb18b-f967-413c-80d6-9858fc12e292'};state.agentId=agent.id;
+state.diagnostic='MANUALLY_SEEDED_CLONE_ZERO_INFERENCE';state.seedCountThisContinuation=0;state.totalSeedCount=1;state.promptSubmissions=0;state.originalLivePromptsInEarlierQa=1;state.automaticPersistenceTestProof=false;state.vendorVisualSemantics='NOT_PASSED_FROM_PRIOR_SINGLE_PROMPT';
+let subscriptions=[];
+let currentStage='startup';
+function newNativeClient() { return new OmpAgentClient({ logger, runtimeSettings:{command:{mode:'replace',argv:['/Users/luopeihuan/.local/bin/omp','--no-title','--no-tools','--no-extensions','--no-skills','--no-rules','--no-lsp','--no-pty','--no-prewalk']}, env:nativeEnv} }); }
+async function startDaemon() {
+  daemon=await createPaseoDaemon({listen:`127.0.0.1:${port??0}`,paseoHome:home,daemonVersion:'0.13.2',corsAllowedOrigins:[],hostnames:true,mcpEnabled:false,mcpInjectIntoAgents:false,pluginsEnabled:false,staticDir:`${out}/static`,mcpDebug:false,agentClients:{omp:newNativeClient()},agentStoragePath:`${home}/agents`,relayEnabled:false,webUi:{enabled:true,distDir:`${repo}/packages/app/dist`},metadataGeneration:{providers:[]},providerOverrides:{...Object.fromEntries(BUILTIN_PROVIDER_IDS.filter(id=>id!=='omp').map(id=>[id,{enabled:false}])),omp:{enabled:true}}}, logger, {builtinPlugins:new BuiltinPluginLoader(undefined,[])});
+  await bounded(daemon.start(),30000,'daemon_start');
+  const target=daemon.getListenTarget();
+  if(target?.type!=='tcp'||target.port===6767) throw new Error('QA_CHECK:isolated_port');
+  port=target.port; serverId=daemon.getServerId(); state.port=port; state.serverId=serverId;
+}
+async function client(label) {
+ const c=new DaemonClient({url:`ws://127.0.0.1:${port}/ws`,clientId:`clid_image_qa_${label}`,clientType:'browser',appVersion:'0.13.2',logger:quiet,webSocketFactory:(url,options)=>new WebSocket(url,options?.protocols,{headers:options?.headers}),reconnect:{enabled:false}});
+ await c.connect(); await c.fetchAgents({subscribe:{}}); return c;
+}
+async function subscribe(c,label) {
+ const sub=c.subscribeAgentTimeline(agent.id, message=>{
+  if(message.type!=='agent_stream') return;
+  const ev=message.payload.event;
+  if(ev.type==='timeline'&&ev.item.type==='user_message') stream[label].push({type:'user_message',id:ev.item.messageId,text:ev.item.text,images:ev.item.images?.map(i=>({mimeType:i.mimeType,sha256:sha(Buffer.from(i.data,'base64'))}))??[]});
+  if(['turn_started','turn_completed','turn_failed','turn_canceled'].includes(ev.type)) {
+    const safe={type:ev.type,provider:ev.provider};
+    if(ev.type==='turn_failed') safe.failure=failure(ev.error);
+    terminal.push(safe);
+  }
+ });
+ await sub.ready; subscriptions.push(sub);
+}
+async function timeline(c) { return await c.fetchAgentTimeline(agent.id,{direction:'tail',limit:200,projection:'canonical'}); }
+function portable(payload) {
+ return {epoch:payload.epoch, entries:payload.entries.map(e=>({seq:e.seq,item:e.item.type==='user_message'?{type:e.item.type,id:e.item.messageId,text:e.item.text,images:e.item.images?.map(i=>({mimeType:i.mimeType,bytes:Buffer.from(i.data,'base64').length,sha256:sha(Buffer.from(i.data,'base64'))}))??[]}:e.item.type==='assistant_message'?{type:e.item.type,id:e.item.messageId,text:e.item.text}:{type:e.item.type,id:e.item.messageId}}))};
+}
+async function compare(stage) {
+ const a=await timeline(sender),b=await timeline(receiver);
+ const sa=portable(a),sb=portable(b); write(`${stage}-sender`,sa); write(`${stage}-receiver`,sb);
+ const users=a.entries.filter(e=>e.item.type==='user_message');
+ record(`${stage}_canonical_bytes_ids`, users.length===1&&users[0].item.messageId===messageId&&users[0].item.text===prompt&&users[0].item.images?.length===1&&users[0].item.images[0].data===image.data&&JSON.stringify(sa.entries)===JSON.stringify(sb.entries), {userRows:users.length,id:users[0]?.item.messageId,epoch:a.epoch,imageSha256:users[0]?.item.images?.[0]?sha(Buffer.from(users[0].item.images[0].data,'base64')):null});
+ return a;
+}
+async function browserCheck(stage) {
+ const thumb=page.getByTestId('user-message-image');
+ await thumb.first().waitFor({state:'visible',timeout:45000});
+ await page.getByText('Updating messages',{exact:false}).waitFor({state:'hidden',timeout:30000});
+ const img=thumb.first().locator('img');
+ await img.waitFor({state:'visible'});
+ await page.waitForFunction(()=>Array.from(document.querySelectorAll('[data-testid="user-message-image"] img')).some(i=>i.complete&&i.naturalWidth===128&&i.naturalHeight===128));
+ const src=await img.getAttribute('src');
+ record(`${stage}_browser_image`,await thumb.count()===1&&src===`data:image/png;base64,${image.data}`,{imageSha256:sha(Buffer.from((src??'').split(',')[1]??'','base64')),browser:browser.version()});
+ await page.screenshot({path:`${out}/${stage}.png`});
+ await thumb.first().click();
+ await page.getByTestId('attachment-lightbox-close').waitFor({state:'visible'});
+ const lightboxImages=await page.locator('img').evaluateAll(images=>images.filter(i=>i.complete&&i.naturalWidth===128&&i.naturalHeight===128).map(i=>({src:i.src,width:i.getBoundingClientRect().width,height:i.getBoundingClientRect().height})));
+ record(`${stage}_lightbox`, lightboxImages.some(i=>i.src===src&&i.width>48&&i.height>48));
+ await page.screenshot({path:`${out}/${stage}-lightbox.png`});
+ await page.keyboard.press('Escape');
+ await page.getByTestId('attachment-lightbox-close').waitFor({state:'hidden',timeout:5000});
+ const expectedCacheEpoch=(await timeline(sender)).epoch;
+ await page.waitForFunction(async({id,epoch})=>{
+  const db=await new Promise((resolve,reject)=>{const q=indexedDB.open('paseo-replica-row-store');q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error)});
+  const rows=await new Promise((resolve,reject)=>{const q=db.transaction('rows').objectStore('rows').getAll();q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error)});db.close();
+  const row=rows.find(r=>r.kind==='timeline'&&r.id===id);if(!row)return false;
+  const payload=JSON.parse(row.payload);return payload.items.some(i=>i.kind==='user_message'&&i.timelineCursor?.epoch===epoch&&i.inlineImages?.length===1);
+ },{id:agent.id,epoch:expectedCacheEpoch},{timeout:5000,polling:100});
+ const replica=await page.evaluate(async({agentId})=>{
+   const db=await new Promise((resolve,reject)=>{const req=indexedDB.open('paseo-replica-row-store');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});
+   const rows=await new Promise((resolve,reject)=>{const req=db.transaction('rows').objectStore('rows').getAll();req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});db.close();
+   const row=rows.find(r=>r.kind==='timeline'&&r.id===agentId); if(!row)return null;
+   const payload=JSON.parse(row.payload);
+   return {epoch:payload.range?.epoch??payload.items.find(i=>i.timelineCursor)?.timelineCursor.epoch,items:payload.items.filter(i=>i.kind==='user_message').map(i=>({kind:i.kind,messageId:i.messageId,clientMessageId:i.clientMessageId,inlineImages:i.inlineImages??[]}))};
+ },{agentId:agent.id});
+ const replicaUser=replica?.items[0];
+ const canonicalEpoch=(await timeline(sender)).epoch;
+ const cachePass=replica?.epoch===canonicalEpoch&&(replicaUser?.messageId===messageId||replicaUser?.clientMessageId===messageId)&&replica?.items.length===1&&replicaUser.inlineImages.length===1&&replicaUser.inlineImages[0].data===image.data;
+ write(`${stage}-browser-replica`,replica?{epoch:replica.epoch,items:replica.items.map(i=>({...i,inlineImages:i.inlineImages.map(im=>({mimeType:im.mimeType,bytes:Buffer.from(im.data,'base64').length,sha256:sha(Buffer.from(im.data,'base64'))}))}))}:null);
+ record(`${stage}_replica_image_bytes`,cachePass,{canonicalEpoch,replicaEpoch:replica?.epoch});
+}
+async function closeClients() { for(const sub of subscriptions) await sub.release().catch(()=>{});subscriptions=[];await sender?.close().catch(()=>{});await receiver?.close().catch(()=>{});sender=receiver=undefined; }
+try {
+ await startDaemon();record('same_seeded_clone_fresh_daemon_restart',true,{port,serverId,seedCountThisContinuation:0,totalSeedCount:1,newPromptSubmissions:0});
+ sender=await client('remaining-sender');receiver=await client('remaining-receiver');
+ currentStage='restarted_clone_history';await compare('remaining-restarted-clone');
+ currentStage='browser_cache_after_normal_persist';browser=await chromium.launch({headless:true});
+ const context=await browser.newContext({viewport:{width:1280,height:900}});page=await context.newPage();page.setDefaultTimeout(15000);
+ await page.route(/:(6767)\b/,route=>route.abort());await page.routeWebSocket(/:(6767)\b/,async ws=>await ws.close());
+ const endpoint=`127.0.0.1:${port}`,connection={id:`direct:${endpoint}`,type:'directTcp',endpoint};
+ await page.addInitScript(({serverId,connection})=>{const now=new Date().toISOString();localStorage.setItem('@paseo:e2e','1');localStorage.setItem('@paseo:daemon-registry',JSON.stringify([{serverId,label:'Seeded clone image QA',connections:[connection],preferredConnectionId:connection.id,createdAt:now,updatedAt:now}]));localStorage.setItem('@paseo:app-settings',JSON.stringify({chatDisplay:'full'}));},{serverId,connection});
+ await page.goto(`http://127.0.0.1:${port}/h/${serverId}/agent/${agent.id}`);await browserCheck('remaining-browser-restarted-clone');
+ await page.reload();await browserCheck('remaining-browser-reload');
+ currentStage='post_restart_force_history';const refreshed=await bounded(sender.refreshAgent(agent.id),45000,'post_restart_force_history');record('remaining_force_history_response',refreshed.error==null);await compare('remaining-force-history');
+ await page.reload();await browserCheck('remaining-browser-force-history');
+ state.status='SEEDED_CLONE_REMAINING_CHECKS_PASSED';
+} catch(error) {state.status='SEEDED_CLONE_REMAINING_NOT_PASSED';state.failure={stage:currentStage,...failure(error)};await page?.screenshot({path:`${out}/remaining-failure.png`}).catch(()=>{});process.stdout.write(JSON.stringify({status:state.status,failure:state.failure})+'\n');}
+finally {await browser?.close().catch(()=>{});await closeClients();if(daemon){await daemon.stop().catch(()=>{});await daemon.agentManager.flush().catch(()=>{});}state.cleanedUp=true;state.completedAt=new Date().toISOString();write('result-remaining',state);}
+process.exitCode=state.status==='SEEDED_CLONE_REMAINING_CHECKS_PASSED'?0:1;

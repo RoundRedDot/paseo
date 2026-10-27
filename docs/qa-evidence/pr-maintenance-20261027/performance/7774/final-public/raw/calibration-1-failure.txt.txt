@@ -1,0 +1,5 @@
+locator.waitFor: Timeout 60000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('textbox', { name: 'Message agent...', exact: true }).first() to be visible[22m
+
+    at main (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/.dev/perf-evidence-20261027/capture.cts:61:17)

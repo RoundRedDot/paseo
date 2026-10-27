@@ -1,0 +1,27 @@
+{
+  "registeredAt": "2026-10-27T05:01:41.211424+00:00",
+  "pr": 7186,
+  "kind": "inventory and prior-evidence audit only; no new performance capture",
+  "candidateHead": "ea9c7b7ad2161e60ce7a1c436529833514b839b1",
+  "baseline": "historical same-tree counter substitution at 85f7d56ea79f8b7c22538a2b763875f4ce2d74ad; original parent loop cd77ecd837df40d042599d8847403eb416b35b04",
+  "substitutions": [],
+  "browser": null,
+  "fixture": {
+    "historicalAssistantBytes": 50014,
+    "sha256": "42f194a3fd10cb26886dd17d5847b1344e715a93fe9c96f6d17ff4470d838a9c"
+  },
+  "metrics": [
+    "timeline counter total ms",
+    "timeline counter ms/MiB",
+    "timeline-containing persist total ms",
+    "persist ms/upsert MiB"
+  ],
+  "repetitions": 0,
+  "stopCriterion": "Retain previous 15% failed native A/A. Do not rerun calibration, replace samples, enlarge workload or use a web microbenchmark as native benefit. No controlled affected physical Android device is connected.",
+  "requiredForFurtherAcceptance": [
+    "An owned available affected physical Android/Hermes device and exact current-head Release A/B builds",
+    "Predeclared real-app same-input streaming/typing/scrolling trace tied to actual byte-count work and frame/input latency",
+    "A/A <=15% followed by serial baseline/candidate/returning-baseline if calibration passes",
+    "For OOM claims, actual affected workload and native memory/GC observations; not simulator or Web substitution"
+  ]
+}

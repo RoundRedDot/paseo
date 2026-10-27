@@ -1,0 +1,30 @@
+{
+  "status": "BLOCKED_EXECUTION_UNSUPPORTED",
+  "cases": [
+    [
+      "small",
+      "unlowered",
+      1,
+      false
+    ],
+    [
+      "small",
+      "lowered",
+      1,
+      false
+    ],
+    [
+      "large",
+      "unlowered",
+      1,
+      false
+    ],
+    [
+      "large",
+      "lowered",
+      1,
+      false
+    ]
+  ],
+  "blocker": "Please choose output, e.g. -emit-binary. hermesc does not support -exec.\nExample: hermesc -emit-binary -out myfile.hbc myfile.js"
+}

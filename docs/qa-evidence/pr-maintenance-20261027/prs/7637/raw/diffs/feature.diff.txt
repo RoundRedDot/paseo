@@ -1,0 +1,271 @@
+diff --git a/packages/server/src/server/agent/providers/claude/agent.error-result.test.ts b/packages/server/src/server/agent/providers/claude/agent.error-result.test.ts
+new file mode 100644
+index 000000000..063c35346
+--- /dev/null
++++ b/packages/server/src/server/agent/providers/claude/agent.error-result.test.ts
+@@ -0,0 +1,166 @@
++import { expect, test } from "vitest";
++import { createTestLogger } from "../../../../test-utils/test-logger.js";
++import { collectSessionTurnEvents } from "../test-utils/session-stream-adapter.js";
++import { ClaudeAgentClient } from "./agent.js";
++import type { ClaudeQueryFactory } from "./query.js";
++
++const LIMIT = "You've hit your session limit · resets 5:20pm (Asia/Singapore)";
++
++interface ScriptedTurn {
++  // An API error reply as Claude Code writes it: a synthetic assistant message with `error`.
++  errorReply?: string;
++  // Assistant text the model wrote before or after it.
++  before?: string;
++  after?: string;
++  isError: boolean;
++}
++
++// A query dependency that speaks Claude Code's stream interface, one scripted turn per prompt.
++function scriptedQuery(turns: ScriptedTurn[]): ClaudeQueryFactory {
++  return ({ prompt }) => {
++    let index = 0;
++    const assistant = (id: string, text: string, error?: string) => ({
++      type: "assistant",
++      session_id: "error-session",
++      parent_tool_use_id: null,
++      uuid: id,
++      message: {
++        id,
++        role: "assistant",
++        model: error ? "<synthetic>" : "claude-opus-5-5",
++        content: [{ type: "text", text }],
++        stop_reason: "stop_sequence",
++        usage: { input_tokens: 0, output_tokens: 0 },
++      },
++      ...(error ? { error } : {}),
++    });
++    const messages = (async function* () {
++      if (typeof prompt === "string") throw new Error("Expected streaming input");
++      for await (const _message of prompt) {
++        const turn = turns[index];
++        index += 1;
++        yield {
++          type: "system",
++          subtype: "init",
++          session_id: "error-session",
++          permissionMode: "default",
++          model: "claude-opus-5-5",
++        };
++        if (turn.before) yield assistant(`before-${index}`, turn.before);
++        if (turn.errorReply) yield assistant(`error-${index}`, turn.errorReply, "rate_limit");
++        if (turn.after) yield assistant(`after-${index}`, turn.after);
++        yield {
++          type: "result",
++          subtype: "success",
++          session_id: "error-session",
++          duration_ms: 1,
++          duration_api_ms: 0,
++          is_error: turn.isError,
++          num_turns: 1,
++          result: turn.isError ? (turn.errorReply ?? "") : (turn.after ?? turn.errorReply ?? ""),
++          stop_reason: "stop_sequence",
++          total_cost_usd: 0,
++          usage: {
++            input_tokens: 0,
++            output_tokens: 0,
++            cache_read_input_tokens: 0,
++          },
++          modelUsage: {},
++          permission_denials: [],
++          uuid: `result-${index}`,
++        };
++      }
++    })();
++    return Object.assign(messages, {
++      close: () => {
++        void messages.return();
++      },
++      interrupt: async () => undefined,
++      setModel: async () => undefined,
++      setPermissionMode: async () => undefined,
++      supportedModels: async () => [],
++      supportedCommands: async () => [],
++    }) as ReturnType<ClaudeQueryFactory>;
++  };
++}
++
++async function runTurns(turns: ScriptedTurn[]) {
++  const client = new ClaudeAgentClient({
++    logger: createTestLogger(),
++    queryFactory: scriptedQuery(turns),
++    resolveBinary: async () => process.execPath,
++  });
++  const session = await client.createSession({
++    provider: "claude",
++    cwd: process.cwd(),
++  });
++  try {
++    const results = [];
++    for (const [index] of turns.entries()) {
++      results.push(await collectSessionTurnEvents(session, `turn ${index + 1}`));
++    }
++    return results;
++  } finally {
++    await session.close();
++  }
++}
++
++function assistantTexts(events: Awaited<ReturnType<typeof runTurns>>[number]): string[] {
++  return events.flatMap((event) =>
++    event.type === "timeline" && event.item.type === "assistant_message" ? [event.item.text] : [],
++  );
++}
++
++function terminal(events: Awaited<ReturnType<typeof runTurns>>[number]) {
++  return events.find(
++    (event) =>
++      event.type === "turn_completed" ||
++      event.type === "turn_failed" ||
++      event.type === "turn_canceled",
++  );
++}
++
++test("a turn Claude Code ends on an API error fails with the error, shown once", async () => {
++  const [limited, overloaded, next] = await runTurns([
++    { errorReply: LIMIT, isError: true },
++    {
++      before: "Checking the deploy doc.",
++      errorReply: "API Error: 529 Overloaded",
++      isError: true,
++    },
++    { after: "Done.", isError: false },
++  ]);
++
++  expect(terminal(limited)).toMatchObject({
++    type: "turn_failed",
++    error: LIMIT,
++  });
++  expect(assistantTexts(limited)).toEqual([]);
++
++  expect(terminal(overloaded)).toMatchObject({
++    type: "turn_failed",
++    error: "API Error: 529 Overloaded",
++  });
++  expect(assistantTexts(overloaded)).toEqual(["Checking the deploy doc."]);
++
++  // The session keeps working after a failed turn.
++  expect(terminal(next)).toMatchObject({ type: "turn_completed" });
++  expect(assistantTexts(next)).toEqual(["Done."]);
++});
++
++test("an error reply the turn moves past is still shown", async () => {
++  const [recovered, completed] = await runTurns([
++    {
++      errorReply: "API Error: 529 Overloaded",
++      after: "Recovered.",
++      isError: false,
++    },
++    { errorReply: LIMIT, isError: false },
++  ]);
++
++  expect(terminal(recovered)).toMatchObject({ type: "turn_completed" });
++  expect(assistantTexts(recovered)).toEqual(["API Error: 529 Overloaded", "Recovered."]);
++
++  expect(terminal(completed)).toMatchObject({ type: "turn_completed" });
++  expect(assistantTexts(completed)).toEqual([LIMIT]);
++});
+diff --git a/packages/server/src/server/agent/providers/claude/agent.ts b/packages/server/src/server/agent/providers/claude/agent.ts
+index 734272dd0..55fb12857 100644
+--- a/packages/server/src/server/agent/providers/claude/agent.ts
++++ b/packages/server/src/server/agent/providers/claude/agent.ts
+@@ -2355,6 +2355,12 @@ class ClaudeAgentSession implements AgentSession {
+   private mainTurnInFlight = false;
+   private foregroundHasVisibleActivity = false;
+   private activeTurnHasAssistantText = false;
++  /**
++   * The reply Claude Code writes when a turn stops on an API error ("You've hit your session
++   * limit", "API Error: 529 ..."), held back until the result says whether the turn failed: a
++   * failed turn shows the same text as its error, so showing both would repeat it.
++   */
++  private withheldErrorReply: AgentTimelineItem[] = [];
+   private readonly contextUsage: ClaudeContextUsageState;
+   private userMessageIds: string[] = [];
+   private readonly emittedUserMessageIds = new Set<string>();
+@@ -2497,6 +2503,7 @@ class ClaudeAgentSession implements AgentSession {
+     this.activeForegroundTurnId = turnId;
+     this.foregroundHasVisibleActivity = false;
+     this.activeTurnHasAssistantText = false;
++    this.withheldErrorReply = [];
+     this.contextUsage.beginTurn();
+     this.transitionTurnState("foreground", "foreground turn started");
+     this.clearRecentStderr();
+@@ -4353,6 +4360,21 @@ class ClaudeAgentSession implements AgentSession {
+               }) satisfies AgentStreamEvent,
+           );
+ 
++    if (!readClaudeParentToolUseId(message)) {
++      if (message.type === "assistant" && message.error) {
++        this.withheldErrorReply.push(...assistantTimelineEvents.map((event) => event.item));
++        return messageEvents;
++      }
++      if (
++        message.type === "assistant" ||
++        message.type === "user" ||
++        message.type === "stream_event"
++      ) {
++        const released: AgentStreamEvent[] = [];
++        this.releaseWithheldErrorReply(released);
++        return [...released, ...messageEvents, ...assistantTimelineEvents];
++      }
++    }
+     return [...messageEvents, ...assistantTimelineEvents];
+   }
+ 
+@@ -4899,6 +4921,22 @@ class ClaudeAgentSession implements AgentSession {
+     events: AgentStreamEvent[],
+   ): void {
+     const usage = this.convertUsage(message);
++    // Claude Code reports a turn that stopped on an API error (a usage limit, an overloaded or
++    // rejected request) as `success` with `is_error`, carrying the error text in `result`.
++    if (message.subtype === "success" && message.is_error) {
++      const withheld = this.withheldErrorReply;
++      this.withheldErrorReply = [];
++      const resultText = typeof message.result === "string" ? message.result.trim() : "";
++      const withheldText = withheld
++        .map((item) => (item.type === "assistant_message" ? item.text : ""))
++        .join("\n")
++        .trim();
++      events.push(...this.sidechainTracker.finishAll("failed"));
++      events.push(this.buildTurnFailedEvent(resultText || withheldText || "Claude run failed"));
++      return;
++    }
++    const releasedErrorReply = this.withheldErrorReply.length > 0;
++    this.releaseWithheldErrorReply(events);
+     if (message.subtype === "success") {
+       events.push(...this.sidechainTracker.finishAll("completed"));
+       // Built-in slash commands (e.g. /voice, /usage, "Unknown command: …")
+@@ -4908,7 +4946,12 @@ class ClaudeAgentSession implements AgentSession {
+       // accounting from provider gateways does not duplicate streamed output.
+       const resultText = typeof message.result === "string" ? message.result.trim() : "";
+       const outputTokens = message.usage?.output_tokens;
+-      if (resultText.length > 0 && outputTokens === 0 && !this.activeTurnHasAssistantText) {
++      if (
++        resultText.length > 0 &&
++        outputTokens === 0 &&
++        !this.activeTurnHasAssistantText &&
++        !releasedErrorReply
++      ) {
+         events.push({
+           type: "timeline",
+           provider: "claude",
+@@ -4930,6 +4973,14 @@ class ClaudeAgentSession implements AgentSession {
+     events.push(this.buildTurnFailedEvent(errorMessage));
+   }
+ 
++  private releaseWithheldErrorReply(events: AgentStreamEvent[]): void {
++    if (this.withheldErrorReply.length === 0) return;
++    for (const item of this.withheldErrorReply) {
++      events.push({ type: "timeline", item, provider: "claude" });
++    }
++    this.withheldErrorReply = [];
++  }
++
+   private createClaudeSessionChangedNotice(
+     oldSessionId: string,
+     newSessionId: string,

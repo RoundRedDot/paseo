@@ -1,0 +1,17 @@
+{
+  "pr": 6737,
+  "role": "source-delivery",
+  "status": "delivered",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "50b07a8b8ec270cbb41f3633e859a21f008b0884",
+  "tree": "e6a10d5016c15488be725d2761f903acbd5d3e2b",
+  "oldHead": "2b2e1b3e2fc1d8666cf33443e834eb661ae8ea4d",
+  "sourceChanged": true,
+  "baselineAncestor": true,
+  "host": null,
+  "model": "codex/gpt-6.1-sol",
+  "thinking": "medium",
+  "testTotal": 84,
+  "remaining": "No new browser/native gesture, packaged desktop, external Hub, or physical-device acceptance.",
+  "summary": "Integrated cross-client ordering state across session, authorization, and retained timeline projections."
+}

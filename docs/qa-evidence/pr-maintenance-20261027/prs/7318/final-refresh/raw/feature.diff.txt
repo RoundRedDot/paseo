@@ -1,0 +1,178 @@
+diff --git a/packages/app/src/agent-stream/view.tsx b/packages/app/src/agent-stream/view.tsx
+index 1cfddc8ec..562517c7e 100644
+--- a/packages/app/src/agent-stream/view.tsx
++++ b/packages/app/src/agent-stream/view.tsx
+@@ -483,6 +483,10 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
+       handleInlinePathPress({ raw: filePath, path: filePath }, "preferred");
+     });
+ 
++    const handlePluginOpenFile = useStableEvent((location: WorkspaceFileLocation) => {
++      handleInlinePathPress({ raw: location.path, ...location }, "preferred");
++    });
++
+     const handleForkAssistantTurn: AssistantTurnForkHandler = useStableEvent(
+       async ({ target, boundary }) => {
+         await forkAgent({
+@@ -980,7 +984,12 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
+ 
+           case "plugin":
+             return (
+-              <PluginTimelineItemView agentId={agentId} item={item} serverId={resolvedServerId} />
++              <PluginTimelineItemView
++                agentId={agentId}
++                item={item}
++                serverId={resolvedServerId}
++                openFile={handlePluginOpenFile}
++              />
+             );
+ 
+           default:
+@@ -992,6 +1001,7 @@ const AgentStreamViewComponent = forwardRef<AgentStreamViewHandle, AgentStreamVi
+         renderUserMessageItem,
+         renderAssistantMessageItem,
+         renderToolCallItem,
++        handlePluginOpenFile,
+         getCollapsedTurn,
+         setTurnExpanded,
+         resolvedServerId,
+diff --git a/packages/app/src/plugins/timeline/view.test.tsx b/packages/app/src/plugins/timeline/view.test.tsx
+index ff3ba9fd6..0faf7ae39 100644
+--- a/packages/app/src/plugins/timeline/view.test.tsx
++++ b/packages/app/src/plugins/timeline/view.test.tsx
+@@ -118,6 +118,48 @@ afterEach(() => {
+ });
+ 
+ describe("PluginTimelineItemView", () => {
++  it("passes pane-bound file opening to the renderer and leaves it absent when unavailable", async () => {
++    const fileBundle = bundle.replace(
++      'return React.createElement("span", null, props.item.data.label);',
++      'return React.createElement("button", { disabled: !props.openFile, onClick: () => props.openFile({ path: "src/a.ts", lineStart: 10, lineEnd: 20 }) }, "Open file");',
++    );
++    pluginRegistry.installCatalog(
++      "host-1",
++      [
++        {
++          id: "reports",
++          requirements: { paseo: `>=${appPackage.version}` },
++          clientBundle: fileBundle,
++        },
++      ],
++      { client: daemonClient, audio },
++    );
++    const container = document.createElement("div");
++    containers.push(container);
++    const root = createRoot(container);
++    roots.push(root);
++    const firstPane = vi.fn();
++    const secondPane = vi.fn();
++    for (const openFile of [firstPane, secondPane, undefined]) {
++      await act(async () =>
++        root.render(
++          <PluginTimelineItemView
++            serverId="host-1"
++            agentId="provider:parent:sub"
++            item={timelineItem}
++            openFile={openFile}
++          />,
++        ),
++      );
++      const button = container.querySelector("button");
++      expect(button?.disabled).toBe(!openFile);
++      await act(async () => button?.click());
++    }
++    const location = { path: "src/a.ts", lineStart: 10, lineEnd: 20 };
++    expect(firstPane).toHaveBeenCalledExactlyOnceWith(location);
++    expect(secondPane).toHaveBeenCalledExactlyOnceWith(location);
++  });
++
+   it("validates and renders the matching plugin component", async () => {
+     pluginRegistry.installCatalog(
+       "host-1",
+diff --git a/packages/app/src/plugins/timeline/view.tsx b/packages/app/src/plugins/timeline/view.tsx
+index 90f6e0e1a..9c0589e6c 100644
+--- a/packages/app/src/plugins/timeline/view.tsx
++++ b/packages/app/src/plugins/timeline/view.tsx
+@@ -42,11 +42,13 @@ function PluginTimelineItemBody({
+   item,
+   serverId,
+   theme,
++  openFile,
+ }: {
+   agentId: string;
+   item: PluginTimelineStreamItem;
+   serverId: string;
+   theme: PluginTheme;
++  openFile?: PluginTimelineItemProps["openFile"];
+ }) {
+   const plugin = useInstalledPlugin(serverId, item.pluginId);
+   const renderer = plugin?.timelineRenderers.find(
+@@ -68,6 +70,7 @@ function PluginTimelineItemBody({
+   const Component = renderer.Component as ComponentType<PluginTimelineItemProps>;
+   const props: PluginTimelineItemProps = {
+     agentId,
++    openFile,
+     theme,
+     host,
+     layout,
+@@ -94,6 +97,7 @@ const ThemedPluginTimelineItemBody = withUnistyles(PluginTimelineItemBody);
+ 
+ export function PluginTimelineItemView(props: {
+   agentId: string;
++  openFile?: PluginTimelineItemProps["openFile"];
+   item: PluginTimelineStreamItem;
+   serverId: string;
+ }) {
+diff --git a/packages/plugin/src/client/contracts.ts b/packages/plugin/src/client/contracts.ts
+index 7675a655f..858818482 100644
+--- a/packages/plugin/src/client/contracts.ts
++++ b/packages/plugin/src/client/contracts.ts
+@@ -273,8 +273,17 @@ export type PluginTimelineTransformerContribution<
+     }
+   : never;
+ 
++export interface PluginOpenFileLocation {
++  /** Absolute path, or a path relative to the agent's working directory. */
++  readonly path: string;
++  readonly lineStart?: number;
++  readonly lineEnd?: number;
++}
++
+ export interface PluginTimelineItemProps<Data = unknown> extends PluginHostProps {
+   agentId: string;
++  /** Opens in the file pane belonging to this stream. Absent on older app clients. */
++  openFile?: (location: PluginOpenFileLocation) => void;
+   item: {
+     type: "plugin";
+     kind: string;
+diff --git a/packages/plugin/src/client/index.ts b/packages/plugin/src/client/index.ts
+index 62cf7e2dc..fe484355e 100644
+--- a/packages/plugin/src/client/index.ts
++++ b/packages/plugin/src/client/index.ts
+@@ -32,6 +32,7 @@ export type {
+   PluginSidebarContribution,
+   PluginTimelineTransformerContribution,
+   PluginTimelineItemProps,
++  PluginOpenFileLocation,
+   PluginTimelineRendererContribution,
+   PluginCommandCapabilities,
+   PluginGlobalCommandContext,
+diff --git a/public-docs/plugins/reference.md b/public-docs/plugins/reference.md
+index 69608a83a..5ad31990a 100644
+--- a/public-docs/plugins/reference.md
++++ b/public-docs/plugins/reference.md
+@@ -1631,6 +1631,15 @@ the source row, so updates to one streaming item do not remount its renderer. Re
+ `Text` props (including `style`) and supplies assistant typography and foreground color by default.
+ Completion displays the full text immediately; the host owns pacing while streaming. Requires Paseo 0.13 or later.
+ 
++Renderers on app clients that support it also receive an optional
++`openFile(location: PluginOpenFileLocation)`. The location is `{ path, lineStart?, lineEnd? }`.
++The file panel's `PluginFileLocation` is the tab revision (`lineStart`, `lineEnd`, `revision`).
++`openFile` opens the file the way a file path in a native reply
++does, from the pane that shows this stream, on the same host and workspace. A `path` is absolute
++or relative to the agent's working directory, and a folder inside the workspace opens in the file
++explorer. Line numbers are one-based. Check that `openFile` exists before offering the action;
++updating only the daemon or the plugin does not add it to an older app.
++
+ Chat find (Ctrl or Cmd+F) finds and highlights text in replacement rows when the query also
+ matches the original message. The host searches the original prompt text or the assistant reply
+ with Markdown syntax removed, then the app counts matches in the text your renderer draws.

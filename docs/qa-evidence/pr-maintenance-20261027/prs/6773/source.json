@@ -1,0 +1,10 @@
+{
+  "pr": 6773,
+  "role": "checked-no-op",
+  "status": "audited-source-unchanged",
+  "baseline": "9e4aab16cc74f945f9bb676fcab3d8a9a8b686ca",
+  "sourceHead": "2bacd637da86474faf0f41aa4d66a322f47a3c38",
+  "tree": "524ecac74087d7d89742f852bcc53a3c2f3e995b",
+  "sourceChanged": false,
+  "reason": "Translation keys were disjoint; no semantic overlap was found."
+}

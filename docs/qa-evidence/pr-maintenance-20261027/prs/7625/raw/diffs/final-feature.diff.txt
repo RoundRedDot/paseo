@@ -1,0 +1,108 @@
+diff --git a/packages/server/src/server/plugins/compiler-build.ts b/packages/server/src/server/plugins/compiler-build.ts
+index 5abd0df6e..bfc18d1c6 100644
+--- a/packages/server/src/server/plugins/compiler-build.ts
++++ b/packages/server/src/server/plugins/compiler-build.ts
+@@ -257,6 +257,22 @@ function makeHermesInteropEager(code: string): string {
+   return code.replaceAll("get: () => from[key]", "value: from[key]");
+ }
+ 
++async function minifyClientBundle(code: string): Promise<string> {
++  const { transform } = loadEsbuild();
++  // Minify after the eager replace. Whitespace minify rewrites the getter this
++  // replace matches, and identifier minify can delete the helper entirely.
++  const result = await transform(code, {
++    minifyWhitespace: true,
++    minifySyntax: true,
++    minifyIdentifiers: false,
++    target: "es2020",
++    supported: { "async-await": false },
++    charset: "ascii",
++    legalComments: "none",
++  });
++  return result.code;
++}
++
+ function runtimeSpecifierError(
+   specifier: string,
+   target: PluginBuildTarget | "shared",
+@@ -368,7 +384,10 @@ async function compileTarget(entryPath: string, target: PluginBuildTarget): Prom
+   checkSharedDependencies(result.metafile.inputs, pluginDirectory);
+   const output = result.outputFiles[0]?.text;
+   if (!output) throw new Error(`Plugin ${target} compilation produced no output`);
+-  return wrapCommonJsBundle(makeHermesInteropEager(output));
++  const eager = makeHermesInteropEager(output);
++  let prepared = eager;
++  if (target === "client") prepared = await minifyClientBundle(eager);
++  return wrapCommonJsBundle(prepared);
+ }
+ 
+ export async function compilePlugin(entryPaths: {
+diff --git a/packages/server/src/server/plugins/compiler.test.ts b/packages/server/src/server/plugins/compiler.test.ts
+index 67ca96e59..720d17681 100644
+--- a/packages/server/src/server/plugins/compiler.test.ts
++++ b/packages/server/src/server/plugins/compiler.test.ts
+@@ -569,6 +569,64 @@ export default function contribute(client) {
+     expect(clientBundle).toContain("__async");
+   });
+ 
++  it("minifies the client bundle after Hermes interop getters are eager", async () => {
++    const entries = await createSplitPlugin();
++    await writeFile(
++      entries.client,
++      `import { useState } from "react";
++const label = "\\u2013";
++export default function contribute(client) {
++  void useState;
++  void label;
++  client.addCommandCenterItem({ id: "open", title: "Open", icon: "Scan", context: "global", onSelect() {} });
++  return () => undefined;
++}`,
++    );
++    await writeFile(
++      entries.server,
++      `import { z } from "zod";
++export default function contribute() {
++  void z.object({});
++  return () => undefined;
++}`,
++    );
++
++    const { clientBundle, serverBundle } = await compilePlugin(entries);
++    if (clientBundle === null || serverBundle === null) {
++      throw new Error("compilePlugin returned no bundle");
++    }
++
++    expect(clientBundle).not.toContain("get: () => from[key]");
++    expect(clientBundle).not.toContain("get:()=>from[key]");
++    expect(clientBundle).toContain("value:from[key]");
++    expect(clientBundle.split("").every((char) => char.charCodeAt(0) <= 0x7f)).toBe(true);
++    expect(serverBundle).toContain("value: from[key]");
++    expect(serverBundle).not.toContain("value:from[key]");
++    expect(clientBundle.split("\n").length).toBeLessThan(serverBundle.split("\n").length);
++  });
++
++  it("keeps distinct host exports eager when minifying in the worker", async () => {
++    const entries = await createSplitPlugin();
++    await writeFile(
++      entries.client,
++      `import * as host from "zod";
++export default function contribute() { return [host.first, host.second]; }`,
++    );
++    const { clientBundle } = await compilePlugin({ client: entries.client, server: null });
++    const host = { first: "first export", second: "second export" };
++    const factory = new Function(`return ${clientBundle}`)() as (
++      require: (specifier: string) => typeof host,
++    ) => { default: () => unknown };
++    function requireHost(specifier: string): typeof host {
++      expect(specifier).toBe("zod");
++      return host;
++    }
++    const exports = factory(requireHost);
++    host.first = "changed first export";
++    host.second = "changed second export";
++    expect(exports.default()).toEqual(["first export", "second export"]);
++  });
++
+   it("rejects node imports from the client entry", async () => {
+     const entries = await createSplitPlugin();
+     await writeFile(

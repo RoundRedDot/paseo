@@ -1,0 +1,2 @@
+Error: identity/pageerror/real-scroll/update/stream exercise check failed
+    at main (/Users/luopeihuan/workspace/rrd/paseo/.worktrees/pr-maint-20261027-perf/.dev/perf-evidence-20261027/capture.cts:127:277)

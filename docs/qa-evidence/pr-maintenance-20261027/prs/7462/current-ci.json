@@ -1,0 +1,28 @@
+{
+  "number": 7462,
+  "title": "feat(plugin): expose host fork menu for transformed replies",
+  "state": "OPEN",
+  "isDraft": false,
+  "base": "main",
+  "headRepo": "RoundRedDot/paseo",
+  "headSha": "86006dd5fc4fda3562f85a3889b02ada5b353011",
+  "capturedAt": "2026-10-27T05:53:02.855Z",
+  "mergeable": "MERGEABLE",
+  "mergeStateStatus": "BLOCKED",
+  "reviewDecision": null,
+  "checkRunsCount": 0,
+  "checkSuites": [
+    {
+      "id": "CS_kwDOQBkEf88AAAAZb9E1jQ",
+      "app": "github-actions",
+      "status": "COMPLETED",
+      "conclusion": "ACTION_REQUIRED",
+      "runId": 40310663981,
+      "url": "https://github.com/getpaseo/paseo/actions/runs/40310663981",
+      "runHeadSha": "86006dd5fc4fda3562f85a3889b02ada5b353011",
+      "runConclusion": "action_required",
+      "jobs": 0,
+      "headMatches": true
+    }
+  ]
+}
