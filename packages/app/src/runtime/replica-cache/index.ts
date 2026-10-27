@@ -1,3 +1,4 @@
+import { findMountedWindowStart } from "@/agent-stream/history-window";
 import { z } from "zod";
 import {
   AgentStatusSchema,
@@ -766,17 +767,14 @@ function serializeTimeline(timeline: CachedTimeline): StoredTimeline | null {
   const canonicalItems = timeline.items.filter(
     (item) => item.kind !== "user_message" || !isUnreconciledLocalUserMessage(item),
   );
-  // A streaming turn commits about once a second, so serialize only the retained tail.
-  const items: StoredTimelineItem[] = [];
-  for (
-    let index = canonicalItems.length - 1;
-    index >= 0 && items.length < MAX_TIMELINE_ITEMS;
-    index -= 1
-  ) {
-    const item = serializeTimelineItem(canonicalItems[index]);
-    if (item) items.push(item);
-  }
-  items.reverse();
+  const start = findMountedWindowStart({
+    items: canonicalItems,
+    minMountedCount: MAX_TIMELINE_ITEMS,
+  });
+  const items = canonicalItems
+    .slice(start)
+    .map(serializeTimelineItem)
+    .filter((item) => item !== null);
   const range = timeline.range;
   const canPersistCoverage =
     range !== null &&

@@ -306,6 +306,21 @@ async function expectLegacyWorkspaceRefresh({
 }
 
 describe("ReplicaCache", () => {
+  it("persists the complete newest turn beyond the cache item target", async () => {
+    const storage = new MemoryStorage();
+    const writer = createCache(storage);
+    const items = Array.from({ length: 60 }, (_, index) => ({
+      ...timelineItem(`item-${index}`),
+      id: `item-${index}`,
+      turnId: "long-run",
+    }));
+    writer.commitTimeline(SERVER_ID, "agent-1", { ...timeline(), items });
+    await writer.flush();
+    const restored = await createCache(storage).readTimeline(SERVER_ID, "agent-1");
+    expect(restored?.items.map((item) => item.id)).toEqual(items.map((item) => item.id));
+    expect(restored?.range).toBeNull();
+  });
+
   it("preserves workspace sorting timestamps across cache reopen", async () => {
     const storage = new MemoryStorage();
     const writer = createCache(storage);
@@ -568,13 +583,14 @@ describe("ReplicaCache", () => {
     ]);
   });
 
-  it("serializes only the retained tail of a long timeline", async () => {
+  it("serializes only complete retained turns beyond the item target", async () => {
     const storage = new MemoryStorage();
     const cache = createCache(storage);
     let droppedTextReads = 0;
-    const items = Array.from({ length: 60 }, (_, index) => ({
+    const items = Array.from({ length: 80 }, (_, index) => ({
       ...timelineItem(`Message ${index}`),
       id: `message-${index}`,
+      turnId: index < 20 ? "discarded-turn" : "retained-turn",
       timelineCursor: { epoch: "epoch-1", seq: index + 1 },
     }));
     Object.defineProperty(items[0], "text", {
@@ -589,14 +605,14 @@ describe("ReplicaCache", () => {
     cache.commitTimeline(SERVER_ID, "agent-1", {
       agentId: "agent-1",
       items,
-      range: { epoch: "epoch-1", startSeq: 1, endSeq: 60 },
+      range: { epoch: "epoch-1", startSeq: 1, endSeq: 80 },
       hasOlder: false,
     });
     await cache.flush();
 
     expect(droppedTextReads).toBe(0);
     const restored = await createCache(storage).readTimeline(SERVER_ID, "agent-1");
-    expect(restored?.items.map((item) => item.id)).toEqual(items.slice(-50).map((item) => item.id));
+    expect(restored?.items.map((item) => item.id)).toEqual(items.slice(20).map((item) => item.id));
     expect(restored?.range).toBeNull();
   });
 
