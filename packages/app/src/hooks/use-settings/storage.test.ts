@@ -234,6 +234,39 @@ describe("loadAppSettingsFromStorage", () => {
     expect(result.chatOutlineEnabled).toBe(false);
   });
 
+  it("uses Enter to send by default", async () => {
+    const deps = makeDeps();
+
+    const result = await loadAppSettingsFromStorage(deps);
+
+    expect(result.sendShortcut).toBe("enter");
+    expect(DEFAULT_CLIENT_SETTINGS.sendShortcut).toBe("enter");
+  });
+
+  it("loads the modifier Enter send preference", async () => {
+    const deps = makeDeps({
+      storage: createInMemoryKeyValueStorage({
+        [APP_SETTINGS_KEY]: JSON.stringify({ sendShortcut: "mod-enter" }),
+      }),
+    });
+
+    const result = await loadAppSettingsFromStorage(deps);
+
+    expect(result.sendShortcut).toBe("mod-enter");
+  });
+
+  it("falls back to Enter when the stored send shortcut is invalid", async () => {
+    const deps = makeDeps({
+      storage: createInMemoryKeyValueStorage({
+        [APP_SETTINGS_KEY]: JSON.stringify({ sendShortcut: "yes" }),
+      }),
+    });
+
+    const result = await loadAppSettingsFromStorage(deps);
+
+    expect(result.sendShortcut).toBe("enter");
+  });
+
   it("defaults sidebar navigation items to an empty preference list", async () => {
     const deps = makeDeps();
 
@@ -880,23 +913,37 @@ describe("appearance settings", () => {
       try {
         const settingsModule = await import("./storage");
         const deps = makeDeps();
-        const expected = { uiBaseFontSize: ui, contentFontSize: content, codeFontSize: code };
+        const expected = {
+          uiBaseFontSize: ui,
+          contentFontSize: content,
+          codeFontSize: code,
+          sendShortcut: "enter",
+        };
         expect(await settingsModule.loadAppSettingsFromStorage(deps)).toMatchObject(expected);
         expect(JSON.parse(deps.storage.entries.get(APP_SETTINGS_KEY) ?? "null")).toMatchObject(
           expected,
         );
         expect(await settingsModule.loadAppSettingsFromStorage(deps)).toMatchObject(expected);
 
+        await settingsModule.saveAppSettings({
+          queryClient: new QueryClient(),
+          updates: { sendShortcut: "mod-enter" },
+          deps,
+        });
         const chosen = { uiBaseFontSize: 17, contentFontSize: 18, codeFontSize: 19 };
         await settingsModule.saveAppSettings({
           queryClient: new QueryClient(),
           updates: chosen,
           deps,
         });
-        expect(await settingsModule.loadAppSettingsFromStorage(deps)).toMatchObject(chosen);
-        expect(JSON.parse(deps.storage.entries.get(APP_SETTINGS_KEY) ?? "null")).toMatchObject(
-          chosen,
-        );
+        expect(await settingsModule.loadAppSettingsFromStorage(deps)).toMatchObject({
+          ...chosen,
+          sendShortcut: "mod-enter",
+        });
+        expect(JSON.parse(deps.storage.entries.get(APP_SETTINGS_KEY) ?? "null")).toMatchObject({
+          ...chosen,
+          sendShortcut: "mod-enter",
+        });
 
         const existing = makeDeps({
           storage: createInMemoryKeyValueStorage({
