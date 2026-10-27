@@ -8,6 +8,7 @@ import {
 import type { Page } from "@playwright/test";
 import { test, expect } from "../support/fixtures";
 import { expectComposerVisible } from "../support/helpers/composer";
+import { scrollChatAwayFromBottom } from "../support/helpers/agent-bottom-anchor";
 import { openAgentRoute, seedMockAgentWorkspace } from "../support/helpers/mock-agent";
 
 test.use({
@@ -414,6 +415,145 @@ test("records equal-input long-reply rendering metrics", async ({ page }, testIn
     await sampler.dispose();
     await session.detach();
   } finally {
+    await agent.cleanup();
+  }
+});
+
+test("manually expands complete reasoning after leaving output following", async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(90_000);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "@paseo:app-settings",
+      JSON.stringify({ chatDisplay: "full", autoExpandReasoning: false }),
+    );
+  });
+  const agent = await seedMockAgentWorkspace({
+    repoPrefix: "manual-finished-reasoning-",
+    title: "Manual finished reasoning",
+    model: "ten-second-stream",
+  });
+  const historyClient = await connectDaemonClient<
+    Pick<DaemonClient, "connect" | "close" | "fetchAgentTimeline">
+  >({ clientIdPrefix: "manual-finished-reasoning-history" });
+  try {
+    await openAgentRoute(page, agent);
+    await expectComposerVisible(page);
+    await agent.client.sendAgentMessage(
+      agent.agentId,
+      "Stream briefly to check finished reasoning.",
+    );
+    const finished = await agent.client.waitForFinish(agent.agentId, 30_000);
+    expect(finished.status).toBe("idle");
+    await testInfo.attach("manual-completed-turn", {
+      body: JSON.stringify(finished),
+      contentType: "application/json",
+    });
+    const history = await historyClient.fetchAgentTimeline(agent.agentId, { limit: 500 });
+    const thoughts = history.entries
+      .map((entry) => entry.item)
+      .filter((item) => item.type === "reasoning");
+    expect(thoughts).toHaveLength(3);
+    expect(thoughts.map((thought) => thought.text.length)).toEqual([214, 214, 214]);
+    const expectedCounts = new Map<string, number>();
+    for (const thought of thoughts)
+      expectedCounts.set(thought.text, (expectedCounts.get(thought.text) ?? 0) + 1);
+    await testInfo.attach("manual-canonical-reasoning", {
+      body: JSON.stringify(thoughts, null, 2),
+      contentType: "application/json",
+    });
+    const pointerCapture = await page.evaluateHandle(() => {
+      const events: {
+        type: string;
+        timestamp: number;
+        tag: string;
+        label: string;
+        scrollTop: number | null;
+      }[] = [];
+      const observe = (event: Event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        const scroll = document.querySelector<HTMLElement>('[data-testid="agent-chat-scroll"]');
+        events.push({
+          type: event.type,
+          timestamp: event.timeStamp,
+          tag: target.tagName,
+          label: target.textContent?.slice(0, 80) ?? "",
+          scrollTop: scroll?.scrollTop ?? null,
+        });
+      };
+      for (const type of ["pointerdown", "pointerup", "wheel"])
+        document.addEventListener(type, observe, true);
+      return {
+        events,
+        stop: () => {
+          for (const type of ["pointerdown", "pointerup", "wheel"])
+            document.removeEventListener(type, observe, true);
+        },
+      };
+    });
+    const badges = page.getByTestId("tool-call-badge").filter({ hasText: "Thinking" });
+    await expect(badges).toHaveCount(thoughts.length);
+    // Locator scrolling alone leaves output-following armed, so pointer-down can
+    // snap the feed to its tail before pointer-up reaches the Thinking control.
+    await scrollChatAwayFromBottom(page, { deltaY: -600, minDistanceFromBottom: 100 });
+    for (let index = 0; index < thoughts.length; index++) {
+      await badges
+        .nth(index)
+        .getByRole("button", { name: "Thinking", exact: true })
+        .first()
+        .click();
+      await expect(
+        badges.nth(index).getByText(thoughts[index].text, { exact: true }),
+      ).toBeVisible();
+    }
+    for (const [text, count] of expectedCounts)
+      await expect(page.getByText(text, { exact: true })).toHaveCount(count);
+    const first = badges.first();
+    await first.getByRole("button", { name: "Thinking", exact: true }).first().click();
+    await expect(first.getByText(thoughts[0].text, { exact: true })).not.toBeVisible();
+    await first.getByRole("button", { name: "Thinking", exact: true }).first().click();
+    await expect(first.getByText(thoughts[0].text, { exact: true })).toBeVisible();
+    for (const [text, count] of expectedCounts)
+      await expect(page.getByText(text, { exact: true })).toHaveCount(count);
+    await testInfo.attach("manual-expanded-reasoning", {
+      body: await page.screenshot(),
+      contentType: "image/png",
+    });
+    const pointerEvents = await pointerCapture.evaluate(({ events, stop }) => {
+      stop();
+      return events;
+    });
+    await pointerCapture.dispose();
+    await testInfo.attach("manual-pointer-events", {
+      body: JSON.stringify(pointerEvents, null, 2),
+      contentType: "application/json",
+    });
+    await page.reload();
+    await expect(badges).toHaveCount(thoughts.length);
+    await scrollChatAwayFromBottom(page, { deltaY: -600, minDistanceFromBottom: 100 });
+    for (let index = 0; index < thoughts.length; index++) {
+      await badges
+        .nth(index)
+        .getByRole("button", { name: "Thinking", exact: true })
+        .first()
+        .click();
+      await expect(
+        badges.nth(index).getByText(thoughts[index].text, { exact: true }),
+      ).toBeVisible();
+    }
+    for (const [text, count] of expectedCounts)
+      await expect(page.getByText(text, { exact: true })).toHaveCount(count);
+  } catch (error) {
+    await testInfo.attach("manual-before-cleanup", {
+      body: await page.screenshot(),
+      contentType: "image/png",
+    });
+    throw error;
+  } finally {
+    await historyClient.close();
     await agent.cleanup();
   }
 });
