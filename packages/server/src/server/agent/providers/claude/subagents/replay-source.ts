@@ -254,7 +254,7 @@ function observeSubtitle(
 async function observeSubagent(
   subagent: ClaudeReplaySubagentInput,
   parent: ClaudeReplayParentFacts,
-  convertEntry: (entry: ClaudeReplayEntry) => AgentTimelineItem[],
+  convertEntry: (entry: ClaudeReplayEntry) => AgentTimelineItem[] | Promise<AgentTimelineItem[]>,
   toolOwners: Map<string, string>,
   restored: ClaudeRestoredSubagent[],
   parentSubagentId?: string,
@@ -282,7 +282,7 @@ async function observeSubagent(
       childTerminalStatus = entry.message?.stop_reason === "end_turn" ? "completed" : null;
     }
     recordReplayToolOwners(toolOwners, entry, link.id);
-    for (const item of convertEntry(entry)) {
+    for (const item of await convertEntry(entry)) {
       timeline.push({ kind: "timeline", id: link.id, item, ...(timestamp ? { timestamp } : {}) });
     }
   }
@@ -326,7 +326,7 @@ function recordReplayToolOwners(
 export async function observeReplaySubagents(input: {
   subagents: readonly ClaudeReplaySubagentInput[];
   parent: ClaudeReplayParentFacts;
-  convertEntry: (entry: ClaudeReplayEntry) => AgentTimelineItem[];
+  convertEntry: (entry: ClaudeReplayEntry) => AgentTimelineItem[] | Promise<AgentTimelineItem[]>;
 }): Promise<{
   observations: SubagentObservation[];
   toolOwners: ReadonlyMap<string, string>;
