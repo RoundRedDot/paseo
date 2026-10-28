@@ -196,6 +196,7 @@ describe("outline navigation", () => {
         cursor: { epoch: "epoch-1", seq: 23 },
         limit: 40,
         projection: "projected",
+        wholeTurns: true,
         mergeWindow: true,
       },
     ]);
