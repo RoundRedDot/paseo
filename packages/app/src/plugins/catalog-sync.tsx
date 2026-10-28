@@ -2,8 +2,8 @@ import { useVoiceAudioEngineOptional } from "@/contexts/voice-context";
 import type { DaemonClient } from "@getpaseo/client/internal/daemon-client";
 import { useEffect, useRef } from "react";
 import { useHostRuntimeIsConnected } from "@/runtime/host-runtime";
+import { syncPluginCatalog } from "./catalog-sync-model";
 import { pluginRegistry } from "./registry";
-import { pluginSettingsKey } from "./settings/use-settings";
 import {
   beginPluginCatalogLoad,
   beginPluginTimelineExpectationHydration,
@@ -40,8 +40,6 @@ export function PluginCatalogSync({
 
   useEffect(() => {
     beginPluginTimelineExpectationHydration();
-    let cancelled = false;
-    let refreshQueue = Promise.resolve();
     const previousRetention = retention.current;
     const sameServer = previousRetention.serverId === serverId;
     const clientChanged =
@@ -73,75 +71,28 @@ export function PluginCatalogSync({
       return;
     }
 
+    if (!audio || pluginsFeature !== true || !connected || !client) return;
+
     const hasTransformers = hostHasTimelineTransformers(serverId);
-    if (!audio || pluginsFeature !== true || !connected || !client) {
-      return;
-    }
-
-    const refresh = (replacePluginId?: string) => {
-      refreshQueue = refreshQueue.then(() =>
-        client
-          .getPluginCatalog()
-          .then((catalog) => {
-            if (cancelled) return undefined;
-            pluginRegistry.installCatalog(serverId, catalog, {
-              replacePluginId,
-              client,
-              audio,
-            });
-            rememberPluginTimelineExpectation(serverId, hostHasTimelineTransformers(serverId));
-            markPluginCatalogReady(serverId);
-            return undefined;
-          })
-          .catch((error) => {
-            if (!cancelled) {
-              console.warn(`[Plugins] Failed to load catalog for ${serverId}`, error);
-              markPluginCatalogReady(serverId);
-            }
-            return undefined;
-          }),
-      );
-      return refreshQueue;
-    };
-
     beginPluginCatalogLoad(serverId, {
       hasTransformers,
       forceWait: clientChanged || featureBecameEnabled,
     });
-    // The subscription snapshot used to be the only fetch, so the bundle waited
-    // out an extra round trip before the chat could leave its native rows.
-    void refresh();
-    const observation = client.observeEvents([
-      "status.plugin_catalog_changed",
-      "status.plugin_settings_changed",
-    ]);
-    observation.subscribe({
-      snapshot: () => {
-        void refresh();
+    return syncPluginCatalog({
+      serverId,
+      client,
+      audio,
+      connected,
+      supported: true,
+      registry: pluginRegistry,
+      onCatalogInstalled: () => {
+        rememberPluginTimelineExpectation(serverId, hostHasTimelineTransformers(serverId));
+        markPluginCatalogReady(serverId);
       },
-      update: (message) => {
-        if (message.type !== "status") return;
-        if (message.payload.status === "plugin_settings_changed") {
-          const { pluginId, settingsId } = message.payload;
-          if (typeof settingsId === "string") {
-            const plugin = pluginRegistry
-              .getSnapshot()
-              .find((item) => item.serverId === serverId && item.id === pluginId);
-            void plugin?.queryClient.invalidateQueries({ queryKey: pluginSettingsKey(settingsId) });
-          }
-        }
-        if (message.payload.status === "plugin_catalog_changed") {
-          const pluginId = message.payload.pluginId;
-          if (typeof pluginId === "string") void refresh(pluginId);
-        }
+      onCatalogFailed: () => {
+        markPluginCatalogReady(serverId);
       },
     });
-    return () => {
-      cancelled = true;
-      void observation
-        .release()
-        .catch((error) => console.warn("[Plugins] Failed to release catalog", error));
-    };
   }, [audio, client, connected, pluginsFeature, serverId]);
 
   useEffect(
