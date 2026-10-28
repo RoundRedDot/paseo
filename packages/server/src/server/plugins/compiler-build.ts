@@ -279,7 +279,9 @@ export function lowerClassesForHermes(code: string): string {
     babelrc: false,
     configFile: false,
     sourceType: "script",
-    comments: false,
+    // Keep comments through class lowering. Client minify runs next and inlines
+    // legal notices; dropping them here fails the license-comment check.
+    comments: true,
     compact: false,
     sourceMaps: false,
     plugins: [
@@ -291,6 +293,22 @@ export function lowerClassesForHermes(code: string): string {
     ],
   });
   if (result?.code == null) throw new Error("Plugin client class lowering produced no output");
+  return result.code;
+}
+
+async function minifyClientBundle(code: string): Promise<string> {
+  const { transform } = loadEsbuild();
+  // Minify after the eager replace and class lowering. Whitespace minify rewrites
+  // the getter the eager replace matches, and identifier minify can delete the helper.
+  const result = await transform(code, {
+    minifyWhitespace: true,
+    minifySyntax: true,
+    minifyIdentifiers: false,
+    target: "es2020",
+    supported: { "async-await": false },
+    charset: "ascii",
+    legalComments: "inline",
+  });
   return result.code;
 }
 
@@ -405,10 +423,13 @@ async function compileTarget(entryPath: string, target: PluginBuildTarget): Prom
   checkSharedDependencies(result.metafile.inputs, pluginDirectory);
   const output = result.outputFiles[0]?.text;
   if (!output) throw new Error(`Plugin ${target} compilation produced no output`);
-  const interopSafe = makeHermesInteropEager(output);
-  let transformed = interopSafe;
-  if (target === "client") transformed = lowerClassesForHermes(transformed);
-  return wrapCommonJsBundle(transformed);
+  const eager = makeHermesInteropEager(output);
+  let prepared = eager;
+  if (target === "client") {
+    prepared = lowerClassesForHermes(prepared);
+    prepared = await minifyClientBundle(prepared);
+  }
+  return wrapCommonJsBundle(prepared);
 }
 
 export async function compilePlugin(entryPaths: {
