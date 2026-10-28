@@ -127,7 +127,7 @@ import { MetadataGenerationPage } from "@/screens/settings/metadata-generation-p
 import { HostVoicePage } from "@/screens/settings/voice/voice-page";
 import ProjectsScreen from "@/screens/projects-screen";
 import ProjectSettingsScreen from "@/screens/project-settings-screen";
-import { useIsCompactFormFactor } from "@/constants/layout";
+import { SETTINGS_DESKTOP_DETAIL_MIN_WIDTH, useIsCompactFormFactor } from "@/constants/layout";
 import { resolveDesktopSidebarWidth } from "@/components/desktop-sidebar-layout";
 import { SidebarResizeHandle } from "@/components/sidebar-resize-handle";
 import {
@@ -1617,6 +1617,7 @@ const desktopStyles = StyleSheet.create({
   },
   contentPane: {
     flex: 1,
+    minWidth: SETTINGS_DESKTOP_DETAIL_MIN_WIDTH,
   },
 });
 
