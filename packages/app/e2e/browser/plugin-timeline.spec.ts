@@ -1,4 +1,5 @@
 import { dropNextForkRequest, observeForkAttachment } from "../support/helpers/assistant-fork";
+import { installDaemonWebSocketGate } from "../support/helpers/daemon-websocket-gate";
 import { openAgentRoute } from "../support/helpers/mock-agent";
 import { expect, test } from "../support/fixtures";
 import {
@@ -10,6 +11,8 @@ import {
   expectBothConsecutiveTools,
   forkCompletedPluginReply,
   ASSISTANT_TEXT,
+  trackPluginChatRecovery,
+  reconnectPluginChat,
 } from "../support/helpers/plugin-timeline";
 
 test.use({
@@ -38,13 +41,24 @@ for (const width of [1100, 390]) {
     page,
   }, info) => {
     await page.setViewportSize({ width, height: 900 });
+    const gate = await installDaemonWebSocketGate(page);
     await withTimelinePlugin(page, info, "assistant", async (agent) => {
       await requestPluginTimeline(agent);
       await interactWithStreamingCard(page);
       await agent.client.waitForFinish(agent.agentId, 30_000);
       await expectWholeCompletedCard(page);
       // Local state is checked during growth; the viewport remounts on the history handoff.
+      const recovery = trackPluginChatRecovery(page);
+      gate.holdTimelineResponses(agent.agentId);
       await page.reload({ waitUntil: "domcontentloaded" });
+      await gate.waitForHeldTimelineResponse();
+      await recovery.expectCatalogWithoutRetransmission();
+      gate.releaseHeldTimelineResponses();
+      await expectWholeCompletedCard(page);
+      await recovery.expectRecoveredWithoutRetransmission();
+      recovery.reset();
+      await reconnectPluginChat(page, gate);
+      await recovery.expectRecoveredWithoutRetransmission();
       await expectWholeCompletedCard(page);
     });
   });
