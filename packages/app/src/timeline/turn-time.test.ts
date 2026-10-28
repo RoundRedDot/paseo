@@ -76,7 +76,7 @@ describe("deriveStreamTurnTiming", () => {
       tail,
       head,
     });
-    assert.deepEqual(timing.byAssistantId.get("assistant"), {
+    assert.deepEqual(timing.byItemId.get("assistant"), {
       completedAt: new Date(62000),
       durationMs: 62000,
     });
@@ -103,7 +103,7 @@ describe("deriveStreamTurnTiming", () => {
         tail,
         head,
       });
-      assert.deepEqual(timing.byAssistantId.get("assistant"), {
+      assert.deepEqual(timing.byItemId.get("assistant"), {
         completedAt: new Date(60000),
         durationMs: 60000,
       });
@@ -135,11 +135,11 @@ describe("deriveStreamTurnTiming", () => {
       tail,
       head,
     });
-    assert.deepEqual(timing.byAssistantId.get("assistant"), {
+    assert.deepEqual(timing.byItemId.get("assistant"), {
       completedAt: new Date(60000),
       durationMs: 60000,
     });
-    assert.deepEqual(timing.byAssistantId.get("next-assistant"), {
+    assert.deepEqual(timing.byItemId.get("next-assistant"), {
       completedAt: new Date(11000),
       durationMs: null,
     });
@@ -174,7 +174,7 @@ describe("deriveStreamTurnTiming", () => {
     });
 
     assert.equal(timing.runningStartedAt, secondUserAt);
-    assert.equal(timing.byAssistantId.has("a2"), false);
+    assert.equal(timing.byItemId.has("a2"), false);
   });
 
   it("derives completed turn timing from user and assistant item timestamps", () => {
@@ -192,7 +192,7 @@ describe("deriveStreamTurnTiming", () => {
       head: [],
     });
 
-    assert.deepEqual(timing.byAssistantId.get("a1"), {
+    assert.deepEqual(timing.byItemId.get("a1"), {
       completedAt: assistantAt,
       durationMs: 7000,
     });
@@ -218,8 +218,8 @@ describe("deriveStreamTurnTiming", () => {
       completedAt: lastAssistantAt,
       durationMs: 7000,
     };
-    assert.deepEqual(timing.byAssistantId.get("a1"), expected);
-    assert.deepEqual(timing.byAssistantId.get("a2"), expected);
+    assert.deepEqual(timing.byItemId.get("a1"), expected);
+    assert.deepEqual(timing.byItemId.get("a2"), expected);
   });
 
   it("preserves the completion timestamp when a canonical turn has no visible prompt", () => {
@@ -243,7 +243,7 @@ describe("deriveStreamTurnTiming", () => {
       head: [],
     });
 
-    assert.deepEqual(timing.byAssistantId.get("hidden-prompt-a2"), {
+    assert.deepEqual(timing.byItemId.get("hidden-prompt-a2"), {
       completedAt: hiddenPromptTurnAt,
       durationMs: null,
     });
@@ -266,12 +266,12 @@ describe("deriveStreamTurnTiming", () => {
     const first = derive("one", "2026-05-15T00:01:04.000Z");
     const second = derive("one two", "2026-05-15T00:01:05.000Z");
 
-    assert.equal(second.byAssistantId, first.byAssistantId);
-    assert.deepEqual(first.byAssistantId.get("a1"), {
+    assert.equal(second.byItemId, first.byItemId);
+    assert.deepEqual(first.byItemId.get("a1"), {
       completedAt: tail[1]?.timestamp,
       durationMs: 7000,
     });
-    assert.equal(first.byAssistantId.has("a2"), false);
+    assert.equal(first.byItemId.has("a2"), false);
   });
 
   it("keeps the timing map identity when the head closed the tail's open turn", () => {
@@ -291,8 +291,8 @@ describe("deriveStreamTurnTiming", () => {
     const first = derive("one", "2026-05-15T00:01:04.000Z");
     const second = derive("one two", "2026-05-15T00:01:05.000Z");
 
-    assert.equal(second.byAssistantId, first.byAssistantId);
-    assert.deepEqual(first.byAssistantId.get("a1"), {
+    assert.equal(second.byItemId, first.byItemId);
+    assert.deepEqual(first.byItemId.get("a1"), {
       completedAt: lastTailAt,
       durationMs: 7000,
     });
@@ -316,9 +316,9 @@ describe("deriveStreamTurnTiming", () => {
       head,
     });
 
-    assert.notEqual(completed.byAssistantId, active.byAssistantId);
-    assert.equal(active.byAssistantId.has("a1"), false);
-    assert.deepEqual(completed.byAssistantId.get("a1"), { completedAt, durationMs: 9000 });
+    assert.notEqual(completed.byItemId, active.byItemId);
+    assert.equal(active.byItemId.has("a1"), false);
+    assert.deepEqual(completed.byItemId.get("a1"), { completedAt, durationMs: 9000 });
   });
 
   it("derives fresh timing when the tail itself changes", () => {
@@ -334,11 +334,43 @@ describe("deriveStreamTurnTiming", () => {
     const first = derive(firstTail);
     const second = derive(secondTail);
 
-    assert.notEqual(second.byAssistantId, first.byAssistantId);
-    assert.equal(first.byAssistantId.has("a2"), false);
-    assert.deepEqual(second.byAssistantId.get("a2"), {
+    assert.notEqual(second.byItemId, first.byItemId);
+    assert.equal(first.byItemId.has("a2"), false);
+    assert.deepEqual(second.byItemId.get("a2"), {
       completedAt: secondTail[3]?.timestamp,
       durationMs: 3000,
     });
   });
+});
+
+it("times a heartbeat that ends with tools and no assistant text", () => {
+  const trigger: StreamItem = {
+    kind: "tool_call",
+    id: "trigger",
+    timestamp: new Date("2026-05-15T00:00:00Z"),
+    turnId: "heartbeat",
+    payload: {
+      source: "agent",
+      data: {
+        provider: "claude",
+        callId: "trigger",
+        name: "heartbeat",
+        status: "completed",
+        error: null,
+        detail: { type: "plain_text", text: "Check progress" },
+      },
+    },
+  };
+  const lastTool: StreamItem = {
+    ...trigger,
+    id: "last",
+    timestamp: new Date("2026-05-15T00:00:05Z"),
+  };
+  const timing = deriveStreamTurnTiming({
+    tail: [trigger, lastTool],
+    head: [],
+    isTurnActive: false,
+    activeTurnStartedAt: null,
+  });
+  assert.equal(timing.byItemId.get("last")?.durationMs, 5000);
 });
