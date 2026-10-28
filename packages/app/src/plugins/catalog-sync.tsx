@@ -4,8 +4,8 @@ import type { DaemonClient } from "@getpaseo/client/internal/daemon-client";
 import { useEffect, useRef } from "react";
 import { useHostRuntimeIsConnected } from "@/runtime/host-runtime";
 import { readCachedPluginCatalog, writeCachedPluginCatalog } from "./catalog-cache";
+import { syncPluginCatalog } from "./catalog-sync-model";
 import { pluginRegistry } from "./registry";
-import { pluginSettingsKey } from "./settings/use-settings";
 import {
   beginPluginCatalogLoad,
   beginPluginTimelineExpectationHydration,
@@ -56,7 +56,6 @@ export function PluginCatalogSync({
   useEffect(() => {
     beginPluginTimelineExpectationHydration();
     let cancelled = false;
-    let refreshQueue = Promise.resolve();
     const previousRetention = retention.current;
     const sameServer = previousRetention.serverId === serverId;
     const clientChanged =
@@ -88,83 +87,37 @@ export function PluginCatalogSync({
       return;
     }
 
-    if (!audio || pluginsFeature !== true || !connected || !client) {
-      return;
-    }
+    if (!audio || pluginsFeature !== true || !connected || !client) return;
 
-    const refresh = (replacePluginId?: string) => {
-      refreshQueue = refreshQueue.then(() =>
-        client
-          .getPluginCatalog()
-          .then((catalog) => {
-            if (cancelled) return undefined;
-            pluginRegistry.installCatalog(serverId, catalog, {
-              replacePluginId,
-              client,
-              audio,
-            });
-            rememberPluginTimelineExpectation(serverId, hostHasTimelineTransformers(serverId));
-            markPluginCatalogReady(serverId);
-            void writeCachedPluginCatalog(serverId, catalog);
-            return undefined;
-          })
-          .catch((error) => {
-            if (!cancelled) {
-              console.warn(`[Plugins] Failed to load catalog for ${serverId}`, error);
-              markPluginCatalogReady(serverId);
-            }
-            return undefined;
-          }),
-      );
-      return refreshQueue;
-    };
-
-    let observation: ReturnType<DaemonClient["observeEvents"]> | null = null;
-    const start = async () => {
-      await restoreCachedCatalog(serverId, client, audio);
-      if (cancelled) return;
-      beginPluginCatalogLoad(serverId, {
-        hasTransformers: hostHasTimelineTransformers(serverId),
-        forceWait: clientChanged || featureBecameEnabled,
-      });
-      // The subscription snapshot used to be the only fetch, so the bundle waited
-      // out an extra round trip before the chat could leave its native rows.
-      void refresh();
-      observation = client.observeEvents([
-        "status.plugin_catalog_changed",
-        "status.plugin_settings_changed",
-      ]);
-      observation.subscribe({
-        snapshot: () => {
-          void refresh();
-        },
-        update: (message) => {
-          if (message.type !== "status") return;
-          if (message.payload.status === "plugin_settings_changed") {
-            const { pluginId, settingsId } = message.payload;
-            if (typeof settingsId === "string") {
-              const plugin = pluginRegistry
-                .getSnapshot()
-                .find((item) => item.serverId === serverId && item.id === pluginId);
-              void plugin?.queryClient.invalidateQueries({
-                queryKey: pluginSettingsKey(settingsId),
-              });
-            }
-          }
-          if (message.payload.status === "plugin_catalog_changed") {
-            const pluginId = message.payload.pluginId;
-            if (typeof pluginId === "string") void refresh(pluginId);
-          }
-        },
-      });
-    };
-    void start();
+    const activeClient = client;
+    const activeAudio = audio;
+    const stop = syncPluginCatalog({
+      serverId,
+      client: activeClient,
+      audio: activeAudio,
+      connected,
+      supported: true,
+      registry: pluginRegistry,
+      prepare: async () => {
+        await restoreCachedCatalog(serverId, activeClient, activeAudio);
+        if (cancelled) return;
+        beginPluginCatalogLoad(serverId, {
+          hasTransformers: hostHasTimelineTransformers(serverId),
+          forceWait: clientChanged || featureBecameEnabled,
+        });
+      },
+      onCatalogInstalled: (catalog) => {
+        rememberPluginTimelineExpectation(serverId, hostHasTimelineTransformers(serverId));
+        markPluginCatalogReady(serverId);
+        void writeCachedPluginCatalog(serverId, catalog);
+      },
+      onCatalogFailed: () => {
+        markPluginCatalogReady(serverId);
+      },
+    });
     return () => {
       cancelled = true;
-      if (!observation) return;
-      void observation
-        .release()
-        .catch((error) => console.warn("[Plugins] Failed to release catalog", error));
+      stop();
     };
   }, [audio, client, connected, pluginsFeature, serverId]);
 
