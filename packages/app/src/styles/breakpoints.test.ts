@@ -3,6 +3,11 @@ import { APP_BREAKPOINTS } from "./breakpoints";
 import { isCompactBreakpoint } from "@/constants/layout";
 
 describe("responsive form factor", () => {
+  it("uses the wide density breakpoint from 600 dp", () => {
+    expect(APP_BREAKPOINTS.md).toBe(600);
+    expect(Object.keys(APP_BREAKPOINTS)).not.toContain("medium");
+  });
+
   it.each([
     { width: 393, compact: true },
     { width: 599, compact: true },

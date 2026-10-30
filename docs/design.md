@@ -70,7 +70,7 @@ the sidebar. Apply it as `backgroundColor`; setting `opacity` on the control als
 
 Sizes: `xs` for ultra-tight inline triggers. `sm` for any button sitting in a row. `md` is the page default. `lg` is reserved for large standalone CTAs.
 
-Sizes are a shared contract across control kinds, defined once in `control-geometry.ts`: `xs` = 28px tall with `fontSize.sm` labels, `sm` = 32px with `fontSize.base`, `md`/`lg` = 44px with `fontSize.base`. `<SegmentedControl>` (`packages/app/src/components/ui/segmented-control.tsx`) takes the same `xs`/`sm`/`md` sizes — a segmented control next to a `<Button>` of the same size always matches in height, label size, and corner radius. Its segments run one padding step tighter than a button, because the gap between segments already reads as padding. The selected segment is a `surface3` fill with `foreground` text, not an inverted one — inverting it inside thin chrome puts a white slab in the toolbar. Thin chrome such as the file toolbar uses `xs`; settings rows use `sm`. Never shrink a control's font or padding locally to fit a context — if the context needs a smaller control, the size tier is missing or the wrong one is in use.
+Sizes are a shared contract across control kinds, defined once in `control-geometry.ts`: `xs` = 28px tall with `fontSize.sm` labels, `sm` = 32px with `fontSize.base`, `md`/`lg` = 44px with `fontSize.base`. `<SegmentedControl>` (`packages/app/src/components/ui/segmented-control.tsx`) takes the same `xs`/`sm`/`md` sizes — a segmented control next to a `<Button>` of the same size always matches in height, label size, and corner radius. Its segments run one padding step tighter than a button, because the gap between segments already reads as padding. The selected segment is a `surface3` fill with `foreground` text, not an inverted one — inverting it inside thin chrome puts a white slab in the toolbar. Text fields take `xs`, `sm` and `md`. Thin chrome such as the file toolbar uses `xs`. A settings row sizes the controls in its trailing slot itself, `sm` in a card and `xs` when nested (`packages/app/src/components/ui/control-size.tsx`), so don't pass a size to a button, dropdown or field placed in a row. Never shrink a control's font or padding locally to fit a context — if the context needs a smaller control, the size tier is missing or the wrong one is in use.
 
 A `<Pressable>` wrapping a `<Text>` is a sixth variant. It is wrong. `<Button>` accepts `style`, `textStyle`, `leftIcon`, `disabled`, `size`, and `variant`.
 
@@ -126,6 +126,8 @@ Cards inside a section sit closer than sections. Rows inside a card touch — on
 
 Rows have generous vertical padding: roughly 16px of content plus 16px of vertical padding for settings rows, 8–12px for sidebar list items where many rows must fit. Compressing rows below the established density to fit more on the screen is wrong. Too many rows means more cards or more sections, not smaller rows.
 
+Rows revealed under a `<SettingsCollapsibleRow>` are nested rows, one step smaller than card rows: 8px of vertical padding, `fontSize.sm` text, `xs` controls, and one fixed height so rows with and without a trailing button line up. The collapsible row sets this for everything under it (`packages/app/src/components/settings/row-density.tsx`). Never pass a density to a row, and never pad or resize a nested row by hand.
+
 The whitespace is the design.
 
 ---
@@ -148,10 +150,12 @@ One row off the rail makes the whole card look unconsidered.
 
 Compact-first. The small case is designed; the large case adds chrome around it.
 
-The list+detail pattern is canonical and reused across surfaces. The settings shell (`packages/app/src/screens/settings-screen.tsx`) follows this framing:
+Use `md: 600` for both the compact/wide layout boundary and responsive density, in logical points on native and CSS pixels on web. Do not add a separate density breakpoint. Measured content constraints remain independent: composer controls use `COMPACT_CONTENT_WIDTH` (500), so a narrow pane can keep compact controls inside a wide window.
+
+The settings shell (`packages/app/src/screens/settings-screen.tsx`) and the projects screen (`packages/app/src/screens/projects-screen.tsx`) share the canonical list+detail navigation pattern:
 
 - On compact: full-screen list with `<BackHeader>` at the top. Tapping a row pushes a full-screen detail with its own `<BackHeader>` that returns to the list.
-- On desktop: a sidebar on the left holds the list with `surfaceSidebar` background and shares the app navigation's visible width. The content pane on the right holds the selected detail with `<ScreenHeader>`, `<HeaderIconBadge>`, and `<ScreenTitle>`.
+- On wide layouts: a sidebar on the left holds the list with `surfaceSidebar` background and shares the app navigation's visible width. The content pane on the right holds the selected detail with `<ScreenHeader>`, `<HeaderIconBadge>`, and `<ScreenTitle>`.
 
 The branching is one `useIsCompactFormFactor()` check at the top of the screen component. The list and the detail are the same components in both layouts; only the framing changes.
 

@@ -39,7 +39,9 @@ describe("resolveSidebarFooterSlots", () => {
 
 describe("resolveSidebarFooterButtonWidth", () => {
   it("uses the touch size below the md breakpoint and the pointer size from it", () => {
-    expect(resolveSidebarFooterButtonWidth(698)).toBe(44);
+    expect(resolveSidebarFooterButtonWidth(599)).toBe(44);
+    expect(resolveSidebarFooterButtonWidth(600)).toBe(28);
+    expect(resolveSidebarFooterButtonWidth(698)).toBe(28);
     expect(resolveSidebarFooterButtonWidth(720)).toBe(28);
   });
 });

@@ -42,6 +42,7 @@ import {
   Files,
   Smartphone,
   Sparkles,
+  Mic,
   Blocks,
   Globe,
   PanelLeft,
@@ -123,9 +124,10 @@ import { PluginSettingsContent } from "@/plugins/settings";
 import { useInstalledPlugins } from "@/plugins/registry";
 import { HostPluginsPage } from "@/screens/settings/plugins-page";
 import { MetadataGenerationPage } from "@/screens/settings/metadata-generation-page";
+import { HostVoicePage } from "@/screens/settings/voice/voice-page";
 import ProjectsScreen from "@/screens/projects-screen";
 import ProjectSettingsScreen from "@/screens/project-settings-screen";
-import { useIsCompactFormFactor } from "@/constants/layout";
+import { SETTINGS_DESKTOP_DETAIL_MIN_WIDTH, useIsCompactFormFactor } from "@/constants/layout";
 import { resolveDesktopSidebarWidth } from "@/components/desktop-sidebar-layout";
 import { SidebarResizeHandle } from "@/components/sidebar-resize-handle";
 import {
@@ -145,7 +147,11 @@ import {
   type HostSectionSlug,
   type SettingsSectionSlug,
 } from "@/utils/host-routes";
-import { useLastWorkspaceSelection } from "@/stores/navigation-active-workspace-store";
+import {
+  selectSettingsHost,
+  useSettingsHostSelection,
+  useSettingsSidebarScroll,
+} from "@/navigation/settings-presentation";
 import { returnFromSettings, type SettingsView } from "@/navigation/settings-navigation";
 import { isWeb } from "@/constants/platform";
 
@@ -248,6 +254,7 @@ const HOST_SECTION_ITEMS: HostSectionItem[] = [
   { id: "pair-device", labelKey: "openProject.tiles.pairDevice.title", icon: Smartphone },
   { id: "agents", labelKey: "settings.hostSections.agents", icon: Bot },
   { id: "metadata", labelKey: "settings.hostSections.metadata", icon: Sparkles },
+  { id: "voice", labelKey: "settings.hostSections.voice", icon: Mic },
   { id: "workspaces", labelKey: "settings.hostSections.workspaces", icon: FolderGit2 },
   { id: "providers", labelKey: "settings.hostSections.providers", icon: Boxes },
   { id: "usage", labelKey: "settings.hostSections.usage", icon: Gauge },
@@ -270,6 +277,8 @@ function renderHostSettingsContent(
       return <HostAgentsPage serverId={view.serverId} />;
     case "metadata":
       return <MetadataGenerationPage serverId={view.serverId} />;
+    case "voice":
+      return <HostVoicePage serverId={view.serverId} />;
     case "workspaces":
       return <HostWorkspacesPage serverId={view.serverId} />;
     case "providers":
@@ -957,6 +966,7 @@ function SettingsSidebar({
   const items = SIDEBAR_SECTION_ITEMS.filter((item) => isSectionAvailable(item, isDesktopApp));
   const insets = useSafeAreaInsets();
   const isDesktop = layout === "desktop";
+  const sidebarScroll = useSettingsSidebarScroll(isDesktop);
   const sidebarWidth = usePanelStore((state) => state.sidebarWidth);
   const setSidebarWidth = usePanelStore((state) => state.setSidebarWidth);
   const { width: windowWidth } = useWindowDimensions();
@@ -1117,6 +1127,7 @@ function SettingsSidebar({
             style={sidebarStyles.scrollBody}
             showsVerticalScrollIndicator={false}
             testID="settings-sidebar-scroll-body"
+            {...sidebarScroll}
           >
             {sidebarBody}
           </ScrollView>
@@ -1171,21 +1182,7 @@ export default function SettingsScreen({ view, openAddHostIntent = null }: Setti
   const hosts = useHosts();
   const localServerId = useLocalDaemonServerId();
   const sortedHosts = useSortedHosts(hosts, localServerId);
-  const lastWorkspaceSelection = useLastWorkspaceSelection();
-  const routedSettingsHostServerId =
-    view.kind === "host" || view.kind === "project" || view.kind === "plugin"
-      ? view.serverId
-      : null;
-  const [selectedSettingsHostServerId, setSelectedSettingsHostServerId] = useState<string | null>(
-    routedSettingsHostServerId ?? lastWorkspaceSelection?.serverId ?? null,
-  );
-  useFocusEffect(
-    useCallback(() => {
-      setSelectedSettingsHostServerId(
-        routedSettingsHostServerId ?? lastWorkspaceSelection?.serverId ?? null,
-      );
-    }, [lastWorkspaceSelection?.serverId, routedSettingsHostServerId]),
-  );
+  const selectedSettingsHostServerId = useSettingsHostSelection();
 
   // The host the four sections scope to: the host on the active view, otherwise
   // the picker choice, otherwise the connected local daemon, otherwise the first host.
@@ -1305,7 +1302,7 @@ export default function SettingsScreen({ view, openAddHostIntent = null }: Setti
   // host detail route, keep that detail section and swap only the host segment.
   const handleSelectHost = useCallback(
     (serverId: string) => {
-      setSelectedSettingsHostServerId(serverId);
+      selectSettingsHost(serverId);
       if (view.kind === "project") {
         const target = buildSettingsHostSectionRoute(serverId, "projects");
         if (isCompactLayout) {
@@ -1544,7 +1541,11 @@ export default function SettingsScreen({ view, openAddHostIntent = null }: Setti
         </WindowChromeRegion>
         <WindowChromeRegion corners="top-right">
           <View style={desktopStyles.contentPane} testID="settings-detail-pane">
-            <PageLayout title={detailTitle} titleTestID="settings-detail-header-title">
+            <PageLayout
+              title={detailTitle}
+              titleTestID="settings-detail-header-title"
+              testID="settings-detail-scroll-body"
+            >
               {content}
             </PageLayout>
           </View>
@@ -1616,6 +1617,7 @@ const desktopStyles = StyleSheet.create({
   },
   contentPane: {
     flex: 1,
+    minWidth: SETTINGS_DESKTOP_DETAIL_MIN_WIDTH,
   },
 });
 
