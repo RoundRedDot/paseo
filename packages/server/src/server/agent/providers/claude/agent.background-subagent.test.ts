@@ -468,13 +468,13 @@ describe("background Claude subagents", () => {
         subAgentType: "general-purpose",
         description: "Count files here",
         prompt: "Run ls and reply with the number of entries.",
-        log: "[Bash] ls -1",
+        log: "",
       },
     });
   });
 
   test.each(["before", "after"])(
-    "keeps one logged Task card when child tools start %s the parent finishes",
+    "keeps one Task card when child tools start %s the parent finishes",
     async (timing) => {
       // A child can stream across the main session's turn boundary. Claude opens the next
       // main-session turn with system/init; bare child frames do not open a turn.
@@ -608,7 +608,7 @@ describe("background Claude subagents", () => {
           subAgentType: "general-purpose",
           description: "Count files here",
           prompt: "Run ls and reply with the number of entries.",
-          log: "[Bash] ls -1",
+          log: "",
         },
       });
     },

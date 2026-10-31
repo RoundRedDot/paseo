@@ -64,7 +64,7 @@ function resolveShouldFill(
 ): boolean {
   if (!fillAvailableHeight) return false;
   const t = detail?.type;
-  return t === "shell" || t === "edit" || t === "write" || t === "read" || t === "sub_agent";
+  return t === "shell" || t === "edit" || t === "write" || t === "read";
 }
 
 function useDetailStyles(
@@ -655,7 +655,7 @@ function buildDetailSections(
     return [
       <SubAgentDetailSection
         key="sub-agent"
-        log={detail.log}
+        log={detail.log ?? ""}
         childSessionId={detail.childSessionId}
         subAgentType={detail.subAgentType}
         description={detail.description}

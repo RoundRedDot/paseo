@@ -43,7 +43,7 @@ function hasMeaningfulFetchDetail(detail: Extract<ToolCallDetail, { type: "fetch
 function hasMeaningfulSubAgentDetail(
   detail: Extract<ToolCallDetail, { type: "sub_agent" }>,
 ): boolean {
-  return Boolean(detail.subAgentType || detail.description || detail.prompt || detail.log);
+  return Boolean(detail.prompt || detail.log || (detail.actions?.length ?? 0) > 0);
 }
 
 function hasMeaningfulPlainTextDetail(
@@ -76,6 +76,7 @@ export function hasMeaningfulToolCallDetail(detail: ToolCallDetail | undefined):
       return hasMeaningfulFetchDetail(detail);
     case "worktree_setup":
       return false;
+    // A launch marker stays collapsed. A prompt, leftover log, or actions is the expandable detail.
     case "sub_agent":
       return hasMeaningfulSubAgentDetail(detail);
     case "plain_text":
@@ -92,7 +93,7 @@ export function isPendingToolCallDetail(params: {
   status: "executing" | "running" | "completed" | "failed" | "canceled";
   error: unknown;
 }): boolean {
-  if (params.detail?.type === "worktree_setup") return false;
+  if (params.detail?.type === "worktree_setup" || params.detail?.type === "sub_agent") return false;
   const isRunning = params.status === "running" || params.status === "executing";
   return isRunning && params.error == null && !hasMeaningfulToolCallDetail(params.detail);
 }

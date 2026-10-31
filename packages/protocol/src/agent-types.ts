@@ -290,7 +290,7 @@ export type ToolCallDetail =
       /** The task text the parent handed the subagent, verbatim. */
       prompt?: string;
       childSessionId?: string;
-      log: string;
+      log?: string;
       actions?: Array<{
         index: number;
         toolName: string;
