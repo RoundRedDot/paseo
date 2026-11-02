@@ -8,6 +8,7 @@ import type { PluginHostProps } from "@getpaseo/plugin/client";
 import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useIsCompactFormFactor } from "@/constants/layout";
+import { useIsLocalDaemon } from "@/hooks/use-is-local-daemon";
 import { useHostFeature } from "@/runtime/host-features";
 import { useHostRuntimeClient, useHostRuntimeIsConnected, useHosts } from "@/runtime/host-runtime";
 import type { Theme } from "@/styles/theme";
@@ -78,6 +79,7 @@ function SettingsContent({
   const supported = useHostFeature(serverId, "pluginSettings");
   const compact = useIsCompactFormFactor();
   const hosts = useHosts();
+  const isLocal = useIsLocalDaemon(serverId);
   const [attempt, setAttempt] = useState(0);
   const screen = plugin?.settingsScreens.find((item) => item.id === screenId);
   const retry = useCallback(() => setAttempt((value) => value + 1), []);
@@ -96,8 +98,9 @@ function SettingsContent({
     () => ({
       id: serverId,
       label: hosts.find((candidate) => candidate.serverId === serverId)?.label ?? serverId,
+      isLocal,
     }),
-    [hosts, serverId],
+    [hosts, serverId, isLocal],
   );
   const platform = Platform.OS === "ios" || Platform.OS === "android" ? Platform.OS : "web";
   const layout = useMemo<PluginHostProps["layout"]>(

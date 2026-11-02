@@ -1314,6 +1314,8 @@ The component receives `PluginSurfaceProps`. Paseo owns the header, back navigat
 scrolling, and the centered settings column. Compact windows push a full-screen detail; wide
 windows keep the settings sidebar. Render content inside that frame using React Native components.
 A disabled or removed plugin leaves an unavailable screen with working Back navigation.
+On settings screens, `host.isLocal` is true when the selected host is the desktop app's local
+daemon. It is false for remote hosts and non-desktop clients, and absent on older clients.
 
 ### Named UI components
 

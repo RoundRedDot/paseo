@@ -26,6 +26,8 @@ export interface PluginHostProps {
   host: {
     id: string;
     label: string;
+    /** Present on settings screens; true when this is the desktop's local daemon. */
+    isLocal?: boolean;
   };
   layout: {
     compact: boolean;
