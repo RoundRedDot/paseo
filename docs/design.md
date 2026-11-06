@@ -24,6 +24,22 @@ A pressable styled to look like a button is wrong; the button is `<Button>` (`pa
 
 Before adding a new component, read `components/ui/`. The primitive usually exists.
 
+### Short action tooltips
+
+Simple hover labels follow Better Paseo's command-copy hint. Use the existing Tooltip
+interaction and positioning with `tooltipHintStyles` (`components/ui/tooltip-hint.ts`):
+an opaque `surface0` background, `foreground` UI text, a theme `border` hairline
+(1px on web), 4pt corners, 6pt horizontal and 4pt vertical padding, and fixed 12/18
+type. The shadow is black at `0 2 8`, with 12% opacity in light themes and 36% in
+dark themes. The label is unselectable; it has no arrow or pill shape.
+
+This is the design constraint for short action labels, including diagram and source
+toolbar hints. `PreviewToolbarButton` applies it to every Mermaid action. Reuse this
+look for new simple hints; rich help panels retain their own content layout. Hover
+or keyboard focus reveals the localized action label without changing button size,
+visibility, enabled state, or the underlying action. Keep the portal and viewport
+edge handling so labels remain readable above code and inside narrow panes.
+
 ---
 
 ## 3. Hierarchy

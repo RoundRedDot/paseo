@@ -59,6 +59,16 @@ async function expectTooltip(label: string) {
     .toBeGreaterThanOrEqual(0);
   const tip = document.querySelector('[role="tooltip"]')!.getBoundingClientRect();
   expect(tip.right).toBeLessThanOrEqual(window.innerWidth);
+  const bubble = document.querySelector('[role="tooltip"]')!;
+  const look = getComputedStyle(bubble);
+  expect(look.borderRadius).toBe("4px");
+  expect(look.paddingLeft).toBe("6px");
+  expect(look.paddingTop).toBe("4px");
+  expect(look.backgroundColor).toBe("rgb(255, 255, 255)");
+  expect(look.boxShadow).toContain("0.12");
+  const labelStyle = getComputedStyle(bubble.firstElementChild!);
+  expect(labelStyle.fontSize).toBe("12px");
+  expect(labelStyle.lineHeight).toBe("18px");
   await userEvent.unhover(button(label));
   await expect.poll(() => document.querySelector('[role="tooltip"]')).toBeNull();
 }

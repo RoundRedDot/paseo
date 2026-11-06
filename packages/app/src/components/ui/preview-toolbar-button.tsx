@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native-unistyles";
 import { useIsCompactFormFactor } from "@/constants/layout";
 import { iconButtonChromeGlyphSize, iconButtonChromeStyle } from "./icon-button-chrome";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
+import { tooltipHintStyles } from "./tooltip-hint";
 
 interface PreviewToolbarButtonProps {
   icon: ComponentType<{ size?: number; color?: string }>;
@@ -53,7 +54,7 @@ export const PreviewToolbarButton = memo(function PreviewToolbarButton({
           )}
         </Pressable>
       </TooltipTrigger>
-      <TooltipContent side="top" align="center" offset={8}>
+      <TooltipContent side="top" align="center" offset={8} style={styles.tooltipBubble}>
         <Text style={styles.tooltipLabel}>{label}</Text>
       </TooltipContent>
     </Tooltip>
@@ -73,5 +74,5 @@ const styles = StyleSheet.create((theme) => ({
   },
   icon: { color: theme.colors.foregroundMuted },
   iconHovered: { color: theme.colors.foreground },
-  tooltipLabel: { color: theme.colors.foreground, fontSize: theme.fontSize.sm },
+  ...tooltipHintStyles(theme),
 }));
