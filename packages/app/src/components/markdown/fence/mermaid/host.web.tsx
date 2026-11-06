@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { Pressable, View, type ViewStyle } from "react-native";
+import { Pressable, type ViewStyle } from "react-native";
 import { Code, Maximize2, Workflow } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
@@ -82,34 +82,37 @@ function MermaidFenceHostImpl({
   );
   const sourceVisible = !diagramVisible;
   const viewportStyle = diagramVisible ? diagramStyle : measuringStyle;
+  const sourceActions = useMemo(
+    () =>
+      showSource && canShowDiagram ? (
+        <Pressable
+          accessibilityLabel={t("message.diagram.viewDiagram")}
+          accessibilityRole="button"
+          hitSlop={4}
+          onPress={showDiagramPress}
+          style={controlStyles.sourceButton}
+        >
+          {({ hovered }) => (
+            <Workflow
+              size={14}
+              color={hovered ? controlStyles.iconHovered.color : controlStyles.icon.color}
+            />
+          )}
+        </Pressable>
+      ) : null,
+    [showSource, canShowDiagram, showDiagramPress, t],
+  );
 
   return (
     <>
       {sourceVisible ? (
-        <View style={sourceContainerStyle}>
-          <HighlightedCodeBlock
-            code={code}
-            language="mermaid"
-            inheritedStyles={inheritedStyles}
-            textStyle={textStyle}
-          />
-          {showSource && canShowDiagram ? (
-            <Pressable
-              accessibilityLabel={t("message.diagram.viewDiagram")}
-              accessibilityRole="button"
-              hitSlop={4}
-              onPress={showDiagramPress}
-              style={controlStyles.sourceButton}
-            >
-              {({ hovered }) => (
-                <Workflow
-                  size={14}
-                  color={hovered ? controlStyles.iconHovered.color : controlStyles.icon.color}
-                />
-              )}
-            </Pressable>
-          ) : null}
-        </View>
+        <HighlightedCodeBlock
+          code={code}
+          language="mermaid"
+          inheritedStyles={inheritedStyles}
+          textStyle={textStyle}
+          actions={sourceActions}
+        />
       ) : null}
       <div inert={!diagramVisible} style={boundaryStyle}>
         <ZoomableViewport
@@ -146,7 +149,6 @@ const MEASURING_SIZE = { width: 240, height: 240 };
 const MIN_DIAGRAM_BOX_HEIGHT = 56;
 const MAX_PREVIEW_HEIGHT = 480;
 const boundaryStyle: React.CSSProperties = { display: "contents" };
-const sourceContainerStyle: ViewStyle = { position: "relative" };
 /**
  * The viewport's own root is `flex: 1`, so as a flex item it has `flex-basis: 0%` and that basis
  * replaces the height below. In the markdown column there is no free space to grow into, so the
@@ -170,9 +172,6 @@ const measuringStyle: ViewStyle = {
 };
 const controlStyles = StyleSheet.create((theme) => ({
   sourceButton: {
-    position: "absolute",
-    top: theme.spacing[2],
-    right: theme.spacing[2],
     padding: theme.spacing[1],
   },
   icon: { color: theme.colors.foregroundMuted },

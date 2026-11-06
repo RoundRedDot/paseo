@@ -28,6 +28,7 @@ interface HighlightedCodeBlockProps {
   language: string | null | undefined;
   inheritedStyles: TextStyle;
   textStyle: TextStyle;
+  actions?: React.ReactNode;
 }
 
 // Fence info strings ("```ts", "```typescript", "```ts {1,3}") map to the
@@ -65,6 +66,7 @@ export const HighlightedCodeBlock = React.memo(function HighlightedCodeBlock({
   language,
   inheritedStyles,
   textStyle,
+  actions,
 }: HighlightedCodeBlockProps) {
   // Box styles (bg / padding / border / radius / margin) go on the wrapper View
   // so the absolute copy button positions relative to the visible code area,
@@ -110,7 +112,10 @@ export const HighlightedCodeBlock = React.memo(function HighlightedCodeBlock({
           {renderedCode}
         </Text>
       )}
-      <CopyButton getCode={getCode} visible={controlsVisible} />
+      <View style={copyButtonStyles.actions} dataSet={markdownCopyDataSet.ignore}>
+        {actions}
+        <CopyButton getCode={getCode} visible={controlsVisible} />
+      </View>
     </View>
   );
 });
@@ -232,10 +237,15 @@ const CopyButton = React.memo(function CopyButton({ getCode, visible }: CopyButt
 });
 
 const copyButtonStyles = StyleSheet.create((theme) => ({
-  container: {
+  actions: {
     position: "absolute",
     top: theme.spacing[2],
     right: theme.spacing[2],
+    flexDirection: "row",
+    alignItems: "center",
+    gap: theme.spacing[3],
+  },
+  container: {
     padding: theme.spacing[1],
   },
   containerVisible: {
