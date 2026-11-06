@@ -29,6 +29,7 @@ interface HighlightedCodeBlockProps {
   inheritedStyles: TextStyle;
   textStyle: TextStyle;
   actions?: React.ReactNode;
+  alwaysShowCopy?: boolean;
 }
 
 // Fence info strings ("```ts", "```typescript", "```ts {1,3}") map to the
@@ -67,6 +68,7 @@ export const HighlightedCodeBlock = React.memo(function HighlightedCodeBlock({
   inheritedStyles,
   textStyle,
   actions,
+  alwaysShowCopy = false,
 }: HighlightedCodeBlockProps) {
   // Box styles (bg / padding / border / radius / margin) go on the wrapper View
   // so the absolute copy button positions relative to the visible code area,
@@ -90,7 +92,7 @@ export const HighlightedCodeBlock = React.memo(function HighlightedCodeBlock({
   const [isHovered, setIsHovered] = useState(false);
   const handlePointerEnter = useCallback(() => setIsHovered(true), []);
   const handlePointerLeave = useCallback(() => setIsHovered(false), []);
-  const controlsVisible = isHovered || isNative || isCompact;
+  const controlsVisible = alwaysShowCopy || isHovered || isNative || isCompact;
   // Copy the code without its trailing blank lines. A fence body ends in a newline,
   // and ends in more than one when the author left a blank line before the closing
   // fence; pasting any of them into a terminal runs the last line.

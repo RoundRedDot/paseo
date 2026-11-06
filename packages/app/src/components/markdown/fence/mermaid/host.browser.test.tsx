@@ -50,8 +50,10 @@ it.each([320, 900])("keeps source actions separate and usable at %ipx", async (w
   await userEvent.hover(container);
   await userEvent.click(button("message.diagram.viewSource"));
   const diagram = button("message.diagram.viewDiagram");
-  await userEvent.hover(diagram);
+  await userEvent.unhover(container);
   const copy = button("message.actions.copyCode");
+  expect(getComputedStyle(copy).opacity).toBe("1");
+  expect(getComputedStyle(copy).pointerEvents).not.toBe("none");
   const diagramBox = diagram.getBoundingClientRect();
   const copyBox = copy.getBoundingClientRect();
   expect(diagramBox.width).toBeGreaterThan(0);
@@ -78,6 +80,7 @@ it("keeps a single copy action for ordinary code blocks", async () => {
     />,
     320,
   );
+  expect(getComputedStyle(button("message.actions.copyCode")).opacity).toBe("0");
   await userEvent.hover(container);
   await userEvent.click(button("message.actions.copyCode"));
   expect(clipboard.copy).toHaveBeenCalledWith(code.trimEnd());

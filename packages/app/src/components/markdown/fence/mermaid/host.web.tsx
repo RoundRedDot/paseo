@@ -112,6 +112,7 @@ function MermaidFenceHostImpl({
           inheritedStyles={inheritedStyles}
           textStyle={textStyle}
           actions={sourceActions}
+          alwaysShowCopy
         />
       ) : null}
       <div inert={!diagramVisible} style={boundaryStyle}>
