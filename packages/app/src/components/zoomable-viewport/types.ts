@@ -14,6 +14,7 @@ export interface ZoomableViewportProps {
   children: ReactNode;
   actions?: ZoomableViewportAction[];
   accessibilityLabel?: string;
+  alwaysShowControls?: boolean;
   fit?: ViewportFitOptions;
   maxScale?: number;
   minScale?: number;

@@ -47,7 +47,20 @@ it.each([320, 900])("keeps source actions separate and usable at %ipx", async (w
     width,
   );
   await expect.poll(() => container.querySelector('[data-paseo-markdown-tag="pre"]')).toBeNull();
+  const labels = ["zoomIn", "zoomOut", "resetZoom", "viewSource", "fullscreen"];
+  for (const label of labels) {
+    expect(Number(getComputedStyle(button(`message.diagram.${label}`)).opacity)).toBeGreaterThan(0);
+  }
   await userEvent.hover(container);
+  await userEvent.unhover(container);
+  for (const label of labels) {
+    expect(Number(getComputedStyle(button(`message.diagram.${label}`)).opacity)).toBeGreaterThan(0);
+  }
+  expect(getComputedStyle(button("message.diagram.zoomIn")).pointerEvents).not.toBe("none");
+  await userEvent.click(button("message.diagram.zoomIn"));
+  expect(button("message.diagram.resetZoom").getAttribute("aria-disabled")).not.toBe("true");
+  await userEvent.click(button("message.diagram.resetZoom"));
+  expect(button("message.diagram.resetZoom").getAttribute("aria-disabled")).toBe("true");
   await userEvent.click(button("message.diagram.viewSource"));
   const diagram = button("message.diagram.viewDiagram");
   await userEvent.unhover(container);

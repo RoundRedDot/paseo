@@ -118,6 +118,7 @@ function MermaidFenceHostImpl({
       <div inert={!diagramVisible} style={boundaryStyle}>
         <ZoomableViewport
           accessibilityLabel={t("message.diagram.diagram")}
+          alwaysShowControls
           actions={actions}
           contentSize={diagramSize}
           style={viewportStyle}
