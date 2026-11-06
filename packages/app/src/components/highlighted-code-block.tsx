@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import type { HighlightToken } from "@getpaseo/highlight";
 import { isNative, isWeb } from "@/constants/platform";
 import { useIsCompactFormFactor } from "@/constants/layout";
+import { PreviewToolbarButton } from "@/components/ui/preview-toolbar-button";
 import { syntaxTokenStyleFor } from "@/styles/syntax-token-styles";
 import { CODE_SURFACE_DATASET } from "@/styles/code-surface";
 import { highlightToKeyedLines, type KeyedLine } from "@/utils/highlight-cache";
@@ -30,6 +31,7 @@ interface HighlightedCodeBlockProps {
   textStyle: TextStyle;
   actions?: React.ReactNode;
   alwaysShowCopy?: boolean;
+  toolbarCopy?: boolean;
 }
 
 // Fence info strings ("```ts", "```typescript", "```ts {1,3}") map to the
@@ -69,6 +71,7 @@ export const HighlightedCodeBlock = React.memo(function HighlightedCodeBlock({
   textStyle,
   actions,
   alwaysShowCopy = false,
+  toolbarCopy = false,
 }: HighlightedCodeBlockProps) {
   // Box styles (bg / padding / border / radius / margin) go on the wrapper View
   // so the absolute copy button positions relative to the visible code area,
@@ -114,9 +117,12 @@ export const HighlightedCodeBlock = React.memo(function HighlightedCodeBlock({
           {renderedCode}
         </Text>
       )}
-      <View style={copyButtonStyles.actions} dataSet={markdownCopyDataSet.ignore}>
+      <View
+        style={[copyButtonStyles.actions, toolbarCopy && copyButtonStyles.toolbarActions]}
+        dataSet={markdownCopyDataSet.ignore}
+      >
         {actions}
-        <CopyButton getCode={getCode} visible={controlsVisible} />
+        <CopyButton getCode={getCode} visible={controlsVisible} toolbar={toolbarCopy} />
       </View>
     </View>
   );
@@ -178,11 +184,12 @@ function splitFenceStyle(inheritedStyles: TextStyle, textStyle: TextStyle): Spli
 interface CopyButtonProps {
   getCode: () => string;
   visible: boolean;
+  toolbar: boolean;
 }
 
 const COPIED_RESET_MS = 1500;
 
-const CopyButton = React.memo(function CopyButton({ getCode, visible }: CopyButtonProps) {
+const CopyButton = React.memo(function CopyButton({ getCode, visible, toolbar }: CopyButtonProps) {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const resetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -213,6 +220,16 @@ const CopyButton = React.memo(function CopyButton({ getCode, visible }: CopyButt
     () => [copyButtonStyles.container, visibilityStyle],
     [visibilityStyle],
   );
+
+  if (toolbar)
+    return (
+      <PreviewToolbarButton
+        icon={copied ? Check : Copy}
+        label={copied ? t("message.actions.copied") : t("message.actions.copyCode")}
+        onPress={handlePress}
+        visible={visible}
+      />
+    );
 
   return (
     <Pressable
@@ -250,6 +267,7 @@ const copyButtonStyles = StyleSheet.create((theme) => ({
   container: {
     padding: theme.spacing[1],
   },
+  toolbarActions: { gap: theme.spacing[1] },
   containerVisible: {
     opacity: 1,
   },

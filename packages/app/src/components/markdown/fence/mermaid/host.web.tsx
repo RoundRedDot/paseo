@@ -1,8 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
-import { Pressable, type ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
 import { Code, Maximize2, Workflow } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, withUnistyles } from "react-native-unistyles";
+import { withUnistyles } from "react-native-unistyles";
+import { PreviewToolbarButton } from "@/components/ui/preview-toolbar-button";
 import { HighlightedCodeBlock } from "@/components/highlighted-code-block";
 import { ZoomableViewport } from "@/components/zoomable-viewport";
 import type { Theme } from "@/styles/theme";
@@ -85,20 +86,11 @@ function MermaidFenceHostImpl({
   const sourceActions = useMemo(
     () =>
       showSource && canShowDiagram ? (
-        <Pressable
-          accessibilityLabel={t("message.diagram.viewDiagram")}
-          accessibilityRole="button"
-          hitSlop={4}
+        <PreviewToolbarButton
+          icon={Workflow}
+          label={t("message.diagram.viewDiagram")}
           onPress={showDiagramPress}
-          style={controlStyles.sourceButton}
-        >
-          {({ hovered }) => (
-            <Workflow
-              size={14}
-              color={hovered ? controlStyles.iconHovered.color : controlStyles.icon.color}
-            />
-          )}
-        </Pressable>
+        />
       ) : null,
     [showSource, canShowDiagram, showDiagramPress, t],
   );
@@ -113,6 +105,7 @@ function MermaidFenceHostImpl({
           textStyle={textStyle}
           actions={sourceActions}
           alwaysShowCopy
+          toolbarCopy
         />
       ) : null}
       <div inert={!diagramVisible} style={boundaryStyle}>
@@ -172,13 +165,6 @@ const measuringStyle: ViewStyle = {
   opacity: 0,
   pointerEvents: "none",
 };
-const controlStyles = StyleSheet.create((theme) => ({
-  sourceButton: {
-    padding: theme.spacing[1],
-  },
-  icon: { color: theme.colors.foregroundMuted },
-  iconHovered: { color: theme.colors.foreground },
-}));
 const mapColorScheme = (theme: Theme) => ({ colorScheme: theme.colorScheme });
 const ThemedMermaidFenceHost = withUnistyles(MermaidFenceHostImpl);
 

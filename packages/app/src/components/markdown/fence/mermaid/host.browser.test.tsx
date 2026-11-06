@@ -4,11 +4,32 @@ import { userEvent } from "vitest/browser";
 import { afterEach, expect, it, vi } from "vitest";
 import { MermaidFenceHost } from "./host.web";
 import { HighlightedCodeBlock } from "@/components/highlighted-code-block";
+import type { ViewProps } from "react-native";
 
 const clipboard = vi.hoisted(() => ({ copy: vi.fn(async () => true) }));
 vi.mock("expo-clipboard", () => ({ setStringAsync: clipboard.copy }));
 vi.mock("react-i18next", () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
 vi.mock("./fullscreen-viewer.web", () => ({ MermaidFullscreenViewer: () => null }));
+// Keep the real Tooltip portal, events and geometry; Vite cannot resolve Reanimated's
+// Metro-only require() calls for its DOM animation adapter.
+vi.mock("@/components/ui/floating", async () => {
+  const { View } = await import("react-native");
+  return {
+    FloatingSurface: React.forwardRef<
+      React.ElementRef<typeof View>,
+      ViewProps & {
+        frameStyle?: ViewProps["style"];
+        entering?: unknown;
+        exiting?: unknown;
+      }
+    >(function FloatingSurface(
+      { frameStyle, style, entering: _entering, exiting: _exiting, ...props },
+      ref,
+    ) {
+      return <View {...props} ref={ref} style={[style, frameStyle]} />;
+    }),
+  };
+});
 
 let root: Root;
 let container: HTMLDivElement;
@@ -30,6 +51,18 @@ function button(label: string): HTMLElement {
   return element;
 }
 
+async function expectTooltip(label: string) {
+  await userEvent.hover(button(label));
+  await expect.poll(() => document.querySelector('[role="tooltip"]')?.textContent).toBe(label);
+  await expect
+    .poll(() => document.querySelector('[role="tooltip"]')?.getBoundingClientRect().left)
+    .toBeGreaterThanOrEqual(0);
+  const tip = document.querySelector('[role="tooltip"]')!.getBoundingClientRect();
+  expect(tip.right).toBeLessThanOrEqual(window.innerWidth);
+  await userEvent.unhover(button(label));
+  await expect.poll(() => document.querySelector('[role="tooltip"]')).toBeNull();
+}
+
 afterEach(() => {
   act(() => root?.unmount());
   container?.remove();
@@ -48,8 +81,13 @@ it.each([320, 900])("keeps source actions separate and usable at %ipx", async (w
   );
   await expect.poll(() => container.querySelector('[data-paseo-markdown-tag="pre"]')).toBeNull();
   const labels = ["zoomIn", "zoomOut", "resetZoom", "viewSource", "fullscreen"];
+  const frame = button("message.diagram.zoomIn").getBoundingClientRect();
   for (const label of labels) {
-    expect(Number(getComputedStyle(button(`message.diagram.${label}`)).opacity)).toBeGreaterThan(0);
+    const action = button(`message.diagram.${label}`);
+    expect(Number(getComputedStyle(action).opacity)).toBeGreaterThan(0);
+    expect(action.getBoundingClientRect().width).toBe(frame.width);
+    expect(action.getBoundingClientRect().height).toBe(frame.height);
+    await expectTooltip(`message.diagram.${label}`);
   }
   await userEvent.hover(container);
   await userEvent.unhover(container);
@@ -69,11 +107,18 @@ it.each([320, 900])("keeps source actions separate and usable at %ipx", async (w
   expect(getComputedStyle(copy).pointerEvents).not.toBe("none");
   const diagramBox = diagram.getBoundingClientRect();
   const copyBox = copy.getBoundingClientRect();
+  expect(copyBox.width).toBe(frame.width);
+  expect(copyBox.height).toBe(frame.height);
+  expect(diagramBox.width).toBe(frame.width);
+  expect(diagramBox.height).toBe(frame.height);
+  expect(getComputedStyle(copy).borderRadius).toBe(getComputedStyle(diagram).borderRadius);
   expect(diagramBox.width).toBeGreaterThan(0);
   expect(copyBox.width).toBeGreaterThan(0);
   expect(diagramBox.right).toBeLessThanOrEqual(copyBox.left);
   expect(diagramBox.top).toBe(copyBox.top);
   expect(copyBox.right).toBeLessThanOrEqual(container.getBoundingClientRect().right);
+  await expectTooltip("message.diagram.viewDiagram");
+  await expectTooltip("message.actions.copyCode");
 
   await userEvent.click(copy);
   expect(clipboard.copy).toHaveBeenCalledWith(code.trimEnd());

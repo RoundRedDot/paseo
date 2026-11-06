@@ -1,13 +1,9 @@
 import React from "react";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { Scan, ZoomIn, ZoomOut } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native-unistyles";
-import { useIsCompactFormFactor } from "@/constants/layout";
-import {
-  iconButtonChromeGlyphSize,
-  iconButtonChromeStyle,
-} from "@/components/ui/icon-button-chrome";
+import { PreviewToolbarButton } from "@/components/ui/preview-toolbar-button";
 import type { ZoomableViewportAction } from "./types";
 
 interface ViewportToolbarProps {
@@ -61,9 +57,12 @@ export const ViewportToolbar = React.memo(function ViewportToolbar({
   return (
     <View style={styles.cluster} testID="zoomable-viewport-toolbar">
       {viewportActions.map((action) => (
-        <ViewportToolbarButton
+        <PreviewToolbarButton
           key={action.label}
-          action={action}
+          icon={action.icon}
+          label={action.label}
+          onPress={action.onPress}
+          testID={action.testID}
           disabled={action.disabled}
           visible={visible}
         />
@@ -71,46 +70,6 @@ export const ViewportToolbar = React.memo(function ViewportToolbar({
     </View>
   );
 });
-
-function ViewportToolbarButton({
-  action,
-  disabled,
-  visible,
-}: {
-  action: ZoomableViewportAction;
-  disabled: boolean;
-  visible: boolean;
-}) {
-  const Icon = action.icon;
-  const isCompact = useIsCompactFormFactor();
-  const iconSize = iconButtonChromeGlyphSize("small", isCompact);
-  const buttonStyle = React.useCallback(
-    ({ hovered, pressed }: { hovered?: boolean; pressed: boolean }) =>
-      iconButtonChromeStyle({
-        size: "small",
-        compact: isCompact,
-        state: { hovered, pressed },
-        disabled,
-        style: visible ? styles.button : styles.buttonHidden,
-      }),
-    [disabled, isCompact, visible],
-  );
-  return (
-    <Pressable
-      accessibilityLabel={action.label}
-      accessibilityRole="button"
-      disabled={disabled}
-      hitSlop={isCompact ? 6 : 4}
-      onPress={action.onPress}
-      style={buttonStyle}
-      testID={action.testID}
-    >
-      {({ hovered }) => (
-        <Icon size={iconSize} color={hovered ? styles.iconHovered.color : styles.icon.color} />
-      )}
-    </Pressable>
-  );
-}
 
 const styles = StyleSheet.create((theme) => ({
   cluster: {
@@ -122,16 +81,4 @@ const styles = StyleSheet.create((theme) => ({
     gap: theme.spacing[1],
     pointerEvents: "box-none",
   },
-  button: {
-    backgroundColor: theme.colors.surface2,
-    opacity: 1,
-    pointerEvents: "auto",
-  },
-  buttonHidden: {
-    backgroundColor: theme.colors.surface2,
-    opacity: 0,
-    pointerEvents: "none",
-  },
-  icon: { color: theme.colors.foregroundMuted },
-  iconHovered: { color: theme.colors.foreground },
 }));
