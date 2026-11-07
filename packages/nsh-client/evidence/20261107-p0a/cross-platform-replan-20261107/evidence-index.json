@@ -1,0 +1,405 @@
+{
+  "schemaVersion": 1,
+  "runId": "cross-platform-replan-20261107",
+  "startedAt": "2026-11-07T11:30:33.034Z",
+  "authorization": {
+    "parentMessageId": "f99078b3-41d3-477e-bb95-650651b0a2e4",
+    "scope": "docs-only cross-platform frontend replan; no implementation or memory writes"
+  },
+  "runtimeStart": {
+    "provider": "codex",
+    "model": "gpt-6.1-sol",
+    "thinking": "high"
+  },
+  "placement": {
+    "cwd": "/Users/luopeihuan/workspace/rrd/paseo/.worktrees/nsh-client-p0-20261107",
+    "branch": "feat/nsh-client-p0-20261107",
+    "head": "9667ec5576352599c729975c690285e91c4495f5",
+    "workspaceId": "wks_c264dd766fcb5332"
+  },
+  "previousPlanSha256": "2b4be79adacbf0f2d7492c137e46a73bf663ea30f6ebfe6a42a401b31e08389a",
+  "before": {
+    "protectedHashes": {
+      "CLAUDE.md": "5878502cd1127f1b66e0a477d7a3cc9609be355b726ea28519bdecf2cf269c32",
+      "docs/architecture.md": "849e0fc107089ab88e509275fca53aa08894018ca58fb4d5f601cc4c621743d0",
+      "package-lock.json": "fbc7cb5e5ec4a528dd7f1c4cad81c4ee68487b8b6c42c28bf2fa5937bc91dda2",
+      "packages/app/src/stores/session-store.test.ts": "8fc61f71bf3da391635a7c83a191939bbf63e6c95d74281181ef0cce05393efa",
+      "packages/app/src/stores/session-store.ts": "c2c3722c56d0cdc802acd1e3025f6a4b3e106b4dd514646086ed256f27b7936f",
+      "packages/app/src/timeline/agent-timeline-replica.ts": "cd03494190f60b026dd28f05c174d677f980118c032a157bdfa6fb634eed2c70",
+      "packages/app/src/timeline/session-stream-reducers.ts": "4a08efeac8df147a8bd64066c42f463a846cd121112ab74caa5f7ace8711b412",
+      "packages/app/src/timeline/timeline-reducers.ts": "47630f4ba78e62f93d5af537266c8efb0b2372ed1e6ae4fb943d7677312c894e",
+      "packages/app/src/timeline/viewed-timeline-sync-core.ts": "d65642fb86f47a8e4464e246c69532d7420318443ef2dcba3368150e68c293b2",
+      "packages/app/src/timeline/viewed-timeline-sync.ts": "90f0743971626346c04e63b95a31474f7896e0940c34e6f053b988bcea709d8f",
+      "packages/nsh-client/fixtures/combined-plan.ts": "b17620b901fb0152945e0681b4c0f9f37c3465b05b93e7edee5272cc116b53b8",
+      "packages/nsh-client/fixtures/d2-oracle-initial.ts": "43b8dcad2b13ac0c2d8c5f8759413f47e1d2c580ec2cb4f7dbfd0a6db9e24842",
+      "packages/nsh-client/fixtures/hello.json": "371bf0733e20ab8b275cc47de04394d333e9b723a292af289f3c7332e3bf75e0",
+      "packages/nsh-client/fixtures/minimal-stream.ts": "f63ba7a4fa3b496566658681258c5b0f36a3e7b92e6527ec2204fdc319d16334",
+      "packages/nsh-client/native/Cargo.lock": "3980b1136d46f3aa0ffc5a7d2f6c45960f3e3ea5b7c518952e274cd6f5ef88ce",
+      "packages/nsh-client/native/Cargo.toml": "e7a80f3e36f30e015705fe96503b316dda4e7e6c9a69c32d6097dabf193a5994",
+      "packages/nsh-client/native/src/bin/standalone.rs": "a3fe1b8fbf390b4d671320c46f197610604904d7b662ac4b2cad4b4ead4eb7b4",
+      "packages/nsh-client/native/src/harness.rs": "822f02694e79b6994c80c515aa50f28e6a08854dfa0079e4fdd8814046e52c2c",
+      "packages/nsh-client/native/src/lib.rs": "65bbb9eea42bf5de855e24014e90d36fd53c0c486d043e787994d105c6076b8a",
+      "packages/nsh-client/native/src/socket.rs": "d34ede05b3ef398a9e80234a24223841b014ed8934cda50f3ccf1e4c45172896",
+      "packages/nsh-client/nsh.json": "f183d4eb7dda21a4944ba72a28c36e06a346dfe043297ef45b908291bc27327b",
+      "packages/nsh-client/package-lock.json": "59bac99029b92fc07abbc5593d71f5e02d14392c4fa92a7dd532699eeb7ff321",
+      "packages/nsh-client/package.json": "cdc2038a9a90cfeb3093a7b883df6eba61d5159f7996e92fac68ee2d2c41042f",
+      "packages/nsh-client/probes/auth.test.ts": "6aa6f906e49af5e307da25d4c3800182a2e16b13cfbefa5625bf576e347fda65",
+      "packages/nsh-client/probes/bytes.test.ts": "bc26e65920404a1f9a6906f31e6b43c00828e6b2029ed3f77fe63f23276a3d05",
+      "packages/nsh-client/probes/crypto.test.ts": "926699b3ce15787b56ec51312b510f9ad62c7906ea101f79aaf95e353f0b5ad9",
+      "packages/nsh-client/probes/relay.test.ts": "f2fec92141f1ae8b405d31fe6136bb597cef5e5a5f38f956416042b41c49723e",
+      "packages/nsh-client/probes/sdk-replay.test.ts": "1a90b7416b25da8d8e07f9f9e0b2e71789647a28b9f4c9ef21d3445a3ccd7efb",
+      "packages/nsh-client/probes/sdk.test.ts": "f59946a6da87b8b7b5f5844a3e8502b03e5190542ab4eebc9939621eff0f27d7",
+      "packages/nsh-client/probes/stream.test.ts": "a44a5b2793c668d5c1fac397d97ecb0fb7600ba39749384a3fa3483c968ebfb2",
+      "packages/nsh-client/probes/thread-clock.test.ts": "e400407a03fd3389db2cc381dc28f4fb2b15ffa35c3342064ad211a56764900b",
+      "packages/nsh-client/probes/timeline.test.ts": "da8020edd6a54a4639f957758fcb99a2b3800782f4fd921bdebf76e0ea310e33",
+      "packages/nsh-client/probes/tls-trusted.test.ts": "17ad7c8499cf884a555bcd7bd01f0e1d7a1d9c3d2f8013804bda80df5d1961b2",
+      "packages/nsh-client/probes/tls.test.ts": "e1af55300152c2817fe3c99cb2bdb806f590c504b0a33d3265f1acac1cf7f61c",
+      "packages/nsh-client/probes/transport.test.ts": "724da0a0690a5844915a1cd753a39d9dee16ca75590587ce869863ad61c2300c",
+      "packages/nsh-client/probes/xterm.test.ts": "2677124162b142ce685d398289555c141fb8da7132a607c27a0362c13aba2eac",
+      "packages/nsh-client/scripts/activate-owned-window.swift": "cebae5022156f80452b580d77e7977beb4f121c32ac7974128bd4c105e469244",
+      "packages/nsh-client/scripts/analyze-native-baseline.mjs": "e81d066b9d6e01cdd791fac8e11a77909ced62e44adc3d02b5708a263cbf53a5",
+      "packages/nsh-client/scripts/build-window-capture.sh": "f07d93dde441abc35b6195a91f74f6ed99b0fd8121da0813b4b4449dbbef2fa7",
+      "packages/nsh-client/scripts/capture-sanity.mjs": "1947f5283b7dcf06d5d4028a59cf6676767e61a98e55478c1924944f1b65ba61",
+      "packages/nsh-client/scripts/check-native-pacing.mjs": "21086e58a66e5838b585646b0834d8c4cb6413450bd54a2572d9a1efb748df02",
+      "packages/nsh-client/scripts/compare-d2-facts.mjs": "6f62bc9771579e3e40f65f3fc76c96137e6d9f07dc1f02231d395e9e53409c72",
+      "packages/nsh-client/scripts/compute-aggregate.mjs": "cf7b3c8419e668ae37be657b1614904e45abfeb79b45d8468f924ee83feeff34",
+      "packages/nsh-client/scripts/compute-contract.mjs": "31178e3c3ebd1110cf86cba0d6dc2a48cb25388ae4cdabf9f0d8cc3f279b9c5e",
+      "packages/nsh-client/scripts/compute-contract.test.mjs": "41e15f7e3d7a5acbea9a401d9826a3b399ff954a9a0b82174c16161490cfdf6b",
+      "packages/nsh-client/scripts/compute-pair.mjs": "9d80081c08ada54ba749098692435a5ca8152d676267357a8e397eda2844606d",
+      "packages/nsh-client/scripts/compute-pair.test.mjs": "6f97e17bab34d2b015605ad5fe7f4d5550d9b5ccc07d98650785510a37acab12",
+      "packages/nsh-client/scripts/compute-process.mjs": "050d3a260d130c0b26144944c8990a8433dc50e88df02e9f92139c386bb8277d",
+      "packages/nsh-client/scripts/compute-process.test.mjs": "3e51fb5e13d10dd495e02cc6934576e53b8717cfe883c1877ec303b26bf05247",
+      "packages/nsh-client/scripts/compute-results.mjs": "24a70f461a4aba6fe0e2f35836ff85c536124396cea7a78b6a7e2c105d153aa5",
+      "packages/nsh-client/scripts/compute-results.test.mjs": "ddc4595720c571fe90d296e820270feb62e9d9d712a8741bec3908e40d99eefb",
+      "packages/nsh-client/scripts/compute-wiring.test.ts": "6f96528c27e44ce6682076ac660c9712ab86248bf9f7a265c9509b747df2d147",
+      "packages/nsh-client/scripts/continuous-native-probe.mjs": "4fd88a174afc76e3bf322e22f5c6ee30ebce9a9b2cc80388c172b0f7c3b21bdc",
+      "packages/nsh-client/scripts/continuous-native-probe.test.mjs": "e3602ee319fc2afa4f5bd547cfe50560410330001a6425f17e642d718e88ce56",
+      "packages/nsh-client/scripts/d2-oracle-client.ts": "6d551c1350b29fa8db19ade7dc125e248f61cb62de5042bc33a9de1ef2c96b7e",
+      "packages/nsh-client/scripts/d2-oracle-fixture.ts": "f0df784896188291f7647b0c669ee71ad8abc4d6e6c4b1630335ae2e9db538a7",
+      "packages/nsh-client/scripts/daemon-fixture.ts": "4b85137e132dca0bf611c05cf1208daab45a04948ce479ca780400affa469833",
+      "packages/nsh-client/scripts/electron-baseline.mjs": "2efc260b27839b40a2040e3d137058bf26b83995060d5dccd01e15e388ae3827",
+      "packages/nsh-client/scripts/encrypted-boundaries.mjs": "339c2b71e9f5ec2de7cf0f26d30b18bf03f58e67892e8c9bc17444d2ba0978b7",
+      "packages/nsh-client/scripts/encrypted-drain.mjs": "a31a39e74ad17a4d9680d755f7db849a2d17974efbd5bcfffa4a28edae55b9f2",
+      "packages/nsh-client/scripts/formal-inbound-controller.mjs": "0a885030f407be1dfd24150cbbe4c95bf60422d4129051a9e8679775162f7db5",
+      "packages/nsh-client/scripts/formal-inbound-node.ts": "5cc9f2ba4901baccd03ff95864f472d01ed9ab27a5f14228ccfd6c9aa014f04a",
+      "packages/nsh-client/scripts/formal-relay-node.ts": "8ceaf3abd84c45d066f69f820448dfdd56730795b2dca408e9d2679de6bafe99",
+      "packages/nsh-client/scripts/local-relay.ts": "da6f2e1270994f98a3030e8e9b235eac9cc7d199bf108f46c9b4747d99d48241",
+      "packages/nsh-client/scripts/metro-baseline.config.cjs": "54d4a8ede3dfe3d38399e6abe6a973c8f6e6ef37ffd19b151706f97014da1998",
+      "packages/nsh-client/scripts/native-baseline-controller.mjs": "5a12b481b49638ba706ea03b6f24291a4596c31eb6b8caa402c6e722742fb270",
+      "packages/nsh-client/scripts/native-continuous-wheel.swift": "3d4ea447f0ad61994517ebc7f94ee91670eff336e107329f5aefb3319a19d2a9",
+      "packages/nsh-client/scripts/native-input-completion.mjs": "5e4d71dceb223f7778b32a00b6fb698f244cdfd2eff3780e21b05e7e4d785bad",
+      "packages/nsh-client/scripts/native-input-completion.test.mjs": "1020377ada3017fa3493bc4bd2c543b27491fcd2e9114caa82c249a03d4e8927",
+      "packages/nsh-client/scripts/native-input-controller.mjs": "cf359f22b2cabcc58466c10840d0aa69f0c66547ceda4d392f7a88e1b37751f6",
+      "packages/nsh-client/scripts/native-sample-window.mjs": "ee0868efbb042de26fe894a153c71afadc51557529d3583c10df79f98dcf8866",
+      "packages/nsh-client/scripts/native-sample-window.test.mjs": "d6b0eeb9cbb0a6badb1c3735bfd722a083dab442f099dabdd392ec3aa5d2a610",
+      "packages/nsh-client/scripts/native-wheel-event.swift": "314735f43a7c2925beafd8836fee983d345c40b9ad512fbd378e90b196f682d8",
+      "packages/nsh-client/scripts/native-window-coordinator.mjs": "a130842db996a76b94f7e424fbda44ee4a89dc2e5105687e27aa42e47aa99fc5",
+      "packages/nsh-client/scripts/native-window-coordinator.test.mjs": "6ad56088525868f49a592cc0e90557db097ef025b5350ae51585d566a79b94b5",
+      "packages/nsh-client/scripts/network-combined-fixture.mjs": "79ff1e0c5027a7e1cf4d43bb6e4bfa797e2490ef6e905359882abc612c410b8c",
+      "packages/nsh-client/scripts/network-combined-node.ts": "cce3d2859546baf9e651919f3b13e54135df1c75245830d771b5ac926d389142",
+      "packages/nsh-client/scripts/node-inbound-baseline.ts": "c5ddf09b31a183f29ae7e04d8b3fbd43abe88a1f8bbb8ddeb7df7f28b0125fcb",
+      "packages/nsh-client/scripts/node-relay-baseline.ts": "1a5b319649e03b0cafc57413677837ca2525858729a3963395c46f448a56ab9c",
+      "packages/nsh-client/scripts/node-relay-sdk-baseline.ts": "44bb52e0b236c8036231813b38dd8cd85802d263a6b0b10004234828895d12ed",
+      "packages/nsh-client/scripts/node-source-runner.mjs": "e08e5e108fac82f59ca697597ccb4e242dfc91d7d53e1dfc44759ed1d5bfb299",
+      "packages/nsh-client/scripts/node-thread-cpu.d.ts": "986053eef5e30910d69c8280f30dd0184428d202291a40a29dcc5cc5c0aea1e9",
+      "packages/nsh-client/scripts/nsh.sh": "247240dbb435e980a528e0bc67e4baa4bc73ab53496c73c2d44054df46920b68",
+      "packages/nsh-client/scripts/owned-display-context.swift": "616870f0dcdc6c6dddd10aae1494a0625fbed7bd28b14961396c8b517212fb19",
+      "packages/nsh-client/scripts/prepare-micro-fixtures.ts": "bb755dce33f8f25c3b0a57efd43f22e71bccd775fbb9d68234e18f428e48e826",
+      "packages/nsh-client/scripts/prepare-workload.ts": "6bf75b7807b60acbb13896b3dd6410bb60abbfcaec82c7a01b5600fd7c475f75",
+      "packages/nsh-client/scripts/profile-electron-startup.mjs": "6ee2ec8d7787303a1a4f12788ddf8bd31c87de14ceb4f6e4758ea2820ce15226",
+      "packages/nsh-client/scripts/public-tls.mjs": "c2bc845dc5e470607b0d40d4900ef73f7df88f6bee459921f2f17b5d16df9d61",
+      "packages/nsh-client/scripts/readback-projection.ts": "e42c77266a5a4d2c2e0983f143938dfa50f4e37d038c491188f20d5615a36165",
+      "packages/nsh-client/scripts/recovery-fixture.ts": "57874aaeece504c8acaa85e123fc667acdf0f1ce6a26822ac42c9fcdf36c0cda",
+      "packages/nsh-client/scripts/relay-fixture.ts": "f54256efdf8de52052223c8b0ac89d8de826395394990ba8086d273e71627085",
+      "packages/nsh-client/scripts/security-modes.mjs": "57e1010f7a2cee635e33ab23e0bf14bff45dbf6d280648769b6ae5f3095dd73a",
+      "packages/nsh-client/scripts/serial-controller.mjs": "400710725b1df123ee9bcd77fdd33d741f95f47db064c73a2163778484c806b8",
+      "packages/nsh-client/scripts/serial-readback-node.ts": "ce527890779e6700bfb158ac1b1117d08c5bfe294a879ac0e5a858ff5a0d2068",
+      "packages/nsh-client/scripts/startup-phase-profiler.js": "68e1c998fc3e360dad0ec7a12cd6703d98e44207a2a1cdc594b247169c98de49",
+      "packages/nsh-client/scripts/stream-fixture.ts": "1c56b766c3a5ee5caf69bedecee01454173abd4256938b2e769835425ad61989",
+      "packages/nsh-client/scripts/summarize-baseline.mjs": "c3c63853eadc80aedae8f796a586d4366c3b4c5b5a24752ecbe662a199759363",
+      "packages/nsh-client/scripts/summarize-components.mjs": "1f3b3591ee5d23740e0b4f7f55cb6001c544294ccd9262f2568294212bbb349c",
+      "packages/nsh-client/scripts/summarize-inbound.mjs": "91bb74e13c333c41230c3b7aded62e02fcb5b0bde88ccf1dc1e0324c9c68c482",
+      "packages/nsh-client/scripts/terminal-writer.mjs": "31aabade71524cb5a26ab14acac183313a0ede168a039a3210be7ca281446523",
+      "packages/nsh-client/scripts/tls-fixture.mjs": "b9d03303324a6c0fd6f818e26680065116ef386cf7c4020cb597546bd7aad3c0",
+      "packages/nsh-client/scripts/tls-trust-run.mjs": "1f95e04fc8253c86b2e7c22d1195b8f46660a3bd53b605b11aaa46b76f001b67",
+      "packages/nsh-client/scripts/transport-fixture.mjs": "8b18fffa7e1da391c07efcb4f41ccedf3ec84e38436bc18cb631b3ef996f2f81",
+      "packages/nsh-client/scripts/verify-source-archives.mjs": "dd7ae629b6d2bde7a51f65f345aba994896e60c0308c6ba5a08cbf4a69f8c49a",
+      "packages/nsh-client/scripts/window-capture.swift": "661d8eca364fc332f39c050e59d3095b56a37bfdcb01eb41d6fe9976ffa2ab05",
+      "packages/nsh-client/scripts/window-foreground.c": "b07d13e7d6fed73f2df117ea3b8978e76bf1ecd054a33eed3e84e331a4bd6795",
+      "packages/nsh-client/scripts/window-foreground.h": "1f7cb29498ddab2f093ade383381c3375303a767d708699903f48c91180e5c4a",
+      "packages/nsh-client/src/connection/transport.ts": "d5cfccd8bc413daedd3f8dea0c22972788438f38019d847fd6a69cece048e51e",
+      "packages/nsh-client/src/performance/compute-clock.ts": "2d268f2438c3a9b7be1593f8374450f446b5e9dce75ef48f601e3ec958d8b587",
+      "packages/nsh-client/src/performance/formal-inbound.ts": "c86f829e19cb04567a3a5c810794199b2a011389622d45f81ab87d76987536c9",
+      "packages/nsh-client/src/performance/formal-relay.ts": "c8780afc11eaa8d3f41726bc2b9413877e1090c12a3309edbcec4f31736793ee",
+      "packages/nsh-client/src/performance/inbound.ts": "7b66400b5406a12d0660c884a8f9b32451db603d05f7fe332f79f3362ac0d8d4",
+      "packages/nsh-client/src/performance/network-combined.ts": "3ba909f3beff4a668543b734136b5344bdd61114eb4f5ae33d51d3a22b419665",
+      "packages/nsh-client/src/performance/relay.ts": "4e0a75c01937f3da49fdf305ddf881ae95d94f14f17adb9e93a02ee619e1e3b9",
+      "packages/nsh-client/src/performance/serial-readback.ts": "bc1e6cb65f0728c4c793b0b0a059b7b5cf8aaf6009d29cd17b9a8a846e9b55af",
+      "packages/nsh-client/src/performance/terminal-parser-sampler.ts": "81802ba963c23e876f33e5852a4f72430795636a145bc09ba8aa081adf4289f3",
+      "packages/nsh-client/src/performance/timer-sampler.ts": "ebce90eee59f3ce6f02941f9328d733652bcec98e8ec0e39b7c396f711ee3ac1",
+      "packages/nsh-client/src/platform/globals.ts": "3fb0f4b6fc77daa7a1a10dcb5d4ea12e9e446020e0bf7e18695d9ca77ec6900d",
+      "packages/nsh-client/src/platform/structured-clone.d.ts": "d33cd624f7e73ad0c07291455aa54535f45054de7f66bb435d37608130d90b49",
+      "packages/nsh-client/src/timeline/memory-replica.ts": "39dff8a8595acf4b401e6ac4cb196ab37376506c4c11d4e9d315bf3e720e65e4",
+      "packages/nsh-client/src/timeline/sdk-replay.ts": "57b736aed28297582e0812bbd98d6d6f1e342c51df7ff8d0026ae2ad76ac3d21",
+      "packages/nsh-client/standalone/boundaries-standalone.ts": "538edc6692e789d56ff75f420bdb2da26a8f09405749c0753d6b0cf9d9eaf920",
+      "packages/nsh-client/standalone/d2-oracle-standalone.ts": "cf434a8193c2d6f73875ab0bf2a2fe11e628832207a4506b4eff508d0a9658b1",
+      "packages/nsh-client/standalone/encrypted-drain-standalone.ts": "88afc3c9bbecf4e7292622a29eb20e925f5079940c7a1212aebcd7756d4a5acb",
+      "packages/nsh-client/standalone/formal-inbound-standalone.ts": "849e9ebd27a9a71a7c41372470ace626f75872741a87dfda594626576e3a42a1",
+      "packages/nsh-client/standalone/formal-relay-standalone.ts": "67da46c2268cc1dbeab9a42dcb66391d4fd5be13444b61148a67eed5acf89d82",
+      "packages/nsh-client/standalone/network-combined-standalone.ts": "1174def34e50abb754059ef06947d58865d66519664ddbf517361e83d4144ea5",
+      "packages/nsh-client/standalone/nsh.json": "b62ec63c932b55d27e947936b198e1cc17fe5f26fee46aa4dafae07a1781e5aa",
+      "packages/nsh-client/standalone/recovery-standalone.ts": "13a8ace5295ea58dba647e076093220718f678d58bfbcc5a302c3e636245d25c",
+      "packages/nsh-client/standalone/relay-standalone.ts": "8ee7983584ccf88e94f8f1b837b2e4615579e8a6911f6dc7740f8c28f3b1449c",
+      "packages/nsh-client/standalone/sdk-closure-standalone.ts": "23ea7975250455aaf7641572580cb5fb55e26873b6b6a5bd1a18ca9d086e7c77",
+      "packages/nsh-client/standalone/security-modes-standalone.ts": "b4e4ff09ccaf2a08150febc323a5d1dd462e9808e0d97191415d751e25578772",
+      "packages/nsh-client/standalone/serial-readback-standalone.ts": "a4d9e3f9bcb3d56fb014587d33b1105fb1c8e1f37ca5cd07134488d928f04647",
+      "packages/nsh-client/standalone/tls-public-standalone.ts": "6f33c2ca24f3c303e50e47dc10a3e5502f2cc3d054b11319f8e5b6843508806f"
+    },
+    "oldEvidenceFiles": 11211,
+    "oldEvidenceMetadataSha256": "67b6ebe2437558e0654e162699dd87a3037b40379396c77996eb4652c77f495d"
+  },
+  "allowedWriteSet": [
+    "docs/nsh-client-plan.md",
+    "packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/README.md",
+    "packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/previous-plan.md",
+    "packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/evidence-index.json",
+    "CLAUDE.md",
+    "docs/architecture.md"
+  ],
+  "memoryWriter": "parent only",
+  "implementationAuthorized": false,
+  "artifacts": [
+    {
+      "path": "docs/nsh-client-plan.md",
+      "sha256": "b2d7c77fc168c9f9270080576e851ebcf9b7e0f46322390c78c8dd4fdbb9d49a",
+      "lines": 196
+    },
+    {
+      "path": "packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/README.md",
+      "sha256": "9fd3f088d368a40df08b507f49a97a604eb2b986b1b463e89ae1ccf2b2430218",
+      "lines": 50
+    },
+    {
+      "path": "packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/previous-plan.md",
+      "sha256": "2b4be79adacbf0f2d7492c137e46a73bf663ea30f6ebfe6a42a401b31e08389a",
+      "lines": 504
+    },
+    {
+      "path": "CLAUDE.md",
+      "sha256": "83d58df95be521c9174d491a72c92821dcc89199627d969a6de886a839955644",
+      "lines": 206
+    },
+    {
+      "path": "docs/architecture.md",
+      "sha256": "8d1997178234b651ec318b87c87c24e4f0fafba81111ae0957b10ad5be5e1ad6",
+      "lines": 512
+    }
+  ],
+  "validation": {
+    "localLinks": {
+      "checked": 30,
+      "anchorsChecked": 1,
+      "missing": [],
+      "archiveBase": "Historical snapshot retains original docs-relative base"
+    },
+    "protectedFilesChecked": 132,
+    "changedProtected": [],
+    "oldEvidenceFiles": 11211,
+    "oldEvidenceMetadataSha256": "67b6ebe2437558e0654e162699dd87a3037b40379396c77996eb4652c77f495d",
+    "oldEvidenceUnchanged": true,
+    "archiveSha256": "2b4be79adacbf0f2d7492c137e46a73bf663ea30f6ebfe6a42a401b31e08389a",
+    "trackedWhitespace": {
+      "exitCode": 0,
+      "output": ""
+    },
+    "planWhitespace": {
+      "exitCode": 1,
+      "output": "",
+      "contentDiffExitIsExpected": true
+    },
+    "planDiffNumstat": "135\t443\tpackages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/previous-plan.md => docs/nsh-client-plan.md",
+    "newPlanSha256": "b2d7c77fc168c9f9270080576e851ebcf9b7e0f46322390c78c8dd4fdbb9d49a",
+    "passed": true,
+    "formatCommand": "npm run format:files -- docs/nsh-client-plan.md packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/README.md packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/evidence-index.json",
+    "formatExitCode": 0,
+    "formatCheckCommand": "npm run format:check:files -- docs/nsh-client-plan.md packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/README.md packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/evidence-index.json",
+    "formatCheckExitCode": 0,
+    "skippedChecks": {
+      "types": "docs-only; no code changes",
+      "lint": "docs-only",
+      "tests": "docs-only; no runtime evidence claimed"
+    },
+    "protectedScopeExceptions": ["CLAUDE.md", "docs/architecture.md"]
+  },
+  "readSet": [
+    "docs/nsh-client-plan.md (previous504lines)",
+    "docs/architecture.md",
+    "docs/product.md",
+    "docs/plugins.md",
+    "docs/connected-hosts.md",
+    "docs/protocol-compatibility.md",
+    "docs/timeline-sync.md",
+    "docs/mobile-panels.md",
+    "docs/expo-router.md",
+    "docs/android.md",
+    "docs/mobile-testing.md",
+    "docs/qa.md",
+    "docs/markdown-renderer.md",
+    "docs/terminal-rendering.md",
+    "docs/notifications.md"
+  ],
+  "upstream": {
+    "checkedAt": "2026-11-07T11:42:01.401Z",
+    "urls": [
+      "https://nsh.dev/docs/platforms/",
+      "https://nsh.dev/docs/web/",
+      "https://nsh.dev/docs/platform-specific/"
+    ],
+    "pinnedRevision": "e626a8dd8f8d8b277b9507cfd5ac74d0e67020f3",
+    "localDocHashes": {
+      "packages/nsh-client/.tools/nsh/website/docs/platforms.md": "122188df65c9a97c38d56420720e2bb4fe09458c3b6fbf69ca445ba19f904c01",
+      "packages/nsh-client/.tools/nsh/website/docs/web.md": "3d223070a2f7ac3de84826d10f77ab38c59a7fa7bfa0819011df26e4442a9a3b",
+      "packages/nsh-client/.tools/nsh/website/docs/platform-specific.md": "3943d421295a93f3b315c5f52e132b7c868abf9accfc8e6ffd3df96ab5d9416d"
+    },
+    "level": "upstream declaration and pinned docs; no Paseo cross-platform execution"
+  },
+  "budget": {
+    "oldComputeAuthorizedHours": 24,
+    "oldRecordedImplementationSeconds": 2322.652,
+    "parentAndReviewUnreported": true,
+    "oldComputeSuspended": true,
+    "newUiBudgetAuthorized": false,
+    "proposedS1aHours": [16, 32],
+    "proposedS1aCapHours": 32,
+    "oldAllowanceTransfer": false,
+    "docsWorkIsNotUiImplementation": true,
+    "documentReplanWallMinutes": 12.799166666666666,
+    "chargedToOldComputeAllowance": false
+  },
+  "status": {
+    "documentsOnly": true,
+    "oldP0aPassed": false,
+    "w1Complete": false,
+    "computeFreezeSigned": false,
+    "newPlanIndependentlyReviewed": false,
+    "sharedUiImplemented": false,
+    "crossPlatformBuildsRun": 0,
+    "servicesStarted": 0,
+    "nativeEventsSent": 0,
+    "commits": 0,
+    "pushes": 0,
+    "memoryWrites": 0,
+    "parentDirectionAccepted": true
+  },
+  "remaining": [
+    "Independent new architecture review",
+    "User decision on exact S1a scope and separate32h cap",
+    "Windows/Linux runner owner and mobile environment availability"
+  ],
+  "finishedAt": "2026-11-07T11:43:20.984Z",
+  "runtimeEnd": {
+    "at": "2026-11-07T11:42:42.221Z",
+    "provider": "codex",
+    "model": "gpt-6.1-sol",
+    "thinking": "high",
+    "sessionId": "01a1b224-1331-7d62-8c73-c7de667cfc2b"
+  },
+  "initialReplanValidation": {
+    "localLinks": {
+      "checked": 30,
+      "anchorsChecked": 1,
+      "missing": [],
+      "archiveBase": "Historical snapshot retains original docs-relative base"
+    },
+    "protectedFilesChecked": 134,
+    "changedProtected": [],
+    "oldEvidenceFiles": 11211,
+    "oldEvidenceMetadataSha256": "67b6ebe2437558e0654e162699dd87a3037b40379396c77996eb4652c77f495d",
+    "oldEvidenceUnchanged": true,
+    "archiveSha256": "2b4be79adacbf0f2d7492c137e46a73bf663ea30f6ebfe6a42a401b31e08389a",
+    "trackedWhitespace": {
+      "exitCode": 0,
+      "output": ""
+    },
+    "planWhitespace": {
+      "exitCode": 1,
+      "output": "",
+      "contentDiffExitIsExpected": true
+    },
+    "planDiffNumstat": "135\t443\tpackages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/previous-plan.md => docs/nsh-client-plan.md",
+    "newPlanSha256": "b2d7c77fc168c9f9270080576e851ebcf9b7e0f46322390c78c8dd4fdbb9d49a",
+    "passed": true,
+    "formatCommand": "npm run format:files -- docs/nsh-client-plan.md packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/README.md packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/evidence-index.json",
+    "formatExitCode": 0,
+    "formatCheckCommand": "npm run format:check:files -- docs/nsh-client-plan.md packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/README.md packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/evidence-index.json",
+    "formatCheckExitCode": 0,
+    "skippedChecks": {
+      "types": "docs-only; no code changes",
+      "lint": "docs-only",
+      "tests": "docs-only; no runtime evidence claimed"
+    }
+  },
+  "scopeEntrySync": {
+    "parentMessageId": "84fe6f38-023a-44d2-bd74-d6155aab17af",
+    "checkedAt": "2026-11-07T11:47:33.614Z",
+    "parentAcceptance": {
+      "targetPlanSha256": "b2d7c77fc168c9f9270080576e851ebcf9b7e0f46322390c78c8dd4fdbb9d49a",
+      "fullPlanAndReportRead": true,
+      "directionAccepted": true,
+      "independentReview": false,
+      "implementationGo": false,
+      "budgetGo": false
+    },
+    "targets": [
+      {
+        "path": "CLAUDE.md",
+        "beforeSha256": "5878502cd1127f1b66e0a477d7a3cc9609be355b726ea28519bdecf2cf269c32",
+        "afterSha256": "83d58df95be521c9174d491a72c92821dcc89199627d969a6de886a839955644"
+      },
+      {
+        "path": "docs/architecture.md",
+        "beforeSha256": "849e0fc107089ab88e509275fca53aa08894018ca58fb4d5f601cc4c621743d0",
+        "afterSha256": "8d1997178234b651ec318b87c87c24e4f0fafba81111ae0957b10ad5be5e1ad6"
+      }
+    ],
+    "semanticChangeCount": 2,
+    "otherWordsAndRulesUnchanged": true,
+    "pairedBeforeAfterComparison": "Approved sentence replacements plus whitespace only; architecture exact expected; CLAUDE formatter table padding only",
+    "formatCommand": "npm run format:files -- CLAUDE.md docs/architecture.md",
+    "formatExitCode": 0,
+    "formatCheckCommand": "npm run format:check:files -- CLAUDE.md docs/architecture.md",
+    "formatCheckExitCode": 0,
+    "links": [
+      {
+        "file": "CLAUDE.md",
+        "linkRetained": true,
+        "targetExists": true
+      },
+      {
+        "file": "docs/architecture.md",
+        "linkRetained": true,
+        "targetExists": true
+      }
+    ],
+    "whitespace": {
+      "exitCode": 0,
+      "output": ""
+    },
+    "mainPlanHashUnchanged": true,
+    "typesLintTestsRun": false
+  },
+  "publicationScope": {
+    "kind": "documents-only",
+    "publishedFiles": [
+      "CLAUDE.md",
+      "docs/architecture.md",
+      "docs/nsh-client-plan.md",
+      "packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/README.md",
+      "packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/previous-plan.md",
+      "packages/nsh-client/evidence/20261107-p0a/cross-platform-replan-20261107/evidence-index.json"
+    ],
+    "reportSha256": "c202d2a6b34f86e9296261b711396ad0836458d97a22436ba0b82fff01458533",
+    "historicalRuntimeEvidence": "retained locally, not included in this document commit",
+    "experimentalSource": "uncommitted and retained in existing worktree"
+  }
+}
