@@ -32,12 +32,19 @@ describe("sidebar footer layout", () => {
     expect(layout(MIN_SIDEBAR_WIDTH, POINTER).overflow).toEqual([]);
   });
 
-  // The iPhone Duo report: the folded sidebar column is about the minimum width, and touch
-  // sizing makes five 44pt buttons plus padding 236pt wide.
-  it("moves Help and Usage behind the caret at the minimum width with touch sizing", () => {
-    expect(layout(MIN_SIDEBAR_WIDTH, TOUCH)).toEqual({
+  // The iPhone Duo report: the folded sidebar column is about 200pt, and touch sizing makes
+  // five 44pt buttons plus padding 236pt wide.
+  it("moves Help and Usage behind the caret in a 200pt column with touch sizing", () => {
+    expect(layout(200, TOUCH)).toEqual({
       inline: ["add-project", "hosts", "settings"],
       overflow: ["usage", "help"],
+    });
+  });
+
+  it("keeps Add project and Settings inline at the minimum width with touch sizing", () => {
+    expect(layout(MIN_SIDEBAR_WIDTH, TOUCH)).toEqual({
+      inline: ["add-project", "settings"],
+      overflow: ["usage", "hosts", "help"],
     });
   });
 

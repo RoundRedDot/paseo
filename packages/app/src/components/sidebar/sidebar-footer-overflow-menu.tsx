@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useState, type ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ChevronUp,
   CircleGauge,
   CircleHelp,
   FolderPlus,
+  MoreVertical,
   Plus,
   Server,
   Settings,
@@ -165,7 +165,7 @@ export function SidebarFooterOverflowMenu({
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <SidebarFooterMenuTrigger
-        icon={ChevronUp}
+        icon={MoreVertical}
         label={t("sidebar.actions.moreActions")}
         menuOpen={open}
         testID="sidebar-footer-overflow"

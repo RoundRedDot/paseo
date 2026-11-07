@@ -19,10 +19,10 @@ describe("Explorer sidebar layout", () => {
   });
 
   it("has no fixed maximum while preserving room for the workspace body", () => {
-    expect(resolveExplorerSidebarWidth({ requestedWidth: 100, containerWidth: 1200 })).toBe(240);
+    expect(resolveExplorerSidebarWidth({ requestedWidth: 100, containerWidth: 1200 })).toBe(200);
     expect(resolveExplorerSidebarWidth({ requestedWidth: 900, containerWidth: 1600 })).toBe(900);
-    expect(resolveExplorerSidebarWidth({ requestedWidth: 900, containerWidth: 1200 })).toBe(840);
-    expect(resolveExplorerSidebarWidth({ requestedWidth: 600, containerWidth: 750 })).toBe(390);
+    expect(resolveExplorerSidebarWidth({ requestedWidth: 900, containerWidth: 1200 })).toBe(800);
+    expect(resolveExplorerSidebarWidth({ requestedWidth: 600, containerWidth: 750 })).toBe(350);
   });
 
   describe("native resize ownership", () => {
@@ -216,4 +216,20 @@ describe("Explorer sidebar layout", () => {
       ).toBe(480);
     });
   });
+
+  it.each([
+    { containerWidth: 560, explorerWidth: 200, bodyWidth: 360 },
+    { containerWidth: 600, explorerWidth: 200, bodyWidth: 400 },
+    { containerWidth: 639, explorerWidth: 239, bodyWidth: 400 },
+    { containerWidth: 640, explorerWidth: 240, bodyWidth: 400 },
+    { containerWidth: 720, explorerWidth: 320, bodyWidth: 400 },
+  ])(
+    "keeps the Explorer floor in a $containerWidth dp shell",
+    ({ containerWidth, explorerWidth, bodyWidth }) => {
+      expect(resolveExplorerSidebarWidth({ containerWidth })).toBe(explorerWidth);
+      const [body, explorer] = resolveExplorerSidebarDockSizes({ containerWidth });
+      expect(body * containerWidth).toBeCloseTo(bodyWidth);
+      expect(explorer * containerWidth).toBeCloseTo(explorerWidth);
+    },
+  );
 });

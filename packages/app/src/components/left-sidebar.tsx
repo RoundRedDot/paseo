@@ -895,6 +895,7 @@ function DesktopSidebar({
               gesture={resizeGesture}
               pressed={resizePressed}
               testID="left-sidebar-resize-handle"
+              prominent
             />
           ) : null}
         </View>
