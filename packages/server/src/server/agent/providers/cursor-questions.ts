@@ -125,8 +125,16 @@ export class CursorQuestions {
   }
 
   cancel(): void {
-    for (const request of this.requests.values())
-      request.resolve({ outcome: { outcome: "cancelled" } });
-    this.requests.clear();
+    for (const [id, pending] of this.requests) {
+      this.requests.delete(id);
+      pending.resolve({ outcome: { outcome: "cancelled" } });
+      this.emit({
+        type: "permission_resolved",
+        provider: this.provider,
+        requestId: id,
+        resolution: { behavior: "deny", message: "Permission request canceled" },
+        turnId: pending.turnId ?? undefined,
+      });
+    }
   }
 }

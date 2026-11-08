@@ -155,7 +155,16 @@ export class GrokQuestions {
   }
 
   cancel(): void {
-    for (const request of this.requests.values()) request.resolve({ outcome: "cancelled" });
-    this.requests.clear();
+    for (const [id, pending] of this.requests) {
+      this.requests.delete(id);
+      pending.resolve({ outcome: "cancelled" });
+      this.emit({
+        type: "permission_resolved",
+        provider: this.provider,
+        requestId: id,
+        resolution: { behavior: "deny", message: "Permission request canceled" },
+        turnId: pending.turnId ?? undefined,
+      });
+    }
   }
 }

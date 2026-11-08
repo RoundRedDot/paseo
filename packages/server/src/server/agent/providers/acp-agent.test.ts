@@ -1520,23 +1520,39 @@ describe("ACPAgentSession Zed parity", () => {
     expect(session.getPendingPermissions()).toEqual([]);
   });
 
-  test.each(["deny", "close"])(
-    "Grok question %s returns the native cancellation response",
+  test.each(["deny", "close"] as const)(
+    "Grok question %s returns the native cancellation response and emits permission_resolved",
     async (action) => {
       const session = createSessionWithConfig({ provider: "grok" });
+      const events: AgentStreamEvent[] = [];
       asInternals<ACPSessionInternals>(session).sessionId = "session-1";
+      asInternals<ACPSessionInternals>(session).activeForegroundTurnId = "turn-1";
+      asInternals<ACPSessionInternals>(session).pushEvent = (event) => {
+        events.push(event);
+      };
       const result = session.extMethod("_x.ai/ask_user_question", {
         sessionId: "session-1",
         toolCallId: "q-1",
         questions: [{ question: "Continue?" }],
       });
-      if (action === "deny")
-        await session.respondToPermission(session.getPendingPermissions()[0]!.id, {
-          behavior: "deny",
-        });
-      else await session.close();
+      const request = session.getPendingPermissions()[0]!;
+      if (action === "deny") {
+        await session.respondToPermission(request.id, { behavior: "deny" });
+      } else {
+        await session.close();
+      }
       await expect(result).resolves.toEqual({ outcome: "cancelled" });
       expect(session.getPendingPermissions()).toEqual([]);
+      expect(events).toContainEqual({
+        type: "permission_resolved",
+        provider: "grok",
+        requestId: request.id,
+        resolution:
+          action === "deny"
+            ? { behavior: "deny" }
+            : { behavior: "deny", message: "Permission request canceled" },
+        turnId: "turn-1",
+      });
     },
   );
 
@@ -1947,22 +1963,38 @@ describe("ACPAgentSession Zed parity", () => {
     });
   });
 
-  test.each(["deny", "close"])(
-    "Cursor question %s returns the native cancellation envelope",
+  test.each(["deny", "close"] as const)(
+    "Cursor question %s returns the native cancellation envelope and emits permission_resolved",
     async (action) => {
       const session = createSessionWithConfig({ provider: "cursor" });
+      const events: AgentStreamEvent[] = [];
       asInternals<ACPSessionInternals>(session).sessionId = "session-1";
+      asInternals<ACPSessionInternals>(session).activeForegroundTurnId = "turn-1";
+      asInternals<ACPSessionInternals>(session).pushEvent = (event) => {
+        events.push(event);
+      };
       const result = session.extMethod("cursor/ask_question", {
         toolCallId: "q-1",
         questions: [{ id: "scope", prompt: "Scope?", options: [{ id: "ui", label: "UI" }] }],
       });
-      if (action === "deny")
-        await session.respondToPermission(session.getPendingPermissions()[0]!.id, {
-          behavior: "deny",
-        });
-      else await session.close();
+      const request = session.getPendingPermissions()[0]!;
+      if (action === "deny") {
+        await session.respondToPermission(request.id, { behavior: "deny" });
+      } else {
+        await session.close();
+      }
       await expect(result).resolves.toEqual({ outcome: { outcome: "cancelled" } });
       expect(session.getPendingPermissions()).toEqual([]);
+      expect(events).toContainEqual({
+        type: "permission_resolved",
+        provider: "cursor",
+        requestId: request.id,
+        resolution:
+          action === "deny"
+            ? { behavior: "deny" }
+            : { behavior: "deny", message: "Permission request canceled" },
+        turnId: "turn-1",
+      });
     },
   );
 
