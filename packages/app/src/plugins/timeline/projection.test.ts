@@ -15,19 +15,21 @@ function thought(text: string, status: "loading" | "ready" = "loading"): StreamI
 
 it("cross-client images reach plugin transformers intact", () => {
   const images = [{ data: "AA==", mimeType: "image/png" }];
+  const imageRefs = [{ id: "a".repeat(64), mimeType: "image/png", size: 1 }];
   const source: StreamItem = {
     kind: "user_message",
     id: "user-image",
     text: "",
     timestamp: new Date(1),
     inlineImages: images,
+    imageRefs,
   };
   let received: unknown;
   projectPluginTimelineItems([source], ({ item }) => {
     received = item;
     return undefined;
   });
-  expect(received).toMatchObject({ type: "user_message", text: "", images });
+  expect(received).toMatchObject({ type: "user_message", text: "", images, imageRefs });
 });
 
 describe("plugin timeline projection", () => {
@@ -115,6 +117,8 @@ describe("plugin timeline projection", () => {
       {
         kind: "plugin",
         id: "inline-thinking/thought-1/0",
+        sourceId: "thought-1",
+        sourceKind: "thought",
         data: { text: "First", phase: "streaming" },
       },
     ]);

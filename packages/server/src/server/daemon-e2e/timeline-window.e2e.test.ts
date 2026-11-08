@@ -95,7 +95,7 @@ describe("daemon E2E - timeline window", () => {
       nextStart: 5,
     },
   ])(
-    "bounds image history by bytes for $direction with limit $limit and preserves continuation",
+    "bounds history by bytes for $direction with limit $limit and preserves continuation",
     async ({
       direction,
       limit,
@@ -106,14 +106,23 @@ describe("daemon E2E - timeline window", () => {
       nextStart,
     }) => {
       const cwd = tmpCwd();
-      const image = { data: "A".repeat(3 * 1024 * 1024), mimeType: "image/png" };
+      const widePayload = Object.fromEntries(
+        Array.from({ length: 40_000 }, (_, index) => [`key_${index}`, "x".repeat(90)]),
+      );
       try {
         const agent = await ctx.client.createAgent({ provider: "codex", cwd });
         for (let index = 1; index <= 8; index += 1) {
           await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
-            type: "user_message",
-            text: `image ${index}`,
-            images: [image],
+            type: "tool_call",
+            callId: `call_${index}`,
+            name: "shell",
+            status: "completed",
+            error: null,
+            detail: {
+              type: "unknown",
+              input: { index },
+              output: widePayload,
+            },
           });
         }
         const epoch = ctx.daemon.daemon.agentManager.fetchTimeline(agent.id, { limit: 1 }).epoch;
@@ -123,13 +132,9 @@ describe("daemon E2E - timeline window", () => {
           limit,
         });
         expect(page.entries).toHaveLength(4);
-        expect(page.entries.map((entry) => entry.item)).toEqual(
-          Array.from({ length: 4 }, (_, index) => ({
-            type: "user_message",
-            text: `image ${expectedStart + index}`,
-            images: [image],
-          })),
-        );
+        expect(
+          page.entries.map((entry) => (entry.item.type === "tool_call" ? entry.item.callId : null)),
+        ).toEqual(Array.from({ length: 4 }, (_, index) => `call_${expectedStart + index}`));
         expect(Buffer.byteLength(JSON.stringify(page))).toBeLessThan(16 * 1024 * 1024);
         expect(page.startCursor).toEqual({ epoch, seq: expectedStart });
         expect(page.endCursor).toEqual({ epoch, seq: expectedStart + 3 });
@@ -139,13 +144,9 @@ describe("daemon E2E - timeline window", () => {
           limit,
         });
         expect(next.entries).toHaveLength(4);
-        expect(next.entries.map((entry) => entry.item)).toEqual(
-          Array.from({ length: 4 }, (_, index) => ({
-            type: "user_message",
-            text: `image ${nextStart + index}`,
-            images: [image],
-          })),
-        );
+        expect(
+          next.entries.map((entry) => (entry.item.type === "tool_call" ? entry.item.callId : null)),
+        ).toEqual(Array.from({ length: 4 }, (_, index) => `call_${nextStart + index}`));
         expect((await ctx.client.fetchAgent(agent.id))?.agent.id).toBe(agent.id);
       } finally {
         rmSync(cwd, { recursive: true, force: true });
@@ -156,6 +157,7 @@ describe("daemon E2E - timeline window", () => {
   test("uses retained pager defaults for image history when after limit is omitted", async () => {
     const cwd = tmpCwd();
     const image = { data: "AA==", mimeType: "image/png" };
+    const imageBytes = Buffer.from(image.data, "base64");
     try {
       const agent = await ctx.client.createAgent({ provider: "codex", cwd });
       for (let index = 1; index <= 300; index += 1) {
@@ -175,9 +177,18 @@ describe("daemon E2E - timeline window", () => {
         Array.from({ length: 200 }, (_, index) => ({
           type: "user_message",
           text: `image ${index + 1}`,
-          images: [image],
+          imageRefs: [
+            { id: expect.stringMatching(/^[0-9a-f]{64}$/), mimeType: "image/png", size: 1 },
+          ],
         })),
       );
+      const firstItem = first.entries[0]?.item;
+      if (firstItem?.type !== "user_message" || !firstItem.imageRefs?.[0]) {
+        throw new Error("Expected image reference");
+      }
+      expect(
+        Buffer.from(await ctx.client.readTimelineImage(agent.id, firstItem.imageRefs[0].id)),
+      ).toEqual(imageBytes);
       const cursor = { epoch, seq: 200 };
       expect(first.startCursor).toEqual({ epoch, seq: 1 });
       expect(first.endCursor).toEqual(cursor);
@@ -187,7 +198,9 @@ describe("daemon E2E - timeline window", () => {
         Array.from({ length: 100 }, (_, index) => ({
           type: "user_message",
           text: `image ${index + 201}`,
-          images: [image],
+          imageRefs: [
+            { id: expect.stringMatching(/^[0-9a-f]{64}$/), mimeType: "image/png", size: 1 },
+          ],
         })),
       );
       expect(next.startCursor).toEqual({ epoch, seq: 201 });
@@ -205,6 +218,7 @@ describe("daemon E2E - timeline window", () => {
       try {
         const agent = await ctx.client.createAgent({ provider: "codex", cwd });
         const image = { data: "AA==", mimeType: "image/png" };
+        const imageBytes = Buffer.from(image.data, "base64");
         const items = [
           { type: "user_message" as const, text: "older prompt" },
           { type: "assistant_message" as const, text: "older response" },
@@ -220,7 +234,23 @@ describe("daemon E2E - timeline window", () => {
           wholeTurns: true,
           ...(direction === "before" ? { cursor: { epoch, seq: 4 } } : {}),
         });
-        expect(page.entries.map((entry) => entry.item)).toEqual(items.slice(2));
+        expect(page.entries.map((entry) => entry.item)).toEqual([
+          {
+            type: "user_message",
+            text: "image prompt",
+            imageRefs: [
+              { id: expect.stringMatching(/^[0-9a-f]{64}$/), mimeType: "image/png", size: 1 },
+            ],
+          },
+          { type: "assistant_message", text: "image response" },
+        ]);
+        const promptItem = page.entries[0]?.item;
+        if (promptItem?.type !== "user_message" || !promptItem.imageRefs?.[0]) {
+          throw new Error("Expected image reference");
+        }
+        expect(
+          Buffer.from(await ctx.client.readTimelineImage(agent.id, promptItem.imageRefs[0].id)),
+        ).toEqual(imageBytes);
         expect(page.startCursor).toEqual({ epoch, seq: 3 });
         expect(page.endCursor).toEqual({ epoch, seq: 4 });
         expect(page.hasOlder).toBe(true);
@@ -238,12 +268,22 @@ describe("daemon E2E - timeline window", () => {
     const unsubscribe = ctx.client.subscribeConnectionStatus((state) =>
       statuses.push(state.status),
     );
+    const oversizedOutput = Object.fromEntries(
+      Array.from({ length: 180_000 }, (_, index) => [`key_${index}`, "x".repeat(90)]),
+    );
     try {
       const agent = await ctx.client.createAgent({ provider: "codex", cwd });
       await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
-        type: "user_message",
-        text: "oversized image",
-        images: [{ data: "A".repeat(17 * 1024 * 1024), mimeType: "image/png" }],
+        type: "tool_call",
+        callId: "oversized",
+        name: "shell",
+        status: "completed",
+        error: null,
+        detail: {
+          type: "unknown",
+          input: null,
+          output: oversizedOutput,
+        },
       });
       await expect(ctx.client.fetchAgentTimeline(agent.id)).rejects.toThrow(
         "exceeds the 16 MiB history page limit",
@@ -258,7 +298,9 @@ describe("daemon E2E - timeline window", () => {
 
   test("does not split an oversized timeline group across lifecycle coverage", async () => {
     const cwd = tmpCwd();
-    const image = { data: "A".repeat(9 * 1024 * 1024), mimeType: "image/png" };
+    const widePayload = Object.fromEntries(
+      Array.from({ length: 100_000 }, (_, index) => [`key_${index}`, "x".repeat(90)]),
+    );
     try {
       const agent = await ctx.client.createAgent({ provider: "codex", cwd });
       const tool = {
@@ -273,14 +315,20 @@ describe("daemon E2E - timeline window", () => {
         status: "running",
       });
       await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
-        type: "user_message",
-        text: "first image",
-        images: [image],
+        type: "tool_call",
+        callId: "first_wide",
+        name: "shell",
+        status: "completed",
+        error: null,
+        detail: { type: "unknown", input: null, output: widePayload },
       });
       await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
-        type: "user_message",
-        text: "second image",
-        images: [image],
+        type: "tool_call",
+        callId: "second_wide",
+        name: "shell",
+        status: "completed",
+        error: null,
+        detail: { type: "unknown", input: null, output: widePayload },
       });
       await ctx.daemon.daemon.agentManager.appendTimelineItem(agent.id, {
         ...tool,

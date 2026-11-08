@@ -327,7 +327,10 @@ for (const width of [390, 1280]) {
         model: "e2e-fast-stream",
       });
       const sender = await connectDaemonClient<
-        Pick<DaemonClient, "connect" | "close" | "sendAgentMessage" | "fetchAgentTimeline">
+        Pick<
+          DaemonClient,
+          "connect" | "close" | "sendAgentMessage" | "fetchAgentTimeline" | "readTimelineImage"
+        >
       >({ clientIdPrefix: "image-sender" });
       try {
         await openAgentRoute(page, workspace);
@@ -362,18 +365,28 @@ for (const width of [390, 1280]) {
         await expect(page.getByTestId("attachment-lightbox-close")).toHaveCount(0);
         await workspace.client.waitForFinish(workspace.agentId, 30_000);
         const beforeReload = await sender.fetchAgentTimeline(workspace.agentId);
+        const beforeRefs = beforeReload.entries.flatMap((entry) =>
+          entry.item.type === "user_message" ? (entry.item.imageRefs ?? []) : [],
+        );
+        expect(beforeRefs).toEqual([
+          {
+            id: expect.stringMatching(/^[0-9a-f]{64}$/),
+            mimeType: "image/png",
+            size: MINIMAL_PNG.byteLength,
+          },
+        ]);
         expect(
-          beforeReload.entries.flatMap((entry) =>
-            entry.item.type === "user_message" ? (entry.item.images ?? []) : [],
-          ),
-        ).toEqual([{ data: MINIMAL_PNG.toString("base64"), mimeType: "image/png" }]);
+          Buffer.from(await sender.readTimelineImage(workspace.agentId, beforeRefs[0]!.id)),
+        ).toEqual(MINIMAL_PNG);
         await page.reload();
         const afterReload = await sender.fetchAgentTimeline(workspace.agentId);
+        const afterRefs = afterReload.entries.flatMap((entry) =>
+          entry.item.type === "user_message" ? (entry.item.imageRefs ?? []) : [],
+        );
+        expect(afterRefs).toEqual(beforeRefs);
         expect(
-          afterReload.entries.flatMap((entry) =>
-            entry.item.type === "user_message" ? (entry.item.images ?? []) : [],
-          ),
-        ).toEqual([{ data: MINIMAL_PNG.toString("base64"), mimeType: "image/png" }]);
+          Buffer.from(await sender.readTimelineImage(workspace.agentId, afterRefs[0]!.id)),
+        ).toEqual(MINIMAL_PNG);
         await expect(preview).toHaveCount(1);
         await expect
           .poll(() =>

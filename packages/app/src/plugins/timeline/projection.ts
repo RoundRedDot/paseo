@@ -46,11 +46,12 @@ function sourceUserMessageTimelineItem(
 ): AgentTimelineItem | null {
   // Local attachment metadata cannot be rendered outside its storage owner.
   // Keep that row native until the canonical event supplies portable images.
-  if (item.images?.length && !item.inlineImages?.length) return null;
+  if (item.images?.length && !item.inlineImages?.length && !item.imageRefs?.length) return null;
   return {
     type: "user_message",
     text: item.text,
     ...(item.inlineImages?.length ? { images: item.inlineImages } : {}),
+    ...(item.imageRefs?.length ? { imageRefs: item.imageRefs } : {}),
     ...(item.messageId ? { messageId: item.messageId } : {}),
     ...(item.clientMessageId ? { clientMessageId: item.clientMessageId } : {}),
   };
@@ -86,6 +87,7 @@ function sourceTimelineItem(item: StreamItem): AgentTimelineItem | null {
         ...(item.preTokens !== undefined ? { preTokens: item.preTokens } : {}),
       };
     case "plugin":
+    case "turn_summary":
       return null;
   }
 }
@@ -116,6 +118,7 @@ function transformSourceItem(
       kind: "plugin",
       id: `${pluginItem.pluginId}/${pluginItem.id}`,
       sourceId: item.id,
+      sourceKind: item.kind,
       timestamp: item.timestamp,
       pluginId: pluginItem.pluginId,
       pluginItemId: pluginItem.id,
