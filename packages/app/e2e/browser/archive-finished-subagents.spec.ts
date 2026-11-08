@@ -1,4 +1,4 @@
-import { test, expect } from "../support/fixtures";
+import { test } from "../support/fixtures";
 import { openAgentRoute } from "../support/helpers/mock-agent";
 import { seedWorkspace, type SeededWorkspace } from "../support/helpers/seed-client";
 import {
@@ -8,12 +8,14 @@ import {
   expectManagedSubagentArchived,
   expectManagedSubagentUnarchived,
   expectSubagentRowGone,
+  expectSubagentRowsInOrder,
   expectSubagentRowVisible,
+  expectSubagentsWorkingSummary,
   holdManagedSubagentArchiveRequest,
   openSubagentsTrack,
   rejectNextManagedSubagentArchiveRequest,
   seedParentWithSubagent,
-  seedSubagent,
+  seedSubagentFanOut,
 } from "../support/helpers/subagents";
 
 test.describe("Archive finished subagents", () => {
@@ -28,53 +30,26 @@ test.describe("Archive finished subagents", () => {
   });
 
   for (const width of [1280, 390]) {
-    test(`shows running children before finished history at width ${width}`, async ({
-      page,
-    }, testInfo) => {
-      await page.setViewportSize({ width, height: 900 });
-      const agents = await seedParentWithSubagent(workspace, {
-        parentTitle: "Subagent ordering",
-        childTitle: "Finished child 1",
-      });
-      for (let index = 2; index <= 12; index++) {
-        await seedSubagent(workspace, {
-          parentId: agents.parent.id,
-          title: `Finished child ${index}`,
-        });
-      }
-      const running = [];
-      for (let index = 1; index <= 2; index++) {
-        const child = await workspace.client.createAgent({
-          provider: "mock",
-          cwd: workspace.repoPath,
-          workspaceId: workspace.workspaceId,
-          title: `Running child ${index}`,
-          modeId: "load-test",
-          model: "five-minute-stream",
-          initialPrompt: "stay running",
-          labels: { "paseo.parent-agent-id": agents.parent.id },
-        });
-        running.push(child.id);
-        await workspace.client.waitForAgentUpsert(
-          child.id,
-          (snapshot) => snapshot.status === "running",
-        );
-      }
-      await openAgentRoute(page, { workspaceId: agents.workspaceId, agentId: agents.parent.id });
-      await expect(page.getByTestId("subagents-track-header")).toContainText("2 working");
-      await page.getByTestId("subagents-track-header").click();
-      const rows = page.locator(
-        '[data-testid^="subagents-track-row-"]:not([data-testid^="subagents-track-row-facts-"])',
+    test(`shows running children before finished history at width ${width}`, async ({ page }) => {
+      const finishedTitles = Array.from(
+        { length: 12 },
+        (_, index) => `Finished child ${index + 1}`,
       );
-      await expect(rows).toHaveCount(14);
-      await expect(rows.nth(0)).toHaveAttribute("data-testid", `subagents-track-row-${running[0]}`);
-      await expect(rows.nth(1)).toHaveAttribute("data-testid", `subagents-track-row-${running[1]}`);
-      await expect(rows.nth(0)).toBeInViewport();
-      await expect(rows.nth(1)).toBeInViewport();
-      await rows.nth(0).click({ trial: true });
-      const screenshot = testInfo.outputPath("subagent-order.png");
-      await page.screenshot({ path: screenshot });
-      await testInfo.attach("subagent-order", { path: screenshot, contentType: "image/png" });
+      const runningTitles = ["Running child 1", "Running child 2"];
+      await page.setViewportSize({ width, height: 900 });
+      const agents = await seedSubagentFanOut(workspace, {
+        parentTitle: "Subagent ordering",
+        finishedTitles,
+        runningTitles,
+      });
+
+      await openAgentRoute(page, { workspaceId: agents.workspaceId, agentId: agents.parent.id });
+      await expectSubagentsWorkingSummary(page, runningTitles.length);
+      await openSubagentsTrack(page);
+      await expectSubagentRowsInOrder(page, {
+        leadingTitles: runningTitles,
+        finishedTitles,
+      });
     });
   }
 
