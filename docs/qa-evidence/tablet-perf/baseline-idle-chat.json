@@ -1,0 +1,90 @@
+{
+  "label": "baseline-idle-chat",
+  "capturedAt": "2026-11-08T15:36:34.523Z",
+  "note": "workspace chat visible, agents streaming",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [],
+    "settleMs": 2000,
+    "windowSeconds": 4.91
+  },
+  "frames": {
+    "frames": 119,
+    "latencyMs": {
+      "p50": 17.9,
+      "p90": 18.8,
+      "p99": 19.5,
+      "max": 19.7
+    },
+    "framesOver32Ms": 0,
+    "framesOver100Ms": 0,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0,
+      "max": 0
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0,
+      "max": 0
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 16.7,
+      "max": 16.7
+    }
+  },
+  "cpu": {
+    "totalCores": 0.69,
+    "threads": [
+      {
+        "name": "RenderThread",
+        "percent": 47.9
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 5.3
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 4.9
+      },
+      {
+        "name": "binder:15008_3",
+        "percent": 3.5
+      },
+      {
+        "name": "mqt_v_js",
+        "percent": 2.4
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 1.8
+      },
+      {
+        "name": "ged-swd",
+        "percent": 1.6
+      },
+      {
+        "name": "GPU completion",
+        "percent": 0.8
+      },
+      {
+        "name": "binder:15008_5",
+        "percent": 0.4
+      },
+      {
+        "name": "mali-mem-purge",
+        "percent": 0.4
+      }
+    ]
+  }
+}

@@ -87,6 +87,7 @@ import { UpdateCalloutSource } from "@/desktop/updates/update-callout-source";
 import { useActiveWorktreeNewAction } from "@/hooks/use-active-worktree-new-action";
 import { useGlobalNewWorkspaceAction } from "@/hooks/use-global-new-workspace-action";
 import { useLatchedBoolean } from "@/hooks/use-latched-boolean";
+import { SidebarResizePreview } from "@/components/sidebar-resize-preview";
 import { useFaviconStatus } from "@/hooks/use-favicon-status";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 import { useIsExplorerSidebarOpen } from "@/workspace-tabs/explorer-sidebar";
@@ -359,7 +360,7 @@ export function useHostRuntimeBootstrapState(): HostRuntimeBootstrapState {
   return useContext(HostRuntimeBootstrapContext);
 }
 
-const rowStyle = { flex: 1, flexDirection: "row" } as const;
+const rowStyle = { flex: 1, flexDirection: "row", position: "relative" } as const;
 const flexStyle = { flex: 1 } as const;
 const MOBILE_WEB_GESTURE_TOUCH_ACTION = isWeb ? "auto" : "pan-y";
 
@@ -491,6 +492,7 @@ function AppContainer({ children, chromeEnabled: chromeEnabledOverride }: AppCon
           <View style={flexStyle}>{children}</View>
         </WindowChromeRegion>
       </WorkspaceExplorerOpenGesture>
+      <SidebarResizePreview insetLeft={insets.left} />
     </View>
   );
 

@@ -43,7 +43,7 @@ Paseo is composable by design, which means your change sits next to features you
 
 Performance is part of this. The app is Expo React Native, not a web app in a native shell. You are not writing CSS, styles resolve differently, and performance characteristics differ per platform. What feels instant in a desktop dev build can be visibly slow on a phone.
 
-If your change touches a hot path such as the terminal, the message list, or git polling, submit before and after numbers. [terminal-performance.md](terminal-performance.md) has the terminal pipeline and its benchmarks, and [development.md](development.md) covers renderer and React profiling.
+If your change touches a hot path such as the terminal, the message list, or git polling, submit before and after numbers. [terminal-performance.md](terminal-performance.md) has the terminal pipeline and its benchmarks, and [development.md](development.md) covers renderer and React profiling. Wide-layout tablet interactions — sidebar resize, tab switch, plugin screens — have a measured baseline and a capture script in [tablet-performance.md](tablet-performance.md).
 
 ## Every platform it affects
 

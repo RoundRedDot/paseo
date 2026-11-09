@@ -1,0 +1,90 @@
+{
+  "label": "refr-before",
+  "capturedAt": "2026-11-09T01:37:06.279Z",
+  "note": "",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [],
+    "settleMs": 2000,
+    "windowSeconds": 4.62
+  },
+  "frames": {
+    "frames": 118,
+    "latencyMs": {
+      "p50": 12.5,
+      "p90": 14,
+      "p99": 14.8,
+      "max": 15
+    },
+    "framesOver32Ms": 0,
+    "framesOver100Ms": 0,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0,
+      "max": 0
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0,
+      "max": 0
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 16.7,
+      "max": 16.7
+    }
+  },
+  "cpu": {
+    "totalCores": 0.62,
+    "threads": [
+      {
+        "name": "RenderThread",
+        "percent": 44.6
+      },
+      {
+        "name": "binder:26131_4",
+        "percent": 4.3
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 3.5
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 3.2
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 2.8
+      },
+      {
+        "name": "ged-swd",
+        "percent": 1.7
+      },
+      {
+        "name": "mqt_v_js",
+        "percent": 0.9
+      },
+      {
+        "name": "mali-mem-purge",
+        "percent": 0.4
+      },
+      {
+        "name": "GPU completion",
+        "percent": 0.4
+      },
+      {
+        "name": "Ig.z TaskRunner",
+        "percent": 0.2
+      }
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "label": "baseline-board-idle",
+  "capturedAt": "2026-11-08T15:48:07.311Z",
+  "note": "board open, idle, agents streaming",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [],
+    "settleMs": 2500,
+    "windowSeconds": 5.2
+  },
+  "frames": {
+    "frames": 118,
+    "latencyMs": {
+      "p50": 17.1,
+      "p90": 18.4,
+      "p99": 26.9,
+      "max": 27.6
+    },
+    "framesOver32Ms": 0,
+    "framesOver100Ms": 0,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 3.1,
+      "max": 3.8
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0.08,
+      "max": 0.1
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 16.7,
+      "max": 16.7
+    }
+  },
+  "cpu": {
+    "totalCores": 0.78,
+    "threads": [
+      {
+        "name": "RenderThread",
+        "percent": 49.4
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 6.9
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 6.5
+      },
+      {
+        "name": "mqt_v_js",
+        "percent": 5.6
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 2.5
+      },
+      {
+        "name": "binder:15008_4",
+        "percent": 2.1
+      },
+      {
+        "name": "ged-swd",
+        "percent": 1.7
+      },
+      {
+        "name": "binder:15008_3",
+        "percent": 1.2
+      },
+      {
+        "name": "GPU completion",
+        "percent": 1
+      },
+      {
+        "name": "binder:15008_5",
+        "percent": 0.6
+      }
+    ]
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "label": "baseline-tabswitch-1",
+  "capturedAt": "2026-11-08T15:46:47.849Z",
+  "note": "tab1 <-> tab6, three switches, sidebar ~539px",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [
+      {
+        "kind": "tap",
+        "value": "615,197"
+      },
+      {
+        "kind": "wait",
+        "value": "700"
+      },
+      {
+        "kind": "tap",
+        "value": "1776,197"
+      },
+      {
+        "kind": "wait",
+        "value": "700"
+      },
+      {
+        "kind": "tap",
+        "value": "615,197"
+      },
+      {
+        "kind": "wait",
+        "value": "700"
+      },
+      {
+        "kind": "tap",
+        "value": "1776,197"
+      }
+    ],
+    "settleMs": 500,
+    "windowSeconds": 6.46
+  },
+  "frames": {
+    "frames": 118,
+    "latencyMs": {
+      "p50": 19.2,
+      "p90": 24.3,
+      "p99": 73.6,
+      "max": 108.5
+    },
+    "framesOver32Ms": 4,
+    "framesOver100Ms": 1,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 39.8,
+      "max": 88.4
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0.6,
+      "max": 0.89
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 33.3,
+      "max": 33.4
+    }
+  },
+  "cpu": {
+    "totalCores": 1.46,
+    "threads": [
+      {
+        "name": "mqt_v_js",
+        "percent": 51.7
+      },
+      {
+        "name": "RenderThread",
+        "percent": 50.1
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 16.9
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 5.7
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 5.1
+      },
+      {
+        "name": ".rrdtech.cn/...",
+        "percent": 3.2
+      },
+      {
+        "name": "HeapTaskDaemon",
+        "percent": 2.3
+      },
+      {
+        "name": "binder:15008_3",
+        "percent": 1.7
+      },
+      {
+        "name": "ged-swd",
+        "percent": 1.5
+      },
+      {
+        "name": "binder:15008_4",
+        "percent": 1.1
+      }
+    ]
+  }
+}

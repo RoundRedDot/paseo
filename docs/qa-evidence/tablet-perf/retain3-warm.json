@@ -1,0 +1,113 @@
+{
+  "label": "retain3-warm",
+  "capturedAt": "2026-11-09T02:45:16.639Z",
+  "note": "warm switches among retained workspaces",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [
+      {
+        "kind": "tap",
+        "value": "200,588"
+      },
+      {
+        "kind": "wait",
+        "value": "1200"
+      },
+      {
+        "kind": "tap",
+        "value": "200,1074"
+      },
+      {
+        "kind": "wait",
+        "value": "1200"
+      },
+      {
+        "kind": "tap",
+        "value": "200,588"
+      }
+    ],
+    "settleMs": 1200,
+    "windowSeconds": 6.96,
+    "sidebarWidthBefore": 612,
+    "sidebarWidthAfter": 612
+  },
+  "frames": {
+    "frames": 119,
+    "latencyMs": {
+      "p50": 12.9,
+      "p90": 22.2,
+      "p99": 140.7,
+      "max": 163.1
+    },
+    "framesOver32Ms": 10,
+    "framesOver100Ms": 2,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 52,
+      "max": 143.2
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 3.76,
+      "max": 12.64
+    },
+    "gapMs": {
+      "p50": 8.3,
+      "p90": 16.7,
+      "p99": 33.3,
+      "max": 33.3
+    }
+  },
+  "cpu": {
+    "totalCores": 1.17,
+    "threads": [
+      {
+        "name": "RenderThread",
+        "percent": 71.4
+      },
+      {
+        "name": "mqt_v_js",
+        "percent": 21.4
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 7.2
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 4.3
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 3.4
+      },
+      {
+        "name": "binder:20685_5",
+        "percent": 2.4
+      },
+      {
+        "name": "FramePolicy",
+        "percent": 1.6
+      },
+      {
+        "name": "ged-swd",
+        "percent": 1.6
+      },
+      {
+        "name": "binder:20685_6",
+        "percent": 1.1
+      },
+      {
+        "name": "GPU completion",
+        "percent": 1
+      }
+    ]
+  }
+}

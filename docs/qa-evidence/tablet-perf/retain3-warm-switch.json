@@ -1,0 +1,46 @@
+{
+  "label": "retain3-warm-switch",
+  "capturedAt": "2026-11-09T02:25:36.137Z",
+  "note": "warm switches among retained workspaces",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [
+      {
+        "kind": "tap",
+        "value": "200,588"
+      },
+      {
+        "kind": "wait",
+        "value": "1200"
+      },
+      {
+        "kind": "tap",
+        "value": "200,1074"
+      },
+      {
+        "kind": "wait",
+        "value": "1200"
+      },
+      {
+        "kind": "tap",
+        "value": "200,588"
+      }
+    ],
+    "settleMs": 1200,
+    "windowSeconds": 7,
+    "sidebarWidthBefore": 530,
+    "sidebarWidthAfter": 530
+  },
+  "frames": {
+    "frames": 0
+  },
+  "cpu": {
+    "totalCores": 0,
+    "threads": []
+  }
+}

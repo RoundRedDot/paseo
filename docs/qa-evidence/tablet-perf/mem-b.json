@@ -1,0 +1,92 @@
+{
+  "label": "mem-b",
+  "capturedAt": "2026-11-09T04:32:24.183Z",
+  "note": "",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [],
+    "settleMs": 10000,
+    "windowSeconds": 12.7,
+    "sidebarWidthBefore": 480,
+    "sidebarWidthAfter": 480
+  },
+  "frames": {
+    "frames": 118,
+    "latencyMs": {
+      "p50": 13.9,
+      "p90": 15,
+      "p99": 16.6,
+      "max": 17
+    },
+    "framesOver32Ms": 0,
+    "framesOver100Ms": 0,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0,
+      "max": 0
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0,
+      "max": 0
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 16.7,
+      "max": 16.7
+    }
+  },
+  "cpu": {
+    "totalCores": 0.81,
+    "threads": [
+      {
+        "name": "RenderThread",
+        "percent": 54.1
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 5.1
+      },
+      {
+        "name": "binder:25911_4",
+        "percent": 5
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 4.4
+      },
+      {
+        "name": "mqt_v_js",
+        "percent": 4.3
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 3.4
+      },
+      {
+        "name": "ged-swd",
+        "percent": 2.4
+      },
+      {
+        "name": "GPU completion",
+        "percent": 1
+      },
+      {
+        "name": "mali-mem-purge",
+        "percent": 0.5
+      },
+      {
+        "name": "DefaultDispatch",
+        "percent": 0.4
+      }
+    ]
+  }
+}

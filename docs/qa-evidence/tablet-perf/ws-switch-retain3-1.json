@@ -1,0 +1,119 @@
+{
+  "label": "ws-switch-retain3-1",
+  "capturedAt": "2026-11-08T17:11:21.500Z",
+  "note": "retention=3 wide native, four workspace switches A/B/A/B",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [
+      {
+        "kind": "tap",
+        "value": "200,530"
+      },
+      {
+        "kind": "wait",
+        "value": "1000"
+      },
+      {
+        "kind": "tap",
+        "value": "200,895"
+      },
+      {
+        "kind": "wait",
+        "value": "1000"
+      },
+      {
+        "kind": "tap",
+        "value": "200,530"
+      },
+      {
+        "kind": "wait",
+        "value": "1000"
+      },
+      {
+        "kind": "tap",
+        "value": "200,895"
+      }
+    ],
+    "settleMs": 1500,
+    "windowSeconds": 7.8
+  },
+  "frames": {
+    "frames": 119,
+    "latencyMs": {
+      "p50": 13.7,
+      "p90": 14.5,
+      "p99": 15.4,
+      "max": 15.6
+    },
+    "framesOver32Ms": 0,
+    "framesOver100Ms": 0,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0,
+      "max": 0
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0,
+      "max": 0
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 16.7,
+      "max": 16.7
+    }
+  },
+  "cpu": {
+    "totalCores": 1.28,
+    "threads": [
+      {
+        "name": "mqt_v_js",
+        "percent": 48.4
+      },
+      {
+        "name": "RenderThread",
+        "percent": 42.4
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 11.7
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 4.6
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 3.8
+      },
+      {
+        "name": "binder:22983_4",
+        "percent": 2.3
+      },
+      {
+        "name": "HeapTaskDaemon",
+        "percent": 1.9
+      },
+      {
+        "name": "ged-swd",
+        "percent": 1.9
+      },
+      {
+        "name": ".rrdtech.cn/...",
+        "percent": 1.5
+      },
+      {
+        "name": "Jit thread pool",
+        "percent": 1.4
+      }
+    ]
+  }
+}

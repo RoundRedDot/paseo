@@ -12,19 +12,31 @@ export function resolveSidebarFooterButtonWidth(windowWidth: number): number {
 }
 
 /**
+ * How many finger-sized places the icon line holds, or `null` before it is measured. Only this
+ * count changes what the footer renders, so a caller can keep it in state and ignore every layout
+ * pass that lands inside the same bucket — a sidebar drag produces one per frame.
+ */
+export function resolveSidebarFooterCapacity(input: {
+  availableWidth: number;
+  buttonWidth: number;
+}): number | null {
+  if (input.availableWidth <= 0 || input.buttonWidth <= 0) {
+    return null;
+  }
+  return Math.floor(input.availableWidth / input.buttonWidth);
+}
+
+/**
  * Splits the footer slots into the ones shown on the line and the ones behind More. When every
  * slot fits, none is hidden. Otherwise the More button takes the last place on the line, and the
- * slots from the end move behind it. An unmeasured line (`availableWidth` 0) shows every slot.
+ * slots from the end move behind it. An unmeasured line (`capacity` null) shows every slot.
  */
-export function resolveSidebarFooterSlots(input: { availableWidth: number; buttonWidth: number }): {
+export function resolveSidebarFooterSlots(input: { capacity: number | null }): {
   visible: SidebarFooterSlot[];
   hidden: SidebarFooterSlot[];
 } {
   const slotCount = SIDEBAR_FOOTER_SLOTS.length;
-  const capacity =
-    input.availableWidth > 0 && input.buttonWidth > 0
-      ? Math.floor(input.availableWidth / input.buttonWidth)
-      : slotCount;
+  const capacity = input.capacity ?? slotCount;
   const visibleCount = capacity >= slotCount ? slotCount : Math.max(0, capacity - 1);
   return {
     visible: SIDEBAR_FOOTER_SLOTS.slice(0, visibleCount),

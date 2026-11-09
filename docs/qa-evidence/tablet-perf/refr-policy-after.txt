@@ -1,0 +1,152 @@
+# 2026-11-09 OPD2501, sh.paseo.fold 0.15.3 + paseo-frame-rate (preferredRefreshRate=120), app in foreground
+## dumpsys oplusscreenmode
+Current Version:20251211
+Config{ mEnableRateOverride=true mEnableFodHighRate=true mVoiceSceneLowRate=true mVoiceSceneLowRateDelay=500 mMaxRefreshSettings=3 mIpePencilRateId=3 mAppSwitchBoost=true mAppSwitchBoostType=0 mAppSwitchBoostMaxTemp=47 mDefaultMaxRate=120.0 mDisableViewOverrideDefaultValue=false mExtremeHighEnable=false}
+mLowRateDisplayPackages: {com.oplus.cast, com.heytap.cast}
+mExtremeHighRateItems: []
+mDisableCameraOverridePackages: {com.whatsapp, com.tencent.mm, com.tencent.mobileqq}
+mOriginalPolicyPackages: [android.graphics.cts, android.display.cts, android.view.cts, android.cts.graphics, android.gameframerate.cts, android.uirendering.cts, android.view.surfacecontrol.cts]
+user override list size: 0
+-
+------------------------------
+current mode={id=1, width=1980, height=2800, fps=120.00001, vsync=120.00001, synthetic=false, alternativeRefreshRates=[30.000002, 48.000004, 50.0, 60.0, 90.0], supportedHdrTypes=[2, 3, 4]}
+mDisplayId=0
+sDisableFpsPixelAdjust=false
+mLowBrightnessMode=false
+mFreezeTokens=[]
+mOifaceRequestedRates={}
+mNonHighRefreshRatePackages={}
+mAudioLowRefreshRatePackages={}
+mSupportMaxRefreshRate=120.0
+mCurrentPickMode=0
+mCurrentDefaultRateId =0
+mCurrentResolution=Point(1980, 2800)
+dAlwaysRespectAppRequestedMode =false
+mSupportMultiDisplayRefreshRate=false
+mCurrentScreenMode=0
+mSupportedScreen=[]
+mSupportPWMSwitch=false
+mIsDisableInputLowRateWindow=false
+mPanelRateData = RateData{PreferredRefreshRateData{mPreferredRefreshRateId=[1, 2, 2, 3],isDisableViewOverride() =true,isAnimBoost=true}}
+supportMemcGameFeature=false
+mBrightnessEnterCount=0,exitCount=0
+isDisplayPWMOn=false
+isIPEPencilConnected=false
+------------------------------
+mCurrentPickRate=120.00001
+mHasFloatOrZoomWindow=false
+mRegisterThermalListenerStatus=false
+isExtremeHighEnable=false
+isExtremeHighSettingOn=false
+pickWin:Window{90c6f06 u0 sh.paseo.fold/sh.paseo.fold.MainActivity}
+11.2 & 11.3 actName:sh.paseo.fold/.MainActivity
+above 11.3  actName:sh.paseo.fold.MainActivity
+app request preferredRefreshRate:120.00001
+mWindowOverrideRateId:0
+mOifaceOverrideRateId:0
+mIsGame:false
+mPreferredRefreshRateId:null
+
+adfr support=false
+mOplusVrrRefreshRate=0.0
+OplusAdfrV32Controller:
+{mSupportAdfrV32Lp=true,mSupportAdfrV32Hp=false,mAdfrV32DirectorEnable=true,mCurrentFrtcRate=0.0,mCurrentDirectorState=0,mLastDirectorState=0,mSimulateV32frtcResult=true}
+------------------------------
+RefreshRateCore:
+mVotes:
+PRIORITY_WINDOW_REQUEST -> Vote{mRefreshRate=120.0, mMinRefreshRate=120.0, mRequestSource=null}
+
+mActiveVotes:
+PRIORITY_WINDOW_REQUEST -> Vote{mRefreshRate=120.0, mMinRefreshRate=120.0, mRequestSource=null}
+
+mFreezing:false
+OplusLowRefreshRate:
+,LowRefreshRate:false
+refresh rate switch info:
+ Refresh rate changing from 60.0 to 120.00001,maxRefreshRate=120.00001 FOR:{
+    | COURSE[; Win preferred rateId=0, appReqFirst=false, data= RateData{}; revised to win request:3, reason:targetWin：Window{891d061 u0 sh.paseo.fold/sh.paseo.fold.MainActivity} ;win name:sh.paseo.fold/sh.paseo.fold.MainActivity]
+    | VOTES[PRIORITY_WINDOW_REQUEST -> Vote{mRefreshRate=120.0, mMinRefreshRate=120.0, mRequestSource=null};]
+    | TIME:2026-11-09 01:56:10}
+ Refresh rate changing from 120.00001 to 60.0,maxRefreshRate=60.0 FOR:{
+    | COURSE[; Win preferred rateId=0, appReqFirst=false, data= RateData{} ;win name:Splash Screen sh.paseo.fold]
+    | VOTES[PRIORITY_WINDOW_REQUEST -> Vote{mRefreshRate=60.0, mMinRefreshRate=60.0, mRequestSource=null};]
+    | TIME:2026-11-09 01:56:55}
+ Refresh rate changing from 60.0 to 120.00001,maxRefreshRate=120.00001 FOR:{
+    | COURSE[; Win preferred rateId=0, appReqFirst=false, data= RateData{}; revised to win request:3, reason:targetWin：Window{90c6f06 u0 sh.paseo.fold/sh.paseo.fold.MainActivity} ;win name:sh.paseo.fold/sh.paseo.fold.MainActivity]
+    | VOTES[PRIORITY_WINDOW_REQUEST -> Vote{mRefreshRate=120.0, mMinRefreshRate=120.0, mRequestSource=null};]
+    | TIME:2026-11-09 01:56:56}
+ Refresh rate changing from 60.0 to 120.00001,maxRefreshRate=120.00001 FOR:{
+    | COURSE[; Win preferred rateId=0, appReqFirst=false, data= RateData{}; revised to win request:3, reason:targetWin：Window{66c961b u0 sh.paseo.fold/sh.paseo.fold.MainActivity} ;win name:sh.paseo.fold/sh.paseo.fold.MainActivity]
+    | VOTES[PRIORITY_WINDOW_REQUEST -> Vote{mRefreshRate=120.0, mMinRefreshRate=120.0, mRequestSource=null};]
+    | TIME:2026-11-09 01:52:07}
+ Refresh rate changing from 120.00001 to 60.0,maxRefreshRate=60.0 FOR:{
+    | COURSE[; Win preferred rateId=0, appReqFirst=false, data= RateData{} ;win name:Splash Screen sh.paseo.fold]
+    | VOTES[PRIORITY_WINDOW_REQUEST -> Vote{mRefreshRate=60.0, mMinRefreshRate=60.0, mRequestSource=null};]
+    | TIME:2026-11-09 01:56:08}
+refresh rate remoteConnection size:0
+------------------------------------------------------------------------------------------
+mResolutionSettings:2
+mAutoResolution:1
+mDisplay.getMode()  {id=1, width=1980, height=2800, fps=120.00001, vsync=120.00001, synthetic=false, alternativeRefreshRates=[30.000002, 48.000004, 50.0, 60.0, 90.0], supportedHdrTypes=[2, 3, 4]}
+mDefaultMode   record resolutionId=2,mode ={id=1, width=1980, height=2800, fps=120.00001, vsync=120.00001, synthetic=false, alternativeRefreshRates=[30.000002, 48.000004, 50.0, 60.0, 90.0], supportedHdrTypes=[2, 3, 4]}
+mResolutionSupport=true
+DEBUG_START_EMPTY=true
+screen width =1980
+resolution switch enable =false
+FHD_DPI_ZOOM =
+QHD_DPI_ZOOM =
+FHD_DENSITY =480
+QHD_DENSITY =640
+RESOLUTION_SWITCH_FREEZING_TIME =800
+mFakeResolutionSwitch =false
+FHD_SIZE =
+QHD_SIZE =
+ supported Resolution size=Point(1980, 2800)
+ pkg :sh.paseo.fold not on auto resolution list
+ resolution config {
+  VERSION = 20251111
+  mInitialComplete=true
+  mAppScaleInfo= AppScaleInfo{ mScale:1.5,mInvScale:0.666667,mDensity:320,mask:10,mOriginScaleMode:false,mEnable:true,zoomEnable:false}
+  mAppOpOnSwitch=1
+  mCurResolutionId=1
+  mHighResoDownscale=true
+  mResolutionSwitchFreezingTime=0
+  mScreenPhysicalWidth=1980
+  mZoomEnable=true
+  mAutoResolutionPkgMap size=96
+  mDynamicResolutionPkgMap size=0
+ }
+mLastResolutionChangeInfo:
+density:
+ResolutionDebugInfo{mDensity=0, mWidth=0, mHeight=0, mCallingUid=0, mCallingPid=0, mCallingTime='null', mTopWin='null', mCallingStackTrace='null'}
+size:
+ResolutionDebugInfo{mDensity=0, mWidth=0, mHeight=0, mCallingUid=0, mCallingPid=0, mCallingTime='null', mTopWin='null', mCallingStackTrace='null'}
+ mSupportedResolutions size =1
+ mOriginalPolicyFirst =false
+
+## dumpsys display: DisplayModeDirector votes for display 0
+  mVotesByDisplay:
+    0:
+      PRIORITY_USER_SETTING_PEAK_RENDER_FRAME_RATE -> RenderVote{ RefreshRateVote{  mMinRefreshRate=0.0, mMaxRefreshRate=120.0 } }
+      PRIORITY_USER_SETTING_PEAK_REFRESH_RATE -> CombinedVote{ mVotes=[PhysicalVote{ RefreshRateVote{  mMinRefreshRate=0.0, mMaxRefreshRate=120.0 } }, DisableRefreshRateSwitchingVote{ mDisableRefreshRateSwitching=false }] }
+      PRIORITY_APP_REQUEST_SIZE -> SizeVote{ mWidth=1980, mHeight=2800, mMinWidth=1980, mMinHeight=2800 }
+      PRIORITY_APP_REQUEST_BASE_MODE_REFRESH_RATE -> BaseModeRefreshRateVote{ mAppRequestBaseModeRefreshRate=120.00001 }
+      PRIORITY_APP_REQUEST_RENDER_FRAME_RATE_RANGE -> RenderVote{ RefreshRateVote{  mMinRefreshRate=0.0, mMaxRefreshRate=120.00001 } }
+      PRIORITY_USER_SETTING_MIN_RENDER_FRAME_RATE -> RenderVote{ RefreshRateVote{  mMinRefreshRate=0.0, mMaxRefreshRate=Infinity } }
+    12:
+      PRIORITY_USER_SETTING_PEAK_RENDER_FRAME_RATE -> RenderVote{ RefreshRateVote{  mMinRefreshRate=0.0, mMaxRefreshRate=120.0 } }
+      PRIORITY_USER_SETTING_PEAK_REFRESH_RATE -> CombinedVote{ mVotes=[PhysicalVote{ RefreshRateVote{  mMinRefreshRate=0.0, mMaxRefreshRate=120.0 } }, DisableRefreshRateSwitchingVote{ mDisableRefreshRateSwitching=false }] }
+## dumpsys SurfaceFlinger: pacesetter (idle)
+Pacesetter Display 4627039422300187648
+    renderRate=60.00 Hz
+    activeMode={id=2, hwcId=2, resolution=2800x1980, vsyncRate=60.00 Hz, dpi=284.48x285.75, group=0, vrrConfig=N/A, supportedHdrTypes=INVALID}
+    displayModes=
+        {id=0, hwcId=0, resolution=2800x1980, vsyncRate=120.00 Hz, dpi=284.48x285.75, group=0, vrrConfig=N/A, supportedHdrTypes=INVALID}
+        {id=1, hwcId=1, resolution=2800x1980, vsyncRate=90.00 Hz, dpi=284.48x285.75, group=0, vrrConfig=N/A, supportedHdrTypes=INVALID}
+        {id=2, hwcId=2, resolution=2800x1980, vsyncRate=60.00 Hz, dpi=284.48x285.75, group=0, vrrConfig=N/A, supportedHdrTypes=INVALID}
+        {id=3, hwcId=3, resolution=2800x1980, vsyncRate=50.00 Hz, dpi=284.48x285.75, group=0, vrrConfig=N/A, supportedHdrTypes=INVALID}
+        {id=4, hwcId=4, resolution=2800x1980, vsyncRate=48.00 Hz, dpi=284.48x285.75, group=0, vrrConfig=N/A, supportedHdrTypes=INVALID}
+        {id=5, hwcId=5, resolution=2800x1980, vsyncRate=30.00 Hz, dpi=284.48x285.75, group=0, vrrConfig=N/A, supportedHdrTypes=INVALID}
+    displayManagerPolicy={defaultModeId=0, allowGroupSwitching=false, primaryRanges={physical=[0.00 Hz, 120.00 Hz], render=[0.00 Hz, 120.00 Hz]}, appRequestRanges={physical=[0.00 Hz, 120.00 Hz], render=[0.00 Hz, 120.00 Hz]} idleScreenConfig=nullptr}
+    frameRateOverrideConfig=Enabled
+    idleTimer=

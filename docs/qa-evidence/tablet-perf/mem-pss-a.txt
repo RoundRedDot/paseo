@@ -1,0 +1,68 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 46907097 Realtime: 48143890
+
+** MEMINFO in pid 25911 [sh.paseo.fold] **
+                   Pss  Private  Private  SwapPss      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap   346825   346796        4       17   349388   376320   350459    25860
+  Dalvik Heap    36205    36132        0       15    42944    53157    26579    26578
+ Dalvik Other     3006     2268        0        0     4448                           
+        Stack     2300     2300        0        0     2308                           
+       Ashmem        6        0        0        0      512                           
+    Other dev       46        8       28        0      720                           
+     .so mmap     9831      600     6340       10    67800                           
+    .jar mmap     5682        0     2988        0    45584                           
+    .apk mmap    77875     2208    71496        0    87276                           
+    .ttf mmap    18600        0    15800        0    23312                           
+    .dex mmap     2817       20     1772        0     6588                           
+    .oat mmap      968        0      256        0    19720                           
+    .art mmap     8429     7948       96       77    43476                           
+   Other mmap     3857        4     3484        0     5572                           
+    GL mtrack    19728    19728        0        0    19728                           
+      Unknown   133491   133244      244        0   134328                           
+        TOTAL   669785   551256   102508      119   853704   429477   377038    52438
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    44176                          86420
+         Native Heap:   346796                         349388
+                Code:   101492                         251764
+               Stack:     2300                           2308
+            Graphics:    19728                          19728
+       Private Other:   139272
+              System:    16021
+             Unknown:                                  144096
+ 
+           TOTAL PSS:   669785            TOTAL RSS:   853704       TOTAL SWAP PSS:      119
+ 
+ Objects
+               Views:     4251         ViewRootImpl:        1
+         AppContexts:        5           Activities:        1
+              Assets:       36        AssetManagers:        0
+       Local Binders:       30        Proxy Binders:       74
+       Parcel memory:       12         Parcel count:       45
+    Death Recipients:        0             WebViews:        0
+ 
+ Native Allocations
+                         Count                       Total(kB)
+                        ------                         ------
+   Bitmap (malloced):      460                           3709
+    Other (malloced):    19236                           1839
+ Other (nonmalloced):      118                            323
+ 
+ SQL
+         MEMORY_USED:      699
+  PAGECACHE_OVERFLOW:      626          MALLOC_SIZE:      137
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b) cache hits cache misses cache size  Dbname
+PER CONNECTION STATS
+         4      580             49   111    41     6  /data/user/0/sh.paseo.fold/databases/RKStorage
+POOL STATS
+     cache hits  cache misses    cache size  Dbname
+            111            42           153  /data/user/0/sh.paseo.fold/databases/RKStorage
+
+
+

@@ -1,0 +1,95 @@
+{
+  "label": "baseline-drag-2",
+  "capturedAt": "2026-11-08T15:50:15.021Z",
+  "note": "one 1.4s drag of 160px from the sidebar handle, board closed",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [
+      {
+        "kind": "drag-handle",
+        "value": "160:1400"
+      }
+    ],
+    "settleMs": 400,
+    "windowSeconds": 5.83
+  },
+  "frames": {
+    "frames": 118,
+    "latencyMs": {
+      "p50": 23.2,
+      "p90": 24.6,
+      "p99": 39.5,
+      "max": 105.9
+    },
+    "framesOver32Ms": 2,
+    "framesOver100Ms": 1,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 6.4,
+      "max": 76.3
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0.66,
+      "max": 0.68
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 33.3,
+      "max": 33.4
+    }
+  },
+  "cpu": {
+    "totalCores": 1.52,
+    "threads": [
+      {
+        "name": "RenderThread",
+        "percent": 51.2
+      },
+      {
+        "name": "mqt_v_js",
+        "percent": 40
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 34.5
+      },
+      {
+        "name": "HeapTaskDaemon",
+        "percent": 6.4
+      },
+      {
+        "name": "hades",
+        "percent": 5.3
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 3.9
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 3.3
+      },
+      {
+        "name": "binder:15008_8",
+        "percent": 1.9
+      },
+      {
+        "name": "ged-swd",
+        "percent": 1.2
+      },
+      {
+        "name": "binder:15008_5",
+        "percent": 1
+      }
+    ]
+  }
+}

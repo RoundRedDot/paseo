@@ -18,7 +18,7 @@ import {
   type LayoutChangeEvent,
 } from "react-native";
 import { Gesture } from "react-native-gesture-handler";
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
@@ -36,12 +36,15 @@ import { SidebarNavRows } from "@/components/sidebar/sidebar-nav-rows";
 import { SidebarFooterIconHighlight } from "@/components/sidebar/sidebar-footer-icon-highlight";
 import {
   resolveSidebarFooterButtonWidth,
+  resolveSidebarFooterCapacity,
   resolveSidebarFooterSlots,
   type SidebarFooterSlot,
 } from "@/components/sidebar/sidebar-footer-overflow";
 import { SidebarFooterOverflowMenu } from "@/components/sidebar/sidebar-footer-overflow-menu";
 import { SidebarHelpMenu } from "@/components/sidebar/sidebar-help-menu";
 import { SidebarResizeHandle } from "@/components/sidebar-resize-handle";
+import { sidebarResizePreviewOpacity, sidebarResizePreviewX } from "@/utils/sidebar-resize-preview";
+import { isNative } from "@/constants/platform";
 import { DensityIcon } from "@/components/ui/density-icon";
 import { SidebarSectionHeader } from "@/components/sidebar/sidebar-section-header";
 import { Shortcut } from "@/components/ui/shortcut";
@@ -438,14 +441,29 @@ function SidebarFooter({
   const newAgentKeys = useShortcutKeys("new-agent");
   const settingsKeys = useShortcutKeys("toggle-settings");
   const { width: windowWidth } = useWindowDimensions();
-  const [lineWidth, setLineWidth] = useState(0);
-  const handleLineLayout = useCallback((event: LayoutChangeEvent) => {
-    setLineWidth(event.nativeEvent.layout.width);
-  }, []);
-  const { visible, hidden } = resolveSidebarFooterSlots({
-    availableWidth: lineWidth,
-    buttonWidth: resolveSidebarFooterButtonWidth(windowWidth),
-  });
+  const buttonWidth = resolveSidebarFooterButtonWidth(windowWidth);
+  // Capacity, not width: a resize drag moves this line every frame, and the slot list only changes
+  // where the line crosses a multiple of the button width.
+  const [lineCapacity, setLineCapacity] = useState<number | null>(null);
+  const lineWidthRef = useRef(0);
+  const handleLineLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      const availableWidth = event.nativeEvent.layout.width;
+      lineWidthRef.current = availableWidth;
+      const capacity = resolveSidebarFooterCapacity({ availableWidth, buttonWidth });
+      setLineCapacity((current) => (current === capacity ? current : capacity));
+    },
+    [buttonWidth],
+  );
+  // A breakpoint change resizes the buttons without relaying out the line.
+  useEffect(() => {
+    const capacity = resolveSidebarFooterCapacity({
+      availableWidth: lineWidthRef.current,
+      buttonWidth,
+    });
+    setLineCapacity((current) => (current === capacity ? current : capacity));
+  }, [buttonWidth]);
+  const { visible, hidden } = resolveSidebarFooterSlots({ capacity: lineCapacity });
 
   function renderSlot(slot: SidebarFooterSlot) {
     switch (slot) {
@@ -711,6 +729,7 @@ function DesktopSidebar({
   });
 
   const startWidthRef = useRef(visibleSidebarWidth);
+  const startWidthBeforeDragRef = useRef(visibleSidebarWidth);
   const resizeWidth = useSharedValue(visibleSidebarWidth);
   const [resizePressed, setResizePressed] = useState(false);
   const showResizeGrip = useCallback(() => setResizePressed(true), []);
@@ -719,6 +738,14 @@ function DesktopSidebar({
   useEffect(() => {
     resizeWidth.value = visibleSidebarWidth;
   }, [resizeWidth, visibleSidebarWidth]);
+
+  // A drag that ends with this sidebar unmounted must not leave the preview line on screen.
+  useEffect(
+    () => () => {
+      sidebarResizePreviewOpacity.value = 0;
+    },
+    [],
+  );
 
   const resizeGesture = useMemo(
     () =>
@@ -733,44 +760,60 @@ function DesktopSidebar({
         .activeOffsetX([-SIDEBAR_RESIZE_ACTIVATION_OFFSET, SIDEBAR_RESIZE_ACTIVATION_OFFSET])
         .failOffsetY([-SIDEBAR_RESIZE_FAIL_OFFSET, SIDEBAR_RESIZE_FAIL_OFFSET])
         .onStart((event) => {
-          startWidthRef.current = visibleSidebarWidth - event.translationX;
-          resizeWidth.value = visibleSidebarWidth;
+          // `resizeWidth` tracks what the UI thread last committed, so a drag that starts before
+          // React has re-rendered after a previous commit still begins from the drawn width.
+          startWidthBeforeDragRef.current = resizeWidth.value;
+          startWidthRef.current = resizeWidth.value - event.translationX;
+          sidebarResizePreviewX.value = resizeWidth.value;
+          sidebarResizePreviewOpacity.value = 1;
         })
         .onUpdate((event) => {
-          // Dragging right (positive translationX) increases width
+          // Dragging right (positive translationX) increases width. Only the preview line moves:
+          // the sidebar keeps its committed width, so nothing is laid out until the gesture ends.
           const newWidth = startWidthRef.current + event.translationX;
           resizeWidth.value = resolveDesktopSidebarWidth({
             requestedWidth: newWidth,
             viewportWidth,
           });
+          sidebarResizePreviewX.value = resizeWidth.value;
         })
-        .onEnd(() => {
-          runOnJS(setSidebarWidth)(resizeWidth.value);
+        .onEnd((event, success) => {
+          sidebarResizePreviewOpacity.value = 0;
+          scheduleOnRN(hideResizeGrip);
+          if (!success) {
+            // A pan that activated and then failed must not leave the animated value — and on
+            // pointer layouts the drawn width — where the gesture abandoned it.
+            resizeWidth.value = startWidthBeforeDragRef.current;
+            return;
+          }
+          // Commit the width the finger lifted at, not the last published frame: the preview line can
+          // trail the touch by a frame, and a width that lands short of the line looks like a bug.
+          const liftedWidth = resolveDesktopSidebarWidth({
+            requestedWidth: startWidthRef.current + event.translationX,
+            viewportWidth,
+          });
+          resizeWidth.value = liftedWidth;
+          scheduleOnRN(setSidebarWidth, liftedWidth);
         })
         .onFinalize(() => {
+          sidebarResizePreviewOpacity.value = 0;
           scheduleOnRN(hideResizeGrip);
         }),
-    [
-      hideResizeGrip,
-      resizeWidth,
-      setSidebarWidth,
-      showResizeGrip,
-      viewportWidth,
-      visibleSidebarWidth,
-    ],
+    [hideResizeGrip, resizeWidth, setSidebarWidth, showResizeGrip, viewportWidth],
   );
 
-  const resizeAnimatedStyle = useAnimatedStyle(() => ({
-    width: resizeWidth.value,
-  }));
-
+  // On native the width is the committed one and a drag moves the preview line instead. Pointer
+  // layouts keep the live width animation: their reflow is CSS and was never the problem here.
+  const pointerResizeStyle = useAnimatedStyle(() => ({ width: resizeWidth.value }));
   const desktopSidebarStyle = useMemo(
     () => [
       staticStyles.desktopSidebar,
       !active && staticStyles.desktopSidebarHidden,
-      resizeAnimatedStyle,
+      { width: visibleSidebarWidth },
+      !isNative && pointerResizeStyle,
     ],
-    [active, resizeAnimatedStyle],
+    // `isNative` is a module constant, so only the style identity and the width can change.
+    [active, pointerResizeStyle, visibleSidebarWidth],
   );
   const desktopSidebarBorderStyle = useMemo(
     () => [

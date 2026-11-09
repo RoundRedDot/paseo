@@ -1,0 +1,95 @@
+{
+  "label": "baseline-open-board",
+  "capturedAt": "2026-11-08T15:38:33.600Z",
+  "note": "open better-paseo tasks screen from sidebar",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [
+      {
+        "kind": "tap",
+        "value": "204,396"
+      }
+    ],
+    "settleMs": 1500,
+    "windowSeconds": 5.54
+  },
+  "frames": {
+    "frames": 118,
+    "latencyMs": {
+      "p50": 25.3,
+      "p90": 33.2,
+      "p99": 162.3,
+      "max": 190.6
+    },
+    "framesOver32Ms": 12,
+    "framesOver100Ms": 2,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 4.9,
+      "p99": 42.2,
+      "max": 160.7
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0.1,
+      "p99": 0.14,
+      "max": 0.16
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 33.4,
+      "max": 50
+    }
+  },
+  "cpu": {
+    "totalCores": 1.06,
+    "threads": [
+      {
+        "name": "RenderThread",
+        "percent": 37.9
+      },
+      {
+        "name": "mqt_v_js",
+        "percent": 34.7
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 14.8
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 3.6
+      },
+      {
+        "name": "HeapTaskDaemon",
+        "percent": 3.2
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 3.2
+      },
+      {
+        "name": "binder:15008_4",
+        "percent": 1.6
+      },
+      {
+        "name": "ged-swd",
+        "percent": 1.3
+      },
+      {
+        "name": ".rrdtech.cn/...",
+        "percent": 0.9
+      },
+      {
+        "name": "Jit thread pool",
+        "percent": 0.7
+      }
+    ]
+  }
+}

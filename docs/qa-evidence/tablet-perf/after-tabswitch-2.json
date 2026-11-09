@@ -1,0 +1,119 @@
+{
+  "label": "after-tabswitch-2",
+  "capturedAt": "2026-11-08T16:29:27.776Z",
+  "note": "fixed build, tab1 <-> tab6, three switches",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [
+      {
+        "kind": "tap",
+        "value": "615,197"
+      },
+      {
+        "kind": "wait",
+        "value": "700"
+      },
+      {
+        "kind": "tap",
+        "value": "1776,197"
+      },
+      {
+        "kind": "wait",
+        "value": "700"
+      },
+      {
+        "kind": "tap",
+        "value": "615,197"
+      },
+      {
+        "kind": "wait",
+        "value": "700"
+      },
+      {
+        "kind": "tap",
+        "value": "1776,197"
+      }
+    ],
+    "settleMs": 500,
+    "windowSeconds": 5.29
+  },
+  "frames": {
+    "frames": 119,
+    "latencyMs": {
+      "p50": 17.1,
+      "p90": 18.2,
+      "p99": 18.8,
+      "max": 21
+    },
+    "framesOver32Ms": 0,
+    "framesOver100Ms": 0,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0,
+      "max": 0
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0,
+      "max": 0
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 16.7,
+      "max": 16.7
+    }
+  },
+  "cpu": {
+    "totalCores": 0.78,
+    "threads": [
+      {
+        "name": "RenderThread",
+        "percent": 51.2
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 6
+      },
+      {
+        "name": "mqt_v_js",
+        "percent": 5.3
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 5.3
+      },
+      {
+        "name": "binder:9460_3",
+        "percent": 4
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 2.6
+      },
+      {
+        "name": "ged-swd",
+        "percent": 1.9
+      },
+      {
+        "name": "GPU completion",
+        "percent": 1.1
+      },
+      {
+        "name": "ScrollPolicy",
+        "percent": 0.2
+      },
+      {
+        "name": "mali-mem-purge",
+        "percent": 0.2
+      }
+    ]
+  }
+}

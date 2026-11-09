@@ -1,0 +1,30 @@
+{
+  "label": "review-drag-1",
+  "capturedAt": "2026-11-09T02:25:58.581Z",
+  "note": "reviewed build drag",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [
+      {
+        "kind": "drag-handle",
+        "value": "160:1400"
+      }
+    ],
+    "settleMs": 400,
+    "windowSeconds": 4.89,
+    "sidebarWidthBefore": 530,
+    "sidebarWidthAfter": 530
+  },
+  "frames": {
+    "frames": 0
+  },
+  "cpu": {
+    "totalCores": 0,
+    "threads": []
+  }
+}

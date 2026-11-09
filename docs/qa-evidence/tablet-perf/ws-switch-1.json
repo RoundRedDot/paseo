@@ -1,0 +1,103 @@
+{
+  "label": "ws-switch-1",
+  "capturedAt": "2026-11-08T17:05:48.291Z",
+  "note": "workspace switch: sidebar row A -> row B",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [
+      {
+        "kind": "tap",
+        "value": "200,530"
+      },
+      {
+        "kind": "wait",
+        "value": "1200"
+      },
+      {
+        "kind": "tap",
+        "value": "200,895"
+      }
+    ],
+    "settleMs": 1500,
+    "windowSeconds": 5.83
+  },
+  "frames": {
+    "frames": 120,
+    "latencyMs": {
+      "p50": 15.9,
+      "p90": 17.7,
+      "p99": 50.1,
+      "max": 137.4
+    },
+    "framesOver32Ms": 3,
+    "framesOver100Ms": 1,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 35.1,
+      "max": 85
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0.27,
+      "max": 1.56
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 33.3,
+      "max": 33.3
+    }
+  },
+  "cpu": {
+    "totalCores": 1.11,
+    "threads": [
+      {
+        "name": "RenderThread",
+        "percent": 41
+      },
+      {
+        "name": "mqt_v_js",
+        "percent": 40.1
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 11.7
+      },
+      {
+        "name": "HeapTaskDaemon",
+        "percent": 3.9
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 2.9
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 2.4
+      },
+      {
+        "name": "binder:18541_1",
+        "percent": 1
+      },
+      {
+        "name": "binder:18541_3",
+        "percent": 1
+      },
+      {
+        "name": "binder:18541_5",
+        "percent": 1
+      },
+      {
+        "name": "ged-swd",
+        "percent": 0.9
+      }
+    ]
+  }
+}

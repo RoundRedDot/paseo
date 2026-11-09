@@ -1,0 +1,90 @@
+{
+  "label": "after-idle-chat",
+  "capturedAt": "2026-11-08T16:26:18.042Z",
+  "note": "fixed build, workspace chat idle, 45s after launch",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [],
+    "settleMs": 2000,
+    "windowSeconds": 4.4
+  },
+  "frames": {
+    "frames": 119,
+    "latencyMs": {
+      "p50": 19.9,
+      "p90": 22.3,
+      "p99": 23.4,
+      "max": 23.9
+    },
+    "framesOver32Ms": 0,
+    "framesOver100Ms": 0,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 3.3,
+      "max": 3.4
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0,
+      "p99": 0.33,
+      "max": 1.66
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 16.7,
+      "max": 16.7
+    }
+  },
+  "cpu": {
+    "totalCores": 0.85,
+    "threads": [
+      {
+        "name": "RenderThread",
+        "percent": 48.9
+      },
+      {
+        "name": "mqt_v_js",
+        "percent": 11.6
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 5.5
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 5.2
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 4.8
+      },
+      {
+        "name": "binder:9460_5",
+        "percent": 3.4
+      },
+      {
+        "name": "ged-swd",
+        "percent": 1.8
+      },
+      {
+        "name": ".rrdtech.cn/...",
+        "percent": 1.6
+      },
+      {
+        "name": "GPU completion",
+        "percent": 1.1
+      },
+      {
+        "name": "DefaultDispatch",
+        "percent": 0.5
+      }
+    ]
+  }
+}

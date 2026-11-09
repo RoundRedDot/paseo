@@ -1,0 +1,119 @@
+{
+  "label": "after-tabswitch-1",
+  "capturedAt": "2026-11-08T16:29:18.336Z",
+  "note": "fixed build, tab1 <-> tab6, three switches",
+  "device": {
+    "model": "OPD2501",
+    "sdk": 36,
+    "density": 360,
+    "versionName": "0.15.3"
+  },
+  "scenario": {
+    "actions": [
+      {
+        "kind": "tap",
+        "value": "615,197"
+      },
+      {
+        "kind": "wait",
+        "value": "700"
+      },
+      {
+        "kind": "tap",
+        "value": "1776,197"
+      },
+      {
+        "kind": "wait",
+        "value": "700"
+      },
+      {
+        "kind": "tap",
+        "value": "615,197"
+      },
+      {
+        "kind": "wait",
+        "value": "700"
+      },
+      {
+        "kind": "tap",
+        "value": "1776,197"
+      }
+    ],
+    "settleMs": 500,
+    "windowSeconds": 5.82
+  },
+  "frames": {
+    "frames": 119,
+    "latencyMs": {
+      "p50": 18.2,
+      "p90": 29.1,
+      "p99": 64.3,
+      "max": 114.4
+    },
+    "framesOver32Ms": 7,
+    "framesOver100Ms": 1,
+    "uiQueueMs": {
+      "p50": 0,
+      "p90": 6.6,
+      "p99": 45.5,
+      "max": 75.7
+    },
+    "recordMs": {
+      "p50": 0,
+      "p90": 0.37,
+      "p99": 1.04,
+      "max": 1.67
+    },
+    "gapMs": {
+      "p50": 16.7,
+      "p90": 16.7,
+      "p99": 33.4,
+      "max": 50
+    }
+  },
+  "cpu": {
+    "totalCores": 1.53,
+    "threads": [
+      {
+        "name": "mqt_v_js",
+        "percent": 61.2
+      },
+      {
+        "name": "RenderThread",
+        "percent": 50
+      },
+      {
+        "name": "sh.paseo.fold",
+        "percent": 9.6
+      },
+      {
+        "name": "hades",
+        "percent": 9.6
+      },
+      {
+        "name": "mali-cpu-comman",
+        "percent": 5.8
+      },
+      {
+        "name": "mali-event-hand",
+        "percent": 4.8
+      },
+      {
+        "name": "binder:9460_5",
+        "percent": 1.9
+      },
+      {
+        "name": "ged-swd",
+        "percent": 1.9
+      },
+      {
+        "name": "binder:9460_3",
+        "percent": 1.7
+      },
+      {
+        "name": "binder:9460_4",
+        "percent": 1.2
+      }
+    ]
+  }
+}
