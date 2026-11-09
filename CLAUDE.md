@@ -118,6 +118,27 @@ When Mo requests an APK, use `npm run build:apk:arm64` for an ARM64 build: write
 
 See [docs/development.md](docs/development.md) for full setup, build sync requirements, and debugging.
 
+## Fork commits and pull requests
+
+These rules apply to this checkout, its worktrees, and PRs from `RoundRedDot/paseo` to `getpaseo/paseo`.
+
+- Use English Conventional Commit titles and bodies.
+- Set both author and committer to `luke <luopeihuan@gmail.com>`; GitHub must resolve both to `luoph`. `luopeihuan@roundreddot.com` resolves to `lukeRRD` and adds a second identity. `luoph@users.noreply.github.com` is not the required email.
+- Do not add `Co-authored-by: RoundRedDot <roundreddot@gmail.com>`. Preserve other contributors' existing attribution.
+- Do not change global or repository Git identity settings. Explicitly set the identity for every commit, including merge, amend, rebase, and review-fix commits. When replaying an incorrectly authored commit, reset its author as well as its committer; `git -c` alone does not replace an existing author.
+
+```bash
+git -c user.name=luke -c user.email=luopeihuan@gmail.com commit
+```
+
+For a new upstream PR, rebase onto `origin/main`, push to `fork` (`RoundRedDot/paseo`), and create the PR with `--head RoundRedDot:<branch>`. Existing PRs from `luoph/paseo` stay on their original branches and use `luoph-fork`. Check `gh api user --jq .login` before creating a PR; the PR author must be `luoph`. Avoid GitHub's **Update branch** under another account: it can introduce that account as a merge committer.
+
+Before reporting completion, inspect `gh pr view <n> --repo getpaseo/paseo --json headRefOid,commits` and `gh api repos/getpaseo/paseo/pulls/<n>/commits`. For every PR commit, verify `commit.author` and `commit.committer` have the exact name and email above, and `author.login` and `committer.login` are both `luoph`. The GraphQL `authors` list alone does not verify the committer. Match the PR head against the pushed fork ref; GitHub may briefly return the previous head after a push. Report CI separately; `action_required` is not a passing check.
+
+To correct published identities, preserve the original PR and back up its exact head under `refs/pr-author-backup/<date>/<pr>`. Use a separate detached worktree under this repository's `.worktrees/`, registered as a local Paseo workspace under this project; leave existing worktrees untouched. Replay only the PR's commits onto `git merge-base <old-head> origin/main`, flattening merge commits and setting both identities above. Require exact equality of the old and new `HEAD^{tree}` before pushing. A metadata-only correction must not update the code baseline or change files.
+
+History rewrites require explicit authorization. Push only to the PR's existing fork branch with `git push --force-with-lease="refs/heads/${ref}:${old}" <remote> "${new}:refs/heads/${ref}"`; stop if the remote head changed. Repeat the GitHub identity and head checks after pushing. Retain backup refs and follow the worktree cleanup rules after merge.
+
 ## Release branches
 
 Merge normal PRs into `main`, including while a beta soaks or a release is being finalized. Each
