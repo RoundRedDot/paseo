@@ -10,6 +10,11 @@ export const ar: TranslationResources = {
     conflict:
       "الترتيب بانتظار المزامنة بعد تغييرات متعارضة. أعد الاتصال أو حرّك عنصراً للمحاولة مجدداً.",
   },
+  pluginCombobox: {
+    searching: "جارٍ البحث…",
+    empty: "لا توجد نتائج",
+    failed: "فشل البحث: {{message}}",
+  },
   paneFind: {
     connectionFailure: "تعذر البحث في هذه المحادثة. تحقق من الاتصال بالمضيف وأعد المحاولة.",
     historyChangedFailure: "تغيّرت المحادثة أثناء البحث. أعد البحث.",
@@ -1180,6 +1185,8 @@ export const ar: TranslationResources = {
     title: "ما الجديد",
     installed: "مثبّت",
     showMore: "عرض المزيد",
+    showAllChanges: "عرض كل التغييرات",
+    hideAllChanges: "إخفاء كل التغييرات",
     openWebsite: "سجل التغييرات الكامل",
     error: {
       title: "تعذّر تحميل سجل التغييرات",
