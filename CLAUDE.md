@@ -25,6 +25,7 @@ At the start of non-trivial work, list `docs/` and skim anything relevant to the
 | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | [docs/product.md](docs/product.md)                                   | What Paseo is, who it's for, where it's going                                                                                  |
 | [docs/architecture.md](docs/architecture.md)                         | System design, package layering, WebSocket protocol, agent lifecycle, data flow                                                |
+| [docs/nsh-client-plan.md](docs/nsh-client-plan.md)                   | Proposed NSH client: macOS-first scope, daemon compatibility, validation gates and rollback                                    |
 | [docs/agent-lifecycle.md](docs/agent-lifecycle.md)                   | Agent states, parent/child relationships, archive semantics, tabs vs archive, subagents track                                  |
 | [docs/data-model.md](docs/data-model.md)                             | File-based JSON persistence, Zod schemas, atomic writes, no migrations                                                         |
 | [docs/glossary.md](docs/glossary.md)                                 | Authoritative terminology — UI label wins, no synonyms                                                                         |
@@ -67,6 +68,7 @@ At the start of non-trivial work, list `docs/` and skim anything relevant to the
 | [docs/ad-hoc-daemon-testing.md](docs/ad-hoc-daemon-testing.md)       | Isolated in-process daemon test harness                                                                                        |
 | [docs/browser-capture-harness.md](docs/browser-capture-harness.md)   | Real-Electron browser screenshot harness and compositor-surface gotcha                                                         |
 | [docs/android.md](docs/android.md)                                   | App variants, local/cloud builds, EAS workflows, version codes, F-Droid source builds and store metadata                       |
+| [docs/pr-workflow-and-lessons.md](docs/pr-workflow-and-lessons.md)   | PR workflow: multi-account identity, web-flow hazards, zero-risk tree flattening, review remediation                           |
 | [docs/docker.md](docs/docker.md)                                     | Running the daemon and bundled web UI in Docker, volumes, agent images, security                                               |
 | [docs/release.md](docs/release.md)                                   | Release playbook, draft releases, completion checklist                                                                         |
 | [docs/terminal-worker.md](docs/terminal-worker.md)                   | Terminal worker process model, socket/record/secret, protocol-bump rule and draining, the worker's file copy, Windows desktop  |
@@ -138,6 +140,8 @@ Before reporting completion, inspect `gh pr view <n> --repo getpaseo/paseo --jso
 To correct published identities, preserve the original PR and back up its exact head under `refs/pr-author-backup/<date>/<pr>`. Use a separate detached worktree under this repository's `.worktrees/`, registered as a local Paseo workspace under this project; leave existing worktrees untouched. Replay only the PR's commits onto `git merge-base <old-head> origin/main`, flattening merge commits and setting both identities above. Require exact equality of the old and new `HEAD^{tree}` before pushing. A metadata-only correction must not update the code baseline or change files.
 
 History rewrites require explicit authorization. Push only to the PR's existing fork branch with `git push --force-with-lease="refs/heads/${ref}:${old}" <remote> "${new}:refs/heads/${ref}"`; stop if the remote head changed. Repeat the GitHub identity and head checks after pushing. Retain backup refs and follow the worktree cleanup rules after merge.
+
+See [docs/pr-workflow-and-lessons.md](docs/pr-workflow-and-lessons.md) for full procedures, web-flow hazards, zero-risk tree flattening details, and review remediation lessons.
 
 ## Release branches
 
