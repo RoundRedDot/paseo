@@ -4,6 +4,8 @@ Paseo is a client-server system for monitoring and controlling local AI coding a
 
 Your code never leaves your machine. Paseo is local-first.
 
+The proposed macOS-first NSH client is scoped in the [NSH client plan](nsh-client-plan.md).
+
 Daemon-owned outbound connections and routed API scope ownership are described in
 [Connected hosts](connected-hosts.md).
 
