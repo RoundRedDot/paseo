@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, StyleSheet as RNStyleSheet, View } from "react-native";
 import { GestureDetector, type GestureType } from "react-native-gesture-handler";
+import Animated, { useAnimatedStyle, type SharedValue } from "react-native-reanimated";
 import { StyleSheet } from "react-native-unistyles";
 import {
   resolveSidebarResizeHandleGeometry,
@@ -12,7 +13,8 @@ import { useHasFinePointer } from "@/hooks/use-fine-pointer";
 interface SidebarResizeHandleProps {
   edge: SidebarResizeEdge;
   gesture: GestureType;
-  pressed: boolean;
+  /** Written by the gesture on the UI thread; drives the touch grip without a React render. */
+  pressed: SharedValue<boolean>;
   testID: string;
   prominent?: boolean;
 }
@@ -119,12 +121,34 @@ function TouchResizeHandle({
     styles.touchTarget,
     { width: geometry.width, height: geometry.height ?? undefined },
   ];
-  const gripStyle = [
-    styles.grip,
-    edge === "left" ? styles.leftEdgeGrip : styles.rightEdgeGrip,
-    pressed ? styles.visibleGrip : styles.idleGrip,
-    prominent && (pressed ? styles.prominentPressedGrip : styles.prominentIdleGrip),
-  ];
+  const plainOpacityStyle = useAnimatedStyle(() => ({
+    opacity: pressed.value ? GRIP_PRESSED_OPACITY : GRIP_IDLE_OPACITY,
+  }));
+  const prominentIdleOpacityStyle = useAnimatedStyle(() => ({
+    opacity: pressed.value ? 0 : 1,
+  }));
+  const prominentPressedOpacityStyle = useAnimatedStyle(() => ({
+    opacity: pressed.value ? 1 : 0,
+  }));
+  const gripLayerStyle =
+    edge === "left" ? staticStyles.leftEdgeGripLayer : staticStyles.rightEdgeGripLayer;
+  const grip = prominent ? (
+    <View pointerEvents="none" style={gripLayerStyle}>
+      <Animated.View style={prominentIdleOpacityStyle}>
+        <View testID={`${testID}-grip`} style={styles.prominentIdleGrip} />
+      </Animated.View>
+      <Animated.View
+        pointerEvents="none"
+        style={[staticStyles.prominentPressedOverlay, prominentPressedOpacityStyle]}
+      >
+        <View style={styles.prominentPressedGrip} />
+      </Animated.View>
+    </View>
+  ) : (
+    <Animated.View pointerEvents="none" style={[gripLayerStyle, plainOpacityStyle]}>
+      <View testID={`${testID}-grip`} style={styles.grip} />
+    </Animated.View>
+  );
 
   return (
     <View pointerEvents="box-none" style={layerStyle}>
@@ -136,7 +160,7 @@ function TouchResizeHandle({
           collapsable={false}
           style={targetStyle}
         >
-          <View pointerEvents="none" testID={`${testID}-grip`} style={gripStyle} />
+          {grip}
         </View>
       </GestureDetector>
     </View>
@@ -178,27 +202,27 @@ const styles = StyleSheet.create((theme) => ({
     backgroundColor: theme.colors.foreground,
   },
   prominentIdleGrip: {
+    width: 4,
     height: 40,
+    borderRadius: 2,
     backgroundColor: theme.colors.foregroundMuted,
     opacity: 0.5,
   },
   prominentPressedGrip: {
+    width: 4,
     height: 40,
+    borderRadius: 2,
     backgroundColor: theme.colors.accent,
-    opacity: 1,
-  },
-  idleGrip: {
-    opacity: 0.15,
-  },
-  visibleGrip: {
-    opacity: 0.3,
-  },
-  leftEdgeGrip: {
-    alignSelf: "flex-start",
-    marginLeft: theme.spacing[0.5],
-  },
-  rightEdgeGrip: {
-    alignSelf: "flex-end",
-    marginRight: theme.spacing[0.5],
   },
 }));
+
+const GRIP_IDLE_OPACITY = 0.15;
+const GRIP_PRESSED_OPACITY = 0.3;
+
+// Static styles for the Animated.View: Unistyles and Reanimated must not patch the same node.
+// The 2pt margin matches theme.spacing[0.5].
+const staticStyles = RNStyleSheet.create({
+  leftEdgeGripLayer: { alignSelf: "flex-start", marginLeft: 2 },
+  rightEdgeGripLayer: { alignSelf: "flex-end", marginRight: 2 },
+  prominentPressedOverlay: { position: "absolute", top: 0, left: 0 },
+});

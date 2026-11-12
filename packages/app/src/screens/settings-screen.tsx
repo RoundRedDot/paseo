@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { Gesture } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
-import { scheduleOnRN } from "react-native-worklets";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "expo-router/react-navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -995,9 +994,7 @@ function SettingsSidebar({
   );
   const resizeWidth = useSharedValue(visibleSidebarWidth);
   const resizeStartWidth = useSharedValue(visibleSidebarWidth);
-  const [resizePressed, setResizePressed] = useState(false);
-  const showResizeGrip = useCallback(() => setResizePressed(true), []);
-  const hideResizeGrip = useCallback(() => setResizePressed(false), []);
+  const resizePressed = useSharedValue(false);
   useEffect(() => {
     resizeWidth.value = visibleSidebarWidth;
   }, [resizeWidth, visibleSidebarWidth]);
@@ -1007,7 +1004,9 @@ function SettingsSidebar({
         .hitSlop({ left: 8, right: 8, top: 0, bottom: 0 })
         .activeOffsetX([-SIDEBAR_RESIZE_ACTIVATION_OFFSET, SIDEBAR_RESIZE_ACTIVATION_OFFSET])
         .failOffsetY([-SIDEBAR_RESIZE_FAIL_OFFSET, SIDEBAR_RESIZE_FAIL_OFFSET])
-        .onBegin(() => scheduleOnRN(showResizeGrip))
+        .onBegin(() => {
+          resizePressed.value = true;
+        })
         .onStart((event) => {
           resizeStartWidth.value = resizeWidth.value - event.translationX;
         })
@@ -1020,14 +1019,13 @@ function SettingsSidebar({
         .onEnd(() => runOnJS(setSidebarWidth)(resizeWidth.value))
         .onFinalize((_event, success) => {
           if (!success) resizeWidth.value = visibleSidebarWidth;
-          scheduleOnRN(hideResizeGrip);
+          resizePressed.value = false;
         }),
     [
-      hideResizeGrip,
+      resizePressed,
       resizeStartWidth,
       resizeWidth,
       setSidebarWidth,
-      showResizeGrip,
       viewportWidth,
       visibleSidebarWidth,
     ],

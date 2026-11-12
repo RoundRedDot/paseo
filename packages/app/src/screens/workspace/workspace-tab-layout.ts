@@ -51,6 +51,40 @@ export function retainWorkspaceTabMeasuredWidth(
   return measuredWidth;
 }
 
+function workspaceTabLayoutsEqual(
+  previous: WorkspaceTabLayoutResult,
+  next: WorkspaceTabLayoutResult,
+): boolean {
+  return (
+    previous.closeButtonPolicy === next.closeButtonPolicy &&
+    previous.requiresHorizontalScrollFallback === next.requiresHorizontalScrollFallback &&
+    previous.items.length === next.items.length &&
+    previous.items.every(
+      (item, index) =>
+        item.width === next.items[index]?.width && item.showLabel === next.items[index]?.showLabel,
+    )
+  );
+}
+
+/**
+ * The row width the tab layout should see. A sidebar drag changes the row width every frame, but
+ * tabs that already fit lay out the same at any of those widths. Keeping the published width until
+ * the layout would differ keeps the row from re-rendering per frame.
+ */
+export function resolvePublishedWorkspaceTabsWidth(
+  input: Omit<WorkspaceTabLayoutInput, "viewportWidth"> & {
+    publishedWidth: number;
+    measuredWidth: number;
+  },
+): number {
+  const { publishedWidth, measuredWidth, ...layoutInput } = input;
+  const nextWidth = retainWorkspaceTabMeasuredWidth(publishedWidth, measuredWidth);
+  if (nextWidth === publishedWidth || publishedWidth <= 0) return nextWidth;
+  const current = computeWorkspaceTabLayout({ ...layoutInput, viewportWidth: publishedWidth });
+  const next = computeWorkspaceTabLayout({ ...layoutInput, viewportWidth: nextWidth });
+  return workspaceTabLayoutsEqual(current, next) ? publishedWidth : nextWidth;
+}
+
 /**
  * Hands the rail's width to the tabs, so a label is never cut while the rail still has width to
  * give. A tab whose need (the width that shows its label whole) fits inside its equal share keeps
