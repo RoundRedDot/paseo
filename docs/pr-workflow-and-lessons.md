@@ -6,12 +6,13 @@ Rules and post-mortem lessons for managing pull requests, branch synchronization
 
 ### Identity invariant
 
-Every commit in a PR must have:
+Every commit we create in an upstream PR must have:
 
 - Author: `luke <luopeihuan@gmail.com>`
 - Committer: `luke <luopeihuan@gmail.com>`
+- Trailer, after a blank line: `Co-authored-by: RoundRedDot <roundreddot@gmail.com>`
 
-GitHub maps both to `luoph`. Any commit with `luopeihuan@roundreddot.com` resolves to `lukeRRD` and introduces a second committer identity, which fails upstream review gates.
+GitHub maps the author and committer to `luoph`. `luopeihuan@roundreddot.com` resolves to `lukeRRD` and is the wrong address for either field. Keep trailers that already name another contributor. Do not add a `Co-authored-by` trailer for a coding agent.
 
 ### Why local git config is insufficient
 
@@ -38,22 +39,26 @@ The GitHub GraphQL `authors` query only inspects `commit.author`, not `commit.co
 Inspect all commits via the REST API before reporting completion:
 
 ```bash
-gh api repos/getpaseo/paseo/pulls/<n>/commits --jq '.[] | {sha: .sha[0:9], author: (.commit.author.name + " <" + .commit.author.email + "> (" + .author.login + ")"), committer: (.commit.committer.name + " <" + .commit.committer.email + "> (" + .committer.login + ")"), msg: .commit.message | split("\n")[0]}'
+gh api repos/getpaseo/paseo/pulls/<n>/commits --jq '.[] | {sha: .sha[0:9], author: (.commit.author.name + " <" + .commit.author.email + "> (" + .author.login + ")"), committer: (.commit.committer.name + " <" + .commit.committer.email + "> (" + .committer.login + ")"), msg: .commit.message | split("\n")[0], roundreddot: (.commit.message | contains("Co-authored-by: RoundRedDot <roundreddot@gmail.com>"))}'
 ```
 
-Both `author.login` and `committer.login` must be `luoph` (unless preserving a third-party co-contributor).
+Both `author.login` and `committer.login` must be `luoph`. The message must contain `Co-authored-by: RoundRedDot <roundreddot@gmail.com>`.
 
 ---
 
-## 2. Preserving Third-Party Attribution
+## 2. Co-authored-by trailer
 
-When managing PRs that incorporate work from external contributors (e.g. Lincoln, Claude, Grok, Codex), never overwrite their authorship.
+Commits we create for an upstream PR use `luke <luopeihuan@gmail.com>` as both author and committer. The message ends with:
 
-Rules:
+```text
+Co-authored-by: RoundRedDot <roundreddot@gmail.com>
+```
 
-1. Retain the contributor's name, email, and attribution in `commit.author`.
-2. Set `commit.committer` to `luke <luopeihuan@gmail.com>` when integrating, rebasing, or fixing merge conflicts on their branch.
-3. Do not add `Co-authored-by: RoundRedDot <roundreddot@gmail.com>`.
+Keep a `Co-authored-by` line that already names another contributor. Do not add one for a coding agent. A commit we newly create, including a conflict-sync or a flattened replacement, uses luke for both fields and includes the RoundRedDot trailer.
+
+When the commit comes from someone else's upstream work, keep author and committer as luke, and put the original author's name and email on a `Co-authored-by` line before the RoundRedDot trailer. #9157's first commit comes from Lincoln's #4798 and uses `Co-authored-by: lincolnaleixo <lincolnmorais@gmail.com>`. Do not leave that commit authored only by luke.
+
+On 2026-11-16 the user required every still-open upstream PR to match this identity. That request authorizes rewriting and force-with-lease pushing those open PR branches. Leave a PR untouched when every commit already matches. Do not rewrite a merged PR.
 
 ---
 
@@ -85,7 +90,9 @@ If the branch head already resolves all conflicts and represents the verified in
    GIT_AUTHOR_EMAIL="luopeihuan@gmail.com" \
    GIT_COMMITTER_NAME="luke" \
    GIT_COMMITTER_EMAIL="luopeihuan@gmail.com" \
-   NEW_COMMIT=$(git commit-tree "$TREE" -p "$BASE" -m "<type>(<scope>): <subject>")
+   NEW_COMMIT=$(git commit-tree "$TREE" -p "$BASE" \
+     -m "<type>(<scope>): <subject>" \
+     -m "Co-authored-by: RoundRedDot <roundreddot@gmail.com>")
    ```
 
 4. **Verify tree equality and diff emptiness before pushing:**
