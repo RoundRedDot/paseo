@@ -1,6 +1,8 @@
 # PR Workflow and Lessons
 
-Rules and post-mortem lessons for managing pull requests, branch synchronization, commit identity, and review remediation from `RoundRedDot/paseo` and `luoph/paseo` to upstream `getpaseo/paseo`.
+Rules and post-mortem lessons for managing pull requests, branch synchronization, commit identity, and review remediation from the fork to upstream `getpaseo/paseo`.
+
+The fork is `RoundRedDot/paseo` only. Local checkout: `/Users/luopeihuan/workspace/rrd/paseo`. Git remote name: `fork` (`git@github.com:RoundRedDot/paseo.git`). `luoph/paseo` (`luoph-fork`) is not the fork; leave PRs that are already open there on that remote. `origin` is `getpaseo/paseo`.
 
 ## 1. Commit Identity and the Multi-Account Trap
 

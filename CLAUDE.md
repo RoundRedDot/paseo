@@ -122,6 +122,8 @@ See [docs/development.md](docs/development.md) for full setup, build sync requir
 
 ## Fork commits and pull requests
 
+"The fork" means this project only: `RoundRedDot/paseo`. The local checkout is `/Users/luopeihuan/workspace/rrd/paseo`, and its Git remote name is `fork` (`git@github.com:RoundRedDot/paseo.git`). `luoph/paseo` (`luoph-fork`) is not the fork; it only keeps PRs already opened there. `origin` is upstream `getpaseo/paseo`.
+
 These rules apply to this checkout, its worktrees, and PRs from `RoundRedDot/paseo` to `getpaseo/paseo`.
 
 - Use English Conventional Commit titles and bodies.
