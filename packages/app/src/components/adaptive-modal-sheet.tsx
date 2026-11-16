@@ -573,6 +573,8 @@ export interface AdaptiveModalSheetProps {
   /** Sticky footer rendered below the scrollable content. */
   footer?: ReactNode;
   footerContainerStyle?: StyleProp<ViewStyle>;
+  /** Keep the body viewport stable during movement when the footer is separate. */
+  stableFooterViewport?: boolean;
   snapPoints?: string[];
   testID?: string;
   /** Override the max width of the desktop card. */
@@ -603,6 +605,7 @@ function CompactSheetBody({
   scrollable,
   bodyStyle,
   contentStyle,
+  stableFooterViewport,
   children,
 }: {
   header?: SheetHeader;
@@ -613,6 +616,7 @@ function CompactSheetBody({
   scrollable: boolean;
   bodyStyle?: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
+  stableFooterViewport?: boolean;
   children: ReactNode;
 }) {
   const insets = useSafeAreaInsets();
@@ -634,7 +638,7 @@ function CompactSheetBody({
     [footer, footerClearanceStyle],
   );
   return (
-    <SheetVisibleFrame footer={footerView}>
+    <SheetVisibleFrame footer={footerView} stableViewport={stableFooterViewport}>
       {header ? <SheetHeaderView header={header} onClose={onClose} testID={testID} /> : null}
       <View style={[styles.compactStaticContent, bodyStyle]}>
         {scrollable ? (
@@ -668,6 +672,7 @@ export function AdaptiveModalSheet({
   children,
   footer,
   footerContainerStyle,
+  stableFooterViewport,
   snapPoints,
   testID,
   desktopMaxWidth,
@@ -796,6 +801,7 @@ export function AdaptiveModalSheet({
             scrollable={scrollable}
             bodyStyle={bodyStyle}
             contentStyle={contentStyle}
+            stableFooterViewport={stableFooterViewport}
           >
             {children}
           </CompactSheetBody>
