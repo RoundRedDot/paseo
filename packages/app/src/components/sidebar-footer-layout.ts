@@ -33,21 +33,33 @@ export interface SidebarFooterLayout {
  * when they don't all fit, the caret takes one slot and the actions that lose their place move
  * behind it, Help first and Settings last. Nothing is placed until the row has a measured width.
  */
+/**
+ * How many controls fit in the row, or -1 while it is unmeasured. The layout depends on the width
+ * only through this count, so callers can ignore width changes that keep it.
+ */
+export function resolveSidebarFooterSlots(input: {
+  rowWidth: number;
+  controlSize: number;
+  rowPadding: number;
+}): number {
+  const { rowWidth, controlSize, rowPadding } = input;
+  if (rowWidth <= 0) return -1;
+  return Math.floor((rowWidth - rowPadding * 2 + MEASUREMENT_TOLERANCE) / Math.max(controlSize, 1));
+}
+
 export function resolveSidebarFooterLayout(input: {
   rowWidth: number;
   controlSize: number;
   rowPadding: number;
   actions: readonly SidebarFooterAction[];
 }): SidebarFooterLayout {
-  const { rowWidth, controlSize, rowPadding, actions } = input;
+  const { actions } = input;
+  const slots = resolveSidebarFooterSlots(input);
   // An unmeasured row stays empty: any guess would paint a clipped row for a frame on a narrow
   // sidebar before the real width arrives.
-  if (rowWidth <= 0) {
+  if (slots < 0) {
     return { inline: [], overflow: [] };
   }
-  const slots = Math.floor(
-    (rowWidth - rowPadding * 2 + MEASUREMENT_TOLERANCE) / Math.max(controlSize, 1),
-  );
   if (slots >= actions.length) {
     return { inline: [...actions], overflow: [] };
   }

@@ -44,6 +44,7 @@ import { SidebarHelpMenu } from "@/components/sidebar/sidebar-help-menu";
 import { SidebarFooterOverflowMenu } from "@/components/sidebar/sidebar-footer-overflow-menu";
 import {
   resolveSidebarFooterLayout,
+  resolveSidebarFooterSlots,
   SIDEBAR_FOOTER_ACTIONS,
   type SidebarFooterAction,
 } from "@/components/sidebar-footer-layout";
@@ -53,6 +54,12 @@ import {
   TOOLBAR_CONTROL_SIZES,
 } from "@/components/ui/control-geometry";
 import { SidebarResizeHandle } from "@/components/sidebar-resize-handle";
+import {
+  beginSidebarResize,
+  endSidebarResize,
+  isSidebarResizeActive,
+  useSidebarResizeActive,
+} from "@/components/sidebar-resize-activity";
 import { DensityIcon } from "@/components/ui/density-icon";
 import { SidebarSectionHeader } from "@/components/sidebar/sidebar-section-header";
 import { Shortcut } from "@/components/ui/shortcut";
@@ -432,18 +439,42 @@ function SidebarFooter({
   const settingsKeys = useShortcutKeys("toggle-settings");
   const isCompactLayout = useIsCompactFormFactor();
   const [rowWidth, setRowWidth] = useState(0);
-  const handleRowLayout = useCallback((event: LayoutChangeEvent) => {
-    setRowWidth(event.nativeEvent.layout.width);
-  }, []);
+  const controlSize = TOOLBAR_CONTROL_SIZES[controlSizingForLayout(isCompactLayout)];
+  // The layout reads the width only through its slot count; keeping the stored value until that
+  // count changes stops a sidebar drag from re-rendering the footer on every layout pass. While a
+  // drag runs, even slot changes wait for the end: each commit stalls the drag's UI-thread updates.
+  const sidebarResizing = useSidebarResizeActive();
+  const pendingRowWidthRef = useRef<number | null>(null);
+  const handleRowLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      const measured = event.nativeEvent.layout.width;
+      if (isSidebarResizeActive()) {
+        pendingRowWidthRef.current = measured;
+        return;
+      }
+      pendingRowWidthRef.current = null;
+      const slotsFor = (width: number) =>
+        resolveSidebarFooterSlots({ rowWidth: width, controlSize, rowPadding: FOOTER_ROW_PADDING });
+      setRowWidth((current) => (slotsFor(current) === slotsFor(measured) ? current : measured));
+    },
+    [controlSize],
+  );
+  useEffect(() => {
+    if (sidebarResizing) return;
+    const pending = pendingRowWidthRef.current;
+    if (pending === null) return;
+    pendingRowWidthRef.current = null;
+    setRowWidth(pending);
+  }, [sidebarResizing]);
   const { inline, overflow } = useMemo(
     () =>
       resolveSidebarFooterLayout({
         rowWidth,
-        controlSize: TOOLBAR_CONTROL_SIZES[controlSizingForLayout(isCompactLayout)],
+        controlSize,
         rowPadding: FOOTER_ROW_PADDING,
         actions: SIDEBAR_FOOTER_ACTIONS,
       }),
-    [rowWidth, isCompactLayout],
+    [rowWidth, controlSize],
   );
   const isInline = (action: SidebarFooterAction) => inline.includes(action);
 
@@ -758,6 +789,7 @@ function DesktopSidebar({
         .activeOffsetX([-SIDEBAR_RESIZE_ACTIVATION_OFFSET, SIDEBAR_RESIZE_ACTIVATION_OFFSET])
         .failOffsetY([-SIDEBAR_RESIZE_FAIL_OFFSET, SIDEBAR_RESIZE_FAIL_OFFSET])
         .onStart((event) => {
+          runOnJS(beginSidebarResize)();
           startWidth.value = visibleSidebarWidth - event.translationX;
           resizeWidth.value = visibleSidebarWidth;
         })
@@ -771,6 +803,7 @@ function DesktopSidebar({
         })
         .onEnd((_event, success) => {
           if (success) runOnJS(setSidebarWidth)(resizeWidth.value);
+          runOnJS(endSidebarResize)();
         })
         .onFinalize(() => {
           resizePressed.value = false;
@@ -796,17 +829,20 @@ function DesktopSidebar({
     () => [staticStyles.desktopSidebar, resizeAnimatedStyle],
     [resizeAnimatedStyle],
   );
+  // A drag animates only the outer width, which clips. The content keeps the committed width until
+  // the drag ends, so hundreds of sidebar rows are not laid out and re-recorded on every frame.
+  const freezeContentWidth = !overlay && divisionLayout === null;
   const desktopSidebarBorderStyle = useMemo(
     () => [
-      styles.desktopSidebarBorder(divisionLayout !== null),
       {
         flex: 1,
+        width: freezeContentWidth ? visibleSidebarWidth : undefined,
         paddingTop: insetsTop,
         paddingBottom: insets.bottom,
         paddingLeft: resolveDesktopSidebarInsetLeft({ overlay, safeAreaLeft: insets.left }),
       },
     ],
-    [insetsTop, insets.bottom, insets.left, overlay, divisionLayout],
+    [insetsTop, insets.bottom, insets.left, overlay, freezeContentWidth, visibleSidebarWidth],
   );
   // Below the window controls' row, or in the top band's place, the first row starts flush.
   const inTopBand = useTopBand() !== null;
@@ -822,6 +858,7 @@ function DesktopSidebar({
       closeGesture={closeGesture}
     >
       <Animated.View style={desktopSidebarStyle}>
+        <View pointerEvents="none" style={styles.desktopSidebarBackdrop(divisionLayout !== null)} />
         <View style={desktopSidebarBorderStyle}>
           <View style={styles.sidebarDragArea}>
             {ownsTopLeft || DEV_BUILD_LABEL ? (
@@ -888,17 +925,16 @@ function DesktopSidebar({
             handleOpenHostSettings={handleOpenHostSettings}
             onBeforeNavigate={closeSidebar}
           />
-
-          {!overlay && divisionLayout === null ? (
-            <SidebarResizeHandle
-              edge="right"
-              gesture={resizeGesture}
-              pressed={resizePressed}
-              testID="left-sidebar-resize-handle"
-              prominent
-            />
-          ) : null}
         </View>
+        {!overlay && divisionLayout === null ? (
+          <SidebarResizeHandle
+            edge="right"
+            gesture={resizeGesture}
+            pressed={resizePressed}
+            testID="left-sidebar-resize-handle"
+            prominent
+          />
+        ) : null}
       </Animated.View>
     </MobilePanelOverlay>
   );
@@ -932,6 +968,7 @@ const staticStyles = RNStyleSheet.create({
   desktopSidebar: {
     position: "relative" as const,
     flex: 1,
+    overflow: "hidden" as const,
   },
 });
 
@@ -965,7 +1002,14 @@ const styles = StyleSheet.create((theme) => ({
   mobileCloseButton: (rightInset: number) => ({
     marginRight: theme.spacing[2] + rightInset,
   }),
-  desktopSidebarBorder: (hasDivision: boolean) => ({
+  // Fills the animated sidebar edge to edge, so a drag that widens past the frozen content still
+  // shows the sidebar surface and its border at the moving edge.
+  desktopSidebarBackdrop: (hasDivision: boolean) => ({
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
     borderRightWidth: hasDivision ? 0 : 1,
     borderRightColor: theme.colors.border,
     backgroundColor: theme.colors.surfaceSidebar,

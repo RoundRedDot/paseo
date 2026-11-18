@@ -1,6 +1,10 @@
-import { useCallback, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { View, type LayoutChangeEvent } from "react-native";
-import { selectWorkspaceChrome } from "./workspace-tab-layout";
+import {
+  isSidebarResizeActive,
+  useSidebarResizeActive,
+} from "@/components/sidebar-resize-activity";
+import { retainWorkspaceChromeWidth, selectWorkspaceChrome } from "./workspace-tab-layout";
 import { WorkspaceTabMeasurementScope } from "./workspace-desktop-tabs-row";
 import type { WorkspaceTabDescriptor } from "./workspace-tabs-types";
 
@@ -16,10 +20,31 @@ export function AdaptiveWorkspaceChrome({
   children: ReactNode;
 }) {
   const [width, setWidth] = useState<number | null>(null);
+  const resizing = useSidebarResizeActive();
+  // Widths measured while a sidebar is being dragged wait here: switching between the full and
+  // compact header swaps the whole chrome, so it happens once, at the width the drag ends on.
+  const pendingWidthRef = useRef<number | null>(null);
+  // Only the compact decision reads the width; keeping it until that flips stops a sidebar drag
+  // from re-rendering the header and tab rail on every layout pass.
   const measure = useCallback((event: LayoutChangeEvent) => {
     const measured = event.nativeEvent.layout.width;
-    if (measured > 0) setWidth(measured);
+    if (isSidebarResizeActive()) {
+      pendingWidthRef.current = measured;
+      setWidth((current) =>
+        current === null ? retainWorkspaceChromeWidth(null, measured) : current,
+      );
+      return;
+    }
+    pendingWidthRef.current = null;
+    setWidth((current) => retainWorkspaceChromeWidth(current, measured));
   }, []);
+  useEffect(() => {
+    if (resizing) return;
+    const pending = pendingWidthRef.current;
+    if (pending === null) return;
+    pendingWidthRef.current = null;
+    setWidth((current) => retainWorkspaceChromeWidth(current, pending));
+  }, [resizing]);
   return (
     <WorkspaceTabMeasurementScope>
       <View onLayout={measure}>
