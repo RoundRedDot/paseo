@@ -57,8 +57,7 @@ import { SidebarResizeHandle } from "@/components/sidebar-resize-handle";
 import {
   beginSidebarResize,
   endSidebarResize,
-  isSidebarResizeActive,
-  useSidebarResizeActive,
+  useSidebarResizeGate,
 } from "@/components/sidebar-resize-activity";
 import { DensityIcon } from "@/components/ui/density-icon";
 import { SidebarSectionHeader } from "@/components/sidebar/sidebar-section-header";
@@ -443,29 +442,19 @@ function SidebarFooter({
   // The layout reads the width only through its slot count; keeping the stored value until that
   // count changes stops a sidebar drag from re-rendering the footer on every layout pass. While a
   // drag runs, even slot changes wait for the end: each commit stalls the drag's UI-thread updates.
-  const sidebarResizing = useSidebarResizeActive();
-  const pendingRowWidthRef = useRef<number | null>(null);
-  const handleRowLayout = useCallback(
-    (event: LayoutChangeEvent) => {
-      const measured = event.nativeEvent.layout.width;
-      if (isSidebarResizeActive()) {
-        pendingRowWidthRef.current = measured;
-        return;
-      }
-      pendingRowWidthRef.current = null;
+  const applyRowWidth = useCallback(
+    (measured: number) => {
       const slotsFor = (width: number) =>
         resolveSidebarFooterSlots({ rowWidth: width, controlSize, rowPadding: FOOTER_ROW_PADDING });
       setRowWidth((current) => (slotsFor(current) === slotsFor(measured) ? current : measured));
     },
     [controlSize],
   );
-  useEffect(() => {
-    if (sidebarResizing) return;
-    const pending = pendingRowWidthRef.current;
-    if (pending === null) return;
-    pendingRowWidthRef.current = null;
-    setRowWidth(pending);
-  }, [sidebarResizing]);
+  const offerRowWidth = useSidebarResizeGate(applyRowWidth);
+  const handleRowLayout = useCallback(
+    (event: LayoutChangeEvent) => offerRowWidth(event.nativeEvent.layout.width),
+    [offerRowWidth],
+  );
   const { inline, overflow } = useMemo(
     () =>
       resolveSidebarFooterLayout({
@@ -829,9 +818,10 @@ function DesktopSidebar({
     () => [staticStyles.desktopSidebar, resizeAnimatedStyle],
     [resizeAnimatedStyle],
   );
-  // A drag animates only the outer width, which clips. The content keeps the committed width until
-  // the drag ends, so hundreds of sidebar rows are not laid out and re-recorded on every frame.
-  const freezeContentWidth = !overlay && divisionLayout === null;
+  // On native a drag animates only the outer width, which clips. The content keeps the committed
+  // width until the drag ends: Android otherwise lays out and re-records every sidebar row (the list
+  // is not virtualized) on each frame. Browsers reflow the rows cheaply, so web keeps following.
+  const freezeContentWidth = platformIsNative && !overlay && divisionLayout === null;
   const desktopSidebarBorderStyle = useMemo(
     () => [
       {
@@ -968,6 +958,8 @@ const staticStyles = RNStyleSheet.create({
   desktopSidebar: {
     position: "relative" as const,
     flex: 1,
+    // Clips the frozen content while a drag narrows the sidebar. The docked panel around it
+    // already clips at the same edge, so this hides nothing that was visible before.
     overflow: "hidden" as const,
   },
 });

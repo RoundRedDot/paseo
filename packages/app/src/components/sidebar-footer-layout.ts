@@ -29,11 +29,6 @@ export interface SidebarFooterLayout {
 }
 
 /**
- * Splits the footer's actions between the row and the overflow menu. Buttons keep their full size;
- * when they don't all fit, the caret takes one slot and the actions that lose their place move
- * behind it, Help first and Settings last. Nothing is placed until the row has a measured width.
- */
-/**
  * How many controls fit in the row, or -1 while it is unmeasured. The layout depends on the width
  * only through this count, so callers can ignore width changes that keep it.
  */
@@ -47,6 +42,11 @@ export function resolveSidebarFooterSlots(input: {
   return Math.floor((rowWidth - rowPadding * 2 + MEASUREMENT_TOLERANCE) / Math.max(controlSize, 1));
 }
 
+/**
+ * Splits the footer's actions between the row and the overflow menu. Buttons keep their full size;
+ * when they don't all fit, the caret takes one slot and the actions that lose their place move
+ * behind it, Help first and Settings last. Nothing is placed until the row has a measured width.
+ */
 export function resolveSidebarFooterLayout(input: {
   rowWidth: number;
   controlSize: number;
