@@ -11,6 +11,7 @@ import { AddHostProvider, AddHostFlowHost } from "@/hosts/add-host";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useActiveWorkspaceSelection } from "@/stores/navigation-active-workspace-store";
 import { useIsExplorerSidebarOpen } from "@/workspace-tabs/explorer-sidebar";
+import { useWorkspaceLayoutStore } from "@/stores/workspace-layout-store";
 import { ComposerEditingSessionsProvider } from "@/composer/editing-session";
 import { SheetHostScope } from "@/components/ui/isolated-bottom-sheet-modal";
 import "@/styles/unistyles";
@@ -50,6 +51,11 @@ import { OnboardingHost, useIsSetupDecisionPending } from "@/onboarding";
 import { AppDiagnosticHost } from "@/components/app-diagnostic-host";
 import { AppearanceStyleBoundary } from "@/components/appearance-style-boundary";
 import { LeftSidebar } from "@/components/left-sidebar";
+import {
+  AppSidebarResizePreviewContext,
+  SidebarResizePreview,
+  useSidebarResizePreviewValues,
+} from "@/components/sidebar-resize-preview";
 import { WindowSidebarMenuToggle } from "@/components/headers/sidebar-menu-toggle";
 import { DesktopWindowControls } from "@/components/desktop/window-controls";
 import { SidebarModelProvider } from "@/components/sidebar/sidebar-model";
@@ -453,15 +459,22 @@ function AppContainer({ children, chromeEnabled: chromeEnabledOverride }: AppCon
   useGlobalNewWorkspaceAction();
 
   const activeWorkspace = useActiveWorkspaceSelection();
+  const workspaceKey = activeWorkspace
+    ? `${activeWorkspace.serverId}:${activeWorkspace.workspaceId}`
+    : null;
   const explorerVisible = useIsExplorerSidebarOpen({
     isCompact: isCompactLayout,
-    workspaceKey: activeWorkspace
-      ? `${activeWorkspace.serverId}:${activeWorkspace.workspaceId}`
-      : null,
+    workspaceKey,
   });
+  const requestedExplorerSidebarWidth = useWorkspaceLayoutStore((state) =>
+    workspaceKey ? state.explorerSidebarWidthByWorkspace[workspaceKey] : undefined,
+  );
   const appContentMinimumWidth = resolveDesktopAppContentMinimum({
-    explorerVisible: isWorkspaceRoute && explorerVisible,
     isSettingsRoute: pathname.includes("/settings"),
+    isWorkspaceExplorerOpen: isWorkspaceRoute && explorerVisible,
+    requestedSidebarWidth: sidebarWidth,
+    requestedExplorerSidebarWidth,
+    viewportWidth,
   });
   const desktopSidebarMounted = hasMountedDesktopSidebar && !isWorkspaceFocusModeEnabled;
   const desktopSidebarVisible = resolveDesktopSidebarVisibility({
@@ -492,17 +505,21 @@ function AppContainer({ children, chromeEnabled: chromeEnabledOverride }: AppCon
     applyPanelLayout({ isCompact: isCompactLayout, leftSidebar: sidebarPresentation });
   }, [applyPanelLayout, isCompactLayout, sidebarPresentation]);
   const hasTopLeftWindowControls = useHasWindowChromeObstruction("top-left");
+  const sidebarResizePreview = useSidebarResizePreviewValues();
   const appChromeLayout = resolveDesktopAppChromeLayout({
     desktopSidebarRendered: desktopSidebarVisible,
     hasTopLeftWindowControls,
     sidebarControlsEnabled: chromeEnabled && !isWorkspaceFocusModeEnabled,
   });
+  // The docked sidebar's drag writes the preview the workspace column renders below.
   const sidebarChrome = (
-    <SidebarChrome
-      mounted={isCompactLayout ? chromeEnabled : desktopSidebarMounted}
-      presentation={sidebarPresentation}
-      keyboardShortcutsEnabled={keyboardShortcutsEnabled}
-    />
+    <AppSidebarResizePreviewContext value={sidebarResizePreview}>
+      <SidebarChrome
+        mounted={isCompactLayout ? chromeEnabled : desktopSidebarMounted}
+        presentation={sidebarPresentation}
+        keyboardShortcutsEnabled={keyboardShortcutsEnabled}
+      />
+    </AppSidebarResizePreviewContext>
   );
   let themedSidebarChrome = sidebarChrome;
   if (isWeb) {
@@ -525,7 +542,14 @@ function AppContainer({ children, chromeEnabled: chromeEnabledOverride }: AppCon
         <WindowChromeRegion
           corners={isCompactLayout && chromeEnabled ? "both" : appChromeLayout.contentCorners}
         >
-          <View style={flexStyle}>{children}</View>
+          <View style={flexStyle}>
+            {children}
+            {/* A held native sidebar drag moves this edge instead of the workspace column's width.
+                The column draws over the docked sidebar, so the preview can cross either way. */}
+            {isNative && !isCompactLayout ? (
+              <SidebarResizePreview anchor="left" preview={sidebarResizePreview} />
+            ) : null}
+          </View>
         </WindowChromeRegion>
       </WorkspaceExplorerOpenGesture>
     </WindowLayoutSurface>

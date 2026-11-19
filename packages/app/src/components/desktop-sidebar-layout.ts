@@ -1,5 +1,8 @@
-import { EXPLORER_WORKSPACE_MIN_WIDTH } from "@/components/explorer-sidebar-layout";
-import { SETTINGS_DESKTOP_SPLIT_MIN_WIDTH } from "@/constants/layout";
+import {
+  MIN_WORKSPACE_BODY_WIDTH,
+  resolveExplorerSidebarWidth,
+} from "@/components/explorer-sidebar-layout";
+import { SETTINGS_DESKTOP_DETAIL_MIN_WIDTH } from "@/constants/layout";
 import {
   MAX_SIDEBAR_WIDTH,
   MIN_SIDEBAR_WIDTH,
@@ -97,10 +100,28 @@ export function resolveDesktopSidebarWidth(input: {
 
 export function resolveDesktopAppContentMinimum(input: {
   isSettingsRoute: boolean;
-  explorerVisible?: boolean;
+  isWorkspaceExplorerOpen: boolean;
+  requestedSidebarWidth: number;
+  requestedExplorerSidebarWidth?: number;
+  viewportWidth: number;
 }): number {
-  if (input.isSettingsRoute) return SETTINGS_DESKTOP_SPLIT_MIN_WIDTH;
-  return input.explorerVisible ? EXPLORER_WORKSPACE_MIN_WIDTH : 0;
+  if (input.isSettingsRoute) {
+    return (
+      resolveDesktopSidebarWidth({
+        requestedWidth: input.requestedSidebarWidth,
+        viewportWidth: input.viewportWidth,
+      }) + SETTINGS_DESKTOP_DETAIL_MIN_WIDTH
+    );
+  }
+  if (input.isWorkspaceExplorerOpen) {
+    return (
+      resolveExplorerSidebarWidth({
+        requestedWidth: input.requestedExplorerSidebarWidth,
+        containerWidth: input.viewportWidth,
+      }) + MIN_WORKSPACE_BODY_WIDTH
+    );
+  }
+  return 0;
 }
 
 export function canDesktopAppSidebarShare(input: {
