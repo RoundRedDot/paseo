@@ -10,6 +10,13 @@ import { ProviderTextSession } from "./provider-text-session.js";
 
 const PROMPT = "SYNTHETIC-PROMPT do not log me";
 
+/** A requesting socket and the signal its detachment aborts. */
+function makeOrigin() {
+  const detached = new AbortController();
+  return { source: {}, signal: detached.signal, detach: () => detached.abort() };
+}
+const ORIGIN = makeOrigin();
+
 interface Recording {
   emitted: SessionOutboundMessage[];
   requests: TextGenerationRequest[];
@@ -73,7 +80,7 @@ function lastGenerateResult(recording: Recording) {
 describe("ProviderTextSession", () => {
   test("returns the generated text with the answering host", async () => {
     const { session, recording } = setup();
-    await session.handleGenerate(generateRequest({ thinkingOptionId: "high" }));
+    await session.handleGenerate(generateRequest({ thinkingOptionId: "high" }), ORIGIN);
     expect(lastGenerateResult(recording)).toEqual({
       requestId: "req-1",
       provider: "opencode",
@@ -97,7 +104,7 @@ describe("ProviderTextSession", () => {
     ["a provider without the route", { status: "unsupported" as const }, {}, "unsupported"],
   ])("refuses %s without reaching the provider", async (_name, options, request, code) => {
     const { session, recording } = setup(options);
-    await session.handleGenerate(generateRequest(request));
+    await session.handleGenerate(generateRequest(request), ORIGIN);
     expect(lastGenerateResult(recording).result).toEqual({
       status: "error",
       error: expect.objectContaining({ code, promptSent: "no" }),
@@ -115,7 +122,7 @@ describe("ProviderTextSession", () => {
         );
       },
     });
-    await session.handleGenerate(generateRequest());
+    await session.handleGenerate(generateRequest(), ORIGIN);
     expect(lastGenerateResult(recording).result).toEqual({
       status: "error",
       error: {
@@ -133,7 +140,7 @@ describe("ProviderTextSession", () => {
         throw new Error("boom with details");
       },
     });
-    await session.handleGenerate(generateRequest());
+    await session.handleGenerate(generateRequest(), ORIGIN);
     expect(lastGenerateResult(recording).result).toEqual({
       status: "error",
       error: {
@@ -155,13 +162,12 @@ describe("ProviderTextSession", () => {
           );
         }),
     });
-    const pending = session.handleGenerate(generateRequest());
+    const pending = session.handleGenerate(generateRequest(), ORIGIN);
     await expect.poll(() => observed).toBeDefined();
-    session.handleCancel({
-      type: "provider.text.cancel.request",
-      requestId: "c-1",
-      targetRequestId: "req-1",
-    });
+    session.handleCancel(
+      { type: "provider.text.cancel.request", requestId: "c-1", targetRequestId: "req-1" },
+      ORIGIN.source,
+    );
     await pending;
     expect(observed?.aborted).toBe(true);
     expect(recording.emitted).toContainEqual({
@@ -183,7 +189,7 @@ describe("ProviderTextSession", () => {
           request.signal.addEventListener("abort", () => reject(request.signal.reason));
         }),
     });
-    const pending = session.handleGenerate(generateRequest());
+    const pending = session.handleGenerate(generateRequest(), ORIGIN);
     await expect.poll(() => observed).toBeDefined();
     session.dispose();
     await pending;
@@ -198,7 +204,7 @@ describe("ProviderTextSession", () => {
         return { text: "x", model: request.model, thinkingOptionId: null, runtimeVersion: "2.2.6" };
       },
     });
-    await session.handleGenerate(generateRequest({ timeoutMs: 1 }));
+    await session.handleGenerate(generateRequest({ timeoutMs: 1 }), ORIGIN);
     expect(signal?.aborted).toBe(false);
     await expect.poll(() => signal?.aborted).toBe(true);
   });
@@ -217,9 +223,9 @@ describe("ProviderTextSession", () => {
             });
         }),
     });
-    const first = session.handleGenerate(generateRequest());
+    const first = session.handleGenerate(generateRequest(), ORIGIN);
     await expect.poll(() => recording.requests.length).toBe(1);
-    await session.handleGenerate(generateRequest());
+    await session.handleGenerate(generateRequest(), ORIGIN);
     expect(lastGenerateResult(recording).result).toMatchObject({
       status: "error",
       error: { code: "invalid_request", promptSent: "no" },
@@ -258,5 +264,72 @@ describe("ProviderTextSession", () => {
     expect(unsupported.recording.emitted.at(-1)).toMatchObject({
       payload: { supported: false, models: [], error: { code: "unsupported", promptSent: "no" } },
     });
+  });
+
+  test("the same request ID from two sockets runs both", async () => {
+    const { session, recording } = setup();
+    await Promise.all([
+      session.handleGenerate(generateRequest(), makeOrigin()),
+      session.handleGenerate(generateRequest(), makeOrigin()),
+    ]);
+    expect(recording.requests).toHaveLength(2);
+    expect(
+      recording.emitted.filter((m) => m.type === "provider.text.generate.response"),
+    ).toHaveLength(2);
+  });
+
+  test("another socket cannot cancel a request it did not send", async () => {
+    // Regression: requests were held per session, so any socket on it could cancel them.
+    let release!: () => void;
+    let observed: AbortSignal | undefined;
+    const { session, recording } = setup({
+      generate: (request) =>
+        new Promise((resolve) => {
+          observed = request.signal;
+          release = () =>
+            resolve({
+              text: "x",
+              model: request.model,
+              thinkingOptionId: null,
+              runtimeVersion: "2.2.6",
+            });
+        }),
+    });
+    const sender = makeOrigin();
+    const other = makeOrigin();
+    const pending = session.handleGenerate(generateRequest(), sender);
+    await expect.poll(() => observed).toBeDefined();
+    session.handleCancel(
+      { type: "provider.text.cancel.request", requestId: "c-x", targetRequestId: "req-1" },
+      other.source,
+    );
+    expect(observed?.aborted).toBe(false);
+    expect(recording.emitted).toContainEqual({
+      type: "provider.text.cancel.response",
+      payload: { requestId: "c-x", targetRequestId: "req-1", cancelled: false },
+    });
+    release();
+    await pending;
+    expect(lastGenerateResult(recording).result).toMatchObject({ status: "ok" });
+  });
+
+  test("the sending socket detaching aborts its request", async () => {
+    // Regression: a request kept running after the socket that sent it went away.
+    let observed: AbortSignal | undefined;
+    const { session } = setup({
+      generate: (request) =>
+        new Promise((_resolve, reject) => {
+          observed = request.signal;
+          request.signal.addEventListener("abort", () =>
+            reject(new TextGenerationError("cancelled", "cancelled", "possibly")),
+          );
+        }),
+    });
+    const sender = makeOrigin();
+    const pending = session.handleGenerate(generateRequest(), sender);
+    await expect.poll(() => observed).toBeDefined();
+    sender.detach();
+    await pending;
+    expect(observed?.aborted).toBe(true);
   });
 });

@@ -1,6 +1,4 @@
-import { realpath } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
 import type { ModelInfo, PluginInfo } from "@opencode/client";
 import {
@@ -31,6 +29,18 @@ export const OPENCODE_TEXT_GENERATION_VERSIONS: ReadonlySet<string> = new Set([
 ]);
 
 export const OPENCODE_TEXT_ROUTE = "/api/experimental/generate";
+
+export const OPENCODE_TEXT_ISOLATION_MESSAGE =
+  "One-shot text generation needs an OpenCode runtime that loads none of your plugins, MCP servers or other extensions. Paseo's OpenCode helper loads your OpenCode configuration, so Paseo neither starts nor contacts it for this request.";
+
+/**
+ * Refuses before OpenCode is started or contacted. Paseo has no OpenCode runtime it can show to
+ * be isolated: the agent helper and any shared server load the user's configuration, which runs
+ * plugin code and connects MCP servers before anything could be checked.
+ */
+export async function refuseUnisolatedRuntime(): Promise<never> {
+  throw new TextGenerationError("isolation_unverified", OPENCODE_TEXT_ISOLATION_MESSAGE, "no");
+}
 const ROUTE_OPERATIONS = new Set([
   "experimental.generate.text",
   "experimental.generate.textLegacy",
@@ -41,8 +51,6 @@ export const OPENCODE_TEXT_LIMITATIONS = [
   // OpenCode's built-in AI SDK hooks (`aisdk.sdk`, `aisdk.language`) never fired in validation,
   // on this route or in ordinary sessions, so their effect on this route is unknown.
   "provider_runtime_builtin_hooks_unobserved",
-  // MCP servers in the base configuration connect when it loads. Their tools are not offered.
-  "provider_runtime_mcp_servers_connect",
   // The prompt reaches the local OpenCode server and the model provider it is configured for.
   "prompt_sent_to_provider_runtime_and_model_provider",
 ] as const;
@@ -51,11 +59,16 @@ const DEFAULT_MODEL_WAIT_MS = 10_000;
 const MODEL_POLL_MS = 250;
 const PLUGIN_SETTLE_MS = 250;
 const MAX_ERROR_BODY_BYTES = 16_384;
+const MAX_RESPONSE_BYTES = 4 * 1024 * 1024;
 
 export interface OpenCodeTextGenerationOptions {
+  /**
+   * Runs before anything contacts or starts OpenCode, and throws to refuse. Only a runtime that
+   * cannot load the user's plugins, MCP servers or other extensions may pass: starting or
+   * reading any other runtime already runs that code, whatever the later checks find.
+   */
+  trust(signal: AbortSignal): Promise<void>;
   acquire(signal: AbortSignal): Promise<V2Connection>;
-  /** Paseo's own plugin directories; a plugin loaded from anywhere else is unaccounted for. */
-  paseoPluginRoots: string[];
   modelWaitMs?: number;
 }
 
@@ -74,16 +87,15 @@ export function createOpenCodeTextGeneration(
     signal: AbortSignal,
     run: (connection: V2Connection, endpoint: OpenCodeTextEndpoint) => Promise<T>,
   ): Promise<T> {
+    await options.trust(signal);
+    signal.throwIfAborted();
     let connection: V2Connection;
     try {
       connection = await options.acquire(signal);
-    } catch (error) {
+    } catch {
       if (signal.aborted) throw abortError(signal, "no");
-      throw new TextGenerationError(
-        "provider_unavailable",
-        `OpenCode is unavailable: ${errorMessage(error)}`,
-        "no",
-      );
+      // Launch and connection errors can quote configured URLs or paths; none are passed on.
+      throw new TextGenerationError("provider_unavailable", "OpenCode could not be started", "no");
     }
     try {
       const endpoint = connection.textEndpoint;
@@ -118,7 +130,16 @@ export function createOpenCodeTextGeneration(
     if (endpoint.kind !== "owned") await verifyBaseConfiguration(client, endpoint, signal);
     const models = await waitForModels(client, baseLocation, signal, waitForModel);
     const plugins = await waitForSettledPlugins(client, baseLocation, signal);
-    await assertAccountedPlugins(plugins, endpoint, options.paseoPluginRoots);
+    assertBuiltinPluginsOnly(plugins);
+    const servers = await call(signal, () =>
+      client.mcp.list({ location: baseLocation }, { signal }),
+    );
+    if (servers.data.length > 0)
+      throw new TextGenerationError(
+        "isolation_unverified",
+        "OpenCode's base configuration has MCP servers; one-shot text generation needs a runtime without them",
+        "no",
+      );
     return { version: version.version, baseLocation, models };
   }
 
@@ -359,7 +380,7 @@ async function verifyBaseConfiguration(
     if (signal.aborted) throw abortError(signal, "no");
     throw new TextGenerationError(
       "route_unverified",
-      `The OpenCode server could not read the configuration directory ${endpoint.configDirectory}; its base models cannot be confirmed`,
+      "The OpenCode server could not read the expected configuration directory; its base models cannot be confirmed",
       "no",
     );
   }
@@ -367,70 +388,23 @@ async function verifyBaseConfiguration(
   if (!entries.some((entry) => entry.type === "directory" && path.resolve(entry.path) === expected))
     throw new TextGenerationError(
       "route_unverified",
-      `The OpenCode server does not use the configuration directory ${endpoint.configDirectory}; its base models cannot be confirmed`,
+      "The OpenCode server does not use the expected configuration directory; its base models cannot be confirmed",
       "no",
     );
 }
 
 /**
- * Built-in plugins ship in the validated binary and Paseo's own plugin only registers session
- * context hooks, which the stateless route does not run. Anything else could hook the request.
+ * Built-in plugins ship in the validated binary. Any other plugin could hook the request, and has
+ * already run its own code by the time it is listed.
  */
-export async function assertAccountedPlugins(
-  plugins: PluginInfo[],
-  endpoint: OpenCodeTextEndpoint,
-  paseoRoots: string[],
-): Promise<void> {
-  const managed = path.join(endpoint.configDirectory, "plugins", "paseo-managed-bridge");
-  const roots = await Promise.all([...paseoRoots, managed].map(canonical));
-  const unaccounted: PluginInfo[] = [];
-  for (const plugin of plugins) {
-    if (plugin.source.type === "builtin") continue;
-    const location = plugin.id === "paseo" ? await pluginLocation(plugin) : null;
-    const inside =
-      location !== null &&
-      roots.some((root) => location === root || location.startsWith(root + path.sep));
-    if (!inside) unaccounted.push(plugin);
-  }
-  if (unaccounted.length > 0)
+export function assertBuiltinPluginsOnly(plugins: PluginInfo[]): void {
+  const others = plugins.filter((plugin) => plugin.source.type !== "builtin");
+  if (others.length > 0)
     throw new TextGenerationError(
-      "plugins_unverified",
-      `OpenCode loads plugins Paseo cannot account for in its base configuration: ${unaccounted
-        .map((plugin) => plugin.id ?? plugin.source.type)
-        .join(", ")}. Remove them to use one-shot text generation.`,
+      "isolation_unverified",
+      `OpenCode loaded ${others.length} non-built-in plugin(s) in its base configuration; one-shot text generation needs a runtime without them`,
       "no",
     );
-}
-
-function pluginSourcePath(plugin: PluginInfo): string | null {
-  switch (plugin.source.type) {
-    case "local":
-      return plugin.source.path;
-    case "package":
-      return plugin.source.target;
-    default:
-      return null;
-  }
-}
-
-async function pluginLocation(plugin: PluginInfo): Promise<string | null> {
-  const raw = pluginSourcePath(plugin);
-  if (!raw) return null;
-  try {
-    return await canonical(raw.startsWith("file:") ? fileURLToPath(raw) : raw);
-  } catch {
-    return null;
-  }
-}
-
-/** OpenCode may report a plugin by its real path, for example `/private/tmp` for `/tmp`. */
-async function canonical(location: string): Promise<string> {
-  const resolved = path.resolve(location);
-  try {
-    return await realpath(resolved);
-  } catch {
-    return resolved;
-  }
 }
 
 async function postGenerate(
@@ -448,14 +422,26 @@ async function postGenerate(
     "possibly",
   );
   if (!response.ok) {
-    const detail = await errorDetail(response);
+    const detail = errorDetail(await readBounded(response, MAX_ERROR_BODY_BYTES, signal, endpoint));
     throw new TextGenerationError(
       "generation_failed",
       `OpenCode returned HTTP ${response.status}${detail ? ` (${detail})` : ""}`,
       "possibly",
     );
   }
-  const body: unknown = await response.json().catch(() => null);
+  const raw = await readBounded(response, MAX_RESPONSE_BYTES, signal, endpoint);
+  let body: unknown = null;
+  try {
+    body = JSON.parse(raw.text);
+  } catch {
+    body = null;
+  }
+  if (raw.truncated)
+    throw new TextGenerationError(
+      "generation_failed",
+      "OpenCode's response was larger than Paseo accepts",
+      "possibly",
+    );
   const text = record(record(body)?.data)?.text;
   if (typeof text !== "string")
     throw new TextGenerationError(
@@ -490,13 +476,13 @@ async function directFetch(
       redirect: "manual",
       signal: combined,
     });
-  } catch (error) {
+  } catch {
     if (signal.aborted) throw abortError(signal, promptSent);
     if (endpoint.lifetime.aborted)
       throw new TextGenerationError("provider_unavailable", "OpenCode stopped", promptSent);
     throw new TextGenerationError(
       promptSent === "no" ? "provider_unavailable" : "generation_failed",
-      `Cannot reach OpenCode: ${errorMessage(error)}`,
+      "Cannot reach OpenCode",
       promptSent,
     );
   }
@@ -511,12 +497,54 @@ async function directFetch(
   return response;
 }
 
+/**
+ * Reads at most `limit` bytes and cancels the rest. An abort or the helper exiting while reading
+ * keeps its own cause, since the request was already sent.
+ */
+async function readBounded(
+  response: Response,
+  limit: number,
+  signal: AbortSignal,
+  endpoint: OpenCodeTextEndpoint,
+): Promise<{ text: string; truncated: boolean }> {
+  const reader = response.body?.getReader();
+  if (!reader) return { text: "", truncated: false };
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  let truncated = false;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (size + value.byteLength > limit) {
+        chunks.push(value.subarray(0, limit - size));
+        truncated = true;
+        break;
+      }
+      chunks.push(value);
+      size += value.byteLength;
+    }
+  } catch {
+    if (signal.aborted) throw abortError(signal, "possibly");
+    if (endpoint.lifetime.aborted)
+      throw new TextGenerationError("provider_unavailable", "OpenCode stopped", "possibly");
+    throw new TextGenerationError(
+      "generation_failed",
+      "OpenCode's response could not be read",
+      "possibly",
+    );
+  } finally {
+    if (truncated) await reader.cancel().catch(() => undefined);
+    reader.releaseLock();
+  }
+  return { text: Buffer.concat(chunks).toString("utf8"), truncated };
+}
+
 /** Error class and reason only; provider messages are not passed on. */
-async function errorDetail(response: Response): Promise<string | null> {
-  const raw = await response.text().catch(() => "");
+function errorDetail(raw: { text: string }): string | null {
   let body: unknown = null;
   try {
-    body = JSON.parse(raw.slice(0, MAX_ERROR_BODY_BYTES));
+    body = JSON.parse(raw.text);
   } catch {
     return null;
   }
@@ -537,11 +565,7 @@ async function call<T>(signal: AbortSignal, run: () => Promise<T>): Promise<T> {
   } catch (error) {
     if (signal.aborted) throw abortError(signal, "no");
     if (error instanceof TextGenerationError) throw error;
-    throw new TextGenerationError(
-      "provider_unavailable",
-      `OpenCode preflight failed: ${errorMessage(error)}`,
-      "no",
-    );
+    throw new TextGenerationError("provider_unavailable", "OpenCode preflight failed", "no");
   }
 }
 
@@ -553,11 +577,6 @@ function abortError(signal: AbortSignal, promptSent: "no" | "possibly"): TextGen
     timedOut ? "One-shot text generation timed out" : "One-shot text generation was cancelled",
     promptSent,
   );
-}
-
-function errorMessage(error: unknown): string {
-  const message = error instanceof Error ? error.message : String(error);
-  return message.length > 200 ? `${message.slice(0, 200)}…` : message;
 }
 
 function record(value: unknown): Record<string, unknown> | null {

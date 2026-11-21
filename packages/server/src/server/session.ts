@@ -3612,9 +3612,12 @@ export class Session {
       case "provider.text.get_capability.request":
         return this.providerTextSession.handleGetCapability(msg);
       case "provider.text.generate.request":
-        return this.providerTextSession.handleGenerate(msg);
+        return this.providerTextSession.handleGenerate(msg, {
+          source: this.delivery.currentSource,
+          signal: this.delivery.requestSignal,
+        });
       case "provider.text.cancel.request":
-        this.providerTextSession.handleCancel(msg);
+        this.providerTextSession.handleCancel(msg, this.delivery.currentSource);
         return Promise.resolve();
       case "list_available_providers_request":
         return this.providerCatalogSession.handleListAvailableProvidersRequest(msg);

@@ -54,6 +54,7 @@ import { validateWSOutboundMessage } from "@getpaseo/protocol/validation/ws-outb
 import type {
   ProviderTextCapabilityGetPayload,
   ProviderTextGeneratePayload,
+  ProviderTextGenerationErrorCode,
 } from "@getpaseo/protocol/provider-text-generation";
 import type {
   AgentStreamEventPayload,
@@ -660,30 +661,36 @@ export interface ProviderTextGenerateInput {
   prompt: string;
   timeoutMs?: number;
   signal?: AbortSignal;
-  requestId?: string;
 }
+
+type ProviderTextOutcome<T> =
+  | { status: "answered"; payload: T }
+  | { status: "aborted" }
+  | { status: "failed" };
 
 async function raceProviderTextAbort<T>(
   pending: Promise<T>,
   signal: AbortSignal | undefined,
   onAbort: () => void,
-): Promise<T> {
-  if (!signal) return pending;
+): Promise<ProviderTextOutcome<T>> {
+  const answered = pending.then(
+    (payload): ProviderTextOutcome<T> => ({ status: "answered", payload }),
+    (): ProviderTextOutcome<T> => ({ status: "failed" }),
+  );
+  if (!signal) return answered;
   let removeListener = () => {};
-  const aborted = new Promise<never>((_resolve, reject) => {
+  const aborted = new Promise<ProviderTextOutcome<T>>((resolve) => {
     const abort = () => {
       onAbort();
-      reject(signal.reason ?? new Error("One-shot text generation was cancelled."));
+      resolve({ status: "aborted" });
     };
     signal.addEventListener("abort", abort, { once: true });
     removeListener = () => signal.removeEventListener("abort", abort);
   });
   try {
-    return await Promise.race([pending, aborted]);
+    return await Promise.race([answered, aborted]);
   } finally {
     removeListener();
-    // The host still answers a cancelled request; nothing awaits that answer.
-    pending.catch(() => undefined);
   }
 }
 type ProviderInstallationCheckUpdatesPayload =
@@ -6365,9 +6372,10 @@ export class DaemonClient {
 
   /**
    * One-shot text generation on this host: no agent, session or tools. The prompt is bound to the
-   * host this client is connected to; an answer from any other host is rejected. Aborting sends a
-   * cancel, but the host may already have sent the prompt. Requires
-   * `features.providerTextGeneration`.
+   * host this client is connected to. Cancellation, a lost answer or an answer from another host
+   * come back as an error result, never as a rejection, so `promptSent` always says whether the
+   * prompt may have left this client. Rejects only when nothing was sent: the host lacks
+   * `features.providerTextGeneration`, has not identified itself, or is not connected.
    */
   async generateProviderText(
     input: ProviderTextGenerateInput,
@@ -6375,8 +6383,21 @@ export class DaemonClient {
     this.requireProviderTextGeneration();
     const serverId = this.lastServerInfoMessage?.serverId;
     if (!serverId) throw new Error("The connected host has not identified itself.");
-    input.signal?.throwIfAborted();
-    const requestId = input.requestId ?? this.createRequestId();
+    if (this.connectionState.status !== "connected") throw this.unavailableError();
+    // Always a fresh wire ID: a reused one would hand one answer to several waiters.
+    const requestId = this.createRequestId();
+    const failure = (
+      code: ProviderTextGenerationErrorCode,
+      message: string,
+      promptSent: "no" | "possibly",
+    ): ProviderTextGeneratePayload => ({
+      requestId,
+      provider: input.provider,
+      serverId,
+      result: { status: "error", error: { code, message, promptSent } },
+    });
+    if (input.signal?.aborted)
+      return failure("cancelled", "One-shot text generation was cancelled", "no");
     const timeoutMs = input.timeoutMs ?? PROVIDER_TEXT_DEFAULT_TIMEOUT_MS;
     const response = this.sendNamespacedCorrelatedSessionRequest<"provider.text.generate.response">(
       {
@@ -6396,15 +6417,27 @@ export class DaemonClient {
         timeout: timeoutMs + 15_000,
       },
     );
-    const payload = await raceProviderTextAbort(response, input.signal, () => {
+    const outcome = await raceProviderTextAbort(response, input.signal, () => {
       void this.sendNamespacedCorrelatedSessionRequest<"provider.text.cancel.response">({
         message: { type: "provider.text.cancel.request", targetRequestId: requestId },
         timeout: 10_000,
       }).catch(() => undefined);
     });
-    if (payload.serverId !== serverId)
-      throw new Error("One-shot text generation was answered by a different host.");
-    return payload;
+    if (outcome.status === "aborted")
+      return failure("cancelled", "One-shot text generation was cancelled", "possibly");
+    if (outcome.status === "failed")
+      return failure(
+        "generation_failed",
+        "The host did not answer one-shot text generation",
+        "possibly",
+      );
+    if (outcome.payload.serverId !== serverId)
+      return failure(
+        "server_mismatch",
+        "One-shot text generation was answered by a different host",
+        "possibly",
+      );
+    return outcome.payload;
   }
 
   private requireProviderTextGeneration(): void {

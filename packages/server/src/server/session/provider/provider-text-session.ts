@@ -13,6 +13,12 @@ export const PROVIDER_TEXT_DEFAULT_TIMEOUT_MS = 60_000;
 export const PROVIDER_TEXT_MAX_TIMEOUT_MS = 300_000;
 const CAPABILITY_TIMEOUT_MS = 30_000;
 
+/** Who sent a request: its socket, and the signal that aborts when that socket detaches. */
+export interface ProviderTextRequestSource {
+  source: object | undefined;
+  signal: AbortSignal;
+}
+
 export interface ProviderTextSessionOptions {
   emit(msg: SessionOutboundMessage): void;
   getTextGeneration: AgentManager["getTextGeneration"];
@@ -26,7 +32,10 @@ export interface ProviderTextSessionOptions {
  * stays on this daemon and its selected provider runtime. Nothing here logs prompt or result text.
  */
 export class ProviderTextSession {
-  private readonly inFlight = new Map<string, AbortController>();
+  // Keyed by requesting socket: several sockets can share one session, and only the socket that
+  // sent a request may cancel it.
+  private readonly inFlight = new Map<object, Map<string, AbortController>>();
+  private readonly anonymousSource = {};
   private readonly lifetime = new AbortController();
 
   constructor(private readonly options: ProviderTextSessionOptions) {}
@@ -70,7 +79,10 @@ export class ProviderTextSession {
     }
   }
 
-  async handleGenerate(msg: ProviderTextGenerateRequestMessage): Promise<void> {
+  async handleGenerate(
+    msg: ProviderTextGenerateRequestMessage,
+    origin: ProviderTextRequestSource,
+  ): Promise<void> {
     const base = {
       requestId: msg.requestId,
       provider: msg.provider,
@@ -89,7 +101,9 @@ export class ProviderTextSession {
       });
       return;
     }
-    if (this.inFlight.has(msg.requestId)) {
+    const key = origin.source ?? this.anonymousSource;
+    const owned = this.inFlight.get(key) ?? new Map<string, AbortController>();
+    if (owned.has(msg.requestId)) {
       fail({ code: "invalid_request", message: "Duplicate request ID", promptSent: "no" });
       return;
     }
@@ -103,9 +117,11 @@ export class ProviderTextSession {
       PROVIDER_TEXT_MAX_TIMEOUT_MS,
     );
     const cancel = new AbortController();
-    this.inFlight.set(msg.requestId, cancel);
+    owned.set(msg.requestId, cancel);
+    this.inFlight.set(key, owned);
     const signal = AbortSignal.any([
       cancel.signal,
+      origin.signal,
       this.lifetime.signal,
       AbortSignal.timeout(timeoutMs),
     ]);
@@ -128,12 +144,13 @@ export class ProviderTextSession {
       );
       fail(wire);
     } finally {
-      this.inFlight.delete(msg.requestId);
+      owned.delete(msg.requestId);
+      if (owned.size === 0 && this.inFlight.get(key) === owned) this.inFlight.delete(key);
     }
   }
 
-  handleCancel(msg: ProviderTextCancelRequestMessage): void {
-    const target = this.inFlight.get(msg.targetRequestId);
+  handleCancel(msg: ProviderTextCancelRequestMessage, source: object | undefined): void {
+    const target = this.inFlight.get(source ?? this.anonymousSource)?.get(msg.targetRequestId);
     target?.abort();
     this.options.emit({
       type: "provider.text.cancel.response",

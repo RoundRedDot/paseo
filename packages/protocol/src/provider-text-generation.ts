@@ -23,8 +23,11 @@ export const PROVIDER_TEXT_GENERATION_ERROR_CODES = [
   "remote_server_refused",
   /** The request named a different daemon than the one that received it. */
   "server_mismatch",
-  /** Plugins this daemon cannot account for are loaded in the provider runtime. */
-  "plugins_unverified",
+  /**
+   * The daemon cannot show that the provider runtime loads none of the user's plugins, MCP
+   * servers or other extensions, so it neither starts nor contacts it for this request.
+   */
+  "isolation_unverified",
   /** The model is not available in the provider runtime's base configuration. */
   "model_unavailable",
   /** The requested thinking option is not one the model offers. */

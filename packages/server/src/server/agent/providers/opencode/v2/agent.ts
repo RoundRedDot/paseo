@@ -43,10 +43,8 @@ import { resolveOpenCodeHomeDir } from "../paths.js";
 import { V2Runtime, type V2Connection } from "./runtime.js";
 import type { OpenCodeServiceSelection } from "./service-selection.js";
 import { modelRef, modesFromV2, modelsFromV2 } from "./mapping.js";
-import { createOpenCodeTextGeneration } from "./text-generation.js";
+import { createOpenCodeTextGeneration, refuseUnisolatedRuntime } from "./text-generation.js";
 import type { AgentTextGeneration } from "../../../text-generation.js";
-import { resolvePaseoHome } from "../../../../paseo-home.js";
-import path from "node:path";
 
 interface V2AgentOptions {
   logger: Logger;
@@ -71,9 +69,10 @@ export class OpenCodeV2AgentClient implements AgentClient {
       new V2Runtime({
         ...options,
       });
+    // The agent runtime loads the user's OpenCode configuration, so it never passes `trust`.
     this.textGeneration = createOpenCodeTextGeneration({
+      trust: refuseUnisolatedRuntime,
       acquire: (signal) => this.runtime.acquire({ signal }),
-      paseoPluginRoots: [path.join(resolvePaseoHome(), "runtime", "opencode")],
     });
   }
   async isAvailable() {
