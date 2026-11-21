@@ -9,6 +9,7 @@ import {
   type SyntheticResponsesGateway,
 } from "../agent/providers/codex/test-utils/synthetic-responses-gateway.js";
 import { DaemonClient } from "../test-utils/daemon-client.js";
+import { createTestAgentClients } from "../test-utils/fake-agent-client.js";
 import { createTestPaseoDaemon, type TestPaseoDaemon } from "../test-utils/paseo-daemon.js";
 
 /**
@@ -28,6 +29,23 @@ let daemon: TestPaseoDaemon;
 let client: DaemonClient;
 const logs: string[] = [];
 const readSecret = vi.fn<KeychainSecretReader>(async () => SECRET);
+/** An unrelated enabled provider: the one-shot route must never check, start or list it. */
+const unrelated = { isAvailable: 0, fetchCatalog: 0 };
+function spiedClients() {
+  const clients = createTestAgentClients();
+  const opencode = clients.opencode!;
+  const isAvailable = opencode.isAvailable.bind(opencode);
+  const fetchCatalog = opencode.fetchCatalog.bind(opencode);
+  opencode.isAvailable = async () => {
+    unrelated.isAvailable += 1;
+    return isAvailable();
+  };
+  opencode.fetchCatalog = async (...args: Parameters<typeof fetchCatalog>) => {
+    unrelated.fetchCatalog += 1;
+    return fetchCatalog(...args);
+  };
+  return clients;
+}
 
 function sensitive(): string[] {
   return [SECRET, SERVICE, ACCOUNT, PROMPT, "synthetic translation"];
@@ -44,6 +62,7 @@ beforeAll(async () => {
   });
   daemon = await createTestPaseoDaemon({
     logger: pino({ level: "trace" }, stream),
+    agentClients: spiedClients(),
     providerOverrides: {
       [PROVIDER]: {
         extends: "codex",
@@ -93,7 +112,65 @@ afterEach(() => {
 });
 
 describe("Codex custom provider one-shot text generation through the daemon", () => {
+  test("lists and uses the route without checking or loading an unrelated provider", async () => {
+    // Runs first, on a cold provider catalog: nothing has asked for a snapshot yet.
+    const before = { ...unrelated };
+    const listed = await client.listProviderTextProviders();
+    expect(listed.providers).toEqual([{ provider: PROVIDER, label: "NewAPI" }]);
+    expect((await client.getProviderTextCapability(PROVIDER)).supported).toBe(true);
+    await client.generateProviderText({
+      provider: PROVIDER,
+      model: "synthetic-flash",
+      prompt: "x",
+    });
+    expect(unrelated).toEqual(before);
+    expect(unrelated).toEqual({ isAvailable: 0, fetchCatalog: 0 });
+    // The spy does see it: a provider snapshot warms every provider on a cold catalog.
+    await client.getProvidersSnapshot();
+    await vi.waitFor(() =>
+      expect(unrelated.isAvailable + unrelated.fetchCatalog).toBeGreaterThan(0),
+    );
+  });
+
+  test("refuses an oversized prompt before reading the key or sending it", async () => {
+    readSecret.mockClear();
+    const before = gateway.requests.length;
+    const answer = await client.generateProviderText({
+      provider: PROVIDER,
+      model: "synthetic-flash",
+      prompt: "译".repeat(349_526),
+    });
+    expect(answer.result).toMatchObject({
+      status: "error",
+      error: { code: "invalid_request", promptSent: "no" },
+    });
+    expect(readSecret).not.toHaveBeenCalled();
+    expect(gateway.requests.length).toBe(before);
+  });
+
+  test.each([
+    { field: "error.code", answer: { status: 400, body: { error: { code: "SENTINEL_e2e_7d1" } } } },
+    {
+      field: "item.type",
+      answer: { body: { status: "completed", output: [{ type: "SENTINEL_e2e_7d1" }] } },
+    },
+  ])(
+    "keeps a value the gateway put in $field out of the RPC answer and the logs",
+    async ({ answer }) => {
+      gateway.answer(answer);
+      const result = await client.generateProviderText({
+        provider: PROVIDER,
+        model: "synthetic-flash",
+        prompt: "x",
+      });
+      expect(result.result.status).toBe("error");
+      expect(JSON.stringify(result)).not.toContain("SENTINEL_e2e_7d1");
+      expect(logs.join("")).not.toContain("SENTINEL_e2e_7d1");
+    },
+  );
+
   test("reports the capability without reading the key, and the config API holds no credential", async () => {
+    readSecret.mockClear();
     const capability = await client.getProviderTextCapability(PROVIDER);
     expect(capability).toMatchObject({
       provider: PROVIDER,

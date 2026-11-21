@@ -55,6 +55,7 @@ import type {
   ProviderTextCapabilityGetPayload,
   ProviderTextGeneratePayload,
   ProviderTextGenerationErrorCode,
+  ProviderTextListPayload,
 } from "@getpaseo/protocol/provider-text-generation";
 import type {
   AgentStreamEventPayload,
@@ -6315,6 +6316,21 @@ export class DaemonClient {
       },
       responseType: "provider_diagnostic_response",
       timeout: 180000,
+    });
+  }
+
+  /**
+   * The providers with a one-shot route on this host, from its registry: no provider runtime is
+   * checked, started or warmed. Requires `features.providerTextGeneration`.
+   */
+  async listProviderTextProviders(options?: {
+    requestId?: string;
+  }): Promise<ProviderTextListPayload> {
+    this.requireProviderTextGeneration();
+    return this.sendNamespacedCorrelatedSessionRequest<"provider.text.list.response">({
+      requestId: options?.requestId,
+      message: { type: "provider.text.list.request" },
+      timeout: 15_000,
     });
   }
 

@@ -150,7 +150,12 @@ describe("Responses one-shot text generation", () => {
         status: "completed",
         output: [
           { type: "reasoning", summary: [] },
-          { type: "message", content: [{ type: "output_text", text: "ok" }] },
+          {
+            type: "message",
+            role: "assistant",
+            status: "completed",
+            content: [{ type: "output_text", text: "ok" }],
+          },
         ],
       },
     });
@@ -187,6 +192,118 @@ describe("Responses one-shot text generation", () => {
     );
     expect(error).toMatchObject({ code: "generation_failed", promptSent: "possibly" });
     expectSanitized(error);
+  });
+
+  test.each([
+    {
+      name: "no top-level status",
+      body: { output: textAnswer("partial").body.output },
+    },
+    {
+      name: "an unfinished message",
+      body: {
+        status: "completed",
+        output: [
+          {
+            type: "message",
+            role: "assistant",
+            status: "in_progress",
+            content: [{ type: "output_text", text: "partial" }],
+          },
+        ],
+      },
+    },
+    {
+      name: "a message without a status",
+      body: {
+        status: "completed",
+        output: [
+          {
+            type: "message",
+            role: "assistant",
+            content: [{ type: "output_text", text: "partial" }],
+          },
+        ],
+      },
+    },
+    {
+      name: "a message not from the assistant",
+      body: {
+        status: "completed",
+        output: [
+          {
+            type: "message",
+            role: "user",
+            status: "completed",
+            content: [{ type: "output_text", text: "partial" }],
+          },
+        ],
+      },
+    },
+  ])("refuses $name even when it holds text", async ({ body }) => {
+    gateway.answer({ body });
+    const error = await failure(
+      generation().generate({ model: "synthetic-plain", prompt: PROMPT, signal: signal() }),
+    );
+    expect(error).toMatchObject({ code: "generation_failed", promptSent: "possibly" });
+    expect(error.message).not.toContain("partial");
+  });
+
+  test.each([
+    { field: "error.code", answer: { status: 400, body: { error: { code: "SENTINEL_9f2c" } } } },
+    { field: "error.type", answer: { status: 401, body: { error: { type: "SENTINEL_9f2c" } } } },
+    { field: "status", answer: { body: { status: "SENTINEL_9f2c", output: [] } } },
+    {
+      field: "item.type",
+      answer: { body: { status: "completed", output: [{ type: "SENTINEL_9f2c" }] } },
+    },
+    {
+      field: "part.type",
+      answer: {
+        body: {
+          status: "completed",
+          output: [
+            {
+              type: "message",
+              role: "assistant",
+              status: "completed",
+              content: [{ type: "SENTINEL_9f2c" }],
+            },
+          ],
+        },
+      },
+    },
+    {
+      field: "message.role",
+      answer: {
+        body: {
+          status: "completed",
+          output: [{ type: "message", role: "SENTINEL_9f2c", status: "completed", content: [] }],
+        },
+      },
+    },
+  ])("never echoes a value the gateway put in $field", async ({ answer }) => {
+    gateway.answer(answer);
+    const error = await failure(
+      generation().generate({ model: "synthetic-plain", prompt: PROMPT, signal: signal() }),
+    );
+    expect(error.code).toBe("generation_failed");
+    expect(error.message).not.toContain("SENTINEL_9f2c");
+    expectSanitized(error);
+  });
+
+  test("names a known public gateway error code", async () => {
+    gateway.answer({
+      status: 429,
+      body: { error: { type: "rate_limit_error", code: "SENTINEL_9f2c" } },
+    });
+    expect(
+      (
+        await failure(
+          generation().generate({ model: "synthetic-plain", prompt: "x", signal: signal() }),
+        )
+      ).message,
+    ).toBe("The gateway answered HTTP 429 (rate_limit_error)");
   });
 
   test("reports an empty answer as no text", async () => {

@@ -1,6 +1,8 @@
 # Provider text generation
 
-`provider.text.*` runs one prompt through a provider runtime and returns one text, on the daemon that receives the request. It creates no agent, workspace, provider session, timeline or Paseo MCP server. Plugins reach it through `paseo.providers.getTextCapability` and `paseo.providers.generateText`; use `paseo.hosts.client(serverId)` to target another host.
+`provider.text.*` runs one prompt through a provider runtime and returns one text, on the daemon that receives the request. It creates no agent, workspace, provider session, timeline or Paseo MCP server. Plugins reach it through `paseo.providers.listTextProviders`, `paseo.providers.getTextCapability` and `paseo.providers.generateText`; use `paseo.hosts.client(serverId)` to target another host.
+
+List providers with `listTextProviders`, never `paseo.providers.snapshot`. A snapshot on a cold catalog warms every enabled provider, which can start an unrelated OpenCode runtime with the user's plugins and MCP servers. `listTextProviders` reads the registry and checks nothing.
 
 Only a Codex custom provider with a hand-edited Keychain credential supports it ([Codex custom providers](#codex-custom-providers)), and only on macOS. Every other provider answers `unsupported` or `isolation_unverified`, and nothing is sent. The OpenCode v2 implementation (`packages/server/src/server/agent/providers/opencode/v2/text-generation.ts`) is complete, but it needs a runtime Paseo does not have.
 
@@ -28,10 +30,11 @@ Rules the code enforces, and why:
 - The section is never part of the mutable config, so `get_daemon_config` does not return it and `set_daemon_config` cannot write it. A client with `daemon.read` sees neither the key nor the item it lives in.
 - The key never comes from the provider's `env`. A placeholder `OPENAI_API_KEY` there is fine and is ignored.
 - `service` must start with `paseo.text-generation.`, and both `service` and `account` are required, so the entry cannot name another app's item or match the first item that shares an account.
-- The provider's `OPENAI_BASE_URL`, after the same normalization Codex gets, must have exactly the entry's `origin`. Clients can edit the provider's env; pointing it elsewhere makes the route refuse before the key is read.
+- The provider's `OPENAI_BASE_URL`, after the same normalization Codex gets, must have exactly the entry's `origin`. Clients can edit the provider's env; pointing it at another origin makes the route refuse before the key is read. The binding is the origin only: a client can still change the path, so one origin that serves several tenants on different paths does not keep their keys apart.
 - The key is read for each request with `/usr/bin/security find-generic-password -s … -a … -w`: a fixed binary, no shell, no wrapper. The capability check does not read it, so opening settings never prompts.
 - The request carries only `model`, `input`, `store: false`, `stream: false` and, for `low`, `medium` or `high`, `reasoning.effort`. No `tools` or `instructions`. Other thinking options are not offered, and an unlisted model is refused.
-- The answer must be a completed Responses document whose output is `message` items of `output_text` (reasoning items are skipped). Any tool call, refusal or other shape fails with `generation_failed`; nothing in it is run.
+- The answer must be a Responses document with `status: "completed"` whose output is completed assistant `message` items of `output_text` (reasoning items are skipped). A missing status, an unfinished or non-assistant message, a tool call, a refusal or any other shape fails with `generation_failed`, even with text in it; nothing in it is run.
+- Errors name only the HTTP status, a fixed list of public gateway error codes, and known tool call types. Any other value the gateway sends can echo the prompt or a key, so it is dropped.
 
 Not covered: Linux and Windows (`unsupported`), a daemon whose login Keychain is locked (for example one started over ssh), and gateways that do not accept this request. Whether a gateway accepts it, and whether macOS prompts for the item, has only been checked against fakes.
 
@@ -81,7 +84,7 @@ The daemon's own request uses `redirect: "manual"` and rejects any 3xx, because 
 
 ## Requests and cancellation
 
-The deadline defaults to 60 s, capped at 300 s. A request belongs to the socket that sent it: only that socket can cancel it, the same request ID on two sockets runs as two requests, and the socket detaching aborts it.
+The deadline defaults to 60 s, capped at 300 s. A prompt over 1 MiB of UTF-8, or a fifth generation running on one socket, is refused with `invalid_request` before any provider code runs. A request belongs to the socket that sent it: only that socket can cancel it, the same request ID on two sockets runs as two requests, and the socket detaching aborts it.
 
 The SDK always uses a fresh wire ID. Cancellation, a lost answer, or an answer from a host other than the connected one all come back as an error result with `promptSent: "possibly"`, never as a rejection. `generateText` rejects only when nothing was sent: the host lacks `features.providerTextGeneration`, has not identified itself, or is not connected.
 

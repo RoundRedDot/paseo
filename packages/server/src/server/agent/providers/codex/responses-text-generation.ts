@@ -30,7 +30,41 @@ const REASONING_EFFORTS = new Set(["low", "medium", "high"]);
 
 const SUCCESS_BODY_LIMIT = 4 * 1024 * 1024;
 const ERROR_BODY_LIMIT = 16 * 1024;
-const WIRE_TOKEN = /^[A-Za-z0-9_.:-]{1,64}$/u;
+/**
+ * Gateway error codes and types Paseo names in an error, as fixed strings. A gateway can put any
+ * value in these fields, including one that echoes the prompt or a credential, so anything else
+ * is left out.
+ */
+const PUBLIC_GATEWAY_ERRORS = new Set([
+  "invalid_request_error",
+  "authentication_error",
+  "permission_error",
+  "not_found_error",
+  "rate_limit_error",
+  "server_error",
+  "invalid_api_key",
+  "insufficient_quota",
+  "model_not_found",
+  "rate_limit_exceeded",
+  "context_length_exceeded",
+]);
+
+/** Item types a gateway may send for a tool call; named in the error so the reason is clear. */
+const TOOL_ITEM_TYPES = new Set([
+  "function_call",
+  "custom_tool_call",
+  "web_search_call",
+  "file_search_call",
+  "computer_call",
+  "code_interpreter_call",
+  "image_generation_call",
+  "local_shell_call",
+  "shell_call",
+  "apply_patch_call",
+  "mcp_call",
+  "mcp_list_tools",
+  "mcp_approval_request",
+]);
 
 export const RESPONSES_TEXT_GENERATION_LIMITATIONS = [
   "prompt_sent_to_configured_gateway",
@@ -147,12 +181,12 @@ function record(value: unknown): Record<string, unknown> | null {
     : null;
 }
 
-/** A short identifier the gateway sent, or "unknown"; never free text that may echo the prompt. */
-function wireToken(value: unknown): string {
-  return typeof value === "string" && WIRE_TOKEN.test(value) ? value : "unknown";
+/** A fixed public gateway error code or type, or nothing. */
+function publicGatewayError(value: unknown): string | null {
+  return typeof value === "string" && PUBLIC_GATEWAY_ERRORS.has(value) ? value : null;
 }
 
-/** The gateway's error code or type only; its message may echo the prompt. */
+/** The HTTP status and a known public error code; never the gateway's own message or values. */
 function describeHttpError(status: number, body: string): string {
   let parsed: unknown = null;
   try {
@@ -161,41 +195,52 @@ function describeHttpError(status: number, body: string): string {
     parsed = null;
   }
   const error = record(record(parsed)?.error);
-  const code = error ? wireToken(error.code ?? error.type) : null;
-  return code && code !== "unknown"
+  const code = error ? (publicGatewayError(error.code) ?? publicGatewayError(error.type)) : null;
+  return code
     ? `The gateway answered HTTP ${status} (${code})`
     : `The gateway answered HTTP ${status}`;
 }
 
-/** The model's text, or a refusal when the answer is anything but plain text. */
+function readMessageText(item: Record<string, unknown>, parts: string[]): void {
+  // An unfinished message may hold part of the answer; only a finished assistant one counts.
+  if (item.role !== "assistant") throw failed("The gateway's message is not from the assistant");
+  if (item.status !== "completed") throw failed("The gateway's message is not completed");
+  const content = item.content;
+  if (!Array.isArray(content)) throw failed("The gateway's message has no content");
+  for (const value of content) {
+    const part = record(value);
+    if (part?.type === "output_text" && typeof part.text === "string") {
+      parts.push(part.text);
+      continue;
+    }
+    if (part?.type === "refusal") throw failed("The model refused to answer");
+    throw failed("The gateway's message holds a part that is not text");
+  }
+}
+
+/**
+ * The model's text from a completed response, or a refusal for anything else. Values the gateway
+ * chose (statuses, item and part types) are not echoed, except known tool call types.
+ */
 export function readResponsesText(document: unknown): string {
   const body = record(document);
   const output = body?.output;
   if (!body || !Array.isArray(output))
     throw failed("The gateway did not answer in the Responses format");
-  if (body.status !== undefined && body.status !== "completed")
-    throw failed(`The gateway's response is ${wireToken(body.status)}, not completed`);
+  if (body.status !== "completed") throw failed("The gateway's response is not completed");
   const parts: string[] = [];
   for (const entry of output) {
     const item = record(entry);
     const type = item?.type;
     // Reasoning summaries are not part of the answer.
     if (type === "reasoning") continue;
-    if (type !== "message")
-      throw failed(
-        `The model answered with a ${wireToken(type)} item instead of text; Paseo ran nothing`,
-      );
-    const content = item?.content;
-    if (!Array.isArray(content)) throw failed("The gateway's message has no content");
-    for (const value of content) {
-      const part = record(value);
-      if (part?.type === "output_text" && typeof part.text === "string") {
-        parts.push(part.text);
-        continue;
-      }
-      if (part?.type === "refusal") throw failed("The model refused to answer");
-      throw failed(`The gateway's message holds a ${wireToken(part?.type)} part, not text`);
+    if (item && type === "message") {
+      readMessageText(item, parts);
+      continue;
     }
+    if (typeof type === "string" && TOOL_ITEM_TYPES.has(type))
+      throw failed(`The model answered with a ${type} item instead of text; Paseo ran nothing`);
+    throw failed("The model answered with an item that is not text; Paseo ran nothing");
   }
   return parts.join("");
 }

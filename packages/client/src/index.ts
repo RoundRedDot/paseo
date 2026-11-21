@@ -12,11 +12,13 @@ import type { DaemonClientConfig, ProviderTextGenerateInput } from "./daemon-cli
 import type {
   ProviderTextCapabilityGetPayload,
   ProviderTextGeneratePayload,
+  ProviderTextListPayload,
 } from "@getpaseo/protocol/provider-text-generation";
 export type { ProviderTextGenerateInput } from "./daemon-client.js";
 export type {
   ProviderTextCapabilityGetPayload,
   ProviderTextGeneratePayload,
+  ProviderTextListPayload,
   ProviderTextGenerationError,
   ProviderTextGenerationErrorCode,
   ProviderTextModel,
@@ -578,6 +580,11 @@ export interface PaseoProviderActions {
   listUsage(options?: PaseoProviderUsageOptions): Promise<PaseoProviderUsageResult>;
   subscribe(handler: (update: PaseoProviderSnapshotUpdate) => void): () => void;
   /**
+   * The providers with a one-shot route on this host, read from its registry without checking or
+   * starting any provider runtime. Use it instead of `snapshot` to list them.
+   */
+  listTextProviders(options?: { requestId?: string }): Promise<ProviderTextListPayload>;
+  /**
    * Whether `provider` can run one-shot text generation on this host, checked against the
    * provider runtime without sending a prompt. Show `limitations` to the user.
    */
@@ -917,6 +924,7 @@ export function createPaseoApi(
         ),
       refresh: (options) => daemonClient.refreshProvidersSnapshot(options),
       diagnostic: (provider, options) => daemonClient.getProviderDiagnostic(provider, options),
+      listTextProviders: (options) => daemonClient.listProviderTextProviders(options),
       getTextCapability: (provider, options) =>
         daemonClient.getProviderTextCapability(provider, options),
       generateText: (input) => daemonClient.generateProviderText(input),

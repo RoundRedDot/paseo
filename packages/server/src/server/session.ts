@@ -1159,6 +1159,11 @@ export class Session {
     this.providerTextSession = new ProviderTextSession({
       emit: (msg) => this.emit(msg),
       getTextGeneration: (provider) => this.agentManager.getTextGeneration(provider),
+      listRegisteredProviders: () =>
+        providerSnapshotManager.listRegisteredProviderIds().map((provider) => ({
+          provider,
+          label: providerSnapshotManager.getProviderLabel(provider),
+        })),
       serverId,
       logger: this.sessionLogger,
     });
@@ -3597,6 +3602,9 @@ export class Session {
         return this.providerCatalogSession.handleListProviderFeaturesRequest(msg);
       case "provider.controls.list.request":
         return this.providerCatalogSession.handleProviderControlsListRequest(msg);
+      case "provider.text.list.request":
+        this.providerTextSession.handleList(msg);
+        return Promise.resolve();
       case "provider.text.get_capability.request":
         return this.providerTextSession.handleGetCapability(msg);
       case "provider.text.generate.request":
