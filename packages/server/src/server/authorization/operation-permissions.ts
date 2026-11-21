@@ -124,6 +124,7 @@ const INBOUND_PERMISSION = {
   list_commands_request: "daemon.read",
   list_provider_features_request: "daemon.read",
   "provider.controls.list.request": "daemon.read",
+  "provider.text.list.request": "daemon.read",
   "provider.text.get_capability.request": "daemon.read",
   // Sends a prompt to a model on the user's provider account, like prompting an agent.
   "provider.text.generate.request": "workspace.write",
@@ -385,6 +386,7 @@ const OUTBOUND_PERMISSION = {
   list_commands_response: "daemon.read",
   list_provider_features_response: "daemon.read",
   "provider.controls.list.response": "daemon.read",
+  "provider.text.list.response": "daemon.read",
   "provider.text.get_capability.response": "daemon.read",
   "provider.text.generate.response": "workspace.write",
   "provider.text.cancel.response": "workspace.write",

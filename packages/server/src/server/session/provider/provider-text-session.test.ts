@@ -28,6 +28,7 @@ function setup(
     status?: "ok" | "disabled" | "unavailable" | "unsupported";
     serverId?: string;
     generate?: AgentTextGeneration["generate"];
+    routed?: (provider: string) => boolean;
   } = {},
 ) {
   const recording: Recording = { emitted: [], requests: [], logs: [] };
@@ -49,10 +50,16 @@ function setup(
   } as unknown as pino.Logger;
   const session = new ProviderTextSession({
     emit: (msg) => recording.emitted.push(msg),
-    getTextGeneration: () =>
-      (options.status ?? "ok") === "ok"
+    getTextGeneration: (provider) => {
+      if (options.routed && !options.routed(provider)) return { status: "unsupported" };
+      return (options.status ?? "ok") === "ok"
         ? { status: "ok", textGeneration }
-        : { status: options.status as "disabled" | "unavailable" | "unsupported" },
+        : { status: options.status as "disabled" | "unavailable" | "unsupported" };
+    },
+    listRegisteredProviders: () => [
+      { provider: "newapi", label: "NewAPI" },
+      { provider: "claude", label: "Claude" },
+    ],
     serverId: "serverId" in options ? options.serverId : "srv-a",
     logger,
   });
@@ -78,6 +85,80 @@ function lastGenerateResult(recording: Recording) {
 }
 
 describe("ProviderTextSession", () => {
+  test("lists only providers with a route, from the registry", () => {
+    const { session, recording } = setup({ routed: (provider) => provider === "newapi" });
+    session.handleList({ type: "provider.text.list.request", requestId: "list-1" });
+    expect(recording.emitted).toEqual([
+      {
+        type: "provider.text.list.response",
+        payload: {
+          requestId: "list-1",
+          serverId: "srv-a",
+          providers: [{ provider: "newapi", label: "NewAPI" }],
+        },
+      },
+    ]);
+  });
+
+  test("refuses a prompt over the byte limit before anything runs, counting UTF-8 bytes", async () => {
+    const { session, recording } = setup();
+    // 349,526 characters of a 3-byte character: under a million characters, over a MiB.
+    const prompt = "译".repeat(349_526);
+    expect(prompt.length).toBeLessThan(1024 * 1024);
+    await session.handleGenerate(generateRequest({ prompt }), ORIGIN);
+    expect(lastGenerateResult(recording).result).toEqual({
+      status: "error",
+      error: {
+        code: "invalid_request",
+        message: "The prompt is larger than 1048576 bytes",
+        promptSent: "no",
+      },
+    });
+    expect(recording.requests).toHaveLength(0);
+    await session.handleGenerate(
+      generateRequest({ requestId: "fits", prompt: "译".repeat(349_525) }),
+      ORIGIN,
+    );
+    expect(recording.requests).toHaveLength(1);
+  });
+
+  test("refuses a fifth generation on one socket before anything runs, and frees the slot when one ends", async () => {
+    const releases: Array<() => void> = [];
+    const { session, recording } = setup({
+      generate: (request) =>
+        new Promise((resolve) => {
+          releases.push(() =>
+            resolve({
+              text: "x",
+              model: request.model,
+              thinkingOptionId: null,
+              runtimeVersion: "t",
+            }),
+          );
+        }),
+    });
+    const origin = makeOrigin();
+    const running = [1, 2, 3, 4].map((n) =>
+      session.handleGenerate(generateRequest({ requestId: `r${n}` }), origin),
+    );
+    await session.handleGenerate(generateRequest({ requestId: "r5" }), origin);
+    expect(lastGenerateResult(recording)).toMatchObject({
+      requestId: "r5",
+      result: { status: "error", error: { code: "invalid_request", promptSent: "no" } },
+    });
+    expect(recording.requests).toHaveLength(4);
+    // Another socket has its own allowance.
+    const other = makeOrigin();
+    void session.handleGenerate(generateRequest({ requestId: "other" }), other);
+    expect(recording.requests).toHaveLength(5);
+    releases[0]!();
+    await running[0];
+    void session.handleGenerate(generateRequest({ requestId: "r6" }), origin);
+    expect(recording.requests).toHaveLength(6);
+    for (const release of releases.slice(1)) release();
+    await Promise.all(running);
+  });
+
   test("returns the generated text with the answering host", async () => {
     const { session, recording } = setup();
     await session.handleGenerate(generateRequest({ thinkingOptionId: "high" }), ORIGIN);

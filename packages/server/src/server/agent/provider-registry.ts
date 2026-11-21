@@ -828,6 +828,13 @@ function buildResolvedBuiltinProviders(
   return resolvedProviders;
 }
 
+/** One entry per model id, a later entry overriding an earlier one, as the provider catalog merges them. */
+function mergeProfileModelsById(models: ProviderProfileModel[]): ProviderProfileModel[] {
+  const merged = new Map<string, ProviderProfileModel>();
+  for (const model of models) merged.set(model.id, { ...merged.get(model.id), ...model });
+  return [...merged.values()];
+}
+
 /**
  * A Codex custom provider's one-shot route, only when the hand-edited credentials section names
  * it. Its gateway, models and thinking options are checked against that entry per request.
@@ -941,7 +948,10 @@ function addDerivedProviders(
       baseProviderId,
       credential: options.textGenerationCredentials?.[providerId],
       runtimeSettings: mergedRuntimeSettings,
-      models: [...(override.models ?? []), ...(override.additionalModels ?? [])],
+      models: mergeProfileModelsById([
+        ...(override.models ?? []),
+        ...(override.additionalModels ?? []),
+      ]),
       deps: options.textGenerationDeps,
     });
 

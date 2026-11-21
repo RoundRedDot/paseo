@@ -2,6 +2,7 @@ import type pino from "pino";
 import type {
   ProviderTextCancelRequestMessage,
   ProviderTextCapabilityGetRequestMessage,
+  ProviderTextListRequestMessage,
   ProviderTextGenerateRequestMessage,
   ProviderTextGenerationError,
   SessionOutboundMessage,
@@ -12,6 +13,13 @@ import { TextGenerationError, type AgentTextGeneration } from "../../agent/text-
 export const PROVIDER_TEXT_DEFAULT_TIMEOUT_MS = 60_000;
 export const PROVIDER_TEXT_MAX_TIMEOUT_MS = 300_000;
 const CAPABILITY_TIMEOUT_MS = 30_000;
+/**
+ * The prompt's UTF-8 size, checked before anything runs. The WebSocket frame limit is far
+ * larger; this keeps one request's copies (body, credential-bearing POST) bounded.
+ */
+export const PROVIDER_TEXT_MAX_PROMPT_BYTES = 1024 * 1024;
+/** Generations one socket may have running at once; more are refused before anything runs. */
+export const PROVIDER_TEXT_MAX_IN_FLIGHT_PER_SOURCE = 4;
 
 /** Who sent a request: its socket, and the signal that aborts when that socket detaches. */
 export interface ProviderTextRequestSource {
@@ -22,6 +30,8 @@ export interface ProviderTextRequestSource {
 export interface ProviderTextSessionOptions {
   emit(msg: SessionOutboundMessage): void;
   getTextGeneration: AgentManager["getTextGeneration"];
+  /** Every registered provider and its label, from the registry alone: nothing is checked or warmed. */
+  listRegisteredProviders(): Array<{ provider: string; label: string }>;
   /** This daemon's server ID; a generate request naming another is refused before anything runs. */
   serverId: string | undefined;
   logger: pino.Logger;
@@ -39,6 +49,17 @@ export class ProviderTextSession {
   private readonly lifetime = new AbortController();
 
   constructor(private readonly options: ProviderTextSessionOptions) {}
+
+  /** The enabled providers with a one-shot route. No runtime is checked, started or warmed. */
+  handleList(msg: ProviderTextListRequestMessage): void {
+    const providers = this.options
+      .listRegisteredProviders()
+      .filter((entry) => this.options.getTextGeneration(entry.provider).status === "ok");
+    this.options.emit({
+      type: "provider.text.list.response",
+      payload: { requestId: msg.requestId, serverId: this.options.serverId ?? null, providers },
+    });
+  }
 
   async handleGetCapability(msg: ProviderTextCapabilityGetRequestMessage): Promise<void> {
     const base = {
@@ -101,10 +122,26 @@ export class ProviderTextSession {
       });
       return;
     }
+    if (Buffer.byteLength(msg.prompt, "utf8") > PROVIDER_TEXT_MAX_PROMPT_BYTES) {
+      fail({
+        code: "invalid_request",
+        message: `The prompt is larger than ${PROVIDER_TEXT_MAX_PROMPT_BYTES} bytes`,
+        promptSent: "no",
+      });
+      return;
+    }
     const key = origin.source ?? this.anonymousSource;
     const owned = this.inFlight.get(key) ?? new Map<string, AbortController>();
     if (owned.has(msg.requestId)) {
       fail({ code: "invalid_request", message: "Duplicate request ID", promptSent: "no" });
+      return;
+    }
+    if (owned.size >= PROVIDER_TEXT_MAX_IN_FLIGHT_PER_SOURCE) {
+      fail({
+        code: "invalid_request",
+        message: `This connection already has ${PROVIDER_TEXT_MAX_IN_FLIGHT_PER_SOURCE} one-shot text generations running`,
+        promptSent: "no",
+      });
       return;
     }
     const resolved = this.resolve(msg.provider);

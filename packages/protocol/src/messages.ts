@@ -56,6 +56,8 @@ import {
   ProviderTextCapabilityGetResponseMessageSchema,
   ProviderTextGenerateRequestMessageSchema,
   ProviderTextGenerateResponseMessageSchema,
+  ProviderTextListRequestMessageSchema,
+  ProviderTextListResponseMessageSchema,
 } from "./provider-text-generation.js";
 export * from "./provider-text-generation.js";
 import { ProviderPaseoToolsPolicySchema } from "./provider-config.js";
@@ -3673,6 +3675,7 @@ export const SessionInboundMessageSchema = z.discriminatedUnion("type", [
   ListProviderModesRequestMessageSchema,
   ListProviderFeaturesRequestMessageSchema,
   ProviderControlsListRequestMessageSchema,
+  ProviderTextListRequestMessageSchema,
   ProviderTextCapabilityGetRequestMessageSchema,
   ProviderTextGenerateRequestMessageSchema,
   ProviderTextCancelRequestMessageSchema,
@@ -7880,6 +7883,7 @@ export const SessionOutboundMessageSchema = z.discriminatedUnion("type", [
   ListProviderModesResponseMessageSchema,
   ListProviderFeaturesResponseMessageSchema,
   ProviderControlsListResponseMessageSchema,
+  ProviderTextListResponseMessageSchema,
   ProviderTextCapabilityGetResponseMessageSchema,
   ProviderTextGenerateResponseMessageSchema,
   ProviderTextCancelResponseMessageSchema,

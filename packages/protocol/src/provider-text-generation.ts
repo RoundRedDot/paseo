@@ -58,6 +58,15 @@ export const ProviderTextModelSchema = z.object({
   thinkingOptionIds: z.array(z.string()),
 });
 
+/**
+ * The providers that have a one-shot route on this daemon, read from its registry without
+ * checking, starting or warming any provider runtime. Ask each one's capability next.
+ */
+export const ProviderTextListRequestMessageSchema = z.object({
+  type: z.literal("provider.text.list.request"),
+  requestId: z.string(),
+});
+
 export const ProviderTextCapabilityGetRequestMessageSchema = z.object({
   type: z.literal("provider.text.get_capability.request"),
   requestId: z.string(),
@@ -82,6 +91,15 @@ export const ProviderTextCancelRequestMessageSchema = z.object({
   requestId: z.string(),
   /** The `requestId` of the generate request to cancel. */
   targetRequestId: z.string(),
+});
+
+export const ProviderTextListResponseMessageSchema = z.object({
+  type: z.literal("provider.text.list.response"),
+  payload: z.object({
+    requestId: z.string(),
+    serverId: z.string().nullable(),
+    providers: z.array(z.object({ provider: AgentProviderSchema, label: z.string() })),
+  }),
 });
 
 export const ProviderTextCapabilityGetResponseMessageSchema = z.object({
@@ -144,6 +162,7 @@ export type ProviderTextCapabilityGetRequestMessage = z.infer<
 export type ProviderTextGenerateRequestMessage = z.infer<
   typeof ProviderTextGenerateRequestMessageSchema
 >;
+export type ProviderTextListRequestMessage = z.infer<typeof ProviderTextListRequestMessageSchema>;
 export type ProviderTextCancelRequestMessage = z.infer<
   typeof ProviderTextCancelRequestMessageSchema
 >;
@@ -155,4 +174,7 @@ export type ProviderTextGeneratePayload = z.infer<
 >["payload"];
 export type ProviderTextCancelPayload = z.infer<
   typeof ProviderTextCancelResponseMessageSchema
+>["payload"];
+export type ProviderTextListPayload = z.infer<
+  typeof ProviderTextListResponseMessageSchema
 >["payload"];

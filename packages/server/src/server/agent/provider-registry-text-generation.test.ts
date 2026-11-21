@@ -65,6 +65,38 @@ describe("one-shot text generation in the provider registry", () => {
     expect(client("newapi").client.textGeneration).toBeUndefined();
   });
 
+  test("merges a model listed again in additionalModels as the provider catalog does", async () => {
+    const registry = buildProviderRegistry(logger, {
+      providerOverrides: {
+        newapi: {
+          ...overrides.newapi,
+          models: [
+            {
+              id: "deepseek-flash",
+              label: "DeepSeek Flash",
+              thinkingOptions: [{ id: "low", label: "Low" }],
+            },
+          ],
+          additionalModels: [
+            {
+              id: "deepseek-flash",
+              label: "DeepSeek Flash",
+              thinkingOptions: [{ id: "high", label: "High" }],
+            },
+          ],
+        },
+      },
+      textGenerationCredentials: credentials,
+      textGenerationDeps: { readSecret: vi.fn(async () => "sk-synthetic"), platform: "darwin" },
+    });
+    const capability = await registry.newapi!.createClient(logger).textGeneration!.getCapability({
+      signal: AbortSignal.timeout(1000),
+    });
+    expect(capability.models).toEqual([
+      { id: "deepseek-flash", label: "DeepSeek Flash", thinkingOptionIds: ["high"] },
+    ]);
+  });
+
   test.each([
     // An API key in the provider's env is never used: only the Keychain entry enables the route.
     { provider: "plain-codex", why: "has a key in env but no credentials entry" },
