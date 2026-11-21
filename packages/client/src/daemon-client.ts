@@ -6340,8 +6340,12 @@ export class DaemonClient {
   async listProviderTextProviders(options?: {
     requestId?: string;
   }): Promise<ProviderTextListPayload> {
+    // Without a connected host that has identified itself there is nothing to judge: a lost or
+    // unfinished connection is a connection error, never an unsupported host.
+    if (this.connectionState.status !== "connected" || !this.lastServerInfoMessage)
+      throw this.unavailableError();
     // COMPAT(providerTextList): added in v0.17.0, remove gate after 2027-11-22.
-    if (this.lastServerInfoMessage?.features?.providerTextList !== true)
+    if (this.lastServerInfoMessage.features?.providerTextList !== true)
       throw new ProviderTextListUnsupportedError();
     return this.sendNamespacedCorrelatedSessionRequest<"provider.text.list.response">({
       requestId: options?.requestId,

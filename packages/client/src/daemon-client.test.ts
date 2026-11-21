@@ -10436,6 +10436,22 @@ describe("one-shot provider text generation", () => {
     expect(error?.code).not.toBe("PROVIDER_TEXT_LIST_UNSUPPORTED");
   });
 
+  test("a list call after the connection dropped is a connection error, not an unsupported host", async () => {
+    // Regression: the drop clears the host's server info, so the call read as a host without
+    // providerTextList.
+    const { transport, client } = await connectWith({
+      providerTextGeneration: true,
+      providerTextList: true,
+    });
+    transport.triggerClose({ code: 1006, reason: "Connection lost" });
+    const error = await client.listProviderTextProviders().then(
+      () => null,
+      (reason: unknown) => reason as { code?: unknown },
+    );
+    expect(error?.code).toBe("DAEMON_CONNECTION_LOST");
+    expect(sentRequests(transport).map(messageType)).toEqual([]);
+  });
+
   test("sends the provider list to a host that reports providerTextList", async () => {
     const { transport, client } = await connectWith({
       providerTextGeneration: true,
