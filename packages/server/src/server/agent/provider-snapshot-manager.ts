@@ -28,6 +28,8 @@ import type { ManagedAgent } from "./agent-manager.js";
 import type { WorkspaceGitService } from "../workspace-git-service.js";
 import type { ManagedProcessRegistry } from "../managed-processes/managed-processes.js";
 import type { OpenCodeBridge } from "./providers/opencode/bridge.js";
+import type { ResponsesTextGenerationDeps } from "./providers/codex/responses-text-generation.js";
+import type { TextGenerationCredentials } from "../text-generation-credentials.js";
 import type {
   AgentProviderRuntimeSettingsMap,
   ProviderOverride,
@@ -135,6 +137,9 @@ export interface ProviderSnapshotManagerOptions {
   openCodeBridge?: OpenCodeBridge;
   /** Refreshes enabled providers in the background; omitted, catalogues refresh only on request. */
   backgroundRefresh?: ProviderBackgroundRefreshOptions;
+  /** Fixed at startup from the hand-edited config section; client writes cannot change it. */
+  textGenerationCredentials?: TextGenerationCredentials;
+  textGenerationDeps?: ResponsesTextGenerationDeps;
 }
 
 export interface ProviderBackgroundRefreshOptions {
@@ -280,6 +285,8 @@ export class ProviderSnapshotManager {
   private readonly workspaceGitService?: Pick<WorkspaceGitService, "resolveRepoRoot">;
   private readonly managedProcesses?: ManagedProcessRegistry;
   private readonly openCodeBridge?: OpenCodeBridge;
+  private readonly textGenerationCredentials?: TextGenerationCredentials;
+  private readonly textGenerationDeps?: ResponsesTextGenerationDeps;
   private readonly isDev: boolean;
   private readonly extraClients: Partial<Record<AgentProvider, AgentClient>>;
   private runtimeSettings: AgentProviderRuntimeSettingsMap | undefined;
@@ -302,6 +309,8 @@ export class ProviderSnapshotManager {
     this.workspaceGitService = options.workspaceGitService;
     this.managedProcesses = options.managedProcesses;
     this.openCodeBridge = options.openCodeBridge;
+    this.textGenerationCredentials = options.textGenerationCredentials;
+    this.textGenerationDeps = options.textGenerationDeps;
     this.isDev = options.isDev === true;
     this.extraClients = options.extraClients ?? {};
     this.runtimeSettings = options.runtimeSettings;
@@ -891,6 +900,8 @@ export class ProviderSnapshotManager {
       workspaceGitService: this.workspaceGitService,
       managedProcesses: this.managedProcesses,
       openCodeBridge: this.openCodeBridge,
+      textGenerationCredentials: this.textGenerationCredentials,
+      textGenerationDeps: this.textGenerationDeps,
       isDev: this.isDev,
     });
 

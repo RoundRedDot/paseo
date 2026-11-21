@@ -883,6 +883,36 @@
         }
       },
       "additionalProperties": false
+    },
+    "textGenerationCredentials": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "const": "macos-keychain"
+          },
+          "service": {
+            "type": "string",
+            "pattern": "^paseo\\.text-generation\\.[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+          },
+          "account": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "origin": {
+            "type": "string"
+          }
+        },
+        "required": ["source", "service", "account", "origin"],
+        "additionalProperties": false
+      }
     }
   },
   "additionalProperties": false,

@@ -649,6 +649,8 @@ export function resolveConfigFromPersisted(
     voiceLlmProviderExplicit: voiceLlm.providerExplicit,
     voiceLlmModel: voiceLlm.model,
     agentProviderSettings: extractAgentProviderSettings(settings.providerOverrides),
+    // Startup only, and never part of the mutable config clients read or write.
+    textGenerationCredentials: persisted.textGenerationCredentials,
     log: resolveLogConfigFromEnv(env, persisted),
     configReload: {
       env: { ...env },

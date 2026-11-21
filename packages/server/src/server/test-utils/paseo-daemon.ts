@@ -7,6 +7,7 @@ import pino from "pino";
 import {
   createPaseoDaemon,
   type PaseoDaemonConfig,
+  type PaseoDaemonDependencies,
   type PaseoOpenAIConfig,
   type PaseoSpeechConfig,
 } from "../bootstrap.js";
@@ -35,6 +36,9 @@ interface TestPaseoDaemonOptions {
   relayConfigCapability?: boolean;
   agentClients?: Partial<Record<AgentProvider, AgentClient>>;
   providerOverrides?: PaseoDaemonConfig["providerOverrides"];
+  textGenerationCredentials?: PaseoDaemonConfig["textGenerationCredentials"];
+  /** Fake Keychain reads and gateway requests for one-shot text generation. */
+  textGeneration?: PaseoDaemonDependencies["textGeneration"];
   paseoHomeRoot?: string;
   staticDir?: string;
   cleanup?: boolean;
@@ -112,6 +116,7 @@ export async function createTestPaseoDaemon(
     const daemon = await createPaseoDaemon(config, logger, {
       builtinPlugins: options.builtinPlugins ?? new BuiltinPluginLoader(undefined, []),
       lazyTerminalWorker: options.lazyTerminalWorker ?? true,
+      textGeneration: options.textGeneration,
       serverFeatureOverrides: {
         daemonStatusRpc: options.daemonStatusRpcCapability,
         relayConfig: options.relayConfigCapability,
@@ -202,6 +207,7 @@ async function prepareTestDaemonConfig(
     isDev: options.isDev,
     agentClients: options.agentClients ?? createTestAgentClients(),
     providerOverrides: options.providerOverrides,
+    textGenerationCredentials: options.textGenerationCredentials,
     agentStoragePath: path.join(paseoHome, "agents"),
     relayEnabled: options.relayEnabled ?? false,
     relayEndpoint: options.relayEndpoint ?? "relay.paseo.sh:443",

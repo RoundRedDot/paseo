@@ -34,6 +34,12 @@ import type {
   ProviderRuntimeSettings,
 } from "./provider-launch-config.js";
 import { ClaudeAgentClient } from "./providers/claude/agent.js";
+import {
+  createResponsesTextGeneration,
+  type ResponsesTextGenerationDeps,
+} from "./providers/codex/responses-text-generation.js";
+import type { TextGenerationCredentials } from "../text-generation-credentials.js";
+import type { AgentTextGeneration } from "./text-generation.js";
 import { CodexAppServerAgentClient } from "./providers/codex-app-server-agent.js";
 import { CopilotACPAgentClient } from "./providers/copilot-acp-agent.js";
 import { CursorACPAgentClient } from "./providers/cursor-acp-agent.js";
@@ -113,6 +119,10 @@ export interface BuildProviderRegistryOptions {
   isDev?: boolean;
   ompRuntime?: OmpRuntime;
   openCodeBridge?: OpenCodeBridge;
+  /** The hand-edited `textGenerationCredentials` section; never client-writable. */
+  textGenerationCredentials?: TextGenerationCredentials;
+  /** Test seams for the credential read and the gateway request. */
+  textGenerationDeps?: ResponsesTextGenerationDeps;
 }
 
 interface ProviderClientFactoryOptions extends Pick<
@@ -125,6 +135,7 @@ interface ProviderClientFactoryOptions extends Pick<
     label: string;
     extends: string;
   };
+  textGeneration?: AgentTextGeneration;
 }
 
 type ProviderClientFactory = (
@@ -197,6 +208,7 @@ const PROVIDER_CLIENT_FACTORIES: Record<string, ProviderClientFactory> = {
     new CodexAppServerAgentClient(logger, runtimeSettings, {
       workspaceGitService: options?.workspaceGitService,
       customProvider: options?.customProvider,
+      textGeneration: options?.textGeneration,
     }),
   copilot: (logger, runtimeSettings) =>
     new CopilotACPAgentClient({
@@ -816,10 +828,33 @@ function buildResolvedBuiltinProviders(
   return resolvedProviders;
 }
 
+/**
+ * A Codex custom provider's one-shot route, only when the hand-edited credentials section names
+ * it. Its gateway, models and thinking options are checked against that entry per request.
+ */
+function codexTextGeneration(input: {
+  baseProviderId: string;
+  credential: TextGenerationCredentials[string] | undefined;
+  runtimeSettings: ProviderRuntimeSettings | undefined;
+  models: ProviderProfileModel[];
+  deps: ResponsesTextGenerationDeps | undefined;
+}): AgentTextGeneration | undefined {
+  if (input.baseProviderId !== "codex" || !input.credential) return undefined;
+  return createResponsesTextGeneration({
+    baseUrl: input.runtimeSettings?.env?.OPENAI_BASE_URL,
+    models: input.models,
+    credential: input.credential,
+    deps: input.deps,
+  });
+}
+
 function addDerivedProviders(
   resolvedProviders: Map<string, ResolvedProvider>,
   providerOverrides: Record<string, ProviderOverride>,
-  options: Pick<BuildProviderRegistryOptions, "managedProcesses" | "openCodeBridge">,
+  options: Pick<
+    BuildProviderRegistryOptions,
+    "managedProcesses" | "openCodeBridge" | "textGenerationCredentials" | "textGenerationDeps"
+  >,
 ): void {
   for (const [providerId, override] of Object.entries(providerOverrides)) {
     if (resolvedProviders.has(providerId) || BUILTIN_PROVIDER_IDS.includes(providerId)) {
@@ -902,6 +937,13 @@ function addDerivedProviders(
     const baseDefinition = baseProvider.definition;
     const baseFactory = getProviderClientFactory(baseProviderId);
     const providerOptions = configuredProviderOptions(override) ?? baseProvider.providerOptions;
+    const textGeneration = codexTextGeneration({
+      baseProviderId,
+      credential: options.textGenerationCredentials?.[providerId],
+      runtimeSettings: mergedRuntimeSettings,
+      models: [...(override.models ?? []), ...(override.additionalModels ?? [])],
+      deps: options.textGenerationDeps,
+    });
 
     resolvedProviders.set(providerId, {
       definition: createDerivedDefinition(providerId, baseDefinition, override),
@@ -921,6 +963,7 @@ function addDerivedProviders(
             label: override.label ?? providerId,
             extends: baseProviderId,
           },
+          textGeneration,
         }),
       contract: baseProvider.contract,
     });
@@ -968,10 +1011,7 @@ export function buildProviderRegistry(
       }),
     );
   }
-  addDerivedProviders(resolvedProviders, providerOverrides, {
-    managedProcesses: options?.managedProcesses,
-    openCodeBridge: options?.openCodeBridge,
-  });
+  addDerivedProviders(resolvedProviders, providerOverrides, options ?? {});
 
   return Object.fromEntries(
     [...resolvedProviders.entries()].map(([provider, resolved]) => [
