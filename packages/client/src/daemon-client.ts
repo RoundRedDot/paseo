@@ -1411,6 +1411,19 @@ export function supportsUsageReports(features: ServerInfoStatusPayload["features
   return features?.usageSources === true || features?.providerUsageList === true;
 }
 
+/**
+ * The connected host does not report `features.providerTextList`, so the provider list request
+ * was not sent. Callers tell it apart from a lost connection by `code`, not by the message.
+ */
+export class ProviderTextListUnsupportedError extends Error {
+  readonly code = "PROVIDER_TEXT_LIST_UNSUPPORTED";
+
+  constructor() {
+    super("Update the host to list one-shot text generation providers.");
+    this.name = "ProviderTextListUnsupportedError";
+  }
+}
+
 export class TerminalKeepUnsupportedError extends Error {
   readonly code = "TERMINALS_KEEP_UNSUPPORTED";
   // Own fields reach the CLI's JSON error output, which desktop reads.
@@ -6329,7 +6342,7 @@ export class DaemonClient {
   }): Promise<ProviderTextListPayload> {
     // COMPAT(providerTextList): added in v0.17.0, remove gate after 2027-11-22.
     if (this.lastServerInfoMessage?.features?.providerTextList !== true)
-      throw new Error("Update the host to list one-shot text generation providers.");
+      throw new ProviderTextListUnsupportedError();
     return this.sendNamespacedCorrelatedSessionRequest<"provider.text.list.response">({
       requestId: options?.requestId,
       message: { type: "provider.text.list.request" },

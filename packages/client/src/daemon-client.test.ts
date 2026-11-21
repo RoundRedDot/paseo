@@ -10403,7 +10403,10 @@ describe("one-shot provider text generation", () => {
     // Regression: the list request was gated on providerTextGeneration, which hosts without
     // provider.text.list already report, so a new client sent them a request they do not know.
     const { transport, client } = await connectWith({ providerTextGeneration: true });
-    await expect(client.listProviderTextProviders()).rejects.toThrow("Update the host");
+    // A stable code, so callers tell it apart from a lost connection without reading the message.
+    await expect(client.listProviderTextProviders()).rejects.toMatchObject({
+      code: "PROVIDER_TEXT_LIST_UNSUPPORTED",
+    });
     expect(sentRequests(transport).map(messageType)).toEqual([]);
     const capability = client.getProviderTextCapability("opencode");
     const pending = client.generateProviderText(input);
@@ -10416,6 +10419,21 @@ describe("one-shot provider text generation", () => {
     answer(transport, sent.requestId, "srv_test_1");
     await expect(pending).resolves.toMatchObject({ result: { status: "ok" } });
     capability.catch(() => undefined);
+  });
+
+  test("a lost connection to a host that lists providers is not reported as an unsupported host", async () => {
+    const { transport, client } = await connectWith({
+      providerTextGeneration: true,
+      providerTextList: true,
+    });
+    const pending = client.listProviderTextProviders();
+    transport.triggerClose({ code: 1006, reason: "Connection lost" });
+    const error = await pending.then(
+      () => null,
+      (reason: unknown) => reason as { code?: unknown },
+    );
+    expect(error).not.toBeNull();
+    expect(error?.code).not.toBe("PROVIDER_TEXT_LIST_UNSUPPORTED");
   });
 
   test("sends the provider list to a host that reports providerTextList", async () => {
