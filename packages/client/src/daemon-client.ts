@@ -6357,12 +6357,15 @@ export class DaemonClient {
 
   /**
    * The providers with a one-shot route on this host, from its registry: no provider runtime is
-   * checked, started or warmed. Requires `features.providerTextGeneration`.
+   * checked, started or warmed. Requires `features.providerTextList`; a host that only reports
+   * `providerTextGeneration` predates the request and is refused before anything is sent.
    */
   async listProviderTextProviders(options?: {
     requestId?: string;
   }): Promise<ProviderTextListPayload> {
-    this.requireProviderTextGeneration();
+    // COMPAT(providerTextList): added in v0.17.0, remove gate after 2027-11-22.
+    if (this.lastServerInfoMessage?.features?.providerTextList !== true)
+      throw new Error("Update the host to list one-shot text generation providers.");
     return this.sendNamespacedCorrelatedSessionRequest<"provider.text.list.response">({
       requestId: options?.requestId,
       message: { type: "provider.text.list.request" },

@@ -162,15 +162,29 @@ describe("Responses one-shot text generation", () => {
     await expect(
       generation().generate({ model: "synthetic-plain", prompt: "x", signal: signal() }),
     ).resolves.toMatchObject({ text: "ok" });
-    for (const part of [{ type: "refusal", refusal: "no" }, { type: "output_image" }]) {
+    // A finished assistant message with text, then the part under test: only that part can fail it.
+    for (const [part, message] of [
+      [{ type: "refusal", refusal: "no" }, "The model refused to answer"],
+      [{ type: "output_image" }, "The gateway's message holds a part that is not text"],
+    ] as const) {
       gateway.answer({
-        body: { status: "completed", output: [{ type: "message", content: [part] }] },
+        body: {
+          status: "completed",
+          output: [
+            {
+              type: "message",
+              role: "assistant",
+              status: "completed",
+              content: [{ type: "output_text", text: "partial" }, part],
+            },
+          ],
+        },
       });
       expect(
         await failure(
           generation().generate({ model: "synthetic-plain", prompt: "x", signal: signal() }),
         ),
-      ).toMatchObject({ code: "generation_failed", promptSent: "possibly" });
+      ).toMatchObject({ code: "generation_failed", promptSent: "possibly", message });
     }
   });
 
@@ -197,7 +211,16 @@ describe("Responses one-shot text generation", () => {
   test.each([
     {
       name: "no top-level status",
-      body: { output: textAnswer("partial").body.output },
+      body: {
+        output: [
+          {
+            type: "message",
+            role: "assistant",
+            status: "completed",
+            content: [{ type: "output_text", text: "partial" }],
+          },
+        ],
+      },
     },
     {
       name: "an unfinished message",

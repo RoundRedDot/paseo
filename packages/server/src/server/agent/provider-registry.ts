@@ -828,10 +828,18 @@ function buildResolvedBuiltinProviders(
   return resolvedProviders;
 }
 
-/** One entry per model id, a later entry overriding an earlier one, as the provider catalog merges them. */
-function mergeProfileModelsById(models: ProviderProfileModel[]): ProviderProfileModel[] {
+/**
+ * One entry per model id, as the provider catalog builds it: within `models` the first entry for
+ * an id is kept (the snapshot drops repeated ids), and each `additionalModels` entry is merged
+ * over the model it names.
+ */
+function mergeTextGenerationModels(
+  models: ProviderProfileModel[],
+  additions: ProviderProfileModel[],
+): ProviderProfileModel[] {
   const merged = new Map<string, ProviderProfileModel>();
-  for (const model of models) merged.set(model.id, { ...merged.get(model.id), ...model });
+  for (const model of models) if (!merged.has(model.id)) merged.set(model.id, model);
+  for (const model of additions) merged.set(model.id, { ...merged.get(model.id), ...model });
   return [...merged.values()];
 }
 
@@ -948,10 +956,7 @@ function addDerivedProviders(
       baseProviderId,
       credential: options.textGenerationCredentials?.[providerId],
       runtimeSettings: mergedRuntimeSettings,
-      models: mergeProfileModelsById([
-        ...(override.models ?? []),
-        ...(override.additionalModels ?? []),
-      ]),
+      models: mergeTextGenerationModels(override.models ?? [], override.additionalModels ?? []),
       deps: options.textGenerationDeps,
     });
 
