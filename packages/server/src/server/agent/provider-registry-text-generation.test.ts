@@ -65,6 +65,37 @@ describe("one-shot text generation in the provider registry", () => {
     expect(client("newapi").client.textGeneration).toBeUndefined();
   });
 
+  test("keeps the first of a model listed twice in models, as the provider snapshot does", async () => {
+    // Regression: the later row won here while the provider catalog kept the first.
+    const registry = buildProviderRegistry(logger, {
+      providerOverrides: {
+        newapi: {
+          ...overrides.newapi,
+          models: [
+            {
+              id: "deepseek-flash",
+              label: "First",
+              thinkingOptions: [{ id: "low", label: "Low" }],
+            },
+            {
+              id: "deepseek-flash",
+              label: "Second",
+              thinkingOptions: [{ id: "high", label: "High" }],
+            },
+          ],
+        },
+      },
+      textGenerationCredentials: credentials,
+      textGenerationDeps: { readSecret: vi.fn(async () => "sk-synthetic"), platform: "darwin" },
+    });
+    const capability = await registry.newapi!.createClient(logger).textGeneration!.getCapability({
+      signal: AbortSignal.timeout(1000),
+    });
+    expect(capability.models).toEqual([
+      { id: "deepseek-flash", label: "First", thinkingOptionIds: ["low"] },
+    ]);
+  });
+
   test("merges a model listed again in additionalModels as the provider catalog does", async () => {
     const registry = buildProviderRegistry(logger, {
       providerOverrides: {

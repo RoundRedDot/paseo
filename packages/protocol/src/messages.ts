@@ -4006,6 +4006,10 @@ export const ServerInfoStatusPayloadSchema = z
         // The daemon implements `provider.text.*`; whether a provider supports it is answered
         // per provider by `provider.text.get_capability`.
         providerTextGeneration: z.boolean().optional(),
+        // COMPAT(providerTextList): added in v0.17.0, remove gate after 2027-11-22.
+        // The daemon answers `provider.text.list`. Hosts that only report
+        // `providerTextGeneration` do not know that request.
+        providerTextList: z.boolean().optional(),
         // COMPAT(providersSnapshotCwd): added in v0.3.2, remove gate after 2027-02-10.
         providersSnapshotCwd: z.boolean().optional(),
         // COMPAT(directorySync): added in v0.3.x, remove gate after 2027-02-12.

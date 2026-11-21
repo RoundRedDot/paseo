@@ -10362,6 +10362,10 @@ describe("one-shot provider text generation", () => {
       .map((frame) => frame.message ?? {});
   }
 
+  function messageType(message: { type?: unknown }) {
+    return message.type;
+  }
+
   function generateRequests(transport: ReturnType<typeof createMockTransport>) {
     return sentRequests(transport).filter(
       (message) => message.type === "provider.text.generate.request",
@@ -10394,6 +10398,49 @@ describe("one-shot provider text generation", () => {
   }
 
   const input = { provider: "opencode", model: "mock/mock-model", prompt: "SYNTHETIC" };
+
+  test("never sends the provider list to a host that reports only providerTextGeneration, which still generates", async () => {
+    // Regression: the list request was gated on providerTextGeneration, which hosts without
+    // provider.text.list already report, so a new client sent them a request they do not know.
+    const { transport, client } = await connectWith({ providerTextGeneration: true });
+    await expect(client.listProviderTextProviders()).rejects.toThrow("Update the host");
+    expect(sentRequests(transport).map(messageType)).toEqual([]);
+    const capability = client.getProviderTextCapability("opencode");
+    const pending = client.generateProviderText(input);
+    await vi.waitFor(() => expect(generateRequests(transport)).toHaveLength(1));
+    expect(sentRequests(transport).map(messageType)).toEqual([
+      "provider.text.get_capability.request",
+      "provider.text.generate.request",
+    ]);
+    const [sent] = generateRequests(transport);
+    answer(transport, sent.requestId, "srv_test_1");
+    await expect(pending).resolves.toMatchObject({ result: { status: "ok" } });
+    capability.catch(() => undefined);
+  });
+
+  test("sends the provider list to a host that reports providerTextList", async () => {
+    const { transport, client } = await connectWith({
+      providerTextGeneration: true,
+      providerTextList: true,
+    });
+    const pending = client.listProviderTextProviders();
+    const sentTypes = () => sentRequests(transport).map(messageType);
+    await vi.waitFor(() => expect(sentTypes()).toEqual(["provider.text.list.request"]));
+    const [sent] = sentRequests(transport);
+    transport.triggerMessage(
+      wrapSessionMessage({
+        type: "provider.text.list.response",
+        payload: {
+          requestId: sent!.requestId,
+          serverId: "srv_test_1",
+          providers: [{ provider: "newapi", label: "NewAPI" }],
+        },
+      }),
+    );
+    await expect(pending).resolves.toMatchObject({
+      providers: [{ provider: "newapi", label: "NewAPI" }],
+    });
+  });
 
   test("refuses before sending anything to a host without the feature", async () => {
     const { transport, client } = await connectWith({});

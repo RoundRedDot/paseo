@@ -2,7 +2,7 @@
 
 `provider.text.*` runs one prompt through a provider runtime and returns one text, on the daemon that receives the request. It creates no agent, workspace, provider session, timeline or Paseo MCP server. Plugins reach it through `paseo.providers.listTextProviders`, `paseo.providers.getTextCapability` and `paseo.providers.generateText`; use `paseo.hosts.client(serverId)` to target another host.
 
-List providers with `listTextProviders`, never `paseo.providers.snapshot`. A snapshot on a cold catalog warms every enabled provider, which can start an unrelated OpenCode runtime with the user's plugins and MCP servers. `listTextProviders` reads the registry and checks nothing.
+List providers with `listTextProviders`, never `paseo.providers.snapshot`. A snapshot on a cold catalog warms every enabled provider, which can start an unrelated OpenCode runtime with the user's plugins and MCP servers. `listTextProviders` reads the registry and checks nothing. It needs `features.providerTextList`: earlier hosts report `providerTextGeneration` without knowing the request, so the SDK refuses before sending it.
 
 Only a Codex custom provider with a hand-edited Keychain credential supports it ([Codex custom providers](#codex-custom-providers)), and only on macOS. Every other provider answers `unsupported` or `isolation_unverified`, and nothing is sent. The OpenCode v2 implementation (`packages/server/src/server/agent/providers/opencode/v2/text-generation.ts`) is complete, but it needs a runtime Paseo does not have.
 
