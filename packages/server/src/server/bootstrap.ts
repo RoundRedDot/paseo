@@ -208,6 +208,8 @@ import type {
   AgentProviderRuntimeSettingsMap,
   ProviderOverride,
 } from "./agent/provider-launch-config.js";
+import type { TextGenerationCredentials } from "./text-generation-credentials.js";
+import type { ResponsesTextGenerationDeps } from "./agent/providers/codex/responses-text-generation.js";
 import { type PersistedConfig } from "./persisted-config.js";
 import { createServiceProxySubsystem, type ServiceProxySubsystem } from "./service-proxy.js";
 import { releaseWorkspaceServicePortPlan } from "./workspace-service-port-registry.js";
@@ -487,6 +489,8 @@ export interface PaseoDaemonConfig {
     }>;
   };
   providerOverrides?: Record<string, ProviderOverride>;
+  /** Hand-edited `textGenerationCredentials`, read at startup only; see its module. */
+  textGenerationCredentials?: TextGenerationCredentials;
   log?: PersistedConfig["log"];
   onLifecycleIntent?: (intent: DaemonLifecycleIntent) => void;
   pushNotificationSender?: PushNotificationSender;
@@ -516,6 +520,8 @@ export interface PaseoDaemon {
 }
 
 export interface PaseoDaemonDependencies {
+  /** Test seams for one-shot text generation's credential read and gateway request. */
+  textGeneration?: ResponsesTextGenerationDeps;
   builtinPlugins?: BuiltinPluginLoader;
   hubRelationshipRemote?: HubRelationshipRemote;
   hubRelationshipClock?: HubRelationshipClock;
@@ -1017,6 +1023,8 @@ export async function createPaseoDaemon(
       managedProcesses,
       isDev: config.isDev === true,
       extraClients: config.agentClients,
+      textGenerationCredentials: config.textGenerationCredentials,
+      textGenerationDeps: dependencies.textGeneration,
     },
   });
   const providerSnapshotManager = agentProviderRuntime.snapshotManager;

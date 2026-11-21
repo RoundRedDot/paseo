@@ -311,6 +311,7 @@ requires_openai_auth = false
 - Set `models` explicitly. Custom endpoints expose their own model IDs (`anthropic/claude-opus-4-7`, `qwen/qwen3-coder`, `local/llama`, etc.), and Paseo does not discover them automatically for Codex.
 - To run multiple endpoints side-by-side, define multiple entries that each extend `"codex"` with different IDs, labels, and env. Each appears as its own provider in the app.
 - If you only want to override the binary (e.g. a nightly Codex build) without changing the endpoint, omit `OPENAI_BASE_URL` and use `command` instead — see [Custom binary for a provider](#custom-binary-for-a-provider).
+- Plugins can run one-shot text generation (no tools) against this endpoint only after you add a hand-edited Keychain credential for the provider; see [Provider text generation](provider-text-generation.md#codex-custom-providers).
 
 ---
 
