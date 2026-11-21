@@ -43,6 +43,8 @@ import { resolveOpenCodeHomeDir } from "../paths.js";
 import { V2Runtime, type V2Connection } from "./runtime.js";
 import type { OpenCodeServiceSelection } from "./service-selection.js";
 import { modelRef, modesFromV2, modelsFromV2 } from "./mapping.js";
+import { createOpenCodeTextGeneration, refuseUnisolatedRuntime } from "./text-generation.js";
+import type { AgentTextGeneration } from "../../../text-generation.js";
 
 interface V2AgentOptions {
   logger: Logger;
@@ -56,6 +58,7 @@ interface V2AgentOptions {
 export class OpenCodeV2AgentClient implements AgentClient {
   readonly provider = "opencode";
   readonly capabilities: AgentCapabilityFlags;
+  readonly textGeneration: AgentTextGeneration;
   private readonly runtime: Pick<V2Runtime, "acquire" | "shutdown">;
   private readonly connections = new Map<string, V2Connection>();
   constructor(private readonly options: V2AgentOptions) {
@@ -66,6 +69,11 @@ export class OpenCodeV2AgentClient implements AgentClient {
       new V2Runtime({
         ...options,
       });
+    // The agent runtime loads the user's OpenCode configuration, so it never passes `trust`.
+    this.textGeneration = createOpenCodeTextGeneration({
+      trust: refuseUnisolatedRuntime,
+      acquire: (signal) => this.runtime.acquire({ signal }),
+    });
   }
   async isAvailable() {
     return true;

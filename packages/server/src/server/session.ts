@@ -208,6 +208,7 @@ import {
 } from "./session/checkout/git-metadata-generator.js";
 import { ScheduleSession } from "./session/schedule/schedule-session.js";
 import { ProviderCatalogSession } from "./session/provider/provider-catalog-session.js";
+import { ProviderTextSession } from "./session/provider/provider-text-session.js";
 import { UsageSession } from "./session/usage/usage-session.js";
 import {
   SpeechModelsSession,
@@ -888,6 +889,7 @@ export class Session {
   private readonly diffSession: DiffSession;
   private readonly scheduleSession: ScheduleSession;
   private readonly providerCatalogSession: ProviderCatalogSession;
+  private readonly providerTextSession: ProviderTextSession;
   private readonly usageSession: UsageSession;
   private readonly speechModelsSession: SpeechModelsSession;
   private readonly workspaceFilesSession: WorkspaceFilesSession;
@@ -1152,6 +1154,17 @@ export class Session {
         listDraftControls: (config) => this.agentManager.listDraftControls(config),
       },
       providerSnapshotManager,
+      logger: this.sessionLogger,
+    });
+    this.providerTextSession = new ProviderTextSession({
+      emit: (msg) => this.emit(msg),
+      getTextGeneration: (provider) => this.agentManager.getTextGeneration(provider),
+      listRegisteredProviders: () =>
+        providerSnapshotManager.listRegisteredProviderIds().map((provider) => ({
+          provider,
+          label: providerSnapshotManager.getProviderLabel(provider),
+        })),
+      serverId,
       logger: this.sessionLogger,
     });
     this.usageSession = new UsageSession({
@@ -3597,6 +3610,19 @@ export class Session {
         return this.providerCatalogSession.handleListProviderFeaturesRequest(msg);
       case "provider.controls.list.request":
         return this.providerCatalogSession.handleProviderControlsListRequest(msg);
+      case "provider.text.list.request":
+        this.providerTextSession.handleList(msg);
+        return Promise.resolve();
+      case "provider.text.get_capability.request":
+        return this.providerTextSession.handleGetCapability(msg);
+      case "provider.text.generate.request":
+        return this.providerTextSession.handleGenerate(msg, {
+          source: this.delivery.currentSource,
+          signal: this.delivery.requestSignal,
+        });
+      case "provider.text.cancel.request":
+        this.providerTextSession.handleCancel(msg, this.delivery.currentSource);
+        return Promise.resolve();
       case "list_available_providers_request":
         return this.providerCatalogSession.handleListAvailableProvidersRequest(msg);
       case "get_providers_snapshot_request":
@@ -9603,6 +9629,7 @@ export class Session {
       this.unsubscribeTerminalWorkspaceContributionEvents = null;
     }
     this.providerCatalogSession.dispose();
+    this.providerTextSession.dispose();
 
     this.terminalController.dispose();
 

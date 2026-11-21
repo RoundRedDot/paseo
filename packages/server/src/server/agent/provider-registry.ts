@@ -515,6 +515,8 @@ function wrapClientProvider(
     get capabilities() {
       return inner.capabilities;
     },
+    // Runs against the provider runtime's own configuration; Paseo profile models do not apply.
+    ...(inner.textGeneration ? { textGeneration: inner.textGeneration } : {}),
     shutdown: inner.shutdown?.bind(inner),
     createSession: async (config, launchContext, options) =>
       wrapSessionProvider(

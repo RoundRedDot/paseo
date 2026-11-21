@@ -1,7 +1,7 @@
 import { decorateOpenCodeV2Env, materializeOpenCodeV2Plugin } from "../bridge.js";
 import { resolvePaseoHome } from "../../../../paseo-home.js";
 import { OpenCode } from "@opencode/client";
-import type { V2Api } from "./api.js";
+import type { OpenCodeTextEndpoint, V2Api } from "./api.js";
 import { randomBytes } from "node:crypto";
 import { mkdir } from "node:fs/promises";
 import type { Logger } from "pino";
@@ -36,6 +36,8 @@ export interface V2Connection {
   unbindSession(sessionId: string, cwd: string): Promise<void>;
   refreshLocation(cwd: string, signal?: AbortSignal): Promise<void>;
   readonly exited: Promise<Error>;
+  /** Absent on connections that cannot describe their endpoint; text generation refuses them. */
+  readonly textEndpoint?: OpenCodeTextEndpoint;
 }
 interface Generation {
   client: V2Api;
@@ -45,6 +47,7 @@ interface Generation {
   bindSession(sessionId: string, cwd: string): Promise<void>;
   unbindSession(sessionId: string, cwd: string): Promise<void>;
   refreshLocation(cwd: string, signal?: AbortSignal): Promise<void>;
+  textEndpoint?: OpenCodeTextEndpoint;
 }
 export interface V2RuntimeOptions {
   logger: Logger;
@@ -190,6 +193,7 @@ export class V2Runtime {
       unbindSession: generation.unbindSession,
       refreshLocation: generation.refreshLocation,
       exited: generation.exited,
+      ...(generation.textEndpoint ? { textEndpoint: generation.textEndpoint } : {}),
     };
   }
 
@@ -353,6 +357,13 @@ export class V2Runtime {
         users: 0,
         stop,
         exited,
+        textEndpoint: {
+          kind: "owned",
+          baseUrl: url,
+          authorization: `Basic ${Buffer.from(`opencode:${password}`).toString("base64")}`,
+          configDirectory: globalConfig,
+          lifetime: processAbort.signal,
+        },
         ...bridgeBindings(client, bridge),
       };
       this.generations.add(generation);

@@ -49,6 +49,17 @@ import { CLIENT_CAPS } from "./client-capabilities.js";
 import { AGENT_LIFECYCLE_STATUSES } from "./agent-lifecycle.js";
 import { MAX_EXPLICIT_AGENT_TITLE_CHARS } from "./agent-title-limits.js";
 import { AgentProviderSchema } from "./provider-manifest.js";
+import {
+  ProviderTextCancelRequestMessageSchema,
+  ProviderTextCancelResponseMessageSchema,
+  ProviderTextCapabilityGetRequestMessageSchema,
+  ProviderTextCapabilityGetResponseMessageSchema,
+  ProviderTextGenerateRequestMessageSchema,
+  ProviderTextGenerateResponseMessageSchema,
+  ProviderTextListRequestMessageSchema,
+  ProviderTextListResponseMessageSchema,
+} from "./provider-text-generation.js";
+export * from "./provider-text-generation.js";
 import { ProviderPaseoToolsPolicySchema } from "./provider-config.js";
 import { TOOL_CALL_ICON_NAMES } from "./agent-types.js";
 import { WORKSPACE_LABEL_COLORS } from "./workspace-labels.js";
@@ -3650,6 +3661,10 @@ export const SessionInboundMessageSchema = z.discriminatedUnion("type", [
   ListProviderModesRequestMessageSchema,
   ListProviderFeaturesRequestMessageSchema,
   ProviderControlsListRequestMessageSchema,
+  ProviderTextListRequestMessageSchema,
+  ProviderTextCapabilityGetRequestMessageSchema,
+  ProviderTextGenerateRequestMessageSchema,
+  ProviderTextCancelRequestMessageSchema,
   ListAvailableProvidersRequestMessageSchema,
   GetProvidersSnapshotRequestMessageSchema,
   RefreshProvidersSnapshotRequestMessageSchema,
@@ -3987,6 +4002,14 @@ export const ServerInfoStatusPayloadSchema = z
         usageSources: z.boolean().optional(),
         // COMPAT(providerInstallation): added in v0.17.0, remove gate after 2027-05-13.
         providerInstallation: z.boolean().optional(),
+        // COMPAT(providerTextGeneration): added in v0.17.0, remove gate after 2027-11-21.
+        // The daemon implements `provider.text.*`; whether a provider supports it is answered
+        // per provider by `provider.text.get_capability`.
+        providerTextGeneration: z.boolean().optional(),
+        // COMPAT(providerTextList): added in v0.17.0, remove gate after 2027-11-22.
+        // The daemon answers `provider.text.list`. Hosts that only report
+        // `providerTextGeneration` do not know that request.
+        providerTextList: z.boolean().optional(),
         // COMPAT(providersSnapshotCwd): added in v0.3.2, remove gate after 2027-02-10.
         providersSnapshotCwd: z.boolean().optional(),
         // COMPAT(directorySync): added in v0.3.x, remove gate after 2027-02-12.
@@ -7840,6 +7863,10 @@ export const SessionOutboundMessageSchema = z.discriminatedUnion("type", [
   ListProviderModesResponseMessageSchema,
   ListProviderFeaturesResponseMessageSchema,
   ProviderControlsListResponseMessageSchema,
+  ProviderTextListResponseMessageSchema,
+  ProviderTextCapabilityGetResponseMessageSchema,
+  ProviderTextGenerateResponseMessageSchema,
+  ProviderTextCancelResponseMessageSchema,
   ListAvailableProvidersResponseSchema,
   GetProvidersSnapshotResponseMessageSchema,
   ProvidersSnapshotUpdateMessageSchema,

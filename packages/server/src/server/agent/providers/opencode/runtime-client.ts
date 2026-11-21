@@ -25,6 +25,8 @@ import { resolveExternalOpenCodeServer } from "./v2/external-server.js";
 import { withOpenCodeRuntimeNotice } from "./runtime-notice.js";
 import { selectOpenCodeService } from "./v2/service-selection.js";
 import { createCliInstallation } from "../cli-installation.js";
+import type { AgentTextGeneration } from "../../text-generation.js";
+import { refuseUnisolatedRuntime } from "./v2/text-generation.js";
 
 const OPENCODE_INSTALL_URL = "https://opencode.ai/docs/";
 // Agents share a long-lived OpenCode server, and this client keeps the protocol it chose for the
@@ -69,6 +71,12 @@ export class OpenCodeRuntimeClient implements AgentClient {
   private legacySelected = false;
   private readonly legacy: OpenCodeAgentClient;
   readonly installation: AgentClientInstallation;
+  // No OpenCode runtime this client can start is isolated from the user's extensions, so text
+  // generation is refused before any selection, version probe or connection (`text-generation.ts`).
+  readonly textGeneration: AgentTextGeneration = {
+    getCapability: refuseUnisolatedRuntime,
+    generate: refuseUnisolatedRuntime,
+  };
   constructor(
     private readonly logger: Logger,
     private readonly settings?: ProviderRuntimeSettings,

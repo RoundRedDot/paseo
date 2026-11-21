@@ -52,6 +52,12 @@ import {
 } from "@getpaseo/protocol/messages";
 import { validateWSOutboundMessage } from "@getpaseo/protocol/validation/ws-outbound";
 import type {
+  ProviderTextCapabilityGetPayload,
+  ProviderTextGeneratePayload,
+  ProviderTextGenerationErrorCode,
+  ProviderTextListPayload,
+} from "@getpaseo/protocol/provider-text-generation";
+import type {
   AgentStreamEventPayload,
   AgentSnapshotPayload,
   ProjectPlacementPayload,
@@ -634,6 +640,50 @@ type RefreshProvidersSnapshotPayload = RefreshProvidersSnapshotResponseMessage["
 type ProviderDiagnosticPayload = ProviderDiagnosticResponseMessage["payload"];
 type ProviderUsageListPayload = ProviderUsageListResponseMessage["payload"];
 type ProviderInstallationInspectPayload = ProviderInstallationInspectResponseMessage["payload"];
+
+const PROVIDER_TEXT_DEFAULT_TIMEOUT_MS = 60_000;
+
+export interface ProviderTextGenerateInput {
+  provider: AgentProvider;
+  /** Provider model ID; for OpenCode `providerID/modelID`. */
+  model: string;
+  /** Sent verbatim; omit for the model's default. */
+  thinkingOptionId?: string;
+  prompt: string;
+  timeoutMs?: number;
+  signal?: AbortSignal;
+}
+
+type ProviderTextOutcome<T> =
+  | { status: "answered"; payload: T }
+  | { status: "aborted" }
+  | { status: "failed" };
+
+async function raceProviderTextAbort<T>(
+  pending: Promise<T>,
+  signal: AbortSignal | undefined,
+  onAbort: () => void,
+): Promise<ProviderTextOutcome<T>> {
+  const answered = pending.then(
+    (payload): ProviderTextOutcome<T> => ({ status: "answered", payload }),
+    (): ProviderTextOutcome<T> => ({ status: "failed" }),
+  );
+  if (!signal) return answered;
+  let removeListener = () => {};
+  const aborted = new Promise<ProviderTextOutcome<T>>((resolve) => {
+    const abort = () => {
+      onAbort();
+      resolve({ status: "aborted" });
+    };
+    signal.addEventListener("abort", abort, { once: true });
+    removeListener = () => signal.removeEventListener("abort", abort);
+  });
+  try {
+    return await Promise.race([answered, aborted]);
+  } finally {
+    removeListener();
+  }
+}
 type ProviderInstallationCheckUpdatesPayload =
   ProviderInstallationCheckUpdatesResponseMessage["payload"];
 type ProviderInstallationUpdatePayload = Extract<
@@ -1359,6 +1409,19 @@ type PingProbeRole = "latency" | "heartbeat" | "foreground";
 // COMPAT(providerUsageList): added in v0.1.98, remove after 2027-03-26.
 export function supportsUsageReports(features: ServerInfoStatusPayload["features"]): boolean {
   return features?.usageSources === true || features?.providerUsageList === true;
+}
+
+/**
+ * The connected host does not report `features.providerTextList`, so the provider list request
+ * was not sent. Callers tell it apart from a lost connection by `code`, not by the message.
+ */
+export class ProviderTextListUnsupportedError extends Error {
+  readonly code = "PROVIDER_TEXT_LIST_UNSUPPORTED";
+
+  constructor() {
+    super("Update the host to list one-shot text generation providers.");
+    this.name = "ProviderTextListUnsupportedError";
+  }
 }
 
 export class TerminalKeepUnsupportedError extends Error {
@@ -6267,6 +6330,120 @@ export class DaemonClient {
       responseType: "provider_diagnostic_response",
       timeout: 180000,
     });
+  }
+
+  /**
+   * The providers with a one-shot route on this host, from its registry: no provider runtime is
+   * checked, started or warmed. Requires `features.providerTextList`; a host that only reports
+   * `providerTextGeneration` predates the request and is refused before anything is sent.
+   */
+  async listProviderTextProviders(options?: {
+    requestId?: string;
+  }): Promise<ProviderTextListPayload> {
+    // Without a connected host that has identified itself there is nothing to judge: a lost or
+    // unfinished connection is a connection error, never an unsupported host.
+    if (this.connectionState.status !== "connected" || !this.lastServerInfoMessage)
+      throw this.unavailableError();
+    // COMPAT(providerTextList): added in v0.17.0, remove gate after 2027-11-22.
+    if (this.lastServerInfoMessage.features?.providerTextList !== true)
+      throw new ProviderTextListUnsupportedError();
+    return this.sendNamespacedCorrelatedSessionRequest<"provider.text.list.response">({
+      requestId: options?.requestId,
+      message: { type: "provider.text.list.request" },
+      timeout: 15_000,
+    });
+  }
+
+  /**
+   * Whether `provider` can run one-shot text generation on this host, checked against the
+   * provider runtime without any prompt. Requires `features.providerTextGeneration`.
+   */
+  async getProviderTextCapability(
+    provider: AgentProvider,
+    options?: { requestId?: string },
+  ): Promise<ProviderTextCapabilityGetPayload> {
+    this.requireProviderTextGeneration();
+    return this.sendNamespacedCorrelatedSessionRequest<"provider.text.get_capability.response">({
+      requestId: options?.requestId,
+      message: { type: "provider.text.get_capability.request", provider },
+      timeout: 45_000,
+    });
+  }
+
+  /**
+   * One-shot text generation on this host: no agent, session or tools. The prompt is bound to the
+   * host this client is connected to. Cancellation, a lost answer or an answer from another host
+   * come back as an error result, never as a rejection, so `promptSent` always says whether the
+   * prompt may have left this client. Rejects only when nothing was sent: the host lacks
+   * `features.providerTextGeneration`, has not identified itself, or is not connected.
+   */
+  async generateProviderText(
+    input: ProviderTextGenerateInput,
+  ): Promise<ProviderTextGeneratePayload> {
+    this.requireProviderTextGeneration();
+    const serverId = this.lastServerInfoMessage?.serverId;
+    if (!serverId) throw new Error("The connected host has not identified itself.");
+    if (this.connectionState.status !== "connected") throw this.unavailableError();
+    // Always a fresh wire ID: a reused one would hand one answer to several waiters.
+    const requestId = this.createRequestId();
+    const failure = (
+      code: ProviderTextGenerationErrorCode,
+      message: string,
+      promptSent: "no" | "possibly",
+    ): ProviderTextGeneratePayload => ({
+      requestId,
+      provider: input.provider,
+      serverId,
+      result: { status: "error", error: { code, message, promptSent } },
+    });
+    if (input.signal?.aborted)
+      return failure("cancelled", "One-shot text generation was cancelled", "no");
+    const timeoutMs = input.timeoutMs ?? PROVIDER_TEXT_DEFAULT_TIMEOUT_MS;
+    const response = this.sendNamespacedCorrelatedSessionRequest<"provider.text.generate.response">(
+      {
+        requestId,
+        message: {
+          type: "provider.text.generate.request",
+          provider: input.provider,
+          serverId,
+          model: input.model,
+          ...(input.thinkingOptionId !== undefined
+            ? { thinkingOptionId: input.thinkingOptionId }
+            : {}),
+          prompt: input.prompt,
+          timeoutMs,
+        },
+        // The host enforces the deadline; this only bounds a lost response.
+        timeout: timeoutMs + 15_000,
+      },
+    );
+    const outcome = await raceProviderTextAbort(response, input.signal, () => {
+      void this.sendNamespacedCorrelatedSessionRequest<"provider.text.cancel.response">({
+        message: { type: "provider.text.cancel.request", targetRequestId: requestId },
+        timeout: 10_000,
+      }).catch(() => undefined);
+    });
+    if (outcome.status === "aborted")
+      return failure("cancelled", "One-shot text generation was cancelled", "possibly");
+    if (outcome.status === "failed")
+      return failure(
+        "generation_failed",
+        "The host did not answer one-shot text generation",
+        "possibly",
+      );
+    if (outcome.payload.serverId !== serverId)
+      return failure(
+        "server_mismatch",
+        "One-shot text generation was answered by a different host",
+        "possibly",
+      );
+    return outcome.payload;
+  }
+
+  private requireProviderTextGeneration(): void {
+    // COMPAT(providerTextGeneration): added in v0.17.0, remove gate after 2027-11-21.
+    if (this.lastServerInfoMessage?.features?.providerTextGeneration !== true)
+      throw new Error("Update the host to use one-shot text generation.");
   }
 
   /** Install and update links plus installed state. Requires `features.providerInstallation`. */
