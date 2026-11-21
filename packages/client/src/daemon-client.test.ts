@@ -10362,10 +10362,17 @@ describe("one-shot provider text generation", () => {
       .map((frame) => frame.message ?? {});
   }
 
+  function generateRequests(transport: ReturnType<typeof createMockTransport>) {
+    return sentRequests(transport).filter(
+      (message) => message.type === "provider.text.generate.request",
+    );
+  }
+
   function answer(
     transport: ReturnType<typeof createMockTransport>,
-    requestId: string,
+    requestId: unknown,
     serverId: string,
+    text = "SYNTHETIC-OUT",
   ) {
     transport.triggerMessage(
       wrapSessionMessage({
@@ -10376,7 +10383,7 @@ describe("one-shot provider text generation", () => {
           serverId,
           result: {
             status: "ok",
-            text: "SYNTHETIC-OUT",
+            text,
             model: "mock/mock-model",
             thinkingOptionId: null,
             runtimeVersion: "2.2.6",
@@ -10386,31 +10393,22 @@ describe("one-shot provider text generation", () => {
     );
   }
 
+  const input = { provider: "opencode", model: "mock/mock-model", prompt: "SYNTHETIC" };
+
   test("refuses before sending anything to a host without the feature", async () => {
     const { transport, client } = await connectWith({});
-    await expect(
-      client.generateProviderText({
-        provider: "opencode",
-        model: "mock/mock-model",
-        prompt: "SYNTHETIC",
-      }),
-    ).rejects.toThrow("Update the host");
+    await expect(client.generateProviderText(input)).rejects.toThrow("Update the host");
     expect(sentRequests(transport)).toEqual([]);
   });
 
   test("binds the prompt to the connected host and accepts its answer", async () => {
     const { transport, client } = await connectWith({ providerTextGeneration: true });
-    const pending = client.generateProviderText({
-      provider: "opencode",
-      model: "mock/mock-model",
-      thinkingOptionId: "high",
-      prompt: "SYNTHETIC",
-      requestId: "gen-1",
-    });
-    await vi.waitFor(() => expect(sentRequests(transport)).toHaveLength(1));
-    expect(sentRequests(transport)[0]).toEqual({
+    const pending = client.generateProviderText({ ...input, thinkingOptionId: "high" });
+    await vi.waitFor(() => expect(generateRequests(transport)).toHaveLength(1));
+    const [sent] = generateRequests(transport);
+    expect(sent).toEqual({
       type: "provider.text.generate.request",
-      requestId: "gen-1",
+      requestId: expect.any(String),
       provider: "opencode",
       serverId: "srv_test_1",
       model: "mock/mock-model",
@@ -10418,44 +10416,77 @@ describe("one-shot provider text generation", () => {
       prompt: "SYNTHETIC",
       timeoutMs: 60_000,
     });
-    answer(transport, "gen-1", "srv_test_1");
+    answer(transport, sent.requestId, "srv_test_1");
     await expect(pending).resolves.toMatchObject({
       serverId: "srv_test_1",
-      result: { status: "ok" },
+      result: { status: "ok", text: "SYNTHETIC-OUT" },
     });
   });
 
-  test("rejects an answer from a different host", async () => {
+  test("concurrent generations get their own wire IDs and their own answers", async () => {
+    // Regression: a reused request ID handed one answer to every waiter with that ID.
     const { transport, client } = await connectWith({ providerTextGeneration: true });
-    const pending = client.generateProviderText({
-      provider: "opencode",
-      model: "mock/mock-model",
-      prompt: "SYNTHETIC",
-      requestId: "gen-2",
-    });
-    await vi.waitFor(() => expect(sentRequests(transport)).toHaveLength(1));
-    answer(transport, "gen-2", "srv_other");
-    await expect(pending).rejects.toThrow("different host");
+    const first = client.generateProviderText(input);
+    const second = client.generateProviderText(input);
+    await vi.waitFor(() => expect(generateRequests(transport)).toHaveLength(2));
+    const [a, b] = generateRequests(transport);
+    expect(a.requestId).not.toBe(b.requestId);
+    answer(transport, b.requestId, "srv_test_1", "SECOND");
+    answer(transport, a.requestId, "srv_test_1", "FIRST");
+    await expect(first).resolves.toMatchObject({ result: { text: "FIRST" } });
+    await expect(second).resolves.toMatchObject({ result: { text: "SECOND" } });
   });
 
-  test("aborting sends a cancel for the request", async () => {
+  test("an answer from a different host is an error that may have sent the prompt", async () => {
+    const { transport, client } = await connectWith({ providerTextGeneration: true });
+    const pending = client.generateProviderText(input);
+    await vi.waitFor(() => expect(generateRequests(transport)).toHaveLength(1));
+    answer(transport, generateRequests(transport)[0].requestId, "srv_other");
+    await expect(pending).resolves.toMatchObject({
+      result: { status: "error", error: { code: "server_mismatch", promptSent: "possibly" } },
+    });
+  });
+
+  test("aborting after sending cancels on the host and reports the prompt as possibly sent", async () => {
+    // Regression: aborting rejected with the signal's reason and lost the delivery state.
     const { transport, client } = await connectWith({ providerTextGeneration: true });
     const abort = new AbortController();
-    const pending = client.generateProviderText({
-      provider: "opencode",
-      model: "mock/mock-model",
-      prompt: "SYNTHETIC",
-      requestId: "gen-3",
-      signal: abort.signal,
-    });
-    await vi.waitFor(() => expect(sentRequests(transport)).toHaveLength(1));
+    const pending = client.generateProviderText({ ...input, signal: abort.signal });
+    await vi.waitFor(() => expect(generateRequests(transport)).toHaveLength(1));
+    const requestId = generateRequests(transport)[0].requestId;
     abort.abort();
-    await expect(pending).rejects.toBeDefined();
+    await expect(pending).resolves.toMatchObject({
+      result: { status: "error", error: { code: "cancelled", promptSent: "possibly" } },
+    });
     await vi.waitFor(() =>
-      expect(sentRequests(transport)[1]).toMatchObject({
-        type: "provider.text.cancel.request",
-        targetRequestId: "gen-3",
-      }),
+      expect(sentRequests(transport)).toContainEqual(
+        expect.objectContaining({
+          type: "provider.text.cancel.request",
+          targetRequestId: requestId,
+        }),
+      ),
     );
+  });
+
+  test("aborting before sending sends nothing and says so", async () => {
+    const { transport, client } = await connectWith({ providerTextGeneration: true });
+    const abort = new AbortController();
+    abort.abort();
+    await expect(
+      client.generateProviderText({ ...input, signal: abort.signal }),
+    ).resolves.toMatchObject({
+      result: { status: "error", error: { code: "cancelled", promptSent: "no" } },
+    });
+    expect(generateRequests(transport)).toEqual([]);
+  });
+
+  test("a connection lost after sending reports the prompt as possibly sent", async () => {
+    const { transport, client } = await connectWith({ providerTextGeneration: true });
+    const pending = client.generateProviderText(input);
+    await vi.waitFor(() => expect(generateRequests(transport)).toHaveLength(1));
+    transport.triggerClose({ code: 1006 });
+    await expect(pending).resolves.toMatchObject({
+      result: { status: "error", error: { code: "generation_failed", promptSent: "possibly" } },
+    });
   });
 });

@@ -1,14 +1,15 @@
-import { mkdtempSync, mkdirSync, realpathSync, rmSync } from "node:fs";
 import http from "node:http";
-import os from "node:os";
-import nodePath from "node:path";
 import type { AddressInfo } from "node:net";
 import { OpenCode, type ModelInfo, type PluginInfo } from "@opencode/client";
 import { afterEach, describe, expect, test } from "vitest";
 import { TextGenerationError } from "../../../text-generation.js";
 import type { OpenCodeTextEndpoint, V2Api } from "./api.js";
 import type { V2Connection } from "./runtime.js";
-import { createOpenCodeTextGeneration, OPENCODE_TEXT_ROUTE } from "./text-generation.js";
+import {
+  createOpenCodeTextGeneration,
+  OPENCODE_TEXT_ROUTE,
+  refuseUnisolatedRuntime,
+} from "./text-generation.js";
 
 // A local HTTP server stands in for OpenCode's own routes: `/openapi.json` and the one-shot
 // route. The typed client calls (server info, models, plugins, config) are stubbed.
@@ -141,6 +142,8 @@ interface Stubs {
   models?: ModelInfo[] | (() => ModelInfo[]);
   plugins?: PluginInfo[] | (() => PluginInfo[]);
   configDirectories?: string[] | "fails";
+  mcpServers?: string[];
+  infoError?: Error;
 }
 
 interface Harness {
@@ -156,6 +159,7 @@ function harness(endpoint: Partial<OpenCodeTextEndpoint> & { baseUrl: string }, 
     server: {
       info: async () => {
         calls.push("server.info");
+        if (stubs.infoError) throw stubs.infoError;
         return { version: stubs.version ?? "2.2.6", pid: 1, urls: [], paths: { tmp: "/tmp" } };
       },
     },
@@ -176,6 +180,15 @@ function harness(endpoint: Partial<OpenCodeTextEndpoint> & { baseUrl: string }, 
         return {
           location: { directory: "/base" },
           data: plugins ?? [builtin("opencode.tool.shell")],
+        };
+      },
+    },
+    mcp: {
+      list: async () => {
+        calls.push("mcp.list");
+        return {
+          location: { directory: "/base" },
+          data: (stubs.mcpServers ?? []).map((name) => ({ name, status: { status: "connected" } })),
         };
       },
     },
@@ -211,8 +224,8 @@ function harness(endpoint: Partial<OpenCodeTextEndpoint> & { baseUrl: string }, 
 
 function textGeneration(state: Harness, modelWaitMs = 0) {
   return createOpenCodeTextGeneration({
+    trust: async () => undefined,
     acquire: async () => state.connection,
-    paseoPluginRoots: ["/paseo-home/runtime/opencode"],
     modelWaitMs,
   });
 }
@@ -267,6 +280,28 @@ function jsonHandler(status: number, value: unknown): Handler {
 /** Accepts the request and never answers. */
 const hang: Handler = () => undefined;
 
+/** Sends a 200 with headers and the start of a body, then stalls. */
+const headersThenHang: Handler = (_req, _body, res) => {
+  res.writeHead(200, { "content-type": "application/json" });
+  res.write('{"data":{"text":"partial');
+};
+
+/** Streams an unbounded body until the client goes away, counting what it wrote. */
+function endlessBody(status: number, written: { bytes: number }): Handler {
+  return (_req, _body, res) => {
+    res.writeHead(status, { "content-type": "application/json" });
+    const chunk = Buffer.alloc(64 * 1024, 0x61);
+    const pump = () => {
+      while (!res.destroyed && res.write(chunk)) written.bytes += chunk.length;
+      if (!res.destroyed) {
+        written.bytes += chunk.length;
+        res.once("drain", pump);
+      }
+    };
+    pump();
+  };
+}
+
 function closedEarlyOf(server: FakeServer): () => number {
   return () => server.closedEarly;
 }
@@ -313,7 +348,13 @@ describe("OpenCode v2 one-shot text generation", () => {
       model: { providerID: "mock", id: "mock-model", variant: "high" },
     });
     // The preflight ran against the base configuration before the prompt was sent.
-    expect(state.calls).toEqual(["server.info", "model.list:/base", "plugin.list", "plugin.list"]);
+    expect(state.calls).toEqual([
+      "server.info",
+      "model.list:/base",
+      "plugin.list",
+      "plugin.list",
+      "mcp.list",
+    ]);
     expect(server.requests.map((entry) => entry.path)).toEqual([
       "/openapi.json",
       OPENCODE_TEXT_ROUTE,
@@ -347,7 +388,6 @@ describe("OpenCode v2 one-shot text generation", () => {
       ],
       limitations: [
         "provider_runtime_builtin_hooks_unobserved",
-        "provider_runtime_mcp_servers_connect",
         "prompt_sent_to_provider_runtime_and_model_provider",
       ],
     });
@@ -469,10 +509,11 @@ describe("OpenCode v2 one-shot text generation", () => {
           prompt: PROMPT,
           signal: AbortSignal.timeout(5_000),
         }),
-        "plugins_unverified",
+        "isolation_unverified",
         "no",
       );
-      expect(error.message).toContain(plugin.id);
+      // Plugin IDs are the plugin's own claim; the message does not repeat them.
+      expect(error.message).toContain("non-built-in plugin");
       expect(generateCalls(server)).toHaveLength(0);
     });
 
@@ -490,7 +531,7 @@ describe("OpenCode v2 one-shot text generation", () => {
           prompt: PROMPT,
           signal: AbortSignal.timeout(5_000),
         }),
-        "plugins_unverified",
+        "isolation_unverified",
         "no",
       );
       expect(generateCalls(server)).toHaveLength(0);
@@ -542,7 +583,8 @@ describe("OpenCode v2 one-shot text generation", () => {
         "route_unverified",
         "no",
       );
-      expect(error.message).toContain("/base");
+      // Configured paths are not repeated in errors.
+      expect(error.message).not.toContain("/base");
       expect(generateCalls(server)).toHaveLength(0);
     });
 
@@ -699,57 +741,13 @@ describe("OpenCode v2 one-shot text generation", () => {
     });
   });
 
-  test("accepts Paseo's own plugin from Paseo's runtime directory", async () => {
-    const server = await startServer(openCodeHandler());
-    await textGeneration(
-      harness(
-        { baseUrl: server.url },
-        {
-          plugins: [
-            builtin("opencode.agent"),
-            local("paseo", "/paseo-home/runtime/opencode/paseo-v2-abc"),
-          ],
-        },
-      ),
-    ).generate({ model: "mock/mock-model", prompt: PROMPT, signal: AbortSignal.timeout(5_000) });
-    expect(generateCalls(server)).toHaveLength(1);
-  });
-
-  test("recognises Paseo's plugin when OpenCode reports it by its real path", async () => {
-    // Regression: OpenCode 2.0.10 reports /private/tmp/... for a plugin Paseo wrote under /tmp/...
-    const root = mkdtempSync(nodePath.join(os.tmpdir(), "paseo-text-root-"));
-    try {
-      const pluginDirectory = nodePath.join(root, "paseo-v2-abc");
-      mkdirSync(pluginDirectory);
-      const server = await startServer(openCodeHandler());
-      const state = harness(
-        { baseUrl: server.url },
-        { plugins: [builtin("opencode.agent"), local("paseo", realpathSync(pluginDirectory))] },
-      );
-      const generation = createOpenCodeTextGeneration({
-        acquire: async () => state.connection,
-        // A root whose spelling differs from its real path, as /tmp does on macOS.
-        paseoPluginRoots: [nodePath.join(root, ".", "")],
-        modelWaitMs: 0,
-      });
-      await generation.generate({
-        model: "mock/mock-model",
-        prompt: PROMPT,
-        signal: AbortSignal.timeout(5_000),
-      });
-      expect(generateCalls(server)).toHaveLength(1);
-    } finally {
-      rmSync(root, { recursive: true, force: true });
-    }
-  });
-
   test("refuses a connection that cannot describe its endpoint", async () => {
     const server = await startServer(openCodeHandler());
     const state = harness({ baseUrl: server.url });
     const { textEndpoint: _omitted, ...connection } = state.connection;
     const generation = createOpenCodeTextGeneration({
+      trust: async () => undefined,
       acquire: async () => connection,
-      paseoPluginRoots: [],
     });
     await expectRefusal(
       generation.generate({
@@ -761,5 +759,131 @@ describe("OpenCode v2 one-shot text generation", () => {
       "no",
     );
     expect(server.requests).toHaveLength(0);
+  });
+
+  describe("before OpenCode is started or contacted", () => {
+    test("a runtime that is not isolated is refused without acquiring it", async () => {
+      // Regression: acquiring the agent runtime already ran user plugins and MCP servers.
+      const server = await startServer(openCodeHandler());
+      const state = harness({ baseUrl: server.url });
+      let acquired = 0;
+      const generation = createOpenCodeTextGeneration({
+        trust: refuseUnisolatedRuntime,
+        acquire: async () => {
+          acquired += 1;
+          return state.connection;
+        },
+      });
+      const signal = AbortSignal.timeout(5_000);
+      await expectRefusal(generation.getCapability({ signal }), "isolation_unverified", "no");
+      await expectRefusal(
+        generation.generate({ model: "mock/mock-model", prompt: PROMPT, signal }),
+        "isolation_unverified",
+        "no",
+      );
+      expect(acquired).toBe(0);
+      expect(state.calls).toEqual([]);
+      expect(server.requests).toHaveLength(0);
+    });
+
+    test("a start failure does not repeat its cause, which can quote configured URLs", async () => {
+      const generation = createOpenCodeTextGeneration({
+        trust: async () => undefined,
+        acquire: async () => {
+          throw new Error("https://user:SYNTHETIC-SECRET@example.invalid/?token=SYNTHETIC-SECRET");
+        },
+      });
+      const error = await expectRefusal(
+        generation.generate({
+          model: "mock/mock-model",
+          prompt: PROMPT,
+          signal: AbortSignal.timeout(5_000),
+        }),
+        "provider_unavailable",
+        "no",
+      );
+      expect(JSON.stringify({ message: error.message })).not.toContain("SYNTHETIC-SECRET");
+    });
+
+    test("a preflight failure does not repeat its cause either", async () => {
+      const server = await startServer(openCodeHandler());
+      const state = harness(
+        { baseUrl: server.url },
+        { infoError: new Error("connect failed for http://127.0.0.1/?key=SYNTHETIC-SECRET") },
+      );
+      const error = await expectRefusal(
+        textGeneration(state).generate({
+          model: "mock/mock-model",
+          prompt: PROMPT,
+          signal: AbortSignal.timeout(5_000),
+        }),
+        "provider_unavailable",
+        "no",
+      );
+      expect(error.message).not.toContain("SYNTHETIC-SECRET");
+    });
+  });
+
+  test("an MCP server in the base configuration is refused before the prompt", async () => {
+    const server = await startServer(openCodeHandler());
+    await expectRefusal(
+      textGeneration(harness({ baseUrl: server.url }, { mcpServers: ["probe"] })).generate({
+        model: "mock/mock-model",
+        prompt: PROMPT,
+        signal: AbortSignal.timeout(5_000),
+      }),
+      "isolation_unverified",
+      "no",
+    );
+    expect(generateCalls(server)).toHaveLength(0);
+  });
+
+  describe("reading the answer", () => {
+    test("a deadline while the body is still arriving is a timeout, not a bad response", async () => {
+      // Regression: the body read failure was reported as an unexpected response.
+      const server = await startServer(openCodeHandler({ generate: headersThenHang }));
+      await expectRefusal(
+        textGeneration(harness({ baseUrl: server.url })).generate({
+          model: "mock/mock-model",
+          prompt: PROMPT,
+          signal: AbortSignal.timeout(500),
+        }),
+        "timeout",
+        "possibly",
+      );
+    });
+
+    test("an oversized error body is not read past the limit", async () => {
+      const written = { bytes: 0 };
+      const server = await startServer(openCodeHandler({ generate: endlessBody(503, written) }));
+      const error = await expectRefusal(
+        textGeneration(harness({ baseUrl: server.url })).generate({
+          model: "mock/mock-model",
+          prompt: PROMPT,
+          signal: AbortSignal.timeout(10_000),
+        }),
+        "generation_failed",
+        "possibly",
+      );
+      expect(error.message).toBe("OpenCode returned HTTP 503");
+      await expect.poll(closedEarlyOf(server)).toBe(1);
+      expect(written.bytes).toBeLessThan(8 * 1024 * 1024);
+    });
+
+    test("an oversized answer is refused without reading all of it", async () => {
+      const written = { bytes: 0 };
+      const server = await startServer(openCodeHandler({ generate: endlessBody(200, written) }));
+      await expectRefusal(
+        textGeneration(harness({ baseUrl: server.url })).generate({
+          model: "mock/mock-model",
+          prompt: PROMPT,
+          signal: AbortSignal.timeout(10_000),
+        }),
+        "generation_failed",
+        "possibly",
+      );
+      await expect.poll(closedEarlyOf(server)).toBe(1);
+      expect(written.bytes).toBeLessThan(64 * 1024 * 1024);
+    });
   });
 });

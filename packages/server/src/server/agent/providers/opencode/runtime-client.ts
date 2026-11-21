@@ -25,7 +25,8 @@ import { resolveExternalOpenCodeServer } from "./v2/external-server.js";
 import { withOpenCodeRuntimeNotice } from "./runtime-notice.js";
 import { selectOpenCodeService } from "./v2/service-selection.js";
 import { createCliInstallation } from "../cli-installation.js";
-import { TextGenerationError, type AgentTextGeneration } from "../../text-generation.js";
+import type { AgentTextGeneration } from "../../text-generation.js";
+import { refuseUnisolatedRuntime } from "./v2/text-generation.js";
 
 const OPENCODE_INSTALL_URL = "https://opencode.ai/docs/";
 // Agents share a long-lived OpenCode server, and this client keeps the protocol it chose for the
@@ -70,10 +71,11 @@ export class OpenCodeRuntimeClient implements AgentClient {
   private legacySelected = false;
   private readonly legacy: OpenCodeAgentClient;
   readonly installation: AgentClientInstallation;
-  // OpenCode 1.x has no validated one-shot route, so only the v2 client answers.
+  // No OpenCode runtime this client can start is isolated from the user's extensions, so text
+  // generation is refused before any selection, version probe or connection (`text-generation.ts`).
   readonly textGeneration: AgentTextGeneration = {
-    getCapability: async (options) => (await this.textClient()).getCapability(options),
-    generate: async (request) => (await this.textClient()).generate(request),
+    getCapability: refuseUnisolatedRuntime,
+    generate: refuseUnisolatedRuntime,
   };
   constructor(
     private readonly logger: Logger,
@@ -154,25 +156,6 @@ export class OpenCodeRuntimeClient implements AgentClient {
       throw error;
     });
     return this.selected;
-  }
-  private async textClient(): Promise<AgentTextGeneration> {
-    let client: OpenCodeAgentClient | OpenCodeV2AgentClient;
-    try {
-      client = await this.client();
-    } catch (error) {
-      throw new TextGenerationError(
-        "provider_unavailable",
-        `OpenCode is unavailable: ${error instanceof Error ? error.message : String(error)}`,
-        "no",
-      );
-    }
-    if (client === this.legacy)
-      throw new TextGenerationError(
-        "unsupported",
-        "One-shot text generation requires OpenCode 2; this host runs OpenCode 1",
-        "no",
-      );
-    return (client as OpenCodeV2AgentClient).textGeneration;
   }
   async isAvailable() {
     const selection = await this.selectService();
