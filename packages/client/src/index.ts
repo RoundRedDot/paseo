@@ -8,7 +8,19 @@ export type { PaseoHostActions } from "./hosts/index.js";
 export type { HostAdd, HostUpdate, HostSummary, HostDirectory } from "@getpaseo/protocol/hosts";
 import type { OwnedSubscription } from "./connection/index.js";
 export type { OwnedSubscription, SubscriptionObserver } from "./connection/index.js";
-import type { DaemonClientConfig } from "./daemon-client.js";
+import type { DaemonClientConfig, ProviderTextGenerateInput } from "./daemon-client.js";
+import type {
+  ProviderTextCapabilityGetPayload,
+  ProviderTextGeneratePayload,
+} from "@getpaseo/protocol/provider-text-generation";
+export type { ProviderTextGenerateInput } from "./daemon-client.js";
+export type {
+  ProviderTextCapabilityGetPayload,
+  ProviderTextGeneratePayload,
+  ProviderTextGenerationError,
+  ProviderTextGenerationErrorCode,
+  ProviderTextModel,
+} from "@getpaseo/protocol/provider-text-generation";
 import type { AgentPermissionResponse, JsonValue } from "@getpaseo/protocol/agent-types";
 import type {
   AgentSnapshotPayload,
@@ -565,6 +577,19 @@ export interface PaseoProviderActions {
   ): Promise<PaseoProviderDiagnosticResult>;
   listUsage(options?: PaseoProviderUsageOptions): Promise<PaseoProviderUsageResult>;
   subscribe(handler: (update: PaseoProviderSnapshotUpdate) => void): () => void;
+  /**
+   * Whether `provider` can run one-shot text generation on this host, checked against the
+   * provider runtime without sending a prompt. Show `limitations` to the user.
+   */
+  getTextCapability(
+    provider: PaseoAgentProvider,
+    options?: { requestId?: string },
+  ): Promise<ProviderTextCapabilityGetPayload>;
+  /**
+   * One prompt, one text, on this host: no agent, workspace, session or tools. Check
+   * `result.status`; `error.promptSent` says whether the prompt may have left the host.
+   */
+  generateText(input: ProviderTextGenerateInput): Promise<ProviderTextGeneratePayload>;
 }
 
 export interface PaseoConfigActions {
@@ -892,6 +917,9 @@ export function createPaseoApi(
         ),
       refresh: (options) => daemonClient.refreshProvidersSnapshot(options),
       diagnostic: (provider, options) => daemonClient.getProviderDiagnostic(provider, options),
+      getTextCapability: (provider, options) =>
+        daemonClient.getProviderTextCapability(provider, options),
+      generateText: (input) => daemonClient.generateProviderText(input),
       listUsage: (options) => listProviderUsage(daemonClient, options),
       subscribe: (handler) => {
         return subscribeEvent("providers_snapshot_update", (message) => {

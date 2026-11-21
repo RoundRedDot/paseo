@@ -9,6 +9,7 @@ import type {
   ProviderOptions,
   ToolPolicy,
 } from "@getpaseo/protocol/agent-types";
+import type { AgentTextGeneration } from "./text-generation.js";
 import type { AgentMessage } from "@getpaseo/protocol/agent-message";
 import type { AgentAttachment, ProviderInstallationInspection } from "@getpaseo/protocol/messages";
 import type {
@@ -877,6 +878,11 @@ export interface AgentClientDiagnosticContext {
 }
 
 export interface AgentClient {
+  /**
+   * One-shot text generation with no agent, session or tools. Only providers that can preflight
+   * such a route without the prompt implement it; see `text-generation.ts`.
+   */
+  readonly textGeneration?: AgentTextGeneration;
   resolveUsageLaunch?(): Promise<
     import("@getpaseo/plugin/server/provider").ProviderLaunch | undefined
   >;

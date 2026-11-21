@@ -613,6 +613,8 @@ interface AgentClient {
 }
 ```
 
+Leave the optional `textGeneration` unset unless the provider has a one-shot route validated as described in [provider-text-generation.md](provider-text-generation.md).
+
 **`AgentSession`** -- a running agent conversation:
 
 ```ts

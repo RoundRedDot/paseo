@@ -14,7 +14,7 @@ import {
   isLocalOpenCodeHost,
   type OpenCodeServiceSelection,
 } from "./service-selection.js";
-import type { V2Api } from "./api.js";
+import type { OpenCodeTextEndpoint, V2Api } from "./api.js";
 
 interface SharedServiceOptions {
   logger: Logger;
@@ -29,6 +29,7 @@ export interface SharedService {
   bindSession(sessionId: string, cwd: string): Promise<void>;
   unbindSession(sessionId: string, cwd: string): Promise<void>;
   refreshLocation(cwd: string, signal?: AbortSignal): Promise<void>;
+  textEndpoint: OpenCodeTextEndpoint;
 }
 
 export async function connectSharedService(
@@ -127,6 +128,16 @@ export async function connectSharedService(
       resolveExited(closed);
     },
     exited,
+    textEndpoint: {
+      kind: selection.kind,
+      baseUrl: server.url,
+      ...(authorization ? { authorization } : {}),
+      configDirectory: openCodeConfigDirectory({
+        ...globalThis.process.env,
+        ...options.settings?.env,
+      }),
+      lifetime: lifetime.signal,
+    },
     ...bridgeBindings(client, bridge, advertised, pluginDirectory),
   };
   logger.info({ url: server.url }, "Using existing OpenCode v2 server");
