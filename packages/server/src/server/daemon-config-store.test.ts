@@ -754,6 +754,61 @@ describe("DaemonConfigStore", () => {
     });
   });
 
+  test("client writes keep the hand-edited text generation credentials and never expose or change them", async () => {
+    const paseoHome = mkdtempSync(path.join(tmpdir(), "paseo-daemon-config-store-"));
+    tempDirs.push(paseoHome);
+    const initial = loadPersistedConfig(paseoHome);
+    const configPath = path.join(paseoHome, "config.json");
+    const credential = {
+      source: "macos-keychain",
+      service: "paseo.text-generation.newapi",
+      account: "synthetic-account",
+      origin: "https://gateway.example.com",
+    };
+    writeFileSync(
+      configPath,
+      JSON.stringify(
+        {
+          ...initial,
+          agents: { providers: { newapi: { extends: "codex", label: "NewAPI" } } },
+          textGenerationCredentials: { newapi: credential },
+        },
+        null,
+        2,
+      ) + "\n",
+    );
+    const store = new DaemonConfigStore(
+      paseoHome,
+      {
+        mcp: { injectIntoAgents: false },
+        browserTools: { enabled: false },
+        providers: {},
+        metadataGeneration: { providers: [] },
+        autoArchiveAfterMerge: false,
+        enableTerminalAgentHooks: false,
+        appendSystemPrompt: "",
+      },
+      undefined,
+    );
+
+    const answered = await store.patch({
+      providers: { newapi: { enabled: false } },
+      // Not a mutable field: a client cannot add, point or replace a credential.
+      textGenerationCredentials: {
+        newapi: { ...credential, service: "paseo.text-generation.other" },
+      },
+    } as never);
+
+    expect(JSON.stringify(answered)).not.toContain("text-generation");
+    expect(JSON.stringify(store.get())).not.toContain("synthetic-account");
+    expect(loadPersistedConfig(paseoHome).textGenerationCredentials).toEqual({
+      newapi: credential,
+    });
+    expect(loadPersistedConfig(paseoHome).agents?.providers?.newapi).toMatchObject({
+      enabled: false,
+    });
+  });
+
   test("patch persists provider Paseo-tool policy without changing availability", async () => {
     const paseoHome = mkdtempSync(path.join(tmpdir(), "paseo-daemon-config-store-"));
     tempDirs.push(paseoHome);

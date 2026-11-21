@@ -47,6 +47,8 @@ import {
 import { importSessionFromPersistence } from "../provider-session-import.js";
 import { runProviderRefreshActivity } from "../provider-refresh-deadline.js";
 import type { Logger } from "pino";
+import type { AgentTextGeneration } from "../text-generation.js";
+import { normalizeOpenAICompatibleBaseUrl } from "./codex/base-url.js";
 
 import type { ChildProcess, ChildProcessWithoutNullStreams } from "node:child_process";
 import { randomUUID } from "node:crypto";
@@ -349,6 +351,8 @@ interface CodexAppServerAgentDeps {
     extends: string;
   };
   customCodexConfig?: CodexCustomProviderConfig | null;
+  /** One-shot text generation, built only for a custom provider with a configured credential. */
+  textGeneration?: AgentTextGeneration;
   // The CODEX_HOME the session's app-server runs with; prompts and skills are read from it.
   codexHome?: string;
   _createCodexClient?: (
@@ -3669,18 +3673,6 @@ function buildCodexAppServerInitializeParams(): {
       mcpServerOpenaiFormElicitation: true,
     },
   };
-}
-
-function normalizeOpenAICompatibleBaseUrl(value: string): string | null {
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return null;
-  }
-  const withoutTrailingSlashes = trimmed.replace(/\/+$/u, "");
-  if (withoutTrailingSlashes.endsWith("/v1")) {
-    return withoutTrailingSlashes;
-  }
-  return `${withoutTrailingSlashes}/v1`;
 }
 
 interface CodexCustomProviderConfig {
@@ -8094,12 +8086,15 @@ export class CodexAppServerAgentClient implements AgentClient {
   };
   private goalsEnabledPromise: Promise<boolean> | null = null;
   private autoReviewEnabledPromise: Promise<boolean> | null = null;
+  readonly textGeneration: AgentTextGeneration | undefined;
 
   constructor(
     private readonly logger: Logger,
     private readonly runtimeSettings?: ProviderRuntimeSettings,
     private readonly deps: CodexAppServerAgentDeps = {},
-  ) {}
+  ) {
+    this.textGeneration = deps.textGeneration;
+  }
 
   private async readInstalledCodex(signal: AbortSignal): Promise<InstalledCodex> {
     const installed = await this.resolveInstalledCommand();

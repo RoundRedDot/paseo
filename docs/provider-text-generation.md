@@ -2,7 +2,38 @@
 
 `provider.text.*` runs one prompt through a provider runtime and returns one text, on the daemon that receives the request. It creates no agent, workspace, provider session, timeline or Paseo MCP server. Plugins reach it through `paseo.providers.getTextCapability` and `paseo.providers.generateText`; use `paseo.hosts.client(serverId)` to target another host.
 
-No provider supports it yet. Every provider answers `unsupported` or `isolation_unverified`, and nothing is sent. The OpenCode v2 implementation (`packages/server/src/server/agent/providers/opencode/v2/text-generation.ts`) is complete, but it needs a runtime Paseo does not have.
+Only a Codex custom provider with a hand-edited Keychain credential supports it ([Codex custom providers](#codex-custom-providers)), and only on macOS. Every other provider answers `unsupported` or `isolation_unverified`, and nothing is sent. The OpenCode v2 implementation (`packages/server/src/server/agent/providers/opencode/v2/text-generation.ts`) is complete, but it needs a runtime Paseo does not have.
+
+## Codex custom providers
+
+A provider that extends `codex` and sets `OPENAI_BASE_URL` can run one-shot text generation without Codex: the daemon sends one `POST {base_url}/responses` itself (`providers/codex/responses-text-generation.ts`). No Codex process, agent or tool runs.
+
+It is off until you add the provider to `textGenerationCredentials` at the top level of `config.json`, by hand:
+
+```json
+"textGenerationCredentials": {
+  "newapi": {
+    "source": "macos-keychain",
+    "service": "paseo.text-generation.newapi",
+    "account": "you",
+    "origin": "https://gateway.example.com"
+  }
+}
+```
+
+Store the key in a dedicated item with `security add-generic-password -s paseo.text-generation.newapi -a you -w` (it prompts, so the key stays out of shell history), then restart the daemon. The section is read at startup only.
+
+Rules the code enforces, and why:
+
+- The section is never part of the mutable config, so `get_daemon_config` does not return it and `set_daemon_config` cannot write it. A client with `daemon.read` sees neither the key nor the item it lives in.
+- The key never comes from the provider's `env`. A placeholder `OPENAI_API_KEY` there is fine and is ignored.
+- `service` must start with `paseo.text-generation.`, and both `service` and `account` are required, so the entry cannot name another app's item or match the first item that shares an account.
+- The provider's `OPENAI_BASE_URL`, after the same normalization Codex gets, must have exactly the entry's `origin`. Clients can edit the provider's env; pointing it elsewhere makes the route refuse before the key is read.
+- The key is read for each request with `/usr/bin/security find-generic-password -s … -a … -w`: a fixed binary, no shell, no wrapper. The capability check does not read it, so opening settings never prompts.
+- The request carries only `model`, `input`, `store: false`, `stream: false` and, for `low`, `medium` or `high`, `reasoning.effort`. No `tools` or `instructions`. Other thinking options are not offered, and an unlisted model is refused.
+- The answer must be a completed Responses document whose output is `message` items of `output_text` (reasoning items are skipped). Any tool call, refusal or other shape fails with `generation_failed`; nothing in it is run.
+
+Not covered: Linux and Windows (`unsupported`), a daemon whose login Keychain is locked (for example one started over ssh), and gateways that do not accept this request. Whether a gateway accepts it, and whether macOS prompts for the item, has only been checked against fakes.
 
 ## Why OpenCode refuses
 
@@ -32,7 +63,7 @@ Never use `/api/session/{id}/generate`: it sends the session's tools and system 
 
 ## Preflight
 
-On a trusted runtime, the prompt is sent only after every check below passes. Each failure reports `promptSent: "no"`:
+On a trusted OpenCode runtime, the prompt is sent only after every check below passes. Each failure reports `promptSent: "no"`:
 
 1. The runtime is on loopback.
 2. `server.info` reports a validated version.
@@ -60,3 +91,5 @@ A supported capability returns `limitations` that callers must show:
 
 - `provider_runtime_builtin_hooks_unobserved`: OpenCode's built-in AI SDK hooks (`aisdk.sdk`, `aisdk.language`) never fired in validation, so their effect on the route is unknown.
 - `prompt_sent_to_provider_runtime_and_model_provider`: the prompt goes to the local OpenCode server and the configured model provider.
+- `prompt_sent_to_configured_gateway`: the prompt goes to the gateway the Codex custom provider is configured for.
+- `credential_read_from_host_keychain`: the daemon reads the gateway key from this host's Keychain for the request.
