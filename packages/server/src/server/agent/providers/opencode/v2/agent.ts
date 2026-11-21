@@ -43,6 +43,10 @@ import { resolveOpenCodeHomeDir } from "../paths.js";
 import { V2Runtime, type V2Connection } from "./runtime.js";
 import type { OpenCodeServiceSelection } from "./service-selection.js";
 import { modelRef, modesFromV2, modelsFromV2 } from "./mapping.js";
+import { createOpenCodeTextGeneration } from "./text-generation.js";
+import type { AgentTextGeneration } from "../../../text-generation.js";
+import { resolvePaseoHome } from "../../../../paseo-home.js";
+import path from "node:path";
 
 interface V2AgentOptions {
   logger: Logger;
@@ -56,6 +60,7 @@ interface V2AgentOptions {
 export class OpenCodeV2AgentClient implements AgentClient {
   readonly provider = "opencode";
   readonly capabilities: AgentCapabilityFlags;
+  readonly textGeneration: AgentTextGeneration;
   private readonly runtime: Pick<V2Runtime, "acquire" | "shutdown">;
   private readonly connections = new Map<string, V2Connection>();
   constructor(private readonly options: V2AgentOptions) {
@@ -66,6 +71,10 @@ export class OpenCodeV2AgentClient implements AgentClient {
       new V2Runtime({
         ...options,
       });
+    this.textGeneration = createOpenCodeTextGeneration({
+      acquire: (signal) => this.runtime.acquire({ signal }),
+      paseoPluginRoots: [path.join(resolvePaseoHome(), "runtime", "opencode")],
+    });
   }
   async isAvailable() {
     return true;

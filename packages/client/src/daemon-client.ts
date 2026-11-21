@@ -52,6 +52,10 @@ import {
 } from "@getpaseo/protocol/messages";
 import { validateWSOutboundMessage } from "@getpaseo/protocol/validation/ws-outbound";
 import type {
+  ProviderTextCapabilityGetPayload,
+  ProviderTextGeneratePayload,
+} from "@getpaseo/protocol/provider-text-generation";
+import type {
   AgentStreamEventPayload,
   AgentSnapshotPayload,
   ProjectPlacementPayload,
@@ -634,6 +638,44 @@ type RefreshProvidersSnapshotPayload = RefreshProvidersSnapshotResponseMessage["
 type ProviderDiagnosticPayload = ProviderDiagnosticResponseMessage["payload"];
 type ProviderUsageListPayload = ProviderUsageListResponseMessage["payload"];
 type ProviderInstallationInspectPayload = ProviderInstallationInspectResponseMessage["payload"];
+
+const PROVIDER_TEXT_DEFAULT_TIMEOUT_MS = 60_000;
+
+export interface ProviderTextGenerateInput {
+  provider: AgentProvider;
+  /** Provider model ID; for OpenCode `providerID/modelID`. */
+  model: string;
+  /** Sent verbatim; omit for the model's default. */
+  thinkingOptionId?: string;
+  prompt: string;
+  timeoutMs?: number;
+  signal?: AbortSignal;
+  requestId?: string;
+}
+
+async function raceProviderTextAbort<T>(
+  pending: Promise<T>,
+  signal: AbortSignal | undefined,
+  onAbort: () => void,
+): Promise<T> {
+  if (!signal) return pending;
+  let removeListener = () => {};
+  const aborted = new Promise<never>((_resolve, reject) => {
+    const abort = () => {
+      onAbort();
+      reject(signal.reason ?? new Error("One-shot text generation was cancelled."));
+    };
+    signal.addEventListener("abort", abort, { once: true });
+    removeListener = () => signal.removeEventListener("abort", abort);
+  });
+  try {
+    return await Promise.race([pending, aborted]);
+  } finally {
+    removeListener();
+    // The host still answers a cancelled request; nothing awaits that answer.
+    pending.catch(() => undefined);
+  }
+}
 type ProviderInstallationCheckUpdatesPayload =
   ProviderInstallationCheckUpdatesResponseMessage["payload"];
 type ProviderInstallationUpdatePayload = Extract<
@@ -6267,6 +6309,72 @@ export class DaemonClient {
       responseType: "provider_diagnostic_response",
       timeout: 180000,
     });
+  }
+
+  /**
+   * Whether `provider` can run one-shot text generation on this host, checked against the
+   * provider runtime without any prompt. Requires `features.providerTextGeneration`.
+   */
+  async getProviderTextCapability(
+    provider: AgentProvider,
+    options?: { requestId?: string },
+  ): Promise<ProviderTextCapabilityGetPayload> {
+    this.requireProviderTextGeneration();
+    return this.sendNamespacedCorrelatedSessionRequest<"provider.text.get_capability.response">({
+      requestId: options?.requestId,
+      message: { type: "provider.text.get_capability.request", provider },
+      timeout: 45_000,
+    });
+  }
+
+  /**
+   * One-shot text generation on this host: no agent, session or tools. The prompt is bound to the
+   * host this client is connected to; an answer from any other host is rejected. Aborting sends a
+   * cancel, but the host may already have sent the prompt. Requires
+   * `features.providerTextGeneration`.
+   */
+  async generateProviderText(
+    input: ProviderTextGenerateInput,
+  ): Promise<ProviderTextGeneratePayload> {
+    this.requireProviderTextGeneration();
+    const serverId = this.lastServerInfoMessage?.serverId;
+    if (!serverId) throw new Error("The connected host has not identified itself.");
+    input.signal?.throwIfAborted();
+    const requestId = input.requestId ?? this.createRequestId();
+    const timeoutMs = input.timeoutMs ?? PROVIDER_TEXT_DEFAULT_TIMEOUT_MS;
+    const response = this.sendNamespacedCorrelatedSessionRequest<"provider.text.generate.response">(
+      {
+        requestId,
+        message: {
+          type: "provider.text.generate.request",
+          provider: input.provider,
+          serverId,
+          model: input.model,
+          ...(input.thinkingOptionId !== undefined
+            ? { thinkingOptionId: input.thinkingOptionId }
+            : {}),
+          prompt: input.prompt,
+          timeoutMs,
+        },
+        // The host enforces the deadline; this only bounds a lost response.
+        timeout: timeoutMs + 15_000,
+      },
+    );
+    const payload = await raceProviderTextAbort(response, input.signal, () => {
+      void this.sendNamespacedCorrelatedSessionRequest<"provider.text.cancel.response">({
+        message: { type: "provider.text.cancel.request", targetRequestId: requestId },
+        timeout: 10_000,
+      }).catch(() => undefined);
+    });
+    if (payload.serverId !== serverId)
+      throw new Error("One-shot text generation was answered by a different host.");
+    return payload;
+  }
+
+  private requireProviderTextGeneration(): void {
+    // COMPAT(providerTextGeneration): added in v0.17.0, remove gate after 2027-11-21.
+    if (this.lastServerInfoMessage?.features?.providerTextGeneration !== true)
+      throw new Error("Update the host to use one-shot text generation.");
   }
 
   /** Install and update links plus installed state. Requires `features.providerInstallation`. */

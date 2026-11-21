@@ -1,4 +1,5 @@
 import type { AttachedAgentTool, PluginAgentToolsRuntime } from "../plugins/agent-tools.js";
+import type { AgentTextGeneration } from "./text-generation.js";
 import { ProviderOptionsValidationError } from "./provider-options.js";
 import type { AgentToolResult } from "@getpaseo/plugin/server";
 import type { RuntimeCleanupCandidate } from "./idle-runtime-cleanup/index.js";
@@ -6450,6 +6451,19 @@ export class AgentManager {
     throw new Error(
       `Provider '${options.provider}' is not available.${reason} Available providers: ${providerList}. Use one of those providers, or install/configure '${options.provider}'.`,
     );
+  }
+
+  /** The provider's one-shot text route, or why there is none. */
+  getTextGeneration(
+    provider: AgentProvider,
+  ):
+    | { status: "ok"; textGeneration: AgentTextGeneration }
+    | { status: "unavailable" | "disabled" | "unsupported" } {
+    if (this.providerEnabled.get(provider) === false) return { status: "disabled" };
+    const client = this.clients.get(provider);
+    if (!client) return { status: "unavailable" };
+    if (!client.textGeneration) return { status: "unsupported" };
+    return { status: "ok", textGeneration: client.textGeneration };
   }
 
   private requireEnabledProvider(provider: AgentProvider): void {
