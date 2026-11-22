@@ -31,8 +31,15 @@ const logs: string[] = [];
 const readSecret = vi.fn<KeychainSecretReader>(async () => SECRET);
 /** An unrelated enabled provider: the one-shot route must never check, start or list it. */
 const unrelated = { isAvailable: 0, fetchCatalog: 0 };
+const claudeRuntime = {
+  isAvailable: vi.fn(async () => true),
+  createSession: vi.fn(async () => {
+    throw new Error("Claude must not start for one-shot text");
+  }),
+};
 function spiedClients() {
   const clients = createTestAgentClients();
+  Object.assign(clients.claude!, claudeRuntime);
   const opencode = clients.opencode!;
   const isAvailable = opencode.isAvailable.bind(opencode);
   const fetchCatalog = opencode.fetchCatalog.bind(opencode);
@@ -64,6 +71,12 @@ beforeAll(async () => {
     logger: pino({ level: "trace" }, stream),
     agentClients: spiedClients(),
     providerOverrides: {
+      "claude-custom": {
+        extends: "claude",
+        label: "Synthetic Claude",
+        command: ["/path/to/unverified-claude-wrapper"],
+        env: { ANTHROPIC_BASE_URL: "https://configured.example.invalid" },
+      },
       [PROVIDER]: {
         extends: "codex",
         label: "NewAPI",
@@ -291,9 +304,33 @@ describe("Codex custom provider one-shot text generation through the daemon", ()
   });
 
   test("other providers keep refusing", async () => {
-    for (const provider of ["codex", "claude", "opencode"]) {
+    for (const provider of ["codex", "opencode"]) {
       const capability = await client.getProviderTextCapability(provider);
       expect(capability.supported).toBe(false);
     }
   });
+
+  test.each(["claude", "claude-custom"])(
+    "refuses %s before launch or prompt delivery, including when called without preflight",
+    async (provider) => {
+      const failure = { code: "isolation_unverified", promptSent: "no" };
+      const before = claudeRuntime.isAvailable.mock.calls.length;
+      expect((await client.listProviderTextProviders()).providers).not.toContainEqual(
+        expect.objectContaining({ provider }),
+      );
+      expect(await client.getProviderTextCapability(provider)).toMatchObject({
+        supported: false,
+        models: [],
+        error: failure,
+      });
+      const answer = await client.generateProviderText({
+        provider,
+        model: "sonnet",
+        prompt: PROMPT,
+      });
+      expect(answer.result).toMatchObject({ status: "error", error: failure });
+      expect(claudeRuntime.isAvailable).toHaveBeenCalledTimes(before);
+      expect(claudeRuntime.createSession).not.toHaveBeenCalled();
+    },
+  );
 });

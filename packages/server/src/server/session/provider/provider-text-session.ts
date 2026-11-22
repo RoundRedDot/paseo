@@ -209,6 +209,16 @@ export class ProviderTextSession {
   ): { textGeneration: AgentTextGeneration } | { error: ProviderTextGenerationError } {
     const resolved = this.options.getTextGeneration(provider);
     if (resolved.status === "ok") return { textGeneration: resolved.textGeneration };
+    if (resolved.status === "isolation_unverified") {
+      return {
+        error: {
+          code: "isolation_unverified",
+          message:
+            "Claude Code can load managed hooks during a request, so Paseo cannot isolate the prompt",
+          promptSent: "no",
+        },
+      };
+    }
     const messages = {
       disabled: `Provider "${provider}" is disabled`,
       unavailable: `Provider "${provider}" is not available on this host`,

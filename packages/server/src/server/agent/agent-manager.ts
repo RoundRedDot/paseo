@@ -6610,10 +6610,17 @@ export class AgentManager {
     provider: AgentProvider,
   ):
     | { status: "ok"; textGeneration: AgentTextGeneration }
-    | { status: "unavailable" | "disabled" | "unsupported" } {
+    | { status: "unavailable" | "disabled" | "unsupported" | "isolation_unverified" } {
     if (this.providerEnabled.get(provider) === false) return { status: "disabled" };
     const client = this.clients.get(provider);
     if (!client) return { status: "unavailable" };
+    // Claude Code can apply managed hooks after a tool and hook inventory has been checked.
+    if (
+      provider === "claude" ||
+      this.providerDefinitions.get(provider)?.derivedFromProviderId === "claude"
+    ) {
+      return { status: "isolation_unverified" };
+    }
     if (!client.textGeneration) return { status: "unsupported" };
     return { status: "ok", textGeneration: client.textGeneration };
   }

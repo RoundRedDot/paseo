@@ -38,6 +38,16 @@ Rules the code enforces, and why:
 
 Not covered: Linux and Windows (`unsupported`), a daemon whose login Keychain is locked (for example one started over ssh), and gateways that do not accept this request. Whether a gateway accepts it, and whether macOS prompts for the item, has only been checked against fakes.
 
+## Why Claude Code refuses
+
+Claude Code also refuses before any process launch, for both the built-in provider and profiles
+derived from it. Empty tools, strict MCP configuration and a pre-prompt inventory do not constrain
+managed hooks that take effect while the request is running. Claude Code's `ConfigChange` hook
+can audit local managed-policy edits but cannot block them. `--bare` leaves organization-managed
+plugin hooks enabled and skips the OAuth and Keychain reads needed to reuse the normal login.
+See the [CLI reference](https://code.claude.com/docs/en/cli-reference) and
+[ConfigChange reference](https://code.claude.com/docs/en/hooks#configchange).
+
 ## Why OpenCode refuses
 
 The route must not let the prompt cause any host action. Starting or reading an OpenCode location that loads the user's configuration already does that: it imports and sets up their plugins and connects their MCP servers, before any check can run. Plugin enable/disable directives in `OPENCODE_CONFIG_CONTENT` do not prevent it. On 2.2.x and 2.3.x the loader imports each declared package before a later `-*` can disable it, and 2.0.10 has no directives.
