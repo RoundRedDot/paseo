@@ -48,6 +48,8 @@ export const ProviderTextGenerationErrorSchema = z.object({
   message: z.string(),
   /** "no" only when the daemon stopped before transmitting the prompt to the provider runtime. */
   promptSent: z.enum(["no", "possibly"]),
+  /** Optional diagnostics for the host's configuration and admission queue. */
+  reason: z.enum(["credentials_invalid", "queue_full", "queue_timeout"]).optional(),
 });
 
 export const ProviderTextModelSchema = z.object({

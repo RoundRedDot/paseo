@@ -1,4 +1,4 @@
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { Writable } from "node:stream";
@@ -14,6 +14,7 @@ import {
 import { DaemonClient } from "../test-utils/daemon-client.js";
 import { createTestAgentClients } from "../test-utils/fake-agent-client.js";
 import { createTestPaseoDaemon, type TestPaseoDaemon } from "../test-utils/paseo-daemon.js";
+import { TEXT_GENERATION_CREDENTIALS_FILENAME } from "../text-generation-credentials.js";
 
 /**
  * A real daemon, a synthetic gateway and a fake Keychain: the one-shot route for a Codex custom
@@ -61,6 +62,90 @@ function spiedClients() {
 function sensitive(): string[] {
   return [SECRET, SERVICE, ACCOUNT, PROMPT, "synthetic translation"];
 }
+
+test.each(["missing", "invalid_json", "invalid_schema", "unreadable"] as const)(
+  "keeps the daemon online with a %s credential sidecar",
+  async (problem) => {
+    const root = await mkdtemp(path.join(os.tmpdir(), "paseo-text-bad-config-"));
+    const home = path.join(root, ".paseo");
+    const file = path.join(home, TEXT_GENERATION_CREDENTIALS_FILENAME);
+    const sentinel = "SYNTHETIC-private-binding";
+    const diagnostics: Array<{ reason?: string; msg?: string }> = [];
+    const stream = new Writable({
+      write(chunk, _encoding, callback) {
+        diagnostics.push(JSON.parse(String(chunk)));
+        callback();
+      },
+    });
+    let localDaemon: TestPaseoDaemon | undefined;
+    let localClient: DaemonClient | undefined;
+    try {
+      await mkdir(home);
+      if (problem === "invalid_json") await writeFile(file, sentinel);
+      if (problem === "invalid_schema")
+        await writeFile(file, JSON.stringify({ [PROVIDER]: sentinel }));
+      if (problem === "unreadable") await mkdir(file);
+      const localReadSecret = vi.fn<KeychainSecretReader>(async () => SECRET);
+      localDaemon = await createTestPaseoDaemon({
+        paseoHomeRoot: root,
+        logger: pino({ level: "warn" }, stream),
+        providerOverrides: {
+          [PROVIDER]: {
+            extends: "codex",
+            label: "Synthetic Gateway",
+            env: { OPENAI_BASE_URL: gateway.baseUrl },
+          },
+        },
+        textGeneration: { readSecret: localReadSecret, platform: "darwin" },
+      });
+      localClient = new DaemonClient({
+        url: `ws://127.0.0.1:${localDaemon.port}/ws`,
+        reconnect: { enabled: false },
+      });
+      await localClient.connect();
+      await expect(localClient.ping({ requestId: "sidecar-health" })).resolves.toMatchObject({
+        requestId: "sidecar-health",
+        serverReceivedAt: expect.any(Number),
+      });
+      const detail =
+        problem === "missing"
+          ? {}
+          : {
+              reason: "credentials_invalid",
+              message: expect.stringContaining(TEXT_GENERATION_CREDENTIALS_FILENAME),
+            };
+      const expected = { code: "unsupported", promptSent: "no", ...detail };
+      expect(await localClient.getProviderTextCapability(PROVIDER)).toMatchObject({
+        supported: false,
+        error: expected,
+      });
+      const requestsBefore = gateway.requests.length;
+      expect(
+        (
+          await localClient.generateProviderText({
+            provider: PROVIDER,
+            model: "synthetic",
+            prompt: PROMPT,
+          })
+        ).result,
+      ).toMatchObject({ status: "error", error: expected });
+      expect(gateway.requests).toHaveLength(requestsBefore);
+      expect(localReadSecret).not.toHaveBeenCalled();
+      const bindingLogs = diagnostics.filter((entry) =>
+        entry.msg?.includes(TEXT_GENERATION_CREDENTIALS_FILENAME),
+      );
+      expect(bindingLogs.map((entry) => entry.reason)).toEqual(
+        problem === "missing" ? [] : [problem],
+      );
+      expect(JSON.stringify(diagnostics)).not.toContain(sentinel);
+      expect(JSON.stringify(diagnostics)).not.toContain(file);
+    } finally {
+      await localClient?.close();
+      await localDaemon?.close();
+      await rm(root, { recursive: true, force: true });
+    }
+  },
+);
 
 beforeAll(async () => {
   testHome = await mkdtemp(path.join(os.tmpdir(), "paseo-text-user-"));

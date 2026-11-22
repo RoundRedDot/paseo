@@ -66,19 +66,40 @@ export type TextGenerationCredentials = z.infer<typeof TextGenerationCredentials
 
 export const TEXT_GENERATION_CREDENTIALS_FILENAME = "text-generation-credentials.json";
 
-export async function loadTextGenerationCredentials(
-  paseoHome: string,
-): Promise<TextGenerationCredentials | undefined> {
+type CredentialConfigIssue = "unreadable" | "invalid_json" | "invalid_schema";
+type CredentialConfig =
+  | { status: "missing" }
+  | { status: "ready"; credentials: TextGenerationCredentials }
+  | { status: "invalid"; reason: CredentialConfigIssue; message: string };
+
+function invalidCredentialConfig(reason: CredentialConfigIssue): CredentialConfig {
+  const details = {
+    unreadable: "cannot be read",
+    invalid_json: "contains invalid JSON",
+    invalid_schema: "does not match the credential binding schema",
+  };
+  return {
+    status: "invalid",
+    reason,
+    message: `One-shot text generation is disabled because ${TEXT_GENERATION_CREDENTIALS_FILENAME} ${details[reason]}. Fix the file and restart Paseo.`,
+  };
+}
+
+export async function loadTextGenerationCredentials(paseoHome: string): Promise<CredentialConfig> {
   let raw: string;
   try {
     raw = await readFile(path.join(paseoHome, TEXT_GENERATION_CREDENTIALS_FILENAME), "utf8");
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") return undefined;
-    throw new Error(`Could not read ${TEXT_GENERATION_CREDENTIALS_FILENAME}`, { cause: error });
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return { status: "missing" };
+    return invalidCredentialConfig("unreadable");
   }
+  let parsed: unknown;
   try {
-    return TextGenerationCredentialsSchema.parse(JSON.parse(raw));
+    parsed = JSON.parse(raw);
   } catch {
-    throw new Error(`Invalid ${TEXT_GENERATION_CREDENTIALS_FILENAME}`);
+    return invalidCredentialConfig("invalid_json");
   }
+  const result = TextGenerationCredentialsSchema.safeParse(parsed);
+  if (!result.success) return invalidCredentialConfig("invalid_schema");
+  return { status: "ready", credentials: result.data };
 }

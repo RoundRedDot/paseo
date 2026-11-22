@@ -391,6 +391,7 @@ export interface AgentManagerOptions {
   /** An internal workspace makes every agent created inside it internal. */
   clients?: ProviderClientMap;
   providerDefinitions?: ProviderEnabledMap;
+  textGenerationCredentialIssue?: string;
   idFactory?: () => string;
   registry?: AgentStorage;
   onAgentAttention?: AgentAttentionCallback;
@@ -957,7 +958,10 @@ export class AgentManager {
   private readonly beforeSteerUnavailableFallback?: AgentManagerOptions["beforeSteerUnavailableFallback"];
   private acceptingAgentRegistrations = true;
 
+  private readonly textGenerationCredentialIssue?: string;
+
   constructor(options: AgentManagerOptions) {
+    this.textGenerationCredentialIssue = options.textGenerationCredentialIssue;
     this.pluginLifecycle = options.pluginLifecycle;
     this.pluginAgentTools = options.pluginAgentTools;
     this.timelineStore = options.timelineStore ?? new InMemoryAgentTimelineStore();
@@ -6611,7 +6615,8 @@ export class AgentManager {
   ):
     | { status: "ok"; textGeneration: AgentTextGeneration }
     | { status: "unavailable" | "disabled" | "unsupported" }
-    | { status: "isolation_unverified"; reason: string } {
+    | { status: "isolation_unverified"; reason: string }
+    | { status: "credentials_invalid"; reason: string } {
     if (this.providerEnabled.get(provider) === false) return { status: "disabled" };
     const client = this.clients.get(provider);
     if (!client) return { status: "unavailable" };
@@ -6629,6 +6634,9 @@ export class AgentManager {
         reason:
           "Paseo has no OpenCode runtime isolated from user plugins, MCP servers and extensions",
       };
+    }
+    if (base === "codex" && provider !== "codex" && this.textGenerationCredentialIssue) {
+      return { status: "credentials_invalid", reason: this.textGenerationCredentialIssue };
     }
     if (!client.textGeneration) return { status: "unsupported" };
     return { status: "ok", textGeneration: client.textGeneration };

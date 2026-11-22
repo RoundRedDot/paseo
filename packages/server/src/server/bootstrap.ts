@@ -634,14 +634,23 @@ function createInitialMutableDaemonConfig(config: ResolvedDaemonSettings): Mutab
   return initialConfig;
 }
 
+async function readStartupTextGenerationConfig(paseoHome: string, logger: Logger) {
+  const config = await loadTextGenerationCredentials(paseoHome);
+  if (config.status === "invalid") {
+    logger.error({ reason: config.reason }, config.message);
+    return { issue: config.message };
+  }
+  return { credentials: config.status === "ready" ? config.credentials : undefined };
+}
+
 export async function createPaseoDaemon(
   config: PaseoDaemonConfig,
   rootLogger: Logger,
   dependencies: PaseoDaemonDependencies = {},
 ): Promise<PaseoDaemon> {
-  const textGenerationCredentials = await loadTextGenerationCredentials(config.paseoHome);
   configureGitProcessPolicy(config.git ?? resolveGitProcessPolicy({ env: process.env }));
   const logger = rootLogger.child({ module: "bootstrap" });
+  const credentialConfig = await readStartupTextGenerationConfig(config.paseoHome, logger);
   const obsoleteTimelineDirectory = path.join(config.paseoHome, "agent-timelines");
   await rm(obsoleteTimelineDirectory, { recursive: true, force: true }).catch((error) => {
     logger.warn(
@@ -1028,7 +1037,7 @@ export async function createPaseoDaemon(
       isDev: config.isDev === true,
       extraClients: config.agentClients,
       backgroundRefresh: { intervalMs: PROVIDER_BACKGROUND_REFRESH_INTERVAL_MS },
-      textGenerationCredentials,
+      textGenerationCredentials: credentialConfig.credentials,
       textGenerationDeps: dependencies.textGeneration,
     },
   });
@@ -1050,6 +1059,7 @@ export async function createPaseoDaemon(
     pluginAgentTools: pluginRuntime,
     clients: initialAgentManagerState.clients,
     providerDefinitions: initialAgentManagerState.providerDefinitions,
+    textGenerationCredentialIssue: credentialConfig.issue,
     registry: agentStorage,
     appendSystemPrompt: config.appendSystemPrompt,
     onWorkspaceStateMayHaveChanged: ({ cwd }) => {

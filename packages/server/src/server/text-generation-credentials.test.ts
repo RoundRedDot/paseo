@@ -27,14 +27,18 @@ describe("text generation credentials", () => {
           .success,
       ).toBe(false);
       writeFileSync(path.join(home, "config.json"), JSON.stringify(config));
-      await expect(loadTextGenerationCredentials(home)).resolves.toBeUndefined();
+      await expect(loadTextGenerationCredentials(home)).resolves.toEqual({ status: "missing" });
       const credentialPath = path.join(home, TEXT_GENERATION_CREDENTIALS_FILENAME);
       writeFileSync(credentialPath, JSON.stringify({ newapi: VALID }));
-      await expect(loadTextGenerationCredentials(home)).resolves.toEqual({ newapi: VALID });
+      await expect(loadTextGenerationCredentials(home)).resolves.toEqual({
+        status: "ready",
+        credentials: { newapi: VALID },
+      });
       writeFileSync(credentialPath, JSON.stringify({ newapi: { ...VALID, account: "PRIVATE\n" } }));
-      await expect(loadTextGenerationCredentials(home)).rejects.toThrow(
-        /^Invalid text-generation-credentials\.json$/,
-      );
+      await expect(loadTextGenerationCredentials(home)).resolves.toMatchObject({
+        status: "invalid",
+        reason: "invalid_schema",
+      });
     } finally {
       rmSync(home, { recursive: true });
     }

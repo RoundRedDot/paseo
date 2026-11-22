@@ -809,7 +809,8 @@ describe("DaemonConfigStore", () => {
     expect(JSON.stringify(answered)).not.toContain("text-generation");
     expect(JSON.stringify(store.get())).not.toContain("synthetic-account");
     await expect(loadTextGenerationCredentials(paseoHome)).resolves.toEqual({
-      newapi: credential,
+      status: "ready",
+      credentials: { newapi: credential },
     });
     expect(loadPersistedConfig(paseoHome).agents?.providers?.newapi).toMatchObject({
       enabled: false,

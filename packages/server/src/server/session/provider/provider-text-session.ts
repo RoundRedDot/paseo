@@ -54,6 +54,7 @@ function beforeStartAbort(signal: AbortSignal): ProviderTextGenerationError {
   const timedOut = signal.reason instanceof Error && signal.reason.name === "TimeoutError";
   return {
     code: timedOut ? "timeout" : "cancelled",
+    ...(timedOut ? { reason: "queue_timeout" as const } : {}),
     message: timedOut
       ? "One-shot text generation timed out before it started"
       : "One-shot text generation was cancelled before it started",
@@ -183,6 +184,7 @@ export class ProviderTextSession {
     if (queue.waiting.size >= PROVIDER_TEXT_MAX_QUEUED_PER_SOURCE) {
       fail({
         code: "provider_unavailable",
+        reason: "queue_full",
         message: "This connection's one-shot text queue is full. Try again shortly",
         promptSent: "no",
       });
@@ -265,6 +267,16 @@ export class ProviderTextSession {
   ): { textGeneration: AgentTextGeneration } | { error: ProviderTextGenerationError } {
     const resolved = this.options.getTextGeneration(provider);
     if (resolved.status === "ok") return { textGeneration: resolved.textGeneration };
+    if (resolved.status === "credentials_invalid") {
+      return {
+        error: {
+          code: "unsupported",
+          reason: "credentials_invalid",
+          message: resolved.reason,
+          promptSent: "no",
+        },
+      };
+    }
     if (resolved.status === "isolation_unverified") {
       return {
         error: {

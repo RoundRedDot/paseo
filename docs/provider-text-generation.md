@@ -23,7 +23,7 @@ Create `text-generation-credentials.json` in the daemon home. The file maps prov
 }
 ```
 
-Store the key in a dedicated item with `security add-generic-password -s paseo.text-generation.newapi -a you -w` (it prompts, so the key stays out of shell history), then restart the daemon. The daemon reads the file at startup. If you used the earlier unpublished candidate, move the provider map from `textGenerationCredentials` into this file and remove the old top-level key before startup or downgrade. Released daemons ignore the separate file and use their existing `config.json` schema.
+Store the key in a dedicated item with `security add-generic-password -s paseo.text-generation.newapi -a you -w` (it prompts, so the key stays out of shell history), then restart the daemon. The daemon reads the file at startup. An unreadable file, invalid JSON or invalid binding disables one-shot text for Codex custom providers. The daemon stays online and reports the problem in its startup log and in the provider’s text capability. Fix the file and restart to re-enable the route. If you used the earlier unpublished candidate, move the provider map from `textGenerationCredentials` into this file and remove the old top-level key before startup or downgrade. Released daemons ignore the separate file and use their existing `config.json` schema.
 
 Rules the code enforces, and why:
 
@@ -94,7 +94,7 @@ The daemon's own request uses `redirect: "manual"` and rejects any 3xx, because 
 
 ## Requests and cancellation
 
-The deadline defaults to 60 s, capped at 300 s. A prompt over 1 MiB of UTF-8 is refused before any provider code runs. Each socket runs up to four generations, with up to eight more waiting in arrival order. The deadline includes time in the queue. A full queue returns `provider_unavailable` with a busy message. Cancellation, detachment, and expiry prevent a waiting request from dispatching. A request belongs to the socket that sent it: only that socket can cancel it, the same request ID on two sockets runs as two requests, and the socket detaching aborts it.
+The deadline defaults to 60 s, capped at 300 s. A prompt over 1 MiB of UTF-8 is refused before any provider code runs. Each socket runs up to four generations, with up to eight more waiting in arrival order. The deadline includes time in the queue. A full queue returns `provider_unavailable` with reason `queue_full`. Expiry before dispatch returns `timeout` with reason `queue_timeout`. In both cases `promptSent` is `no`, so clients can offer a manual retry. Cancellation, detachment, and expiry prevent a waiting request from dispatching. A request belongs to the socket that sent it: only that socket can cancel it, the same request ID on two sockets runs as two requests, and the socket detaching aborts it.
 
 The SDK always uses a fresh wire ID. Cancellation, a lost answer, or an answer from a host other than the connected one all come back as an error result with `promptSent: "possibly"`, never as a rejection. `generateText` rejects only when nothing was sent: the host lacks `features.providerTextGeneration`, has not identified itself, or is not connected.
 

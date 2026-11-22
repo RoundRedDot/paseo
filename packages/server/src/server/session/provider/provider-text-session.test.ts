@@ -207,6 +207,7 @@ describe("ProviderTextSession", () => {
           code: "provider_unavailable",
           promptSent: "no",
           message: expect.stringContaining("queue is full"),
+          reason: "queue_full",
         },
       },
     });
@@ -224,7 +225,10 @@ describe("ProviderTextSession", () => {
     await session.handleGenerate(generateRequest({ requestId: "expires", timeoutMs: 5 }), origin);
     expect(lastGenerateResult(recording)).toMatchObject({
       requestId: "expires",
-      result: { status: "error", error: { code: "timeout", promptSent: "no" } },
+      result: {
+        status: "error",
+        error: { code: "timeout", reason: "queue_timeout", promptSent: "no" },
+      },
     });
     const waiting = session.handleGenerate(generateRequest({ requestId: "detached" }), origin);
     origin.detach();
