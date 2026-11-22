@@ -18,6 +18,67 @@ import {
   WorkspaceBaseBranchSetRequestSchema,
   WorkspaceBaseBranchSetResponseSchema,
 } from "./messages.js";
+import { validateWSOutboundMessage } from "./validation/ws-outbound.js";
+
+test("ignores the semantics of new text diagnostics without relaxing safety fields", () => {
+  const response = {
+    type: "provider.text.generate.response",
+    payload: {
+      requestId: "request",
+      provider: "codex",
+      serverId: "host",
+      result: {
+        status: "error",
+        error: {
+          code: "unsupported",
+          message: "Unavailable",
+          promptSent: "no",
+          reason: "future_diagnostic",
+        },
+      },
+    },
+  };
+  expect(SessionOutboundMessageSchema.parse(response)).toEqual(response);
+  const frame = { type: "session", message: response };
+  expect(validateWSOutboundMessage(frame)).toEqual({ success: true, data: frame });
+  for (const invalid of [{ promptSent: "unknown" }, { code: "not_a_wire_code" }, { reason: 42 }]) {
+    const message = {
+      ...response,
+      payload: {
+        ...response.payload,
+        result: {
+          ...response.payload.result,
+          error: { ...response.payload.result.error, ...invalid },
+        },
+      },
+    };
+    expect(SessionOutboundMessageSchema.safeParse(message).success).toBe(false);
+    expect(validateWSOutboundMessage({ ...frame, message }).success).toBe(false);
+  }
+});
+
+test("text credential diagnostics leave the legacy list usable", () => {
+  const payload = {
+    requestId: "list",
+    serverId: "host",
+    providers: [{ provider: "good", label: "Available gateway" }],
+  };
+  const legacy = z.object({
+    requestId: z.string(),
+    serverId: z.string().nullable(),
+    providers: z.array(z.object({ provider: z.string(), label: z.string() })),
+  });
+  const credentialIssues = [{ provider: "bad", label: "Blocked gateway" }];
+  const envelope = { type: "provider.text.list.response" };
+  expect(legacy.parse({ ...payload, credentialIssues })).toEqual(payload);
+  expect(SessionOutboundMessageSchema.parse({ ...envelope, payload })).toEqual({
+    ...envelope,
+    payload,
+  });
+  expect(
+    SessionOutboundMessageSchema.parse({ ...envelope, payload: { ...payload, credentialIssues } }),
+  ).toEqual({ ...envelope, payload: { ...payload, credentialIssues } });
+});
 
 test("base selection RPCs are correlated while older checkout and branch messages remain valid", () => {
   const payload = {

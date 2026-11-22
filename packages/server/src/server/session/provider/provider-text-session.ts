@@ -93,12 +93,21 @@ export class ProviderTextSession {
 
   /** The enabled providers with a one-shot route. No runtime is checked, started or warmed. */
   handleList(msg: ProviderTextListRequestMessage): void {
-    const providers = this.options
-      .listRegisteredProviders()
-      .filter((entry) => this.options.getTextGeneration(entry.provider).status === "ok");
+    const providers: ReturnType<ProviderTextSessionOptions["listRegisteredProviders"]> = [];
+    const credentialIssues: typeof providers = [];
+    for (const entry of this.options.listRegisteredProviders()) {
+      const { status } = this.options.getTextGeneration(entry.provider);
+      if (status === "ok") providers.push(entry);
+      if (status === "credentials_invalid") credentialIssues.push(entry);
+    }
     this.options.emit({
       type: "provider.text.list.response",
-      payload: { requestId: msg.requestId, serverId: this.options.serverId ?? null, providers },
+      payload: {
+        requestId: msg.requestId,
+        serverId: this.options.serverId ?? null,
+        providers,
+        ...(credentialIssues.length ? { credentialIssues } : {}),
+      },
     });
   }
 

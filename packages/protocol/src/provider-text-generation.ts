@@ -48,8 +48,8 @@ export const ProviderTextGenerationErrorSchema = z.object({
   message: z.string(),
   /** "no" only when the daemon stopped before transmitting the prompt to the provider runtime. */
   promptSent: z.enum(["no", "possibly"]),
-  /** Optional diagnostics for the host's configuration and admission queue. */
-  reason: z.enum(["credentials_invalid", "queue_full", "queue_timeout"]).optional(),
+  /** Open diagnostic identifier. Unknown reasons leave the code and delivery status intact. */
+  reason: z.string().optional(),
 });
 
 export const ProviderTextModelSchema = z.object({
@@ -95,12 +95,16 @@ export const ProviderTextCancelRequestMessageSchema = z.object({
   targetRequestId: z.string(),
 });
 
+const ProviderTextListEntrySchema = z.object({ provider: AgentProviderSchema, label: z.string() });
+
 export const ProviderTextListResponseMessageSchema = z.object({
   type: z.literal("provider.text.list.response"),
   payload: z.object({
     requestId: z.string(),
     serverId: z.string().nullable(),
-    providers: z.array(z.object({ provider: AgentProviderSchema, label: z.string() })),
+    providers: z.array(ProviderTextListEntrySchema),
+    /** Routes blocked by an invalid credential file. These are not selectable providers. */
+    credentialIssues: z.array(ProviderTextListEntrySchema).optional(),
   }),
 });
 

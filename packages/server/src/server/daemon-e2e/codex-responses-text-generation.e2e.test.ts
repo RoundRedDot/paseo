@@ -107,6 +107,14 @@ test.each(["missing", "invalid_json", "invalid_schema", "unreadable"] as const)(
         requestId: "sidecar-health",
         serverReceivedAt: expect.any(Number),
       });
+      const beforeList = gateway.requests.length;
+      const listing = await localClient.listProviderTextProviders();
+      expect(listing.providers).not.toContainEqual(expect.objectContaining({ provider: PROVIDER }));
+      expect(listing.credentialIssues).toEqual(
+        problem === "missing" ? undefined : [{ provider: PROVIDER, label: "Synthetic Gateway" }],
+      );
+      expect(gateway.requests).toHaveLength(beforeList);
+      expect(localReadSecret).not.toHaveBeenCalled();
       const detail =
         problem === "missing"
           ? {}
