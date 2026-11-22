@@ -85,6 +85,7 @@ test.each(["missing", "invalid_json", "invalid_schema", "unreadable"] as const)(
       if (problem === "invalid_schema")
         await writeFile(file, JSON.stringify({ [PROVIDER]: sentinel }));
       if (problem === "unreadable") await mkdir(file);
+      const unbound = "unbound-codex";
       const localReadSecret = vi.fn<KeychainSecretReader>(async () => SECRET);
       localDaemon = await createTestPaseoDaemon({
         paseoHomeRoot: root,
@@ -95,6 +96,7 @@ test.each(["missing", "invalid_json", "invalid_schema", "unreadable"] as const)(
             label: "Synthetic Gateway",
             env: { OPENAI_BASE_URL: gateway.baseUrl },
           },
+          [unbound]: { extends: "codex", label: "Synthetic Unbound" },
         },
         textGeneration: { readSecret: localReadSecret, platform: "darwin" },
       });
@@ -110,9 +112,19 @@ test.each(["missing", "invalid_json", "invalid_schema", "unreadable"] as const)(
       const beforeList = gateway.requests.length;
       const listing = await localClient.listProviderTextProviders();
       expect(listing.providers).not.toContainEqual(expect.objectContaining({ provider: PROVIDER }));
-      expect(listing.credentialIssues).toEqual(
-        problem === "missing" ? undefined : [{ provider: PROVIDER, label: "Synthetic Gateway" }],
-      );
+      expect(listing.providers).not.toContainEqual(expect.objectContaining({ provider: unbound }));
+      if (problem === "missing") {
+        expect(listing.credentialIssues).toBeUndefined();
+      } else {
+        // A global file error identifies affected routes, without asserting which had bindings.
+        expect(listing.credentialIssues).toHaveLength(2);
+        expect(listing.credentialIssues).toEqual(
+          expect.arrayContaining([
+            { provider: PROVIDER, label: "Synthetic Gateway" },
+            { provider: unbound, label: "Synthetic Unbound" },
+          ]),
+        );
+      }
       expect(gateway.requests).toHaveLength(beforeList);
       expect(localReadSecret).not.toHaveBeenCalled();
       const detail =

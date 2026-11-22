@@ -6,7 +6,7 @@ List providers with `listTextProviders`, never `paseo.providers.snapshot`. A sna
 
 Only a Codex custom provider with a host-local Keychain credential binding supports it ([Codex custom providers](#codex-custom-providers)), and only on macOS. Every other provider answers `unsupported` or `isolation_unverified`, and nothing is sent. The OpenCode v2 implementation (`packages/server/src/server/agent/providers/opencode/v2/text-generation.ts`) is complete, but it needs a runtime Paseo does not have.
 
-An invalid credential file is reported by the registry as optional `credentialIssues`. Those entries are excluded from the selectable list; reading the diagnostic does not check a provider or read Keychain. Error `reason` is an open diagnostic string; routing and prompt delivery use the existing `code` and `promptSent` fields.
+An invalid credential file is reported by the registry as optional `credentialIssues`. It lists the enabled Codex custom providers whose translation is disabled by the file error, since the daemon cannot tell which ones had bindings. These entries are excluded from the selectable list. Reading the diagnostic does not check a provider or read Keychain. Error `reason` is an open diagnostic string; routing and prompt delivery use the existing `code` and `promptSent` fields.
 
 ## Codex custom providers
 
