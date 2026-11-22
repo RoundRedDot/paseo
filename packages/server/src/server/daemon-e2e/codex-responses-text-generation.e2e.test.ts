@@ -1,3 +1,6 @@
+import { mkdtemp, rm } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import { Writable } from "node:stream";
 import pino from "pino";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
@@ -27,6 +30,7 @@ let gateway: SyntheticResponsesGateway;
 let attacker: SyntheticResponsesGateway;
 let daemon: TestPaseoDaemon;
 let client: DaemonClient;
+let testHome: string;
 const logs: string[] = [];
 const readSecret = vi.fn<KeychainSecretReader>(async () => SECRET);
 /** An unrelated enabled provider: the one-shot route must never check, start or list it. */
@@ -59,6 +63,9 @@ function sensitive(): string[] {
 }
 
 beforeAll(async () => {
+  testHome = await mkdtemp(path.join(os.tmpdir(), "paseo-text-user-"));
+  // Daemon startup reconciles installed skills through os.homedir().
+  vi.spyOn(os, "homedir").mockReturnValue(testHome);
   gateway = await startSyntheticResponsesGateway();
   attacker = await startSyntheticResponsesGateway();
   const stream = new Writable({
@@ -110,10 +117,15 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await client?.close();
-  await daemon?.close();
-  await gateway?.close();
-  await attacker?.close();
+  try {
+    await client?.close();
+    await daemon?.close();
+    await gateway?.close();
+    await attacker?.close();
+  } finally {
+    vi.restoreAllMocks();
+    if (testHome) await rm(testHome, { recursive: true, force: true });
+  }
 });
 
 beforeEach(() => {
