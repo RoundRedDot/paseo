@@ -10,6 +10,10 @@ import {
 } from "./daemon-config-store.js";
 import { loadConfig } from "./config.js";
 import { loadPersistedConfig } from "./persisted-config.js";
+import {
+  TEXT_GENERATION_CREDENTIALS_FILENAME,
+  loadTextGenerationCredentials,
+} from "./text-generation-credentials.js";
 import { readSpeechSettings } from "./speech/speech-settings.js";
 import type { PersistedConfig } from "./persisted-config.js";
 import type { MutableDaemonConfig } from "@getpaseo/protocol/messages";
@@ -771,11 +775,14 @@ describe("DaemonConfigStore", () => {
         {
           ...initial,
           agents: { providers: { newapi: { extends: "codex", label: "NewAPI" } } },
-          textGenerationCredentials: { newapi: credential },
         },
         null,
         2,
       ) + "\n",
+    );
+    writeFileSync(
+      path.join(paseoHome, TEXT_GENERATION_CREDENTIALS_FILENAME),
+      JSON.stringify({ newapi: credential }),
     );
     const store = new DaemonConfigStore(
       paseoHome,
@@ -801,7 +808,7 @@ describe("DaemonConfigStore", () => {
 
     expect(JSON.stringify(answered)).not.toContain("text-generation");
     expect(JSON.stringify(store.get())).not.toContain("synthetic-account");
-    expect(loadPersistedConfig(paseoHome).textGenerationCredentials).toEqual({
+    await expect(loadTextGenerationCredentials(paseoHome)).resolves.toEqual({
       newapi: credential,
     });
     expect(loadPersistedConfig(paseoHome).agents?.providers?.newapi).toMatchObject({

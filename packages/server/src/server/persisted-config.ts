@@ -20,7 +20,6 @@ import { AgentProfileSchema, AgentSkillSelectionSchema } from "@getpaseo/protoco
 import { PluginIdSchema, PluginSourceSchema } from "@getpaseo/protocol/plugin-config";
 import { TerminalProfileSchema } from "@getpaseo/protocol/terminal-profile";
 import { PaseoServicePortAllocationSchema } from "@getpaseo/protocol/paseo-config-schema";
-import { TextGenerationCredentialsSchema } from "./text-generation-credentials.js";
 
 export const LogLevelSchema = z.enum(["trace", "debug", "info", "warn", "error", "fatal"]);
 export const LogFormatSchema = z.enum(["pretty", "json"]);
@@ -384,11 +383,6 @@ export const PersistedConfigSchema = z
       .optional(),
 
     log: LogConfigSchema.optional(),
-    /**
-     * Keychain items for one-shot text generation, keyed by provider id. Hand-edited only:
-     * clients cannot read or write it. Read at daemon start.
-     */
-    textGenerationCredentials: TextGenerationCredentialsSchema.optional(),
   })
   .strict();
 

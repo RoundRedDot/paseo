@@ -1,9 +1,11 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { z } from "zod";
 
 /**
- * Credentials for one-shot text generation, declared only by editing `config.json` by hand.
+ * Credentials for one-shot text generation, declared in a separate host-local file.
  *
- * The section is keyed by provider id and never enters the mutable daemon config, so no client
+ * The file is keyed by provider id and never enters the mutable daemon config, so no client
  * can read it (`get_daemon_config`) or write it (`set_daemon_config`). Each entry names one
  * macOS Keychain item and the one gateway origin its secret may be sent to; the provider's
  * client-writable `OPENAI_BASE_URL` must resolve to exactly that origin. Absent means off.
@@ -61,3 +63,22 @@ export const TextGenerationCredentialsSchema = z.record(
 
 export type TextGenerationCredential = z.infer<typeof TextGenerationCredentialSchema>;
 export type TextGenerationCredentials = z.infer<typeof TextGenerationCredentialsSchema>;
+
+export const TEXT_GENERATION_CREDENTIALS_FILENAME = "text-generation-credentials.json";
+
+export async function loadTextGenerationCredentials(
+  paseoHome: string,
+): Promise<TextGenerationCredentials | undefined> {
+  let raw: string;
+  try {
+    raw = await readFile(path.join(paseoHome, TEXT_GENERATION_CREDENTIALS_FILENAME), "utf8");
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return undefined;
+    throw new Error(`Could not read ${TEXT_GENERATION_CREDENTIALS_FILENAME}`, { cause: error });
+  }
+  try {
+    return TextGenerationCredentialsSchema.parse(JSON.parse(raw));
+  } catch {
+    throw new Error(`Invalid ${TEXT_GENERATION_CREDENTIALS_FILENAME}`);
+  }
+}

@@ -10570,7 +10570,9 @@ describe("one-shot provider text generation", () => {
 
   test("refuses before sending anything to a host without the feature", async () => {
     const { transport, client } = await connectWith({});
-    await expect(client.generateProviderText(input)).rejects.toThrow("Update the host");
+    await expect(client.generateProviderText(input)).rejects.toThrow(
+      "One-shot text generation requires a host build with provider.text.generate",
+    );
     expect(sentRequests(transport)).toEqual([]);
   });
 

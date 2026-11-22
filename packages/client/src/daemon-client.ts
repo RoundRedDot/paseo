@@ -1429,7 +1429,9 @@ export class ProviderTextListUnsupportedError extends Error {
   readonly code = "PROVIDER_TEXT_LIST_UNSUPPORTED";
 
   constructor() {
-    super("Update the host to list one-shot text generation providers.");
+    super(
+      "Listing one-shot text generation providers requires a host build with provider.text.list.",
+    );
     this.name = "ProviderTextListUnsupportedError";
   }
 }
@@ -6380,7 +6382,7 @@ export class DaemonClient {
     // unfinished connection is a connection error, never an unsupported host.
     if (this.connectionState.status !== "connected" || !this.lastServerInfoMessage)
       throw this.unavailableError();
-    // COMPAT(providerTextList): added in v0.17.0, remove gate after 2027-11-22.
+    // COMPAT(providerTextList): unreleased. Remove the gate when the minimum daemon supports it.
     if (this.lastServerInfoMessage.features?.providerTextList !== true)
       throw new ProviderTextListUnsupportedError();
     return this.sendNamespacedCorrelatedSessionRequest<"provider.text.list.response">({
@@ -6477,9 +6479,11 @@ export class DaemonClient {
   }
 
   private requireProviderTextGeneration(): void {
-    // COMPAT(providerTextGeneration): added in v0.17.0, remove gate after 2027-11-21.
+    // COMPAT(providerTextGeneration): unreleased. Remove the gate when the minimum daemon supports it.
     if (this.lastServerInfoMessage?.features?.providerTextGeneration !== true)
-      throw new Error("Update the host to use one-shot text generation.");
+      throw new Error(
+        "One-shot text generation requires a host build with provider.text.generate.",
+      );
   }
 
   /** Install and update links plus installed state. Requires `features.providerInstallation`. */

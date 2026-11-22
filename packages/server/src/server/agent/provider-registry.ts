@@ -119,7 +119,7 @@ export interface BuildProviderRegistryOptions {
   isDev?: boolean;
   ompRuntime?: OmpRuntime;
   openCodeBridge?: OpenCodeBridge;
-  /** The hand-edited `textGenerationCredentials` section; never client-writable. */
+  /** The host-local text generation credentials file; never client-writable. */
   textGenerationCredentials?: TextGenerationCredentials;
   /** Test seams for the credential read and the gateway request. */
   textGenerationDeps?: ResponsesTextGenerationDeps;

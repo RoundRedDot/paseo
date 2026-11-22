@@ -1,6 +1,13 @@
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { describe, expect, test } from "vitest";
 import { PersistedConfigSchema } from "./persisted-config.js";
-import { TextGenerationCredentialSchema } from "./text-generation-credentials.js";
+import {
+  loadTextGenerationCredentials,
+  TEXT_GENERATION_CREDENTIALS_FILENAME,
+  TextGenerationCredentialSchema,
+} from "./text-generation-credentials.js";
 
 const VALID = {
   source: "macos-keychain",
@@ -10,11 +17,30 @@ const VALID = {
 };
 
 describe("text generation credentials", () => {
-  test("config.json accepts a Paseo Keychain item bound to one https origin", () => {
-    expect(
-      PersistedConfigSchema.parse({ textGenerationCredentials: { newapi: VALID } })
-        .textGenerationCredentials,
-    ).toEqual({ newapi: VALID });
+  test("loads the sidecar while leaving config.json compatible with the released schema", async () => {
+    const home = mkdtempSync(path.join(tmpdir(), "paseo-text-config-"));
+    try {
+      const config = { version: 1, daemon: { relay: { enabled: false } } };
+      expect(PersistedConfigSchema.safeParse(config).success).toBe(true);
+      expect(
+        PersistedConfigSchema.safeParse({ ...config, textGenerationCredentials: { newapi: VALID } })
+          .success,
+      ).toBe(false);
+      writeFileSync(path.join(home, "config.json"), JSON.stringify(config));
+      await expect(loadTextGenerationCredentials(home)).resolves.toBeUndefined();
+      const credentialPath = path.join(home, TEXT_GENERATION_CREDENTIALS_FILENAME);
+      writeFileSync(credentialPath, JSON.stringify({ newapi: VALID }));
+      await expect(loadTextGenerationCredentials(home)).resolves.toEqual({ newapi: VALID });
+      writeFileSync(credentialPath, JSON.stringify({ newapi: { ...VALID, account: "PRIVATE\n" } }));
+      await expect(loadTextGenerationCredentials(home)).rejects.toThrow(
+        /^Invalid text-generation-credentials\.json$/,
+      );
+    } finally {
+      rmSync(home, { recursive: true });
+    }
+  });
+
+  test("accepts loopback HTTP for a local gateway", () => {
     expect(
       TextGenerationCredentialSchema.safeParse({ ...VALID, origin: "http://127.0.0.1:8080" })
         .success,

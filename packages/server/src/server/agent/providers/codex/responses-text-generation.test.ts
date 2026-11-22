@@ -106,6 +106,21 @@ describe("Responses one-shot text generation", () => {
     );
   });
 
+  test("permits another path on the explicitly bound origin", async () => {
+    gateway.answer(textAnswer("translated"));
+    await generation({ baseUrl: `${gateway.origin}/another-path` }).generate({
+      model: "synthetic-plain",
+      prompt: PROMPT,
+      signal: signal(),
+    });
+    expect(gateway.requests).toEqual([
+      expect.objectContaining({
+        path: "/another-path/v1/responses",
+        authorization: `Bearer ${SECRET}`,
+      }),
+    ]);
+  });
+
   test("sends no reasoning field without a thinking option", async () => {
     await generation().generate({ model: "synthetic-plain", prompt: "Hello", signal: signal() });
     expect(Object.keys(gateway.requests[0]!.body as object).sort()).toEqual([

@@ -209,7 +209,7 @@ import type {
   AgentProviderRuntimeSettingsMap,
   ProviderOverride,
 } from "./agent/provider-launch-config.js";
-import type { TextGenerationCredentials } from "./text-generation-credentials.js";
+import { loadTextGenerationCredentials } from "./text-generation-credentials.js";
 import type { ResponsesTextGenerationDeps } from "./agent/providers/codex/responses-text-generation.js";
 import { type PersistedConfig } from "./persisted-config.js";
 import { createServiceProxySubsystem, type ServiceProxySubsystem } from "./service-proxy.js";
@@ -490,8 +490,6 @@ export interface PaseoDaemonConfig {
     }>;
   };
   providerOverrides?: Record<string, ProviderOverride>;
-  /** Hand-edited `textGenerationCredentials`, read at startup only; see its module. */
-  textGenerationCredentials?: TextGenerationCredentials;
   log?: PersistedConfig["log"];
   onLifecycleIntent?: (intent: DaemonLifecycleIntent) => void;
   pushNotificationSender?: PushNotificationSender;
@@ -641,6 +639,7 @@ export async function createPaseoDaemon(
   rootLogger: Logger,
   dependencies: PaseoDaemonDependencies = {},
 ): Promise<PaseoDaemon> {
+  const textGenerationCredentials = await loadTextGenerationCredentials(config.paseoHome);
   configureGitProcessPolicy(config.git ?? resolveGitProcessPolicy({ env: process.env }));
   const logger = rootLogger.child({ module: "bootstrap" });
   const obsoleteTimelineDirectory = path.join(config.paseoHome, "agent-timelines");
@@ -1029,7 +1028,7 @@ export async function createPaseoDaemon(
       isDev: config.isDev === true,
       extraClients: config.agentClients,
       backgroundRefresh: { intervalMs: PROVIDER_BACKGROUND_REFRESH_INTERVAL_MS },
-      textGenerationCredentials: config.textGenerationCredentials,
+      textGenerationCredentials,
       textGenerationDeps: dependencies.textGeneration,
     },
   });

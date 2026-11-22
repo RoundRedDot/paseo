@@ -6,7 +6,7 @@ import { TextGenerationError } from "../../text-generation.js";
  *
  * Only `/usr/bin/security find-generic-password -s <service> -a <account> -w` runs: a fixed
  * binary, no shell, no PATH lookup, a fixed argument shape and a near-empty environment. The
- * service and account come from the hand-edited `textGenerationCredentials` section. Failures
+ * service and account come from `text-generation-credentials.json`. Failures
  * never carry the service, the account, the secret or the tool's own output.
  */
 

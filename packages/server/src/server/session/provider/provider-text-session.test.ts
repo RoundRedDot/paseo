@@ -6,7 +6,11 @@ import {
   type AgentTextGeneration,
   type TextGenerationRequest,
 } from "../../agent/text-generation.js";
-import { ProviderTextSession } from "./provider-text-session.js";
+import {
+  PROVIDER_TEXT_MAX_IN_FLIGHT_PER_SOURCE,
+  PROVIDER_TEXT_MAX_QUEUED_PER_SOURCE,
+  ProviderTextSession,
+} from "./provider-text-session.js";
 
 const PROMPT = "SYNTHETIC-PROMPT do not log me";
 
@@ -84,6 +88,22 @@ function lastGenerateResult(recording: Recording) {
   return message.payload;
 }
 
+function heldGenerations() {
+  const releases = new Map<string, () => void>();
+  const pair = setup({
+    generate: (request) =>
+      new Promise((resolve, reject) => {
+        releases.set(request.model, () =>
+          resolve({ text: "x", model: request.model, thinkingOptionId: null, runtimeVersion: "t" }),
+        );
+        request.signal.addEventListener("abort", () =>
+          reject(new TextGenerationError("cancelled", "cancelled", "possibly")),
+        );
+      }),
+  });
+  return { ...pair, releases };
+}
+
 describe("ProviderTextSession", () => {
   test("lists only providers with a route, from the registry", () => {
     const { session, recording } = setup({ routed: (provider) => provider === "newapi" });
@@ -122,41 +142,104 @@ describe("ProviderTextSession", () => {
     expect(recording.requests).toHaveLength(1);
   });
 
-  test("refuses a fifth generation on one socket before anything runs, and frees the slot when one ends", async () => {
-    const releases: Array<() => void> = [];
-    const { session, recording } = setup({
-      generate: (request) =>
-        new Promise((resolve) => {
-          releases.push(() =>
-            resolve({
-              text: "x",
-              model: request.model,
-              thinkingOptionId: null,
-              runtimeVersion: "t",
-            }),
-          );
-        }),
+  test("runs six same-socket requests in FIFO order and gives another socket its own slots", async () => {
+    const { session, recording, releases } = heldGenerations();
+    const origin = makeOrigin();
+    const requests = [1, 2, 3, 4, 5, 6].map((n) =>
+      session.handleGenerate(generateRequest({ requestId: `r${n}`, model: `model-${n}` }), origin),
+    );
+    const other = session.handleGenerate(generateRequest({ model: "other" }), makeOrigin());
+    const startedModels = () => recording.requests.map((request) => request.model);
+    await expect.poll(startedModels).toEqual(["model-1", "model-2", "model-3", "model-4", "other"]);
+    releases.get("model-1")!();
+    await requests[0];
+    await expect.poll(() => recording.requests.at(-1)?.model).toBe("model-5");
+    releases.get("model-2")!();
+    await requests[1];
+    await expect.poll(() => recording.requests.at(-1)?.model).toBe("model-6");
+    for (const release of releases.values()) release();
+    await Promise.all([...requests, other]);
+    expect(recording.emitted).toHaveLength(7);
+    expect(
+      recording.emitted.every(
+        (message) =>
+          message.type === "provider.text.generate.response" &&
+          message.payload.result.status === "ok",
+      ),
+    ).toBe(true);
+  });
+
+  test("cancels a queued request before its provider runs and advances to the next waiter", async () => {
+    const { session, recording, releases } = heldGenerations();
+    const origin = makeOrigin();
+    const requests = [1, 2, 3, 4, 5, 6].map((n) =>
+      session.handleGenerate(generateRequest({ requestId: `r${n}`, model: `model-${n}` }), origin),
+    );
+    session.handleCancel(
+      { type: "provider.text.cancel.request", requestId: "cancel", targetRequestId: "r5" },
+      origin.source,
+    );
+    await requests[4];
+    expect(lastGenerateResult(recording)).toMatchObject({
+      requestId: "r5",
+      result: { status: "error", error: { code: "cancelled", promptSent: "no" } },
     });
+    releases.get("model-1")!();
+    await expect.poll(() => recording.requests.at(-1)?.model).toBe("model-6");
+    for (const release of releases.values()) release();
+    await Promise.all(requests);
+    expect(recording.requests.map((request) => request.model)).not.toContain("model-5");
+  });
+
+  test("bounds queued prompt storage and refuses an overflow without dispatching it", async () => {
+    const { session, recording } = heldGenerations();
+    const origin = makeOrigin();
+    const limit = PROVIDER_TEXT_MAX_IN_FLIGHT_PER_SOURCE + PROVIDER_TEXT_MAX_QUEUED_PER_SOURCE;
+    const pending = Array.from({ length: limit }, (_, index) =>
+      session.handleGenerate(generateRequest({ requestId: `r${index}` }), origin),
+    );
+    await session.handleGenerate(generateRequest({ requestId: "overflow" }), origin);
+    expect(lastGenerateResult(recording)).toMatchObject({
+      requestId: "overflow",
+      result: {
+        status: "error",
+        error: {
+          code: "provider_unavailable",
+          promptSent: "no",
+          message: expect.stringContaining("queue is full"),
+        },
+      },
+    });
+    session.dispose();
+    await Promise.all(pending);
+    expect(recording.requests).toHaveLength(PROVIDER_TEXT_MAX_IN_FLIGHT_PER_SOURCE);
+  });
+
+  test("counts waiting time against the deadline and drops pending work on detach", async () => {
+    const { session, recording } = heldGenerations();
     const origin = makeOrigin();
     const running = [1, 2, 3, 4].map((n) =>
       session.handleGenerate(generateRequest({ requestId: `r${n}` }), origin),
     );
-    await session.handleGenerate(generateRequest({ requestId: "r5" }), origin);
+    await session.handleGenerate(generateRequest({ requestId: "expires", timeoutMs: 5 }), origin);
     expect(lastGenerateResult(recording)).toMatchObject({
-      requestId: "r5",
-      result: { status: "error", error: { code: "invalid_request", promptSent: "no" } },
+      requestId: "expires",
+      result: { status: "error", error: { code: "timeout", promptSent: "no" } },
     });
+    const waiting = session.handleGenerate(generateRequest({ requestId: "detached" }), origin);
+    origin.detach();
+    await Promise.all([...running, waiting]);
     expect(recording.requests).toHaveLength(4);
-    // Another socket has its own allowance.
-    const other = makeOrigin();
-    void session.handleGenerate(generateRequest({ requestId: "other" }), other);
-    expect(recording.requests).toHaveLength(5);
-    releases[0]!();
-    await running[0];
-    void session.handleGenerate(generateRequest({ requestId: "r6" }), origin);
-    expect(recording.requests).toHaveLength(6);
-    for (const release of releases.slice(1)) release();
-    await Promise.all(running);
+    expect(recording.emitted).toContainEqual(
+      expect.objectContaining({
+        payload: expect.objectContaining({
+          requestId: "detached",
+          result: expect.objectContaining({
+            error: expect.objectContaining({ code: "cancelled", promptSent: "no" }),
+          }),
+        }),
+      }),
+    );
   });
 
   test("returns the generated text with the answering host", async () => {

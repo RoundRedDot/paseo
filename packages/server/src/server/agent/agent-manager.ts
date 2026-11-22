@@ -6610,16 +6610,25 @@ export class AgentManager {
     provider: AgentProvider,
   ):
     | { status: "ok"; textGeneration: AgentTextGeneration }
-    | { status: "unavailable" | "disabled" | "unsupported" | "isolation_unverified" } {
+    | { status: "unavailable" | "disabled" | "unsupported" }
+    | { status: "isolation_unverified"; reason: string } {
     if (this.providerEnabled.get(provider) === false) return { status: "disabled" };
     const client = this.clients.get(provider);
     if (!client) return { status: "unavailable" };
-    // Claude Code can apply managed hooks after a tool and hook inventory has been checked.
-    if (
-      provider === "claude" ||
-      this.providerDefinitions.get(provider)?.derivedFromProviderId === "claude"
-    ) {
-      return { status: "isolation_unverified" };
+    const base = this.providerDefinitions.get(provider)?.derivedFromProviderId ?? provider;
+    if (base === "claude") {
+      return {
+        status: "isolation_unverified",
+        reason:
+          "Claude Code can load managed hooks during a request, so Paseo cannot isolate the prompt",
+      };
+    }
+    if (base === "opencode") {
+      return {
+        status: "isolation_unverified",
+        reason:
+          "Paseo has no OpenCode runtime isolated from user plugins, MCP servers and extensions",
+      };
     }
     if (!client.textGeneration) return { status: "unsupported" };
     return { status: "ok", textGeneration: client.textGeneration };

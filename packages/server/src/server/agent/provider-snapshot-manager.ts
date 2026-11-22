@@ -137,7 +137,7 @@ export interface ProviderSnapshotManagerOptions {
   openCodeBridge?: OpenCodeBridge;
   /** Refreshes enabled providers in the background; omitted, catalogues refresh only on request. */
   backgroundRefresh?: ProviderBackgroundRefreshOptions;
-  /** Fixed at startup from the hand-edited config section; client writes cannot change it. */
+  /** Fixed at startup from the host-local credentials file; client writes cannot change it. */
   textGenerationCredentials?: TextGenerationCredentials;
   textGenerationDeps?: ResponsesTextGenerationDeps;
 }

@@ -17,7 +17,7 @@ import { createMacosKeychainReader, type KeychainSecretReader } from "./macos-ke
  * gateway: one `POST {base_url}/responses` with the prompt and no tools, sent by the daemon.
  * No Codex process, agent, session or tool runs, and nothing the model returns is executed.
  *
- * It exists only for a provider with a hand-edited `textGenerationCredentials` entry (see
+ * It exists only for a provider with an entry in `text-generation-credentials.json` (see
  * `text-generation-credentials.ts`). The secret is read from that entry's Keychain item for
  * each request and is sent only to that entry's origin, which the provider's `OPENAI_BASE_URL`
  * must match exactly. Everything it cannot confirm refuses before the prompt is sent.

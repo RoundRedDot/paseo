@@ -1,7 +1,11 @@
 import { BuiltinPluginLoader } from "../plugins/builtin/index.js";
 import os from "node:os";
 import path from "node:path";
-import { mkdir, mkdtemp, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import {
+  TEXT_GENERATION_CREDENTIALS_FILENAME,
+  type TextGenerationCredentials,
+} from "../text-generation-credentials.js";
 
 import pino from "pino";
 import {
@@ -36,7 +40,7 @@ interface TestPaseoDaemonOptions {
   relayConfigCapability?: boolean;
   agentClients?: Partial<Record<AgentProvider, AgentClient>>;
   providerOverrides?: PaseoDaemonConfig["providerOverrides"];
-  textGenerationCredentials?: PaseoDaemonConfig["textGenerationCredentials"];
+  textGenerationCredentials?: TextGenerationCredentials;
   /** Fake Keychain reads and gateway requests for one-shot text generation. */
   textGeneration?: PaseoDaemonDependencies["textGeneration"];
   paseoHomeRoot?: string;
@@ -191,6 +195,12 @@ async function prepareTestDaemonConfig(
   const paseoHomeRoot = options.paseoHomeRoot ?? (await createTempDir("paseo-home-", createdDirs));
   const paseoHome = path.join(paseoHomeRoot, ".paseo");
   await mkdir(paseoHome, { recursive: true });
+  if (options.textGenerationCredentials) {
+    await writeFile(
+      path.join(paseoHome, TEXT_GENERATION_CREDENTIALS_FILENAME),
+      JSON.stringify(options.textGenerationCredentials),
+    );
+  }
   const staticDir = options.staticDir ?? (await createTempDir("paseo-static-", createdDirs));
   const listenHost = options.listen ?? "127.0.0.1";
   const listenPort = options.listenPort ?? 0;
@@ -207,7 +217,6 @@ async function prepareTestDaemonConfig(
     isDev: options.isDev,
     agentClients: options.agentClients ?? createTestAgentClients(),
     providerOverrides: options.providerOverrides,
-    textGenerationCredentials: options.textGenerationCredentials,
     agentStoragePath: path.join(paseoHome, "agents"),
     relayEnabled: options.relayEnabled ?? false,
     relayEndpoint: options.relayEndpoint ?? "relay.paseo.sh:443",

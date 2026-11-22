@@ -4,16 +4,16 @@
 
 List providers with `listTextProviders`, never `paseo.providers.snapshot`. A snapshot on a cold catalog warms every enabled provider, which can start an unrelated OpenCode runtime with the user's plugins and MCP servers. `listTextProviders` reads the registry and checks nothing. It needs `features.providerTextList`: earlier hosts report `providerTextGeneration` without knowing the request, so the SDK refuses before sending it, with an error whose `code` is `PROVIDER_TEXT_LIST_UNSUPPORTED`. Tell that apart from a lost connection by the code, not the message.
 
-Only a Codex custom provider with a hand-edited Keychain credential supports it ([Codex custom providers](#codex-custom-providers)), and only on macOS. Every other provider answers `unsupported` or `isolation_unverified`, and nothing is sent. The OpenCode v2 implementation (`packages/server/src/server/agent/providers/opencode/v2/text-generation.ts`) is complete, but it needs a runtime Paseo does not have.
+Only a Codex custom provider with a host-local Keychain credential binding supports it ([Codex custom providers](#codex-custom-providers)), and only on macOS. Every other provider answers `unsupported` or `isolation_unverified`, and nothing is sent. The OpenCode v2 implementation (`packages/server/src/server/agent/providers/opencode/v2/text-generation.ts`) is complete, but it needs a runtime Paseo does not have.
 
 ## Codex custom providers
 
 A provider that extends `codex` and sets `OPENAI_BASE_URL` can run one-shot text generation without Codex: the daemon sends one `POST {base_url}/responses` itself (`providers/codex/responses-text-generation.ts`). No Codex process, agent or tool runs.
 
-It is off until you add the provider to `textGenerationCredentials` at the top level of `config.json`, by hand:
+Create `text-generation-credentials.json` in the daemon home. The file maps provider IDs to dedicated Keychain items:
 
 ```json
-"textGenerationCredentials": {
+{
   "newapi": {
     "source": "macos-keychain",
     "service": "paseo.text-generation.newapi",
@@ -23,11 +23,11 @@ It is off until you add the provider to `textGenerationCredentials` at the top l
 }
 ```
 
-Store the key in a dedicated item with `security add-generic-password -s paseo.text-generation.newapi -a you -w` (it prompts, so the key stays out of shell history), then restart the daemon. The section is read at startup only.
+Store the key in a dedicated item with `security add-generic-password -s paseo.text-generation.newapi -a you -w` (it prompts, so the key stays out of shell history), then restart the daemon. The daemon reads the file at startup. If you used the earlier unpublished candidate, move the provider map from `textGenerationCredentials` into this file and remove the old top-level key before startup or downgrade. Released daemons ignore the separate file and use their existing `config.json` schema.
 
 Rules the code enforces, and why:
 
-- The section is never part of the mutable config, so `get_daemon_config` does not return it and `set_daemon_config` cannot write it. A client with `daemon.read` sees neither the key nor the item it lives in.
+- The file is never part of the mutable config, so `get_daemon_config` does not return it and `set_daemon_config` cannot write it. A client with `daemon.read` sees neither the key nor the item it lives in.
 - The key never comes from the provider's `env`. A placeholder `OPENAI_API_KEY` there is fine and is ignored.
 - `service` must start with `paseo.text-generation.`, and both `service` and `account` are required, so the entry cannot name another app's item or match the first item that shares an account.
 - The provider's `OPENAI_BASE_URL`, after the same normalization Codex gets, must have exactly the entry's `origin`. Clients can edit the provider's env; pointing it at another origin makes the route refuse before the key is read. The binding is the origin only: a client can still change the path, so one origin that serves several tenants on different paths does not keep their keys apart.
@@ -94,7 +94,7 @@ The daemon's own request uses `redirect: "manual"` and rejects any 3xx, because 
 
 ## Requests and cancellation
 
-The deadline defaults to 60 s, capped at 300 s. A prompt over 1 MiB of UTF-8, or a fifth generation running on one socket, is refused with `invalid_request` before any provider code runs. A request belongs to the socket that sent it: only that socket can cancel it, the same request ID on two sockets runs as two requests, and the socket detaching aborts it.
+The deadline defaults to 60 s, capped at 300 s. A prompt over 1 MiB of UTF-8 is refused before any provider code runs. Each socket runs up to four generations, with up to eight more waiting in arrival order. The deadline includes time in the queue. A full queue returns `provider_unavailable` with a busy message. Cancellation, detachment, and expiry prevent a waiting request from dispatching. A request belongs to the socket that sent it: only that socket can cancel it, the same request ID on two sockets runs as two requests, and the socket detaching aborts it.
 
 The SDK always uses a fresh wire ID. Cancellation, a lost answer, or an answer from a host other than the connected one all come back as an error result with `promptSent: "possibly"`, never as a rejection. `generateText` rejects only when nothing was sent: the host lacks `features.providerTextGeneration`, has not identified itself, or is not connected.
 

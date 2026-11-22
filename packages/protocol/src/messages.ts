@@ -4016,11 +4016,11 @@ export const ServerInfoStatusPayloadSchema = z
         usageSources: z.boolean().optional(),
         // COMPAT(providerInstallation): added in v0.17.0, remove gate after 2027-05-13.
         providerInstallation: z.boolean().optional(),
-        // COMPAT(providerTextGeneration): added in v0.17.0, remove gate after 2027-11-21.
+        // COMPAT(providerTextGeneration): unreleased. Remove the gate when the minimum daemon supports it.
         // The daemon implements `provider.text.*`; whether a provider supports it is answered
         // per provider by `provider.text.get_capability`.
         providerTextGeneration: z.boolean().optional(),
-        // COMPAT(providerTextList): added in v0.17.0, remove gate after 2027-11-22.
+        // COMPAT(providerTextList): unreleased. Remove the gate when the minimum daemon supports it.
         // The daemon answers `provider.text.list`. Hosts that only report
         // `providerTextGeneration` do not know that request.
         providerTextList: z.boolean().optional(),

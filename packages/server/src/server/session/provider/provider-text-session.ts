@@ -18,8 +18,48 @@ const CAPABILITY_TIMEOUT_MS = 30_000;
  * larger; this keeps one request's copies (body, credential-bearing POST) bounded.
  */
 export const PROVIDER_TEXT_MAX_PROMPT_BYTES = 1024 * 1024;
-/** Generations one socket may have running at once; more are refused before anything runs. */
+/** Generations one socket may have running at once. */
 export const PROVIDER_TEXT_MAX_IN_FLIGHT_PER_SOURCE = 4;
+export const PROVIDER_TEXT_MAX_QUEUED_PER_SOURCE = 8;
+
+interface TextRequestQueue {
+  running: number;
+  requests: Map<string, AbortController>;
+  waiting: Set<() => void>;
+}
+
+function acquireTextSlot(queue: TextRequestQueue, signal: AbortSignal): boolean | Promise<boolean> {
+  if (signal.aborted) return false;
+  if (queue.running < PROVIDER_TEXT_MAX_IN_FLIGHT_PER_SOURCE) {
+    queue.running++;
+    return true;
+  }
+  return new Promise((resolve) => {
+    const cancel = () => {
+      queue.waiting.delete(start);
+      resolve(false);
+    };
+    const start = () => {
+      queue.waiting.delete(start);
+      signal.removeEventListener("abort", cancel);
+      queue.running++;
+      resolve(true);
+    };
+    queue.waiting.add(start);
+    signal.addEventListener("abort", cancel, { once: true });
+  });
+}
+
+function beforeStartAbort(signal: AbortSignal): ProviderTextGenerationError {
+  const timedOut = signal.reason instanceof Error && signal.reason.name === "TimeoutError";
+  return {
+    code: timedOut ? "timeout" : "cancelled",
+    message: timedOut
+      ? "One-shot text generation timed out before it started"
+      : "One-shot text generation was cancelled before it started",
+    promptSent: "no",
+  };
+}
 
 /** Who sent a request: its socket, and the signal that aborts when that socket detaches. */
 export interface ProviderTextRequestSource {
@@ -44,7 +84,7 @@ export interface ProviderTextSessionOptions {
 export class ProviderTextSession {
   // Keyed by requesting socket: several sockets can share one session, and only the socket that
   // sent a request may cancel it.
-  private readonly inFlight = new Map<object, Map<string, AbortController>>();
+  private readonly queues = new Map<object, TextRequestQueue>();
   private readonly anonymousSource = {};
   private readonly lifetime = new AbortController();
 
@@ -131,22 +171,21 @@ export class ProviderTextSession {
       return;
     }
     const key = origin.source ?? this.anonymousSource;
-    const owned = this.inFlight.get(key) ?? new Map<string, AbortController>();
-    if (owned.has(msg.requestId)) {
+    const queue: TextRequestQueue = this.queues.get(key) ?? {
+      running: 0,
+      requests: new Map(),
+      waiting: new Set(),
+    };
+    if (queue.requests.has(msg.requestId)) {
       fail({ code: "invalid_request", message: "Duplicate request ID", promptSent: "no" });
       return;
     }
-    if (owned.size >= PROVIDER_TEXT_MAX_IN_FLIGHT_PER_SOURCE) {
+    if (queue.waiting.size >= PROVIDER_TEXT_MAX_QUEUED_PER_SOURCE) {
       fail({
-        code: "invalid_request",
-        message: `This connection already has ${PROVIDER_TEXT_MAX_IN_FLIGHT_PER_SOURCE} one-shot text generations running`,
+        code: "provider_unavailable",
+        message: "This connection's one-shot text queue is full. Try again shortly",
         promptSent: "no",
       });
-      return;
-    }
-    const resolved = this.resolve(msg.provider);
-    if ("error" in resolved) {
-      fail(resolved.error);
       return;
     }
     const timeoutMs = Math.min(
@@ -154,15 +193,27 @@ export class ProviderTextSession {
       PROVIDER_TEXT_MAX_TIMEOUT_MS,
     );
     const cancel = new AbortController();
-    owned.set(msg.requestId, cancel);
-    this.inFlight.set(key, owned);
+    queue.requests.set(msg.requestId, cancel);
+    this.queues.set(key, queue);
     const signal = AbortSignal.any([
       cancel.signal,
       origin.signal,
       this.lifetime.signal,
       AbortSignal.timeout(timeoutMs),
     ]);
+    let admitted = false;
     try {
+      admitted = await acquireTextSlot(queue, signal);
+      if (signal.aborted) {
+        fail(beforeStartAbort(signal));
+        return;
+      }
+      // Resolve at dispatch so a waiting request cannot use a route that has since been disabled.
+      const resolved = this.resolve(msg.provider);
+      if ("error" in resolved) {
+        fail(resolved.error);
+        return;
+      }
       const result = await resolved.textGeneration.generate({
         model: msg.model,
         ...(msg.thinkingOptionId !== undefined ? { thinkingOptionId: msg.thinkingOptionId } : {}),
@@ -181,13 +232,19 @@ export class ProviderTextSession {
       );
       fail(wire);
     } finally {
-      owned.delete(msg.requestId);
-      if (owned.size === 0 && this.inFlight.get(key) === owned) this.inFlight.delete(key);
+      queue.requests.delete(msg.requestId);
+      if (admitted) {
+        queue.running--;
+        queue.waiting.values().next().value?.();
+      }
+      if (queue.requests.size === 0) this.queues.delete(key);
     }
   }
 
   handleCancel(msg: ProviderTextCancelRequestMessage, source: object | undefined): void {
-    const target = this.inFlight.get(source ?? this.anonymousSource)?.get(msg.targetRequestId);
+    const target = this.queues
+      .get(source ?? this.anonymousSource)
+      ?.requests.get(msg.targetRequestId);
     target?.abort();
     this.options.emit({
       type: "provider.text.cancel.response",
@@ -201,7 +258,6 @@ export class ProviderTextSession {
 
   dispose(): void {
     this.lifetime.abort();
-    this.inFlight.clear();
   }
 
   private resolve(
@@ -213,8 +269,7 @@ export class ProviderTextSession {
       return {
         error: {
           code: "isolation_unverified",
-          message:
-            "Claude Code can load managed hooks during a request, so Paseo cannot isolate the prompt",
+          message: resolved.reason,
           promptSent: "no",
         },
       };
