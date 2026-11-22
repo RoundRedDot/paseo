@@ -306,7 +306,7 @@ jobs:
   server-tests-macos:
     name: server-tests (macos-latest, file observation)
     needs: changes
-    if: ${{ !cancelled() && (needs.changes.outputs.full != 'false' || needs.changes.outputs.server != 'false') }}
+    if: ${{ !cancelled() && (needs.changes.outputs.full != 'false' || needs.changes.outputs.server != 'false' || needs.changes.outputs.app != 'false') }}
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -320,9 +320,11 @@ jobs:
         run: node scripts/npm-retry.mjs ci
 
       - name: Build server dependencies
+        if: ${{ needs.changes.outputs.full != 'false' || needs.changes.outputs.server != 'false' }}
         run: npm run build:server-deps
 
       - name: Run file observation tests
+        if: ${{ needs.changes.outputs.full != 'false' || needs.changes.outputs.server != 'false' }}
         run: |
           npm run test:unit --workspace=@getpaseo/server -- \
             src/server/file-observer \
@@ -335,6 +337,10 @@ jobs:
           npm run test:unit --workspace=@getpaseo/server -- \
             src/server/plugins/index.posix.test.ts \
             -t "reaps compiler children" --bail=1
+
+      - name: Run iOS Markdown selection range tests
+        if: ${{ needs.changes.outputs.full != 'false' || needs.changes.outputs.app != 'false' }}
+        run: npm run test:ios --workspace=@getpaseo/app
 
   desktop-tests-ubuntu:
     name: desktop-tests (ubuntu-latest)
