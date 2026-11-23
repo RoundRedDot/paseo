@@ -38,10 +38,12 @@ import type {
   DraggableRenderItemInfo,
 } from "@/components/draggable-list.types";
 import { isNative, isWeb } from "@/constants/platform";
+import { useSidebarResizeGate } from "@/components/sidebar-resize-activity";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuLabel,
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
@@ -53,7 +55,12 @@ import { CONTROL_HEIGHTS } from "@/components/ui/control-geometry";
 import type { ShortcutKey } from "@/utils/format-shortcut";
 import { Shortcut } from "@/components/ui/shortcut";
 import { useWorkspaceTabLayout } from "@/screens/workspace/use-workspace-tab-layout";
-import { retainWorkspaceTabMeasuredWidth } from "@/screens/workspace/workspace-tab-layout";
+import {
+  resolvePublishedWorkspaceTabsWidth,
+  retainWorkspaceTabMeasuredWidth,
+  type WorkspaceTabLayoutMetrics,
+  type WorkspaceTabPriority,
+} from "@/screens/workspace/workspace-tab-layout";
 import {
   WorkspaceTabPresentationResolver,
   WorkspaceTabIcon,
@@ -121,9 +128,10 @@ const TAB_MODIFIED_DOT_SIZE = 8;
 // The tab rail only renders in the wide layout, so the device alone picks its glyph size.
 const TAB_RAIL_GLYPH_SIZE = paneContentToolbarIconSize(false);
 const TAB_MIN_WIDTH = 64;
-const TAB_MAX_WIDTH = 160;
+const TOUCH_ACTIVE_TAB_PREFERRED_WIDTH = 240;
 const TAB_CLOSE_BUTTON_RESERVED_WIDTH = 0;
 const TAB_LABEL_LAYOUT_ALLOWANCE = 4;
+const EMPTY_TAB_LABEL_WIDTHS: number[] = [];
 const AGENT_TOOLTIP_TITLE_MAX_LENGTH = 80;
 
 const ThemedLoadingSpinner = withUnistyles(LoadingSpinner);
@@ -957,6 +965,10 @@ function TabChip({
           pages={openWith.pages}
           testID={contextMenuTestId}
         >
+          <ContextMenuLabel testID={`workspace-tab-title-${testIdentity}`}>
+            {accessibilityLabel}
+          </ContextMenuLabel>
+          <ContextMenuSeparator />
           {menuEntries.map((entry) => {
             if (entry.kind === "separator") return <ContextMenuSeparator key={entry.key} />;
             if (entry.kind === "file-panel-open-with") {
@@ -1109,9 +1121,31 @@ function ResolvedWorkspaceDesktopTabsRow({
   const isCompact = useIsCompactFormFactor();
   const newTabKeys = useShortcutKeys("workspace-tab-new");
   const [tabsContainerWidth, setTabsContainerWidth] = useState<number>(0);
+  const tabsWidthRef = useRef({ measured: 0, published: 0 });
+  const tabLayoutInputRef = useRef<{
+    activeTab: WorkspaceTabPriority | null;
+    tabLabelWidths: number[];
+    metrics: WorkspaceTabLayoutMetrics;
+    compact: boolean;
+  } | null>(null);
+  const publishTabsContainerWidth = useCallback(() => {
+    const layoutInput = tabLayoutInputRef.current;
+    if (!layoutInput) return;
+    const widths = tabsWidthRef.current;
+    const next = resolvePublishedWorkspaceTabsWidth({
+      ...layoutInput,
+      publishedWidth: widths.published,
+      measuredWidth: widths.measured,
+    });
+    if (next === widths.published) return;
+    widths.published = next;
+    setTabsContainerWidth(next);
+  }, []);
   const tabsScrollRef = useRef<ScrollView>(null);
   const [exitFocusModeWidth, setExitFocusModeWidth] = useState<number>(0);
   const tabScrollBoundary = useHorizontalScrollBoundary();
+  const { onContentSizeChange } = tabScrollBoundary;
+  const prioritizeActiveTab = isNative && !isCompact;
   const measurementCache = useContext(TabMeasurementCache);
   const [labelMeasurements, setLabelMeasurements] = useState(() => new Map(measurementCache ?? []));
   useLayoutEffect(() => {
@@ -1121,9 +1155,16 @@ function ResolvedWorkspaceDesktopTabsRow({
   }, [measurementCache, labelMeasurements]);
   const [trackSnapshot, setTrackSnapshot] = useState<WorkspaceTabTrackSnapshot | null>(null);
 
-  const handleTabsContainerLayout = useCallback((event: LayoutChangeEvent) => {
-    updateMeasuredWidth(setTabsContainerWidth, event);
-  }, []);
+  // A sidebar drag changes this width on every frame, and each publish is a React commit that
+  // stalls the drag's UI-thread updates. Keep measuring, and publish once the drag ends.
+  const offerTabsContainerWidth = useSidebarResizeGate<void>(publishTabsContainerWidth);
+  const handleTabsContainerLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      tabsWidthRef.current.measured = Math.round(event.nativeEvent.layout.width);
+      offerTabsContainerWidth();
+    },
+    [offerTabsContainerWidth],
+  );
 
   const handleExitFocusModeLayout = useCallback((event: LayoutChangeEvent) => {
     updateMeasuredWidth(setExitFocusModeWidth, event);
@@ -1142,7 +1183,6 @@ function ResolvedWorkspaceDesktopTabsRow({
       rowPaddingHorizontal: TAB_ROW_PADDING_HORIZONTAL,
       tabGap: TAB_CHIP_GAP,
       minTabWidth: TAB_MIN_WIDTH,
-      maxTabWidth: TAB_MAX_WIDTH,
       tabIconWidth: TAB_ICON_WIDTH,
       tabContentGap: TAB_CONTENT_GAP,
       tabHorizontalPadding: TAB_CHIP_HORIZONTAL_PADDING,
@@ -1271,8 +1311,28 @@ function ResolvedWorkspaceDesktopTabsRow({
     });
   }, [tabLabels, tabs, trackSnapshot]);
 
+  const activeTabIndex = displayedTabs.findIndex((item) => item.isActive);
+  const activeTab = useMemo(() => {
+    if (!prioritizeActiveTab || activeTabIndex < 0) return null;
+    return { index: activeTabIndex, preferredWidth: TOUCH_ACTIVE_TAB_PREFERRED_WIDTH };
+  }, [activeTabIndex, prioritizeActiveTab]);
+
+  const tabLabelWidths = trackSnapshot?.labelWidths ?? EMPTY_TAB_LABEL_WIDTHS;
+  // The published row width lags the measured one while the tab layout would not change. New
+  // labels, the selected tab, or reserved actions can change that answer, so re-check against the
+  // measured width.
+  useLayoutEffect(() => {
+    tabLayoutInputRef.current = {
+      activeTab,
+      tabLabelWidths,
+      metrics: layoutMetrics,
+      compact: isCompact,
+    };
+    publishTabsContainerWidth();
+  }, [activeTab, isCompact, layoutMetrics, publishTabsContainerWidth, tabLabelWidths]);
   const { layout } = useWorkspaceTabLayout({
-    tabLabelWidths: trackSnapshot?.labelWidths ?? [],
+    activeTab,
+    tabLabelWidths,
     viewportWidthOverride: tabsContainerWidth > 0 ? tabsContainerWidth : null,
     metrics: layoutMetrics,
     compact: isCompact,
@@ -1284,6 +1344,33 @@ function ResolvedWorkspaceDesktopTabsRow({
       tabsScrollRef.current?.scrollTo({ x: 0, animated: false });
     }
   }, [layout.requiresHorizontalScrollFallback]);
+
+  const activeTabOffset = useMemo(() => {
+    if (!activeTab) return 0;
+    return layout.items
+      .slice(0, activeTab.index)
+      .reduce((offset, item) => offset + item.width + TAB_CHIP_GAP, 0);
+  }, [activeTab, layout.items]);
+  const revealActiveTab = useCallback(() => {
+    if (!prioritizeActiveTab || tabsContainerWidth <= 0) return;
+    const x = layout.requiresHorizontalScrollFallback ? activeTabOffset : 0;
+    tabsScrollRef.current?.scrollTo({ x, animated: false });
+  }, [
+    activeTabOffset,
+    layout.requiresHorizontalScrollFallback,
+    prioritizeActiveTab,
+    tabsContainerWidth,
+  ]);
+  useEffect(() => {
+    revealActiveTab();
+  }, [revealActiveTab]);
+  const handleTabsContentSizeChange = useCallback(
+    (width: number) => {
+      onContentSizeChange(width);
+      revealActiveTab();
+    },
+    [revealActiveTab, onContentSizeChange],
+  );
 
   const handleDragEnd = useCallback(
     (nextTabs: ResolvedWorkspaceDesktopTabRowItem[]) => {
@@ -1437,7 +1524,7 @@ function ResolvedWorkspaceDesktopTabsRow({
           contentContainerStyle={styles.tabsContent}
           showsHorizontalScrollIndicator={false}
           onLayout={tabScrollBoundary.onLayout}
-          onContentSizeChange={tabScrollBoundary.onContentSizeChange}
+          onContentSizeChange={handleTabsContentSizeChange}
           onScroll={tabScrollBoundary.onScroll}
           scrollEventThrottle={16}
         >

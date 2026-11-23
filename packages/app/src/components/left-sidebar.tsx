@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import {
   memo,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -33,8 +34,12 @@ import {
   type GestureType,
   ScrollView as GHScrollView,
 } from "react-native-gesture-handler";
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
-import { scheduleOnRN } from "react-native-worklets";
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  type SharedValue,
+} from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import {
@@ -61,6 +66,7 @@ import { SidebarHelpMenu } from "@/components/sidebar/sidebar-help-menu";
 import { SidebarFooterOverflowMenu } from "@/components/sidebar/sidebar-footer-overflow-menu";
 import {
   resolveSidebarFooterLayout,
+  resolveSidebarFooterSlots,
   SIDEBAR_FOOTER_ACTIONS,
   type SidebarFooterAction,
 } from "@/components/sidebar-footer-layout";
@@ -70,6 +76,18 @@ import {
   TOOLBAR_CONTROL_SIZES,
 } from "@/components/ui/control-geometry";
 import { SidebarResizeHandle } from "@/components/sidebar-resize-handle";
+import {
+  beginSidebarResize,
+  endSidebarResize,
+  resolveSidebarResizePreviewOffset,
+  useSidebarResizeGate,
+} from "@/components/sidebar-resize-activity";
+import {
+  AppSidebarResizePreviewContext,
+  hideSidebarResizeShift,
+  SidebarResizeCommittedEdge,
+  type SidebarResizePreviewValues,
+} from "@/components/sidebar-resize-preview";
 import { DensityIcon } from "@/components/ui/density-icon";
 import { SidebarSectionHeader } from "@/components/sidebar/sidebar-section-header";
 import { Shortcut } from "@/components/ui/shortcut";
@@ -106,6 +124,7 @@ import { openSettingsFromSidebar } from "@/navigation/settings-navigation";
 import { UsageSidebarItem, UsageSidebarRoot, useUsageSummary, useOpenSidebarUsage } from "@/usage";
 import { SidebarAgentListSkeleton } from "./sidebar-agent-list-skeleton";
 import { SidebarCalloutSlot } from "./sidebar-callout-slot";
+import { DraggableGestureHostPresentedContext } from "./draggable-gesture-host";
 import { SidebarWorkspaceList } from "./sidebar-workspace-list";
 
 type SidebarTheme = ReturnType<typeof useUnistyles>["theme"];
@@ -448,18 +467,32 @@ function SidebarFooter({
   const settingsKeys = useShortcutKeys("toggle-settings");
   const isCompactLayout = useIsCompactFormFactor();
   const [rowWidth, setRowWidth] = useState(0);
-  const handleRowLayout = useCallback((event: LayoutChangeEvent) => {
-    setRowWidth(event.nativeEvent.layout.width);
-  }, []);
+  const controlSize = TOOLBAR_CONTROL_SIZES[controlSizingForLayout(isCompactLayout)];
+  // The layout reads the width only through its slot count; keeping the stored value until that
+  // count changes stops a sidebar drag from re-rendering the footer on every layout pass. While a
+  // drag runs, even slot changes wait for the end: each commit stalls the drag's UI-thread updates.
+  const applyRowWidth = useCallback(
+    (measured: number) => {
+      const slotsFor = (width: number) =>
+        resolveSidebarFooterSlots({ rowWidth: width, controlSize, rowPadding: FOOTER_ROW_PADDING });
+      setRowWidth((current) => (slotsFor(current) === slotsFor(measured) ? current : measured));
+    },
+    [controlSize],
+  );
+  const offerRowWidth = useSidebarResizeGate(applyRowWidth);
+  const handleRowLayout = useCallback(
+    (event: LayoutChangeEvent) => offerRowWidth(event.nativeEvent.layout.width),
+    [offerRowWidth],
+  );
   const { inline, overflow } = useMemo(
     () =>
       resolveSidebarFooterLayout({
         rowWidth,
-        controlSize: TOOLBAR_CONTROL_SIZES[controlSizingForLayout(isCompactLayout)],
+        controlSize,
         rowPadding: FOOTER_ROW_PADDING,
         actions: SIDEBAR_FOOTER_ACTIONS,
       }),
-    [rowWidth, isCompactLayout],
+    [rowWidth, controlSize],
   );
   const isInline = (action: SidebarFooterAction) => inline.includes(action);
 
@@ -640,35 +673,36 @@ function MobileSidebar({
         <WindowChromeSafeArea placement="below" />
         <SidebarNavScroll closeGestureRef={closeGestureRef}>{navRows}</SidebarNavScroll>
 
-        <SidebarViewSlot dismiss={handleWorkspacePress}>
-          <SidebarToastRegion active={active}>
-            {isInitialLoad && !hasActiveHostFilter ? (
-              <SidebarAgentListSkeleton />
-            ) : (
-              <SidebarWorkspaceList
-                collapsedProjectKeys={collapsedProjectKeys}
-                onToggleProjectCollapsed={toggleProjectCollapsed}
-                shortcutIndexByWorkspaceKey={shortcutIndexByWorkspaceKey}
-                groupMode={groupMode}
-                workspaceGroups={workspaceGroups}
-                projectIconTargets={projectIconTargets}
-                pinnedGroups={pinnedGroups}
-                projects={projects}
-                hasProjectsBeforeFilter={hasProjectsBeforeFilter}
-                hasActiveProjectFilter={hasActiveProjectFilter}
-                workspaceEntriesByKey={workspaceEntriesByKey}
-                isRefreshing={isManualRefresh && isRevalidating}
-                onRefresh={handleRefresh}
-                onWorkspacePress={handleWorkspacePress}
-                onAddProject={handleOpenProject}
-                onImportSession={handleImportSession}
-                parentGestureRef={closeGestureRef}
-                dragGestureHostActive={active}
-                listHeaderComponent={workspacesSectionHeaderElement}
-              />
-            )}
-          </SidebarToastRegion>
-        </SidebarViewSlot>
+        <DraggableGestureHostPresentedContext value={active}>
+          <SidebarViewSlot dismiss={handleWorkspacePress}>
+            <SidebarToastRegion active={active}>
+              {isInitialLoad && !hasActiveHostFilter ? (
+                <SidebarAgentListSkeleton />
+              ) : (
+                <SidebarWorkspaceList
+                  collapsedProjectKeys={collapsedProjectKeys}
+                  onToggleProjectCollapsed={toggleProjectCollapsed}
+                  shortcutIndexByWorkspaceKey={shortcutIndexByWorkspaceKey}
+                  groupMode={groupMode}
+                  workspaceGroups={workspaceGroups}
+                  projectIconTargets={projectIconTargets}
+                  pinnedGroups={pinnedGroups}
+                  projects={projects}
+                  hasProjectsBeforeFilter={hasProjectsBeforeFilter}
+                  hasActiveProjectFilter={hasActiveProjectFilter}
+                  workspaceEntriesByKey={workspaceEntriesByKey}
+                  isRefreshing={isManualRefresh && isRevalidating}
+                  onRefresh={handleRefresh}
+                  onWorkspacePress={handleWorkspacePress}
+                  onAddProject={handleOpenProject}
+                  onImportSession={handleImportSession}
+                  parentGestureRef={closeGestureRef}
+                  listHeaderComponent={workspacesSectionHeaderElement}
+                />
+              )}
+            </SidebarToastRegion>
+          </SidebarViewSlot>
+        </DraggableGestureHostPresentedContext>
 
         <SidebarFooter
           handleOpenProject={handleOpenProject}
@@ -724,6 +758,99 @@ function SidebarNavScroll({ closeGestureRef, windowContent, children }: SidebarN
   );
 }
 
+function desktopSidebarResizeGesture(input: {
+  divisionLayout: ReturnType<typeof resolveDesktopDivisionLayout>;
+  heldPreview: SidebarResizePreviewValues | null;
+  resizePressed: SharedValue<boolean>;
+  resizeWidth: SharedValue<number>;
+  setSidebarWidth: (width: number) => void;
+  startWidth: SharedValue<number>;
+  targetWidth: SharedValue<number>;
+  viewportWidth: number;
+  visibleSidebarWidth: number;
+}) {
+  const {
+    divisionLayout,
+    heldPreview,
+    resizePressed,
+    resizeWidth,
+    setSidebarWidth,
+    startWidth,
+    targetWidth,
+    viewportWidth,
+    visibleSidebarWidth,
+  } = input;
+  return (
+    Gesture.Pan()
+      .enabled(divisionLayout === null)
+      .hitSlop({ left: 8, right: 8, top: 0, bottom: 0 })
+      .onBegin(() => {
+        resizePressed.value = true;
+      })
+      // Horizontal intent only, so a finger dragging down the touch grip scrolls
+      // the workspace list instead of resizing. Anchoring the start width to the
+      // activation translation keeps the extra threshold from jumping the edge.
+      .activeOffsetX([-SIDEBAR_RESIZE_ACTIVATION_OFFSET, SIDEBAR_RESIZE_ACTIVATION_OFFSET])
+      .failOffsetY([-SIDEBAR_RESIZE_FAIL_OFFSET, SIDEBAR_RESIZE_FAIL_OFFSET])
+      .onStart((event) => {
+        runOnJS(beginSidebarResize)();
+        startWidth.value = visibleSidebarWidth - event.translationX;
+        resizeWidth.value = visibleSidebarWidth;
+        targetWidth.value = visibleSidebarWidth;
+        if (heldPreview) {
+          heldPreview.offset.value = 0;
+          heldPreview.visible.value = true;
+        }
+      })
+      .onUpdate((event) => {
+        // Dragging right (positive translationX) increases width
+        const newWidth = startWidth.value + event.translationX;
+        targetWidth.value = resolveDesktopSidebarWidth({
+          requestedWidth: newWidth,
+          viewportWidth,
+        });
+        if (heldPreview) {
+          heldPreview.offset.value = resolveSidebarResizePreviewOffset({
+            grows: "right",
+            committedWidth: visibleSidebarWidth,
+            targetWidth: targetWidth.value,
+          });
+        } else {
+          resizeWidth.value = targetWidth.value;
+        }
+      })
+      .onEnd((_event, success) => {
+        // The held width lands in the same UI frame that returns the shift to 0, before React
+        // acknowledges it, so the edge never jumps back to the committed width.
+        if (success) resizeWidth.value = targetWidth.value;
+        if (heldPreview) hideSidebarResizeShift(heldPreview);
+        if (success) runOnJS(setSidebarWidth)(targetWidth.value);
+        runOnJS(endSidebarResize)();
+      })
+      .onFinalize(() => {
+        if (heldPreview) hideSidebarResizeShift(heldPreview);
+        resizePressed.value = false;
+      })
+  );
+}
+
+function SidebarDevBuildBadge({ color }: { color: string }) {
+  if (!DEV_BUILD_LABEL) return null;
+  return (
+    <View
+      pointerEvents="none"
+      style={styles.devBuildBadge}
+      testID="dev-build-label"
+      accessibilityLabel={`Development build: ${DEV_BUILD_LABEL}`}
+    >
+      <GitBranch size={12} color={color} />
+      <Text numberOfLines={1} ellipsizeMode="tail" style={styles.devBuildBadgeText}>
+        {DEV_BUILD_LABEL}
+      </Text>
+    </View>
+  );
+}
+
 function DesktopSidebar({
   theme,
   workspaceGroups,
@@ -771,9 +898,14 @@ function DesktopSidebar({
 
   const startWidth = useSharedValue(visibleSidebarWidth);
   const resizeWidth = useSharedValue(visibleSidebarWidth);
-  const [resizePressed, setResizePressed] = useState(false);
-  const showResizeGrip = useCallback(() => setResizePressed(true), []);
-  const hideResizeGrip = useCallback(() => setResizePressed(false), []);
+  // The width the finger asks for. Under a held drag it reaches the layout only when the drag ends.
+  const targetWidth = useSharedValue(visibleSidebarWidth);
+  // A shared value so pressing and releasing the grip does not re-render the sidebar.
+  const resizePressed = useSharedValue(false);
+  // On native a drag holds the committed width and shifts the workspace column with the finger.
+  // Animating the width re-laid out the whole workspace column and re-measured its text each frame.
+  const appPreview = useContext(AppSidebarResizePreviewContext);
+  const heldPreview = platformIsNative ? appPreview : null;
 
   useEffect(() => {
     resizeWidth.value = visibleSidebarWidth;
@@ -781,42 +913,25 @@ function DesktopSidebar({
 
   const resizeGesture = useMemo(
     () =>
-      Gesture.Pan()
-        .enabled(divisionLayout === null)
-        .hitSlop({ left: 8, right: 8, top: 0, bottom: 0 })
-        .onBegin(() => {
-          scheduleOnRN(showResizeGrip);
-        })
-        // Horizontal intent only, so a finger dragging down the touch grip scrolls
-        // the workspace list instead of resizing. Anchoring the start width to the
-        // activation translation keeps the extra threshold from jumping the edge.
-        .activeOffsetX([-SIDEBAR_RESIZE_ACTIVATION_OFFSET, SIDEBAR_RESIZE_ACTIVATION_OFFSET])
-        .failOffsetY([-SIDEBAR_RESIZE_FAIL_OFFSET, SIDEBAR_RESIZE_FAIL_OFFSET])
-        .onStart((event) => {
-          startWidth.value = visibleSidebarWidth - event.translationX;
-          resizeWidth.value = visibleSidebarWidth;
-        })
-        .onUpdate((event) => {
-          // Dragging right (positive translationX) increases width
-          const newWidth = startWidth.value + event.translationX;
-          resizeWidth.value = resolveDesktopSidebarWidth({
-            requestedWidth: newWidth,
-            viewportWidth,
-          });
-        })
-        .onEnd((_event, success) => {
-          if (success) runOnJS(setSidebarWidth)(resizeWidth.value);
-        })
-        .onFinalize(() => {
-          scheduleOnRN(hideResizeGrip);
-        }),
+      desktopSidebarResizeGesture({
+        divisionLayout,
+        heldPreview,
+        resizePressed,
+        resizeWidth,
+        setSidebarWidth,
+        startWidth,
+        targetWidth,
+        viewportWidth,
+        visibleSidebarWidth,
+      }),
     [
       divisionLayout,
-      hideResizeGrip,
+      heldPreview,
+      resizePressed,
       resizeWidth,
       setSidebarWidth,
-      showResizeGrip,
       startWidth,
+      targetWidth,
       viewportWidth,
       visibleSidebarWidth,
     ],
@@ -832,17 +947,22 @@ function DesktopSidebar({
     () => [staticStyles.desktopSidebar, resizeAnimatedStyle],
     [resizeAnimatedStyle],
   );
+  // The content keeps the committed width until React acknowledges a new one. A held native drag
+  // lands the outer width on the UI thread first; without this the rows (the list is not
+  // virtualized) would lay out at that width and again at React's. Browsers reflow the rows cheaply
+  // and follow the drag live.
+  const freezeContentWidth = platformIsNative && !overlay && divisionLayout === null;
   const desktopSidebarBorderStyle = useMemo(
     () => [
-      styles.desktopSidebarBorder(divisionLayout !== null),
       {
         flex: 1,
+        width: freezeContentWidth ? visibleSidebarWidth : undefined,
         paddingTop: insetsTop,
         paddingBottom: insets.bottom,
         paddingLeft: resolveDesktopSidebarInsetLeft({ overlay, safeAreaLeft: insets.left }),
       },
     ],
-    [insetsTop, insets.bottom, insets.left, overlay, divisionLayout],
+    [insetsTop, insets.bottom, insets.left, overlay, freezeContentWidth, visibleSidebarWidth],
   );
   const inTopBand = useTopBand() !== null;
   // Windows and Linux draw their window controls top-right, so the sidebar has no chrome
@@ -860,24 +980,23 @@ function DesktopSidebar({
       closeGesture={closeGesture}
     >
       <Animated.View style={desktopSidebarStyle}>
+        <View
+          pointerEvents="none"
+          style={styles.desktopSidebarBackdrop(divisionLayout !== null || platformIsNative)}
+        />
+        {platformIsNative && divisionLayout === null ? (
+          <SidebarResizeCommittedEdge
+            preview={heldPreview}
+            color={theme.colors.border}
+            edge="right"
+          />
+        ) : null}
         <View style={desktopSidebarBorderStyle}>
           <View style={styles.sidebarDragArea}>
             {showsChromeRow ? (
               <View style={styles.desktopChromeRow}>
                 <TitlebarDragRegion />
-                {DEV_BUILD_LABEL ? (
-                  <View
-                    pointerEvents="none"
-                    style={styles.devBuildBadge}
-                    testID="dev-build-label"
-                    accessibilityLabel={`Development build: ${DEV_BUILD_LABEL}`}
-                  >
-                    <GitBranch size={12} color={theme.colors.accentForeground} />
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.devBuildBadgeText}>
-                      {DEV_BUILD_LABEL}
-                    </Text>
-                  </View>
-                ) : null}
+                <SidebarDevBuildBadge color={theme.colors.accentForeground} />
               </View>
             ) : null}
             {showsDragStrip ? (
@@ -895,35 +1014,36 @@ function DesktopSidebar({
             </SidebarNavScroll>
           ) : null}
 
-          <SidebarViewSlot dismiss={closeSidebar}>
-            <SidebarToastRegion active={active}>
-              {isInitialLoad && !hasActiveHostFilter ? (
-                <SidebarAgentListSkeleton />
-              ) : (
-                <SidebarWorkspaceList
-                  collapsedProjectKeys={collapsedProjectKeys}
-                  onToggleProjectCollapsed={toggleProjectCollapsed}
-                  shortcutIndexByWorkspaceKey={shortcutIndexByWorkspaceKey}
-                  groupMode={groupMode}
-                  workspaceGroups={workspaceGroups}
-                  projectIconTargets={projectIconTargets}
-                  pinnedGroups={pinnedGroups}
-                  projects={projects}
-                  hasProjectsBeforeFilter={hasProjectsBeforeFilter}
-                  hasActiveProjectFilter={hasActiveProjectFilter}
-                  workspaceEntriesByKey={workspaceEntriesByKey}
-                  isRefreshing={isManualRefresh && isRevalidating}
-                  onRefresh={handleRefresh}
-                  onAddProject={handleOpenProject}
-                  onImportSession={handleImportSession}
-                  onWorkspacePress={closeSidebar}
-                  parentGestureRef={closeGestureRef}
-                  dragGestureHostActive={active}
-                  listHeaderComponent={workspacesSectionHeaderElement}
-                />
-              )}
-            </SidebarToastRegion>
-          </SidebarViewSlot>
+          <DraggableGestureHostPresentedContext value={active}>
+            <SidebarViewSlot dismiss={closeSidebar}>
+              <SidebarToastRegion active={active}>
+                {isInitialLoad && !hasActiveHostFilter ? (
+                  <SidebarAgentListSkeleton />
+                ) : (
+                  <SidebarWorkspaceList
+                    collapsedProjectKeys={collapsedProjectKeys}
+                    onToggleProjectCollapsed={toggleProjectCollapsed}
+                    shortcutIndexByWorkspaceKey={shortcutIndexByWorkspaceKey}
+                    groupMode={groupMode}
+                    workspaceGroups={workspaceGroups}
+                    projectIconTargets={projectIconTargets}
+                    pinnedGroups={pinnedGroups}
+                    projects={projects}
+                    hasProjectsBeforeFilter={hasProjectsBeforeFilter}
+                    hasActiveProjectFilter={hasActiveProjectFilter}
+                    workspaceEntriesByKey={workspaceEntriesByKey}
+                    isRefreshing={isManualRefresh && isRevalidating}
+                    onRefresh={handleRefresh}
+                    onAddProject={handleOpenProject}
+                    onImportSession={handleImportSession}
+                    onWorkspacePress={closeSidebar}
+                    parentGestureRef={closeGestureRef}
+                    listHeaderComponent={workspacesSectionHeaderElement}
+                  />
+                )}
+              </SidebarToastRegion>
+            </SidebarViewSlot>
+          </DraggableGestureHostPresentedContext>
 
           <SidebarCalloutSlot />
 
@@ -935,16 +1055,17 @@ function DesktopSidebar({
             handleOpenHostSettings={handleOpenHostSettings}
             onBeforeNavigate={closeSidebar}
           />
-
-          {!overlay && divisionLayout === null ? (
-            <SidebarResizeHandle
-              edge="right"
-              gesture={resizeGesture}
-              pressed={resizePressed}
-              testID="left-sidebar-resize-handle"
-            />
-          ) : null}
         </View>
+        {!overlay && divisionLayout === null ? (
+          <SidebarResizeHandle
+            edge="right"
+            gesture={resizeGesture}
+            pressed={resizePressed}
+            held={heldPreview?.visible}
+            testID="left-sidebar-resize-handle"
+            prominent
+          />
+        ) : null}
       </Animated.View>
     </MobilePanelOverlay>
   );
@@ -978,6 +1099,9 @@ const staticStyles = RNStyleSheet.create({
   desktopSidebar: {
     position: "relative" as const,
     flex: 1,
+    // Clips the frozen content while a drag narrows the sidebar. The docked panel around it
+    // already clips at the same edge, so this hides nothing that was visible before.
+    overflow: "hidden" as const,
   },
 });
 
@@ -1010,8 +1134,16 @@ const styles = StyleSheet.create((theme) => ({
   mobileCloseButton: (rightInset: number) => ({
     marginRight: theme.spacing[2] + rightInset,
   }),
-  desktopSidebarBorder: (hasDivision: boolean) => ({
-    borderRightWidth: hasDivision ? 0 : 1,
+  // Fills the animated sidebar edge to edge, so a drag that widens past the frozen content still
+  // shows the sidebar surface. Native draws the border on its own node and hides it while the
+  // column's edge is moving.
+  desktopSidebarBackdrop: (hideBorder: boolean) => ({
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    borderRightWidth: hideBorder ? 0 : 1,
     borderRightColor: theme.colors.border,
     backgroundColor: theme.colors.surfaceSidebar,
   }),

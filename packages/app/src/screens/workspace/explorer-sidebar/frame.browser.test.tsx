@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { View } from "react-native";
 import { expect, it } from "vitest";
 import { MobilePanelsProvider } from "@/mobile-panels/provider";
+import { createWorkspaceViewportWidthStore } from "../workspace-viewport-width";
 import { ExplorerFrame } from "./frame";
 
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
@@ -15,6 +16,8 @@ it("measures dock allocation independently of the workspace owner", async () => 
   host.style.width = "900px";
   document.body.appendChild(host);
   const root = createRoot(host);
+  const viewportWidth = createWorkspaceViewportWidthStore();
+  viewportWidth.set(900);
   let workspaceRenders = 0;
 
   function Workspace() {
@@ -22,7 +25,13 @@ it("measures dock allocation independently of the workspace owner", async () => 
     return (
       <View style={WORKSPACE_STYLE}>
         <View role="main" style={FILL} />
-        <ExplorerFrame presentation="dock" isWorkspaceActive isOpen persistenceKey="workspace">
+        <ExplorerFrame
+          presentation="dock"
+          isWorkspaceActive
+          isOpen
+          persistenceKey="workspace"
+          viewportWidth={viewportWidth}
+        >
           <View role="complementary" style={FILL} />
         </ExplorerFrame>
       </View>
@@ -45,7 +54,10 @@ it("measures dock allocation independently of the workspace owner", async () => 
     const initialRenderCount = workspaceRenders;
     const dock = host.querySelector('[role="complementary"]');
     host.style.width = "620px";
-    await expect.poll(dockWidth).toBe(260);
+    await act(async () => {
+      viewportWidth.set(620);
+    });
+    await expect.poll(dockWidth).toBe(220);
     expect(workspaceRenders).toBe(initialRenderCount);
     expect(host.querySelector('[role="complementary"]')).toBe(dock);
   } finally {

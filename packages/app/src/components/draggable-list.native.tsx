@@ -15,6 +15,7 @@ import DraggableFlatList, {
 } from "react-native-draggable-flatlist";
 import type { GestureType } from "react-native-gesture-handler";
 import { useUnistyles } from "react-native-unistyles";
+import { DraggableGestureHostPresentedContext } from "./draggable-gesture-host";
 import { useContentDrag } from "@/components/ui/scroll-view";
 import { createDragHold } from "./drag-reorder/drag-hold";
 import { movedItemKey } from "./drag-reorder/native-drop";
@@ -108,7 +109,6 @@ export function DraggableList<T>({
   onRefresh,
   extraData,
   simultaneousGestureRef,
-  gestureHostPresented,
   waitFor,
   onDragBegin: onDragBeginProp,
   nestable = false,
@@ -121,6 +121,7 @@ export function DraggableList<T>({
   const dragGestureRef = useRef<GestureType | undefined>(undefined);
   // Passive effects run after the list's gesture detector has attached and filled the ref.
   useEffect(() => attachContentDrag?.(dragGestureRef), [attachContentDrag]);
+  const gestureHostPresented = useContext(DraggableGestureHostPresentedContext);
 
   // Pass the ref directly to DraggableFlatList - it handles gesture
   // coordination internally for nestable lists.

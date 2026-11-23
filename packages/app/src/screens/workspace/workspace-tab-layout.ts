@@ -4,6 +4,21 @@ export function shouldUseCompactWorkspaceHeader(width: number): boolean {
   return width < COMPACT_CONTENT_WIDTH;
 }
 
+/**
+ * The width to store for a new measurement: the current one while it gives the same compact
+ * decision, so resizing within one side of the threshold does not re-render the chrome.
+ */
+export function retainWorkspaceChromeWidth(
+  current: number | null,
+  measured: number,
+): number | null {
+  if (measured <= 0) return current;
+  if (current === null) return measured;
+  return shouldUseCompactWorkspaceHeader(current) === shouldUseCompactWorkspaceHeader(measured)
+    ? current
+    : measured;
+}
+
 export type WorkspaceTabCloseButtonPolicy = "all" | "none";
 
 export interface WorkspaceTabLayoutMetrics {
@@ -12,14 +27,19 @@ export interface WorkspaceTabLayoutMetrics {
   rowPaddingHorizontal: number;
   tabGap: number;
   minTabWidth: number;
-  maxTabWidth: number;
   tabIconWidth: number;
   tabContentGap: number;
   tabHorizontalPadding: number;
   closeButtonWidth: number;
 }
 
+export interface WorkspaceTabPriority {
+  index: number;
+  preferredWidth: number;
+}
+
 export interface WorkspaceTabLayoutInput {
+  activeTab: WorkspaceTabPriority | null;
   viewportWidth: number;
   tabLabelWidths: number[];
   metrics: WorkspaceTabLayoutMetrics;
@@ -52,14 +72,89 @@ export function retainWorkspaceTabMeasuredWidth(
   return measuredWidth;
 }
 
-function clamp(value: number, min: number, max: number): number {
-  if (value < min) {
-    return min;
+function workspaceTabLayoutsEqual(
+  previous: WorkspaceTabLayoutResult,
+  next: WorkspaceTabLayoutResult,
+): boolean {
+  return (
+    previous.closeButtonPolicy === next.closeButtonPolicy &&
+    previous.requiresHorizontalScrollFallback === next.requiresHorizontalScrollFallback &&
+    previous.items.length === next.items.length &&
+    previous.items.every(
+      (item, index) =>
+        item.width === next.items[index]?.width && item.showLabel === next.items[index]?.showLabel,
+    )
+  );
+}
+
+/**
+ * The row width the tab layout should see. A sidebar drag changes the row width every frame, but
+ * tabs that already fit lay out the same at any of those widths. Keeping the published width until
+ * the layout would differ keeps the row from re-rendering per frame.
+ */
+export function resolvePublishedWorkspaceTabsWidth(
+  input: Omit<WorkspaceTabLayoutInput, "viewportWidth"> & {
+    publishedWidth: number;
+    measuredWidth: number;
+  },
+): number {
+  const { publishedWidth, measuredWidth, ...layoutInput } = input;
+  const nextWidth = retainWorkspaceTabMeasuredWidth(publishedWidth, measuredWidth);
+  if (nextWidth === publishedWidth || publishedWidth <= 0) return nextWidth;
+  const current = computeWorkspaceTabLayout({ ...layoutInput, viewportWidth: publishedWidth });
+  const next = computeWorkspaceTabLayout({ ...layoutInput, viewportWidth: nextWidth });
+  return workspaceTabLayoutsEqual(current, next) ? publishedWidth : nextWidth;
+}
+
+/**
+ * Hands the rail's width to the tabs, so a label is never cut while the rail still has width to
+ * give. A tab whose need (the width that shows its label whole) fits inside its equal share keeps
+ * that need; the tabs that do not fit share what is left equally, cheapest need first. Every tab
+ * keeps `minTabWidth`, and no tab grows past its own need, so the rail is only as empty as its
+ * labels are short.
+ */
+function allocateTabWidths(
+  needs: number[],
+  availableWidth: number,
+  minimumWidths: number[],
+): number[] {
+  const tabCount = needs.length;
+  const widths = [...minimumWidths];
+  let remainingWidth = availableWidth - minimumWidths.reduce((total, width) => total + width, 0);
+  let unresolvedTabCount = tabCount;
+  const byNeed = needs
+    .map((need, index) => ({ need: need - minimumWidths[index], index }))
+    .sort((left, right) => left.need - right.need);
+
+  for (const { need, index } of byNeed) {
+    const share = Math.max(remainingWidth / unresolvedTabCount, 0);
+    const granted = Math.min(Math.max(need, 0), share);
+    widths[index] = minimumWidths[index] + granted;
+    remainingWidth -= granted;
+    unresolvedTabCount -= 1;
   }
-  if (value > max) {
-    return max;
+
+  return widths;
+}
+
+/** Round to whole pixels without changing the total by more than half a pixel. */
+function roundTabWidths(widths: number[]): number[] {
+  const rounded = widths.map((width) => Math.floor(width));
+  const target = Math.round(widths.reduce((total, width) => total + width, 0));
+  let remainder = target - rounded.reduce((total, width) => total + width, 0);
+  const byFraction = widths
+    .map((width, index) => ({ index, fraction: width - Math.floor(width) }))
+    .sort((left, right) => right.fraction - left.fraction || left.index - right.index);
+
+  for (const { index } of byFraction) {
+    if (remainder <= 0) {
+      break;
+    }
+    rounded[index] += 1;
+    remainder -= 1;
   }
-  return value;
+
+  return rounded;
 }
 
 export function computeWorkspaceTabLayout(
@@ -87,35 +182,48 @@ export function computeWorkspaceTabLayout(
     input.metrics.tabContentGap +
     input.metrics.tabHorizontalPadding * 2 +
     input.metrics.closeButtonWidth;
-  const naturalWidths = input.tabLabelWidths.map((labelWidth) =>
-    clamp(tabChromeWidth + labelWidth, input.metrics.minTabWidth, input.metrics.maxTabWidth),
+  const labelNeeds = input.tabLabelWidths.map((labelWidth) =>
+    Math.max(input.metrics.minTabWidth, tabChromeWidth + labelWidth),
   );
-  const naturalTotalWidth = naturalWidths.reduce((total, width) => total + width, 0);
-  const minimumTotalWidth = input.metrics.minTabWidth * tabCount;
+  const minimumWidths = labelNeeds.map(() => input.metrics.minTabWidth);
+  if (input.activeTab) {
+    const { index, preferredWidth } = input.activeTab;
+    const singleTabSpace =
+      availableWidth - input.metrics.rowPaddingHorizontal * 2 - input.metrics.tabGap;
+    const reservedWidth = Math.max(
+      input.metrics.minTabWidth,
+      Math.min(labelNeeds[index], preferredWidth, singleTabSpace),
+    );
+    const otherLabelsNeed = labelNeeds.reduce(
+      (total, need, tabIndex) => total + (tabIndex === index ? 0 : need),
+      0,
+    );
+    // Once other titles fit whole, the selected title may use the rail's remaining space too.
+    const activeWidth = Math.max(
+      reservedWidth,
+      Math.min(labelNeeds[index], singleTabSpace, availableTabsWidth - otherLabelsNeed),
+    );
+    labelNeeds[index] = activeWidth;
+    minimumWidths[index] = activeWidth;
+  }
+  const naturalTotalWidth = labelNeeds.reduce((total, width) => total + width, 0);
+  const minimumTotalWidth = minimumWidths.reduce((total, width) => total + width, 0);
   // A row that scrolls has no reason to truncate: the tabs keep their natural widths and the
-  // viewport pans over them. Pointer layouts first shrink toward the clickable minimum and scroll
-  // only once even that does not fit; compact layouts skip the shrink.
+  // viewport pans over them. Pointer layouts first share the rail and scroll only once every tab is
+  // at the clickable minimum; compact layouts skip the shrink. Tablets that reserve the selected
+  // tab scroll at the minimum instead, so the selected title stays in view beside its neighbors.
   const requiresHorizontalScrollFallback = input.compact
     ? naturalTotalWidth > availableTabsWidth
     : availableTabsWidth < minimumTotalWidth;
 
-  let resolvedWidths = naturalWidths;
-  if (
-    !requiresHorizontalScrollFallback &&
-    !input.compact &&
-    naturalTotalWidth > availableTabsWidth
-  ) {
-    const widthToRemove = naturalTotalWidth - availableTabsWidth;
-    const shrinkCapacity = naturalTotalWidth - minimumTotalWidth;
-    const shrinkRatio = widthToRemove / shrinkCapacity;
-    resolvedWidths = naturalWidths.map(
-      (width) => width - (width - input.metrics.minTabWidth) * shrinkRatio,
-    );
+  let resolvedWidths = labelNeeds;
+  if (!input.compact && !requiresHorizontalScrollFallback) {
+    resolvedWidths = allocateTabWidths(labelNeeds, availableTabsWidth, minimumWidths);
+  } else if (!input.compact && input.activeTab) {
+    resolvedWidths = minimumWidths;
   }
 
-  const roundedWidths = resolvedWidths.map((width) =>
-    Math.round(clamp(width, input.metrics.minTabWidth, input.metrics.maxTabWidth)),
-  );
+  const roundedWidths = roundTabWidths(resolvedWidths);
 
   return {
     items: roundedWidths.map((width) => ({

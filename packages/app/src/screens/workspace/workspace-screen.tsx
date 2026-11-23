@@ -16,6 +16,7 @@ import { revealWorkspaceTab } from "@/workspace-tabs/navigation";
 import { ExplorerSidebarDock } from "@/screens/workspace/explorer-sidebar";
 import { ForgeShorthandProvider } from "@/git/forge-shorthand";
 import { ExplorerFrame } from "./explorer-sidebar/frame";
+import { createWorkspaceViewportWidthStore } from "./workspace-viewport-width";
 import { WorkspaceTabDragScope } from "@/components/workspace-tab-drag-scope";
 import {
   WorkspaceComposerEditingSessionsProvider,
@@ -38,7 +39,7 @@ import {
 } from "react";
 import { useStoreWithEqualityFn } from "zustand/traditional";
 import { useIsFocused } from "expo-router/react-navigation";
-import { BackHandler, Text, View } from "react-native";
+import { BackHandler, Text, View, type LayoutChangeEvent } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, type Href } from "expo-router";
 import * as Clipboard from "expo-clipboard";
@@ -795,7 +796,9 @@ function WorkspacePanelSurface({
   children,
   tabIds,
   workspaceKey,
+  onLayout,
 }: {
+  onLayout: (event: LayoutChangeEvent) => void;
   workspaceKey: string;
   launcher: NewTabLauncher;
   children: ReactNode;
@@ -806,7 +809,9 @@ function WorkspacePanelSurface({
     <WorkspaceComposerEditingSessionsProvider workspaceKey={workspaceKey} tabIds={tabIds}>
       <NewTabLauncherProvider value={launcher}>
         <SheetHostScope enabled={!isCompact}>
-          <View style={styles.threePaneRow}>{children}</View>
+          <View style={styles.threePaneRow} onLayout={onLayout}>
+            {children}
+          </View>
         </SheetHostScope>
       </NewTabLauncherProvider>
     </WorkspaceComposerEditingSessionsProvider>
@@ -3651,6 +3656,11 @@ function WorkspaceScreenContent({
     </DesktopCenterColumnChrome>
   );
 
+  const [workspaceViewportWidth] = useState(createWorkspaceViewportWidthStore);
+  const measureWorkspaceWidth = useCallback(
+    (event: LayoutChangeEvent) => workspaceViewportWidth.set(event.nativeEvent.layout.width),
+    [workspaceViewportWidth],
+  );
   const sharedExplorer = useMemo(() => {
     if (!workspaceLayout || !explorerSidebarPaneId || !persistenceKey) return null;
     const explorerPane = findPaneById(workspaceLayout.root, explorerSidebarPaneId);
@@ -3689,6 +3699,7 @@ function WorkspaceScreenContent({
         presentation={isMobile ? "overlay" : "dock"}
         isWorkspaceActive={isRouteFocused}
         persistenceKey={persistenceKey}
+        viewportWidth={workspaceViewportWidth}
         isOpen={isExplorerSidebarShowing && !desktopFocusModeEnabled}
       >
         {dock}
@@ -3723,6 +3734,7 @@ function WorkspaceScreenContent({
     handleReorderTabsInPane,
     buildDesktopPaneContentModel,
     explorerControls.dockAction,
+    workspaceViewportWidth,
     desktopFocusModeEnabled,
   ]);
 
@@ -3780,6 +3792,7 @@ function WorkspaceScreenContent({
           isRouteFocused={isRouteFocused}
         />
         <WorkspacePanelSurface
+          onLayout={measureWorkspaceWidth}
           launcher={newTabLauncher}
           workspaceKey={workspacePanelKey}
           tabIds={workspacePanelTabIds}

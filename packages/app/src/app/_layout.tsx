@@ -11,6 +11,7 @@ import { AddHostProvider, AddHostFlowHost } from "@/hosts/add-host";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useActiveWorkspaceSelection } from "@/stores/navigation-active-workspace-store";
 import { useIsExplorerSidebarOpen } from "@/workspace-tabs/explorer-sidebar";
+import { useWorkspaceLayoutStore } from "@/stores/workspace-layout-store";
 import { ComposerEditingSessionsProvider } from "@/composer/editing-session";
 import { SheetHostScope } from "@/components/ui/isolated-bottom-sheet-modal";
 import "@/styles/unistyles";
@@ -33,7 +34,7 @@ import {
 import { AppState, useWindowDimensions, View } from "react-native";
 import { GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
-import { StyleSheet, useUnistyles } from "react-native-unistyles";
+import { StyleSheet, useUnistyles, withUnistyles } from "react-native-unistyles";
 import { AppearanceProvider } from "@/appearance/provider";
 import { CommandCenter } from "@/command-center/command-center";
 import { CommandCenterRootActions } from "@/command-center/root-registration";
@@ -50,6 +51,12 @@ import { OnboardingHost, useIsSetupDecisionPending } from "@/onboarding";
 import { AppDiagnosticHost } from "@/components/app-diagnostic-host";
 import { AppearanceStyleBoundary } from "@/components/appearance-style-boundary";
 import { LeftSidebar } from "@/components/left-sidebar";
+import {
+  AppSidebarResizePreviewContext,
+  SidebarResizeShift,
+  useSidebarResizePreviewValues,
+  type SidebarResizePreviewValues,
+} from "@/components/sidebar-resize-preview";
 import { WindowSidebarMenuToggle } from "@/components/headers/sidebar-menu-toggle";
 import { DesktopWindowControls } from "@/components/desktop/window-controls";
 import { SidebarModelProvider } from "@/components/sidebar/sidebar-model";
@@ -383,6 +390,45 @@ const rowStyle = { flex: 1, flexDirection: "row" } as const;
 const flexStyle = { flex: 1 } as const;
 const MOBILE_WEB_GESTURE_TOUCH_ACTION = isWeb ? "auto" : "pan-y";
 
+// The column is the later sibling of the docked sidebar, so shifting it left paints over the
+// sidebar. The sidebar color fills the gap that opens when the drag widens the sidebar.
+const WorkspaceColumnResizeShift = withUnistyles(
+  function WorkspaceColumnResizeShift({
+    children,
+    preview,
+    leadingFill,
+    trailingFill,
+    borderColor,
+    gripColor,
+  }: {
+    children: ReactNode;
+    preview: SidebarResizePreviewValues;
+    leadingFill: string;
+    trailingFill: string;
+    borderColor: string;
+    gripColor: string;
+  }) {
+    return (
+      <SidebarResizeShift
+        preview={preview}
+        leadingFill={leadingFill}
+        trailingFill={trailingFill}
+        borderColor={borderColor}
+        gripColor={gripColor}
+        layout="fill"
+      >
+        {children}
+      </SidebarResizeShift>
+    );
+  },
+  (theme) => ({
+    leadingFill: theme.colors.surfaceSidebar,
+    trailingFill: theme.colors.surfaceWorkspace,
+    borderColor: theme.colors.border,
+    gripColor: theme.colors.accent,
+  }),
+);
+
 interface AppContainerProps {
   children: ReactNode;
   chromeEnabled?: boolean;
@@ -454,15 +500,22 @@ function AppContainer({ children, chromeEnabled: chromeEnabledOverride }: AppCon
   useGlobalNewWorkspaceAction();
 
   const activeWorkspace = useActiveWorkspaceSelection();
+  const workspaceKey = activeWorkspace
+    ? `${activeWorkspace.serverId}:${activeWorkspace.workspaceId}`
+    : null;
   const explorerVisible = useIsExplorerSidebarOpen({
     isCompact: isCompactLayout,
-    workspaceKey: activeWorkspace
-      ? `${activeWorkspace.serverId}:${activeWorkspace.workspaceId}`
-      : null,
+    workspaceKey,
   });
+  const requestedExplorerSidebarWidth = useWorkspaceLayoutStore((state) =>
+    workspaceKey ? state.explorerSidebarWidthByWorkspace[workspaceKey] : undefined,
+  );
   const appContentMinimumWidth = resolveDesktopAppContentMinimum({
-    explorerVisible: isWorkspaceRoute && explorerVisible,
     isSettingsRoute: pathname.includes("/settings"),
+    isWorkspaceExplorerOpen: isWorkspaceRoute && explorerVisible,
+    requestedSidebarWidth: sidebarWidth,
+    requestedExplorerSidebarWidth,
+    viewportWidth,
   });
   const desktopSidebarMounted = hasMountedDesktopSidebar && !isWorkspaceFocusModeEnabled;
   const desktopSidebarVisible = resolveDesktopSidebarVisibility({
@@ -493,17 +546,21 @@ function AppContainer({ children, chromeEnabled: chromeEnabledOverride }: AppCon
     applyPanelLayout({ isCompact: isCompactLayout, leftSidebar: sidebarPresentation });
   }, [applyPanelLayout, isCompactLayout, sidebarPresentation]);
   const hasTopLeftWindowControls = useHasWindowChromeObstruction("top-left");
+  const sidebarResizePreview = useSidebarResizePreviewValues();
   const appChromeLayout = resolveDesktopAppChromeLayout({
     desktopSidebarRendered: desktopSidebarVisible,
     hasTopLeftWindowControls,
     sidebarControlsEnabled: chromeEnabled && !isWorkspaceFocusModeEnabled,
   });
+  // The docked sidebar's drag writes the shift the workspace column follows below.
   const sidebarChrome = (
-    <SidebarChrome
-      mounted={isCompactLayout ? chromeEnabled : desktopSidebarMounted}
-      presentation={sidebarPresentation}
-      keyboardShortcutsEnabled={keyboardShortcutsEnabled}
-    />
+    <AppSidebarResizePreviewContext value={sidebarResizePreview}>
+      <SidebarChrome
+        mounted={isCompactLayout ? chromeEnabled : desktopSidebarMounted}
+        presentation={sidebarPresentation}
+        keyboardShortcutsEnabled={keyboardShortcutsEnabled}
+      />
+    </AppSidebarResizePreviewContext>
   );
   let themedSidebarChrome = sidebarChrome;
   if (isWeb) {
@@ -526,7 +583,13 @@ function AppContainer({ children, chromeEnabled: chromeEnabledOverride }: AppCon
         <WindowChromeRegion
           corners={isCompactLayout && chromeEnabled ? "both" : appChromeLayout.contentCorners}
         >
-          <View style={flexStyle}>{children}</View>
+          {isNative && !isCompactLayout ? (
+            <WorkspaceColumnResizeShift preview={sidebarResizePreview}>
+              {children}
+            </WorkspaceColumnResizeShift>
+          ) : (
+            <View style={flexStyle}>{children}</View>
+          )}
         </WindowChromeRegion>
       </WorkspaceExplorerOpenGesture>
     </WindowLayoutSurface>
